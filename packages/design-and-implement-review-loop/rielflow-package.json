@@ -1,0 +1,31 @@
+{
+  "name": "design-and-implement-review-loop",
+  "version": "0.1.0",
+  "title": "design-and-implement-review-loop",
+  "description": "Shared workflow for either full issue resolution or planning-only Codex-reference design and implementation-plan handoff, with explicit review gates, an issue-resolution user-facing documentation refresh step, a final commit-message step, built-in git commit and git push steps, and return paths.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "983d131ea612beecbea0a750be0bc61d",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "design-and-implement-review-loop",
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "design-and-implement-review-loop",
+    "description": "Shared workflow for either full issue resolution or planning-only Codex-reference design and implementation-plan handoff, with explicit review gates, an issue-resolution user-facing documentation refresh step, a final commit-message step, built-in git commit and git push steps, and return paths.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "codex-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "bde9ba78745f077d5f818ba5108b6bc15ea24412f9f8eb5de1515d2aee8bfd37"
+  },
+  "backends": [
+    "codex-agent"
+  ]
+}

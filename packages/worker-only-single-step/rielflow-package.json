@@ -1,0 +1,31 @@
+{
+  "name": "worker-only-single-step",
+  "version": "0.1.0",
+  "title": "worker-only-single-step",
+  "description": "Minimal manager-less reference workflow that starts directly at one worker step through explicit entryStepId authoring.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "5d8e0b438903fa0984322d31b0f79cb7",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "worker-only-single-step",
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "worker-only-single-step",
+    "description": "Minimal manager-less reference workflow that starts directly at one worker step through explicit entryStepId authoring.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "codex-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "7ce13443b3dbcf0fe557a8fbd21a0a3cc84ac781b305b180099012f040e52672"
+  },
+  "backends": [
+    "codex-agent"
+  ]
+}

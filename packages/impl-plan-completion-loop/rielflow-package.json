@@ -1,0 +1,31 @@
+{
+  "name": "impl-plan-completion-loop",
+  "version": "0.1.0",
+  "title": "impl-plan-completion-loop",
+  "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to design-and-implement-review-loop, and repeat sequentially until no incomplete active plans remain.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "6c9752a30ccac0dd1077071b1a181ea1",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "impl-plan-completion-loop",
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "impl-plan-completion-loop",
+    "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to design-and-implement-review-loop, and repeat sequentially until no incomplete active plans remain.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "codex-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "6b837b85ced67f1eff4d6ff811f77bc0ff0e7ff8e9161d4ccc0d8dcc2c1f656c"
+  },
+  "backends": [
+    "codex-agent"
+  ]
+}
