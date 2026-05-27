@@ -1,5 +1,5 @@
 {
-  "name": "design-and-implement-review-loop-feature-plan",
+  "name": "project-design-and-implement-review-loop-feature-plan",
   "version": "0.1.0",
   "title": "design-and-implement-review-loop-feature-plan",
   "description": "Feature-local design and implementation-plan branch workflow used by the bounded fanout path of design-and-implement-review-loop.",
@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "36a0585076da085973181ab2ee9e6203",
+  "checksum": "3307f7fa85454a54ef88f372fadbc9d2",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "design-and-implement-review-loop-feature-plan",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -23,9 +23,10 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "2b1f16e9b3b9541dbaf7e5a77aea86fe5971aeed0c6ace4354d57e2132bcf383"
+    "digest": "8e6f9e2c2f79671519295706798d95c6c114ebde3c08fe7651c99443cd217522"
   },
   "backends": [
     "codex-agent"
-  ]
+  ],
+  "packageId": "project-design-and-implement-review-loop-feature-plan"
 }

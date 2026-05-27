@@ -1,5 +1,5 @@
 {
-  "name": "refactoring-divide-and-conquer",
+  "name": "project-refactoring-divide-and-conquer",
   "version": "0.1.0",
   "title": "refactoring-divide-and-conquer",
   "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "4fcb1bc2441223a4f624ab832e9eb3dd",
+  "checksum": "7271d9d3bb938912dcfcfda03fab5543",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "refactoring-divide-and-conquer",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -23,9 +23,10 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "d228370328976d5f7ca8cceeb1a30024183f736579c513310fe3a593ec603806"
+    "digest": "2af044929a2c533627cf1f7759d95fe9c066beaba873c559e0dd547624c3998f"
   },
   "backends": [
     "codex-agent"
-  ]
+  ],
+  "packageId": "project-refactoring-divide-and-conquer"
 }

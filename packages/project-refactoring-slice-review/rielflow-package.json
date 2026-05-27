@@ -1,5 +1,5 @@
 {
-  "name": "refactoring-slice-review",
+  "name": "project-refactoring-slice-review",
   "version": "0.1.0",
   "title": "refactoring-slice-review",
   "description": "Read-only review workflow for one codebase slice produced by refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "4beedf4cc229540886920d69b54fa5da",
+  "checksum": "f0a269b36759266317015b71e305d853",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "refactoring-slice-review",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -23,9 +23,10 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "763ff5acd0e44fb937e24e4e2d4f01d140bcf040d46ad1166d2c33916741fda0"
+    "digest": "ef23277fcbe63169375e4d3f40f1cd42ee6792d11667e59e6016f399b1a83c8a"
   },
   "backends": [
     "codex-agent"
-  ]
+  ],
+  "packageId": "project-refactoring-slice-review"
 }
