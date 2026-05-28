@@ -7,9 +7,9 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "7271d9d3bb938912dcfcfda03fab5543",
+  "checksum": "8cdf9f4c8c7c248259992a03b51dafe6",
   "checksumAlgorithm": "md5",
-  "workflowDirectory": "refactoring-divide-and-conquer",
+  "workflowDirectory": "workflows/refactoring-divide-and-conquer",
   "repository": "https://github.com/tacogips/rielflow-packages",
   "workflow": {
     "title": "refactoring-divide-and-conquer",
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "2af044929a2c533627cf1f7759d95fe9c066beaba873c559e0dd547624c3998f"
+    "digest": "e8ec1c584ad46620c9b50b18bda987f12371ab5e54737ccccbdcc3f6a74921d2"
   },
   "backends": [
     "codex-agent"

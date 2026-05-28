@@ -7,9 +7,9 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "9b9dbedb7d40c7ff84203f3ea499c4a6",
+  "checksum": "74e6c599fa088bbe8a4cf5d23f6d3e92",
   "checksumAlgorithm": "md5",
-  "workflowDirectory": "impl-plan-completion-loop",
+  "workflowDirectory": "workflows/impl-plan-completion-loop",
   "repository": "https://github.com/tacogips/rielflow-packages",
   "workflow": {
     "title": "impl-plan-completion-loop",
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "c0b09a10c3bb86da871558bdc3e1df6ac847227c01f83a05c80bc9fc0e8c5976"
+    "digest": "556da350a6a16f5f704c879e9b700ea1386bd52a3a532522b8e4283640d4b0f6"
   },
   "backends": [
     "codex-agent"

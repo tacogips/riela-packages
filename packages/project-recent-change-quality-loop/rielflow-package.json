@@ -7,9 +7,9 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "2a0ef64b40bea4842777960f4ceb29f3",
+  "checksum": "c6adf4eec06dff304a1dc22bef0e485b",
   "checksumAlgorithm": "md5",
-  "workflowDirectory": "recent-change-quality-loop",
+  "workflowDirectory": "workflows/recent-change-quality-loop",
   "repository": "https://github.com/tacogips/rielflow-packages",
   "workflow": {
     "title": "recent-change-quality-loop",
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "99d89c0df9eda3eea41f2a388ee1f98a858c9ec1730f9eda6a055e2afc11b269"
+    "digest": "2461f2f24a45a46e923409d2ef334129c6c610c21e408ee79373c5744cdf0853"
   },
   "backends": [
     "codex-agent"

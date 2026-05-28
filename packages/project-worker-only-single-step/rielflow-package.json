@@ -7,9 +7,9 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "d1b7d2b46a1e693fa249b929f766a330",
+  "checksum": "a85f1cf030a5d1a78f2981958f1a5d97",
   "checksumAlgorithm": "md5",
-  "workflowDirectory": "worker-only-single-step",
+  "workflowDirectory": "workflows/worker-only-single-step",
   "repository": "https://github.com/tacogips/rielflow-packages",
   "workflow": {
     "title": "worker-only-single-step",
@@ -23,10 +23,11 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "cdadc090a59564436f6406c4e3a2a94e6570ade8fd9a0c9b3b1a7ef9ac994fed"
+    "digest": "81f3baf5a5695b026c3ed6309c66870ec34e7999ad4c10a63115185fe1ddc9c5"
   },
   "backends": [
     "codex-agent"
   ],
-  "packageId": "project-worker-only-single-step"
+  "packageId": "project-worker-only-single-step",
+  "skillDirectory": "skills"
 }

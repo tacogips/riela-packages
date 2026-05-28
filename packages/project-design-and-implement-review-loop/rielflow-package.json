@@ -7,9 +7,9 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "2ab5fa33ca865140c15e9db6a9a6e55b",
+  "checksum": "7cbf4fe63d994ac19a504b57bb6df47b",
   "checksumAlgorithm": "md5",
-  "workflowDirectory": "design-and-implement-review-loop",
+  "workflowDirectory": "workflows/design-and-implement-review-loop",
   "repository": "https://github.com/tacogips/rielflow-packages",
   "workflow": {
     "title": "design-and-implement-review-loop",
@@ -23,10 +23,11 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "9bad1fd988b192f87eded859bb3a5d66e9e9642c094cb9ebbb78ce7a9b228f10"
+    "digest": "f332b6461ffba74a6bcba4928527538258d95b256038761a3e6d14131e2f1e9f"
   },
   "backends": [
     "codex-agent"
   ],
-  "packageId": "project-design-and-implement-review-loop"
+  "packageId": "project-design-and-implement-review-loop",
+  "skillDirectory": "skills"
 }
