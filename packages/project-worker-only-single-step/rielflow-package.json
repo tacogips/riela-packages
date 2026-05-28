@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "a85f1cf030a5d1a78f2981958f1a5d97",
+  "checksum": "4432c5a6e9067bf4e466b115d6bfd156",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/worker-only-single-step",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "81f3baf5a5695b026c3ed6309c66870ec34e7999ad4c10a63115185fe1ddc9c5"
+    "digest": "67a413a80e3821a1770cdf07500ef3fe7cc598690bed71e7eb0bdb0632a8d000"
   },
   "backends": [
     "codex-agent"

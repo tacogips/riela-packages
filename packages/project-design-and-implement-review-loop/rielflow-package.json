@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "7cbf4fe63d994ac19a504b57bb6df47b",
+  "checksum": "374856b5d359b675c48ae05cd7cdc42b",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/design-and-implement-review-loop",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "f332b6461ffba74a6bcba4928527538258d95b256038761a3e6d14131e2f1e9f"
+    "digest": "3946957cae1ed1893265c92f49e2bfc6d147578368f83e492ec49ba28fa0288f"
   },
   "backends": [
     "codex-agent"

@@ -1,9 +1,9 @@
 ---
-name: worker-only-single-step
+name: riel-worker-only-single-step
 description: Use when running or editing the packaged worker-only-single-step rielflow workflow.
 ---
 
-# Worker Only Single Step
+# Riel Worker Only Single Step
 
 This package skill gives Codex context for the bundled worker-only-single-step workflow.
 
