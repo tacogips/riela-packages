@@ -1,18 +1,18 @@
 {
   "name": "project-refactoring-divide-and-conquer",
   "version": "0.1.0",
-  "title": "refactoring-divide-and-conquer",
+  "title": "codex-refactoring-divide-and-conquer",
   "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "9a9b1c4085b74a9ef8351df1f2a9a8e4",
+  "checksum": "fd470a99d1e25a16a2e4e887c415d901",
   "checksumAlgorithm": "md5",
-  "workflowDirectory": "workflows/refactoring-divide-and-conquer",
+  "workflowDirectory": "workflows/codex-refactoring-divide-and-conquer",
   "repository": "https://github.com/tacogips/rielflow-packages",
   "workflow": {
-    "title": "refactoring-divide-and-conquer",
+    "title": "codex-refactoring-divide-and-conquer",
     "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
     "tags": [
       "workflow"
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "f636a590170d96d99bd7e5eafe473448f135d2e8ce76d5686d60bf2b2930462e"
+    "digest": "19ca1b658ed64e9f999d993f8f56e18263f3f099c92c7111a4081949eed2e304"
   },
   "backends": [
     "codex-agent"

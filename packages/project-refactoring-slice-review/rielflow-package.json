@@ -1,19 +1,19 @@
 {
   "name": "project-refactoring-slice-review",
   "version": "0.1.0",
-  "title": "refactoring-slice-review",
-  "description": "Read-only review workflow for one codebase slice produced by refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
+  "title": "codex-refactoring-slice-review",
+  "description": "Read-only review workflow for one codebase slice produced by codex-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "b4171c349e2474f917417f2a4907d53f",
+  "checksum": "7813e85d33b7c41519e2752d6552d571",
   "checksumAlgorithm": "md5",
-  "workflowDirectory": "workflows/refactoring-slice-review",
+  "workflowDirectory": "workflows/codex-refactoring-slice-review",
   "repository": "https://github.com/tacogips/rielflow-packages",
   "workflow": {
-    "title": "refactoring-slice-review",
-    "description": "Read-only review workflow for one codebase slice produced by refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
+    "title": "codex-refactoring-slice-review",
+    "description": "Read-only review workflow for one codebase slice produced by codex-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
     "tags": [
       "workflow"
     ],
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "cc3aa00c3a840df1f73685a56cf40b4bbebb5006abf5d04f9d15e9c9a6c8dcaf"
+    "digest": "2a8927b702f169a811dfe465d3b020a74a937fa8e62fb39e44a184ea64361012"
   },
   "backends": [
     "codex-agent"
