@@ -1,0 +1,12 @@
+{
+  "id": "skill-installed",
+  "description": "Explain that the useful artifact in this package is the installed rielflow-workflow skill.",
+  "nodeType": "command",
+  "variables": {},
+  "command": {
+    "scriptPath": "scripts/skill-installed.sh"
+  },
+  "output": {
+    "description": "Return JSON describing the installed skill names and intended workflow-authoring use."
+  }
+}

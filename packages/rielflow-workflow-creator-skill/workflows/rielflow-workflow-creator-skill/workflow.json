@@ -1,0 +1,36 @@
+{
+  "workflowId": "rielflow-workflow-creator-skill",
+  "description": "Skill package reference workflow for installing rielflow workflow-authoring skills.",
+  "defaults": {
+    "maxLoopIterations": 3,
+    "nodeTimeoutMs": 120000
+  },
+  "entryStepId": "skill-installed",
+  "nodes": [
+    {
+      "id": "skill-installed",
+      "nodeFile": "nodes/node-skill-installed.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "skill-installed",
+      "nodeId": "skill-installed",
+      "description": "Report that this package exists to install rielflow workflow-authoring skills.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielflowPackage": {
+      "title": "rielflow-workflow-creator-skill",
+      "description": "Skill package that teaches agents how to create, modify, validate, and run rielflow workflow bundles.",
+      "tags": [
+        "skill",
+        "workflow",
+        "creator",
+        "rielflow"
+      ],
+      "backends": []
+    }
+  }
+}
