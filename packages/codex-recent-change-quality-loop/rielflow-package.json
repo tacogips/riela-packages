@@ -1,0 +1,32 @@
+{
+  "name": "codex-recent-change-quality-loop",
+  "version": "0.1.0",
+  "title": "codex-recent-change-quality-loop",
+  "description": "Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "057863e5127511c43fd92e1eb790dcc0",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/codex-recent-change-quality-loop",
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "codex-recent-change-quality-loop",
+    "description": "Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "codex-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "475528f02283c5dfb409b4f6b91bfe4a7e624205b92dd860a96126361432b762"
+  },
+  "backends": [
+    "codex-agent"
+  ],
+  "packageId": "codex-recent-change-quality-loop"
+}
