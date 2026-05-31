@@ -1,0 +1,33 @@
+{
+  "name": "rielflow-package-manager-skill",
+  "version": "0.1.0",
+  "title": "rielflow-package-manager-skill",
+  "description": "Skill package that teaches agents how to search and install rielflow packages into project or user scope.",
+  "tags": [
+    "skill",
+    "package",
+    "rielflow"
+  ],
+  "registry": "default",
+  "checksum": "c048a96a54662eb5137b0b15ed4f8464",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/rielflow-package-manager-skill",
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "rielflow-package-manager-skill",
+    "description": "Skill package that teaches agents how to search rielflow package registries and install packages into project or user scope.",
+    "tags": [
+      "skill",
+      "package",
+      "rielflow"
+    ],
+    "backends": []
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "a5a04c6a2eb340b3ebde716a1d34adb0ac8978cf2b6aa0b7dbcc62f81dc47908"
+  },
+  "backends": [],
+  "packageId": "rielflow-package-manager-skill",
+  "skillDirectory": "skills"
+}

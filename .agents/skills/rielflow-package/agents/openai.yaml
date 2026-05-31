@@ -1,0 +1,4 @@
+interface:
+  display_name: "Rielflow Package"
+  short_description: "Search and install rielflow packages"
+  default_prompt: "Use $rielflow-package to find and install the right rielflow package."
