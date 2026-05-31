@@ -1,0 +1,4 @@
+interface:
+  display_name: "Rielflow Package Release"
+  short_description: "Update and release rielflow packages"
+  default_prompt: "Use $rielflow-package-release to update package manifests, validate packages, and prepare a rielflow package registry release."
