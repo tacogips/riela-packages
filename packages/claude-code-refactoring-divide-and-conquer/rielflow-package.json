@@ -1,0 +1,33 @@
+{
+  "name": "claude-code-refactoring-divide-and-conquer",
+  "version": "0.1.0",
+  "title": "claude-code-refactoring-divide-and-conquer",
+  "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "7a87dfe3b4b2b6dabf3d7c0d38d734f0",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/claude-code-refactoring-divide-and-conquer",
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "claude-code-refactoring-divide-and-conquer",
+    "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "claude-code-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "a7e4b539ffd211c0724aabb7576cc93a971876cb3dc20ac18f8e39229f26358c"
+  },
+  "backends": [
+    "claude-code-agent"
+  ],
+  "packageId": "claude-code-refactoring-divide-and-conquer",
+  "skillDirectory": "skills"
+}

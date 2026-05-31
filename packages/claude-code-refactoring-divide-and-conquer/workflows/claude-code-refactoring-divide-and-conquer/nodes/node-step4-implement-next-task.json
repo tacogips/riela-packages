@@ -1,0 +1,11 @@
+{
+  "id": "step4-implement-next-task",
+  "description": "Implement exactly one ready task from the refactoring plan.",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-sonnet-4-5",
+  "promptTemplateFile": "prompts/step4-implement-next-task.md",
+  "variables": {},
+  "output": {
+    "description": "Return JSON with task id, changed files, plan updates, verification commands, blockers, and residual risks."
+  }
+}
