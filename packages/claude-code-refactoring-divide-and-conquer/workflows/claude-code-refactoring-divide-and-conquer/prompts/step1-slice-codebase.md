@@ -23,8 +23,8 @@ Recommended slicing:
 - Treat root `src` as a temporary compatibility and dependency surface unless
   the requested outcome explicitly says otherwise. Slice `src` by the
   package-owned surface it should feed, such as CLI/public facade, workflow
-  model, workflow runtime, add-ons, adapters, server/graphql, events/hooks, TUI,
-  or shared utilities.
+  model, workflow runtime, add-ons, adapters, server/graphql, browser overview,
+  events/hooks, or shared utilities.
 - Include workflow bundles, scripts, and build files when they are named by the
   target scope or when they encode future package-ownership behavior.
 - Split very large areas into cohesive subgroups only when ownership is clear.

@@ -20,7 +20,11 @@
           pkgs = nixpkgs.legacyPackages.${system};
         in
         {
-          default = pkgs.mkShellNoCC { };
+          default = pkgs.mkShellNoCC {
+            packages = [
+              pkgs.go-task
+            ];
+          };
         }
       );
     };

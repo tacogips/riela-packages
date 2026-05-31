@@ -1,0 +1,68 @@
+version: "3"
+
+vars:
+  RIELFLOW_ROOT: '{{.RIELFLOW_ROOT | default "../rielflow"}}'
+  RIELFLOW_BIN: "{{.RIELFLOW_ROOT}}/packages/rielflow/src/bin.ts"
+
+tasks:
+  package:check-digests:
+    desc: Check every package manifest checksum and integrity digest.
+    cmds:
+      - |
+        bun -e '
+        import { computeWorkflowPackageChecksum, computeWorkflowPackageIntegrityDigest } from "{{.RIELFLOW_ROOT}}/packages/rielflow/src/workflow/packages/checksum.ts";
+
+        const root = `${process.cwd()}/packages`;
+        const manifests = Array.from(new Bun.Glob("*/rielflow-package.json").scanSync({ cwd: root })).sort();
+        let failed = false;
+
+        for (const rel of manifests) {
+          const packageName = rel.split("/")[0];
+          const packageRoot = `${root}/${packageName}`;
+          const manifest = await Bun.file(`${packageRoot}/rielflow-package.json`).json();
+          const checksum = await computeWorkflowPackageChecksum({
+            packageRoot,
+            workflowDirectory: manifest.workflowDirectory,
+          });
+          const integrity = await computeWorkflowPackageIntegrityDigest({
+            packageRoot,
+            workflowDirectory: manifest.workflowDirectory,
+          });
+
+          const checksumOk = checksum.ok && checksum.value.checksum === manifest.checksum;
+          const integrityOk = integrity.ok && integrity.value.digest === manifest.integrity?.digest;
+          console.log(`${packageName}\tchecksum=${checksumOk ? "ok" : "bad"}\tintegrity=${integrityOk ? "ok" : "bad"}`);
+          failed = failed || !checksumOk || !integrityOk;
+        }
+
+        if (failed) {
+          process.exit(1);
+        }
+        '
+
+  workflow:validate:
+    desc: Validate all packaged workflows with cross-workflow callees visible.
+    cmds:
+      - |
+        tmp=$(mktemp -d)
+        trap 'rm -rf "$tmp"' EXIT
+
+        for workflow_dir in packages/*/workflows/*; do
+          cp -R "$workflow_dir" "$tmp/$(basename "$workflow_dir")"
+        done
+
+        for workflow_dir in "$tmp"/*; do
+          workflow=$(basename "$workflow_dir")
+          bun run "{{.RIELFLOW_BIN}}" workflow validate "$workflow" --workflow-definition-dir "$tmp" >/tmp/rielflow-package-validate.log || {
+            echo "$workflow failed"
+            cat /tmp/rielflow-package-validate.log
+            exit 1
+          }
+          echo "$workflow ok"
+        done
+
+  check:
+    desc: Run package digest and workflow validation checks.
+    deps:
+      - package:check-digests
+      - workflow:validate
