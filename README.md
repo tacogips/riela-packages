@@ -136,3 +136,7 @@ Each package directory can include:
 - `workflows/<workflow-id>/workflow.json` - Rielflow workflow bundle.
 - `skills/codex/**/SKILL.md` - Codex skills projected by the package.
 - `skills/claude/**/SKILL.md` - Claude skills projected by the package.
+
+Packages that call another workflow declare it in `dependencies` inside
+`rielflow-package.json`; the package manager checks those out before validating
+the caller workflow.

@@ -7,9 +7,12 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "057863e5127511c43fd92e1eb790dcc0",
+  "checksum": "709b11a7f8ae7c4e00cb9672ddbe55cc",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-recent-change-quality-loop",
+  "dependencies": [
+    "codex-design-and-implement-review-loop"
+  ],
   "repository": "https://github.com/tacogips/rielflow-packages",
   "workflow": {
     "title": "codex-recent-change-quality-loop",
@@ -23,7 +26,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "475528f02283c5dfb409b4f6b91bfe4a7e624205b92dd860a96126361432b762"
+    "digest": "5166f3e306be833982b7c397aa40282c60dd519345a0f47c0e0033238f60358d"
   },
   "backends": [
     "codex-agent"
