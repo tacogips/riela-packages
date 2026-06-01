@@ -1,0 +1,35 @@
+{
+  "name": "rielflow-temporary-workflow-skill",
+  "version": "0.1.0",
+  "title": "rielflow-temporary-workflow-skill",
+  "description": "Skill package that teaches agents how to create and run temporary rielflow workflows from inline JSON or JSON files.",
+  "tags": [
+    "skill",
+    "workflow",
+    "temporary",
+    "rielflow"
+  ],
+  "registry": "default",
+  "checksum": "1a183d50b342d1eaca1685467025b99c",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/rielflow-temporary-workflow-skill",
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "rielflow-temporary-workflow-skill",
+    "description": "Skill package that teaches agents how to create and run temporary rielflow workflows from inline JSON or JSON files.",
+    "tags": [
+      "skill",
+      "workflow",
+      "temporary",
+      "rielflow"
+    ],
+    "backends": []
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "dd0185efca40fc808c006ebe001084351f434a65cdacfd3ca4714a2f1dfaac65"
+  },
+  "backends": [],
+  "packageId": "rielflow-temporary-workflow-skill",
+  "skillDirectory": "skills"
+}
