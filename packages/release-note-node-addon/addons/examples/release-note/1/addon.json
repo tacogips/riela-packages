@@ -1,0 +1,28 @@
+{
+  "name": "examples/release-note",
+  "version": "1",
+  "description": "Reusable worker node template for drafting concise release notes.",
+  "allowedRoles": ["worker"],
+  "resolution": {
+    "kind": "node-payload-template",
+    "nodeType": "agent",
+    "executionBackend": "codex-agent",
+    "model": "gpt-5.4",
+    "promptTemplateFile": "prompt.md"
+  },
+  "inputSchema": {
+    "type": "object",
+    "additionalProperties": true,
+    "properties": {
+      "topic": {
+        "type": "string",
+        "description": "Feature, fix, or change to summarize."
+      },
+      "audience": {
+        "type": "string",
+        "description": "Target reader for the release note."
+      }
+    }
+  }
+}
+

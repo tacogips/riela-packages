@@ -37,6 +37,12 @@ rielflow package status <package-id>
 
 ## Packages
 
+### Node Add-on Packages
+
+- [release-note-node-addon](packages/release-note-node-addon) -
+  Declarative node add-on package that installs `examples/release-note@1`, a
+  reusable Codex worker template for drafting concise release notes.
+
 ### Codex Agent Workflows
 
 - [codex-design-and-implement-review-loop](packages/codex-design-and-implement-review-loop) -
@@ -117,6 +123,7 @@ rielflow package status <package-id>
 
 | Package | Type | Backend | Skills |
 | --- | --- | --- | --- |
+| [release-note-node-addon](packages/release-note-node-addon) | node-addon | `codex-agent` | - |
 | [codex-design-and-implement-review-loop](packages/codex-design-and-implement-review-loop) | workflow | `codex-agent` | Codex |
 | [codex-impl-plan-completion-loop](packages/codex-impl-plan-completion-loop) | workflow | `codex-agent` | - |
 | [codex-recent-change-quality-loop](packages/codex-recent-change-quality-loop) | workflow | `codex-agent` | - |
