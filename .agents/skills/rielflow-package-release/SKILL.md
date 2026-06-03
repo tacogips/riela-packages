@@ -61,12 +61,16 @@ For workflow packages, also verify the workflow can be inspected or validated fr
 
 ## Digest Script
 
-`scripts/update-package-digests.ts` recomputes:
+`scripts/update-package-digests.ts` recomputes workflow package digests:
 
 - `checksum` using `computeWorkflowPackageChecksum`
 - `integrity.digest` using `computeWorkflowPackageIntegrityDigest`
 - `checksumAlgorithm: "md5"`
 - `integrity.digestAlgorithm: "sha256"`
+
+`kind: "node-addon"` packages are skipped by this script until rielflow exposes
+a generic non-workflow package digest API. Validate node-addon structure through
+`task package:check-digests`.
 
 Examples:
 

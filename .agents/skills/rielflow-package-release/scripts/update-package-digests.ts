@@ -21,6 +21,7 @@ type IntegrityResult = {
 };
 
 type Manifest = {
+  kind?: string;
   checksum?: string;
   checksumAlgorithm?: string;
   integrity?: {
@@ -108,6 +109,19 @@ for (const packageId of selectedPackageIds) {
   }
 
   const manifest = JSON.parse(await readFile(manifestPath, "utf8")) as Manifest;
+  const kind = manifest.kind ?? "workflow";
+
+  if (kind === "node-addon") {
+    console.log(`${packageId}\tskip node-addon`);
+    continue;
+  }
+
+  if (kind !== "workflow") {
+    console.error(`${packageId}\tunsupported package kind: ${kind}`);
+    failed = true;
+    continue;
+  }
+
   if (!manifest.workflowDirectory) {
     console.error(`${packageId}\tmissing workflowDirectory`);
     failed = true;

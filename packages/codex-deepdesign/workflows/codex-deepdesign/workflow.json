@@ -1,0 +1,117 @@
+{
+  "workflowId": "codex-deepdesign",
+  "description": "Create and iteratively review design-doc specifications with one Codex author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+  "defaults": {
+    "maxLoopIterations": 8,
+    "nodeTimeoutMs": 3600000,
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    }
+  },
+  "prompts": {
+    "rielflowPromptTemplate": "Coordinate {{workflowId}}. Start with Node 1 design authoring. Node 1 creates or revises design-doc specifications for the requested feature. Node 2 reviews the design deeply for unstated assumptions, unplanned use cases, prerequisites, irregular states, error handling, and lifecycle edge cases. If Node 2 reports any high or middle finding, route back to Node 1 with the review feedback. If Node 2 accepts, run Node 3. Node 3 reviews broadly for impacts on other features, overlap with existing capabilities, adjacent workflows, combined use cases, migration and compatibility concerns, and cross-feature gaps. If Node 3 reports any high or middle finding, route back to Node 1 with the review feedback. Finish only after both Node 2 and Node 3 accept the latest design with no high or middle findings.",
+    "workerSystemPromptTemplate": "Return concise business JSON only. Keep design-doc paths, review severity, assumptions, cross-feature impacts, addressed feedback, routing booleans, verification, and residual risks explicit."
+  },
+  "managerStepId": "rielflow-manager",
+  "entryStepId": "rielflow-manager",
+  "nodes": [
+    {
+      "id": "rielflow-manager",
+      "nodeFile": "nodes/node-rielflow-manager.json"
+    },
+    {
+      "id": "node1-design-author",
+      "nodeFile": "nodes/node-node1-design-author.json"
+    },
+    {
+      "id": "node2-deep-review",
+      "nodeFile": "nodes/node-node2-deep-review.json"
+    },
+    {
+      "id": "node3-broad-review",
+      "nodeFile": "nodes/node-node3-broad-review.json"
+    },
+    {
+      "id": "workflow-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-workflow-output.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "rielflow-manager",
+      "nodeId": "rielflow-manager",
+      "description": "Start the deep design workflow and preserve request inputs for the design author and reviewers.",
+      "role": "manager",
+      "transitions": [
+        {
+          "toStepId": "node1-design-author"
+        }
+      ]
+    },
+    {
+      "id": "node1-design-author",
+      "nodeId": "node1-design-author",
+      "description": "Create or revise the requested design-doc specification.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "node2-deep-review"
+        }
+      ]
+    },
+    {
+      "id": "node2-deep-review",
+      "nodeId": "node2-deep-review",
+      "description": "Deeply review the design for assumptions, irregular states, edge cases, and missing prerequisites.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "node1-design-author",
+          "label": "needs_revision"
+        },
+        {
+          "toStepId": "node3-broad-review",
+          "label": "!(needs_revision)"
+        }
+      ]
+    },
+    {
+      "id": "node3-broad-review",
+      "nodeId": "node3-broad-review",
+      "description": "Broadly review the design for feature interactions, existing similar functionality, and combined-use-case gaps.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "node1-design-author",
+          "label": "needs_revision"
+        },
+        {
+          "toStepId": "workflow-output",
+          "label": "!(needs_revision)"
+        }
+      ]
+    },
+    {
+      "id": "workflow-output",
+      "nodeId": "workflow-output",
+      "description": "Publish the accepted design-doc summary after both review gates pass.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielflowPackage": {
+      "title": "codex-deepdesign",
+      "description": "Create and iteratively review design-doc specifications with one Codex author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+      "tags": [
+        "workflow",
+        "design-doc",
+        "review"
+      ],
+      "backends": [
+        "codex-agent"
+      ]
+    }
+  }
+}

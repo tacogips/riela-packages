@@ -1,0 +1,37 @@
+{
+  "id": "rielflow-manager",
+  "description": "Coordinate the deep design workflow.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/rielflow-manager.md",
+  "variables": {},
+  "input": {
+    "description": "Workflow arguments describing the feature, target design-doc path, repository scope, known constraints, and optional acceptance criteria.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "feature": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Feature or capability to design."
+        },
+        "targetDesignDoc": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional preferred design-doc path under design-docs/."
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Known technical, product, migration, or compatibility constraints."
+        }
+      }
+    }
+  },
+  "output": {
+    "description": "Return normalized design request context for Node 1 and both review nodes."
+  }
+}

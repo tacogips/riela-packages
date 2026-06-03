@@ -45,6 +45,12 @@ rielflow package status <package-id>
 
 ### Codex Agent Workflows
 
+- [codex-deepdesign](packages/codex-deepdesign) -
+  Creates or revises `design-docs/` specifications with one design author, a
+  deep edge-case reviewer, and a broad integration reviewer. It loops back to
+  the author until both reviewers report no high or middle findings, and it
+  records provisional decisions when user confirmation would normally be
+  required. `backend: codex-agent`; includes Codex skills.
 - [codex-design-and-implement-review-loop](packages/codex-design-and-implement-review-loop) -
   Shared Codex workflow for issue resolution or planning-only design and
   implementation-plan handoff. It supports a sequential path, bounded
@@ -124,6 +130,7 @@ rielflow package status <package-id>
 | Package | Type | Backend | Skills |
 | --- | --- | --- | --- |
 | [release-note-node-addon](packages/release-note-node-addon) | node-addon | `codex-agent` | - |
+| [codex-deepdesign](packages/codex-deepdesign) | workflow | `codex-agent` | Codex |
 | [codex-design-and-implement-review-loop](packages/codex-design-and-implement-review-loop) | workflow | `codex-agent` | Codex |
 | [codex-impl-plan-completion-loop](packages/codex-impl-plan-completion-loop) | workflow | `codex-agent` | - |
 | [codex-recent-change-quality-loop](packages/codex-recent-change-quality-loop) | workflow | `codex-agent` | - |

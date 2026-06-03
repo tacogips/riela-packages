@@ -1,0 +1,228 @@
+{
+  "rielflow-manager": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "feature": "Deep design workflow package",
+      "targetDesignDoc": "design-docs/specs/design-codex-deepdesign.md",
+      "targetScope": [
+        "packages/codex-deepdesign"
+      ],
+      "constraints": [
+        "Design documentation only",
+        "Loop until no high or middle findings remain"
+      ],
+      "acceptanceCriteria": [
+        "Node 2 reviews deep edge cases",
+        "Node 3 reviews broad feature interactions"
+      ],
+      "nonGoals": [
+        "Implementation code changes"
+      ],
+      "provisionalDecisionPolicy": "Do not stop for user confirmation. Choose conservative generally preferable specifications and document each provisional decision for later review.",
+      "notes": [
+        "Start Node 1 design authoring."
+      ]
+    }
+  },
+  "node1-design-author": [
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.5",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "feature": "Deep design workflow package",
+        "designDocPaths": [
+          "design-docs/specs/design-codex-deepdesign.md"
+        ],
+        "designSummary": "Initial design covering author, deep reviewer, broad reviewer, and final output.",
+        "keyDecisions": [
+          "Node 2 runs before Node 3.",
+          "Any high or middle finding routes back to Node 1."
+        ],
+        "stateModel": [
+          "author -> deep-review -> broad-review -> output"
+        ],
+        "edgeCaseCoverage": [
+          "Initial coverage is incomplete for ambiguous reviewer output."
+        ],
+        "crossFeatureImpacts": [
+          "Package registry and README listing."
+        ],
+        "addressedFeedback": [],
+        "provisionalDecisions": [
+          {
+            "decision": "Use high and middle findings as the blocking threshold.",
+            "confirmationNeed": "The user did not specify whether low findings should block acceptance.",
+            "rationale": "High and middle are material enough to require revision; low findings can be preserved as residual risks.",
+            "revisitPath": "Change the severity threshold if the user later wants stricter review."
+          }
+        ],
+        "openQuestions": [],
+        "verificationPlan": [
+          "workflow validate",
+          "workflow run --mock-scenario"
+        ],
+        "residualRisks": []
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.5",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "feature": "Deep design workflow package",
+        "designDocPaths": [
+          "design-docs/specs/design-codex-deepdesign.md"
+        ],
+        "designSummary": "Revised design with explicit reviewer adapter JSON and routing booleans.",
+        "keyDecisions": [
+          "Node 2 and Node 3 both return when.needs_revision and payload.needs_revision.",
+          "Only high and middle findings block final acceptance."
+        ],
+        "stateModel": [
+          "author -> deep-review -> author when blocking",
+          "deep-review accepted -> broad-review",
+          "broad-review -> author when blocking",
+          "broad-review accepted -> output"
+        ],
+        "edgeCaseCoverage": [
+          "Ambiguous reviewer output routes to revision.",
+          "Low severity findings are preserved as residual risks."
+        ],
+        "crossFeatureImpacts": [
+          "Package registry entry and README summary stay in sync."
+        ],
+        "addressedFeedback": [
+          "Clarified reviewer adapter output and routing behavior."
+        ],
+        "provisionalDecisions": [
+          {
+            "decision": "Low findings do not block final acceptance.",
+            "confirmationNeed": "The user did not specify the treatment of low findings.",
+            "rationale": "The requested loop only mentions high and middle findings as blockers.",
+            "revisitPath": "Promote low findings to blocking if a future run requires exhaustive cleanup."
+          }
+        ],
+        "openQuestions": [],
+        "verificationPlan": [
+          "workflow validate",
+          "workflow run --mock-scenario"
+        ],
+        "residualRisks": [
+          "Future workflows may want a configurable severity threshold."
+        ]
+      }
+    }
+  ],
+  "node2-deep-review": [
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.5",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "needs_revision": true,
+        "accepted": false,
+        "reviewType": "deep",
+        "findings": [
+          {
+            "severity": "middle",
+            "file": "design-docs/specs/design-codex-deepdesign.md",
+            "line": 1,
+            "message": "The design does not state how reviewer output drives loop routing when output is ambiguous.",
+            "recommendedChange": "Require reviewer adapter JSON with an explicit needs_revision boolean."
+          }
+        ],
+        "feedback": [
+          "Require Node 2 and Node 3 to emit when.needs_revision and payload.needs_revision."
+        ],
+        "reviewedDesignDocPaths": [
+          "design-docs/specs/design-codex-deepdesign.md"
+        ]
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.5",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "needs_revision": false,
+        "accepted": true,
+        "reviewType": "deep",
+        "findings": [],
+        "feedback": [],
+        "reviewedDesignDocPaths": [
+          "design-docs/specs/design-codex-deepdesign.md"
+        ]
+      }
+    }
+  ],
+  "node3-broad-review": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "needs_revision": false,
+      "accepted": true,
+      "reviewType": "broad",
+      "findings": [],
+      "feedback": [],
+      "relatedExistingFeatures": [
+        "codex-design-and-implement-review-loop",
+        "codex-recent-change-quality-loop"
+      ],
+      "reviewedDesignDocPaths": [
+        "design-docs/specs/design-codex-deepdesign.md"
+      ]
+    }
+  },
+  "workflow-output": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "accepted",
+      "feature": "Deep design workflow package",
+      "designDocPaths": [
+        "design-docs/specs/design-codex-deepdesign.md"
+      ],
+      "designSummary": "Accepted design workflow with one author, one deep reviewer, one broad reviewer, and revision loops for high or middle findings.",
+      "deepReviewSummary": "One middle finding was fixed, then the deep review accepted.",
+      "broadReviewSummary": "Broad review accepted with no high or middle findings.",
+      "acceptedFindings": [],
+      "provisionalDecisions": [
+        {
+          "decision": "Low findings do not block final acceptance.",
+          "confirmationNeed": "The user did not specify the treatment of low findings.",
+          "rationale": "The requested loop only mentions high and middle findings as blockers.",
+          "revisitPath": "Promote low findings to blocking if a future run requires exhaustive cleanup."
+        }
+      ],
+      "residualLowRisks": [
+        "Future workflows may want a configurable severity threshold."
+      ],
+      "verificationPlan": [
+        "workflow validate",
+        "workflow run --mock-scenario"
+      ],
+      "recommendedNextSteps": [
+        "Use the accepted design as input for implementation planning."
+      ]
+    }
+  }
+}

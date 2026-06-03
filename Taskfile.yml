@@ -10,16 +10,111 @@ tasks:
     cmds:
       - |
         bun -e '
+        import path from "node:path";
         import { computeWorkflowPackageChecksum, computeWorkflowPackageIntegrityDigest } from "{{.RIELFLOW_ROOT}}/packages/rielflow/src/workflow/packages/checksum.ts";
 
         const root = `${process.cwd()}/packages`;
         const manifests = Array.from(new Bun.Glob("*/rielflow-package.json").scanSync({ cwd: root })).sort();
         let failed = false;
 
+        function safeRelativePath(value, label) {
+          if (typeof value !== "string" || value.length === 0) {
+            return { ok: false, error: `${label} must be a non-empty string` };
+          }
+          if (path.isAbsolute(value)) {
+            return { ok: false, error: `${label} must be relative` };
+          }
+          const normalized = path.posix.normalize(value);
+          if (normalized === "." || normalized.startsWith("../") || normalized === "..") {
+            return { ok: false, error: `${label} must stay inside the package` };
+          }
+          return { ok: true, value: normalized };
+        }
+
+        async function readJson(filePath) {
+          try {
+            return { ok: true, value: await Bun.file(filePath).json() };
+          } catch (error) {
+            return { ok: false, error };
+          }
+        }
+
+        async function validateNodeAddonPackage({ packageName, packageRoot, manifest }) {
+          if (!Array.isArray(manifest.addons) || manifest.addons.length === 0) {
+            return { ok: false, error: "node-addon package must define non-empty addons[]" };
+          }
+
+          for (const [index, addon] of manifest.addons.entries()) {
+            if (typeof addon?.name !== "string" || addon.name.length === 0) {
+              return { ok: false, error: `addons[${index}].name must be a non-empty string` };
+            }
+            if (typeof addon.version !== "string" || addon.version.length === 0) {
+              return { ok: false, error: `addons[${index}].version must be a non-empty string` };
+            }
+
+            const sourcePath = safeRelativePath(addon.sourcePath, `addons[${index}].sourcePath`);
+            if (!sourcePath.ok) {
+              return sourcePath;
+            }
+
+            const addonRoot = path.join(packageRoot, sourcePath.value);
+            const addonManifestPath = path.join(addonRoot, "addon.json");
+            const addonManifestFile = Bun.file(addonManifestPath);
+            if (!(await addonManifestFile.exists())) {
+              return { ok: false, error: `missing ${path.relative(packageRoot, addonManifestPath)}` };
+            }
+
+            const addonManifest = await readJson(addonManifestPath);
+            if (!addonManifest.ok) {
+              return { ok: false, error: `invalid JSON in ${path.relative(packageRoot, addonManifestPath)}` };
+            }
+
+            if (addonManifest.value.name !== addon.name) {
+              return { ok: false, error: `addon name mismatch for ${addon.name}` };
+            }
+            if (addonManifest.value.version !== addon.version) {
+              return { ok: false, error: `addon version mismatch for ${addon.name}` };
+            }
+
+            const promptTemplateFile = addonManifest.value.resolution?.promptTemplateFile;
+            if (promptTemplateFile !== undefined) {
+              const promptPath = safeRelativePath(promptTemplateFile, `${addon.name}.resolution.promptTemplateFile`);
+              if (!promptPath.ok) {
+                return promptPath;
+              }
+              const promptFile = Bun.file(path.join(addonRoot, promptPath.value));
+              if (!(await promptFile.exists())) {
+                return { ok: false, error: `missing ${path.posix.join(sourcePath.value, promptPath.value)}` };
+              }
+            }
+          }
+
+          return { ok: true };
+        }
+
         for (const rel of manifests) {
           const packageName = rel.split("/")[0];
           const packageRoot = `${root}/${packageName}`;
           const manifest = await Bun.file(`${packageRoot}/rielflow-package.json`).json();
+          const kind = manifest.kind ?? "workflow";
+
+          if (kind === "node-addon") {
+            const addonCheck = await validateNodeAddonPackage({ packageName, packageRoot, manifest });
+            console.log(`${packageName}\tnode-addon=${addonCheck.ok ? "ok" : "bad"}`);
+            if (!addonCheck.ok) {
+              console.error(addonCheck.error);
+            }
+            failed = failed || !addonCheck.ok;
+            continue;
+          }
+
+          if (kind !== "workflow") {
+            console.log(`${packageName}\tkind=${kind}\tbad`);
+            console.error(`unsupported package kind: ${kind}`);
+            failed = true;
+            continue;
+          }
+
           const checksum = await computeWorkflowPackageChecksum({
             packageRoot,
             workflowDirectory: manifest.workflowDirectory,
