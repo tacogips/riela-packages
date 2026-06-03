@@ -43,6 +43,15 @@ rielflow package status <package-id>
   Declarative node add-on package that installs `examples/release-note@1`, a
   reusable Codex worker template for drafting concise release notes.
 
+### Native Runtime Example Workflows
+
+- [greeting-container](packages/greeting-container) -
+  Example workflow package with a native container node that builds a small
+  Node.js image and outputs a greeting with the current datetime.
+- [greeting-shell](packages/greeting-shell) -
+  Example workflow package with a native Bash command node that outputs a
+  greeting with the current datetime without using a container.
+
 ### Codex Agent Workflows
 
 - [codex-deepdesign](packages/codex-deepdesign) -
@@ -130,6 +139,8 @@ rielflow package status <package-id>
 | Package | Type | Backend | Skills |
 | --- | --- | --- | --- |
 | [release-note-node-addon](packages/release-note-node-addon) | node-addon | `codex-agent` | - |
+| [greeting-container](packages/greeting-container) | workflow | `native-container` | - |
+| [greeting-shell](packages/greeting-shell) | workflow | `native-command` | - |
 | [codex-deepdesign](packages/codex-deepdesign) | workflow | `codex-agent` | Codex |
 | [codex-design-and-implement-review-loop](packages/codex-design-and-implement-review-loop) | workflow | `codex-agent` | Codex |
 | [codex-impl-plan-completion-loop](packages/codex-impl-plan-completion-loop) | workflow | `codex-agent` | - |
