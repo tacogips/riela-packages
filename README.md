@@ -76,6 +76,12 @@ rielflow package status <package-id>
   Reviews recent code changes, including uncommitted changes, delegates
   blocking findings to `codex-design-and-implement-review-loop`, and re-reviews
   until no high or medium findings remain. `backend: codex-agent`.
+- [codex-source-security-check-loop](packages/codex-source-security-check-loop) -
+  Runs deterministic source-code security checks, including secrets, optional
+  `gitleaks`, static heuristics, dependency manifests, and supply-chain config,
+  then triages findings with Codex and delegates high or medium fixes to
+  `codex-design-and-implement-review-loop`. `backend: native-command,
+  codex-agent`; includes Codex skills.
 - [codex-simple-work-package](packages/codex-simple-work-package) -
   Lightweight workflow for small code or documentation changes when no
   dedicated workflow applies. It implements with Codex GPT-5.5 high effort,
@@ -158,6 +164,7 @@ rielflow package status <package-id>
 | [codex-design-and-implement-review-loop](packages/codex-design-and-implement-review-loop) | workflow | `codex-agent` | Codex |
 | [codex-impl-plan-completion-loop](packages/codex-impl-plan-completion-loop) | workflow | `codex-agent` | - |
 | [codex-recent-change-quality-loop](packages/codex-recent-change-quality-loop) | workflow | `codex-agent` | - |
+| [codex-source-security-check-loop](packages/codex-source-security-check-loop) | workflow | `native-command`, `codex-agent` | Codex |
 | [codex-simple-work-package](packages/codex-simple-work-package) | workflow | `codex-agent` | Codex |
 | [codex-task-watchdog](packages/codex-task-watchdog) | workflow | `codex-agent` | Codex |
 | [codex-refactoring-divide-and-conquer](packages/codex-refactoring-divide-and-conquer) | workflow | `codex-agent` | Codex |

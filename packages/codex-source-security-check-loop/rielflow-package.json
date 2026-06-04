@@ -1,0 +1,42 @@
+{
+  "name": "codex-source-security-check-loop",
+  "version": "0.1.0",
+  "title": "codex-source-security-check-loop",
+  "description": "Run deterministic source-code security checks, triage findings with Codex, delegate blocking fixes, and rescan until high and medium findings are resolved.",
+  "tags": [
+    "workflow",
+    "security",
+    "sast"
+  ],
+  "registry": "default",
+  "checksum": "6988435181e6892b354ceea1c722d889",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/codex-source-security-check-loop",
+  "dependencies": [
+    "codex-design-and-implement-review-loop"
+  ],
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "codex-source-security-check-loop",
+    "description": "Run deterministic source-code security checks, triage findings with Codex, delegate blocking fixes, and rescan until high and medium findings are resolved.",
+    "tags": [
+      "workflow",
+      "security",
+      "sast"
+    ],
+    "backends": [
+      "native-command",
+      "codex-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "d1a6df2b9d1c6609ddb33955ffc62d8d8659077070bea8f722642aeec11061c7"
+  },
+  "backends": [
+    "native-command",
+    "codex-agent"
+  ],
+  "packageId": "codex-source-security-check-loop",
+  "skillDirectory": "skills"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "workflow-output",
+  "description": "Publish the accepted source security check result.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/workflow-output.md",
+  "variables": {},
+  "output": {
+    "description": "Return final security check status, findings, deterministic evidence, delegated fixes, and residual risks."
+  }
+}
