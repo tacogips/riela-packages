@@ -1,0 +1,11 @@
+{
+  "id": "workflow-output",
+  "description": "Publish the accepted simple-work result after implementation review accepts the latest diff.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/workflow-output.md",
+  "variables": {},
+  "output": {
+    "description": "Return the accepted changed files, implementation summary, review summary, verification, and residual risks."
+  }
+}

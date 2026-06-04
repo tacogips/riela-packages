@@ -1,0 +1,79 @@
+{
+  "workflowId": "codex-simple-work-package",
+  "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.5 high effort, reviews the diff, and loops back only for high or middle findings.",
+  "defaults": {
+    "maxLoopIterations": 6,
+    "nodeTimeoutMs": 3600000,
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    }
+  },
+  "prompts": {
+    "workerSystemPromptTemplate": "Return concise business JSON only. Keep changed files, findings, feedback, verification commands, and routing decisions explicit."
+  },
+  "entryStepId": "implement",
+  "nodes": [
+    {
+      "id": "implement",
+      "nodeFile": "nodes/node-implement.json"
+    },
+    {
+      "id": "review",
+      "nodeFile": "nodes/node-review.json"
+    },
+    {
+      "id": "workflow-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-workflow-output.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "implement",
+      "nodeId": "implement",
+      "description": "Make the requested small code or documentation change, or address the latest high or middle review feedback on rerun.",
+      "role": "worker",
+      "stallTimeoutMs": 900000,
+      "transitions": [
+        {
+          "toStepId": "review"
+        }
+      ]
+    },
+    {
+      "id": "review",
+      "nodeId": "review",
+      "description": "Review the implementation and route back only when high or middle findings remain.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "implement",
+          "label": "needs_revision"
+        },
+        {
+          "toStepId": "workflow-output",
+          "label": "!(needs_revision)"
+        }
+      ]
+    },
+    {
+      "id": "workflow-output",
+      "nodeId": "workflow-output",
+      "description": "Publish the accepted simple-work result after review reports no high or middle findings.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielflowPackage": {
+      "title": "codex-simple-work-package",
+      "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.5 high effort, reviews the diff, and loops back only for high or middle findings.",
+      "tags": [
+        "workflow"
+      ],
+      "backends": [
+        "codex-agent"
+      ]
+    }
+  }
+}

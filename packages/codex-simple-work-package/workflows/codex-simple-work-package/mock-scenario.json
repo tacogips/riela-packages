@@ -1,0 +1,56 @@
+{
+  "workflowInput": {
+    "targetDirectory": "docs",
+    "requestedChange": "Make a small documentation-only clarification.",
+    "constraints": [
+      "Use this workflow only because no dedicated workflow applies.",
+      "Loop back only for high or middle review findings."
+    ],
+    "acceptanceCriteria": [
+      "The implementation review reports no high or middle findings."
+    ]
+  },
+  "steps": {
+    "implement": {
+      "output": {
+        "changedFiles": [
+          "docs/example.md"
+        ],
+        "implementationSummary": "Clarified the requested documentation text.",
+        "verification": [
+          "Manual review"
+        ],
+        "addressedFeedback": [],
+        "residualRisks": []
+      }
+    },
+    "review": {
+      "output": {
+        "when": {
+          "needs_revision": false
+        },
+        "payload": {
+          "needs_revision": false,
+          "findings": [],
+          "feedback": [],
+          "accepted": true
+        }
+      }
+    },
+    "workflow-output": {
+      "output": {
+        "status": "accepted",
+        "changedFiles": [
+          "docs/example.md"
+        ],
+        "implementationSummary": "Clarified the requested documentation text.",
+        "reviewSummary": "No high or middle findings.",
+        "verification": [
+          "Manual review"
+        ],
+        "residualRisks": [],
+        "nextStep": "Done."
+      }
+    }
+  }
+}

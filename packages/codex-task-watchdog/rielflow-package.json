@@ -10,7 +10,7 @@
     "cron"
   ],
   "registry": "default",
-  "checksum": "cf716f6c3f8eb1a0c8b168fc768ee19c",
+  "checksum": "a1b083b512279fbea73bbdac28026a0d",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-task-watchdog",
   "dependencies": [
@@ -34,7 +34,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "848873a606c4e0d1430a29e2356dd234279223c08d7648d67f3b3a72f149e81f"
+    "digest": "e8521749d301b3b9812e1a94c43946a5b286cac3ec4cc886bf6ea092ba9904df"
   },
   "backends": [
     "codex-agent"

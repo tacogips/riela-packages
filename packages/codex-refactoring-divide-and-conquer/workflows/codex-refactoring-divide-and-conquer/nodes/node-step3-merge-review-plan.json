@@ -7,5 +7,6 @@
   "variables": {},
   "output": {
     "description": "Return adapter JSON with plan_only, no_plan_tasks, implementation_ready, has_plan_tasks, plan path, duplicateGroups, task DAG fields, rejected findings, and verification strategy."
-  }
+  },
+  "effort": "high"
 }

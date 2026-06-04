@@ -7,5 +7,6 @@
   "variables": {},
   "output": {
     "description": "Return JSON with task id, changed files, plan updates, verification commands, blockers, and residual risks."
-  }
+  },
+  "effort": "high"
 }

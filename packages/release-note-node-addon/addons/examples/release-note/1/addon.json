@@ -2,12 +2,14 @@
   "name": "examples/release-note",
   "version": "1",
   "description": "Reusable worker node template for drafting concise release notes.",
-  "allowedRoles": ["worker"],
+  "allowedRoles": [
+    "worker"
+  ],
   "resolution": {
     "kind": "node-payload-template",
     "nodeType": "agent",
     "executionBackend": "codex-agent",
-    "model": "gpt-5.4",
+    "model": "gpt-5.5",
     "promptTemplateFile": "prompt.md"
   },
   "inputSchema": {
@@ -25,4 +27,3 @@
     }
   }
 }
-

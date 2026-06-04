@@ -7,5 +7,6 @@
   "variables": {},
   "output": {
     "description": "Return JSON with the refreshed documentation files, the user-facing surfaces covered, a short documentation summary, and any residual risks."
-  }
+  },
+  "effort": "high"
 }

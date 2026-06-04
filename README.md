@@ -76,6 +76,11 @@ rielflow package status <package-id>
   Reviews recent code changes, including uncommitted changes, delegates
   blocking findings to `codex-design-and-implement-review-loop`, and re-reviews
   until no high or medium findings remain. `backend: codex-agent`.
+- [codex-simple-work-package](packages/codex-simple-work-package) -
+  Lightweight workflow for small code or documentation changes when no
+  dedicated workflow applies. It implements with Codex GPT-5.5 high effort,
+  reviews the diff, and loops back only for high or middle findings.
+  `backend: codex-agent`; includes Codex skills.
 - [codex-task-watchdog](packages/codex-task-watchdog) -
   Runs a background task watcher for `./tasks/list.jsonl`, repeatedly polling
   for newly added active tasks, skipping while another task is running,
@@ -90,10 +95,6 @@ rielflow package status <package-id>
   Read-only review workflow for one codebase slice produced by
   `codex-refactoring-divide-and-conquer`, including duplicate-scavenge review
   when requested by the parent workflow. `backend: codex-agent`.
-- [codex-worker-only-single-step](packages/codex-worker-only-single-step) -
-  Minimal manager-less reference workflow that starts directly at one Codex
-  worker step through explicit `entryStepId` authoring. `backend: codex-agent`;
-  includes Codex skills.
 
 ### Claude Code Agent Workflows
 
@@ -157,10 +158,10 @@ rielflow package status <package-id>
 | [codex-design-and-implement-review-loop](packages/codex-design-and-implement-review-loop) | workflow | `codex-agent` | Codex |
 | [codex-impl-plan-completion-loop](packages/codex-impl-plan-completion-loop) | workflow | `codex-agent` | - |
 | [codex-recent-change-quality-loop](packages/codex-recent-change-quality-loop) | workflow | `codex-agent` | - |
+| [codex-simple-work-package](packages/codex-simple-work-package) | workflow | `codex-agent` | Codex |
 | [codex-task-watchdog](packages/codex-task-watchdog) | workflow | `codex-agent` | Codex |
 | [codex-refactoring-divide-and-conquer](packages/codex-refactoring-divide-and-conquer) | workflow | `codex-agent` | Codex |
 | [codex-refactoring-slice-review](packages/codex-refactoring-slice-review) | workflow | `codex-agent` | - |
-| [codex-worker-only-single-step](packages/codex-worker-only-single-step) | workflow | `codex-agent` | Codex |
 | [claude-code-design-and-implement-review-loop](packages/claude-code-design-and-implement-review-loop) | workflow | `claude-code-agent` | Claude |
 | [claude-code-impl-plan-completion-loop](packages/claude-code-impl-plan-completion-loop) | workflow | `claude-code-agent` | - |
 | [claude-code-recent-change-quality-loop](packages/claude-code-recent-change-quality-loop) | workflow | `claude-code-agent` | - |

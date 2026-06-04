@@ -7,5 +7,6 @@
   "variables": {},
   "output": {
     "description": "Return adapter JSON with planning_only routing, joined feature-plan summaries, branch output references, and residual integration risks."
-  }
+  },
+  "effort": "high"
 }

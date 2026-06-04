@@ -7,5 +7,6 @@
   "variables": {},
   "output": {
     "description": "Return adapter JSON with has_review_slices, no_review_slices, and payload.reviewSlices for bounded fanout, including duplicate-scavenge review questions when requested."
-  }
+  },
+  "effort": "high"
 }

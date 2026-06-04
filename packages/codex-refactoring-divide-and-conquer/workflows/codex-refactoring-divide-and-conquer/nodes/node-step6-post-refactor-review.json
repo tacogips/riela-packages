@@ -7,5 +7,6 @@
   "variables": {},
   "output": {
     "description": "Return adapter JSON with needs_revision, plan_remaining, accepted, findings, verification evidence, and residual risks."
-  }
+  },
+  "effort": "high"
 }

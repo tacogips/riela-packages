@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "d11cf9abc69489b3f8b7c091eab7c8b0",
+  "checksum": "1ebde8a174c0926a72844a7340f9a609",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-refactoring-slice-review",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "e2bf646981504975af7a3e7a8a844c84513fd69f45bc32fdb1588ebc9b583e29"
+    "digest": "a471d3991b8e3beeb306ce0438cbf69d1bd27d6a84b88642283fe2a7c24b8001"
   },
   "backends": [
     "codex-agent"
