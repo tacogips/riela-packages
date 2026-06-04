@@ -1,0 +1,44 @@
+{
+  "kind": "node-addon",
+  "name": "greeting-node-addon",
+  "version": "0.1.0",
+  "title": "Greeting Node Add-on",
+  "description": "Executable node add-on package that installs a reusable Bash greeting worker node.",
+  "tags": [
+    "node-addon",
+    "greeting",
+    "native-command",
+    "bash"
+  ],
+  "registry": "default",
+  "checksum": "51ca68728fbf61496e522c5028db2a2f",
+  "checksumAlgorithm": "md5",
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "addons": [
+    {
+      "name": "examples/greeting-shell",
+      "version": "1",
+      "sourcePath": "addons/examples/greeting-shell/1",
+      "execution": {
+        "kind": "local-command",
+        "entrypoint": "greeting.bash",
+        "runtimeHints": [
+          "bash"
+        ]
+      },
+      "capabilities": [
+        {
+          "name": "process.spawn",
+          "required": true,
+          "reason": "runs the packaged greeting Bash script"
+        }
+      ],
+      "contentDigest": "sha256:3cbc41cb730af8a3e46951ea9453990b14e5a1bb57ab8ba48e502417335a00f1"
+    }
+  ],
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "c081edcd9272ffbc46d99644c03f5fef46805b60555c9ced7d0d92ad52cab928"
+  },
+  "packageId": "greeting-node-addon"
+}

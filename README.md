@@ -42,6 +42,9 @@ rielflow package status <package-id>
 - [release-note-node-addon](packages/release-note-node-addon) -
   Declarative node add-on package that installs `examples/release-note@1`, a
   reusable Codex worker template for drafting concise release notes.
+- [greeting-node-addon](packages/greeting-node-addon) -
+  Executable node add-on package that installs `examples/greeting-shell@1`, a
+  reusable Bash command node template for JSON greetings.
 
 ### Native Runtime Example Workflows
 
@@ -139,6 +142,7 @@ rielflow package status <package-id>
 | Package | Type | Backend | Skills |
 | --- | --- | --- | --- |
 | [release-note-node-addon](packages/release-note-node-addon) | node-addon | `codex-agent` | - |
+| [greeting-node-addon](packages/greeting-node-addon) | node-addon | `native-command` | - |
 | [greeting-container](packages/greeting-container) | workflow | `native-container` | - |
 | [greeting-shell](packages/greeting-shell) | workflow | `native-command` | - |
 | [codex-deepdesign](packages/codex-deepdesign) | workflow | `codex-agent` | Codex |

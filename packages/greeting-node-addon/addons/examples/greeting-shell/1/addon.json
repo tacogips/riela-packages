@@ -1,0 +1,38 @@
+{
+  "name": "examples/greeting-shell",
+  "version": "1",
+  "description": "Reusable Bash greeting worker node.",
+  "allowedRoles": ["worker"],
+  "resolution": {
+    "kind": "node-payload-template",
+    "nodeType": "command",
+    "command": {
+      "scriptPath": "greeting.bash",
+      "argvTemplate": ["{{addon.inputs.name}}"],
+      "envTemplate": {
+        "GREETING_INDEX": "{{addon.inputs.greetingIndex}}",
+        "GREETING_TIMEZONE": "{{addon.inputs.timezone}}"
+      }
+    }
+  },
+  "execution": {
+    "kind": "local-command",
+    "entrypoint": "greeting.bash",
+    "runtimeHints": ["bash"]
+  },
+  "capabilities": [
+    {
+      "name": "process.spawn",
+      "required": true,
+      "reason": "runs the packaged greeting Bash script"
+    }
+  ],
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "name": { "type": "string" },
+      "greetingIndex": { "type": "string" },
+      "timezone": { "type": "string" }
+    }
+  }
+}
