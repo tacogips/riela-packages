@@ -44,7 +44,7 @@ rielflow package status <package-id>
   reusable Codex worker template for drafting concise release notes.
 - [greeting-node-addon](packages/greeting-node-addon) -
   Executable node add-on package that installs `examples/greeting-shell@1`, a
-  reusable Bash command node template for JSON greetings.
+  reusable Bash command node template for jq-encoded JSON greetings.
 
 ### Native Runtime Example Workflows
 
