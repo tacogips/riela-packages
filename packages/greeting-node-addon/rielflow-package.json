@@ -11,7 +11,7 @@
     "bash"
   ],
   "registry": "default",
-  "checksum": "51ca68728fbf61496e522c5028db2a2f",
+  "checksum": "8745e476cfef4bf341638e2f12b2ed86",
   "checksumAlgorithm": "md5",
   "repository": "https://github.com/tacogips/rielflow-packages",
   "addons": [
@@ -23,7 +23,8 @@
         "kind": "local-command",
         "entrypoint": "greeting.bash",
         "runtimeHints": [
-          "bash"
+          "bash",
+          "jq"
         ]
       },
       "capabilities": [
@@ -33,12 +34,12 @@
           "reason": "runs the packaged greeting Bash script"
         }
       ],
-      "contentDigest": "sha256:3cbc41cb730af8a3e46951ea9453990b14e5a1bb57ab8ba48e502417335a00f1"
+      "contentDigest": "sha256:109e94f6d305901a578d50d10b9d78aa627a63afe95b0bf2fc920b042330254f"
     }
   ],
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "c081edcd9272ffbc46d99644c03f5fef46805b60555c9ced7d0d92ad52cab928"
+    "digest": "1f448f0a022c3608384bcc5fd783f97c83334481e83379a0ead34398407c6592"
   },
   "packageId": "greeting-node-addon"
 }

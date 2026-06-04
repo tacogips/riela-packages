@@ -9,6 +9,11 @@ native Bash command node template that outputs a JSON greeting.
 rielflow package install greeting-node-addon
 ```
 
+## Runtime
+
+The installed executable add-on expects `bash`, `date`, and `jq` on the worker
+host. `jq` is used to encode mailbox JSON safely for arbitrary string inputs.
+
 Use the installed add-on from a workflow node:
 
 ```json
