@@ -6,7 +6,7 @@
   "description": "Declarative node add-on package that installs a reusable release-note worker node template.",
   "tags": ["node-addon", "release-note", "template", "codex-agent"],
   "registry": "default",
-  "checksum": "f46283f9d7ad88e5a85d4e7cb9383242",
+  "checksum": "b350bf7e8be0910e7ec05b328c67153c",
   "checksumAlgorithm": "md5",
   "repository": "https://github.com/tacogips/rielflow-packages",
   "addons": [
@@ -18,7 +18,7 @@
   ],
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "038938a0b8a8295875cf6b093e25d1be838ead98fd183946d4038550279f9239"
+    "digest": "bdf95f409a938e31e6a4d32772c410a200b4ee8679d14f53ad33544efc26634e"
   },
   "packageId": "release-note-node-addon"
 }
