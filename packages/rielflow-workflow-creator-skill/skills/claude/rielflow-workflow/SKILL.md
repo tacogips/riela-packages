@@ -15,7 +15,7 @@ Use this skill to author portable rielflow workflow bundles that validate agains
 2. Create or update `<workflow-root>/<workflow-name>/workflow.json`.
 3. Create `nodes/node-<id>.json` files only for file-backed nodes.
 4. Put long prompts in `prompts/*.md` and reference them with `promptTemplateFile`, `systemPromptTemplateFile`, or `sessionStartPromptTemplateFile`.
-5. Validate with the available rielflow command, usually `bun run src/main.ts workflow validate <workflow-name> --workflow-definition-dir <workflow-root>` inside the rielflow repo, or `rielflow workflow validate <workflow-name> --workflow-definition-dir <workflow-root>` when installed.
+5. Validate with the available rielflow command and the same lookup mode the workflow will use: `--workflow-definition-dir <workflow-root>` for unpacked bundles, default/project scope for project installs, or `--scope user` for user-scope installs. Do not assume `./rielflow` exists.
 
 Read `references/workflow-format.md` when authoring anything beyond a one-step worker or when validation errors mention schema, steps, transitions, add-ons, node payloads, or legacy fields.
 
@@ -113,6 +113,16 @@ Agent node payload:
 - Valid authored `nodeType` values are `agent`, `command`, `container`, and `user-action`. Do not author `nodeType: "addon"`.
 - A cross-workflow transition uses `toWorkflowId`, `toStepId`, and `resumeStepId`; `resumeStepId` must name a step in the current workflow.
 - A step may have at most one cross-workflow transition.
+
+## Scope And Runner Portability
+
+- Do not write workflow docs, expected results, prompts, or helper scripts that require `nix run ./rielflow`, `./rielflow`, or any repository-local rielflow checkout unless that checkout is explicitly part of the target repository contract.
+- Prefer examples that start with `rielflow ...`; mention `bun run packages/rielflow/src/bin.ts ...` only as a source-checkout alternative.
+- Preserve the workflow lookup mode in examples and verification notes:
+  - packaged project install: `rielflow workflow validate <workflow-name>`
+  - packaged user install: `rielflow workflow validate <workflow-name> --scope user`
+  - direct workflow directory: `rielflow workflow validate <workflow-name> --workflow-definition-dir <workflow-root>`
+- If documenting package-managed workflows, keep package commands separate from raw workflow checkout commands. `workflow checkout` can make a workflow runnable without creating a `package list` / `package status` record.
 
 ## Built-In Add-Ons
 

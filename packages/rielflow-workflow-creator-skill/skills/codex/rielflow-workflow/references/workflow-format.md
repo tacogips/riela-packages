@@ -265,20 +265,37 @@ Prefer DRY composition when using add-ons: chain reusable primitive steps in `st
 
 ## Validation Commands
 
-Inside the rielflow repo:
+Use the command form that matches how the workflow is available. Do not assume
+`./rielflow` exists in the caller repository.
+
+Project-scope installed workflow:
 
 ```bash
-bun run src/main.ts workflow validate <workflow-name> --workflow-definition-dir <workflow-root>
+rielflow workflow validate <workflow-name>
 ```
 
-When rielflow is installed:
+User-scope installed workflow:
+
+```bash
+rielflow workflow validate <workflow-name> --scope user
+```
+
+Unpacked workflow directory:
 
 ```bash
 rielflow workflow validate <workflow-name> --workflow-definition-dir <workflow-root>
 ```
 
-Useful inspection command:
+From a rielflow source checkout, use the source runner only when that checkout
+is actually present:
 
 ```bash
-bun run src/main.ts workflow inspect <workflow-name> --workflow-definition-dir <workflow-root> --output json
+bun run packages/rielflow/src/bin.ts workflow validate <workflow-name> --workflow-definition-dir <workflow-root>
+```
+
+Useful inspection commands:
+
+```bash
+rielflow workflow inspect <workflow-name> --scope user --output json
+rielflow workflow inspect <workflow-name> --workflow-definition-dir <workflow-root> --output json
 ```
