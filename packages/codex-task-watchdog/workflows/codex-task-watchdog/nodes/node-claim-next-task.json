@@ -1,0 +1,18 @@
+{
+  "id": "claim-next-task",
+  "description": "Claim one active task from the JSONL queue, or report a skip reason.",
+  "nodeType": "command",
+  "variables": {},
+  "command": {
+    "scriptPath": "scripts/claim-next-task.sh",
+    "envTemplate": {
+      "TASK_LIST_PATH": "{{workflowInput.taskListPath}}",
+      "TASK_RUN_ID": "{{workflowInput.scheduleId}}",
+      "TASK_EVENT_SCHEDULED_AT": "{{workflowInput.scheduledAt}}",
+      "TASK_EVENT_SOURCE_ID": "{{workflowInput.sourceId}}"
+    }
+  },
+  "output": {
+    "description": "Return JSON with when.skip/design_and_impl/deepdesign/review/adhoc/unsupported and the claimed task payload when present."
+  }
+}

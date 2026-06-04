@@ -1,0 +1,44 @@
+{
+  "name": "codex-task-watchdog",
+  "version": "0.1.0",
+  "title": "codex-task-watchdog",
+  "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, and ad hoc Codex execution.",
+  "tags": [
+    "workflow",
+    "codex",
+    "automation",
+    "cron"
+  ],
+  "registry": "default",
+  "checksum": "cf716f6c3f8eb1a0c8b168fc768ee19c",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/codex-task-watchdog",
+  "dependencies": [
+    "codex-design-and-implement-review-loop",
+    "codex-deepdesign",
+    "codex-recent-change-quality-loop"
+  ],
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "codex-task-watchdog",
+    "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, and ad hoc Codex execution.",
+    "tags": [
+      "workflow",
+      "codex",
+      "automation",
+      "cron"
+    ],
+    "backends": [
+      "codex-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "848873a606c4e0d1430a29e2356dd234279223c08d7648d67f3b3a72f149e81f"
+  },
+  "backends": [
+    "codex-agent"
+  ],
+  "packageId": "codex-task-watchdog",
+  "skillDirectory": "skills"
+}

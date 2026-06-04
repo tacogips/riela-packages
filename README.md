@@ -76,6 +76,11 @@ rielflow package status <package-id>
   Reviews recent code changes, including uncommitted changes, delegates
   blocking findings to `codex-design-and-implement-review-loop`, and re-reviews
   until no high or medium findings remain. `backend: codex-agent`.
+- [codex-task-watchdog](packages/codex-task-watchdog) -
+  Runs a background task watcher for `./tasks/list.jsonl`, repeatedly polling
+  for newly added active tasks, skipping while another task is running,
+  dispatching dependency workflows by task kind, or executing ad hoc Codex work.
+  `backend: codex-agent`; includes Codex skills.
 - [codex-refactoring-divide-and-conquer](packages/codex-refactoring-divide-and-conquer) -
   Splits a codebase into package or processing-group slices, reviews slices
   concurrently, merges findings into a refactoring plan, implements bounded
@@ -149,6 +154,7 @@ rielflow package status <package-id>
 | [codex-design-and-implement-review-loop](packages/codex-design-and-implement-review-loop) | workflow | `codex-agent` | Codex |
 | [codex-impl-plan-completion-loop](packages/codex-impl-plan-completion-loop) | workflow | `codex-agent` | - |
 | [codex-recent-change-quality-loop](packages/codex-recent-change-quality-loop) | workflow | `codex-agent` | - |
+| [codex-task-watchdog](packages/codex-task-watchdog) | workflow | `codex-agent` | Codex |
 | [codex-refactoring-divide-and-conquer](packages/codex-refactoring-divide-and-conquer) | workflow | `codex-agent` | Codex |
 | [codex-refactoring-slice-review](packages/codex-refactoring-slice-review) | workflow | `codex-agent` | - |
 | [codex-worker-only-single-step](packages/codex-worker-only-single-step) | workflow | `codex-agent` | Codex |

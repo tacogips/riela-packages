@@ -1,0 +1,11 @@
+{
+  "id": "handoff-deepdesign",
+  "description": "Prepare a codex-deepdesign call for the claimed task.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/handoff-deepdesign.md",
+  "variables": {},
+  "output": {
+    "description": "Return workflowInput, task, and handoffSummary for codex-deepdesign."
+  }
+}

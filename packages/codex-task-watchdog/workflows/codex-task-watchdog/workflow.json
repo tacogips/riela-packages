@@ -1,0 +1,180 @@
+{
+  "workflowId": "codex-task-watchdog",
+  "description": "Background Codex task watcher. It runs under rielflow events serve, polls ./tasks/list.jsonl on cron/event ticks, claims one newly added active task at a time, dispatches dependency workflows by task kind, or runs an ad hoc Codex worker, then marks the task done.",
+  "defaults": {
+    "maxLoopIterations": 8,
+    "nodeTimeoutMs": 3600000,
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    }
+  },
+  "prompts": {
+    "rielflowPromptTemplate": "Coordinate {{workflowId}} as one polling pass of a long-running task watcher. Start by claiming at most one active task from ./tasks/list.jsonl. If a running task exists, if all tasks are done, or if no active task exists, finish with skip output and let the background event server keep watching. Otherwise dispatch by task kind: design-and-impl to codex-design-and-implement-review-loop, design-deepthin/design-deepthink/deepdesign to codex-deepdesign, review to codex-recent-change-quality-loop, and adhoc to a local Codex worker. After a dependency workflow or adhoc worker completes, mark the running task done and publish the result.",
+    "workerSystemPromptTemplate": "Return concise business JSON only. Keep selected task id, status transitions, dependency workflow input, execution result, and skip reason explicit."
+  },
+  "managerStepId": "rielflow-manager",
+  "entryStepId": "rielflow-manager",
+  "nodes": [
+    {
+      "id": "rielflow-manager",
+      "nodeFile": "nodes/node-rielflow-manager.json"
+    },
+    {
+      "id": "claim-next-task",
+      "nodeFile": "nodes/node-claim-next-task.json"
+    },
+    {
+      "id": "handoff-design-impl",
+      "nodeFile": "nodes/node-handoff-design-impl.json"
+    },
+    {
+      "id": "handoff-deepdesign",
+      "nodeFile": "nodes/node-handoff-deepdesign.json"
+    },
+    {
+      "id": "handoff-review",
+      "nodeFile": "nodes/node-handoff-review.json"
+    },
+    {
+      "id": "adhoc-codex",
+      "nodeFile": "nodes/node-adhoc-codex.json"
+    },
+    {
+      "id": "mark-done",
+      "nodeFile": "nodes/node-mark-done.json"
+    },
+    {
+      "id": "workflow-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-workflow-output.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "rielflow-manager",
+      "nodeId": "rielflow-manager",
+      "description": "Start one watchdog polling pass and hand execution to the claim step.",
+      "role": "manager",
+      "transitions": [
+        {
+          "toStepId": "claim-next-task"
+        }
+      ]
+    },
+    {
+      "id": "claim-next-task",
+      "nodeId": "claim-next-task",
+      "description": "Read ./tasks/list.jsonl, skip if running/done/no-active, or atomically mark the first active task running.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "workflow-output",
+          "label": "skip"
+        },
+        {
+          "toStepId": "handoff-design-impl",
+          "label": "design_and_impl"
+        },
+        {
+          "toStepId": "handoff-deepdesign",
+          "label": "deepdesign"
+        },
+        {
+          "toStepId": "handoff-review",
+          "label": "review"
+        },
+        {
+          "toStepId": "adhoc-codex",
+          "label": "adhoc"
+        },
+        {
+          "toStepId": "workflow-output",
+          "label": "unsupported"
+        }
+      ]
+    },
+    {
+      "id": "handoff-design-impl",
+      "nodeId": "handoff-design-impl",
+      "description": "Build the codex-design-and-implement-review-loop workflow input for the claimed task.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-design-and-implement-review-loop",
+          "toStepId": "rielflow-manager",
+          "resumeStepId": "mark-done"
+        }
+      ]
+    },
+    {
+      "id": "handoff-deepdesign",
+      "nodeId": "handoff-deepdesign",
+      "description": "Build the codex-deepdesign workflow input for the claimed task.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-deepdesign",
+          "toStepId": "rielflow-manager",
+          "resumeStepId": "mark-done"
+        }
+      ]
+    },
+    {
+      "id": "handoff-review",
+      "nodeId": "handoff-review",
+      "description": "Build the codex-recent-change-quality-loop workflow input for the claimed task.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-recent-change-quality-loop",
+          "toStepId": "rielflow-manager",
+          "resumeStepId": "mark-done"
+        }
+      ]
+    },
+    {
+      "id": "adhoc-codex",
+      "nodeId": "adhoc-codex",
+      "description": "Execute the claimed task directly in a Codex worker for adhoc tasks.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "mark-done"
+        }
+      ]
+    },
+    {
+      "id": "mark-done",
+      "nodeId": "mark-done",
+      "description": "Mark the currently running task done in ./tasks/list.jsonl after delegated or adhoc completion.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "workflow-output"
+        }
+      ]
+    },
+    {
+      "id": "workflow-output",
+      "nodeId": "workflow-output",
+      "description": "Publish whether this watchdog polling pass skipped, dispatched, or completed a task.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielflowPackage": {
+      "title": "codex-task-watchdog",
+      "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl.",
+      "tags": [
+        "workflow",
+        "codex",
+        "automation",
+        "cron"
+      ],
+      "backends": [
+        "codex-agent"
+      ]
+    }
+  }
+}

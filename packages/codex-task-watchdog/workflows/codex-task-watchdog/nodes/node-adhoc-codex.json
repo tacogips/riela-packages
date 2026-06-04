@@ -1,0 +1,11 @@
+{
+  "id": "adhoc-codex",
+  "description": "Run the claimed task directly as an ad hoc Codex worker.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/adhoc-codex.md",
+  "variables": {},
+  "output": {
+    "description": "Return the ad hoc execution summary, changed files, verification, and residual risks."
+  }
+}
