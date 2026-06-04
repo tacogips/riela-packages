@@ -2,13 +2,16 @@
 
 Stable assertions for deterministic verification with the bundled mock scenario.
 Ignore `sessionId`, timestamps, and artifact paths.
+Use the available `rielflow` command. Add `--scope user` for a user-scope
+install, or `--workflow-definition-dir <root>` when validating an unpacked
+workflow directory.
 
 ## Validate
 
 Command:
 
 ```bash
-nix run ./rielflow -- workflow validate codex-recent-change-quality-loop
+rielflow workflow validate codex-recent-change-quality-loop
 ```
 
 Expected result: the workflow is valid.
@@ -18,7 +21,7 @@ Expected result: the workflow is valid.
 Command:
 
 ```bash
-nix run ./rielflow -- workflow run codex-recent-change-quality-loop \
+rielflow workflow run codex-recent-change-quality-loop \
   --mock-scenario .rielflow/workflows/codex-recent-change-quality-loop/mock-scenario.json \
   --output json
 ```

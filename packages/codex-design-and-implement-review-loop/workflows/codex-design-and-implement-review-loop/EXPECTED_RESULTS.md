@@ -2,13 +2,16 @@
 
 Stable assertions for deterministic verification with the bundled mock scenarios.
 Ignore `sessionId`, timestamps, and artifact paths.
+Use the available `rielflow` command. Add `--scope user` for a user-scope
+install, or `--workflow-definition-dir <root>` when validating an unpacked
+workflow directory.
 
 ## Validate
 
 Command:
 
 ```bash
-nix run ./rielflow -- workflow validate codex-design-and-implement-review-loop
+rielflow workflow validate codex-design-and-implement-review-loop
 ```
 
 Expected result: the workflow is valid.
@@ -18,7 +21,7 @@ Expected result: the workflow is valid.
 Issue-resolution command:
 
 ```bash
-nix run ./rielflow -- workflow run codex-design-and-implement-review-loop \
+rielflow workflow run codex-design-and-implement-review-loop \
   --mock-scenario .rielflow/workflows/codex-design-and-implement-review-loop/mock-scenario.json \
   --output json
 ```
@@ -79,7 +82,7 @@ Expected final output payload:
 Planning-only command:
 
 ```bash
-nix run ./rielflow -- workflow run codex-design-and-implement-review-loop \
+rielflow workflow run codex-design-and-implement-review-loop \
   --mock-scenario .rielflow/workflows/codex-design-and-implement-review-loop/mock-scenario-planning-only.json \
   --output json
 ```

@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "7bd4472b73a033c8b412df0efb1ad1a8",
+  "checksum": "8c1b40537d76ae381404fe7b3b653816",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-recent-change-quality-loop",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "e6fe8887541d74f3d4af94e09add5a6e5c10dfbed31981e1f9094bb2f23e645e"
+    "digest": "041a7dc666953a099325eb83333a1c3ad75ac82ce2a51470dc2305d6a2792183"
   },
   "backends": [
     "claude-code-agent"
