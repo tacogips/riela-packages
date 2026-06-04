@@ -1,0 +1,35 @@
+{
+  "name": "rielflow-package-installer-skill",
+  "version": "0.1.0",
+  "title": "rielflow-package-installer-skill",
+  "description": "Skill-only bootstrap package for installing the rielflow-package package-management skill from tacogips/rielflow-packages.",
+  "tags": [
+    "skill",
+    "package",
+    "installer",
+    "rielflow"
+  ],
+  "registry": "default",
+  "checksum": "288f58b521e350b9ef4740ee1c2d4117",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/rielflow-package-installer-skill",
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "rielflow-package-installer-skill",
+    "description": "Skill-only bootstrap package for installing the rielflow-package package-management skill from tacogips/rielflow-packages.",
+    "tags": [
+      "skill",
+      "package",
+      "installer",
+      "rielflow"
+    ],
+    "backends": []
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "ff8e6adae7f2b2e85663154346846fe9fc686463acade43666e3529dac18c58b"
+  },
+  "backends": [],
+  "packageId": "rielflow-package-installer-skill",
+  "skillDirectory": "skills"
+}

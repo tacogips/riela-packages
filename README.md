@@ -134,6 +134,9 @@ rielflow package status <package-id>
   Installs Codex and Claude skills for searching Rielflow package registries,
   installing packages into project or user scope, listing installed packages,
   updating packages, and removing packages.
+- [rielflow-package-installer-skill](packages/rielflow-package-installer-skill) -
+  Installs `.agents` and `.claude` bootstrap skills for installing
+  `rielflow-package-manager-skill` from `tacogips/rielflow-packages`.
 - [rielflow-temporary-workflow-skill](packages/rielflow-temporary-workflow-skill) -
   Installs Codex and Claude skills for creating and running temporary
   workflows from inline JSON or JSON files without project/user-scope
@@ -165,6 +168,7 @@ rielflow package status <package-id>
 | [claude-code-refactoring-slice-review](packages/claude-code-refactoring-slice-review) | workflow | `claude-code-agent` | - |
 | [claude-code-worker-only-single-step](packages/claude-code-worker-only-single-step) | workflow | `claude-code-agent` | Claude |
 | [rielflow-package-manager-skill](packages/rielflow-package-manager-skill) | skill | - | Codex, Claude |
+| [rielflow-package-installer-skill](packages/rielflow-package-installer-skill) | skill | - | Agents, Claude |
 | [rielflow-temporary-workflow-skill](packages/rielflow-temporary-workflow-skill) | skill | - | Codex, Claude |
 | [rielflow-workflow-creator-skill](packages/rielflow-workflow-creator-skill) | skill | - | Codex, Claude |
 
