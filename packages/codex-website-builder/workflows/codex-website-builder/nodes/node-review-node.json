@@ -1,0 +1,12 @@
+{
+  "id": "review-node",
+  "description": "Operate the running website with Playwright, review behavior and UX, and route feedback to the right node.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "promptTemplateFile": "prompts/review-node.md",
+  "variables": {},
+  "output": {
+    "description": "Return Playwright evidence, findings, route booleans, accepted status, and feedback for the next node."
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "workflowId": "codex-website-builder",
+  "description": "Event-ready Codex workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+  "defaults": {
+    "maxLoopIterations": 10,
+    "nodeTimeoutMs": 3600000,
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    }
+  },
+  "prompts": {
+    "rielflowPromptTemplate": "Coordinate {{workflowId}}. Normalize the user's direct request or chat event feedback, then run site-design, asset-generate, server-node, bun-container-server, source-commit-message, git-commit, and review-node. The design node must choose and pin the CSS framework and all allowed website libraries before implementation. The server node must create or revise a SolidJS site without running Bun on the host. The bun-container-server node must build the packaged lightweight Bun Docker image, bind-mount the repository, run Bun install/build/server commands in Docker, and return a review URL. The source commit step snapshots generated website source after each server/container pass. The review node must use Playwright against the running server, assess the site, and route back to site-design for product/design or dependency-policy problems, asset-generate for image or asset problems, or server-node for implementation/runtime problems. Finish only when review accepts the running site with no high or middle findings.",
+    "workerSystemPromptTemplate": "Return concise business JSON only. Keep event provenance, target directory, pinned design stack, dependency allowlist, asset paths, Docker/Bun server URL, git snapshot intent, Playwright checks, findings, route booleans, and residual risks explicit."
+  },
+  "managerStepId": "rielflow-manager",
+  "entryStepId": "rielflow-manager",
+  "nodes": [
+    {
+      "id": "rielflow-manager",
+      "nodeFile": "nodes/node-rielflow-manager.json"
+    },
+    {
+      "id": "site-design",
+      "nodeFile": "nodes/node-site-design.json"
+    },
+    {
+      "id": "asset-generate",
+      "nodeFile": "nodes/node-asset-generate.json"
+    },
+    {
+      "id": "server-node",
+      "nodeFile": "nodes/node-server-node.json"
+    },
+    {
+      "id": "bun-container-server",
+      "nodeFile": "nodes/node-bun-container-server.json"
+    },
+    {
+      "id": "source-commit-message",
+      "nodeFile": "nodes/node-source-commit-message.json"
+    },
+    {
+      "id": "git-commit",
+      "addon": {
+        "name": "rielflow/git-commit",
+        "version": "1",
+        "config": {
+          "commitMessageTemplate": "{{inbox.latest.output.payload.commitMessage}}",
+          "committedFilesTemplate": "{{inbox.latest.output.payload.committedFiles}}"
+        }
+      }
+    },
+    {
+      "id": "review-node",
+      "nodeFile": "nodes/node-review-node.json"
+    },
+    {
+      "id": "workflow-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-workflow-output.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "rielflow-manager",
+      "nodeId": "rielflow-manager",
+      "description": "Normalize direct workflow input or chat event feedback for website creation or iteration.",
+      "role": "manager",
+      "transitions": [
+        {
+          "toStepId": "site-design"
+        }
+      ]
+    },
+    {
+      "id": "site-design",
+      "nodeId": "site-design",
+      "description": "Create or revise the site design brief and pinned CSS/library allowlist from the request, feedback, and latest review findings.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "asset-generate"
+        }
+      ]
+    },
+    {
+      "id": "asset-generate",
+      "nodeId": "asset-generate",
+      "description": "Create or revise website image and media assets required by the current design.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "server-node"
+        }
+      ]
+    },
+    {
+      "id": "server-node",
+      "nodeId": "server-node",
+      "description": "Implement or revise the SolidJS/Bun website source without running Bun on the host.",
+      "role": "worker",
+      "stallTimeoutMs": 900000,
+      "transitions": [
+        {
+          "toStepId": "bun-container-server"
+        }
+      ]
+    },
+    {
+      "id": "bun-container-server",
+      "nodeId": "bun-container-server",
+      "description": "Run Bun install/build/server inside the packaged Docker image with the repository mounted at /workspace.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "source-commit-message"
+        }
+      ]
+    },
+    {
+      "id": "source-commit-message",
+      "nodeId": "source-commit-message",
+      "description": "Prepare a git snapshot commit message and exact generated source file list after the server-node pass.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "git-commit",
+          "label": "has_source_changes"
+        },
+        {
+          "toStepId": "review-node",
+          "label": "!(has_source_changes)"
+        }
+      ]
+    },
+    {
+      "id": "git-commit",
+      "nodeId": "git-commit",
+      "description": "Commit the generated website snapshot so the site can be restored through git history.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "review-node"
+        }
+      ]
+    },
+    {
+      "id": "review-node",
+      "nodeId": "review-node",
+      "description": "Use Playwright against the Docker-hosted Bun server, review the website, and choose the next improvement route.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "site-design",
+          "label": "needs_design_revision"
+        },
+        {
+          "toStepId": "asset-generate",
+          "label": "needs_asset_revision"
+        },
+        {
+          "toStepId": "server-node",
+          "label": "needs_implementation_revision"
+        },
+        {
+          "toStepId": "workflow-output",
+          "label": "!(needs_design_revision || needs_asset_revision || needs_implementation_revision)"
+        }
+      ]
+    },
+    {
+      "id": "workflow-output",
+      "nodeId": "workflow-output",
+      "description": "Publish the accepted website build result after Playwright review passes.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielflowPackage": {
+      "title": "codex-website-builder",
+      "description": "Event-ready Codex workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+      "tags": [
+        "workflow",
+        "codex",
+        "website",
+        "solidjs",
+        "event",
+        "container"
+      ],
+      "backends": [
+        "codex-agent",
+        "native-command"
+      ]
+    }
+  }
+}

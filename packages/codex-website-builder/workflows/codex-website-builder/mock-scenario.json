@@ -1,0 +1,15 @@
+{
+  "workflowInput": {
+    "projectName": "launch-board",
+    "targetDirectory": "apps/launch-board",
+    "siteRequest": "Build a compact SolidJS website for a launch planning board with a dashboard, task status summary, and clear feedback capture.",
+    "feedback": "Make the review workflow obvious and ensure it works on mobile.",
+    "constraints": [
+      "Use SolidJS and Bun",
+      "Commit generated source snapshots before review",
+      "Run Bun only through the packaged Docker image",
+      "Use a pinned CSS framework and dependency allowlist"
+    ],
+    "reviewUrl": "http://127.0.0.1:4173"
+  }
+}

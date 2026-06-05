@@ -1,0 +1,33 @@
+{
+  "id": "telegram-website-feedback",
+  "enabled": false,
+  "kind": "telegram-gateway",
+  "provider": "telegram",
+  "tokenEnv": "RIEL_TELEGRAM_BOT_TOKEN",
+  "botIdEnv": "RIEL_TELEGRAM_BOT_ID",
+  "chats": [
+    {
+      "id": "-1001234567890"
+    }
+  ],
+  "polling": {
+    "timeoutSeconds": 30,
+    "limit": 100,
+    "offsetPath": "telegram/codex-website-builder-offset.json"
+  },
+  "history": {
+    "maxMessages": 20,
+    "maxBytes": 32768,
+    "maxAgeMs": 86400000,
+    "scope": "chat",
+    "includeBotMessages": false
+  },
+  "filters": {
+    "ignoreBots": true,
+    "ignoreSelf": true
+  },
+  "attachments": {
+    "includePhotos": true,
+    "resolveFilePaths": true
+  }
+}

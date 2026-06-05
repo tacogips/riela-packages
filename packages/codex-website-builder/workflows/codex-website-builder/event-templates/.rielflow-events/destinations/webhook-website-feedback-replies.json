@@ -1,0 +1,6 @@
+{
+  "id": "webhook-website-feedback-replies",
+  "enabled": false,
+  "kind": "chat",
+  "sourceId": "webhook-website-feedback"
+}

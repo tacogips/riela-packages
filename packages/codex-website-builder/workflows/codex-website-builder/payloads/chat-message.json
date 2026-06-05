@@ -1,0 +1,16 @@
+{
+  "eventType": "chat.message",
+  "input": {
+    "text": "Make the homepage more focused on the review workflow and check mobile layout.",
+    "history": [],
+    "attachments": []
+  },
+  "conversation": {
+    "id": "local-demo",
+    "threadId": "local-demo"
+  },
+  "actor": {
+    "id": "user-demo",
+    "displayName": "Demo User"
+  }
+}

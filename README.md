@@ -94,6 +94,12 @@ rielflow package status <package-id>
   mining completed task logs for project-scope skills, reviewing those skills,
   and committing accepted queue and skill changes.
   `backend: codex-agent`; includes Codex skills.
+- [codex-website-builder](packages/codex-website-builder) -
+  Builds and iterates SolidJS websites with Bun through separate Codex nodes for
+  site design, pinned CSS/library selection, asset generation, implementation,
+  Docker-contained Bun server operation, Playwright review, chat feedback
+  routing, and git snapshot commits. `backend: codex-agent, native-command`;
+  includes Codex skills.
 - [codex-refactoring-divide-and-conquer](packages/codex-refactoring-divide-and-conquer) -
   Splits a codebase into package or processing-group slices, reviews slices
   concurrently, merges findings into a refactoring plan, implements bounded
@@ -176,6 +182,7 @@ rielflow package status <package-id>
 | [codex-source-security-check-loop](packages/codex-source-security-check-loop) | workflow | `native-command`, `codex-agent` | Codex |
 | [codex-simple-work-package](packages/codex-simple-work-package) | workflow | `codex-agent` | Codex |
 | [codex-task-watchdog](packages/codex-task-watchdog) | workflow | `codex-agent` | Codex |
+| [codex-website-builder](packages/codex-website-builder) | workflow | `codex-agent`, `native-command` | Codex |
 | [codex-refactoring-divide-and-conquer](packages/codex-refactoring-divide-and-conquer) | workflow | `codex-agent` | Codex |
 | [codex-refactoring-slice-review](packages/codex-refactoring-slice-review) | workflow | `codex-agent` | - |
 | [claude-code-design-and-implement-review-loop](packages/claude-code-design-and-implement-review-loop) | workflow | `claude-code-agent` | Claude |

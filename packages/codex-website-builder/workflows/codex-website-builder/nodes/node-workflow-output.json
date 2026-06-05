@@ -1,0 +1,12 @@
+{
+  "id": "workflow-output",
+  "description": "Publish the accepted website build result after Playwright review passes.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "promptTemplateFile": "prompts/workflow-output.md",
+  "variables": {},
+  "output": {
+    "description": "Return final site URL, target directory, commit snapshots, review evidence, residual risks, and event reply summary."
+  }
+}

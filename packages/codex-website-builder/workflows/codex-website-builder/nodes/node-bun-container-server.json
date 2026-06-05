@@ -1,0 +1,16 @@
+{
+  "id": "bun-container-server",
+  "description": "Build the packaged Bun Docker image, bind-mount the repository, and run install/build/server commands inside Docker.",
+  "nodeType": "command",
+  "variables": {},
+  "command": {
+    "scriptPath": "scripts/bun-container-server.bash",
+    "envTemplate": {
+      "WEBSITE_BUILDER_DEFAULT_PORT": "{{workflowInput.reviewPort}}",
+      "WEBSITE_BUILDER_IMAGE_TAG": "{{workflowInput.bunImageTag}}"
+    }
+  },
+  "output": {
+    "description": "Return Docker image, container id, review URL, install/build commands, server command, logs, and containerized Bun evidence."
+  }
+}

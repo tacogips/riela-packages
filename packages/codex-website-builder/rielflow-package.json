@@ -1,0 +1,45 @@
+{
+  "name": "codex-website-builder",
+  "version": "0.1.0",
+  "title": "codex-website-builder",
+  "description": "Event-ready Codex workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+  "tags": [
+    "workflow",
+    "codex",
+    "website",
+    "solidjs",
+    "event",
+    "container"
+  ],
+  "registry": "default",
+  "checksum": "6d7d32bc075c372aba4299d6858f4a96",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/codex-website-builder",
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "codex-website-builder",
+    "description": "Event-ready Codex workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+    "tags": [
+      "workflow",
+      "codex",
+      "website",
+      "solidjs",
+      "event",
+      "container"
+    ],
+    "backends": [
+      "codex-agent",
+      "native-command"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "c333262fce055cac398e80bee37105d0f89f8e9096f954fad52ec20ae0837073"
+  },
+  "backends": [
+    "codex-agent",
+    "native-command"
+  ],
+  "packageId": "codex-website-builder",
+  "skillDirectory": "skills"
+}
