@@ -16,7 +16,7 @@
     {
       "id": "skill-installed",
       "nodeId": "skill-installed",
-      "description": "Report that this package exists to install .agents and .claude bootstrap skills.",
+      "description": "Report that this package exists to install .codex and .claude bootstrap skills.",
       "role": "worker"
     }
   ],

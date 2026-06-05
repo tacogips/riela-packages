@@ -1,0 +1,35 @@
+{
+  "name": "rielflow-workflow-skill-creator-skill",
+  "version": "0.1.0",
+  "title": "rielflow-workflow-skill-creator-skill",
+  "description": "Skill package that teaches maintainers how to author packaged usage skills for Rielflow workflows, including agent-specific skill placement.",
+  "tags": [
+    "skill",
+    "workflow",
+    "creator",
+    "rielflow"
+  ],
+  "registry": "default",
+  "checksum": "10ed73a0a9e4bfd276ef9d9454188fb5",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/rielflow-workflow-skill-creator-skill",
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "rielflow-workflow-skill-creator-skill",
+    "description": "Skill package that teaches maintainers how to author packaged usage skills for Rielflow workflows, including agent-specific skill placement.",
+    "tags": [
+      "skill",
+      "workflow",
+      "creator",
+      "rielflow"
+    ],
+    "backends": []
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "8cb4ee090844ad528ae254220e6f4abf9ddd5857754f3c5307767901887a9d2b"
+  },
+  "backends": [],
+  "packageId": "rielflow-workflow-skill-creator-skill",
+  "skillDirectory": "skills"
+}

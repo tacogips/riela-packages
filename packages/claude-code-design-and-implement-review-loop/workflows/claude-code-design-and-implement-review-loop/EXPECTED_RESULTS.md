@@ -59,7 +59,7 @@ Expected final output payload:
     "packages/rielflow/src/workflow/review-findings.test.ts",
     "impl-plans/active/workflow-review-findings.md",
     "README.md",
-    ".agents/skills/rielflow-impl-workflow/SKILL.md"
+    ".claude/skills/rielflow-impl-workflow/SKILL.md"
   ],
   "designReviewSummary": "Design accepted after the unresolved retention decision was moved into user QA.",
   "implPlanReviewSummary": "Implementation plan accepted after explicit persistence migration and regression verification tasks were added.",
@@ -67,7 +67,7 @@ Expected final output payload:
   "implementationReviewSummary": "Implementation accepted with no remaining high or mid findings.",
   "documentationFiles": [
     "README.md",
-    ".agents/skills/rielflow-impl-workflow/SKILL.md"
+    ".claude/skills/rielflow-impl-workflow/SKILL.md"
   ],
   "documentationSummary": "Step 8 refreshed the README and the user-facing workflow skill so they match the accepted implementation behavior before commit generation.",
   "commitMessage": "feat: persist workflow review findings across reruns",

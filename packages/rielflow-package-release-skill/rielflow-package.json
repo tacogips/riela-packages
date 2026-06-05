@@ -1,0 +1,35 @@
+{
+  "name": "rielflow-package-release-skill",
+  "version": "0.1.0",
+  "title": "rielflow-package-release-skill",
+  "description": "Maintainer skill package for updating rielflow package manifests, validating packaged workflows, and preparing registry releases.",
+  "tags": [
+    "skill",
+    "package",
+    "release",
+    "rielflow"
+  ],
+  "registry": "default",
+  "checksum": "e6e7a20c3a67184355590cda6b0b9aeb",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/rielflow-package-release-skill",
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "rielflow-package-release-skill",
+    "description": "Maintainer skill package for updating rielflow package manifests, validating packaged workflows, and preparing registry releases.",
+    "tags": [
+      "skill",
+      "package",
+      "release",
+      "rielflow"
+    ],
+    "backends": []
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "97bbf6729bc5fc3bf560d1862cb6fb90d3c418381f7e466e043d04d60277c75c"
+  },
+  "backends": [],
+  "packageId": "rielflow-package-release-skill",
+  "skillDirectory": "skills"
+}

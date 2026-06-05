@@ -141,8 +141,12 @@ rielflow package status <package-id>
   Installs Codex and Claude skills for searching Rielflow package registries,
   installing packages into project or user scope, listing installed packages,
   updating packages, and removing packages.
+- [rielflow-package-release-skill](packages/rielflow-package-release-skill) -
+  Installs agent-generic, Codex, and Claude maintainer guidance for refreshing
+  package digests, validating packaged workflows, and preparing registry
+  releases.
 - [rielflow-package-installer-skill](packages/rielflow-package-installer-skill) -
-  Installs `.agents` and `.claude` bootstrap skills for installing
+  Installs Codex and Claude bootstrap skills for installing
   `rielflow-package-manager-skill` from `tacogips/rielflow-packages`.
 - [rielflow-temporary-workflow-skill](packages/rielflow-temporary-workflow-skill) -
   Installs Codex and Claude skills for creating and running temporary
@@ -151,6 +155,9 @@ rielflow package status <package-id>
 - [rielflow-workflow-creator-skill](packages/rielflow-workflow-creator-skill) -
   Installs Codex and Claude skills for creating, modifying, validating, and
   running portable Rielflow workflow bundles.
+- [rielflow-workflow-skill-creator-skill](packages/rielflow-workflow-skill-creator-skill) -
+  Installs agent-generic, Codex, and Claude guidance for creating packaged
+  skills that teach agents how to use Rielflow workflow packages.
 
 ## Package Summary
 
@@ -176,9 +183,11 @@ rielflow package status <package-id>
 | [claude-code-refactoring-slice-review](packages/claude-code-refactoring-slice-review) | workflow | `claude-code-agent` | - |
 | [claude-code-worker-only-single-step](packages/claude-code-worker-only-single-step) | workflow | `claude-code-agent` | Claude |
 | [rielflow-package-manager-skill](packages/rielflow-package-manager-skill) | skill | - | Codex, Claude |
-| [rielflow-package-installer-skill](packages/rielflow-package-installer-skill) | skill | - | Agents, Claude |
+| [rielflow-package-release-skill](packages/rielflow-package-release-skill) | skill | - | Agents, Codex, Claude |
+| [rielflow-package-installer-skill](packages/rielflow-package-installer-skill) | skill | - | Codex, Claude |
 | [rielflow-temporary-workflow-skill](packages/rielflow-temporary-workflow-skill) | skill | - | Codex, Claude |
 | [rielflow-workflow-creator-skill](packages/rielflow-workflow-creator-skill) | skill | - | Codex, Claude |
+| [rielflow-workflow-skill-creator-skill](packages/rielflow-workflow-skill-creator-skill) | skill | - | Agents, Codex, Claude |
 
 ## Package Layout
 
@@ -186,8 +195,19 @@ Each package directory can include:
 
 - `rielflow-package.json` - package manifest consumed by the package manager.
 - `workflows/<workflow-id>/workflow.json` - Rielflow workflow bundle.
+- `skills/agents/AGENTS.md` - agent-generic project guidance projected to
+  `AGENTS.md` for project-scope installs.
 - `skills/codex/**/SKILL.md` - Codex skills projected by the package.
 - `skills/claude/**/SKILL.md` - Claude skills projected by the package.
+- `skills/cursor/*.mdc` - Cursor rules projected to `.cursor/rules/*.mdc`
+  for project-scope installs.
+
+Use backend-specific skill directories for workflow-specific usage skills:
+Codex-only workflows use `skills/codex`, Claude Code-only workflows use
+`skills/claude`, and Cursor-only workflows use `skills/cursor`. Invocable
+agent-independent maintainer or package-management skills should include named
+Codex and Claude skills; add `skills/agents/AGENTS.md` only when broad project
+guidance should also be projected to root `AGENTS.md`.
 
 Packages that call another workflow declare it in `dependencies` inside
 `rielflow-package.json`; the package manager checks those out before validating

@@ -116,7 +116,7 @@ docs for package manifests, direct `--workflow-definition-dir` destinations,
 package status/update commands, and vendor-scoped skill layouts. Keep `Issue
 #35` references explicit when that issue is present in workflow input but
 unrelated, and preserve `claude-code-agent` as an execution-backend identifier while
-documenting Claude Code skill projection as `.claude-code/skills/<name>/SKILL.md`.
+documenting Claude skill projection as `.claude/skills/<name>/SKILL.md`.
 
 ## Reporting
 

@@ -9,7 +9,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "ec348423cd40aff84f0358908c89d32f",
+  "checksum": "a13977c96706ff3c32f699d1d1b6c1ce",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-deepdesign",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "2a4fd33d34c04afefcbb96be682d0bde5d8cdf7ac60efba13b467e2f7428f493"
+    "digest": "b583e212e6fea78a264bccdb85d912d418931b2f4c0a2838dde1342ce71fd28e"
   },
   "backends": [
     "codex-agent"

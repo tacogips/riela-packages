@@ -10,11 +10,11 @@ cat >"$output_path" <<'JSON'
 {
   "payload": {
     "status": "ready",
-    "message": "Install this package to add .agents and .claude bootstrap instructions for installing rielflow-package-manager-skill.",
+    "message": "Install this package to add .codex and .claude bootstrap instructions for installing rielflow-package-manager-skill.",
     "targetPackage": "rielflow-package-manager-skill",
     "registry": "https://github.com/tacogips/rielflow-packages",
     "skills": [
-      "agents:agents",
+      "codex:rielflow-package-installer",
       "claude:rielflow-package-installer"
     ]
   }

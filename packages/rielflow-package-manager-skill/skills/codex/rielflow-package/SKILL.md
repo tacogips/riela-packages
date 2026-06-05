@@ -88,7 +88,7 @@ rielflow workflow validate <workflow-name>
 rielflow workflow usage <workflow-name>
 ```
 
-For skill packages, inspect the install JSON `skills` array and report projected paths such as `.codex/skills/<name>`, `.claude/skills/<name>`, or user-scope equivalents.
+For skill packages, inspect the install JSON `skills` array and report projected paths such as `AGENTS.md`, `.codex/skills/<name>`, `.claude/skills/<name>`, `.cursor/rules/<name>.mdc`, or user-scope equivalents.
 
 ## Duplicates And Updates
 

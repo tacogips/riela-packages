@@ -1,6 +1,6 @@
 {
   "id": "skill-installed",
-  "description": "Explain that the useful artifacts in this package are .agents and .claude bootstrap skills.",
+  "description": "Explain that the useful artifacts in this package are .codex and .claude bootstrap skills.",
   "nodeType": "command",
   "variables": {},
   "command": {

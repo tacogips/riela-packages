@@ -9,6 +9,11 @@ metadata:
 
 Use this skill to author portable rielflow workflow bundles that validate against the current implementation.
 
+This skill owns the workflow bundle itself: `workflow.json`, node payloads,
+prompts, scripts, containers, add-on usage, transitions, and validation. Do not
+use it to design or package the user-facing skill that teaches agents how to run
+the workflow. Use `rielflow-workflow-skill` for packaged workflow usage skills.
+
 ## Required Workflow
 
 1. Determine the workflow root and workflow name. If unspecified, use a local workflow root such as `.rielflow/workflows` or `examples` only when that matches the repository convention.
@@ -16,6 +21,14 @@ Use this skill to author portable rielflow workflow bundles that validate agains
 3. Create `nodes/node-<id>.json` files only for file-backed nodes.
 4. Put long prompts in `prompts/*.md` and reference them with `promptTemplateFile`, `systemPromptTemplateFile`, or `sessionStartPromptTemplateFile`.
 5. Validate with the available rielflow command and the same lookup mode the workflow will use: `--workflow-definition-dir <workflow-root>` for unpacked bundles, default/project scope for project installs, or `--scope user` for user-scope installs. Do not assume `./rielflow` exists.
+
+## Out Of Scope
+
+- Do not create `skills/codex`, `skills/claude`, `skills/agents`, or
+  `skills/cursor` package payloads from this skill unless the user explicitly
+  asks to ignore the separation.
+- Do not decide agent-specific skill projection from workflow backends here.
+  Delegate that to `rielflow-workflow-skill`.
 
 Read `references/workflow-format.md` when authoring anything beyond a one-step worker or when validation errors mention schema, steps, transitions, add-ons, node payloads, or legacy fields.
 

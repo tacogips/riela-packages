@@ -2,7 +2,7 @@
   "name": "rielflow-workflow-creator-skill",
   "version": "0.1.0",
   "title": "rielflow-workflow-creator-skill",
-  "description": "Skill package that teaches agents how to create, modify, validate, and run rielflow workflow bundles.",
+  "description": "Skill package that teaches agents how to create, modify, validate, and run rielflow workflow bundles without authoring packaged usage skills.",
   "tags": [
     "skill",
     "workflow",
@@ -10,13 +10,13 @@
     "rielflow"
   ],
   "registry": "default",
-  "checksum": "d91c824d17b345f6064065a0fa15f440",
+  "checksum": "3ebe1d71580f436ff47a620233834491",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/rielflow-workflow-creator-skill",
   "repository": "https://github.com/tacogips/rielflow-packages",
   "workflow": {
     "title": "rielflow-workflow-creator-skill",
-    "description": "Skill package that teaches agents how to create, modify, validate, and run rielflow workflow bundles.",
+    "description": "Skill package that teaches agents how to create, modify, validate, and run rielflow workflow bundles without authoring packaged usage skills.",
     "tags": [
       "skill",
       "workflow",
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "1a45eb96ee3b5fedd77fa5dc8e91461ba548d9ea2af46f696d87866c5aace0fc"
+    "digest": "7613b7aaa33bfbb96e405a4b31f66e402036b8e0b085291ccda0149ddc265dc5"
   },
   "backends": [],
   "packageId": "rielflow-workflow-creator-skill",
