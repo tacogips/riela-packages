@@ -7,9 +7,13 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "9b363fbd8d0336438ccf5fe36253dae0",
+  "checksum": "ad92f71b7f110a867ca8fd027c056d4c",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-impl-plan-completion-loop",
+  "dependencies": [
+    "codex-impl-plan-completion-loop",
+    "claude-code-design-and-implement-review-loop"
+  ],
   "repository": "https://github.com/tacogips/rielflow-packages",
   "workflow": {
     "title": "claude-code-impl-plan-completion-loop",
@@ -23,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "5b75dce80f45b34497af87f23262d998425c5d04d03e60ec5da8a7e2445d2264"
+    "digest": "02788927f4e77a39c6f20268191c28a6189e782864c72afb4101e47c4e6de53d"
   },
   "backends": [
     "claude-code-agent"

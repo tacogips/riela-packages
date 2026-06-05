@@ -1,0 +1,41 @@
+{
+  "name": "cursor-cli-source-security-check-loop",
+  "version": "0.1.1",
+  "title": "cursor-cli-source-security-check-loop",
+  "description": "Run deterministic source-code security checks, triage findings with Cursor CLI, delegate blocking fixes, and rescan until high and medium findings are resolved.",
+  "tags": [
+    "workflow",
+    "security",
+    "sast"
+  ],
+  "registry": "default",
+  "checksum": "b7eb48d02b3618967bb9d10fbdad2715",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-source-security-check-loop",
+  "dependencies": [
+    "codex-source-security-check-loop",
+    "cursor-cli-design-and-implement-review-loop"
+  ],
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "cursor-cli-source-security-check-loop",
+    "description": "Run deterministic source-code security checks, triage findings with Cursor CLI, delegate blocking fixes, and rescan until high and medium findings are resolved.",
+    "tags": [
+      "workflow",
+      "security",
+      "sast"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "c079abdb55eff69a95c6a7664fef601a52a594b4e9c331cb93b4f3dac3753497"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ],
+  "packageId": "cursor-cli-source-security-check-loop",
+  "skillDirectory": "skills"
+}

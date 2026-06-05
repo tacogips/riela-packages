@@ -1,0 +1,40 @@
+{
+  "name": "cursor-cli-deepdesign",
+  "version": "0.1.0",
+  "title": "cursor-cli-deepdesign",
+  "description": "Create and iteratively review design-doc specifications with one Cursor CLI author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+  "tags": [
+    "workflow",
+    "design-doc",
+    "review"
+  ],
+  "registry": "default",
+  "checksum": "720a439d5f7e4bcf0167cc1ad9530864",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-deepdesign",
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "cursor-cli-deepdesign",
+    "description": "Create and iteratively review design-doc specifications with one Cursor CLI author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+    "tags": [
+      "workflow",
+      "design-doc",
+      "review"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "5d2cee1fa66a7c2d6091d6bb74060e7252a7ed40944770d562ebaac6de740a4a"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ],
+  "packageId": "cursor-cli-deepdesign",
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-deepdesign"
+  ]
+}

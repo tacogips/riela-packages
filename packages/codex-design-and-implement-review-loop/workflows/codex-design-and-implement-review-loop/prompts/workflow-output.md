@@ -31,6 +31,8 @@ If the workflow continued through Step 8, Step 9 emitted the commit message, Ste
 - `implementationReviewSummary`
 - `documentationFiles`
 - `documentationSummary`
+- `archivedImplPlanPaths`
+- `implPlanCompletionSummary`
 - `commitMessage`
 - `commitHash`
 - `pushedRemote`

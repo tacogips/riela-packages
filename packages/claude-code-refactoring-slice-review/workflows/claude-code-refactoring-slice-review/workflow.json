@@ -1,38 +1,31 @@
 {
   "workflowId": "claude-code-refactoring-slice-review",
   "description": "Read-only review workflow for one codebase slice produced by claude-code-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
-  "defaults": {
-    "maxLoopIterations": 1,
-    "nodeTimeoutMs": 3600000
-  },
-  "prompts": {
-    "workerSystemPromptTemplate": "Return concise business JSON only. Keep slice identity, owned paths, findings, duplicate-scavenge candidates, counterpart paths, proposed refactoring tasks, conflicts, verification suggestions, and confidence explicit. Do not edit files."
-  },
-  "entryStepId": "slice-review",
-  "nodes": [
-    {
-      "id": "slice-review",
-      "nodeFile": "nodes/node-slice-review.json"
-    }
-  ],
-  "steps": [
-    {
-      "id": "slice-review",
-      "nodeId": "slice-review",
-      "description": "Review one package or related processing-group slice without editing files.",
-      "role": "worker"
-    }
-  ],
-  "metadata": {
-    "rielflowPackage": {
-      "title": "claude-code-refactoring-slice-review",
-      "description": "Read-only review workflow for one codebase slice produced by claude-code-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
-      "tags": [
-        "workflow"
-      ],
-      "backends": [
-        "claude-code-agent"
-      ]
+  "extends": {
+    "workflowId": "codex-refactoring-slice-review",
+    "stringReplacements": {
+      "codexAgentReferences": "claudeCodeAgentReferences",
+      "codexAgent": "claudeCodeAgent",
+      "codex-design-and-implement-review-loop": "claude-code-design-and-implement-review-loop",
+      "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+      "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+      "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+      "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+      "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+      "codex-simple-work-package": "claude-code-simple-work-package",
+      "codex-website-builder": "claude-code-website-builder",
+      "codex-task-watchdog": "claude-code-task-watchdog",
+      "codex-deepdesign": "claude-code-deepdesign",
+      "codex-agent": "claude-code-agent",
+      "codex-": "claude-code-",
+      "Codex": "Claude Code",
+      "codex": "claude-code",
+      "GPT-5.5": "Sonnet 4.5",
+      "gpt-5.5": "claude-sonnet-4-5"
+    },
+    "agentNodePatch": {
+      "executionBackend": "claude-code-agent",
+      "model": "claude-sonnet-4-5"
     }
   }
 }

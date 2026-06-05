@@ -1,0 +1,31 @@
+{
+  "workflowId": "cursor-cli-task-watchdog",
+  "description": "Long-running Cursor CLI task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Cursor CLI execution, post-task skill mining, skill review, and commit.",
+  "extends": {
+    "workflowId": "codex-task-watchdog",
+    "stringReplacements": {
+      "codexAgentReferences": "cursorCliAgentReferences",
+      "codexAgent": "cursorCliAgent",
+      "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+      "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+      "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+      "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+      "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+      "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+      "codex-simple-work-package": "cursor-cli-simple-work-package",
+      "codex-website-builder": "cursor-cli-website-builder",
+      "codex-task-watchdog": "cursor-cli-task-watchdog",
+      "codex-deepdesign": "cursor-cli-deepdesign",
+      "codex-agent": "cursor-cli-agent",
+      "codex-": "cursor-cli-",
+      "Codex": "Cursor CLI",
+      "codex": "cursor-cli",
+      "GPT-5.5": "Sonnet 4.5",
+      "gpt-5.5": "claude-sonnet-4-5"
+    },
+    "agentNodePatch": {
+      "executionBackend": "cursor-cli-agent",
+      "model": "claude-sonnet-4-5"
+    }
+  }
+}

@@ -146,7 +146,7 @@ Do not create rielflow-local replacements for dependency agent mocks. rielflow a
 - `claude-code-agent/sdk/testing`
 - `claude-code-agent/sdk/testing`
 
-If those exports are missing, update or fix the owning dependency package (`claude-code-agent`, `claude-code-agent`, or `cursor-cli-agent`) rather than teaching rielflow dependency internals.
+If those exports are missing, update or fix the owning dependency package (`codex-agent`, `claude-code-agent`, or `cursor-cli-agent`) rather than teaching rielflow dependency internals.
 
 ## Completion
 

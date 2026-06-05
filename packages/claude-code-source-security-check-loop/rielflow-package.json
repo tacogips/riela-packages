@@ -1,0 +1,41 @@
+{
+  "name": "claude-code-source-security-check-loop",
+  "version": "0.1.1",
+  "title": "claude-code-source-security-check-loop",
+  "description": "Run deterministic source-code security checks, triage findings with Claude Code, delegate blocking fixes, and rescan until high and medium findings are resolved.",
+  "tags": [
+    "workflow",
+    "security",
+    "sast"
+  ],
+  "registry": "default",
+  "checksum": "4b5a5f0f0531ae7eb4b4c18b3752e95f",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/claude-code-source-security-check-loop",
+  "dependencies": [
+    "codex-source-security-check-loop",
+    "claude-code-design-and-implement-review-loop"
+  ],
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "claude-code-source-security-check-loop",
+    "description": "Run deterministic source-code security checks, triage findings with Claude Code, delegate blocking fixes, and rescan until high and medium findings are resolved.",
+    "tags": [
+      "workflow",
+      "security",
+      "sast"
+    ],
+    "backends": [
+      "claude-code-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "dd02d3c698b82632db203071581bdf24194a6ed5b9f7df3a9f73118ca4763af9"
+  },
+  "backends": [
+    "claude-code-agent"
+  ],
+  "packageId": "claude-code-source-security-check-loop",
+  "skillDirectory": "skills"
+}

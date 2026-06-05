@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "7c8791aa07c8648a6ac9bd03ab57c44a",
+  "checksum": "b1205cf4b2f263b33474f86e1717400d",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-refactoring-slice-review",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -23,10 +23,13 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "5ac0d125a28b6e092844995cea0304de7572d0924f59f39e696a902255f84fd0"
+    "digest": "defc3c7a6aedb30e80556978814176e8a027f50435c4982087b986bcd2a1de1c"
   },
   "backends": [
     "claude-code-agent"
   ],
-  "packageId": "claude-code-refactoring-slice-review"
+  "packageId": "claude-code-refactoring-slice-review",
+  "dependencies": [
+    "codex-refactoring-slice-review"
+  ]
 }

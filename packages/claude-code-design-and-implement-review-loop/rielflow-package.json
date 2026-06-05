@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "491a44e4e1ee37da9693963dd163dce6",
+  "checksum": "f873e87ee4c7d912495fb1066443da9f",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-design-and-implement-review-loop",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -23,11 +23,14 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "f7974bc2c4fdf5cddb311e5394b2a6d071c843d5b1adf878eb3aded1a7fb201c"
+    "digest": "7f2967298e513f72673b9a8ddb38ffbf22d73850d02b7f3bcfc5e2f0836da354"
   },
   "backends": [
     "claude-code-agent"
   ],
   "packageId": "claude-code-design-and-implement-review-loop",
-  "skillDirectory": "skills"
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-design-and-implement-review-loop"
+  ]
 }

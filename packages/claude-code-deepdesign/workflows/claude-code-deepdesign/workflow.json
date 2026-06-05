@@ -1,0 +1,31 @@
+{
+  "workflowId": "claude-code-deepdesign",
+  "description": "Create and iteratively review design-doc specifications with one Claude Code author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+  "extends": {
+    "workflowId": "codex-deepdesign",
+    "stringReplacements": {
+      "codexAgentReferences": "claudeCodeAgentReferences",
+      "codexAgent": "claudeCodeAgent",
+      "codex-design-and-implement-review-loop": "claude-code-design-and-implement-review-loop",
+      "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+      "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+      "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+      "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+      "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+      "codex-simple-work-package": "claude-code-simple-work-package",
+      "codex-website-builder": "claude-code-website-builder",
+      "codex-task-watchdog": "claude-code-task-watchdog",
+      "codex-deepdesign": "claude-code-deepdesign",
+      "codex-agent": "claude-code-agent",
+      "codex-": "claude-code-",
+      "Codex": "Claude Code",
+      "codex": "claude-code",
+      "GPT-5.5": "Sonnet 4.5",
+      "gpt-5.5": "claude-sonnet-4-5"
+    },
+    "agentNodePatch": {
+      "executionBackend": "claude-code-agent",
+      "model": "claude-sonnet-4-5"
+    }
+  }
+}

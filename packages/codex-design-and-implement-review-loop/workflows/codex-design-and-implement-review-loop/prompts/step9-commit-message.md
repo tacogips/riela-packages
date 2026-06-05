@@ -11,7 +11,11 @@ Rules:
 - If the workflow was planning-only, summarize the accepted design and
   implementation-plan updates.
 - If the workflow was issue-resolution, summarize the accepted implementation,
-  verification, design, plan, and user-facing documentation updates.
+  verification, design, plan, implementation-plan completion check, and
+  user-facing documentation updates.
+- Include any moved implementation-plan source and destination paths plus
+  `impl-plans/README.md` in `committedFiles` when Step 8 archived completed
+  implementation plans out of `impl-plans/active`.
 
 Return JSON with:
 - `workflowMode`

@@ -7,9 +7,13 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "995ab3170c0a8d463f7b9afc0144b28d",
+  "checksum": "e12c52239e8fe169f180ff8326a260dd",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-refactoring-divide-and-conquer",
+  "dependencies": [
+    "codex-refactoring-divide-and-conquer",
+    "claude-code-refactoring-slice-review"
+  ],
   "repository": "https://github.com/tacogips/rielflow-packages",
   "workflow": {
     "title": "claude-code-refactoring-divide-and-conquer",
@@ -23,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "41dd98617c3ba195f894f387bb7654d1ddde0dcea1cb879980c411a2869c3c88"
+    "digest": "b98bf5c968c81fabd56f6a22eab8927fee1923ed8f8ad9d5410b243e74173cca"
   },
   "backends": [
     "claude-code-agent"

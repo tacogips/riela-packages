@@ -421,6 +421,27 @@
       "residualRisks": []
     }
   },
+  "step8-impl-plan-completion-check": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "needs_revision": false
+    },
+    "payload": {
+      "workflowMode": "issue-resolution",
+      "checkedImplPlanPaths": ["impl-plans/active/workflow-review-findings.md"],
+      "activeImplPlanFindings": [
+        "impl-plans/active/workflow-review-findings.md was completed by the accepted implementation and should be archived before commit generation."
+      ],
+      "archivedImplPlanPaths": [
+        "impl-plans/completed/workflow-review-findings.md"
+      ],
+      "updatedIndexFiles": ["impl-plans/README.md"],
+      "needs_revision": false,
+      "completionSummary": "Archived the completed implementation plan from active to completed and updated the implementation-plan index before commit generation.",
+      "residualRisks": []
+    }
+  },
   "step9-commit-message": {
     "provider": "scenario-mock",
     "model": "gpt-5.5",
@@ -434,6 +455,8 @@
         "design-docs/specs/design-workflow-review-findings.md",
         "design-docs/user-qa/qa-review-finding-retention.md",
         "impl-plans/active/workflow-review-findings.md",
+        "impl-plans/completed/workflow-review-findings.md",
+        "impl-plans/README.md",
         "packages/rielflow/src/workflow/review-findings.ts",
         "packages/rielflow/src/workflow/review-findings.test.ts",
         "README.md",
@@ -457,6 +480,8 @@
         "design-docs/specs/design-workflow-review-findings.md",
         "design-docs/user-qa/qa-review-finding-retention.md",
         "impl-plans/active/workflow-review-findings.md",
+        "impl-plans/completed/workflow-review-findings.md",
+        "impl-plans/README.md",
         "packages/rielflow/src/workflow/review-findings.ts",
         "packages/rielflow/src/workflow/review-findings.test.ts",
         "README.md",
@@ -470,6 +495,8 @@
           "design-docs/specs/design-workflow-review-findings.md",
           "design-docs/user-qa/qa-review-finding-retention.md",
           "impl-plans/active/workflow-review-findings.md",
+          "impl-plans/completed/workflow-review-findings.md",
+          "impl-plans/README.md",
           "packages/rielflow/src/workflow/review-findings.ts",
           "packages/rielflow/src/workflow/review-findings.test.ts",
           "README.md",
@@ -514,11 +541,12 @@
         "design-docs/specs/design-workflow-review-findings.md",
         "design-docs/user-qa/qa-review-finding-retention.md"
       ],
-      "implPlanPaths": ["impl-plans/active/workflow-review-findings.md"],
+      "implPlanPaths": ["impl-plans/completed/workflow-review-findings.md"],
       "changedFiles": [
         "packages/rielflow/src/workflow/review-findings.ts",
         "packages/rielflow/src/workflow/review-findings.test.ts",
-        "impl-plans/active/workflow-review-findings.md",
+        "impl-plans/completed/workflow-review-findings.md",
+        "impl-plans/README.md",
         "README.md",
         ".agents/skills/rielflow-impl-workflow/SKILL.md"
       ],
@@ -531,6 +559,10 @@
         ".agents/skills/rielflow-impl-workflow/SKILL.md"
       ],
       "documentationSummary": "Step 8 refreshed the README and the user-facing workflow skill so they match the accepted implementation behavior before commit generation.",
+      "archivedImplPlanPaths": [
+        "impl-plans/completed/workflow-review-findings.md"
+      ],
+      "implPlanCompletionSummary": "Archived the completed implementation plan from active to completed before commit generation.",
       "commitMessage": "feat: persist workflow review findings across reruns",
       "commitHash": "abc123def4567890abc123def4567890abc123de",
       "pushedRemote": "origin",

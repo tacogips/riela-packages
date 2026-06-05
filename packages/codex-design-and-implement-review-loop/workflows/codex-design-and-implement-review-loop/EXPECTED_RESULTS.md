@@ -33,8 +33,8 @@ Expected stable run summary:
   "status": "completed",
   "workflowName": "codex-design-and-implement-review-loop",
   "workflowId": "codex-design-and-implement-review-loop",
-  "nodeExecutions": 24,
-  "transitions": 23,
+  "nodeExecutions": 26,
+  "transitions": 25,
   "exitCode": 0
 }
 ```
@@ -53,11 +53,12 @@ Expected final output payload:
     "design-docs/specs/design-workflow-review-findings.md",
     "design-docs/user-qa/qa-review-finding-retention.md"
   ],
-  "implPlanPaths": ["impl-plans/active/workflow-review-findings.md"],
+  "implPlanPaths": ["impl-plans/completed/workflow-review-findings.md"],
   "changedFiles": [
     "packages/rielflow/src/workflow/review-findings.ts",
     "packages/rielflow/src/workflow/review-findings.test.ts",
-    "impl-plans/active/workflow-review-findings.md",
+    "impl-plans/completed/workflow-review-findings.md",
+    "impl-plans/README.md",
     "README.md",
     ".codex/skills/rielflow-impl-workflow/SKILL.md"
   ],
@@ -70,6 +71,10 @@ Expected final output payload:
     ".codex/skills/rielflow-impl-workflow/SKILL.md"
   ],
   "documentationSummary": "Step 8 refreshed the README and the user-facing workflow skill so they match the accepted implementation behavior before commit generation.",
+  "archivedImplPlanPaths": [
+    "impl-plans/completed/workflow-review-findings.md"
+  ],
+  "implPlanCompletionSummary": "Archived the completed implementation plan from active to completed before commit generation.",
   "commitMessage": "feat: persist workflow review findings across reruns",
   "commitHash": "abc123def4567890abc123def4567890abc123de",
   "pushedRemote": "origin",
