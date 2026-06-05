@@ -90,7 +90,9 @@ rielflow package status <package-id>
 - [codex-task-watchdog](packages/codex-task-watchdog) -
   Runs a background task watcher for `./tasks/list.jsonl`, repeatedly polling
   for newly added active tasks, skipping while another task is running,
-  dispatching dependency workflows by task kind, or executing ad hoc Codex work.
+  dispatching dependency workflows by task kind, executing ad hoc Codex work,
+  mining completed task logs for project-scope skills, reviewing those skills,
+  and committing accepted queue and skill changes.
   `backend: codex-agent`; includes Codex skills.
 - [codex-refactoring-divide-and-conquer](packages/codex-refactoring-divide-and-conquer) -
   Splits a codebase into package or processing-group slices, reviews slices

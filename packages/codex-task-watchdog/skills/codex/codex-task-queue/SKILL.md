@@ -96,3 +96,7 @@ If a workflow run died and left a stale `running` task, inspect the rielflow
 session artifacts first. Then either:
 - set `status` back to `active` to retry, or
 - set `status` to `failed` with `result.reason`.
+
+After a successful run, `codex-task-watchdog` may also create or update
+project-scope skills under `.agents/skills` based on the completed Codex log and
+commit the accepted task queue and skill changes.

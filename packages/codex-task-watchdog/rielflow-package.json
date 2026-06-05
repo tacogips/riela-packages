@@ -2,7 +2,7 @@
   "name": "codex-task-watchdog",
   "version": "0.1.0",
   "title": "codex-task-watchdog",
-  "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, and ad hoc Codex execution.",
+  "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Codex execution, post-task skill mining, skill review, and commit.",
   "tags": [
     "workflow",
     "codex",
@@ -10,7 +10,7 @@
     "cron"
   ],
   "registry": "default",
-  "checksum": "04a609b4a9f9e888c3652fe0a38725f1",
+  "checksum": "297f8c3b5d6eaae98a8cec967ec9c08b",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-task-watchdog",
   "dependencies": [
@@ -21,7 +21,7 @@
   "repository": "https://github.com/tacogips/rielflow-packages",
   "workflow": {
     "title": "codex-task-watchdog",
-    "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, and ad hoc Codex execution.",
+    "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Codex execution, post-task skill mining, skill review, and commit.",
     "tags": [
       "workflow",
       "codex",
@@ -34,7 +34,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "202f02f544974092a4fdb7653ab5bacf07de79092a403a22095943efc54d3a2b"
+    "digest": "97910692dc57f8c91662d56f2e443f6f50f39e9943c4ff42968b32806a9fe8a9"
   },
   "backends": [
     "codex-agent"

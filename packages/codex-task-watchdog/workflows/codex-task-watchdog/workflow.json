@@ -1,6 +1,6 @@
 {
   "workflowId": "codex-task-watchdog",
-  "description": "Background Codex task watcher. It runs under rielflow events serve, polls ./tasks/list.jsonl on cron/event ticks, claims one newly added active task at a time, dispatches dependency workflows by task kind, or runs an ad hoc Codex worker, then marks the task done.",
+  "description": "Background Codex task watcher. It runs under rielflow events serve, polls ./tasks/list.jsonl on cron/event ticks, claims one newly added active task at a time, dispatches dependency workflows by task kind, or runs an ad hoc Codex worker, marks the task done, mines the completed Codex log for reusable project-scope skills under .agents, reviews the skill changes, and commits the accepted result.",
   "defaults": {
     "maxLoopIterations": 8,
     "nodeTimeoutMs": 3600000,
@@ -10,8 +10,8 @@
     }
   },
   "prompts": {
-    "rielflowPromptTemplate": "Coordinate {{workflowId}} as one polling pass of a long-running task watcher. Start by claiming at most one active task from ./tasks/list.jsonl. If a running task exists, if all tasks are done, or if no active task exists, finish with skip output and let the background event server keep watching. Otherwise dispatch by task kind: design-and-impl to codex-design-and-implement-review-loop, design-deepthin/design-deepthink/deepdesign to codex-deepdesign, review to codex-recent-change-quality-loop, and adhoc to a local Codex worker. After a dependency workflow or adhoc worker completes, mark the running task done and publish the result.",
-    "workerSystemPromptTemplate": "Return concise business JSON only. Keep selected task id, status transitions, dependency workflow input, execution result, and skip reason explicit."
+    "rielflowPromptTemplate": "Coordinate {{workflowId}} as one polling pass of a long-running task watcher. Start by claiming at most one active task from ./tasks/list.jsonl. If a running task exists, if all tasks are done, or if no active task exists, finish with skip output and let the background event server keep watching. Otherwise dispatch by task kind: design-and-impl to codex-design-and-implement-review-loop, design-deepthin/design-deepthink/deepdesign to codex-deepdesign, review to codex-recent-change-quality-loop, and adhoc to a local Codex worker. After a dependency workflow or adhoc worker completes, mark the running task done, review the completed task's Codex log or rielflow session artifacts for reusable lessons, create or update project-scope skills under .agents/skills when warranted, run an independent skill review step, generate a commit message, commit the accepted queue and skill changes, and then publish the result.",
+    "workerSystemPromptTemplate": "Return concise business JSON only. Keep selected task id, status transitions, dependency workflow input, execution result, Codex log references, skill files, review decisions, commit evidence, and skip reason explicit."
   },
   "managerStepId": "rielflow-manager",
   "entryStepId": "rielflow-manager",
@@ -43,6 +43,29 @@
     {
       "id": "mark-done",
       "nodeFile": "nodes/node-mark-done.json"
+    },
+    {
+      "id": "skill-opportunity-mining",
+      "nodeFile": "nodes/node-skill-opportunity-mining.json"
+    },
+    {
+      "id": "skill-review",
+      "nodeFile": "nodes/node-skill-review.json"
+    },
+    {
+      "id": "task-commit-message",
+      "nodeFile": "nodes/node-task-commit-message.json"
+    },
+    {
+      "id": "git-commit",
+      "addon": {
+        "name": "rielflow/git-commit",
+        "version": "1",
+        "config": {
+          "commitMessageTemplate": "{{inbox.latest.output.payload.commitMessage}}",
+          "committedFilesTemplate": "{{inbox.latest.output.payload.committedFiles}}"
+        }
+      }
     },
     {
       "id": "workflow-output",
@@ -151,6 +174,50 @@
       "role": "worker",
       "transitions": [
         {
+          "toStepId": "skill-opportunity-mining"
+        }
+      ]
+    },
+    {
+      "id": "skill-opportunity-mining",
+      "nodeId": "skill-opportunity-mining",
+      "description": "Review the completed task Codex log and create or update warranted project-scope skills under .agents/skills.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "skill-review"
+        }
+      ]
+    },
+    {
+      "id": "skill-review",
+      "nodeId": "skill-review",
+      "description": "Review the project-scope skill changes for trigger quality, concision, correctness, and repository fit.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "task-commit-message"
+        }
+      ]
+    },
+    {
+      "id": "task-commit-message",
+      "nodeId": "task-commit-message",
+      "description": "Emit the final commit message and exact file list for the completed task and reviewed skill changes.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "git-commit"
+        }
+      ]
+    },
+    {
+      "id": "git-commit",
+      "nodeId": "git-commit",
+      "description": "Use the shared built-in git commit node to stage and commit the completed task queue update and accepted project-scope skill changes.",
+      "role": "worker",
+      "transitions": [
+        {
           "toStepId": "workflow-output"
         }
       ]
@@ -158,14 +225,14 @@
     {
       "id": "workflow-output",
       "nodeId": "workflow-output",
-      "description": "Publish whether this watchdog polling pass skipped, dispatched, or completed a task.",
+      "description": "Publish whether this watchdog polling pass skipped, dispatched, completed a task, created or reviewed project-scope skills, and committed the accepted result.",
       "role": "worker"
     }
   ],
   "metadata": {
     "rielflowPackage": {
       "title": "codex-task-watchdog",
-      "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl.",
+      "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl with post-task skill mining and commit.",
       "tags": [
         "workflow",
         "codex",

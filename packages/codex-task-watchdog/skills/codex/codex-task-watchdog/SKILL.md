@@ -8,7 +8,10 @@ user-invocable: true
 
 Use this skill to run the packaged `codex-task-watchdog` workflow as a background
 task watcher. The event server stays alive, a cron source triggers polling
-passes, and each pass claims at most one newly added active task.
+passes, and each pass claims at most one newly added active task. After a task
+completes, the workflow reviews the completed Codex log for reusable lessons,
+creates or updates project-scope skills under `.agents/skills`, reviews those
+skill changes, and commits the accepted queue and skill updates.
 
 This is not an OS service registration flow. Do not install systemd units,
 launchd plists, or login items unless the user explicitly asks for that.
@@ -27,6 +30,9 @@ definition directory together with its dependency workflows:
 - `codex-design-and-implement-review-loop`
 - `codex-deepdesign`
 - `codex-recent-change-quality-loop`
+
+The project should allow repository-local skills under `.agents/skills`; the
+watchdog uses that directory for post-task skill extraction.
 
 ## Event Config
 
