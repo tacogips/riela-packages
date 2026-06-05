@@ -1,6 +1,6 @@
 {
   "workflowId": "codex-source-security-check-loop",
-  "description": "Run deterministic source-code security checks, triage findings with Codex, delegate blocking fixes, and rescan until high and medium findings are resolved.",
+  "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Codex, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
   "defaults": {
     "maxLoopIterations": 8,
     "nodeTimeoutMs": 3600000,
@@ -10,7 +10,7 @@
     }
   },
   "prompts": {
-    "rielflowPromptTemplate": "Coordinate {{workflowId}}. Start with deterministic security scanning. Triage the scanner evidence and source code. If high or medium findings remain, package a narrow fix request for codex-design-and-implement-review-loop. After the delegated fix returns, rescan deterministically and run acceptance review. Repeat until no high or medium findings remain, then publish output. Low findings may be accepted only when explicitly documented as residual risk.",
+    "rielflowPromptTemplate": "Coordinate {{workflowId}}. Start with deterministic security scanning, derive harness-style attack-surface focus areas, triage the scanner evidence and source code, then run an adversarial verification pass before routing. If verified high or medium findings remain, package a narrow fix request for codex-design-and-implement-review-loop. After the delegated fix returns, rescan deterministically and rerun harness recon, triage, and adversarial verification. Repeat until no verified high or medium findings remain, then publish output. Low findings may be accepted only when explicitly documented as residual risk.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Keep commands, scanner availability, findings, severity, affected files, fix scope, verification, routing decisions, and residual risks explicit."
   },
   "managerStepId": "rielflow-manager",
@@ -25,8 +25,16 @@
       "nodeFile": "nodes/node-deterministic-scan.json"
     },
     {
+      "id": "harness-recon",
+      "nodeFile": "nodes/node-harness-recon.json"
+    },
+    {
       "id": "security-triage",
       "nodeFile": "nodes/node-security-triage.json"
+    },
+    {
+      "id": "adversarial-verification",
+      "nodeFile": "nodes/node-adversarial-verification.json"
     },
     {
       "id": "exit-gate",
@@ -65,30 +73,54 @@
       "role": "worker",
       "transitions": [
         {
-          "toStepId": "step2-security-triage"
+          "toStepId": "step2-harness-recon"
         }
       ]
     },
     {
-      "id": "step2-security-triage",
-      "nodeId": "security-triage",
-      "description": "Review deterministic evidence and source code against secure-code-review controls.",
+      "id": "step2-harness-recon",
+      "nodeId": "harness-recon",
+      "description": "Derive harness-style attack-surface focus areas, threat classes, and verifier rubric from source and scan evidence.",
       "role": "worker",
       "stallTimeoutMs": 900000,
       "transitions": [
         {
-          "toStepId": "step3-exit-gate"
+          "toStepId": "step3-security-triage"
         }
       ]
     },
     {
-      "id": "step3-exit-gate",
+      "id": "step3-security-triage",
+      "nodeId": "security-triage",
+      "description": "Review deterministic evidence and source code against the harness focus areas and secure-code-review controls.",
+      "role": "worker",
+      "stallTimeoutMs": 900000,
+      "transitions": [
+        {
+          "toStepId": "step4-adversarial-verification"
+        }
+      ]
+    },
+    {
+      "id": "step4-adversarial-verification",
+      "nodeId": "adversarial-verification",
+      "description": "Adversarially verify, deduplicate, and rank triaged findings before any fix routing.",
+      "role": "worker",
+      "stallTimeoutMs": 900000,
+      "transitions": [
+        {
+          "toStepId": "step5-exit-gate"
+        }
+      ]
+    },
+    {
+      "id": "step5-exit-gate",
       "nodeId": "exit-gate",
       "description": "Route to fix handoff when high or medium findings remain; otherwise finish.",
       "role": "worker",
       "transitions": [
         {
-          "toStepId": "step4-fix-handoff",
+          "toStepId": "step6-fix-handoff",
           "label": "needs_fix"
         },
         {
@@ -98,7 +130,7 @@
       ]
     },
     {
-      "id": "step4-fix-handoff",
+      "id": "step6-fix-handoff",
       "nodeId": "fix-handoff",
       "description": "Package blocking security findings into a delegated issue-resolution request.",
       "role": "worker",
@@ -106,12 +138,12 @@
         {
           "toWorkflowId": "codex-design-and-implement-review-loop",
           "toStepId": "rielflow-manager",
-          "resumeStepId": "step5-post-fix-review"
+          "resumeStepId": "step7-post-fix-review"
         }
       ]
     },
     {
-      "id": "step5-post-fix-review",
+      "id": "step7-post-fix-review",
       "nodeId": "post-fix-review",
       "description": "Consume the delegated workflow result and prepare the next deterministic scan pass.",
       "role": "worker",
@@ -131,7 +163,7 @@
   "metadata": {
     "rielflowPackage": {
       "title": "codex-source-security-check-loop",
-      "description": "Run deterministic source-code security checks, triage findings with Codex, delegate blocking fixes, and rescan until high and medium findings are resolved.",
+      "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Codex, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
       "tags": [
         "workflow",
         "security",

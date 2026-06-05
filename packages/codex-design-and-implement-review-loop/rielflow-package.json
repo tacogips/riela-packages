@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "cc5e30d477db33075de0d588359df92b",
+  "checksum": "0c25ef298ec7919f3ba103c3f4955524",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-design-and-implement-review-loop",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "342764b1df26b202301426de6b2dcd98fa252bd52763dbcc34bf7eb04eb8ad4a"
+    "digest": "ae31f2cb307b3311f125d47b8d95f34f41b1b61908eb19ee4268b4fa0742b7e8"
   },
   "backends": [
     "codex-agent"

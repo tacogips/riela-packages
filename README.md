@@ -79,7 +79,8 @@ rielflow package status <package-id>
 - [codex-source-security-check-loop](packages/codex-source-security-check-loop) -
   Runs deterministic source-code security checks, including secrets, optional
   `gitleaks`, static heuristics, dependency manifests, and supply-chain config,
-  then triages findings with Codex and delegates high or medium fixes to
+  then derives harness-style focus areas, triages and adversarially verifies
+  findings with Codex, and delegates verified high or medium fixes to
   `codex-design-and-implement-review-loop`. `backend: native-command,
   codex-agent`; includes Codex skills.
 - [codex-simple-work-package](packages/codex-simple-work-package) -
@@ -129,7 +130,7 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
 - [claude-code-simple-work-package](packages/claude-code-simple-work-package) -
   Lightweight Claude Code workflow for small code or documentation changes when no dedicated workflow applies. It implements with Claude Code Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings. `backend: claude-code-agent`; includes Claude skills.
 - [claude-code-source-security-check-loop](packages/claude-code-source-security-check-loop) -
-  Run deterministic source-code security checks, triage findings with Claude Code, delegate blocking fixes, and rescan until high and medium findings are resolved. `backend: claude-code-agent`; includes Claude skills.
+  Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Claude Code, delegate blocking fixes, and rescan until verified high and medium findings are resolved. `backend: claude-code-agent`; includes Claude skills.
 - [claude-code-task-watchdog](packages/claude-code-task-watchdog) -
   Long-running Claude Code task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Claude Code execution, post-task skill mining, skill review, and commit. `backend: claude-code-agent`; includes Claude skills.
 - [claude-code-website-builder](packages/claude-code-website-builder) -
@@ -156,7 +157,7 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 - [cursor-cli-simple-work-package](packages/cursor-cli-simple-work-package) -
   Lightweight Cursor CLI workflow for small code or documentation changes when no dedicated workflow applies. It implements with Cursor CLI Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings. `backend: cursor-cli-agent`; includes Cursor skills.
 - [cursor-cli-source-security-check-loop](packages/cursor-cli-source-security-check-loop) -
-  Run deterministic source-code security checks, triage findings with Cursor CLI, delegate blocking fixes, and rescan until high and medium findings are resolved. `backend: cursor-cli-agent`; includes Cursor skills.
+  Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Cursor CLI, delegate blocking fixes, and rescan until verified high and medium findings are resolved. `backend: cursor-cli-agent`; includes Cursor skills.
 - [cursor-cli-task-watchdog](packages/cursor-cli-task-watchdog) -
   Long-running Cursor CLI task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Cursor CLI execution, post-task skill mining, skill review, and commit. `backend: cursor-cli-agent`; includes Cursor skills.
 - [cursor-cli-website-builder](packages/cursor-cli-website-builder) -

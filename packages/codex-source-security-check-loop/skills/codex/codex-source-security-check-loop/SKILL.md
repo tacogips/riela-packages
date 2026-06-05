@@ -5,7 +5,7 @@ description: Use when the user asks Codex to security-check source code, run sec
 
 # Codex Source Security Check Loop
 
-Use this skill when the user asks for a source-code security check with deterministic verification and fix follow-up.
+Use this skill when the user asks for a source-code security check with deterministic scanning, harness-style recon, adversarial verification, and fix follow-up.
 
 ## Workflow
 
@@ -46,7 +46,9 @@ The workflow runs separate deterministic vulnerability-check methods before agen
 - Static source/SAST scan: risky-code heuristics and optional local evidence.
 - Dependency audit scan: manifests and optional npm, pnpm, yarn, Bun, Python, Ruby, Rust, and Go audit commands when network audits are allowed.
 - Supply-chain/config scan: risky package scripts, build-chain indicators, Docker/container config, CI, and infrastructure-as-code heuristics.
-- Agent triage: repository-specific exploitability review using the deterministic evidence.
+- Harness recon: read-only threat-model and attack-surface focus area partitioning based on Anthropic's `defending-code-reference-harness` patterns.
+- Agent triage: repository-specific exploitability review using deterministic evidence and harness focus areas.
+- Adversarial verification: independent grader/judge pass that verifies, deduplicates, reranks, and documents false positives before fix routing.
 
 The design borrows useful patterns from Claude Code and Codex security skills: scoped review modes, security-area checklists, automated checks, OWASP framing, and findings with severity, location, and remediation.
 
@@ -54,7 +56,7 @@ The design borrows useful patterns from Claude Code and Codex security skills: s
 
 - Do not rely on agent judgment alone; use deterministic method output as routing evidence.
 - Keep method outputs separate so a finding can be traced to secrets, gitleaks, static analysis, dependency audit, supply-chain/config, or agent triage.
-- Delegate high and medium fixes through `codex-design-and-implement-review-loop`.
+- Delegate only adversarially verified high and medium fixes through `codex-design-and-implement-review-loop`.
 - Rerun all deterministic methods after fixes.
 - Accept low findings only as documented residual risk.
 - Preserve user constraints about dirty worktrees, staging, commits, and pushes.

@@ -33,8 +33,8 @@ Expected stable run summary:
   "status": "completed",
   "workflowName": "codex-design-and-implement-review-loop",
   "workflowId": "codex-design-and-implement-review-loop",
-  "nodeExecutions": 26,
-  "transitions": 25,
+  "nodeExecutions": 27,
+  "transitions": 26,
   "exitCode": 0
 }
 ```
@@ -66,6 +66,7 @@ Expected final output payload:
   "implPlanReviewSummary": "Implementation plan accepted after explicit persistence migration and regression verification tasks were added.",
   "implementationSummary": "Step 6 implemented the approved plan, addressed Step 7 feedback, and updated implementation-plan progress.",
   "implementationReviewSummary": "Implementation accepted with no remaining high or mid findings.",
+  "adversarialReviewSummary": "Adversarial review accepted the rerun persistence behavior with no high or mid findings.",
   "documentationFiles": [
     "README.md",
     ".codex/skills/rielflow-impl-workflow/SKILL.md"
@@ -99,8 +100,8 @@ Expected planning-only run summary:
   "status": "completed",
   "workflowName": "codex-design-and-implement-review-loop",
   "workflowId": "codex-design-and-implement-review-loop",
-  "nodeExecutions": 17,
-  "transitions": 16,
+  "nodeExecutions": 18,
+  "transitions": 17,
   "exitCode": 0
 }
 ```

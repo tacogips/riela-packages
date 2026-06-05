@@ -1,6 +1,6 @@
 {
   "workflowId": "codex-deepdesign",
-  "description": "Create and iteratively review design-doc specifications with one Codex author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+  "description": "Create and iteratively review design-doc specifications with one Codex author, one deep edge-case reviewer, one broad integration reviewer, and one adversarial failure-mode reviewer until no high or middle findings remain.",
   "defaults": {
     "maxLoopIterations": 8,
     "nodeTimeoutMs": 3600000,
@@ -10,7 +10,7 @@
     }
   },
   "prompts": {
-    "rielflowPromptTemplate": "Coordinate {{workflowId}}. Start with Node 1 design authoring. Node 1 creates or revises design-doc specifications for the requested feature. Node 2 reviews the design deeply for unstated assumptions, unplanned use cases, prerequisites, irregular states, error handling, and lifecycle edge cases. If Node 2 reports any high or middle finding, route back to Node 1 with the review feedback. If Node 2 accepts, run Node 3. Node 3 reviews broadly for impacts on other features, overlap with existing capabilities, adjacent workflows, combined use cases, migration and compatibility concerns, and cross-feature gaps. If Node 3 reports any high or middle finding, route back to Node 1 with the review feedback. Finish only after both Node 2 and Node 3 accept the latest design with no high or middle findings.",
+    "rielflowPromptTemplate": "Coordinate {{workflowId}}. Start with Node 1 design authoring. Node 1 creates or revises design-doc specifications for the requested feature. Node 2 reviews the design deeply for unstated assumptions, unplanned use cases, prerequisites, irregular states, error handling, and lifecycle edge cases. If Node 2 reports any high or middle finding, route back to Node 1 with the review feedback. If Node 2 accepts, run Node 3. Node 3 reviews broadly for impacts on other features, overlap with existing capabilities, adjacent workflows, combined use cases, migration and compatibility concerns, and cross-feature gaps. If Node 3 reports any high or middle finding, route back to Node 1 with the review feedback. If Node 3 accepts, run Node 4. Node 4 adversarially reviews failure modes, misuse paths, misleading success cases, and overconfident assumptions. If Node 4 reports any high or middle finding, route back to Node 1 with the review feedback. Finish only after Node 2, Node 3, and Node 4 accept the latest design with no high or middle findings.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Keep design-doc paths, review severity, assumptions, cross-feature impacts, addressed feedback, routing booleans, verification, and residual risks explicit."
   },
   "managerStepId": "rielflow-manager",
@@ -31,6 +31,10 @@
     {
       "id": "node3-broad-review",
       "nodeFile": "nodes/node-node3-broad-review.json"
+    },
+    {
+      "id": "node4-adversarial-review",
+      "nodeFile": "nodes/node-node4-adversarial-review.json"
     },
     {
       "id": "workflow-output",
@@ -88,6 +92,22 @@
           "label": "needs_revision"
         },
         {
+          "toStepId": "node4-adversarial-review",
+          "label": "!(needs_revision)"
+        }
+      ]
+    },
+    {
+      "id": "node4-adversarial-review",
+      "nodeId": "node4-adversarial-review",
+      "description": "Adversarially review the accepted design for failure modes, misuse paths, misleading success cases, and overconfident assumptions.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "node1-design-author",
+          "label": "needs_revision"
+        },
+        {
           "toStepId": "workflow-output",
           "label": "!(needs_revision)"
         }
@@ -96,14 +116,14 @@
     {
       "id": "workflow-output",
       "nodeId": "workflow-output",
-      "description": "Publish the accepted design-doc summary after both review gates pass.",
+      "description": "Publish the accepted design-doc summary after all review gates pass.",
       "role": "worker"
     }
   ],
   "metadata": {
     "rielflowPackage": {
       "title": "codex-deepdesign",
-      "description": "Create and iteratively review design-doc specifications with one Codex author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+      "description": "Create and iteratively review design-doc specifications with one Codex author, one deep edge-case reviewer, one broad integration reviewer, and one adversarial failure-mode reviewer until no high or middle findings remain.",
       "tags": [
         "workflow",
         "design-doc",

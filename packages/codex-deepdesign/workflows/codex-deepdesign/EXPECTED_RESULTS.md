@@ -31,8 +31,8 @@ Expected stable run summary:
   "status": "completed",
   "workflowName": "codex-deepdesign",
   "workflowId": "codex-deepdesign",
-  "nodeExecutions": 7,
-  "transitions": 6,
+  "nodeExecutions": 8,
+  "transitions": 7,
   "exitCode": 0
 }
 ```
@@ -48,9 +48,10 @@ Expected final output payload:
   "designDocPaths": [
     "design-docs/specs/design-codex-deepdesign.md"
   ],
-  "designSummary": "Accepted design workflow with one author, one deep reviewer, one broad reviewer, and revision loops for high or middle findings.",
+  "designSummary": "Accepted design workflow with one author, one deep reviewer, one broad reviewer, one adversarial reviewer, and revision loops for high or middle findings.",
   "deepReviewSummary": "One middle finding was fixed, then the deep review accepted.",
   "broadReviewSummary": "Broad review accepted with no high or middle findings.",
+  "adversarialReviewSummary": "Adversarial review accepted with no high or middle findings.",
   "acceptedFindings": [],
   "provisionalDecisions": [
     {

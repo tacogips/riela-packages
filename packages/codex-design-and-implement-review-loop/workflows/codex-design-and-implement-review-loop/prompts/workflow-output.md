@@ -29,6 +29,7 @@ If the workflow continued through Step 8, Step 9 emitted the commit message, Ste
 - `implPlanReviewSummary`
 - `implementationSummary`
 - `implementationReviewSummary`
+- `adversarialReviewSummary` when the adversarial implementation review gate ran
 - `documentationFiles`
 - `documentationSummary`
 - `archivedImplPlanPaths`

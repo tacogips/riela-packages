@@ -17,7 +17,8 @@
       ],
       "acceptanceCriteria": [
         "Node 2 reviews deep edge cases",
-        "Node 3 reviews broad feature interactions"
+        "Node 3 reviews broad feature interactions",
+        "Node 4 reviews adversarial failure modes"
       ],
       "nonGoals": [
         "Implementation code changes"
@@ -85,13 +86,16 @@
         "designSummary": "Revised design with explicit reviewer adapter JSON and routing booleans.",
         "keyDecisions": [
           "Node 2 and Node 3 both return when.needs_revision and payload.needs_revision.",
+          "Node 4 returns when.needs_revision and payload.needs_revision.",
           "Only high and middle findings block final acceptance."
         ],
         "stateModel": [
           "author -> deep-review -> author when blocking",
           "deep-review accepted -> broad-review",
           "broad-review -> author when blocking",
-          "broad-review accepted -> output"
+          "broad-review accepted -> adversarial-review",
+          "adversarial-review -> author when blocking",
+          "adversarial-review accepted -> output"
         ],
         "edgeCaseCoverage": [
           "Ambiguous reviewer output routes to revision.",
@@ -189,6 +193,26 @@
       ]
     }
   },
+  "node4-adversarial-review": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "needs_revision": false,
+      "accepted": true,
+      "reviewType": "adversarial",
+      "findings": [],
+      "feedback": [],
+      "reviewedDesignDocPaths": [
+        "design-docs/specs/design-codex-deepdesign.md"
+      ],
+      "residualLowRisks": [
+        "Future workflows may want a configurable severity threshold."
+      ]
+    }
+  },
   "workflow-output": {
     "provider": "scenario-mock",
     "model": "gpt-5.5",
@@ -201,9 +225,10 @@
       "designDocPaths": [
         "design-docs/specs/design-codex-deepdesign.md"
       ],
-      "designSummary": "Accepted design workflow with one author, one deep reviewer, one broad reviewer, and revision loops for high or middle findings.",
+      "designSummary": "Accepted design workflow with one author, one deep reviewer, one broad reviewer, one adversarial reviewer, and revision loops for high or middle findings.",
       "deepReviewSummary": "One middle finding was fixed, then the deep review accepted.",
       "broadReviewSummary": "Broad review accepted with no high or middle findings.",
+      "adversarialReviewSummary": "Adversarial review accepted with no high or middle findings.",
       "acceptedFindings": [],
       "provisionalDecisions": [
         {

@@ -1,15 +1,15 @@
 {
   "name": "claude-code-source-security-check-loop",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "title": "claude-code-source-security-check-loop",
-  "description": "Run deterministic source-code security checks, triage findings with Claude Code, delegate blocking fixes, and rescan until high and medium findings are resolved.",
+  "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Claude Code, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
   "tags": [
     "workflow",
     "security",
     "sast"
   ],
   "registry": "default",
-  "checksum": "4b5a5f0f0531ae7eb4b4c18b3752e95f",
+  "checksum": "a64d19091948490e2469d70cde219457",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-source-security-check-loop",
   "dependencies": [
@@ -19,7 +19,7 @@
   "repository": "https://github.com/tacogips/rielflow-packages",
   "workflow": {
     "title": "claude-code-source-security-check-loop",
-    "description": "Run deterministic source-code security checks, triage findings with Claude Code, delegate blocking fixes, and rescan until high and medium findings are resolved.",
+    "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Claude Code, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
     "tags": [
       "workflow",
       "security",
@@ -31,7 +31,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "dd02d3c698b82632db203071581bdf24194a6ed5b9f7df3a9f73118ca4763af9"
+    "digest": "059bd9f8b134578d0ae888f2dadd41a214f6bef211389e895aefc80b458677d1"
   },
   "backends": [
     "claude-code-agent"

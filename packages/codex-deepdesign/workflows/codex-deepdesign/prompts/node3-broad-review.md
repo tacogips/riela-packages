@@ -10,6 +10,7 @@ Broad review checklist:
 - Compatibility, migration, dependency, API, CLI, configuration, and user-facing documentation implications.
 - Whether the design should be split, composed with existing primitives, or reuse local conventions.
 - Gaps that only appear when multiple workflows, package scopes, user scopes, or backends are involved.
+- Cross-feature success states that appear accepted locally but create inconsistent behavior elsewhere.
 - User confirmations that were resolved through provisional decisions. Verify that those choices fit existing product conventions and cross-feature behavior, and that the design makes them easy to revisit later.
 
 Classify findings as `high`, `middle`, or `low`.

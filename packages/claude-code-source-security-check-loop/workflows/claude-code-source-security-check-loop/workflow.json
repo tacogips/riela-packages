@@ -1,6 +1,6 @@
 {
   "workflowId": "claude-code-source-security-check-loop",
-  "description": "Run deterministic source-code security checks, triage findings with Claude Code, delegate blocking fixes, and rescan until high and medium findings are resolved.",
+  "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Claude Code, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
   "extends": {
     "workflowId": "codex-source-security-check-loop",
     "stringReplacements": {

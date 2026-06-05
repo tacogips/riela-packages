@@ -13,6 +13,9 @@ Preferred sources:
 - `runtimeVariables.workflowCall.input.workflowInput.requestedBehavior`
 - `runtimeVariables.workflowCall.input.workflowInput.implementationPlanPath`
 - `runtimeVariables.workflowCall.input.workflowInput.activePlanCompletion`
+- `runtimeVariables.workflowCall.input.workflowInput.reviewMode`
+- `runtimeVariables.workflowCall.input.workflowInput.riskLevel`
+- `runtimeVariables.workflowCall.input.workflowInput.requiresAdversarialReview`
 - `runtimeVariables.workflowCall.input.reviewContext`
 - `runtimeVariables.workflowInput.executionMode`
 - `runtimeVariables.workflowInput.issueUrl`
@@ -25,6 +28,9 @@ Preferred sources:
 - `runtimeVariables.workflowInput.codexAgentReferences`
 - `runtimeVariables.workflowInput.referenceRepositoryRoot`
 - `runtimeVariables.workflowInput.referenceRepositoryUrl`
+- `runtimeVariables.workflowInput.reviewMode`
+- `runtimeVariables.workflowInput.riskLevel`
+- `runtimeVariables.workflowInput.requiresAdversarialReview`
 
 Rules:
 - For cross-workflow calls, prefer `runtimeVariables.workflowCall.input.workflowInput` over parent runtime defaults when both are present.
@@ -36,6 +42,7 @@ Rules:
 - When the request contains independent feature areas that can be designed and planned concurrently, classify them into `payload.featureFanoutItems`. Each item must include a stable `featureId`, `featureTitle`, `featureSummary`, `issueReference`, `workflowMode`, `designDocPath`, `implPlanPath`, and relevant `codexAgentReferences`.
 - Set `when.has_feature_fanout` to `true` only when `payload.featureFanoutItems` is a non-empty array and the feature-local design/plan branches can run independently before dependency-aware implementation.
 - Set `when.has_feature_fanout` to `false` for simple single-path work or when branch ownership cannot be made independent.
+- Preserve any explicit `reviewMode`, `riskLevel`, or `requiresAdversarialReview` input in the intake payload. Set `payload.requiresAdversarialReview` to `true` when explicitly requested, when `reviewMode` is `adversarial`, or when `riskLevel` is `high` or `critical`; otherwise leave it `false` unless the request clearly touches security-sensitive, destructive, commit/push, migration, package installation, workflow execution, manager-control, event-source, or external-command behavior.
 
 Return adapter JSON with:
 - `when.has_feature_fanout`
@@ -48,6 +55,9 @@ Return adapter JSON with:
 - `payload.constraints`
 - `payload.unknowns`
 - `payload.risks`
+- `payload.reviewMode`
+- `payload.riskLevel`
+- `payload.requiresAdversarialReview`
 - `payload.codexAgentReferences`
 - `payload.referenceRepositoryRoot`
 - `payload.referenceRepositoryUrl`

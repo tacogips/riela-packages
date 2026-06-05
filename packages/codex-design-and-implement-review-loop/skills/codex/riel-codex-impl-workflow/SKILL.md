@@ -64,6 +64,9 @@ explicit issue/reference context. Typical fields:
 - `workflowInput.codexAgentReferences`
 - `workflowInput.referenceRepositoryRoot`
 - `workflowInput.referenceRepositoryUrl`
+- `workflowInput.reviewMode`
+- `workflowInput.riskLevel`
+- `workflowInput.requiresAdversarialReview`
 
 Keep `workflowInput.codexAgentReferences` explicit when the issue depends on
 Codex-specific behavior. `codex-agent` is an execution-backend identifier, not
@@ -88,12 +91,21 @@ The workflow is responsible for:
 8. implementation work
 9. implementation self-review
 10. implementation review
-11. user-facing documentation refresh (`README.md`, mandatory workflow skill
+11. adversarial implementation review for high-risk accepted changes
+12. user-facing documentation refresh (`README.md`, mandatory workflow skill
     docs, and any directly affected user-facing skills such as event-source
     runbooks)
-12. staged secret scan with `gitleaks git --pre-commit --redact --staged --verbose`
-13. commit-message generation
-14. built-in git commit and git push add-on steps
+13. staged secret scan with `gitleaks git --pre-commit --redact --staged --verbose`
+14. commit-message generation
+15. built-in git commit and git push add-on steps
+
+The adversarial implementation review gate runs when explicitly requested with
+`workflowInput.requiresAdversarialReview`, `workflowInput.reviewMode:
+"adversarial"`, `workflowInput.riskLevel: "high"` / `"critical"`, or when Step
+7 accepts a high-blast-radius change involving security, destructive
+filesystem behavior, git commit/push, migrations, package installation,
+workflow execution, manager control, event sources, external commands, or
+similar automation risk.
 
 Because the workflow ends with commit/push, do not use it when the user has
 explicitly asked to avoid workflow-driven commits or wants manual local edits

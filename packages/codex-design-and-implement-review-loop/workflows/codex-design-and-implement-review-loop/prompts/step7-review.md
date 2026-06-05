@@ -9,19 +9,28 @@ Prioritize:
 - missing tests or missing verification
 - incomplete implementation-plan progress updates
 
+Also decide whether the accepted implementation needs the adversarial review gate. Set `when.requires_adversarial_review` and `payload.requires_adversarial_review` to `true` only when Step 7 otherwise accepts the implementation and at least one of these applies:
+- effective intake explicitly requested adversarial review
+- effective intake has `reviewMode: "adversarial"` or `riskLevel: "high"` / `"critical"`
+- the change affects security, permissions, privacy, secrets, external commands, dependencies, destructive filesystem behavior, git commit/push, migrations, package installation, workflow execution, manager control, event sources, or other high-blast-radius automation
+- the ordinary review finds no blocker, but the remaining risk is specifically about misuse, misleading success states, partial failure, rollback, or verification loopholes
+
 Classify findings as `high`, `mid`, or `low`.
 Set `when.needs_revision` to `true` only when any `high` or `mid` finding exists.
 Also mirror that decision in `payload.needs_revision`.
+When `when.needs_revision` is `true`, set `requires_adversarial_review` to `false`; the implementation must be fixed before adversarial review can run.
 
 Return adapter JSON with this shape:
 
 ```json
 {
   "when": {
-    "needs_revision": true
+    "needs_revision": true,
+    "requires_adversarial_review": false
   },
   "payload": {
     "needs_revision": true,
+    "requires_adversarial_review": false,
     "findings": [
       {
         "severity": "mid",

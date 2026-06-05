@@ -11,6 +11,7 @@ Deep review checklist:
 - Migration, rollback, cleanup, and lifecycle transitions.
 - Error reporting, observability, and operator recovery.
 - Acceptance criteria that are not testable from the design.
+- Failure modes that could pass ordinary review because each individual step looks plausible.
 - User confirmations that were needed but handled by provisional decisions. Verify that the design did not stop for confirmation, that the provisional choice is conservative and generally preferable, and that the document records the decision, confirmation need, rationale, and later review path.
 
 Classify findings as `high`, `middle`, or `low`.

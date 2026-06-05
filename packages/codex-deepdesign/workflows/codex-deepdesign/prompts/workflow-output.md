@@ -1,6 +1,6 @@
 You are the workflow output step.
 
-Summarize the accepted design result after Node 2 and Node 3 both accepted the latest Node 1 design with no high or middle findings.
+Summarize the accepted design result after Node 2, Node 3, and Node 4 accepted the latest Node 1 design with no high or middle findings.
 
 Return JSON with:
 - `status`: `accepted`
@@ -9,6 +9,7 @@ Return JSON with:
 - `designSummary`
 - `deepReviewSummary`
 - `broadReviewSummary`
+- `adversarialReviewSummary`
 - `acceptedFindings`
 - `provisionalDecisions`
 - `residualLowRisks`

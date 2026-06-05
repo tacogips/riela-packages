@@ -13,7 +13,7 @@ Inputs may include:
 Rules:
 - Do not edit source files in this manager step.
 - Preserve dirty worktree constraints and any user instruction not to stage, commit, or push.
-- Treat deterministic scanner output as required evidence for routing.
+- Treat deterministic scanner output, harness-style recon, and adversarial verification as required evidence for routing.
 - Use OWASP Code Review Guide, OWASP ASVS, and Semgrep-style SAST evidence as review framing, not as a substitute for repository-specific evidence.
 
 Return JSON with:

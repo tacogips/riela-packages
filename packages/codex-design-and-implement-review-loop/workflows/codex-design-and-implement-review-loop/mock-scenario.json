@@ -35,6 +35,9 @@
         "Retention duration for stored findings still needs product confirmation."
       ],
       "risks": ["Retention semantics are not fully decided."],
+      "reviewMode": "adversarial",
+      "riskLevel": "high",
+      "requiresAdversarialReview": true,
       "codexAgentReferences": [],
       "referenceRepositoryRoot": "",
       "referenceRepositoryUrl": ""
@@ -126,10 +129,12 @@
       "provider": "scenario-mock",
       "model": "gpt-5.5",
       "when": {
-        "needs_revision": true
+        "needs_revision": true,
+        "requires_adversarial_review": false
       },
       "payload": {
         "needs_revision": true,
+        "requires_adversarial_review": false,
         "findings": [
           {
             "severity": "mid",
@@ -369,10 +374,12 @@
       "provider": "scenario-mock",
       "model": "gpt-5.5",
       "when": {
-        "needs_revision": true
+        "needs_revision": true,
+        "requires_adversarial_review": false
       },
       "payload": {
         "needs_revision": true,
+        "requires_adversarial_review": false,
         "findings": [
           {
             "severity": "mid",
@@ -391,16 +398,34 @@
       "provider": "scenario-mock",
       "model": "gpt-5.5",
       "when": {
-        "needs_revision": false
+        "needs_revision": false,
+        "requires_adversarial_review": true
       },
       "payload": {
         "needs_revision": false,
+        "requires_adversarial_review": true,
         "findings": [],
         "feedback": [],
-        "accepted": true
+        "accepted": true,
+        "adversarialReviewReason": "The intake requested adversarial review for high-risk workflow execution state behavior."
       }
     }
   ],
+  "step7-adversarial-review": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "needs_revision": false
+    },
+    "payload": {
+      "needs_revision": false,
+      "findings": [],
+      "feedback": [],
+      "accepted": true,
+      "adversarialReviewSummary": "Adversarial review accepted the rerun persistence behavior with no high or mid findings.",
+      "residualLowRisks": []
+    }
+  },
   "step8-docs-refresh": {
     "provider": "scenario-mock",
     "model": "gpt-5.5",
@@ -554,6 +579,7 @@
       "implPlanReviewSummary": "Implementation plan accepted after explicit persistence migration and regression verification tasks were added.",
       "implementationSummary": "Step 6 implemented the approved plan, addressed Step 7 feedback, and updated implementation-plan progress.",
       "implementationReviewSummary": "Implementation accepted with no remaining high or mid findings.",
+      "adversarialReviewSummary": "Adversarial review accepted the rerun persistence behavior with no high or mid findings.",
       "documentationFiles": [
         "README.md",
         ".agents/skills/rielflow-impl-workflow/SKILL.md"

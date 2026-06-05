@@ -12,8 +12,8 @@ Use this skill when the user asks Codex to create or refine design-doc specifica
 - Workflow id: `codex-deepdesign`
 - Package id: `codex-deepdesign`
 - Backend: `codex-agent`
-- Primary output: accepted `design-docs/` specification plus deep and broad review summaries
-- Loop rule: Node 2 and Node 3 route back to Node 1 until neither review reports `high` or `middle` findings
+- Primary output: accepted `design-docs/` specification plus deep, broad, and adversarial review summaries
+- Loop rule: Node 2, Node 3, and Node 4 route back to Node 1 until no review reports `high` or `middle` findings
 
 ## Standard Run
 
@@ -21,7 +21,7 @@ Run from the repository root after checkout or installation:
 
 ```bash
 bun run packages/rielflow/src/bin.ts workflow run codex-deepdesign \
-  --variables '{"workflowInput":{"feature":"Describe the feature to design.","targetDesignDoc":"design-docs/specs/design-example.md","constraints":["Design documentation only."],"acceptanceCriteria":["Deep review has no high or middle findings.","Broad review has no high or middle findings."]}}' \
+  --variables '{"workflowInput":{"feature":"Describe the feature to design.","targetDesignDoc":"design-docs/specs/design-example.md","constraints":["Design documentation only."],"acceptanceCriteria":["Deep review has no high or middle findings.","Broad review has no high or middle findings.","Adversarial review has no high or middle findings."]}}' \
   --output json --no-auto-improve
 ```
 
@@ -46,7 +46,9 @@ Node 2 deep review checks assumptions, prerequisites, irregular states, lifecycl
 
 Node 3 broad review checks existing similar features, duplication risk, adjacent workflow behavior, package and installation impacts, combined use cases, compatibility, migration, docs, and repository conventions.
 
-Both reviewers must return adapter JSON with `when.needs_revision` and `payload.needs_revision`. Set those booleans to `true` only when any `high` or `middle` finding exists.
+Node 4 adversarial review checks failure modes, misuse paths, misleading success states, implementation loopholes, overconfident assumptions, and verification that could pass while material behavior remains broken.
+
+All reviewers must return adapter JSON with `when.needs_revision` and `payload.needs_revision`. Set those booleans to `true` only when any `high` or `middle` finding exists.
 
 ## Verification
 
