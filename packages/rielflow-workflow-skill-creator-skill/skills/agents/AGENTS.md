@@ -44,6 +44,21 @@ and Cursor skills are managed-only in user scope in the current package manager.
 Because `skills/agents/AGENTS.md` projects to root `AGENTS.md` in project scope,
 do not use it as the only carrier for reusable named skills.
 
+## Agent-Specific Workflow Variants
+
+For packages that provide Codex, Claude Code, and Cursor CLI variants of the
+same workflow, treat the Codex workflow as the source variant unless the package
+explicitly documents another source. Claude Code and Cursor CLI variants should
+normally inherit or extend the Codex variant through backend-specific
+replacement and patch metadata, so the workflow content and behavior remain the
+same except for agent names, backend identifiers, models, dependency workflow
+ids, package ids, skill placement, and command examples.
+
+Do not fork prompt text, node behavior, or workflow routing separately for
+Claude Code or Cursor CLI unless the backend requires a real behavior
+difference. When such a difference is required, document it in the variant so
+future package maintainers do not assume the contents are still identical.
+
 ## Usage Skill Content
 
 Each workflow usage skill should include:
