@@ -1,6 +1,6 @@
 {
   "name": "codex-source-security-check-loop",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "codex-source-security-check-loop",
   "description": "Run deterministic source-code security checks, triage findings with Codex, delegate blocking fixes, and rescan until high and medium findings are resolved.",
   "tags": [
@@ -9,7 +9,7 @@
     "sast"
   ],
   "registry": "default",
-  "checksum": "6988435181e6892b354ceea1c722d889",
+  "checksum": "67fda1c467260f9b726a0eb49cb2c21e",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-source-security-check-loop",
   "dependencies": [
@@ -31,7 +31,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "d1a6df2b9d1c6609ddb33955ffc62d8d8659077070bea8f722642aeec11061c7"
+    "digest": "187072649d5776f4e34b9fcd99fe44db5bc626808d5f619832052170f11356a3"
   },
   "backends": [
     "native-command",
