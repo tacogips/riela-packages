@@ -13,8 +13,8 @@ cat >"$output_path" <<'JSON'
     "message": "Install this package to add guidance for authoring packaged skills that teach agents how to use Rielflow workflows.",
     "skills": [
       "agents:agents",
-      "codex:rielflow-workflow-skill",
-      "claude:rielflow-workflow-skill"
+      "codex:rielflow-workflow-use-skill",
+      "claude:rielflow-workflow-use-skill"
     ]
   }
 }

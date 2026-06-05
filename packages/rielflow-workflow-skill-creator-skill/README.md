@@ -9,5 +9,5 @@ owns the workflow bundle itself.
 The useful artifacts are:
 
 - `skills/agents/AGENTS.md`
-- `skills/codex/rielflow-workflow-skill/SKILL.md`
-- `skills/claude/rielflow-workflow-skill/SKILL.md`
+- `skills/codex/rielflow-workflow-use-skill/SKILL.md`
+- `skills/claude/rielflow-workflow-use-skill/SKILL.md`

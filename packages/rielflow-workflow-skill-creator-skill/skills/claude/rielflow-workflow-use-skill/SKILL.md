@@ -1,9 +1,9 @@
 ---
-name: rielflow-workflow-skill
+name: rielflow-workflow-use-skill
 description: Use when creating or updating packaged skills that teach agents how to use a Rielflow workflow package, including agent-specific placement under skills/agents, skills/codex, skills/claude, or skills/cursor.
 ---
 
-# Rielflow Workflow Skill
+# Rielflow Workflow Use Skill
 
 Use this skill when creating or updating packaged skills that teach agents how
 to use a Rielflow workflow package.
@@ -66,6 +66,14 @@ Keep workflow execution backend names explicit. `codex-agent`,
 `claude-code-agent`, and `cursor-cli-agent` are backend identifiers and should
 not be generalized away in workflow usage instructions.
 
+## Post-Authoring Self Review
+
+Before finishing a workflow usage skill, self-review that it names the correct
+package id and workflow id, uses the correct vendor placement, preserves
+project/user scope behavior, documents required variables and expected outputs,
+points validation and run commands at the right lookup mode, and includes digest
+refresh instructions for changed packaged payloads.
+
 ## Coordination With Workflow Authoring
 
 When both the workflow bundle and its usage skill are requested:
@@ -74,6 +82,7 @@ When both the workflow bundle and its usage skill are requested:
 2. Validate the workflow bundle.
 3. Use this skill to create the package skill payload in the correct vendor
    directories.
-4. Refresh `rielflow-package.json` digests.
-5. Verify install JSON `skills[]` contains only the intended vendors and
+4. Self-review the workflow usage skill.
+5. Refresh `rielflow-package.json` digests.
+6. Verify install JSON `skills[]` contains only the intended vendors and
    projection paths.

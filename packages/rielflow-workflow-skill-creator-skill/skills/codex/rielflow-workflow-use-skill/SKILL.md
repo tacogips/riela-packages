@@ -1,9 +1,9 @@
 ---
-name: rielflow-workflow-skill
+name: rielflow-workflow-use-skill
 description: Use when creating or updating packaged skills that teach agents how to use a Rielflow workflow package, including agent-specific placement under skills/agents, skills/codex, skills/claude, or skills/cursor.
 ---
 
-# Rielflow Workflow Skill
+# Rielflow Workflow Use Skill
 
 Use this skill when creating or updating packaged skills that teach agents how
 to use a Rielflow workflow package.
@@ -38,3 +38,11 @@ Project-scope projection paths are:
 Each workflow usage skill should include package id, workflow id, install/run
 commands, required variables, expected outputs, scope rules, verification
 commands, and digest refresh instructions.
+
+## Post-Authoring Self Review
+
+Before finishing a workflow usage skill, self-review that it names the correct
+package id and workflow id, uses the correct vendor placement, preserves
+project/user scope behavior, documents required variables and expected outputs,
+points validation and run commands at the right lookup mode, and includes digest
+refresh instructions for changed packaged payloads.

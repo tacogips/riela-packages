@@ -12,7 +12,7 @@ Use this skill to author portable rielflow workflow bundles that validate agains
 This skill owns the workflow bundle itself: `workflow.json`, node payloads,
 prompts, scripts, containers, add-on usage, transitions, and validation. Do not
 use it to design or package the user-facing skill that teaches agents how to run
-the workflow. Use `rielflow-workflow-skill` for packaged workflow usage skills.
+the workflow. Use `rielflow-workflow-use-skill` for packaged workflow usage skills.
 
 ## Required Workflow
 
@@ -20,7 +20,8 @@ the workflow. Use `rielflow-workflow-skill` for packaged workflow usage skills.
 2. Create or update `<workflow-root>/<workflow-name>/workflow.json`.
 3. Create `nodes/node-<id>.json` files only for file-backed nodes.
 4. Put long prompts in `prompts/*.md` and reference them with `promptTemplateFile`, `systemPromptTemplateFile`, or `sessionStartPromptTemplateFile`.
-5. Validate with the available rielflow command and the same lookup mode the workflow will use: `--workflow-definition-dir <workflow-root>` for unpacked bundles, default/project scope for project installs, or `--scope user` for user-scope installs. Do not assume `./rielflow` exists.
+5. Self-review the authored bundle before validation. Check that the executable step graph reaches the intended work, node ids and node files line up, prompts and variables are workflow-relative, backends and models are valid, transitions use step ids, and the bundle avoids repo-specific absolute paths unless explicitly required.
+6. Validate with the available rielflow command and the same lookup mode the workflow will use: `--workflow-definition-dir <workflow-root>` for unpacked bundles, default/project scope for project installs, or `--scope user` for user-scope installs. Do not assume `./rielflow` exists.
 
 ## Out Of Scope
 
@@ -28,7 +29,7 @@ the workflow. Use `rielflow-workflow-skill` for packaged workflow usage skills.
   `skills/cursor` package payloads from this skill unless the user explicitly
   asks to ignore the separation.
 - Do not decide agent-specific skill projection from workflow backends here.
-  Delegate that to `rielflow-workflow-skill`.
+  Delegate that to `rielflow-workflow-use-skill`.
 
 Read `references/workflow-format.md` when authoring anything beyond a one-step worker or when validation errors mention schema, steps, transitions, add-ons, node payloads, or legacy fields.
 
