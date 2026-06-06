@@ -12,6 +12,13 @@ Use this skill in the `rielflow-packages` registry repository when preparing pac
 - Run commands from the repository root.
 - Package roots live at `packages/<package-id>`.
 - Each package has `rielflow-package.json`.
+- Directory names under `packages/` should be filesystem-safe. The package id
+  in `rielflow-package.json.name` may be unscoped or npm-style scoped, for
+  example `@tacogips/youtube-mp4-download-addon`; prefer scoped ids for
+  third-party or personal registries.
+- Node add-on package entries use a separate add-on namespace in
+  `addons[].name`, for example `tacogips/youtube-mp4-download`. The
+  `rielflow/` add-on namespace is reserved for built-ins.
 - The local rielflow source checkout is expected at `../rielflow` unless `RIELFLOW_ROOT` is set.
 - `bun` and `task` should be available; `flake.nix` includes `go-task`.
 

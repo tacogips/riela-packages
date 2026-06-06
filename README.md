@@ -246,6 +246,14 @@ Each package directory can include:
 - `skills/cursor/*.mdc` - Cursor rules projected to `.cursor/rules/*.mdc`
   for project-scope installs.
 
+Package directories should use filesystem-safe names under `packages/`.
+Registry-visible package ids live in `rielflow-package.json.name` and may be
+unscoped, such as `greeting-node-addon`, or scoped, such as
+`@tacogips/youtube-mp4-download-addon`. Prefer scoped package ids for
+third-party or personal registries. Node add-on package entries use a separate
+add-on namespace in `addons[].name`, such as `tacogips/youtube-mp4-download`;
+the `rielflow/` add-on namespace is reserved for built-ins.
+
 Use backend-specific skill directories for workflow-specific usage skills:
 Codex-only workflows use `skills/codex`, Claude Code-only workflows use
 `skills/claude`, and Cursor-only workflows use `skills/cursor`. Invocable

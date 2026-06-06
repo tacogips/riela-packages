@@ -11,6 +11,15 @@ installing or updating a package as an end user, use `rielflow-package`.
 
 ## Standard Workflow
 
+Package roots live under filesystem-safe `packages/<package-id>` directories.
+The registry-visible package id in `rielflow-package.json.name` may be
+unscoped or npm-style scoped, for example
+`@tacogips/youtube-mp4-download-addon`; prefer scoped ids for third-party or
+personal registries. Node add-on package entries use a separate add-on
+namespace in `addons[].name`, for example
+`tacogips/youtube-mp4-download`. The `rielflow/` add-on namespace is reserved
+for built-ins.
+
 1. Inspect the intended release scope:
 
 ```bash
