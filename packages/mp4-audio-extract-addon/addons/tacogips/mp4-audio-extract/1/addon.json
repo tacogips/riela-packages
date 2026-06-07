@@ -1,0 +1,43 @@
+{
+  "name": "tacogips/mp4-audio-extract",
+  "version": "1",
+  "description": "Extracts mono FLAC audio from an MP4 file using ffmpeg.",
+  "allowedRoles": ["worker"],
+  "resolution": {
+    "kind": "node-payload-template",
+    "nodeType": "command",
+    "description": "Extract speech-ready audio from MP4.",
+    "command": {
+      "scriptPath": "mp4-audio-extract.bash",
+      "argvTemplate": [
+        "{{addon.inputs.mp4Path}}"
+      ]
+    }
+  },
+  "execution": {
+    "kind": "local-command",
+    "entrypoint": "mp4-audio-extract.bash",
+    "runtimeHints": ["bash", "node", "ffmpeg"]
+  },
+  "capabilities": [
+    {
+      "name": "process.spawn",
+      "required": true,
+      "reason": "runs ffmpeg to extract audio from MP4"
+    },
+    {
+      "name": "filesystem.write",
+      "required": true,
+      "scope": "mailbox.outbox",
+      "reason": "writes the extracted audio artifact and output JSON"
+    }
+  ],
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "mp4Path": { "type": "string", "minLength": 1 }
+    },
+    "required": ["mp4Path"],
+    "additionalProperties": false
+  }
+}

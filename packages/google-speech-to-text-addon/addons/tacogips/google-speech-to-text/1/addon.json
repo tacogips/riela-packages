@@ -1,0 +1,111 @@
+{
+  "name": "tacogips/google-speech-to-text",
+  "version": "1",
+  "description": "Transcribes a local audio file with Google Cloud Speech-to-Text v1 long-running recognition.",
+  "allowedRoles": ["worker"],
+  "resolution": {
+    "kind": "node-payload-template",
+    "nodeType": "command",
+    "description": "Transcribe audio with Google Cloud Speech-to-Text.",
+    "command": {
+      "scriptPath": "google-speech-to-text.bash",
+      "argvTemplate": [
+        "{{addon.inputs.audioPath}}",
+        "{{addon.inputs.languageCode}}",
+        "{{addon.inputs.gcsUriPrefix}}"
+      ]
+    }
+  },
+  "execution": {
+    "kind": "local-command",
+    "entrypoint": "google-speech-to-text.bash",
+    "runtimeHints": ["bash", "node", "curl"]
+  },
+  "capabilities": [
+    {
+      "name": "process.spawn",
+      "required": true,
+      "reason": "runs curl and node to upload audio, start long-running recognition, and poll the operation"
+    },
+    {
+      "name": "network.egress",
+      "required": true,
+      "reason": "uploads audio to Cloud Storage and calls speech.googleapis.com"
+    },
+    {
+      "name": "filesystem.read",
+      "required": true,
+      "reason": "reads the audio file submitted to Google Speech-to-Text"
+    },
+    {
+      "name": "filesystem.write",
+      "required": true,
+      "scope": "mailbox.outbox",
+      "reason": "writes transcripts, captions, raw response, and output JSON"
+    },
+    {
+      "name": "env.read",
+      "required": false,
+      "scope": "addon.env",
+      "reason": "reads explicit Google authentication environment bindings"
+    }
+  ],
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "audioPath": { "type": "string", "minLength": 1 },
+      "languageCode": { "type": "string", "minLength": 1 },
+      "gcsUriPrefix": { "type": "string", "minLength": 6 }
+    },
+    "required": ["audioPath", "languageCode", "gcsUriPrefix"],
+    "additionalProperties": false
+  },
+  "envSchema": {
+    "type": "object",
+    "properties": {
+      "GOOGLE_ACCESS_TOKEN": {
+        "anyOf": [
+          { "type": "string", "minLength": 1 },
+          {
+            "type": "object",
+            "properties": {
+              "fromEnv": { "type": "string", "minLength": 1 },
+              "required": { "type": "boolean" }
+            },
+            "required": ["fromEnv"],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "GOOGLE_APPLICATION_CREDENTIALS": {
+        "anyOf": [
+          { "type": "string", "minLength": 1 },
+          {
+            "type": "object",
+            "properties": {
+              "fromEnv": { "type": "string", "minLength": 1 },
+              "required": { "type": "boolean" }
+            },
+            "required": ["fromEnv"],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "GOOGLE_APPLICATION_CREDENTIALS_JSON": {
+        "anyOf": [
+          { "type": "string", "minLength": 1 },
+          {
+            "type": "object",
+            "properties": {
+              "fromEnv": { "type": "string", "minLength": 1 },
+              "required": { "type": "boolean" }
+            },
+            "required": ["fromEnv"],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  }
+}

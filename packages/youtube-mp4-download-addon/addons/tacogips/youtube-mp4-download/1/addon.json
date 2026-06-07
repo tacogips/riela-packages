@@ -1,0 +1,48 @@
+{
+  "name": "tacogips/youtube-mp4-download",
+  "version": "1",
+  "description": "Downloads a YouTube URL to an MP4 artifact with yt-dlp.",
+  "allowedRoles": ["worker"],
+  "resolution": {
+    "kind": "node-payload-template",
+    "nodeType": "command",
+    "description": "Download YouTube video as MP4.",
+    "command": {
+      "scriptPath": "youtube-mp4-download.bash",
+      "argvTemplate": [
+        "{{addon.inputs.url}}"
+      ]
+    }
+  },
+  "execution": {
+    "kind": "local-command",
+    "entrypoint": "youtube-mp4-download.bash",
+    "runtimeHints": ["bash", "node", "yt-dlp"]
+  },
+  "capabilities": [
+    {
+      "name": "process.spawn",
+      "required": true,
+      "reason": "runs yt-dlp to download and mux video"
+    },
+    {
+      "name": "network.egress",
+      "required": true,
+      "reason": "yt-dlp downloads media from the requested URL"
+    },
+    {
+      "name": "filesystem.write",
+      "required": true,
+      "scope": "mailbox.outbox",
+      "reason": "writes the downloaded MP4 artifact and output JSON"
+    }
+  ],
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "url": { "type": "string", "minLength": 1 }
+    },
+    "required": ["url"],
+    "additionalProperties": false
+  }
+}

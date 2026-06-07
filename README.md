@@ -45,6 +45,15 @@ rielflow package status <package-id>
 - [greeting-node-addon](packages/greeting-node-addon) -
   Executable node add-on package that installs `examples/greeting-shell@1`, a
   reusable Bash command node template for jq-encoded JSON greetings.
+- [youtube-mp4-download-addon](packages/youtube-mp4-download-addon) -
+  Node add-on package that downloads a YouTube URL to an MP4 file using
+  `yt-dlp`.
+- [mp4-audio-extract-addon](packages/mp4-audio-extract-addon) -
+  Node add-on package that extracts speech-ready FLAC audio from an MP4 file
+  using `ffmpeg`.
+- [google-speech-to-text-addon](packages/google-speech-to-text-addon) -
+  Node add-on package that transcribes local audio with Google Cloud
+  Speech-to-Text v1 long-running recognition; includes a Codex setup skill.
 
 ### Native Runtime Example Workflows
 
@@ -54,6 +63,9 @@ rielflow package status <package-id>
 - [greeting-shell](packages/greeting-shell) -
   Example workflow package with a native Bash command node that outputs a
   greeting with the current datetime without using a container.
+- [youtube-mp4-to-text-workflow](packages/youtube-mp4-to-text-workflow) -
+  Example workflow package that downloads a YouTube MP4, extracts speech-ready
+  audio, and transcribes it with Google Speech-to-Text through node add-ons.
 
 ### Codex Agent Workflows
 
@@ -193,8 +205,12 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 | --- | --- | --- | --- |
 | [release-note-node-addon](packages/release-note-node-addon) | node-addon | `codex-agent` | - |
 | [greeting-node-addon](packages/greeting-node-addon) | node-addon | `native-command` | - |
+| [youtube-mp4-download-addon](packages/youtube-mp4-download-addon) | node-addon | `native-command` | - |
+| [mp4-audio-extract-addon](packages/mp4-audio-extract-addon) | node-addon | `native-command` | - |
+| [google-speech-to-text-addon](packages/google-speech-to-text-addon) | node-addon | `native-command` | Codex |
 | [greeting-container](packages/greeting-container) | workflow | `native-container` | - |
 | [greeting-shell](packages/greeting-shell) | workflow | `native-command` | - |
+| [youtube-mp4-to-text-workflow](packages/youtube-mp4-to-text-workflow) | workflow | `native-command` | - |
 | [codex-deepdesign](packages/codex-deepdesign) | workflow | `codex-agent` | Codex |
 | [codex-design-and-implement-review-loop](packages/codex-design-and-implement-review-loop) | workflow | `codex-agent` | Codex |
 | [codex-impl-plan-completion-loop](packages/codex-impl-plan-completion-loop) | workflow | `codex-agent` | - |

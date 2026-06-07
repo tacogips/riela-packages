@@ -11,7 +11,12 @@ tasks:
       - |
         bun -e '
         import path from "node:path";
-        import { computeWorkflowPackageChecksum, computeWorkflowPackageIntegrityDigest } from "{{.RIELFLOW_ROOT}}/packages/rielflow/src/workflow/packages/checksum.ts";
+        import {
+          computeWorkflowNodeAddonPackageChecksum,
+          computeWorkflowNodeAddonPackageIntegrityDigest,
+          computeWorkflowPackageChecksum,
+          computeWorkflowPackageIntegrityDigest,
+        } from "{{.RIELFLOW_ROOT}}/packages/rielflow/src/workflow/packages/checksum.ts";
 
         const root = `${process.cwd()}/packages`;
         const manifests = Array.from(new Bun.Glob("*/rielflow-package.json").scanSync({ cwd: root })).sort();
@@ -100,11 +105,15 @@ tasks:
 
           if (kind === "node-addon") {
             const addonCheck = await validateNodeAddonPackage({ packageName, packageRoot, manifest });
-            console.log(`${packageName}\tnode-addon=${addonCheck.ok ? "ok" : "bad"}`);
+            const checksum = await computeWorkflowNodeAddonPackageChecksum({ packageRoot });
+            const integrity = await computeWorkflowNodeAddonPackageIntegrityDigest({ packageRoot });
+            const checksumOk = checksum.ok && checksum.value.checksum === manifest.checksum;
+            const integrityOk = integrity.ok && integrity.value.digest === manifest.integrity?.digest;
+            console.log(`${packageName}\tnode-addon=${addonCheck.ok ? "ok" : "bad"}\tchecksum=${checksumOk ? "ok" : "bad"}\tintegrity=${integrityOk ? "ok" : "bad"}`);
             if (!addonCheck.ok) {
               console.error(addonCheck.error);
             }
-            failed = failed || !addonCheck.ok;
+            failed = failed || !addonCheck.ok || !checksumOk || !integrityOk;
             continue;
           }
 
@@ -139,22 +148,62 @@ tasks:
     desc: Validate all packaged workflows with cross-workflow callees visible.
     cmds:
       - |
-        tmp=$(mktemp -d)
-        trap 'rm -rf "$tmp"' EXIT
+        workflow_tmp=$(mktemp -d)
+        addon_tmp=$(mktemp -d)
+        trap 'rm -rf "$workflow_tmp" "$addon_tmp"' EXIT
 
         for workflow_dir in packages/*/workflows/*; do
-          cp -R "$workflow_dir" "$tmp/$(basename "$workflow_dir")"
+          cp -R "$workflow_dir" "$workflow_tmp/$(basename "$workflow_dir")"
         done
 
-        for workflow_dir in "$tmp"/*; do
-          workflow=$(basename "$workflow_dir")
-          bun run "{{.RIELFLOW_BIN}}" workflow validate "$workflow" --workflow-definition-dir "$tmp" >/tmp/rielflow-package-validate.log || {
-            echo "$workflow failed"
-            cat /tmp/rielflow-package-validate.log
-            exit 1
-          }
-          echo "$workflow ok"
+        for package_addons in packages/*/addons; do
+          [ -d "$package_addons" ] || continue
+          while IFS= read -r addon_version_dir; do
+            rel=${addon_version_dir#"$package_addons"/}
+            mkdir -p "$addon_tmp/$(dirname "$rel")"
+            cp -R "$addon_version_dir" "$addon_tmp/$rel"
+          done < <(find "$package_addons" -mindepth 3 -maxdepth 3 -type d)
         done
+
+        WORKFLOW_TMP="$workflow_tmp" ADDON_TMP="$addon_tmp" bun -e '
+        import { readdir } from "node:fs/promises";
+        import path from "node:path";
+        import { loadWorkflowFromDisk } from "{{.RIELFLOW_ROOT}}/packages/rielflow/src/workflow/load.ts";
+
+        const workflowRoot = process.env.WORKFLOW_TMP;
+        const addonRoot = process.env.ADDON_TMP;
+        if (workflowRoot === undefined || addonRoot === undefined) {
+          throw new Error("missing validation roots");
+        }
+        let failed = false;
+        for (const entry of await readdir(workflowRoot, { withFileTypes: true })) {
+          if (!entry.isDirectory()) {
+            continue;
+          }
+          const workflow = entry.name;
+          const loaded = await loadWorkflowFromDisk(workflow, {
+            workflowRoot,
+            addonRoot,
+            cwd: process.cwd(),
+            allowUnpackagedExecutableAddons: true,
+          });
+          if (!loaded.ok) {
+            failed = true;
+            console.error(`${workflow} failed`);
+            for (const issue of loaded.error.issues ?? []) {
+              console.error(`[${issue.severity}] ${issue.path}: ${issue.message}`);
+            }
+            if (loaded.error.issues === undefined) {
+              console.error(loaded.error.message);
+            }
+            continue;
+          }
+          console.log(`${workflow} ok`);
+        }
+        if (failed) {
+          process.exit(1);
+        }
+        '
 
   check:
     desc: Run package digest and workflow validation checks.

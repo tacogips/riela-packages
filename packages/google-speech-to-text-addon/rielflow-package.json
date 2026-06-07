@@ -1,0 +1,67 @@
+{
+  "name": "@tacogips/google-speech-to-text-addon",
+  "version": "0.1.0",
+  "kind": "node-addon",
+  "description": "Transcribe local audio with Google Cloud Speech-to-Text v1 long-running recognition.",
+  "tags": [
+    "google-cloud",
+    "speech-to-text",
+    "audio",
+    "transcription"
+  ],
+  "registry": "https://github.com/tacogips/rielflow-packages",
+  "checksumAlgorithm": "md5",
+  "checksum": "a90b1561d441c0ce8e7420ac1837056a",
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "0550c7402dc8f48def1b538582807ac7f215c6131df450786f36aac648332a8a",
+    "signatures": []
+  },
+  "skillDirectory": "skills",
+  "addons": [
+    {
+      "name": "tacogips/google-speech-to-text",
+      "version": "1",
+      "sourcePath": "addons/tacogips/google-speech-to-text/1",
+      "execution": {
+        "kind": "local-command",
+        "entrypoint": "google-speech-to-text.bash",
+        "runtimeHints": [
+          "bash",
+          "node",
+          "curl"
+        ]
+      },
+      "capabilities": [
+        {
+          "name": "process.spawn",
+          "required": true,
+          "reason": "runs curl and node to upload audio, start long-running recognition, and poll the operation"
+        },
+        {
+          "name": "network.egress",
+          "required": true,
+          "reason": "uploads audio to Cloud Storage and calls speech.googleapis.com"
+        },
+        {
+          "name": "filesystem.read",
+          "required": true,
+          "reason": "reads the audio file submitted to Google Speech-to-Text"
+        },
+        {
+          "name": "filesystem.write",
+          "required": true,
+          "scope": "mailbox.outbox",
+          "reason": "writes transcripts, captions, raw response, and output JSON"
+        },
+        {
+          "name": "env.read",
+          "required": false,
+          "scope": "addon.env",
+          "reason": "reads explicit Google authentication environment bindings"
+        }
+      ],
+      "contentDigest": "sha256:d6d8a285cedb68c0f72349fa79780157576ec6c23b11d0f7600c3fbbcb257343"
+    }
+  ]
+}

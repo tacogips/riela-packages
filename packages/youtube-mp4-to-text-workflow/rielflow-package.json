@@ -1,0 +1,100 @@
+{
+  "name": "@tacogips/youtube-mp4-to-text-workflow",
+  "version": "0.1.0",
+  "kind": "workflow",
+  "description": "Example workflow that downloads YouTube MP4, extracts audio, and transcribes it with Google Speech-to-Text.",
+  "tags": [
+    "youtube",
+    "mp4",
+    "ffmpeg",
+    "speech-to-text",
+    "example"
+  ],
+  "registry": "https://github.com/tacogips/rielflow-packages",
+  "workflowDirectory": "workflows/youtube-mp4-to-text",
+  "checksumAlgorithm": "md5",
+  "checksum": "c02131854195513dfcca2289fb1d1f64",
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "54c616009fd92f5d3d6aa4b5ecf10ef4da03b5967b3d3ef4be34dfc84d9ed226",
+    "signatures": []
+  },
+  "dependencies": [
+    {
+      "packageId": "@tacogips/youtube-mp4-download-addon",
+      "registry": "https://github.com/tacogips/rielflow-packages",
+      "kind": "node-addon",
+      "addons": [
+        {
+          "name": "tacogips/youtube-mp4-download",
+          "version": "1",
+          "contentDigest": "sha256:0560c1860605f30c8f86aa838f2b985a85f341f37fb33087b0014df6360c1fc0",
+          "capabilityGrant": {
+            "process.spawn": {
+              "allowed": true
+            },
+            "network.egress": {
+              "allowed": true
+            },
+            "filesystem.write": {
+              "allowed": true,
+              "scope": "mailbox.outbox"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packageId": "@tacogips/mp4-audio-extract-addon",
+      "registry": "https://github.com/tacogips/rielflow-packages",
+      "kind": "node-addon",
+      "addons": [
+        {
+          "name": "tacogips/mp4-audio-extract",
+          "version": "1",
+          "contentDigest": "sha256:9a18596533fdbe7ce14bab3013c27c89b7c93a4d7a434b2d3e36a2a687c1369c",
+          "capabilityGrant": {
+            "process.spawn": {
+              "allowed": true
+            },
+            "filesystem.write": {
+              "allowed": true,
+              "scope": "mailbox.outbox"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packageId": "@tacogips/google-speech-to-text-addon",
+      "registry": "https://github.com/tacogips/rielflow-packages",
+      "kind": "node-addon",
+      "addons": [
+        {
+          "name": "tacogips/google-speech-to-text",
+          "version": "1",
+          "contentDigest": "sha256:d6d8a285cedb68c0f72349fa79780157576ec6c23b11d0f7600c3fbbcb257343",
+          "capabilityGrant": {
+            "process.spawn": {
+              "allowed": true
+            },
+            "network.egress": {
+              "allowed": true
+            },
+            "filesystem.read": {
+              "allowed": true
+            },
+            "filesystem.write": {
+              "allowed": true,
+              "scope": "mailbox.outbox"
+            },
+            "env.read": {
+              "allowed": true,
+              "scope": "addon.env"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

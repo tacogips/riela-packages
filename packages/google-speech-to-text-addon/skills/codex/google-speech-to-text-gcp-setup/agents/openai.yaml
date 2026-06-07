@@ -1,0 +1,4 @@
+interface:
+  display_name: "Google Speech GCP Setup"
+  short_description: "Configure GCP access for speech add-on"
+  default_prompt: "Use $google-speech-to-text-gcp-setup to configure and verify GCP permissions for the Rielflow Google Speech-to-Text add-on."

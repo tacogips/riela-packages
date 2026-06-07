@@ -1,0 +1,76 @@
+{
+  "workflowId": "youtube-mp4-to-text",
+  "description": "Downloads a YouTube MP4, extracts speech-ready audio with ffmpeg, then transcribes it with Google Speech-to-Text.",
+  "defaults": {
+    "nodeTimeoutMs": 14400000,
+    "maxLoopIterations": 3
+  },
+  "entryStepId": "download-video",
+  "nodes": [
+    {
+      "id": "download-video",
+      "addon": {
+        "name": "tacogips/youtube-mp4-download",
+        "version": "1",
+        "inputs": {
+          "url": "{{args.url}}"
+        }
+      }
+    },
+    {
+      "id": "extract-audio",
+      "addon": {
+        "name": "tacogips/mp4-audio-extract",
+        "version": "1",
+        "inputs": {
+          "mp4Path": "{{mailbox.latest.output.payload.youtubeMp4Download.outputPath}}"
+        }
+      }
+    },
+    {
+      "id": "transcribe-audio",
+      "addon": {
+        "name": "tacogips/google-speech-to-text",
+        "version": "1",
+        "inputs": {
+          "audioPath": "{{mailbox.latest.output.payload.audioExtract.audioPath}}",
+          "languageCode": "{{args.languageCode}}",
+          "gcsUriPrefix": "{{args.gcsUriPrefix}}"
+        },
+        "env": {
+          "GOOGLE_ACCESS_TOKEN": {
+            "fromEnv": "GOOGLE_ACCESS_TOKEN",
+            "required": false
+          },
+          "GOOGLE_APPLICATION_CREDENTIALS": {
+            "fromEnv": "GOOGLE_APPLICATION_CREDENTIALS",
+            "required": false
+          },
+          "GOOGLE_APPLICATION_CREDENTIALS_JSON": {
+            "fromEnv": "GOOGLE_APPLICATION_CREDENTIALS_JSON",
+            "required": false
+          }
+        }
+      }
+    }
+  ],
+  "steps": [
+    {
+      "id": "download-video",
+      "nodeId": "download-video",
+      "role": "worker",
+      "transitions": [{ "toStepId": "extract-audio" }]
+    },
+    {
+      "id": "extract-audio",
+      "nodeId": "extract-audio",
+      "role": "worker",
+      "transitions": [{ "toStepId": "transcribe-audio" }]
+    },
+    {
+      "id": "transcribe-audio",
+      "nodeId": "transcribe-audio",
+      "role": "worker"
+    }
+  ]
+}
