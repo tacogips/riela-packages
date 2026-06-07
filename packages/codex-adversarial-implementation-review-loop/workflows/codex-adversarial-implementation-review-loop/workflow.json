@@ -1,0 +1,167 @@
+{
+  "workflowId": "codex-adversarial-implementation-review-loop",
+  "description": "Run a scoped implementation request through codex-design-and-implement-review-loop, adversarially review the accepted implementation against the explicit review subject, delegate blocking fixes, and repeat until no high or medium findings remain.",
+  "defaults": {
+    "maxLoopIterations": 12,
+    "nodeTimeoutMs": 3600000,
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    }
+  },
+  "prompts": {
+    "rielflowPromptTemplate": "Coordinate {{workflowId}}. Normalize the explicit implementation and review subject first. Unless workflowInput.skipInitialImplementation is true, package the initial implementation request and dispatch codex-design-and-implement-review-loop. After the implementation returns, adversarially review the implemented result against the review subject, target paths, accepted plan, changed files, verification evidence, and user constraints. If high or medium findings remain, package only those blocking findings into a fix request for codex-design-and-implement-review-loop, then re-run adversarial review after the delegated fix returns. Finish only when the latest adversarial review accepts with no high or medium findings. Low findings may be documented as residual risks.",
+    "workerSystemPromptTemplate": "Return concise business JSON only. Keep review subject, target paths, delegated workflow inputs, findings, severity, fix scope, verification evidence, changed files, routing decisions, and residual risks explicit."
+  },
+  "managerStepId": "rielflow-manager",
+  "entryStepId": "rielflow-manager",
+  "nodes": [
+    {
+      "id": "rielflow-manager",
+      "nodeFile": "nodes/node-rielflow-manager.json"
+    },
+    {
+      "id": "implementation-handoff",
+      "nodeFile": "nodes/node-implementation-handoff.json"
+    },
+    {
+      "id": "implementation-result",
+      "nodeFile": "nodes/node-implementation-result.json"
+    },
+    {
+      "id": "adversarial-review",
+      "nodeFile": "nodes/node-adversarial-review.json"
+    },
+    {
+      "id": "exit-gate",
+      "nodeFile": "nodes/node-exit-gate.json"
+    },
+    {
+      "id": "fix-handoff",
+      "nodeFile": "nodes/node-fix-handoff.json"
+    },
+    {
+      "id": "post-fix-result",
+      "nodeFile": "nodes/node-post-fix-result.json"
+    },
+    {
+      "id": "workflow-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-workflow-output.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "rielflow-manager",
+      "nodeId": "rielflow-manager",
+      "description": "Normalize the implementation request and explicit adversarial review subject.",
+      "role": "manager",
+      "transitions": [
+        {
+          "toStepId": "adversarial-review",
+          "label": "skip_initial_implementation"
+        },
+        {
+          "toStepId": "implementation-handoff",
+          "label": "!(skip_initial_implementation)"
+        }
+      ]
+    },
+    {
+      "id": "implementation-handoff",
+      "nodeId": "implementation-handoff",
+      "description": "Package the initial scoped implementation request for codex-design-and-implement-review-loop.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-design-and-implement-review-loop",
+          "toStepId": "rielflow-manager",
+          "resumeStepId": "implementation-result"
+        }
+      ]
+    },
+    {
+      "id": "implementation-result",
+      "nodeId": "implementation-result",
+      "description": "Summarize the accepted implementation result before adversarial review.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "adversarial-review"
+        }
+      ]
+    },
+    {
+      "id": "adversarial-review",
+      "nodeId": "adversarial-review",
+      "description": "Adversarially review the latest implemented result against the explicit review subject.",
+      "role": "worker",
+      "stallTimeoutMs": 900000,
+      "transitions": [
+        {
+          "toStepId": "exit-gate"
+        }
+      ]
+    },
+    {
+      "id": "exit-gate",
+      "nodeId": "exit-gate",
+      "description": "Route to fix handoff when high or medium adversarial findings remain; otherwise finish.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "fix-handoff",
+          "label": "needs_fix"
+        },
+        {
+          "toStepId": "workflow-output",
+          "label": "!(needs_fix)"
+        }
+      ]
+    },
+    {
+      "id": "fix-handoff",
+      "nodeId": "fix-handoff",
+      "description": "Package blocking adversarial findings into a narrow delegated fix request.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-design-and-implement-review-loop",
+          "toStepId": "rielflow-manager",
+          "resumeStepId": "post-fix-result"
+        }
+      ]
+    },
+    {
+      "id": "post-fix-result",
+      "nodeId": "post-fix-result",
+      "description": "Consume the delegated fix result and prepare the next adversarial review pass.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "adversarial-review"
+        }
+      ]
+    },
+    {
+      "id": "workflow-output",
+      "nodeId": "workflow-output",
+      "description": "Publish the accepted adversarial implementation review result.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielflowPackage": {
+      "title": "codex-adversarial-implementation-review-loop",
+      "description": "Run a scoped Codex implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+      "tags": [
+        "workflow",
+        "codex",
+        "review"
+      ],
+      "backends": [
+        "codex-agent"
+      ]
+    }
+  }
+}

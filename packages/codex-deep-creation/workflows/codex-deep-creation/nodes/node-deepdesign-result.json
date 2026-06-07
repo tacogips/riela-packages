@@ -1,0 +1,12 @@
+{
+  "id": "deepdesign-result",
+  "description": "Summarize the accepted codex-deepdesign result.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/deepdesign-result.md",
+  "variables": {},
+  "output": {
+    "description": "Return accepted design docs, summaries, constraints, and implementation-plan hints."
+  },
+  "effort": "medium"
+}

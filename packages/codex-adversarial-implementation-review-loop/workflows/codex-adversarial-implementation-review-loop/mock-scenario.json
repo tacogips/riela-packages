@@ -1,0 +1,107 @@
+{
+  "rielflow-manager": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "skip_initial_implementation": true
+    },
+    "payload": {
+      "reviewSubject": "Adversarially review completed active plan implementation.",
+      "implementationInput": {
+        "workflowInput": {
+          "requestedBehavior": "Review the supplied implementation evidence."
+        }
+      },
+      "targetPaths": [
+        "packages/example/src/index.ts"
+      ],
+      "changedFiles": [
+        "packages/example/src/index.ts",
+        "packages/example/src/index.test.ts"
+      ],
+      "implementationEvidence": [
+        {
+          "command": "bun test packages/example/src/index.test.ts",
+          "result": "passed"
+        }
+      ],
+      "constraints": [
+        "Do not stage, commit, push, or revert unrelated dirty worktree changes."
+      ],
+      "routingDecision": "skip-initial-implementation-for-mock-acceptance"
+    }
+  },
+  "adversarial-review": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "needs_fix": false
+    },
+    "payload": {
+      "accepted": true,
+      "reviewSubject": "Adversarially review completed active plan implementation.",
+      "reviewedPaths": [
+        "packages/example/src/index.ts",
+        "packages/example/src/index.test.ts"
+      ],
+      "findings": [],
+      "verificationGaps": [],
+      "residualRisks": [],
+      "changedFiles": [
+        "packages/example/src/index.ts",
+        "packages/example/src/index.test.ts"
+      ],
+      "verification": [
+        {
+          "command": "bun test packages/example/src/index.test.ts",
+          "result": "passed"
+        }
+      ],
+      "reviewSummary": "Accepted explicit-target adversarial review with no high or medium findings."
+    }
+  },
+  "exit-gate": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "needs_fix": false
+    },
+    "payload": {
+      "needs_fix": false,
+      "decision": "accept",
+      "blockingFindings": [],
+      "exitReason": "No high or medium adversarial findings remain."
+    }
+  },
+  "workflow-output": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "accepted",
+      "workflowId": "codex-adversarial-implementation-review-loop",
+      "reviewSubject": "Adversarially review completed active plan implementation.",
+      "targetPaths": [
+        "packages/example/src/index.ts"
+      ],
+      "childWorkflowRuns": [],
+      "finalFindings": [],
+      "changedFiles": [
+        "packages/example/src/index.ts",
+        "packages/example/src/index.test.ts"
+      ],
+      "verification": [
+        {
+          "command": "bun test packages/example/src/index.test.ts",
+          "result": "passed"
+        }
+      ],
+      "residualRisks": [],
+      "operatorNotes": [
+        "Mock scenario skipped initial implementation and accepted the explicit review subject."
+      ]
+    }
+  }
+}

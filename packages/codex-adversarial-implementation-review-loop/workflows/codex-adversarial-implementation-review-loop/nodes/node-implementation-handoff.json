@@ -1,0 +1,12 @@
+{
+  "id": "implementation-handoff",
+  "description": "Build the initial codex-design-and-implement-review-loop request.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/implementation-handoff.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON whose payload contains workflowInput for codex-design-and-implement-review-loop plus review context."
+  },
+  "effort": "high"
+}

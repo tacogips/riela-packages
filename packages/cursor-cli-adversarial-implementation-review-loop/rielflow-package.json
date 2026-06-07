@@ -1,0 +1,40 @@
+{
+  "name": "cursor-cli-adversarial-implementation-review-loop",
+  "version": "0.1.0",
+  "title": "cursor-cli-adversarial-implementation-review-loop",
+  "description": "Run a scoped Cursor CLI implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+  "tags": [
+    "workflow",
+    "cursor",
+    "review"
+  ],
+  "registry": "default",
+  "checksum": "96e790e83074aec54ac377ce64edff3a",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-adversarial-implementation-review-loop",
+  "dependencies": [
+    "codex-adversarial-implementation-review-loop",
+    "cursor-cli-design-and-implement-review-loop"
+  ],
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "cursor-cli-adversarial-implementation-review-loop",
+    "description": "Run a scoped Cursor CLI implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+    "tags": [
+      "workflow",
+      "cursor",
+      "review"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "fdb22ee6cb912bad9fd933d70bd63d4d7e0435707f49e51169a0c3a481dffcc5"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ],
+  "packageId": "cursor-cli-adversarial-implementation-review-loop"
+}

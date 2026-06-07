@@ -71,10 +71,20 @@ rielflow package status <package-id>
 
 - [codex-deepdesign](packages/codex-deepdesign) -
   Creates or revises `design-docs/` specifications with one design author, a
-  deep edge-case reviewer, and a broad integration reviewer. It loops back to
-  the author until both reviewers report no high or middle findings, and it
-  records provisional decisions when user confirmation would normally be
-  required. `backend: codex-agent`; includes Codex skills.
+  deep edge-case reviewer, a broad integration reviewer, and an adversarial
+  failure-mode reviewer. It loops back to the author until all reviewers report
+  no high or middle findings, and it records provisional decisions when user
+  confirmation would normally be required. `backend: codex-agent`; includes
+  Codex skills.
+- [codex-adversarial-implementation-review-loop](packages/codex-adversarial-implementation-review-loop) -
+  Runs a scoped implementation request, adversarially reviews the implemented
+  result against explicit target paths and evidence, delegates blocking fixes,
+  and repeats until no high or medium findings remain. `backend: codex-agent`;
+  includes Codex skills.
+- [codex-deep-creation](packages/codex-deep-creation) -
+  Runs deep design, adversarial implementation-plan completion, and source
+  security checks as one full creation workflow. `backend: codex-agent`;
+  includes Codex skills.
 - [codex-design-and-implement-review-loop](packages/codex-design-and-implement-review-loop) -
   Shared Codex workflow for issue resolution or planning-only design and
   implementation-plan handoff. It supports a sequential path, bounded
@@ -82,7 +92,7 @@ rielflow package status <package-id>
   commit-message preparation. `backend: codex-agent`; includes Codex skills.
 - [codex-impl-plan-completion-loop](packages/codex-impl-plan-completion-loop) -
   Finds incomplete implementation plans under `impl-plans/active`, delegates
-  each selected plan to `codex-design-and-implement-review-loop`, and repeats
+  each selected plan to `codex-adversarial-implementation-review-loop`, and repeats
   until no incomplete active plans remain. `backend: codex-agent`.
 - [codex-impl-plan-completion-review-loop](packages/codex-impl-plan-completion-review-loop) -
   Runs `codex-impl-plan-completion-loop` first, then runs
@@ -134,10 +144,12 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
 
 - [claude-code-deepdesign](packages/claude-code-deepdesign) -
   Create and iteratively review design-doc specifications with one Claude Code author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain. `backend: claude-code-agent`; includes Claude skills.
+- [claude-code-adversarial-implementation-review-loop](packages/claude-code-adversarial-implementation-review-loop) -
+  Run a scoped Claude Code implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain. `backend: claude-code-agent`.
 - [claude-code-design-and-implement-review-loop](packages/claude-code-design-and-implement-review-loop) -
   Shared Claude Code workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion. `backend: claude-code-agent`; includes Claude skills.
 - [claude-code-impl-plan-completion-loop](packages/claude-code-impl-plan-completion-loop) -
-  Find incomplete implementation plans under impl-plans/active, delegate each selected plan to claude-code-design-and-implement-review-loop, and repeat sequentially until no incomplete active plans remain. `backend: claude-code-agent`.
+  Find incomplete implementation plans under impl-plans/active, delegate each selected plan to claude-code-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain. `backend: claude-code-agent`.
 - [claude-code-recent-change-quality-loop](packages/claude-code-recent-change-quality-loop) -
   Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain. `backend: claude-code-agent`.
 - [claude-code-refactoring-divide-and-conquer](packages/claude-code-refactoring-divide-and-conquer) -
@@ -161,10 +173,12 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 
 - [cursor-cli-deepdesign](packages/cursor-cli-deepdesign) -
   Create and iteratively review design-doc specifications with one Cursor CLI author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain. `backend: cursor-cli-agent`; includes Cursor skills.
+- [cursor-cli-adversarial-implementation-review-loop](packages/cursor-cli-adversarial-implementation-review-loop) -
+  Run a scoped Cursor CLI implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain. `backend: cursor-cli-agent`.
 - [cursor-cli-design-and-implement-review-loop](packages/cursor-cli-design-and-implement-review-loop) -
   Shared Cursor CLI workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion. `backend: cursor-cli-agent`; includes Cursor skills.
 - [cursor-cli-impl-plan-completion-loop](packages/cursor-cli-impl-plan-completion-loop) -
-  Find incomplete implementation plans under impl-plans/active, delegate each selected plan to cursor-cli-design-and-implement-review-loop, and repeat sequentially until no incomplete active plans remain. `backend: cursor-cli-agent`.
+  Find incomplete implementation plans under impl-plans/active, delegate each selected plan to cursor-cli-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain. `backend: cursor-cli-agent`.
 - [cursor-cli-recent-change-quality-loop](packages/cursor-cli-recent-change-quality-loop) -
   Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain. `backend: cursor-cli-agent`.
 - [cursor-cli-refactoring-divide-and-conquer](packages/cursor-cli-refactoring-divide-and-conquer) -
@@ -216,6 +230,8 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 | [greeting-container](packages/greeting-container) | workflow | `native-container` | - |
 | [greeting-shell](packages/greeting-shell) | workflow | `native-command` | - |
 | [youtube-mp4-to-text-workflow](packages/youtube-mp4-to-text-workflow) | workflow | `native-command` | - |
+| [codex-adversarial-implementation-review-loop](packages/codex-adversarial-implementation-review-loop) | workflow | `codex-agent` | Codex |
+| [codex-deep-creation](packages/codex-deep-creation) | workflow | `codex-agent` | Codex |
 | [codex-deepdesign](packages/codex-deepdesign) | workflow | `codex-agent` | Codex |
 | [codex-design-and-implement-review-loop](packages/codex-design-and-implement-review-loop) | workflow | `codex-agent` | Codex |
 | [codex-impl-plan-completion-loop](packages/codex-impl-plan-completion-loop) | workflow | `codex-agent` | - |
@@ -227,6 +243,7 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 | [codex-source-security-check-loop](packages/codex-source-security-check-loop) | workflow | `native-command`, `codex-agent` | Codex |
 | [codex-task-watchdog](packages/codex-task-watchdog) | workflow | `codex-agent` | Codex |
 | [codex-website-builder](packages/codex-website-builder) | workflow | `codex-agent`, `native-command` | Codex |
+| [claude-code-adversarial-implementation-review-loop](packages/claude-code-adversarial-implementation-review-loop) | workflow | `claude-code-agent` | - |
 | [claude-code-deepdesign](packages/claude-code-deepdesign) | workflow | `claude-code-agent` | Claude |
 | [claude-code-design-and-implement-review-loop](packages/claude-code-design-and-implement-review-loop) | workflow | `claude-code-agent` | Claude |
 | [claude-code-impl-plan-completion-loop](packages/claude-code-impl-plan-completion-loop) | workflow | `claude-code-agent` | - |
@@ -238,6 +255,7 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 | [claude-code-task-watchdog](packages/claude-code-task-watchdog) | workflow | `claude-code-agent` | Claude |
 | [claude-code-website-builder](packages/claude-code-website-builder) | workflow | `claude-code-agent` | Claude |
 | [claude-code-worker-only-single-step](packages/claude-code-worker-only-single-step) | workflow | `claude-code-agent` | Claude |
+| [cursor-cli-adversarial-implementation-review-loop](packages/cursor-cli-adversarial-implementation-review-loop) | workflow | `cursor-cli-agent` | - |
 | [cursor-cli-deepdesign](packages/cursor-cli-deepdesign) | workflow | `cursor-cli-agent` | Cursor |
 | [cursor-cli-design-and-implement-review-loop](packages/cursor-cli-design-and-implement-review-loop) | workflow | `cursor-cli-agent` | Cursor |
 | [cursor-cli-impl-plan-completion-loop](packages/cursor-cli-impl-plan-completion-loop) | workflow | `cursor-cli-agent` | - |

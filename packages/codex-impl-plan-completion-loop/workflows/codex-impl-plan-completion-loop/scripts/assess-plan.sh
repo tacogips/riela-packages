@@ -285,7 +285,7 @@ emit({
     planComplete
       ? "All target tasks are completed."
       : nextTask === null
-        ? `Delegate ${planPath} to design-and-implement-review-loop to complete plan-level active work before reassessment.`
-      : `Delegate ${planPath} to design-and-implement-review-loop to complete ${nextTask.taskId} and remaining active-plan work before reassessment.`,
+        ? `Delegate ${planPath} to adversarial-implementation-review-loop to complete plan-level active work before reassessment.`
+      : `Delegate ${planPath} to adversarial-implementation-review-loop to complete ${nextTask.taskId} and remaining active-plan work before reassessment.`,
 });
 '

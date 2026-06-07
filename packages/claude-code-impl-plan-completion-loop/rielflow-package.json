@@ -2,22 +2,22 @@
   "name": "claude-code-impl-plan-completion-loop",
   "version": "0.1.0",
   "title": "claude-code-impl-plan-completion-loop",
-  "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to claude-code-design-and-implement-review-loop, and repeat sequentially until no incomplete active plans remain.",
+  "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to claude-code-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "ad92f71b7f110a867ca8fd027c056d4c",
+  "checksum": "05d38b5b54cdf97eb8fde9022e36f8ce",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-impl-plan-completion-loop",
   "dependencies": [
     "codex-impl-plan-completion-loop",
-    "claude-code-design-and-implement-review-loop"
+    "claude-code-adversarial-implementation-review-loop"
   ],
   "repository": "https://github.com/tacogips/rielflow-packages",
   "workflow": {
     "title": "claude-code-impl-plan-completion-loop",
-    "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to claude-code-design-and-implement-review-loop, and repeat sequentially until no incomplete active plans remain.",
+    "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to claude-code-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
     "tags": [
       "workflow"
     ],
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "02788927f4e77a39c6f20268191c28a6189e782864c72afb4101e47c4e6de53d"
+    "digest": "f2a6da93faf3a320359e81979fe92197dd9cc66a33f583c969b67339ad0eda6c"
   },
   "backends": [
     "claude-code-agent"

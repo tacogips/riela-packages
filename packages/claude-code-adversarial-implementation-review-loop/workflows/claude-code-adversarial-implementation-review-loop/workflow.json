@@ -1,8 +1,8 @@
 {
-  "workflowId": "claude-code-impl-plan-completion-loop",
-  "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to claude-code-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
+  "workflowId": "claude-code-adversarial-implementation-review-loop",
+  "description": "Run a scoped Claude Code implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
   "extends": {
-    "workflowId": "codex-impl-plan-completion-loop",
+    "workflowId": "codex-adversarial-implementation-review-loop",
     "stringReplacements": {
       "codexAgentReferences": "claudeCodeAgentReferences",
       "codexAgent": "claudeCodeAgent",

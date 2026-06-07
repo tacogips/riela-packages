@@ -1,0 +1,12 @@
+{
+  "id": "creation-manager",
+  "description": "Normalize a full deep creation request for design, implementation-plan completion, and security checking.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/creation-manager.md",
+  "variables": {},
+  "output": {
+    "description": "Return normalized feature, design, implementation-plan, security, target path, and constraint inputs."
+  },
+  "effort": "high"
+}

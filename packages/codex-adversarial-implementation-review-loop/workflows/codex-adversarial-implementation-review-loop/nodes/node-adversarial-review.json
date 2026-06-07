@@ -1,0 +1,12 @@
+{
+  "id": "adversarial-review",
+  "description": "Perform read-only adversarial implementation review against the explicit review subject.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/adversarial-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return findings, severity, reviewed paths, verification gaps, needs_fix boolean, residual risks, and accepted status."
+  },
+  "effort": "high"
+}

@@ -5,7 +5,7 @@ Ignore `sessionId`, timestamps, and artifact paths.
 
 The mock scenario covers the no-incomplete-active-plan exit path. The normal
 implementation path is `step1-plan-assess` -> `step2-handoff` ->
-`codex-design-and-implement-review-loop` -> `step3-post-handoff` ->
+`codex-adversarial-implementation-review-loop` -> `step3-post-handoff` ->
 `step1-plan-assess`, repeating until Step 1 reports `plan_complete`.
 
 ## Validate

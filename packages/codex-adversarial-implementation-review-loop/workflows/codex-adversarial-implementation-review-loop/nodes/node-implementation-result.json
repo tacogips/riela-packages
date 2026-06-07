@@ -1,0 +1,12 @@
+{
+  "id": "implementation-result",
+  "description": "Summarize the accepted initial implementation result for adversarial review.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/implementation-result.md",
+  "variables": {},
+  "output": {
+    "description": "Return implementation status, changed files, verification, residual risks, and review input."
+  },
+  "effort": "medium"
+}

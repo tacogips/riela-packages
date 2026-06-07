@@ -1,8 +1,8 @@
 {
-  "workflowId": "cursor-cli-impl-plan-completion-loop",
-  "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to cursor-cli-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
+  "workflowId": "cursor-cli-adversarial-implementation-review-loop",
+  "description": "Run a scoped Cursor CLI implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
   "extends": {
-    "workflowId": "codex-impl-plan-completion-loop",
+    "workflowId": "codex-adversarial-implementation-review-loop",
     "stringReplacements": {
       "codexAgentReferences": "cursorCliAgentReferences",
       "codexAgent": "cursorCliAgent",

@@ -2,21 +2,21 @@
   "name": "codex-impl-plan-completion-loop",
   "version": "0.1.0",
   "title": "codex-impl-plan-completion-loop",
-  "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to codex-design-and-implement-review-loop, and repeat sequentially until no incomplete active plans remain.",
+  "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to codex-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "9440b38855b393e71027fa793b56568f",
+  "checksum": "7dd1be87297640e64401e06f104dfb0b",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-impl-plan-completion-loop",
   "dependencies": [
-    "codex-design-and-implement-review-loop"
+    "codex-adversarial-implementation-review-loop"
   ],
   "repository": "https://github.com/tacogips/rielflow-packages",
   "workflow": {
     "title": "codex-impl-plan-completion-loop",
-    "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to codex-design-and-implement-review-loop, and repeat sequentially until no incomplete active plans remain.",
+    "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to codex-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
     "tags": [
       "workflow"
     ],
@@ -26,7 +26,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "ea95a3c7cc52fae70b25c364a1410d3a5c7d9ff53d4e46b138a539655f008338"
+    "digest": "6c7987d53808c994afabd83f370e6dcc1ae2b39243537a8eebbcd2e19d13341a"
   },
   "backends": [
     "codex-agent"

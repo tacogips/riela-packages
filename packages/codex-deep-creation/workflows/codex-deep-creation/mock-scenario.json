@@ -1,0 +1,231 @@
+{
+  "creation-manager": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "feature": "Create an example workflow feature.",
+      "targetDesignDoc": "design-docs/specs/example-feature.md",
+      "targetPaths": [
+        "packages/example"
+      ],
+      "securityTargetPath": "packages/example",
+      "deepdesignInput": {
+        "workflowInput": {
+          "feature": "Create an example workflow feature.",
+          "targetDesignDoc": "design-docs/specs/example-feature.md"
+        }
+      },
+      "implCompletionInput": {
+        "workflowInput": {
+          "planPath": "impl-plans/active/example-feature.md"
+        }
+      },
+      "securityInput": {
+        "workflowInput": {
+          "targetPath": "packages/example",
+          "runNetworkAudits": "false"
+        }
+      },
+      "constraints": [
+        "Do not revert unrelated dirty worktree changes."
+      ],
+      "handoffSummary": "Run deep design, implementation-plan completion, then security checks."
+    }
+  },
+  "deepdesign-handoff": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "workflowInput": {
+        "feature": "Create an example workflow feature.",
+        "targetDesignDoc": "design-docs/specs/example-feature.md",
+        "constraints": [
+          "Do not revert unrelated dirty worktree changes."
+        ]
+      },
+      "handoffSummary": "Delegating deep design."
+    }
+  },
+  "deepdesign-result": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "deepdesignWorkflowId": "codex-deepdesign",
+      "deepdesignStatus": "accepted",
+      "designDocs": [
+        "design-docs/specs/example-feature.md"
+      ],
+      "designSummary": "Accepted deep design.",
+      "reviewSummaries": {
+        "deep": "accepted",
+        "broad": "accepted",
+        "adversarial": "accepted"
+      },
+      "implementationHints": [
+        "Complete impl-plans/active/example-feature.md."
+      ],
+      "constraints": [
+        "Do not revert unrelated dirty worktree changes."
+      ],
+      "handoffSummary": "Deep design accepted; preparing implementation-plan completion."
+    }
+  },
+  "impl-completion-handoff": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "workflowInput": {
+        "planPath": "impl-plans/active/example-feature.md",
+        "targetPaths": [
+          "packages/example"
+        ],
+        "constraints": [
+          "Do not revert unrelated dirty worktree changes."
+        ]
+      },
+      "handoffSummary": "Delegating adversarial implementation-plan completion."
+    }
+  },
+  "impl-completion-result": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "implCompletionWorkflowId": "codex-impl-plan-completion-loop",
+      "implCompletionStatus": "completed",
+      "completedPlans": [
+        "impl-plans/completed/example-feature.md"
+      ],
+      "activePlansRemaining": [],
+      "delegatedWorkflowRuns": [
+        {
+          "workflowId": "codex-adversarial-implementation-review-loop",
+          "status": "accepted"
+        }
+      ],
+      "changedFiles": [
+        "packages/example/src/index.ts",
+        "packages/example/src/index.test.ts"
+      ],
+      "verification": [
+        {
+          "command": "bun test packages/example/src/index.test.ts",
+          "result": "passed"
+        }
+      ],
+      "residualRisks": [],
+      "handoffSummary": "Implementation-plan completion accepted; preparing security check."
+    }
+  },
+  "security-handoff": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "workflowInput": {
+        "targetPath": "packages/example",
+        "runNetworkAudits": "false",
+        "creationContext": {
+          "completedPlans": [
+            "impl-plans/completed/example-feature.md"
+          ],
+          "changedFiles": [
+            "packages/example/src/index.ts",
+            "packages/example/src/index.test.ts"
+          ]
+        }
+      },
+      "handoffSummary": "Delegating source security check."
+    }
+  },
+  "security-result": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "securityWorkflowId": "codex-source-security-check-loop",
+      "securityStatus": "accepted",
+      "verifiedFindings": [],
+      "delegatedWorkflowRuns": [],
+      "changedFiles": [],
+      "verification": [
+        {
+          "command": "mock source security check",
+          "result": "passed"
+        }
+      ],
+      "residualRisks": [],
+      "coverageGaps": [],
+      "handoffSummary": "Security checks accepted."
+    }
+  },
+  "workflow-output": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "accepted",
+      "workflowId": "codex-deep-creation",
+      "feature": "Create an example workflow feature.",
+      "childWorkflowRuns": [
+        {
+          "workflowId": "codex-deepdesign",
+          "status": "accepted"
+        },
+        {
+          "workflowId": "codex-impl-plan-completion-loop",
+          "status": "completed"
+        },
+        {
+          "workflowId": "codex-source-security-check-loop",
+          "status": "accepted"
+        }
+      ],
+      "designDocs": [
+        "design-docs/specs/example-feature.md"
+      ],
+      "completedPlans": [
+        "impl-plans/completed/example-feature.md"
+      ],
+      "securityStatus": "accepted",
+      "changedFiles": [
+        "packages/example/src/index.ts",
+        "packages/example/src/index.test.ts"
+      ],
+      "verification": [
+        {
+          "command": "bun test packages/example/src/index.test.ts",
+          "result": "passed"
+        },
+        {
+          "command": "mock source security check",
+          "result": "passed"
+        }
+      ],
+      "residualRisks": [],
+      "operatorNotes": [
+        "Deep creation ran deep design, adversarial implementation-plan completion, and security checks."
+      ]
+    }
+  }
+}

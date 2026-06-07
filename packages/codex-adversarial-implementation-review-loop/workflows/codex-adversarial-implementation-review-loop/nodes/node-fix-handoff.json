@@ -1,0 +1,12 @@
+{
+  "id": "fix-handoff",
+  "description": "Package blocking adversarial findings into a delegated implementation fix request.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/fix-handoff.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON whose payload contains workflowInput for codex-design-and-implement-review-loop."
+  },
+  "effort": "high"
+}

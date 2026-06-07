@@ -1,0 +1,12 @@
+{
+  "id": "deepdesign-handoff",
+  "description": "Build the codex-deepdesign workflow input.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/deepdesign-handoff.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON whose payload contains workflowInput for codex-deepdesign."
+  },
+  "effort": "high"
+}

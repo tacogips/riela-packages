@@ -1,0 +1,158 @@
+{
+  "workflowId": "codex-deep-creation",
+  "description": "Coordinate a full Codex creation pass by running codex-deepdesign, codex-impl-plan-completion-loop, and codex-source-security-check-loop in sequence.",
+  "defaults": {
+    "maxLoopIterations": 12,
+    "nodeTimeoutMs": 3600000,
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    }
+  },
+  "prompts": {
+    "rielflowPromptTemplate": "Coordinate {{workflowId}}. Normalize the operator creation request, then dispatch codex-deepdesign to create or revise the design with deep, broad, and adversarial design reviews. After deep design returns accepted, summarize the design result and dispatch codex-impl-plan-completion-loop so active implementation plans are completed through the adversarial implementation review loop. After implementation-plan completion returns, summarize implementation evidence and dispatch codex-source-security-check-loop over the explicit target paths or repository target. Finish only after the security check loop reports no verified high or medium findings.",
+    "workerSystemPromptTemplate": "Return concise business JSON only. Keep child workflow inputs, accepted results, design docs, implementation plans, target paths, changed files, verification evidence, security findings, residual risks, and routing decisions explicit."
+  },
+  "managerStepId": "creation-manager",
+  "entryStepId": "creation-manager",
+  "nodes": [
+    {
+      "id": "creation-manager",
+      "nodeFile": "nodes/node-creation-manager.json"
+    },
+    {
+      "id": "deepdesign-handoff",
+      "nodeFile": "nodes/node-deepdesign-handoff.json"
+    },
+    {
+      "id": "deepdesign-result",
+      "nodeFile": "nodes/node-deepdesign-result.json"
+    },
+    {
+      "id": "impl-completion-handoff",
+      "nodeFile": "nodes/node-impl-completion-handoff.json"
+    },
+    {
+      "id": "impl-completion-result",
+      "nodeFile": "nodes/node-impl-completion-result.json"
+    },
+    {
+      "id": "security-handoff",
+      "nodeFile": "nodes/node-security-handoff.json"
+    },
+    {
+      "id": "security-result",
+      "nodeFile": "nodes/node-security-result.json"
+    },
+    {
+      "id": "workflow-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-workflow-output.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "creation-manager",
+      "nodeId": "creation-manager",
+      "description": "Normalize the deep creation request and stage child workflow inputs.",
+      "role": "manager",
+      "transitions": [
+        {
+          "toStepId": "deepdesign-handoff"
+        }
+      ]
+    },
+    {
+      "id": "deepdesign-handoff",
+      "nodeId": "deepdesign-handoff",
+      "description": "Package the design request for codex-deepdesign.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-deepdesign",
+          "toStepId": "rielflow-manager",
+          "resumeStepId": "deepdesign-result"
+        }
+      ]
+    },
+    {
+      "id": "deepdesign-result",
+      "nodeId": "deepdesign-result",
+      "description": "Summarize the accepted deep design result before implementation-plan completion.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "impl-completion-handoff"
+        }
+      ]
+    },
+    {
+      "id": "impl-completion-handoff",
+      "nodeId": "impl-completion-handoff",
+      "description": "Package the implementation-plan completion request.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-impl-plan-completion-loop",
+          "toStepId": "rielflow-manager",
+          "resumeStepId": "impl-completion-result"
+        }
+      ]
+    },
+    {
+      "id": "impl-completion-result",
+      "nodeId": "impl-completion-result",
+      "description": "Summarize the accepted implementation-plan completion result before security checks.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "security-handoff"
+        }
+      ]
+    },
+    {
+      "id": "security-handoff",
+      "nodeId": "security-handoff",
+      "description": "Package the source security check request.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-source-security-check-loop",
+          "toStepId": "rielflow-manager",
+          "resumeStepId": "security-result"
+        }
+      ]
+    },
+    {
+      "id": "security-result",
+      "nodeId": "security-result",
+      "description": "Summarize the accepted security check result.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "workflow-output"
+        }
+      ]
+    },
+    {
+      "id": "workflow-output",
+      "nodeId": "workflow-output",
+      "description": "Publish the combined deep creation result.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielflowPackage": {
+      "title": "codex-deep-creation",
+      "description": "Run deep design, adversarial implementation-plan completion, and source security checks as one Codex creation workflow.",
+      "tags": [
+        "workflow",
+        "codex",
+        "creation"
+      ],
+      "backends": [
+        "codex-agent"
+      ]
+    }
+  }
+}

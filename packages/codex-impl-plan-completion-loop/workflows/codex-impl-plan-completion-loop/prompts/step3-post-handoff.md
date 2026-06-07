@@ -1,6 +1,6 @@
 You are Step 3: delegated workflow result recorder.
 
-Read the result delivered from the cross-workflow call to `codex-design-and-implement-review-loop`, plus the Step 2 handoff payload that selected the active implementation plan.
+Read the result delivered from the cross-workflow call to `codex-adversarial-implementation-review-loop`, plus the Step 2 handoff payload that selected the active implementation plan.
 
 Rules:
 - Do not implement, review, stage, commit, push, or revert files in this step.

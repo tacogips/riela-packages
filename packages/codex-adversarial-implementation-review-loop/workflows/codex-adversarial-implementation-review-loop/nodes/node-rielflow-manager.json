@@ -1,0 +1,12 @@
+{
+  "id": "rielflow-manager",
+  "description": "Normalize adversarial implementation review inputs and decide whether to run an initial implementation handoff.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/rielflow-manager.md",
+  "variables": {},
+  "output": {
+    "description": "Return normalized review subject, implementation input, target paths, constraints, skip_initial_implementation route boolean, and routing notes."
+  },
+  "effort": "high"
+}

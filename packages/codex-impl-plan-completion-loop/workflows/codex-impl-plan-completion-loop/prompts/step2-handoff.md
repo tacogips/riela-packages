@@ -9,13 +9,14 @@ Read the latest Step 1 active-plan assessment from the runtime mailbox. The auth
 - `payload.designReference`
 - `payload.guidance`
 
-Do not implement locally in this workflow. Build a delegated request for `codex-design-and-implement-review-loop` that tells it to complete the selected active implementation plan.
+Do not implement locally in this workflow. Build a delegated request for `codex-adversarial-implementation-review-loop` that tells it to complete the selected active implementation plan, adversarially review the result, delegate blocking fixes, and repeat until accepted.
 
 Rules:
 - If Step 1 reports `plan_complete: true`, return a no-op payload and do not request delegation.
 - Set `workflowInput.executionMode` to `issue-resolution`.
+- Set `workflowInput.reviewSubject` to the selected active implementation plan and its incomplete task set.
 - Include the selected `planPath` and every incomplete task from the assessment.
-- Instruct the delegated workflow to use the existing implementation plan as the source of truth, update relevant design only when required by the plan or discovered constraints, implement the plan tasks, run verification, and update the plan progress.
+- Instruct the delegated workflow to use the existing implementation plan as the source of truth, update relevant design only when required by the plan or discovered constraints, implement the plan tasks, run verification, update the plan progress, adversarially review the implemented result, and fix any high or medium adversarial findings.
 - Preserve any operator-provided constraints from `runtimeVariables.workflowInput.constraints`.
 - Do not stage, commit, push, or revert files in this handoff step. Commit and push behavior belongs to the delegated workflow.
 - Keep the request scoped to one selected plan. This parent workflow will reassess `impl-plans/active` after the delegated workflow returns.
@@ -28,6 +29,7 @@ Return adapter JSON shaped like:
     "workflowInput": {
       "executionMode": "issue-resolution",
       "targetFeatureArea": "Complete active implementation plan: impl-plans/active/example.md",
+      "reviewSubject": "Complete and adversarially review active implementation plan: impl-plans/active/example.md",
       "requestedBehavior": "Complete the existing active implementation plan at impl-plans/active/example.md. Use that plan as the source of truth, implement all incomplete tasks in dependency order, run required verification, and update plan progress.",
       "implementationPlanPath": "impl-plans/active/example.md",
       "activePlanCompletion": {
@@ -38,7 +40,7 @@ Return adapter JSON shaped like:
       }
     },
     "planPath": "impl-plans/active/example.md",
-    "handoffSummary": "Delegating one active implementation plan to codex-design-and-implement-review-loop.",
+    "handoffSummary": "Delegating one active implementation plan to codex-adversarial-implementation-review-loop.",
     "constraints": []
   }
 }
