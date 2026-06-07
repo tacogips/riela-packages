@@ -33,8 +33,8 @@ Expected stable run summary:
   "status": "completed",
   "workflowName": "codex-design-and-implement-review-loop",
   "workflowId": "codex-design-and-implement-review-loop",
-  "nodeExecutions": 27,
-  "transitions": 26,
+  "nodeExecutions": 29,
+  "transitions": 28,
   "exitCode": 0
 }
 ```
@@ -65,6 +65,7 @@ Expected final output payload:
   "designReviewSummary": "Design accepted after the unresolved retention decision was moved into user QA.",
   "implPlanReviewSummary": "Implementation plan accepted after explicit persistence migration and regression verification tasks were added.",
   "implementationSummary": "Step 6 implemented the approved plan, addressed Step 7 feedback, and updated implementation-plan progress.",
+  "testIntegritySummary": "No inappropriate test deletion, weakened assertions, skipped coverage, or test-only hacks found.",
   "implementationReviewSummary": "Implementation accepted with no remaining high or mid findings.",
   "adversarialReviewSummary": "Adversarial review accepted the rerun persistence behavior with no high or mid findings.",
   "documentationFiles": [

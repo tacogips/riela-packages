@@ -28,6 +28,7 @@ If the workflow continued through Step 8, Step 9 emitted the commit message, Ste
 - `designReviewSummary`
 - `implPlanReviewSummary`
 - `implementationSummary`
+- `testIntegritySummary`
 - `implementationReviewSummary`
 - `adversarialReviewSummary` when the adversarial implementation review gate ran
 - `documentationFiles`

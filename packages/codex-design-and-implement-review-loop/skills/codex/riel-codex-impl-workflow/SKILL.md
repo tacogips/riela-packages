@@ -90,14 +90,16 @@ The workflow is responsible for:
 7. implementation-plan review
 8. implementation work
 9. implementation self-review
-10. implementation review
-11. adversarial implementation review for high-risk accepted changes
-12. user-facing documentation refresh (`README.md`, mandatory workflow skill
+10. test-integrity check for inappropriate test deletion, weakened assertions,
+    test-only hacks, skipped coverage, and verification shortcuts
+11. implementation review
+12. adversarial implementation review for high-risk accepted changes
+13. user-facing documentation refresh (`README.md`, mandatory workflow skill
     docs, and any directly affected user-facing skills such as event-source
     runbooks)
-13. staged secret scan with `gitleaks git --pre-commit --redact --staged --verbose`
-14. commit-message generation
-15. built-in git commit and git push add-on steps
+14. staged secret scan with `gitleaks git --pre-commit --redact --staged --verbose`
+15. commit-message generation
+16. built-in git commit and git push add-on steps
 
 The adversarial implementation review gate runs when explicitly requested with
 `workflowInput.requiresAdversarialReview`, `workflowInput.reviewMode:
