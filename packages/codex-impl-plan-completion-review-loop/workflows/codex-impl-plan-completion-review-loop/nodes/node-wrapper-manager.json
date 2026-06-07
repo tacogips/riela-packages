@@ -1,0 +1,52 @@
+{
+  "id": "wrapper-manager",
+  "description": "Coordinate the implementation-plan completion plus review wrapper.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/wrapper-manager.md",
+  "variables": {},
+  "input": {
+    "description": "Workflow arguments. Optional workflowInput.planPath constrains implementation to one active plan. Optional workflowInput.hours and workflowInput.targetPaths tune the follow-up recent-change review.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "workflowInput": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "planPath": {
+              "type": "string",
+              "minLength": 1
+            },
+            "maxIterations": {
+              "type": "number",
+              "minimum": 1
+            },
+            "hours": {
+              "type": "number",
+              "minimum": 1
+            },
+            "targetPaths": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "constraints": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "output": {
+    "description": "Return JSON preserving implementation and review inputs for downstream handoff steps."
+  }
+}

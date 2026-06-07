@@ -1,0 +1,365 @@
+{
+  "wrapper-manager": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "implLoopWorkflowId": "codex-impl-plan-completion-loop",
+      "reviewLoopWorkflowId": "codex-recent-change-quality-loop",
+      "implementationInput": {
+        "workflowInput": {
+          "planPath": "impl-plans/active/example-complete-plan.md",
+          "maxIterations": 1
+        }
+      },
+      "reviewInput": {
+        "hours": 24,
+        "targetPaths": [
+          "impl-plans/completed/example-complete-plan.md"
+        ]
+      },
+      "constraints": [
+        "Do not stage, commit, push, or revert unrelated dirty worktree changes."
+      ],
+      "routingDecision": "run-implementation-loop-first"
+    }
+  },
+  "impl-loop-handoff": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "workflowInput": {
+        "planPath": "impl-plans/active/example-complete-plan.md",
+        "maxIterations": 1,
+        "constraints": [
+          "Do not stage, commit, push, or revert unrelated dirty worktree changes."
+        ]
+      },
+      "wrapperContext": {
+        "nextWorkflowId": "codex-recent-change-quality-loop",
+        "reviewInput": {
+          "hours": 24,
+          "targetPaths": [
+            "impl-plans/completed/example-complete-plan.md"
+          ]
+        }
+      },
+      "handoffSummary": "Delegating implementation-plan completion before review."
+    }
+  },
+  "rielflow-manager": [
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.5",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "planPath": "impl-plans/active/example-complete-plan.md",
+        "targetTasks": [],
+        "constraints": [
+          "Do not stage, commit, push, or revert unrelated dirty worktree changes."
+        ]
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.5",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "hours": 24,
+        "targetScope": [
+          "impl-plans/completed/example-complete-plan.md"
+        ],
+        "notes": [
+          "Review after implementation-plan completion."
+        ]
+      }
+    }
+  ],
+  "step1-plan-assess": {
+    "provider": "scenario-mock",
+    "model": "scenario-command",
+    "when": {
+      "plan_complete": true
+    },
+    "payload": {
+      "planPath": "impl-plans/active/example-complete-plan.md",
+      "plan_complete": true,
+      "activePlanFound": true,
+      "designReference": "design-docs/specs/example.md",
+      "completedTasks": [
+        "TASK-001"
+      ],
+      "incompleteTasks": [],
+      "nextTaskId": null,
+      "implementationRequired": false,
+      "verificationCommands": [
+        "mock implementation-plan completion verification"
+      ],
+      "residualRisks": []
+    }
+  },
+  "step4-archive-completed-plans": {
+    "provider": "scenario-mock",
+    "model": "scenario-command",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "archivedPlanPaths": [
+        "impl-plans/completed/example-complete-plan.md"
+      ],
+      "skippedPlanPaths": [],
+      "activePlansRemaining": [],
+      "indexUpdated": true,
+      "dryRun": false
+    }
+  },
+  "workflow-output": [
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.5",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "status": "completed",
+        "lastAssessedPlanPath": "impl-plans/active/example-complete-plan.md",
+        "completedTasks": [
+          "TASK-001"
+        ],
+        "remainingTasks": [],
+        "archivedPlans": [
+          "impl-plans/completed/example-complete-plan.md"
+        ],
+        "activePlansRemaining": [],
+        "delegatedWorkflowRuns": [],
+        "verificationEvidence": [
+          {
+            "command": "mock implementation-plan completion verification",
+            "result": "passed"
+          }
+        ],
+        "changedFiles": [
+          "impl-plans/completed/example-complete-plan.md",
+          "impl-plans/README.md"
+        ],
+        "residualRisks": [],
+        "operatorNotes": [
+          "No incomplete active tasks remained in the mock scenario."
+        ]
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.5",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "status": "accepted",
+        "hours": 24,
+        "reviewedRange": "HEAD~1..HEAD plus clean working tree",
+        "finalFindings": [],
+        "fixIterations": 0,
+        "delegatedWorkflowRuns": [],
+        "changedFiles": [
+          "impl-plans/completed/example-complete-plan.md",
+          "impl-plans/README.md"
+        ],
+        "verification": [
+          "mock recent-change review verification"
+        ],
+        "residualLowRisks": [],
+        "operatorNotes": [
+          "The post-implementation review found no blocking findings."
+        ]
+      }
+    }
+  ],
+  "impl-loop-result": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "implLoopWorkflowId": "codex-impl-plan-completion-loop",
+      "implLoopStatus": "completed",
+      "completedPlans": [
+        "impl-plans/completed/example-complete-plan.md"
+      ],
+      "activePlansRemaining": [],
+      "delegatedWorkflowRuns": [],
+      "implementationChangedFiles": [
+        "impl-plans/completed/example-complete-plan.md",
+        "impl-plans/README.md"
+      ],
+      "implementationVerification": [
+        {
+          "command": "mock implementation-plan completion verification",
+          "result": "passed"
+        }
+      ],
+      "implementationResidualRisks": [],
+      "reviewInput": {
+        "hours": 24,
+        "targetPaths": [
+          "impl-plans/completed/example-complete-plan.md"
+        ]
+      },
+      "handoffSummary": "Implementation-plan completion returned successfully; delegating review."
+    }
+  },
+  "review-loop-handoff": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "workflowInput": {
+        "hours": 24,
+        "targetPaths": [
+          "impl-plans/completed/example-complete-plan.md"
+        ],
+        "reviewContext": {
+          "sourceWorkflowId": "codex-impl-plan-completion-loop",
+          "implementationChangedFiles": [
+            "impl-plans/completed/example-complete-plan.md",
+            "impl-plans/README.md"
+          ],
+          "implementationVerification": [
+            {
+              "command": "mock implementation-plan completion verification",
+              "result": "passed"
+            }
+          ],
+          "implementationResidualRisks": []
+        }
+      },
+      "handoffSummary": "Delegating recent-change review after implementation-plan completion."
+    }
+  },
+  "step1-review": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "hours": 24,
+      "historyBase": "HEAD~1",
+      "reviewedCommands": [
+        "git rev-list -n 1 --before=\"24 hours ago\" HEAD",
+        "git log --since=\"24 hours ago\" --stat --name-status",
+        "git diff --cached",
+        "git diff"
+      ],
+      "reviewedCommittedRange": "HEAD~1..HEAD",
+      "reviewedUncommitted": false,
+      "findings": [],
+      "blockingFindingCount": 0,
+      "needs_fix": false,
+      "recommendedFixPlan": [],
+      "verificationSuggestions": [
+        "mock recent-change review verification"
+      ]
+    }
+  },
+  "step2-exit-gate": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "needs_fix": false
+    },
+    "payload": {
+      "needs_fix": false,
+      "blockingFindingCount": 0,
+      "decision": "exit",
+      "blockingFindings": [],
+      "exitReason": "No high or mid findings remain."
+    }
+  },
+  "review-loop-result": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "reviewLoopWorkflowId": "codex-recent-change-quality-loop",
+      "reviewStatus": "accepted",
+      "reviewedRange": "HEAD~1..HEAD plus clean working tree",
+      "finalFindings": [],
+      "fixIterations": 0,
+      "reviewDelegatedWorkflowRuns": [],
+      "reviewChangedFiles": [
+        "impl-plans/completed/example-complete-plan.md",
+        "impl-plans/README.md"
+      ],
+      "reviewVerification": [
+        "mock recent-change review verification"
+      ],
+      "reviewResidualLowRisks": [],
+      "operatorNotes": [
+        "The post-implementation review found no blocking findings."
+      ],
+      "implementationEvidence": {
+        "implLoopWorkflowId": "codex-impl-plan-completion-loop",
+        "implLoopStatus": "completed"
+      }
+    }
+  },
+  "final-output": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "accepted",
+      "workflowId": "codex-impl-plan-completion-review-loop",
+      "childWorkflowRuns": [
+        {
+          "workflowId": "codex-impl-plan-completion-loop",
+          "status": "completed"
+        },
+        {
+          "workflowId": "codex-recent-change-quality-loop",
+          "status": "accepted"
+        }
+      ],
+      "completedPlans": [
+        "impl-plans/completed/example-complete-plan.md"
+      ],
+      "activePlansRemaining": [],
+      "reviewedRange": "HEAD~1..HEAD plus clean working tree",
+      "finalFindings": [],
+      "fixIterations": 0,
+      "changedFiles": [
+        "impl-plans/completed/example-complete-plan.md",
+        "impl-plans/README.md"
+      ],
+      "verification": [
+        {
+          "command": "mock implementation-plan completion verification",
+          "result": "passed"
+        },
+        "mock recent-change review verification"
+      ],
+      "residualRisks": [],
+      "operatorNotes": [
+        "Implementation-plan completion ran before recent-change review."
+      ]
+    }
+  }
+}

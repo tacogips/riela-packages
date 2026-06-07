@@ -1,0 +1,41 @@
+{
+  "name": "codex-impl-plan-completion-review-loop",
+  "version": "0.1.0",
+  "title": "codex-impl-plan-completion-review-loop",
+  "description": "Run the Codex implementation-plan completion loop, then run the recent-change quality review-and-improve loop against the resulting work.",
+  "tags": [
+    "workflow",
+    "codex",
+    "review"
+  ],
+  "registry": "default",
+  "checksum": "addb3c72ef039930f25f90566e7fe855",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/codex-impl-plan-completion-review-loop",
+  "dependencies": [
+    "codex-impl-plan-completion-loop",
+    "codex-recent-change-quality-loop"
+  ],
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "codex-impl-plan-completion-review-loop",
+    "description": "Run the Codex implementation-plan completion loop, then run the recent-change quality review-and-improve loop against the resulting work.",
+    "tags": [
+      "workflow",
+      "codex",
+      "review"
+    ],
+    "backends": [
+      "codex-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "72113ec596c8f5d1264539f3b943500df2fd7b29ed32c029235a9aa2b0c9c83c"
+  },
+  "backends": [
+    "codex-agent"
+  ],
+  "packageId": "codex-impl-plan-completion-review-loop",
+  "skillDirectory": "skills"
+}

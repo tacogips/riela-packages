@@ -9,6 +9,22 @@ user-invocable: true
 Use this skill to manage the `./tasks/list.jsonl` queue consumed by the
 packaged `codex-task-watchdog` workflow.
 
+## Invocation Phrases
+
+Treat these user requests as requests to add an `active` item to the watchdog
+task queue:
+
+- `watchdog taskを追加せよ`
+- `watchdog taskを追加して`
+- `Codex watchdogにタスクを積んで`
+- `codex-task-watchdogにこの作業を予約して`
+- `tasks/list.jsonlにwatchdog用タスクを追加して`
+
+When the user says `watchdog task`, assume they mean a task queue item for
+`codex-task-watchdog`, not starting or stopping the background watcher, unless
+they explicitly mention daemon setup, cron/event serving, start, stop, or
+status inspection.
+
 ## Queue File
 
 Default path: `./tasks/list.jsonl`.

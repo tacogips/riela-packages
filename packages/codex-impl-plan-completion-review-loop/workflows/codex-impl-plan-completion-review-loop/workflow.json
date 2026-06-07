@@ -1,0 +1,126 @@
+{
+  "workflowId": "codex-impl-plan-completion-review-loop",
+  "description": "Run codex-impl-plan-completion-loop first, then run codex-recent-change-quality-loop so the completed implementation work is reviewed and improved before final output.",
+  "defaults": {
+    "maxLoopIterations": 10,
+    "nodeTimeoutMs": 3600000,
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    }
+  },
+  "prompts": {
+    "rielflowPromptTemplate": "Coordinate {{workflowId}}. First package the operator request and dispatch codex-impl-plan-completion-loop through the cross-workflow transition. After it completes, summarize the implementation result, package a recent-change review request, and dispatch codex-recent-change-quality-loop. Finish only after the review-and-improve workflow returns an accepted result.",
+    "workerSystemPromptTemplate": "Return concise business JSON only. Keep workflow-call inputs, delegated results, reviewed ranges, verification evidence, changed files, and residual risks explicit."
+  },
+  "managerStepId": "wrapper-manager",
+  "entryStepId": "wrapper-manager",
+  "nodes": [
+    {
+      "id": "wrapper-manager",
+      "nodeFile": "nodes/node-wrapper-manager.json"
+    },
+    {
+      "id": "impl-loop-handoff",
+      "nodeFile": "nodes/node-impl-loop-handoff.json"
+    },
+    {
+      "id": "impl-loop-result",
+      "nodeFile": "nodes/node-impl-loop-result.json"
+    },
+    {
+      "id": "review-loop-handoff",
+      "nodeFile": "nodes/node-review-loop-handoff.json"
+    },
+    {
+      "id": "review-loop-result",
+      "nodeFile": "nodes/node-review-loop-result.json"
+    },
+    {
+      "id": "final-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-final-output.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "wrapper-manager",
+      "nodeId": "wrapper-manager",
+      "description": "Start the implementation-plan completion plus review wrapper.",
+      "role": "manager",
+      "transitions": [
+        {
+          "toStepId": "impl-loop-handoff"
+        }
+      ]
+    },
+    {
+      "id": "impl-loop-handoff",
+      "nodeId": "impl-loop-handoff",
+      "description": "Package the operator request for codex-impl-plan-completion-loop.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-impl-plan-completion-loop",
+          "toStepId": "rielflow-manager",
+          "resumeStepId": "impl-loop-result"
+        }
+      ]
+    },
+    {
+      "id": "impl-loop-result",
+      "nodeId": "impl-loop-result",
+      "description": "Summarize the completed implementation-plan loop before review.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "review-loop-handoff"
+        }
+      ]
+    },
+    {
+      "id": "review-loop-handoff",
+      "nodeId": "review-loop-handoff",
+      "description": "Package the implementation result for codex-recent-change-quality-loop.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-recent-change-quality-loop",
+          "toStepId": "rielflow-manager",
+          "resumeStepId": "review-loop-result"
+        }
+      ]
+    },
+    {
+      "id": "review-loop-result",
+      "nodeId": "review-loop-result",
+      "description": "Summarize the accepted recent-change review-and-improve result.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "final-output"
+        }
+      ]
+    },
+    {
+      "id": "final-output",
+      "nodeId": "final-output",
+      "description": "Publish combined implementation and review evidence.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielflowPackage": {
+      "title": "codex-impl-plan-completion-review-loop",
+      "description": "Run the Codex implementation-plan completion loop, then run the recent-change quality review-and-improve loop against the resulting work.",
+      "tags": [
+        "workflow",
+        "codex",
+        "review"
+      ],
+      "backends": [
+        "codex-agent"
+      ]
+    }
+  }
+}

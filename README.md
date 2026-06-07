@@ -84,6 +84,11 @@ rielflow package status <package-id>
   Finds incomplete implementation plans under `impl-plans/active`, delegates
   each selected plan to `codex-design-and-implement-review-loop`, and repeats
   until no incomplete active plans remain. `backend: codex-agent`.
+- [codex-impl-plan-completion-review-loop](packages/codex-impl-plan-completion-review-loop) -
+  Runs `codex-impl-plan-completion-loop` first, then runs
+  `codex-recent-change-quality-loop` so completed implementation work is
+  reviewed and improved before final output. `backend: codex-agent`; includes
+  Codex skills.
 - [codex-recent-change-quality-loop](packages/codex-recent-change-quality-loop) -
   Reviews recent code changes, including uncommitted changes, delegates
   blocking findings to `codex-design-and-implement-review-loop`, and re-reviews
@@ -214,6 +219,7 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 | [codex-deepdesign](packages/codex-deepdesign) | workflow | `codex-agent` | Codex |
 | [codex-design-and-implement-review-loop](packages/codex-design-and-implement-review-loop) | workflow | `codex-agent` | Codex |
 | [codex-impl-plan-completion-loop](packages/codex-impl-plan-completion-loop) | workflow | `codex-agent` | - |
+| [codex-impl-plan-completion-review-loop](packages/codex-impl-plan-completion-review-loop) | workflow | `codex-agent` | Codex |
 | [codex-recent-change-quality-loop](packages/codex-recent-change-quality-loop) | workflow | `codex-agent` | - |
 | [codex-refactoring-divide-and-conquer](packages/codex-refactoring-divide-and-conquer) | workflow | `codex-agent` | Codex |
 | [codex-refactoring-slice-review](packages/codex-refactoring-slice-review) | workflow | `codex-agent` | - |

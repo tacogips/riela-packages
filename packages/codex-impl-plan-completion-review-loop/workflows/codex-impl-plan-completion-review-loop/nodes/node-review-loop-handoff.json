@@ -1,0 +1,11 @@
+{
+  "id": "review-loop-handoff",
+  "description": "Prepare a delegated request for codex-recent-change-quality-loop.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/review-loop-handoff.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON whose payload contains workflowInput for codex-recent-change-quality-loop plus implementation evidence."
+  }
+}
