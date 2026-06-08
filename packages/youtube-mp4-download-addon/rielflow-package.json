@@ -11,10 +11,10 @@
   ],
   "registry": "https://github.com/tacogips/rielflow-packages",
   "checksumAlgorithm": "md5",
-  "checksum": "14e7bdab45386565dd24c728b80c3ac7",
+  "checksum": "e3c3580cacb121b6aace5ec41e7924f3",
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "6ab6dd4f739b09a4f938018db53c2bdce00f3a0a0e4b306638dfe60796250f2a",
+    "digest": "bb17e09385b1b17ad6c9eba0afaf39e25e7f46795885576f6e162121b5a4cb07",
     "signatures": []
   },
   "addons": [
@@ -45,11 +45,11 @@
         {
           "name": "filesystem.write",
           "required": true,
-          "scope": "mailbox.outbox",
+          "scope": "runtime.output",
           "reason": "writes the downloaded MP4 artifact and output JSON"
         }
       ],
-      "contentDigest": "sha256:0560c1860605f30c8f86aa838f2b985a85f341f37fb33087b0014df6360c1fc0"
+      "contentDigest": "sha256:25893e50771fb5295c657e543d747e23ec4124b438729bec745f81e36bd11cd1"
     }
   ]
 }

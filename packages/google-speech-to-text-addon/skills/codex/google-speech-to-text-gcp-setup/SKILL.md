@@ -122,39 +122,14 @@ gcloud storage rm "$GCS_URI_PREFIX/test.txt"
 
 ## Verify The Add-on Path
 
-Run the add-on against a real local audio file and the configured
-`gcsUriPrefix`:
+Run the add-on through rielflow's node add-on runner or a small temporary
+workflow against a real local audio file and the configured `gcsUriPrefix`.
+Inspect the workflow result through `session status --output json`,
+`session export --output json`, or GraphQL/runtime database diagnostics.
 
-```bash
-export RIEL_MAILBOX_DIR="$(mktemp -d)/speech"
-mkdir -p "$RIEL_MAILBOX_DIR"
-export GOOGLE_SPEECH_POLL_INTERVAL_SECONDS=10
-export GOOGLE_SPEECH_OPERATION_TIMEOUT_SECONDS=3600
-
-packages/google-speech-to-text-addon/addons/tacogips/google-speech-to-text/1/google-speech-to-text.bash \
-  "$AUDIO_PATH" \
-  "${LANGUAGE_CODE:-ja-JP}" \
-  "$GCS_URI_PREFIX"
-```
-
-Summarize the result without dumping long transcripts:
-
-```bash
-node -e '
-const fs = require("fs");
-const p = JSON.parse(fs.readFileSync(`${process.env.RIEL_MAILBOX_DIR}/outbox/output.json`, "utf8"));
-const g = p.googleSpeechToText;
-console.log(JSON.stringify({
-  transcriptLength: p.transcript.length,
-  resultCount: g.resultCount,
-  method: g.method,
-  provider: g.provider,
-  gcsUri: g.gcsUri,
-  operationName: g.operationName,
-  transcriptPreview: p.transcript.slice(0, 240)
-}, null, 2));
-'
-```
+Do not verify this add-on by reading `inbox` or `outbox` files. Workflow
+communication payloads are stored in SQLite, and transcript previews should be
+summarized from the structured runtime output without dumping long transcripts.
 
 After a successful smoke test, delete the uploaded audio object unless the user
 asks to keep it:

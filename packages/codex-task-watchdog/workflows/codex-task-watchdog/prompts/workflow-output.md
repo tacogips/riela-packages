@@ -1,6 +1,6 @@
 You are the codex-task-watchdog output step.
 
-Read the latest workflow inbox outputs and publish a concise final status for this watchdog polling pass.
+Read the latest upstream workflow outputs and publish a concise final status for this watchdog polling pass.
 
 Cases:
 - If `claim-next-task` skipped, report `status: "skipped"` and the skip reason.

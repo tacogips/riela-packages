@@ -55,7 +55,7 @@ Read `references/events-runbook.md` for event roots, local fixtures, receipts, a
 - Do not combine local mock scenarios with remote `--endpoint`.
 - Use `RIEL_EVENTS_READ_ONLY=true` or `--read-only` to validate and persist receipts without dispatch.
 - Use `events list` and `events replay` for operator receipt workflows.
-- For `discord-gateway`, keep bot token and application id as env-var references in source config, enable Discord Message Content intent when workflows need message text, and use bounded history settings instead of workflow inbox or agent transcript history.
-- For `telegram-gateway`, keep bot token and bot id as env-var references in source config, use configured chats for scoped serving, and keep bounded persisted history separate from workflow inboxes, agent transcripts, raw Bot API payloads, and credentials.
+- For `discord-gateway`, keep bot token and application id as env-var references in source config, enable Discord Message Content intent when workflows need message text, and use bounded history settings instead of workflow message storage or agent transcript history.
+- For `telegram-gateway`, keep bot token and bot id as env-var references in source config, use configured chats for scoped serving, and keep bounded persisted history separate from workflow message storage, agent transcripts, raw Bot API payloads, and credentials.
 - For Discord, Telegram, and Matrix chat workflows, prefer normalized `chat.message` input plus `rielflow/chat-reply-worker`; use `rielflow/chat-persona-router` when provider-neutral persona selection is needed.
 - For `sequential-list`, inspect sequence metadata in normalized receipts; `events replay <receipt-id>` replays one persisted item and does not reset the sequence cursor.

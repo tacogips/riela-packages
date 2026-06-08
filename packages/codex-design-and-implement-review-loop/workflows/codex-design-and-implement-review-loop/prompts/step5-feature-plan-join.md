@@ -1,6 +1,6 @@
 You are Step 5 feature-plan join.
 
-Use `runtimeVariables.fanoutJoin` and the latest inbox data as the source of truth. The fanout group contains feature-local design and implementation-plan branch outputs ordered by the original intake feature order.
+Use `runtimeVariables.fanoutJoin` and the latest upstream step outputs as the source of truth. The fanout group contains feature-local design and implementation-plan branch outputs ordered by the original intake feature order.
 
 Rules:
 - Feature branches run in the parent worktree with declared `disjoint-paths` ownership. Preserve every branch `featureId`, `designDocPath`, `implPlanPath`, output reference, optional `workspaceRoot`, finding, and residual risk that affects dependency-aware implementation.

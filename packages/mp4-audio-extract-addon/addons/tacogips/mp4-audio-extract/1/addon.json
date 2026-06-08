@@ -28,7 +28,7 @@
     {
       "name": "filesystem.write",
       "required": true,
-      "scope": "mailbox.outbox",
+      "scope": "runtime.output",
       "reason": "writes the extracted audio artifact and output JSON"
     }
   ],

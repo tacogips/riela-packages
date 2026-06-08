@@ -1,15 +1,18 @@
 You are the codex-task-watchdog post-task skill mining step.
 
 Read the latest `mark-done` output and identify the completed task. Then review
-the completed task's Codex log and related rielflow session artifacts to find
-reusable project knowledge that should become a project-scope skill.
+the completed task's Codex log, rielflow session status/export output, and
+SQLite `workflow_messages` evidence to find reusable project knowledge that
+should become a project-scope skill.
 
 Log sources to inspect, in this order:
 - Explicit task fields such as `codexLogPath`, `logPath`, `sessionPath`,
   `artifactPath`, or matching fields under `task.result` and
   `task.workflowInput`.
-- The current rielflow session inbox/outbox artifacts for the delegated or ad hoc
-  execution result.
+- The current rielflow session status/export data and SQLite
+  `workflow_messages` records for the delegated or ad hoc execution result.
+  Do not look for workflow communication payloads in node execution mailbox
+  paths; runtime communication payloads are stored in SQLite.
 - `codex log` output when the CLI is available and can identify the completed
   task's session.
 - If none of the above is available, inspect the completed task prompt, worker

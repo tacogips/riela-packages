@@ -15,8 +15,9 @@ one watchdog polling pass:
    - `review` -> `codex-recent-change-quality-loop`
    - `adhoc` -> local Codex worker
 5. Marks the running task `done` after delegated or ad hoc completion.
-6. Reviews the completed task's Codex log and rielflow session artifacts for
-   reusable lessons that should become project-scope skills.
+6. Reviews the completed task's Codex log, rielflow session status/export
+   output, and SQLite `workflow_messages` evidence for reusable lessons that
+   should become project-scope skills.
 7. Creates or updates accepted project-scope skills under `.agents/skills`.
 8. Reviews the skill changes, then commits the completed queue update and
    accepted skill files.

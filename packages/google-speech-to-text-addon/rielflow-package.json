@@ -11,10 +11,10 @@
   ],
   "registry": "https://github.com/tacogips/rielflow-packages",
   "checksumAlgorithm": "md5",
-  "checksum": "a90b1561d441c0ce8e7420ac1837056a",
+  "checksum": "0cc1c5ca2320450a91831c9899a233a9",
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "0550c7402dc8f48def1b538582807ac7f215c6131df450786f36aac648332a8a",
+    "digest": "7a8319d2db6a2e4b085e06dfe3ef03ba1fe0b1385e629b4c5a52b2927a7c346f",
     "signatures": []
   },
   "skillDirectory": "skills",
@@ -51,7 +51,7 @@
         {
           "name": "filesystem.write",
           "required": true,
-          "scope": "mailbox.outbox",
+          "scope": "runtime.output",
           "reason": "writes transcripts, captions, raw response, and output JSON"
         },
         {
@@ -61,7 +61,7 @@
           "reason": "reads explicit Google authentication environment bindings"
         }
       ],
-      "contentDigest": "sha256:d6d8a285cedb68c0f72349fa79780157576ec6c23b11d0f7600c3fbbcb257343"
+      "contentDigest": "sha256:3077396309e3ed3d39dfc1561b6f911d01c558452fbfabf41de8fdf6656aa9be"
     }
   ]
 }

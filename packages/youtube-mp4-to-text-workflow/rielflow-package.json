@@ -13,10 +13,10 @@
   "registry": "https://github.com/tacogips/rielflow-packages",
   "workflowDirectory": "workflows/youtube-mp4-to-text",
   "checksumAlgorithm": "md5",
-  "checksum": "c02131854195513dfcca2289fb1d1f64",
+  "checksum": "2bb265ed809677a40b626df1d90a4135",
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "54c616009fd92f5d3d6aa4b5ecf10ef4da03b5967b3d3ef4be34dfc84d9ed226",
+    "digest": "f4abbdd7f64325b7810ac45fc7acb3d136f78ad7e76c3ffeb6cfd7eaf3a2e6c3",
     "signatures": []
   },
   "dependencies": [
@@ -28,7 +28,7 @@
         {
           "name": "tacogips/youtube-mp4-download",
           "version": "1",
-          "contentDigest": "sha256:0560c1860605f30c8f86aa838f2b985a85f341f37fb33087b0014df6360c1fc0",
+          "contentDigest": "sha256:25893e50771fb5295c657e543d747e23ec4124b438729bec745f81e36bd11cd1",
           "capabilityGrant": {
             "process.spawn": {
               "allowed": true
@@ -38,7 +38,7 @@
             },
             "filesystem.write": {
               "allowed": true,
-              "scope": "mailbox.outbox"
+              "scope": "runtime.output"
             }
           }
         }
@@ -52,14 +52,14 @@
         {
           "name": "tacogips/mp4-audio-extract",
           "version": "1",
-          "contentDigest": "sha256:9a18596533fdbe7ce14bab3013c27c89b7c93a4d7a434b2d3e36a2a687c1369c",
+          "contentDigest": "sha256:f9371c1c87b699245f93d5c0a0d1d00496cf592477c35dc514c841fc40a02cb6",
           "capabilityGrant": {
             "process.spawn": {
               "allowed": true
             },
             "filesystem.write": {
               "allowed": true,
-              "scope": "mailbox.outbox"
+              "scope": "runtime.output"
             }
           }
         }
@@ -73,7 +73,7 @@
         {
           "name": "tacogips/google-speech-to-text",
           "version": "1",
-          "contentDigest": "sha256:d6d8a285cedb68c0f72349fa79780157576ec6c23b11d0f7600c3fbbcb257343",
+          "contentDigest": "sha256:3077396309e3ed3d39dfc1561b6f911d01c558452fbfabf41de8fdf6656aa9be",
           "capabilityGrant": {
             "process.spawn": {
               "allowed": true
@@ -86,7 +86,7 @@
             },
             "filesystem.write": {
               "allowed": true,
-              "scope": "mailbox.outbox"
+              "scope": "runtime.output"
             },
             "env.read": {
               "allowed": true,

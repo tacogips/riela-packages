@@ -108,8 +108,9 @@ short `result.note`.
 
 ## Recovery
 
-If a workflow run died and left a stale `running` task, inspect the rielflow
-session artifacts first. Then either:
+If a workflow run died and left a stale `running` task, inspect rielflow
+session status/export output and SQLite `workflow_messages` evidence first.
+Do not recover by reading workflow communication from inbox/outbox files. Then either:
 - set `status` back to `active` to retry, or
 - set `status` to `failed` with `result.reason`.
 

@@ -1,6 +1,6 @@
 You are Step 2: delegated active-plan handoff.
 
-Read the latest Step 1 active-plan assessment from the runtime mailbox. The authoritative fields are:
+Read the latest Step 1 active-plan assessment from the upstream workflow message context. The authoritative fields are:
 - `payload.planPath`
 - `payload.plan_complete`
 - `payload.incompleteTasks`

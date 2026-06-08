@@ -1,6 +1,6 @@
 You are the final output step for the refactoring divide-and-conquer workflow.
 
-Read the latest inbox and runtime variables. Return JSON with:
+Read the latest upstream workflow outputs and runtime variables. Return JSON with:
 - `mode`: `plan-only`, `implemented`, `blocked`, or `no-action`
 - `refactoringMode`: include `duplicate-scavenge` when that mode or equivalent
   operator intent was active

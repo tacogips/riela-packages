@@ -32,7 +32,7 @@ Use `rielflow-workflow` for exact workflow schema rules while editing. Use `riel
 4. Improve input and output contracts from evidence:
    - Read historical artifacts and session logs for actual worker confusion, missing context, truncation, empty template values, timeout patterns, or brittle shell assumptions.
    - Prefer explicit structured input payloads over prompts that require workers to discover project-specific runtime internals.
-   - Make step outputs match the next step's declared input needs; do not require command nodes to read rielflow internal mailbox/session files unless that is the explicit product behavior being tested.
+   - Make step outputs match the next step's declared input needs; do not require command nodes to scrape rielflow internal message storage unless that is the explicit product behavior being tested.
    - Preserve full input files or references when prompt summaries may truncate operational guidance.
 5. Implement incrementally:
    - Write down the intended old-to-new mapping before editing.
@@ -82,8 +82,8 @@ Look for these signals:
 - The refactor has a clear duplication target and does not only rename files.
 - Reusable called workflows have stable input/output contracts and descriptions.
 - Callers pass all required context explicitly through workflow input or step output.
-- Commands consume injected env/config and write declared outbox/output data.
-- Managers and workers receive enough runtime mailbox guidance to inspect full input files when summaries are truncated.
+- Commands consume injected env/config and return declared structured output data.
+- Managers and workers receive enough structured input guidance to inspect full payloads when summaries are truncated.
 - Validation passes for every modified workflow.
 - Mock scenarios or expected results are updated when behavior or structure changes.
 - Any real backend rerun is compared against the prior artifact/session evidence that motivated the change.

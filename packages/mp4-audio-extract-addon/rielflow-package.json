@@ -11,10 +11,10 @@
   ],
   "registry": "https://github.com/tacogips/rielflow-packages",
   "checksumAlgorithm": "md5",
-  "checksum": "62c361da8c494eafbd3eeb5b81509220",
+  "checksum": "47d5f61c4614c5baf7e10bc791bb428c",
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "73bd1cf0b105991a64cab048923178a02685912808a0617dc1251ebe31d03bf5",
+    "digest": "e8abc9ee3db561cdbe41008c8d9edcdf907a1e8b0bc7afda4db67a4900895bd9",
     "signatures": []
   },
   "addons": [
@@ -40,11 +40,11 @@
         {
           "name": "filesystem.write",
           "required": true,
-          "scope": "mailbox.outbox",
+          "scope": "runtime.output",
           "reason": "writes the extracted audio artifact and output JSON"
         }
       ],
-      "contentDigest": "sha256:9a18596533fdbe7ce14bab3013c27c89b7c93a4d7a434b2d3e36a2a687c1369c"
+      "contentDigest": "sha256:f9371c1c87b699245f93d5c0a0d1d00496cf592477c35dc514c841fc40a02cb6"
     }
   ]
 }

@@ -120,9 +120,12 @@ catalog paths, and human-facing documentation should use Rielflow/`rielflow`.
 
 Telemetry-related issue-resolution runs should keep user-facing documentation
 aligned with the runtime privacy contract. OpenTelemetry tracing is opt-in via
-an OTLP endpoint or `RIELFLOW_OTEL_ENABLED=true`; inbox/outbox message payloads
-must remain excluded unless `RIELFLOW_OTEL_EXPORT_MESSAGES=true` is explicitly
-set for trusted fixtures. Jaeger smoke checks should use the repository-owned
+an OTLP endpoint or `RIELFLOW_OTEL_ENABLED=true`; workflow message payloads
+stored in SQLite `workflow_messages.payload_json` must remain excluded unless
+`RIELFLOW_OTEL_EXPORT_MESSAGES=true` is explicitly set for trusted fixtures.
+Do not describe runtime communication payloads as inbox/outbox files; SQLite
+`workflow_messages` is the source of truth. Jaeger smoke checks should use the
+repository-owned
 `compose.jaeger.yaml` file and `docker compose -f compose.jaeger.yaml`.
 
 Workflow package checkout issue-resolution runs should refresh user-facing
@@ -131,6 +134,43 @@ package status/update commands, and vendor-scoped skill layouts. Keep `Issue
 #35` references explicit when that issue is present in workflow input but
 unrelated, and preserve `codex-agent` as an execution-backend identifier while
 documenting Codex skill projection as `.codex/skills/<name>/SKILL.md`.
+
+SQLite message-store issue-resolution runs should refresh `README.md`, the
+SQLite message-store design, the node-mailbox design when communication
+semantics change, and this workflow skill. User-facing docs must state that
+`workflow_messages` is the canonical source for communication reads, replay,
+retry, GraphQL inspection, and manager mutations; legacy per-message
+communication files and session communication arrays are not fallback sources.
+Also document that `RIEL_RUNTIME_DB`, `RIEL_ARTIFACT_DIR`, and
+`RIEL_ATTACHMENT_ROOT` control the runtime database and file/binary handoff
+roots, that SQLite stores only attachment-root-relative references for
+file/binary handoffs, and that failed SQLite writes block message publication.
+For payload attachment snapshot changes, user-facing docs must state that
+`payload.attachments[]` is a mixed descriptor array: non-file descriptors
+remain in `workflow_messages.payload_json`, only safely materialized
+file-backed descriptors are rewritten to normalized `attachment-root` refs, and
+`workflow_messages.artifact_refs_json` stays limited to materialized file refs.
+When the run hardens runtime JSON TEXT columns, also document that required
+JSON text uses `CHECK(json_valid(column))`, nullable JSON text uses
+`CHECK(column IS NULL OR json_valid(column))`, malformed historical rows may
+fail rebuild migrations explicitly, and manager/session/event/supervisor
+runtime JSON columns follow the same policy as `workflow_messages`
+`delivery_attempt_ids_json`, `payload_ref_json`, `payload_json`, and
+`artifact_refs_json`. Keep PR references such as `PR #54`, branch names such as
+`feature/sqlite-message-store`, and `codex-agent` execution references explicit
+in workflow outputs.
+
+Manager-control idempotency issue-resolution runs such as `SEC-001` in `PR #54`
+/ `feature/sqlite-message-store` should refresh `README.md`, the GraphQL
+manager-control design, compact architecture notes, and this workflow skill.
+User-facing docs must state that GraphQL manager mutations with an
+`idempotencyKey` atomically claim `(mutationName, managerSessionId,
+idempotencyKey)` before side effects; same-key/same-payload callers wait for or
+read the completed response or stored failure; same-key/different-payload
+callers fail before side effects; and caller-owned pending claims are completed
+or failed without overwriting another caller's row. Keep accepted review
+decisions, residual low risks, verification commands, and `codex-agent`
+execution references explicit in workflow outputs.
 
 ## Reporting
 
