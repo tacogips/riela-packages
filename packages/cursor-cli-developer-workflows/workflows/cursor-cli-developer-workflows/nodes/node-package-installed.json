@@ -1,0 +1,12 @@
+{
+  "id": "package-installed",
+  "description": "Explain that this package installs the Cursor CLI developer workflow dispatcher and standard dependency workflow set.",
+  "nodeType": "command",
+  "variables": {},
+  "command": {
+    "scriptPath": "scripts/package-installed.sh"
+  },
+  "output": {
+    "description": "Return JSON describing the installed Cursor rule and standard dependency package ids."
+  }
+}

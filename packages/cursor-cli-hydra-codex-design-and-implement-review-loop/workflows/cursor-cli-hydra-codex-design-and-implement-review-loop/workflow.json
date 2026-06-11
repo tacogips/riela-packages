@@ -1,0 +1,16 @@
+{
+  "workflowId": "cursor-cli-hydra-codex-design-and-implement-review-loop",
+  "description": "Explicit hydra workflow variant that uses Codex GPT-5.5 for design, review, and all non-implementation agent steps, while using Cursor Composer 2.5 for implementation.",
+  "extends": {
+    "workflowId": "codex-design-and-implement-review-loop",
+    "stringReplacements": {
+      "codex-design-and-implement-review-loop": "cursor-cli-hydra-codex-design-and-implement-review-loop"
+    },
+    "nodePatch": {
+      "step6-implement": {
+        "executionBackend": "cursor-cli-agent",
+        "model": "composer-2.5"
+      }
+    }
+  }
+}

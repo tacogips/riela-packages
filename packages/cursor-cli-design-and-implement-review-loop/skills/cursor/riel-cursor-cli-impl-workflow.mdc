@@ -20,6 +20,10 @@ Use this skill as the default Cursor CLI path for implementation work in this re
 ## Do Not Apply This Skill When
 
 - the user explicitly says not to use a workflow
+- the user explicitly asks to use a hydra workflow; use
+  `riel-cursor-cli-hydra-codex-impl-workflow` or
+  `riel-cursor-cli-hydra-claude-impl-workflow` when the requested hydra family
+  is clear
 - the user explicitly asks to use the Claude Fable 5, Fable, or
   `claude-fable` workflow variant; use `riel-cursor-cli-fable-impl-workflow`
   instead

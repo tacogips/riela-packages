@@ -1,0 +1,38 @@
+{
+  "workflowId": "cursor-cli-developer-workflows",
+  "description": "Meta workflow for the Cursor CLI developer workflow package set. Install the package to project the dispatcher rule and dependency workflows.",
+  "defaults": {
+    "maxLoopIterations": 3,
+    "nodeTimeoutMs": 120000
+  },
+  "entryStepId": "package-installed",
+  "nodes": [
+    {
+      "id": "package-installed",
+      "nodeFile": "nodes/node-package-installed.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "package-installed",
+      "nodeId": "package-installed",
+      "description": "Report the installed Cursor CLI developer workflow dispatcher and dependency package ids.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielflowPackage": {
+      "title": "cursor-cli-developer-workflows",
+      "description": "Meta package that installs the standard Cursor CLI developer workflow set and one Cursor rule for choosing among them.",
+      "tags": [
+        "workflow",
+        "cursor",
+        "developer",
+        "meta"
+      ],
+      "backends": [
+        "cursor-cli-agent"
+      ]
+    }
+  }
+}

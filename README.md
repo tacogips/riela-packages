@@ -35,6 +35,45 @@ rielflow package list
 rielflow package status <package-id>
 ```
 
+## Which Package Should I Install?
+
+Rielflow installs workflows and skills at package granularity. A package can
+also declare dependencies, so installing one package may install the workflows
+and skills that it needs.
+
+Use the package structure this way:
+
+- Install a meta package when you want a standard toolset for an agent surface.
+  Meta packages are install bundles and dispatcher-skill carriers; they do not
+  replace the individual workflow packages.
+- Install an individual workflow package when you want only one workflow, want a
+  workflow as a dependency of another package, or are maintaining that workflow.
+- Install a skill package when you only need agent guidance for package
+  management or workflow authoring, not a developer workflow bundle.
+
+Current developer workflow install pattern:
+
+- Cursor CLI standard developer setup:
+  install `cursor-cli-developer-workflows`. It depends on the standard
+  `cursor-cli-*` developer workflows and projects one Cursor dispatcher rule,
+  `riel-cursor-cli-developer-workflows`, that chooses among them.
+- Codex setup:
+  install the needed `codex-*` workflow packages directly, such as
+  `codex-design-and-implement-review-loop`, `codex-simple-work-package`, or
+  `codex-source-security-check-loop`. There is intentionally no Codex developer
+  meta package yet.
+- Claude Code setup:
+  install the needed `claude-code-*` workflow packages directly, such as
+  `claude-code-design-and-implement-review-loop`,
+  `claude-code-simple-work-package`, or
+  `claude-code-source-security-check-loop`. There is intentionally no Claude
+  Code developer meta package yet.
+
+This means a Cursor install can use one top-level package for the standard
+developer workflow set, while Codex and Claude Code installs remain explicit
+per-workflow installs for now. The individual Cursor packages remain available
+for single-workflow use and for package dependencies.
+
 ## Packages
 
 ### Node Add-on Packages
@@ -171,6 +210,14 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
 
 These packages use `cursor-cli-agent`. Each one inherits the matching Codex workflow with `workflow.json` `extends`, then patches agent nodes to Cursor CLI models and rewrites same-family workflow calls.
 
+- [cursor-cli-developer-workflows](packages/cursor-cli-developer-workflows) -
+  Meta package that installs the standard Cursor CLI developer workflow set and
+  one Cursor rule for choosing among design, implementation, simple work,
+  implementation-plan completion, recent-change review, refactoring, security,
+  task watchdog, and website workflows. Install this package when a Cursor
+  environment should have the full standard developer workflow set available
+  without separate per-workflow installs. `backend: cursor-cli-agent`; includes
+  Cursor skills.
 - [cursor-cli-deepdesign](packages/cursor-cli-deepdesign) -
   Create and iteratively review design-doc specifications with one Cursor CLI author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain. `backend: cursor-cli-agent`; includes Cursor skills.
 - [cursor-cli-adversarial-implementation-review-loop](packages/cursor-cli-adversarial-implementation-review-loop) -
@@ -179,6 +226,10 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
   Shared Cursor CLI workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow uses GPT-5.5 for design and review agent steps, uses Composer 2.5 for implementation, and owns both the sequential path and the bounded feature-local fanout path before implementation or planning-only completion. `backend: cursor-cli-agent`; includes Cursor skills.
 - [cursor-cli-fable-design-and-implement-review-loop](packages/cursor-cli-fable-design-and-implement-review-loop) -
   Explicit Claude Fable 5 variant of the Cursor CLI implementation workflow. It uses Claude Fable 5 for review agent steps, Composer 2.5 for implementation, and Claude Opus 4.8 for design and other agent steps. The default implementation skill remains the GPT-5.5 plus Composer workflow unless the user explicitly requests the Fable variant. `backend: cursor-cli-agent`; includes Cursor skills.
+- [cursor-cli-hydra-codex-design-and-implement-review-loop](packages/cursor-cli-hydra-codex-design-and-implement-review-loop) -
+  Explicit hydra Codex variant of the implementation workflow. It uses Codex GPT-5.5 for design, review, and all non-implementation agent steps, and Cursor Composer 2.5 for implementation. It is selected only when the user explicitly requests the hydra Codex workflow. `backend: codex-agent,cursor-cli-agent`; includes Cursor skills.
+- [cursor-cli-hydra-claude-design-and-implement-review-loop](packages/cursor-cli-hydra-claude-design-and-implement-review-loop) -
+  Explicit hydra Claude variant of the implementation workflow. It uses Claude Code Fable 5 for design and review agent steps, Cursor Composer 2.5 for implementation, and Claude Code Opus 4.8 for other agent steps. It is selected only when the user explicitly requests the hydra Claude workflow. `backend: claude-code-agent,cursor-cli-agent`; includes Cursor skills.
 - [cursor-cli-impl-plan-completion-loop](packages/cursor-cli-impl-plan-completion-loop) -
   Find incomplete implementation plans under impl-plans/active, delegate each selected plan to cursor-cli-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain. `backend: cursor-cli-agent`.
 - [cursor-cli-recent-change-quality-loop](packages/cursor-cli-recent-change-quality-loop) -

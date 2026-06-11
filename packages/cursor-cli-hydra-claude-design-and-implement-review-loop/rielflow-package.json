@@ -1,0 +1,40 @@
+{
+  "name": "cursor-cli-hydra-claude-design-and-implement-review-loop",
+  "version": "0.1.0",
+  "title": "cursor-cli-hydra-claude-design-and-implement-review-loop",
+  "description": "Explicit hydra workflow variant that uses Claude Code Fable 5 for design and review agent steps, Cursor Composer 2.5 for implementation, and Claude Code Opus 4.8 for all other agent steps.",
+  "tags": [
+    "workflow",
+    "hydra"
+  ],
+  "registry": "default",
+  "checksum": "285e4c2de9034b54f8d1646798deb952",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-hydra-claude-design-and-implement-review-loop",
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "cursor-cli-hydra-claude-design-and-implement-review-loop",
+    "description": "Explicit hydra workflow variant that uses Claude Code Fable 5 for design and review agent steps, Cursor Composer 2.5 for implementation, and Claude Code Opus 4.8 for all other agent steps.",
+    "tags": [
+      "workflow",
+      "hydra"
+    ],
+    "backends": [
+      "claude-code-agent",
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "a0c3c38ec14458a3e247220647d931a7190806428d9df53f4e4de0cdebdfb85e"
+  },
+  "backends": [
+    "claude-code-agent",
+    "cursor-cli-agent"
+  ],
+  "packageId": "cursor-cli-hydra-claude-design-and-implement-review-loop",
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-design-and-implement-review-loop"
+  ]
+}
