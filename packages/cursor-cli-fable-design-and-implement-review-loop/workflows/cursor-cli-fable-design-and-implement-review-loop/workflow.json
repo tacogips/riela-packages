@@ -1,12 +1,12 @@
 {
-  "workflowId": "cursor-cli-design-and-implement-review-loop",
-  "description": "Shared Cursor CLI workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+  "workflowId": "cursor-cli-fable-design-and-implement-review-loop",
+  "description": "Cursor CLI workflow variant for explicit Claude Fable 5 review runs. It uses Claude Fable 5 for review agent steps, Composer 2.5 for implementation, and Claude Opus 4.8 for design and all other agent steps.",
   "extends": {
     "workflowId": "codex-design-and-implement-review-loop",
     "stringReplacements": {
       "codexAgentReferences": "cursorCliAgentReferences",
       "codexAgent": "cursorCliAgent",
-      "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+      "codex-design-and-implement-review-loop": "cursor-cli-fable-design-and-implement-review-loop",
       "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
       "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
       "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
@@ -23,11 +23,29 @@
     },
     "agentNodePatch": {
       "executionBackend": "cursor-cli-agent",
-      "model": "gpt-5.5"
+      "model": "claude-opus-4-8"
     },
     "nodePatch": {
+      "step3-design-review": {
+        "model": "claude-fable-5"
+      },
+      "step5-impl-plan-review": {
+        "model": "claude-fable-5"
+      },
       "step6-implement": {
         "model": "composer-2.5"
+      },
+      "step7-review": {
+        "model": "claude-fable-5"
+      },
+      "step6-test-integrity-check": {
+        "model": "claude-fable-5"
+      },
+      "step7-adversarial-review": {
+        "model": "claude-fable-5"
+      },
+      "step8-impl-plan-completion-check": {
+        "model": "claude-fable-5"
       }
     }
   }

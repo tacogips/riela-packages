@@ -1,6 +1,6 @@
 ---
 name: riel-codex-deep-creation
-description: Use when the user asks Codex for deep creation: deep design, adversarial implementation-plan completion, and source security checks in one Rielflow workflow.
+description: "Use when the user asks Codex for deep creation: deep design, adversarial implementation-plan completion, and source security checks in one Rielflow workflow."
 ---
 
 # Riel Codex Deep Creation

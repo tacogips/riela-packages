@@ -20,6 +20,9 @@ Use this skill as the default Cursor CLI path for implementation work in this re
 ## Do Not Apply This Skill When
 
 - the user explicitly says not to use a workflow
+- the user explicitly asks to use the Claude Fable 5, Fable, or
+  `claude-fable` workflow variant; use `riel-cursor-cli-fable-impl-workflow`
+  instead
 - the task is documentation-only or planning-only with no implementation
 - the task is specifically to debug or repair `rielflow` itself; use the current repository's fix workflow skill
 - the task is to operate or troubleshoot live `workflow run --auto-improve`
@@ -94,6 +97,9 @@ The workflow is responsible for:
 12. staged secret scan with `gitleaks git --pre-commit --redact --staged --verbose`
 13. commit-message generation
 14. built-in git commit and git push add-on steps
+
+The Cursor CLI workflow routes design and review agent steps to `gpt-5.5` and
+the implementation step to `composer-2.5`.
 
 Because the workflow ends with commit/push, do not use it when the user has
 explicitly asked to avoid workflow-driven commits or wants manual local edits

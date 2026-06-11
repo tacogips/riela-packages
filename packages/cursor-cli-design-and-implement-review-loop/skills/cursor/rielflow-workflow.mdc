@@ -95,7 +95,7 @@ Agent node payload:
   "id": "worker",
   "description": "Performs the requested worker task.",
   "executionBackend": "cursor-cli-agent",
-  "model": "claude-sonnet-4-5",
+  "model": "gpt-5.5",
   "promptTemplateFile": "prompts/worker.md",
   "variables": {}
 }
