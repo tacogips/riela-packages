@@ -1,0 +1,12 @@
+{
+  "id": "plan-quality-review",
+  "description": "Review the in-session plan and request improvement before work when the plan is incomplete, poorly routed, unverifiable, or unsafe.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "promptTemplateFile": "prompts/plan-quality-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON with when.needs_plan_revision true only when the plan must be improved before work."
+  }
+}

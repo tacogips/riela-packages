@@ -1,0 +1,18 @@
+{
+  "id": "goal",
+  "description": "Create a clear, testable goal for the requested generic work package using Codex GPT-5.5 high effort.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "promptTemplateFile": "prompts/goal.md",
+  "variables": {},
+  "input": {
+    "description": "Provide the operator request. Preferred fields are requestedOutcome, targetScope, constraints, acceptanceCriteria, and verificationHint."
+  },
+  "output": {
+    "description": "Return JSON with the goal statement, target scope, acceptance criteria, constraints, assumptions, and verification approach."
+  }
+}

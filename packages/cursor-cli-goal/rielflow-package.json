@@ -1,0 +1,40 @@
+{
+  "name": "cursor-cli-goal",
+  "version": "0.1.0",
+  "title": "cursor-cli-goal",
+  "description": "Generic Cursor CLI workflow that actively investigates available Rielflow workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work with Composer 2.5, uses GPT-5.5 for the other steps, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+  "tags": [
+    "workflow",
+    "cursor-cli",
+    "generic"
+  ],
+  "registry": "default",
+  "checksum": "837ce24e520988c90623a6d7c4d795bd",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-goal",
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "cursor-cli-goal",
+    "description": "Generic Cursor CLI workflow that actively investigates available Rielflow workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work with Composer 2.5, uses GPT-5.5 for the other steps, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+    "tags": [
+      "workflow",
+      "cursor-cli",
+      "generic"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "2f62e6c288714ee3d571c83ca3368d4fe414e6dfe668ca70cfd8d7e26e3d76c0"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ],
+  "packageId": "cursor-cli-goal",
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-goal"
+  ]
+}

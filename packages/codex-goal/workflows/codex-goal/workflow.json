@@ -1,0 +1,170 @@
+{
+  "workflowId": "codex-goal",
+  "description": "Generic Codex GPT-5.5 workflow that creates and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the requested work, and reviews whether the goal is achieved before looping back to work or planning. Goal, planning, and review steps may delegate to a more specific Rielflow workflow when appropriate.",
+  "defaults": {
+    "maxLoopIterations": 10,
+    "nodeTimeoutMs": 3600000,
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    }
+  },
+  "prompts": {
+    "workerSystemPromptTemplate": "Return concise business JSON only. At every goal, review, planning, and work step, actively investigate whether an installed, project-scope, user-scope, packaged, or otherwise available Rielflow workflow should be used before defaulting to generic work. Keep the workflow discovery evidence, delegation decision, goal, in-session plan, work evidence, review decision, changed files, verification, and residual risks explicit."
+  },
+  "entryStepId": "goal",
+  "nodes": [
+    {
+      "id": "goal",
+      "nodeFile": "nodes/node-goal.json"
+    },
+    {
+      "id": "goal-quality-review",
+      "nodeFile": "nodes/node-goal-quality-review.json"
+    },
+    {
+      "id": "plan",
+      "nodeFile": "nodes/node-plan.json"
+    },
+    {
+      "id": "plan-quality-review",
+      "nodeFile": "nodes/node-plan-quality-review.json"
+    },
+    {
+      "id": "work",
+      "nodeFile": "nodes/node-work.json"
+    },
+    {
+      "id": "goal-review",
+      "nodeFile": "nodes/node-goal-review.json"
+    },
+    {
+      "id": "workflow-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-workflow-output.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "goal",
+      "nodeId": "goal",
+      "description": "Convert the operator request into a clear, testable goal and acceptance criteria, or revise the goal using goal-quality-review feedback.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "goal-quality-review"
+        }
+      ]
+    },
+    {
+      "id": "goal-quality-review",
+      "nodeId": "goal-quality-review",
+      "description": "Review the goal before planning and route back for goal improvement when needed.",
+      "role": "worker",
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "goal"
+      },
+      "transitions": [
+        {
+          "toStepId": "goal",
+          "label": "needs_goal_revision"
+        },
+        {
+          "toStepId": "plan",
+          "label": "!(needs_goal_revision)"
+        }
+      ]
+    },
+    {
+      "id": "plan",
+      "nodeId": "plan",
+      "description": "Create or revise an in-session plan without writing a plan file, or delegate to a more specific Rielflow workflow when the goal calls for it.",
+      "role": "worker",
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "goal-quality-review"
+      },
+      "transitions": [
+        {
+          "toStepId": "plan-quality-review"
+        }
+      ]
+    },
+    {
+      "id": "plan-quality-review",
+      "nodeId": "plan-quality-review",
+      "description": "Review the in-session plan before work and route back for plan improvement when needed.",
+      "role": "worker",
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "plan"
+      },
+      "transitions": [
+        {
+          "toStepId": "plan",
+          "label": "needs_plan_revision"
+        },
+        {
+          "toStepId": "work",
+          "label": "!(needs_plan_revision)"
+        }
+      ]
+    },
+    {
+      "id": "work",
+      "nodeId": "work",
+      "description": "Execute the latest in-session plan or address goal-review feedback.",
+      "role": "worker",
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "plan-quality-review"
+      },
+      "transitions": [
+        {
+          "toStepId": "goal-review"
+        }
+      ]
+    },
+    {
+      "id": "goal-review",
+      "nodeId": "goal-review",
+      "description": "Review whether the latest work achieves the goal, optionally delegate to a more specific Rielflow workflow, and route to planning, work, or final output.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "plan",
+          "label": "needs_replan"
+        },
+        {
+          "toStepId": "work",
+          "label": "needs_work"
+        },
+        {
+          "toStepId": "workflow-output",
+          "label": "!(needs_replan || needs_work)"
+        }
+      ]
+    },
+    {
+      "id": "workflow-output",
+      "nodeId": "workflow-output",
+      "description": "Publish the accepted goal, plan, work evidence, verification, and residual risks.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielflowPackage": {
+      "title": "codex-goal",
+      "description": "Generic Codex workflow that defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific Rielflow workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+      "tags": [
+        "workflow",
+        "codex",
+        "generic"
+      ],
+      "backends": [
+        "codex-agent"
+      ]
+    }
+  }
+}

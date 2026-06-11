@@ -1,0 +1,35 @@
+{
+  "workflowId": "cursor-cli-goal",
+  "description": "Generic Cursor CLI workflow that creates and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the requested work with Composer 2.5, uses GPT-5.5 for the other steps, and reviews whether the goal is achieved before looping back to work or planning.",
+  "extends": {
+    "workflowId": "codex-goal",
+    "stringReplacements": {
+      "codexAgentReferences": "cursorCliAgentReferences",
+      "codexAgent": "cursorCliAgent",
+      "codex-goal": "cursor-cli-goal",
+      "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+      "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+      "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+      "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+      "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+      "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+      "codex-simple-work-package": "cursor-cli-simple-work-package",
+      "codex-website-builder": "cursor-cli-website-builder",
+      "codex-task-watchdog": "cursor-cli-task-watchdog",
+      "codex-deepdesign": "cursor-cli-deepdesign",
+      "codex-agent": "cursor-cli-agent",
+      "codex-": "cursor-cli-",
+      "Codex": "Cursor CLI",
+      "codex": "cursor-cli"
+    },
+    "agentNodePatch": {
+      "executionBackend": "cursor-cli-agent",
+      "model": "gpt-5.5"
+    },
+    "nodePatch": {
+      "work": {
+        "model": "composer-2.5"
+      }
+    }
+  }
+}

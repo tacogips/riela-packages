@@ -129,6 +129,13 @@ for single-workflow use and for package dependencies.
   implementation-plan handoff. It supports a sequential path, bounded
   feature-local fanout, implementation, review, documentation refresh, and
   commit-message preparation. `backend: codex-agent`; includes Codex skills.
+- [codex-goal](packages/codex-goal) -
+  Generic Codex GPT-5.5 workflow that actively investigates available Rielflow
+  workflows at each step, creates and reviews a testable goal, creates and
+  reviews an in-session plan without writing plan files, performs the work, may
+  delegate to a more specific workflow when appropriate, and reviews whether the
+  goal is achieved before looping back to work or planning. `backend:
+  codex-agent`; includes Codex skills.
 - [codex-impl-plan-completion-loop](packages/codex-impl-plan-completion-loop) -
   Finds incomplete implementation plans under `impl-plans/active`, delegates
   each selected plan to `codex-adversarial-implementation-review-loop`, and repeats
@@ -179,7 +186,7 @@ for single-workflow use and for package dependencies.
 
 ### Claude Code Agent Workflows
 
-These packages use `claude-code-agent`. The Codex-derived variants inherit the matching Codex workflow with `workflow.json` `extends`, then patch agent nodes to Claude Code/Sonnet and rewrite same-family workflow calls.
+These packages use `claude-code-agent`. The Codex-derived variants inherit the matching Codex workflow with `workflow.json` `extends`, then patch agent nodes to Claude Code models and rewrite same-family workflow calls.
 
 - [claude-code-deepdesign](packages/claude-code-deepdesign) -
   Create and iteratively review design-doc specifications with one Claude Code author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain. `backend: claude-code-agent`; includes Claude skills.
@@ -187,6 +194,13 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
   Run a scoped Claude Code implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain. `backend: claude-code-agent`.
 - [claude-code-design-and-implement-review-loop](packages/claude-code-design-and-implement-review-loop) -
   Shared Claude Code workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion. `backend: claude-code-agent`; includes Claude skills.
+- [claude-code-goal](packages/claude-code-goal) -
+  Generic Claude Code Opus 4.8 workflow that actively investigates available
+  Rielflow workflows at each step, creates and reviews a testable goal, creates
+  and reviews an in-session plan without writing plan files, performs the work,
+  may delegate to a more specific workflow when appropriate, and reviews whether
+  the goal is achieved before looping back to work or planning. `backend:
+  claude-code-agent`; includes Claude skills.
 - [claude-code-impl-plan-completion-loop](packages/claude-code-impl-plan-completion-loop) -
   Find incomplete implementation plans under impl-plans/active, delegate each selected plan to claude-code-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain. `backend: claude-code-agent`.
 - [claude-code-recent-change-quality-loop](packages/claude-code-recent-change-quality-loop) -
@@ -226,6 +240,14 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
   Shared Cursor CLI workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow uses GPT-5.5 for design and review agent steps, uses Composer 2.5 for implementation, and owns both the sequential path and the bounded feature-local fanout path before implementation or planning-only completion. `backend: cursor-cli-agent`; includes Cursor skills.
 - [cursor-cli-fable-design-and-implement-review-loop](packages/cursor-cli-fable-design-and-implement-review-loop) -
   Explicit Claude Fable 5 variant of the Cursor CLI implementation workflow. It uses Claude Fable 5 for review agent steps, Composer 2.5 for implementation, and Claude Opus 4.8 for design and other agent steps. The default implementation skill remains the GPT-5.5 plus Composer workflow unless the user explicitly requests the Fable variant. `backend: cursor-cli-agent`; includes Cursor skills.
+- [cursor-cli-goal](packages/cursor-cli-goal) -
+  Generic Cursor CLI workflow that actively investigates available Rielflow
+  workflows at each step, creates and reviews a testable goal, creates and
+  reviews an in-session plan without writing plan files, performs the work with
+  Composer 2.5, uses GPT-5.5 for other agent steps, may delegate to a more
+  specific workflow when appropriate, and reviews whether the goal is achieved
+  before looping back to work or planning. `backend: cursor-cli-agent`; includes
+  Cursor skills.
 - [cursor-cli-hydra-codex-design-and-implement-review-loop](packages/cursor-cli-hydra-codex-design-and-implement-review-loop) -
   Explicit hydra Codex variant of the implementation workflow. It uses Codex GPT-5.5 for design, review, and all non-implementation agent steps, and Cursor Composer 2.5 for implementation. It is selected only when the user explicitly requests the hydra Codex workflow. `backend: codex-agent,cursor-cli-agent`; includes Cursor skills.
 - [cursor-cli-hydra-claude-design-and-implement-review-loop](packages/cursor-cli-hydra-claude-design-and-implement-review-loop) -

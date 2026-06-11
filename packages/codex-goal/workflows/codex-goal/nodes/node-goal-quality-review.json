@@ -1,0 +1,12 @@
+{
+  "id": "goal-quality-review",
+  "description": "Review the proposed goal and request improvement before planning when the goal is unclear, untestable, incorrectly scoped, or missing routing guidance.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "promptTemplateFile": "prompts/goal-quality-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON with when.needs_goal_revision true only when the goal must be improved before planning."
+  }
+}

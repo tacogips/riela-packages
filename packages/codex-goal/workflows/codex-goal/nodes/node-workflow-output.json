@@ -1,0 +1,11 @@
+{
+  "id": "workflow-output",
+  "description": "Publish the accepted final result after the goal review confirms completion.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/workflow-output.md",
+  "variables": {},
+  "output": {
+    "description": "Return the final goal, accepted plan summary, work summary, verification evidence, changed files, residual risks, and final status."
+  }
+}
