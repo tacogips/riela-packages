@@ -20,12 +20,12 @@
       "codex-": "claude-code-",
       "Codex": "Claude Code",
       "codex": "claude-code",
-      "GPT-5.5": "Sonnet 4.5",
-      "gpt-5.5": "claude-sonnet-4-5"
+      "GPT-5.5": "Opus 4.8",
+      "gpt-5.5": "claude-opus-4-8"
     },
     "agentNodePatch": {
       "executionBackend": "claude-code-agent",
-      "model": "claude-sonnet-4-5"
+      "model": "claude-opus-4-8"
     }
   }
 }

@@ -95,7 +95,7 @@ Agent node payload:
   "id": "worker",
   "description": "Performs the requested worker task.",
   "executionBackend": "claude-code-agent",
-  "model": "claude-sonnet-4-5",
+  "model": "claude-opus-4-8",
   "promptTemplateFile": "prompts/worker.md",
   "variables": {}
 }

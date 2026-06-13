@@ -19,13 +19,11 @@
       "codex-agent": "cursor-cli-agent",
       "codex-": "cursor-cli-",
       "Codex": "Cursor CLI",
-      "codex": "cursor-cli",
-      "GPT-5.5": "Sonnet 4.5",
-      "gpt-5.5": "claude-sonnet-4-5"
+      "codex": "cursor-cli"
     },
     "agentNodePatch": {
       "executionBackend": "cursor-cli-agent",
-      "model": "claude-sonnet-4-5"
+      "model": "gpt-5.5"
     }
   }
 }

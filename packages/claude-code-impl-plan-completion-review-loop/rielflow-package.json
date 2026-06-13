@@ -1,0 +1,41 @@
+{
+  "name": "claude-code-impl-plan-completion-review-loop",
+  "version": "0.1.0",
+  "title": "claude-code-impl-plan-completion-review-loop",
+  "description": "Run the Claude Code implementation-plan completion loop, then run the recent-change quality review-and-improve loop against the resulting work.",
+  "tags": [
+    "workflow",
+    "claude-code",
+    "review"
+  ],
+  "registry": "default",
+  "checksum": "199d9243bed8fe4d515ee82898302fc8",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/claude-code-impl-plan-completion-review-loop",
+  "dependencies": [
+    "codex-impl-plan-completion-review-loop",
+    "claude-code-impl-plan-completion-loop",
+    "claude-code-recent-change-quality-loop"
+  ],
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "claude-code-impl-plan-completion-review-loop",
+    "description": "Run the Claude Code implementation-plan completion loop, then run the recent-change quality review-and-improve loop against the resulting work.",
+    "tags": [
+      "workflow",
+      "claude-code",
+      "review"
+    ],
+    "backends": [
+      "claude-code-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "f1799907dc5d745287ea4acc1726d0aa9cc72b8639e94212157d9a32446e203e"
+  },
+  "backends": [
+    "claude-code-agent"
+  ],
+  "packageId": "claude-code-impl-plan-completion-review-loop"
+}

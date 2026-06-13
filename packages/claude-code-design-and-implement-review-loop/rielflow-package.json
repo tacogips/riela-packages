@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "d590d43db197ce1245cb449f714130dd",
+  "checksum": "1c838e47759920d8d05617cfc3c57c22",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-design-and-implement-review-loop",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "d1d4550dbb30c6112790b5d7d8e5c5438deaea3bec8426555137325d9324ee72"
+    "digest": "4eca81d4c42fd8b34bb91d504859f2fe2ac69bcf1e2ff99c21aa799e210609f4"
   },
   "backends": [
     "claude-code-agent"

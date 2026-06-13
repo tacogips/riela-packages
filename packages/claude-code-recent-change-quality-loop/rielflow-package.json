@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "82a0c84b66e4e5f4677498572a352950",
+  "checksum": "2e2411bad7bc1763635e8697953f36c6",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-recent-change-quality-loop",
   "dependencies": [
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "52135cd9899e6ad18835980126116a0a238f5b952210aeda640ce33078635a3b"
+    "digest": "388ccd785859f10a1e6e9d4981af19f2ffc4af21f2e2b0fad6e1b29deef29c7a"
   },
   "backends": [
     "claude-code-agent"

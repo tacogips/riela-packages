@@ -1,8 +1,8 @@
 {
-  "workflowId": "cursor-cli-adversarial-implementation-review-loop",
-  "description": "Run a scoped Cursor CLI implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+  "workflowId": "cursor-cli-impl-plan-completion-review-loop",
+  "description": "Run cursor-cli-impl-plan-completion-loop first, then run cursor-cli-recent-change-quality-loop so the completed implementation work is reviewed and improved before final output.",
   "extends": {
-    "workflowId": "codex-adversarial-implementation-review-loop",
+    "workflowId": "codex-impl-plan-completion-review-loop",
     "stringReplacements": {
       "codexAgentReferences": "cursorCliAgentReferences",
       "codexAgent": "cursorCliAgent",
@@ -11,6 +11,7 @@
       "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
       "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
       "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+      "codex-impl-plan-completion-review-loop": "cursor-cli-impl-plan-completion-review-loop",
       "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
       "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
       "codex-simple-work-package": "cursor-cli-simple-work-package",

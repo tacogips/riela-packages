@@ -186,7 +186,7 @@ for single-workflow use and for package dependencies.
 
 ### Claude Code Agent Workflows
 
-These packages use `claude-code-agent`. The Codex-derived variants inherit the matching Codex workflow with `workflow.json` `extends`, then patch agent nodes to Claude Code models and rewrite same-family workflow calls.
+These packages use `claude-code-agent`. The Codex-derived variants inherit the matching Codex workflow with `workflow.json` `extends`, then patch agent nodes to Claude Code Opus 4.8 and rewrite same-family workflow calls.
 
 - [claude-code-deepdesign](packages/claude-code-deepdesign) -
   Create and iteratively review design-doc specifications with one Claude Code author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain. `backend: claude-code-agent`; includes Claude skills.
@@ -203,6 +203,11 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
   claude-code-agent`; includes Claude skills.
 - [claude-code-impl-plan-completion-loop](packages/claude-code-impl-plan-completion-loop) -
   Find incomplete implementation plans under impl-plans/active, delegate each selected plan to claude-code-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain. `backend: claude-code-agent`.
+- [claude-code-impl-plan-completion-review-loop](packages/claude-code-impl-plan-completion-review-loop) -
+  Runs `claude-code-impl-plan-completion-loop` first, then runs
+  `claude-code-recent-change-quality-loop` so completed implementation work is
+  reviewed and improved before final output. Uses Claude Code Opus 4.8.
+  `backend: claude-code-agent`.
 - [claude-code-recent-change-quality-loop](packages/claude-code-recent-change-quality-loop) -
   Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain. `backend: claude-code-agent`.
 - [claude-code-refactoring-divide-and-conquer](packages/claude-code-refactoring-divide-and-conquer) -
@@ -222,7 +227,7 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
 
 ### Cursor CLI Agent Workflows
 
-These packages use `cursor-cli-agent`. Each one inherits the matching Codex workflow with `workflow.json` `extends`, then patches agent nodes to Cursor CLI models and rewrites same-family workflow calls.
+These packages use `cursor-cli-agent`. Each one inherits the matching Codex workflow with `workflow.json` `extends`, then patches implementation steps to Composer 2.5, non-implementation agent steps to GPT-5.5, and rewrites same-family workflow calls.
 
 - [cursor-cli-developer-workflows](packages/cursor-cli-developer-workflows) -
   Meta package that installs the standard Cursor CLI developer workflow set and
@@ -254,6 +259,12 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
   Explicit hydra Claude variant of the implementation workflow. It uses Claude Code Fable 5 for design and review agent steps, Cursor Composer 2.5 for implementation, and Claude Code Opus 4.8 for other agent steps. It is selected only when the user explicitly requests the hydra Claude workflow. `backend: claude-code-agent,cursor-cli-agent`; includes Cursor skills.
 - [cursor-cli-impl-plan-completion-loop](packages/cursor-cli-impl-plan-completion-loop) -
   Find incomplete implementation plans under impl-plans/active, delegate each selected plan to cursor-cli-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain. `backend: cursor-cli-agent`.
+- [cursor-cli-impl-plan-completion-review-loop](packages/cursor-cli-impl-plan-completion-review-loop) -
+  Runs `cursor-cli-impl-plan-completion-loop` first, then runs
+  `cursor-cli-recent-change-quality-loop` so completed implementation work is
+  reviewed and improved before final output. Uses GPT-5.5 for wrapper and
+  review steps, while delegated implementation steps use Composer 2.5.
+  `backend: cursor-cli-agent`.
 - [cursor-cli-recent-change-quality-loop](packages/cursor-cli-recent-change-quality-loop) -
   Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain. `backend: cursor-cli-agent`.
 - [cursor-cli-refactoring-divide-and-conquer](packages/cursor-cli-refactoring-divide-and-conquer) -
@@ -322,6 +333,7 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 | [claude-code-deepdesign](packages/claude-code-deepdesign) | workflow | `claude-code-agent` | Claude |
 | [claude-code-design-and-implement-review-loop](packages/claude-code-design-and-implement-review-loop) | workflow | `claude-code-agent` | Claude |
 | [claude-code-impl-plan-completion-loop](packages/claude-code-impl-plan-completion-loop) | workflow | `claude-code-agent` | - |
+| [claude-code-impl-plan-completion-review-loop](packages/claude-code-impl-plan-completion-review-loop) | workflow | `claude-code-agent` | - |
 | [claude-code-recent-change-quality-loop](packages/claude-code-recent-change-quality-loop) | workflow | `claude-code-agent` | - |
 | [claude-code-refactoring-divide-and-conquer](packages/claude-code-refactoring-divide-and-conquer) | workflow | `claude-code-agent` | Claude |
 | [claude-code-refactoring-slice-review](packages/claude-code-refactoring-slice-review) | workflow | `claude-code-agent` | - |
@@ -334,6 +346,7 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 | [cursor-cli-deepdesign](packages/cursor-cli-deepdesign) | workflow | `cursor-cli-agent` | Cursor |
 | [cursor-cli-design-and-implement-review-loop](packages/cursor-cli-design-and-implement-review-loop) | workflow | `cursor-cli-agent` | Cursor |
 | [cursor-cli-impl-plan-completion-loop](packages/cursor-cli-impl-plan-completion-loop) | workflow | `cursor-cli-agent` | - |
+| [cursor-cli-impl-plan-completion-review-loop](packages/cursor-cli-impl-plan-completion-review-loop) | workflow | `cursor-cli-agent` | - |
 | [cursor-cli-recent-change-quality-loop](packages/cursor-cli-recent-change-quality-loop) | workflow | `cursor-cli-agent` | - |
 | [cursor-cli-refactoring-divide-and-conquer](packages/cursor-cli-refactoring-divide-and-conquer) | workflow | `cursor-cli-agent` | Cursor |
 | [cursor-cli-refactoring-slice-review](packages/cursor-cli-refactoring-slice-review) | workflow | `cursor-cli-agent` | - |

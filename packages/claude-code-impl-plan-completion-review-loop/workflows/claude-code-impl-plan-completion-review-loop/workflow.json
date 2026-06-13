@@ -1,15 +1,17 @@
 {
-  "workflowId": "claude-code-deepdesign",
-  "description": "Create and iteratively review design-doc specifications with one Claude Code author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+  "workflowId": "claude-code-impl-plan-completion-review-loop",
+  "description": "Run claude-code-impl-plan-completion-loop first, then run claude-code-recent-change-quality-loop so the completed implementation work is reviewed and improved before final output.",
   "extends": {
-    "workflowId": "codex-deepdesign",
+    "workflowId": "codex-impl-plan-completion-review-loop",
     "stringReplacements": {
       "codexAgentReferences": "claudeCodeAgentReferences",
       "codexAgent": "claudeCodeAgent",
       "codex-design-and-implement-review-loop": "claude-code-design-and-implement-review-loop",
+      "codex-adversarial-implementation-review-loop": "claude-code-adversarial-implementation-review-loop",
       "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
       "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
       "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+      "codex-impl-plan-completion-review-loop": "claude-code-impl-plan-completion-review-loop",
       "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
       "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
       "codex-simple-work-package": "claude-code-simple-work-package",

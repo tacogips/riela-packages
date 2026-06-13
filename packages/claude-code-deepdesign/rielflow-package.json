@@ -9,7 +9,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "d02e7ea72aea50eb940308a8cf245bbf",
+  "checksum": "9d424b9eebd7ce6e1b346dacbbe96511",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-deepdesign",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "55fe3ac8c73113dc02a1917b70809bba0ec52dfbbccad80722f1c8596fc081ae"
+    "digest": "621d4fc76ff2b6d50ac947d237d52db8b2f4b374043adebfa3683367436145ce"
   },
   "backends": [
     "claude-code-agent"
