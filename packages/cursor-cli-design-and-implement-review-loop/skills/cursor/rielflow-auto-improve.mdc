@@ -5,7 +5,7 @@ metadata:
   short-description: Use rielflow auto-improve
 ---
 
-# Rielflow Auto Improve
+# rielflow-auto-improve
 
 Use this skill for supervised workflow execution and remediation loops.
 

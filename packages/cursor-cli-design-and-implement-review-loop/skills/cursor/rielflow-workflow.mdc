@@ -5,7 +5,7 @@ metadata:
   short-description: Create rielflow workflow bundles
 ---
 
-# Rielflow Workflow
+# rielflow-workflow
 
 Use this skill to author portable rielflow workflow bundles that validate against the current implementation.
 

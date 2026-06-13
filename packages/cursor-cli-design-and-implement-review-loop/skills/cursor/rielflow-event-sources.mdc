@@ -5,7 +5,7 @@ metadata:
   short-description: Use rielflow event sources
 ---
 
-# Rielflow Event Sources
+# rielflow-event-sources
 
 Use this skill for event-driven workflow usage. For direct workflow execution use `rielflow-workflow-run`.
 

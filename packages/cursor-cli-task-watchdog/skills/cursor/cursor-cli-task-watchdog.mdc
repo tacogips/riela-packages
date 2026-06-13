@@ -4,7 +4,7 @@ description: Use when configuring, validating, starting, stopping, or inspecting
 user-invocable: true
 ---
 
-# Cursor CLI Task Watchdog
+# cursor-cli-task-watchdog
 
 Use this skill to run the packaged `cursor-cli-task-watchdog` workflow as a background
 task watcher. The event server stays alive, a cron source triggers polling

@@ -3,7 +3,7 @@ name: riel-cursor-cli-website-builder
 description: Use when running, configuring, or troubleshooting the cursor-cli-website-builder Rielflow package for SolidJS/Bun website generation, Docker-contained Bun execution, Playwright review, git snapshot commits, pinned website dependencies, and Telegram/Discord/webhook feedback events.
 ---
 
-# Cursor CLI Website Builder
+# riel-cursor-cli-website-builder
 
 Use this skill after installing `cursor-cli-website-builder`.
 

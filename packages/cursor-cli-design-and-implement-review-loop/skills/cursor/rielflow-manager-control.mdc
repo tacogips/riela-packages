@@ -5,7 +5,7 @@ metadata:
   short-description: Use manager GraphQL control
 ---
 
-# Rielflow Manager Control
+# rielflow-manager-control
 
 Use this skill for manager-facing control actions. Prefer typed GraphQL actions over freeform prose when `rielflow graphql` is available.
 

@@ -3,7 +3,7 @@ name: riel-cursor-cli-refactoring-workflow
 description: Use when planning, running, monitoring, or troubleshooting the packaged rielflow divide-and-conquer refactoring workflow. Applies to `cursor-cli-refactoring-divide-and-conquer`, duplicate-scavenge refactoring, concurrent slice review via `cursor-cli-refactoring-slice-review`, generated refactoring implementation plans, implementation/review loop handling, blocked verification, dependency-owned agent mocks, and final plan archival.
 ---
 
-# Riel Cursor CLI Refactoring Workflow
+# riel-cursor-cli-refactoring-workflow
 
 Use this skill when the user asks to refactor rielflow through the divide-and-conquer workflow, asks whether the refactoring workflow is progressing, or asks to create/continue a maintainability refactor using workflow review loops.
 

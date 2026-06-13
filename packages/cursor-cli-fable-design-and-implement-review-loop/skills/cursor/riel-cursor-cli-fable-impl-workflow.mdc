@@ -3,7 +3,7 @@ name: riel-cursor-cli-fable-impl-workflow
 description: Use only when implementation work explicitly asks for the Claude Fable 5, Fable, or claude-fable workflow variant. Routes the work through `cursor-cli-fable-design-and-implement-review-loop`; generic implementation work should use the default Codex/GPT-5.5 plus Composer workflow instead.
 ---
 
-# Riel Cursor CLI Fable Implementation Workflow
+# riel-cursor-cli-fable-impl-workflow
 
 Use this skill only when the user explicitly asks for a Claude Fable 5, Fable,
 or `claude-fable` implementation workflow.

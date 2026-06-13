@@ -3,7 +3,7 @@ name: riel-cursor-cli-simple-work-package
 description: Use when making small code or documentation changes under a directory and no more specialized rielflow workflow applies. Runs the packaged cursor-cli-simple-work-package workflow with Cursor CLI Sonnet 4.5 high-effort implementation and high-effort review, looping back only for high or middle findings.
 ---
 
-# Riel Cursor CLI Simple Work Package
+# riel-cursor-cli-simple-work-package
 
 Use this skill when the user asks for a small code or documentation change under
 a directory or file scope and no dedicated workflow is a better fit.

@@ -3,7 +3,7 @@ name: riel-cursor-cli-developer-workflows
 description: Use when choosing or running Cursor CLI Rielflow developer workflows after installing the cursor-cli-developer-workflows meta package. Dispatches among design, implementation, simple work, implementation-plan completion, recent-change review, refactoring, security, task watchdog, and website workflows.
 ---
 
-# Riel Cursor CLI Developer Workflows
+# riel-cursor-cli-developer-workflows
 
 Use this rule as the canonical Cursor CLI developer-workflow dispatcher.
 

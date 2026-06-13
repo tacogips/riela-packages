@@ -12,7 +12,7 @@
     "container"
   ],
   "registry": "default",
-  "checksum": "c0699745c4b61d6b189c8a583f007c21",
+  "checksum": "205d657312e98cc57e699cf2c1c6d14b",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-website-builder",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -33,7 +33,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "3d59e7bcbf2175bdd272381b79e6b442c358319f2ce716debf77d3e4b6d2a7fd"
+    "digest": "0af1f23fe90049237db9cd70a67e0b3d3c1b67d1f3e0c6884675e91609869058"
   },
   "backends": [
     "cursor-cli-agent"

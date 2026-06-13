@@ -5,7 +5,7 @@ metadata:
   short-description: Refactor rielflow workflows
 ---
 
-# Rielflow Workflow Organizer
+# rielflow-workflow-organizer
 
 Use this skill to make existing rielflow workflow bundles more DRY, maintainable, and effective without changing their intended behavior.
 

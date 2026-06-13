@@ -3,7 +3,7 @@ name: riel-cursor-cli-deepdesign
 description: Use when running, editing, or troubleshooting the packaged cursor-cli-deepdesign rielflow workflow for design-doc specification authoring with deep and broad review loops.
 ---
 
-# Riel Cursor CLI Deepdesign
+# riel-cursor-cli-deepdesign
 
 Use this skill when the user asks Cursor CLI to create or refine design-doc specifications through the packaged `cursor-cli-deepdesign` workflow, or when maintaining that workflow package.
 

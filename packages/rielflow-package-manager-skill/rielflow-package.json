@@ -9,7 +9,7 @@
     "rielflow"
   ],
   "registry": "default",
-  "checksum": "a3691cfde24abc1703ce94717b700893",
+  "checksum": "1b4e35d4e1f9223eb755790cfa4ac4bc",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/rielflow-package-manager-skill",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -25,7 +25,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "6e46f1f50aebb3238a76ed670eab8a6294800388712f3089dd24d2ed9ed1417f"
+    "digest": "b74a2ddc38d3b949b1d081ccbd5c51a9f0e9a707c0ae1ef2f954cecccf36b64a"
   },
   "backends": [],
   "packageId": "rielflow-package-manager-skill",

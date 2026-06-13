@@ -88,7 +88,12 @@ rielflow workflow validate <workflow-name>
 rielflow workflow usage <workflow-name>
 ```
 
-For skill packages, inspect the install JSON `skills` array and report projected paths such as `AGENTS.md`, `.codex/skills/<name>`, `.claude/skills/<name>`, `.cursor/rules/<name>.mdc`, or user-scope equivalents.
+For skill packages, inspect the install JSON `skills` array and report projected
+paths such as `AGENTS.md`, `.codex/skills/<name>/SKILL.md`,
+`.claude/skills/<name>/SKILL.md`, `.cursor/rules/<name>.mdc`,
+`~/.codex/skills/<name>/SKILL.md`, `~/.claude/skills/<name>/SKILL.md`, or
+`~/.cursor/skills/<name>/SKILL.md`. User-scope `skills/agents/AGENTS.md`
+entries are managed-only and do not create root `AGENTS.md`.
 
 ## Duplicates And Updates
 

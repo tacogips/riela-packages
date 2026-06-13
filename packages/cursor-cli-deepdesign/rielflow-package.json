@@ -9,7 +9,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "574ed3090cf8da8226ca11a50cdc20e0",
+  "checksum": "61f0ca217f9ca1f8b0da8e8f6825bacc",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-deepdesign",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "8602c1fc6c5ad125794511cf63455d2d481bc41e8d5c895c7731b5f262c39a18"
+    "digest": "dcaa7474915f6688e20c5c137d7d495baa9a268008cf12306417c9fedf62698e"
   },
   "backends": [
     "cursor-cli-agent"

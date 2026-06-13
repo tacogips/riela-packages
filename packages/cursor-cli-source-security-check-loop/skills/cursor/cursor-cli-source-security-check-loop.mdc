@@ -3,7 +3,7 @@ name: cursor-cli-source-security-check-loop
 description: Use when the user asks Cursor CLI to security-check source code, run secure code review, find or fix source security issues, run deterministic SAST or dependency/security scans, or loop fixes until security findings are resolved through the packaged cursor-cli-source-security-check-loop Rielflow workflow.
 ---
 
-# Cursor CLI Source Security Check Loop
+# cursor-cli-source-security-check-loop
 
 Use this skill when the user asks for a source-code security check with deterministic scanning, harness-style recon, adversarial verification, and fix follow-up.
 

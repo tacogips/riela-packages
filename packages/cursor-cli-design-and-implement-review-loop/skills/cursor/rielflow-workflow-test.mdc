@@ -5,7 +5,7 @@ metadata:
   short-description: Test rielflow workflows
 ---
 
-# Rielflow Workflow Test
+# rielflow-workflow-test
 
 Use this skill to verify existing rielflow workflows reproducibly. For authoring use `rielflow-workflow`; for normal operation use `rielflow-workflow-run`.
 

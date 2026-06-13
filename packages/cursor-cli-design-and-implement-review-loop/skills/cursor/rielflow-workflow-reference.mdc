@@ -5,7 +5,7 @@ metadata:
   short-description: Use rielflow workflow APIs
 ---
 
-# Rielflow Workflow Reference
+# rielflow-workflow-reference
 
 Use this skill for developer-facing references and integrations. For end-user CLI operation, use `rielflow-workflow-run`. For authoring workflow bundles, use `rielflow-workflow`.
 

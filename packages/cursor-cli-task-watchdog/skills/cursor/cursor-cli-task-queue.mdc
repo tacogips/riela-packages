@@ -4,7 +4,7 @@ description: Use when adding, deleting, listing, showing, or editing cursor-cli 
 user-invocable: true
 ---
 
-# Cursor CLI Task Queue
+# cursor-cli-task-queue
 
 Use this skill to manage the `./tasks/list.jsonl` queue consumed by the
 packaged `cursor-cli-task-watchdog` workflow.

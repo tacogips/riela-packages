@@ -5,7 +5,7 @@ metadata:
   short-description: Troubleshoot rielflow runs
 ---
 
-# Rielflow Troubleshooting
+# rielflow-troubleshooting
 
 Use this skill when a rielflow workflow does not behave as expected.
 

@@ -1,8 +1,9 @@
 ---
+name: riel-cursor-cli-goal
 description: Use when running a generic Cursor CLI workflow that creates and reviews a goal, creates and reviews an in-session plan without plan files, performs work with Composer 2.5, and reviews whether the goal is achieved before looping back to work or planning.
 ---
 
-# Riel Cursor CLI Goal
+# riel-cursor-cli-goal
 
 Use this rule when the user asks for a generic Cursor CLI workflow that should
 define the goal, review and improve it, plan internally, review and improve the

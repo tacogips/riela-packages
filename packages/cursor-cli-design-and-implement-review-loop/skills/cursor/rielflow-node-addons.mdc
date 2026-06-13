@@ -5,7 +5,7 @@ metadata:
   short-description: Use rielflow node add-ons
 ---
 
-# Rielflow Node Add-Ons
+# rielflow-node-addons
 
 Use this skill for add-on-backed workflow node registry entries.
 

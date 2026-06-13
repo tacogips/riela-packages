@@ -3,7 +3,7 @@ name: riel-cursor-cli-hydra-codex-impl-workflow
 description: Use only when implementation work explicitly asks for the hydra codex workflow variant. Routes the work through `cursor-cli-hydra-codex-design-and-implement-review-loop`; generic implementation work must use the default GPT-5.5 plus Composer workflow instead.
 ---
 
-# Riel Cursor CLI Hydra Codex Implementation Workflow
+# riel-cursor-cli-hydra-codex-impl-workflow
 
 Use this skill only when the user explicitly asks to run the hydra codex
 workflow, for example "hydra codex workflow" or

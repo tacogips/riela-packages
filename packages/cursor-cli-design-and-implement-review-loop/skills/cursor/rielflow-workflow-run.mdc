@@ -5,7 +5,7 @@ metadata:
   short-description: Run rielflow workflows
 ---
 
-# Rielflow Workflow Run
+# rielflow-workflow-run
 
 Use this skill for operating existing rielflow workflows. For installing GitHub workflow directories with `workflow checkout`, use `rielflow-workflow-checkout` instead. For creating or editing workflow bundles, use `rielflow-workflow` instead.
 

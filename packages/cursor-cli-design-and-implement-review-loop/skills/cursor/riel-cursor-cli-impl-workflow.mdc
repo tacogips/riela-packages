@@ -3,7 +3,7 @@ name: riel-cursor-cli-impl-workflow
 description: Use when implementation work in a rielflow project changes behavior, adds functionality, or fixes bugs and the user has not explicitly asked to avoid workflows. Routes the work through the packaged `cursor-cli-design-and-implement-review-loop` workflow, including design/plan alignment, implementation, review, user-facing documentation refresh, commit-message generation, and built-in git commit/push steps.
 ---
 
-# Riel Cursor CLI Implementation Workflow
+# riel-cursor-cli-impl-workflow
 
 Use this skill as the default Cursor CLI path for implementation work in this repository.
 

@@ -3,7 +3,7 @@ name: rielflow-fix
 description: Use when a rielflow workflow, CLI command, GraphQL control plane, event listener, package-installed workflow, user-scope workflow, project-scope workflow, or workflow-definition-dir run appears to fail because of an upstream rielflow or rielflow-package bug. Covers triage, issue creation, source checkout selection, fixes, validation, and commits.
 ---
 
-# Rielflow Fix Workflow
+# rielflow-fix
 
 Use this skill when work in this repository indicates that `rielflow` itself may be wrong, incomplete, or misaligned with its documented behavior.
 

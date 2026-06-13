@@ -5,7 +5,7 @@ metadata:
   short-description: Checkout GitHub workflow bundles
 ---
 
-# Rielflow Workflow Checkout
+# rielflow-workflow-checkout
 
 Use this skill when the user wants to install, import, check out, replace, or troubleshoot a rielflow workflow bundle from GitHub with `workflow checkout`.
 
