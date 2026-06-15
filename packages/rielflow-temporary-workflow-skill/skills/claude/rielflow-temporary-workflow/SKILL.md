@@ -91,7 +91,7 @@ rielflow workflow run \
 Inside the rielflow source checkout, use:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow run \
+rielflow workflow run \
   --workflow-json-file ./temp-workflow.json \
   --dry-run \
   --output json

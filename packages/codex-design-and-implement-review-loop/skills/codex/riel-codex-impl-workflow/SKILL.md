@@ -36,8 +36,8 @@ Use the packaged workflow bundle:
 Preferred entry point from the repository root:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow package checkout codex-design-and-implement-review-loop
-bun run packages/rielflow/src/bin.ts workflow run codex-design-and-implement-review-loop --output json
+rielflow workflow package checkout codex-design-and-implement-review-loop
+rielflow workflow run codex-design-and-implement-review-loop --output json
 ```
 
 Equivalent direct command:

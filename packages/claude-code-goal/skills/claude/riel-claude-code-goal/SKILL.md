@@ -36,7 +36,7 @@ improve the plan, do the work, and review completion before finishing.
 Run from the repository root after checkout or installation:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow run claude-code-goal \
+rielflow workflow run claude-code-goal \
   --variables '{"workflowInput":{"requestedOutcome":"Describe the desired outcome.","targetScope":"path or project scope","constraints":["Do not create plan files."],"acceptanceCriteria":["The goal review reports the goal achieved."]}}' \
   --output json --no-auto-improve
 ```
@@ -46,7 +46,7 @@ bun run packages/rielflow/src/bin.ts workflow run claude-code-goal \
 Validate the package workflow after edits:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow validate claude-code-goal \
+rielflow workflow validate claude-code-goal \
   --workflow-definition-dir ./packages/claude-code-goal/workflows
 ```
 

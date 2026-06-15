@@ -12,6 +12,10 @@ Routing rules:
 - If this review determines that a different Rielflow workflow is required to achieve the goal, set `needs_replan: true` and provide the workflow id, reason, and required dispatch input in `replanFeedback`.
 - If both could apply, prefer `needs_replan` only when changing the plan is necessary before more work.
 - Set both flags to false only when the goal is achieved or only explicitly accepted residual risks remain.
+- Never return `when.always: true` for this step. Always set explicit `when.needs_replan` and `when.needs_work` booleans.
+- `payload.goalAchieved`, `payload.decision`, and `when` must agree. If `goalAchieved` is false or `decision` is `needs_work`, `when.needs_work` must be true. If `decision` is `needs_replan`, `when.needs_replan` must be true.
+- When acceptance criteria require test or verification gates, inspect command output and artifacts such as `.verify-results.txt`. If `OVERALL_EXIT_CODE` is not `0`, `swift test` has failures, or required verification was not run, set `when.needs_work: true` and `goalAchieved: false`.
+- Do not accept completion while any mandatory acceptance criterion is unmet or unverified.
 
 Return adapter JSON with this shape:
 

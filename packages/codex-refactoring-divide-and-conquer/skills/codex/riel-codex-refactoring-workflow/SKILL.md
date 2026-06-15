@@ -21,9 +21,9 @@ Use this skill when the user asks to refactor rielflow through the divide-and-co
 Run from the repository root:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow package checkout codex-refactoring-divide-and-conquer
-bun run packages/rielflow/src/bin.ts workflow package checkout codex-refactoring-slice-review
-bun run packages/rielflow/src/bin.ts workflow run codex-refactoring-divide-and-conquer \
+rielflow workflow package checkout codex-refactoring-divide-and-conquer
+rielflow workflow package checkout codex-refactoring-slice-review
+rielflow workflow run codex-refactoring-divide-and-conquer \
   --variables '{"workflowInput":{"requestedOutcome":"Improve rielflow maintainability using divide-and-conquer refactoring.","targetPaths":["src/workflow","src/cli","src/lib.ts","packages",".rielflow/workflows"],"excludePaths":["dist","node_modules","/tmp","impl-plans/completed"],"maxSlices":6,"constraints":["Do not stage, commit, or push unless the user explicitly asks.","Do not revert unrelated dirty worktree changes.","Keep each implementation pass to one bounded task.","Update any generated refactoring plan progress as tasks are implemented."],"verificationPreferences":["Run narrow Bun tests for touched code first.","Run workflow validate for changed workflow bundles.","Run git diff --check before completion."]}}' \
   --output json --verbose --no-auto-improve
 ```
@@ -83,13 +83,13 @@ verification commands.
 Record the parent session id from workflow output. Monitor with:
 
 ```bash
-bun run packages/rielflow/src/bin.ts session status <session-id> --output json
+rielflow session status <session-id> --output json
 ```
 
 Useful compact status query:
 
 ```bash
-bun run packages/rielflow/src/bin.ts session status <session-id> --output json \
+rielflow session status <session-id> --output json \
   | jq '{status, queue, nodeExecutionCounter, currentStepId, counts:.nodeExecutionCounts, lastTransition:(.transitions[-1] // null), lastExec:(.nodeExecutions[-1] // null)}'
 ```
 
@@ -133,8 +133,8 @@ bun test src/package-boundaries.test.ts
 Validate changed workflows:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow validate codex-refactoring-divide-and-conquer --output json
-bun run packages/rielflow/src/bin.ts workflow validate codex-refactoring-slice-review --output json
+rielflow workflow validate codex-refactoring-divide-and-conquer --output json
+rielflow workflow validate codex-refactoring-slice-review --output json
 ```
 
 If mock scenarios changed, run them with `workflow run --mock-scenario`.

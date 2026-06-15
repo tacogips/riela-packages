@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "6f766b74674786931361a5df89ea32ff",
+  "checksum": "683a88817605dbe5bc459b7e3efaba18",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-fable-design-and-implement-review-loop",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "6955f88231724dc0c3dff1a58b01f709bdcb4e6715f4421e6dde7227b637b098"
+    "digest": "670b3a0bfe47623c4bc7b0177f7a9c3222640bcc401271d89614d406e9d0af6c"
   },
   "backends": [
     "cursor-cli-agent"

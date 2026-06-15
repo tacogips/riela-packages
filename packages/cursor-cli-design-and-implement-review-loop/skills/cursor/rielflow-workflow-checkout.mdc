@@ -13,9 +13,9 @@ When the target is a registry package id rather than a raw GitHub workflow
 directory URL, prefer the package lifecycle commands:
 
 ```bash
-bun run packages/rielflow/src/bin.ts package install <package-id>
-bun run packages/rielflow/src/bin.ts package list
-bun run packages/rielflow/src/bin.ts package remove <workflow-name-or-package-id>
+rielflow package install <package-id>
+rielflow package list
+rielflow package remove <workflow-name-or-package-id>
 ```
 
 Use `package list --output json` to show installed package versions, package
@@ -31,7 +31,7 @@ For running, listing, validating, inspecting, or monitoring existing workflows, 
 Inside this repository, prefer:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow checkout <github-directory-url>
+rielflow workflow checkout <github-directory-url>
 ```
 
 When rielflow is installed, prefer:
@@ -113,8 +113,8 @@ Text output prints the checked-out workflow name, scope, destination, and regist
 6. After checkout, optionally validate or list from scoped catalog lookup:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow validate <workflow-name>
-bun run packages/rielflow/src/bin.ts workflow list
+rielflow workflow validate <workflow-name>
+rielflow workflow list
 ```
 
 ## Examples
@@ -122,14 +122,14 @@ bun run packages/rielflow/src/bin.ts workflow list
 Project-scope checkout:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow checkout \
+rielflow workflow checkout \
   https://github.com/<owner>/<repo>/tree/<ref>/.rielflow/workflows/<workflow-name>
 ```
 
 User-scope checkout:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow checkout \
+rielflow workflow checkout \
   https://github.com/<owner>/<repo>/tree/<ref>/.rielflow/workflows/<workflow-name> \
   --user-scope
 ```
@@ -137,7 +137,7 @@ bun run packages/rielflow/src/bin.ts workflow checkout \
 Replace an existing checkout after staged validation succeeds:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow checkout \
+rielflow workflow checkout \
   https://github.com/<owner>/<repo>/tree/<ref>/.rielflow/workflows/<workflow-name> \
   --overwrite
 ```
@@ -145,7 +145,7 @@ bun run packages/rielflow/src/bin.ts workflow checkout \
 Machine-readable result:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow checkout \
+rielflow workflow checkout \
   https://github.com/<owner>/<repo>/tree/<ref>/.rielflow/workflows/<workflow-name> \
   --output json
 ```
@@ -153,7 +153,7 @@ bun run packages/rielflow/src/bin.ts workflow checkout \
 Explicit project root:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow checkout \
+rielflow workflow checkout \
   https://github.com/<owner>/<repo>/tree/<ref>/.rielflow/workflows/<workflow-name> \
   --project-root /path/to/project/.rielflow
 ```
@@ -161,7 +161,7 @@ bun run packages/rielflow/src/bin.ts workflow checkout \
 Direct workflow definition directory:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow checkout \
+rielflow workflow checkout \
   https://github.com/<owner>/<repo>/tree/<ref>/.rielflow/workflows/<workflow-name> \
   --workflow-definition-dir /path/to/workflow-definitions
 ```

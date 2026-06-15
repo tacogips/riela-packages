@@ -43,8 +43,8 @@ Use the packaged workflow bundle:
 Preferred entry point from the repository root:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow package checkout cursor-cli-design-and-implement-review-loop
-bun run packages/rielflow/src/bin.ts workflow run cursor-cli-design-and-implement-review-loop --output json
+rielflow workflow package checkout cursor-cli-design-and-implement-review-loop
+rielflow workflow run cursor-cli-design-and-implement-review-loop --output json
 ```
 
 Equivalent direct command:

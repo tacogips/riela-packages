@@ -23,7 +23,7 @@ a directory or file scope and no dedicated workflow is a better fit.
 Run from the repository root after checkout or installation:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow run claude-code-simple-work-package \
+rielflow workflow run claude-code-simple-work-package \
   --variables '{"workflowInput":{"targetDirectory":"path/to/dir","requestedChange":"Describe the small code or documentation change.","acceptanceCriteria":["Review has no high or middle findings."]}}' \
   --output json --no-auto-improve
 ```
@@ -46,7 +46,7 @@ asks for them.
 Validate the package workflow after edits:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow validate claude-code-simple-work-package \
+rielflow workflow validate claude-code-simple-work-package \
   --workflow-definition-dir ./packages/claude-code-simple-work-package/workflows
 ```
 

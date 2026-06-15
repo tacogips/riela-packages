@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "855de29f39423237774479ccb8303443",
+  "checksum": "29393c35e4cac686bacbbd9f49a68f22",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-refactoring-divide-and-conquer",
   "dependencies": [
@@ -26,7 +26,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "078e12caf830faf2459b203ad2418c21d802dd63177439a6abaf53dda83a20f3"
+    "digest": "9124ea2b4a54646d1fd653dbe5e676f6af7700891ed5496f38dab57aa00f11e3"
   },
   "backends": [
     "codex-agent"

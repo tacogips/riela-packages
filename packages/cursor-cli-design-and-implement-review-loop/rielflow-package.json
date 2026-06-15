@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "1727fc250ebcc32ef717ca3f2f842b3b",
+  "checksum": "18b9dd2da2c21ce3bb35950badbada0d",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-design-and-implement-review-loop",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "a70c32dbda2d6bfd637499236add6d31899e86fef585e1d06e8108c80d915297"
+    "digest": "6fa4c411adc69371864b452ac66130994a43892a0f234fa4e35dbd97051facc1"
   },
   "backends": [
     "cursor-cli-agent"

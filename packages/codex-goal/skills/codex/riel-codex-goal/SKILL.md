@@ -41,7 +41,7 @@ finishing.
 Run from the repository root after checkout or installation:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow run codex-goal \
+rielflow workflow run codex-goal \
   --variables '{"workflowInput":{"requestedOutcome":"Describe the desired outcome.","targetScope":"path or project scope","constraints":["Do not create plan files."],"acceptanceCriteria":["The goal review reports the goal achieved."]}}' \
   --output json --no-auto-improve
 ```
@@ -67,7 +67,7 @@ for them.
 Validate the package workflow after edits:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow validate codex-goal \
+rielflow workflow validate codex-goal \
   --workflow-definition-dir ./packages/codex-goal/workflows
 ```
 

@@ -20,7 +20,7 @@ Use this skill when the user asks Codex to create or refine design-doc specifica
 Run from the repository root after checkout or installation:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow run codex-deepdesign \
+rielflow workflow run codex-deepdesign \
   --variables '{"workflowInput":{"feature":"Describe the feature to design.","targetDesignDoc":"design-docs/specs/design-example.md","constraints":["Design documentation only."],"acceptanceCriteria":["Deep review has no high or middle findings.","Broad review has no high or middle findings.","Adversarial review has no high or middle findings."]}}' \
   --output json --no-auto-improve
 ```
@@ -55,14 +55,14 @@ All reviewers must return adapter JSON with `when.needs_revision` and `payload.n
 Validate the package workflow after edits:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow validate codex-deepdesign \
+rielflow workflow validate codex-deepdesign \
   --workflow-definition-dir ./packages/codex-deepdesign/workflows
 ```
 
 Run the bundled mock scenario when prompts, transitions, or review payloads change:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow run codex-deepdesign \
+rielflow workflow run codex-deepdesign \
   --workflow-definition-dir ./packages/codex-deepdesign/workflows \
   --mock-scenario ./packages/codex-deepdesign/workflows/codex-deepdesign/mock-scenario.json \
   --output json

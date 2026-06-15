@@ -23,8 +23,8 @@ rielflow package install <package-id>
 Inside the rielflow source checkout, prefer:
 
 ```bash
-bun run packages/rielflow/src/bin.ts package search "<query>" --refresh
-bun run packages/rielflow/src/bin.ts package install <package-id>
+rielflow package search "<query>" --refresh
+rielflow package install <package-id>
 ```
 
 Default registry:

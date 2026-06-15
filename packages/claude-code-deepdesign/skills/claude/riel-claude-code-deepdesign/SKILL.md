@@ -20,7 +20,7 @@ Use this skill when the user asks Claude Code to create or refine design-doc spe
 Run from the repository root after checkout or installation:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow run claude-code-deepdesign \
+rielflow workflow run claude-code-deepdesign \
   --variables '{"workflowInput":{"feature":"Describe the feature to design.","targetDesignDoc":"design-docs/specs/design-example.md","constraints":["Design documentation only."],"acceptanceCriteria":["Deep review has no high or middle findings.","Broad review has no high or middle findings."]}}' \
   --output json --no-auto-improve
 ```
@@ -53,14 +53,14 @@ Both reviewers must return adapter JSON with `when.needs_revision` and `payload.
 Validate the package workflow after edits:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow validate claude-code-deepdesign \
+rielflow workflow validate claude-code-deepdesign \
   --workflow-definition-dir ./packages/claude-code-deepdesign/workflows
 ```
 
 Run the bundled mock scenario when prompts, transitions, or review payloads change:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow run claude-code-deepdesign \
+rielflow workflow run claude-code-deepdesign \
   --workflow-definition-dir ./packages/claude-code-deepdesign/workflows \
   --mock-scenario ./packages/claude-code-deepdesign/workflows/claude-code-deepdesign/mock-scenario.json \
   --output json
