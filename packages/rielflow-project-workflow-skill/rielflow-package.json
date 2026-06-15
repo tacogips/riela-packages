@@ -1,0 +1,35 @@
+{
+  "name": "rielflow-project-workflow-skill",
+  "version": "0.1.0",
+  "title": "rielflow-project-workflow-skill",
+  "description": "Skill package that teaches agents to turn work into a project-scope Rielflow workflow and then execute that workflow.",
+  "tags": [
+    "skill",
+    "workflow",
+    "project-scope",
+    "rielflow"
+  ],
+  "registry": "default",
+  "checksum": "3f065db0e46bfe234906e49e5165f8a8",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/rielflow-project-workflow-skill",
+  "repository": "https://github.com/tacogips/rielflow-packages",
+  "workflow": {
+    "title": "rielflow-project-workflow-skill",
+    "description": "Skill package that teaches agents to turn work into a project-scope Rielflow workflow and then execute that workflow.",
+    "tags": [
+      "skill",
+      "workflow",
+      "project-scope",
+      "rielflow"
+    ],
+    "backends": []
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "ec5afaafe01d5a16cbe556a7979632613be8327cd3294931ae37590e3f9edb6d"
+  },
+  "backends": [],
+  "packageId": "rielflow-project-workflow-skill",
+  "skillDirectory": "skills"
+}

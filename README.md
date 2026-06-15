@@ -297,6 +297,9 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
   Installs Codex and Claude skills for creating and running temporary
   workflows from inline JSON or JSON files without project/user-scope
   installation.
+- [rielflow-project-workflow-skill](packages/rielflow-project-workflow-skill) -
+  Installs Codex, Claude, and Cursor guidance for turning requested work into a
+  project-scope Rielflow workflow and then executing that workflow.
 - [rielflow-workflow-creator-skill](packages/rielflow-workflow-creator-skill) -
   Installs Codex and Claude skills for creating, modifying, validating, and
   running portable Rielflow workflow bundles.
@@ -357,6 +360,7 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 | [rielflow-package-installer-skill](packages/rielflow-package-installer-skill) | skill | - | Codex, Claude |
 | [rielflow-package-manager-skill](packages/rielflow-package-manager-skill) | skill | - | Codex, Claude |
 | [rielflow-package-release-skill](packages/rielflow-package-release-skill) | skill | - | Agents, Codex, Claude |
+| [rielflow-project-workflow-skill](packages/rielflow-project-workflow-skill) | skill | - | Codex, Claude, Cursor |
 | [rielflow-temporary-workflow-skill](packages/rielflow-temporary-workflow-skill) | skill | - | Codex, Claude |
 | [rielflow-workflow-creator-skill](packages/rielflow-workflow-creator-skill) | skill | - | Codex, Claude |
 | [rielflow-workflow-skill-creator-skill](packages/rielflow-workflow-skill-creator-skill) | skill | - | Agents, Codex, Claude |
