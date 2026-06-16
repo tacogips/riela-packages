@@ -3,8 +3,7 @@
 Workflow package example with a single native container node.
 
 The workflow builds a small Node.js container, picks one greeting from a fixed
-set, and writes the greeting plus current datetime to the rielflow mailbox
-output.
+set, and emits the greeting plus current datetime as Rielflow node output.
 
 The workflow defaults to the `docker` runner.
 

@@ -10,7 +10,7 @@
     "rielflow"
   ],
   "registry": "default",
-  "checksum": "dac7f9f541bfae208e14668673c7e7ee",
+  "checksum": "ffecfabcff68b5c6455177923123a3c7",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/rielflow-package-release-skill",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "ad1c4234895041be564c952a036a3ed8aaa0e2a8f62443f6e16bd94a260b263c"
+    "digest": "ebf0a82d1a45d6d04c0dd33b9179da674c0a702d13a9cd173434d9bb604acc34"
   },
   "backends": [],
   "packageId": "rielflow-package-release-skill",

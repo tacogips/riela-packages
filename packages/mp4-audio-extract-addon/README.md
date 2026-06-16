@@ -21,7 +21,7 @@ Example node reference:
     "name": "tacogips/mp4-audio-extract",
     "version": "1",
     "inputs": {
-      "mp4Path": "{{mailbox.latest.output.payload.youtubeMp4Download.outputPath}}"
+      "mp4Path": "{{inbox.latest.output.payload.youtubeMp4Download.outputPath}}"
     },
     "config": {
       "sampleRateHertz": 16000,

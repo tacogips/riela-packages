@@ -2,18 +2,10 @@
 
 set -eu
 
-mailbox_dir="${RIEL_MAILBOX_DIR:?RIEL_MAILBOX_DIR is required}"
-output_path="${mailbox_dir}/outbox/output.json"
-
-mkdir -p "$(dirname "$output_path")"
-
 bun -e '
 const fs = require("fs");
 const path = require("path");
 
-const mailboxDir = process.env.RIEL_MAILBOX_DIR;
-const outputPath = path.join(mailboxDir, "outbox", "output.json");
-const inboxInputPath = path.join(mailboxDir, "inbox", "input.json");
 const activeDir = path.join("impl-plans", "active");
 const completedDir = path.join("impl-plans", "completed");
 const readmePath = path.join("impl-plans", "README.md");
@@ -28,16 +20,19 @@ function readJsonFile(filePath, fallback) {
 }
 
 function writeOutput(payload) {
-  fs.writeFileSync(
-    outputPath,
-    `${JSON.stringify(
-      {
-        payload,
-      },
-      null,
-      2,
-    )}\n`,
-  );
+  process.stdout.write(`${JSON.stringify({ payload })}\n`);
+}
+
+function readInvocationInput() {
+  try {
+    const text = fs.readFileSync(0, "utf8").trim();
+    if (text.length === 0) {
+      return {};
+    }
+    return JSON.parse(text.split(/\r?\n/, 1)[0]);
+  } catch {
+    return {};
+  }
 }
 
 function readText(filePath) {
@@ -109,8 +104,8 @@ function readPlanMetadata(planPath) {
   const tasks = readPlanTasksFromText(text);
   const status = normalizeStatus(topStatus, []);
   const complete =
-    status === "Completed" ||
-    (tasks.length > 0 && tasks.every((task) => task.status === "Completed"));
+    status === "Completed" &&
+    (tasks.length === 0 || tasks.every((task) => task.status === "Completed"));
   return {
     status,
     complete,
@@ -134,7 +129,8 @@ function summarizeDesignReference(raw) {
 }
 
 function getLatestPlanAssessment() {
-  const input = readJsonFile(inboxInputPath, {});
+  const envelope = readInvocationInput();
+  const input = envelope.input ?? envelope;
   const upstream = Array.isArray(input.upstream) ? input.upstream : [];
   for (let index = upstream.length - 1; index >= 0; index -= 1) {
     const payload = upstream[index]?.output?.payload;

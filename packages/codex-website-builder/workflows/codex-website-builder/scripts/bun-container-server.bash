@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-mailbox_dir="${RIEL_MAILBOX_DIR:?RIEL_MAILBOX_DIR is required}"
 workflow_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 repo_dir="$(pwd)"
-output_path="${mailbox_dir}/outbox/output.json"
-input_path="${mailbox_dir}/inbox/input.json"
 runtime_dir="${repo_dir}/.rielflow/website-builder"
-mkdir -p "$(dirname "$output_path")" "$runtime_dir"
+mkdir -p "$runtime_dir"
+invocation_input="$(cat || true)"
 
 if ! command -v docker >/dev/null 2>&1; then
-  python3 - "$output_path" <<'PY'
+  python3 - <<'PY'
 import json
 import sys
 
@@ -19,22 +17,28 @@ payload = {
     "needs_implementation_revision": True,
     "error": "docker command is required for containerized Bun execution",
 }
-with open(sys.argv[1], "w", encoding="utf-8") as handle:
-    json.dump(payload, handle, indent=2)
-    handle.write("\n")
+json.dump(payload, sys.stdout, separators=(",", ":"))
+sys.stdout.write("\n")
 PY
   exit 0
 fi
 
-config_shell="$(python3 - "$input_path" <<'PY'
+config_shell="$(INVOCATION_INPUT="$invocation_input" python3 - <<'PY'
 import json
+import os
 import re
 import shlex
 import sys
 from pathlib import PurePosixPath
 
-with open(sys.argv[1], "r", encoding="utf-8") as handle:
-    data = json.load(handle)
+raw = os.environ.get("INVOCATION_INPUT", "").strip()
+if raw:
+    envelope = json.loads(raw.splitlines()[0])
+else:
+    envelope = {}
+data = envelope.get("input") if isinstance(envelope, dict) else None
+if not isinstance(data, dict):
+    data = envelope if isinstance(envelope, dict) else {}
 
 payloads = []
 for entry in data.get("upstream", []):
@@ -110,37 +114,35 @@ eval "$config_shell"
 
 target_host_dir="${repo_dir}/${TARGET_DIRECTORY}"
 if [[ ! -d "$target_host_dir" ]]; then
-  python3 - "$output_path" "$TARGET_DIRECTORY" <<'PY'
+  python3 - "$TARGET_DIRECTORY" <<'PY'
 import json
 import sys
 
 payload = {
-    "targetDirectory": sys.argv[2],
+    "targetDirectory": sys.argv[1],
     "dockerAvailable": True,
     "needs_implementation_revision": True,
     "error": "targetDirectory does not exist; server-node must create the SolidJS app before Bun runs",
 }
-with open(sys.argv[1], "w", encoding="utf-8") as handle:
-    json.dump(payload, handle, indent=2)
-    handle.write("\n")
+json.dump(payload, sys.stdout, separators=(",", ":"))
+sys.stdout.write("\n")
 PY
   exit 0
 fi
 
 if [[ ! -f "${target_host_dir}/package.json" ]]; then
-  python3 - "$output_path" "$TARGET_DIRECTORY" <<'PY'
+  python3 - "$TARGET_DIRECTORY" <<'PY'
 import json
 import sys
 
 payload = {
-    "targetDirectory": sys.argv[2],
+    "targetDirectory": sys.argv[1],
     "dockerAvailable": True,
     "needs_implementation_revision": True,
     "error": "package.json is missing; server-node must create a Bun/SolidJS package before Bun runs",
 }
-with open(sys.argv[1], "w", encoding="utf-8") as handle:
-    json.dump(payload, handle, indent=2)
-    handle.write("\n")
+json.dump(payload, sys.stdout, separators=(",", ":"))
+sys.stdout.write("\n")
 PY
   exit 0
 fi
@@ -175,8 +177,8 @@ if [[ -f "${target_host_dir}/bun.lock" || -f "${target_host_dir}/bun.lockb" ]]; 
   install_args=(install --frozen-lockfile --ignore-scripts)
 fi
 
-docker run --rm "${common_docker_args[@]}" "$image_tag" bun "${install_args[@]}"
-docker run --rm "${common_docker_args[@]}" "$image_tag" sh -lc "$CONTAINER_BUILD_COMMAND"
+docker run --rm "${common_docker_args[@]}" "$image_tag" bun "${install_args[@]}" >>"${runtime_dir}/${container_name}.build.log" 2>&1
+docker run --rm "${common_docker_args[@]}" "$image_tag" sh -lc "$CONTAINER_BUILD_COMMAND" >>"${runtime_dir}/${container_name}.build.log" 2>&1
 
 container_id="$(
   docker run -d \
@@ -208,7 +210,7 @@ PY
 
 docker logs "$container_name" > "$log_file" 2>&1 || true
 
-python3 - "$output_path" \
+python3 - \
   "$TARGET_DIRECTORY" \
   "$image_tag" \
   "$container_name" \
@@ -224,7 +226,6 @@ import json
 import sys
 
 (
-    output_path,
     target_directory,
     image_tag,
     container_name,
@@ -255,7 +256,6 @@ payload = {
     "bunRunsOnHost": False,
     "hasSourceChanges": True,
 }
-with open(output_path, "w", encoding="utf-8") as handle:
-    json.dump(payload, handle, indent=2)
-    handle.write("\n")
+json.dump(payload, sys.stdout, separators=(",", ":"))
+sys.stdout.write("\n")
 PY

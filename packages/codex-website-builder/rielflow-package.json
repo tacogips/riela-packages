@@ -12,7 +12,7 @@
     "container"
   ],
   "registry": "default",
-  "checksum": "6d7d32bc075c372aba4299d6858f4a96",
+  "checksum": "44476270d592413c37f59282ad063786",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-website-builder",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -34,7 +34,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "c333262fce055cac398e80bee37105d0f89f8e9096f954fad52ec20ae0837073"
+    "digest": "cb8a63e013c9507bb38c3584fe10ddfe4f3178e7238ae9e2479a2e38fa6a4c91"
   },
   "backends": [
     "codex-agent",

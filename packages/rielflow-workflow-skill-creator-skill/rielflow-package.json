@@ -10,7 +10,7 @@
     "rielflow"
   ],
   "registry": "default",
-  "checksum": "dc707f47b1939305198df1cd0645b2f2",
+  "checksum": "2b295f0d70225ffc5c03f11aa74092ca",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/rielflow-workflow-skill-creator-skill",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "ec8fc40a9ccfecea9915941efc9c32b0bfcda9a37b7100abccb29a0439d3f7f2"
+    "digest": "0f5a7e36996eee78c8ddd58fbee11e35ae8115076a8c3284a424a96230e54eb7"
   },
   "backends": [],
   "packageId": "rielflow-workflow-skill-creator-skill",

@@ -136,7 +136,7 @@ unrelated, and preserve `codex-agent` as an execution-backend identifier while
 documenting Codex skill projection as `.codex/skills/<name>/SKILL.md`.
 
 SQLite message-store issue-resolution runs should refresh `README.md`, the
-SQLite message-store design, the node-mailbox design when communication
+SQLite message-store design, the node communication design when communication
 semantics change, and this workflow skill. User-facing docs must state that
 `workflow_messages` is the canonical source for communication reads, replay,
 retry, GraphQL inspection, and manager mutations; legacy per-message

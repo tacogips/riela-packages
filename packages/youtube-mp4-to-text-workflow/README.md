@@ -16,7 +16,7 @@ Inputs:
 
 The workflow deliberately keeps each operation as its own node. The downloaded
 MP4 path is passed to the audio extraction node, and the extracted FLAC path is
-passed to the transcription node through mailbox outputs. The transcription
+passed to the transcription node through Rielflow node outputs. The transcription
 node uploads that static FLAC file to Cloud Storage and uses Google
 Speech-to-Text long-running recognition, so hour-long files are handled without
 streaming.

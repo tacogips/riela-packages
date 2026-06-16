@@ -23,7 +23,7 @@
         "name": "tacogips/mp4-audio-extract",
         "version": "1",
         "inputs": {
-          "mp4Path": "{{mailbox.latest.output.payload.youtubeMp4Download.outputPath}}"
+          "mp4Path": "{{inbox.latest.output.payload.youtubeMp4Download.outputPath}}"
         }
       }
     },
@@ -33,7 +33,7 @@
         "name": "tacogips/google-speech-to-text",
         "version": "1",
         "inputs": {
-          "audioPath": "{{mailbox.latest.output.payload.audioExtract.audioPath}}",
+          "audioPath": "{{inbox.latest.output.payload.audioExtract.audioPath}}",
           "languageCode": "{{args.languageCode}}",
           "gcsUriPrefix": "{{args.gcsUriPrefix}}"
         },

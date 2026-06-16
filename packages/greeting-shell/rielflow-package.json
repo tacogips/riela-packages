@@ -11,7 +11,7 @@
     "greeting"
   ],
   "registry": "default",
-  "checksum": "22d23a0586fd1ac56b0c0faacee29fd5",
+  "checksum": "de1550f0686b8911c0737ae28a01ca35",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/greeting-shell",
   "repository": "https://github.com/tacogips/rielflow-packages",
@@ -29,7 +29,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "f1004925c14533260b774a256c988483814fbc0d9eac2b1b4976ee4bbfcbe990"
+    "digest": "72fb79b581cd6d105bedb7b8c5471d63c1b2a4579877bb3a1824eb2944f8f2d9"
   },
   "backends": [
     "native-command"

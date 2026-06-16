@@ -1,21 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-mailbox_dir="${RIEL_MAILBOX_DIR:?RIEL_MAILBOX_DIR is required}"
-output_path="${mailbox_dir}/outbox/output.json"
-mkdir -p "$(dirname "$output_path")"
-
 target="${1:-.}"
 if [[ -z "$target" ]]; then
   target="."
 fi
 
 if [[ ! -e "$target" ]]; then
-  python3 - "$output_path" "$target" <<'PY'
+  python3 - "$target" <<'PY'
 import json
 import sys
 
-output_path, target = sys.argv[1:]
+target = sys.argv[1]
 payload = {
     "status": "failed",
     "targetPath": target,
@@ -34,9 +30,8 @@ payload = {
     ],
     "coverageGaps": ["target path missing"],
 }
-with open(output_path, "w", encoding="utf-8") as handle:
-    json.dump(payload, handle, indent=2)
-    handle.write("\n")
+json.dump(payload, sys.stdout, separators=(",", ":"))
+sys.stdout.write("\n")
 PY
   exit 0
 fi
@@ -54,7 +49,7 @@ if [[ ! "$max_findings" =~ ^[0-9]+$ ]] || [[ "$max_findings" -le 0 ]]; then
   max_findings=50
 fi
 
-python3 - "$output_path" "$target" "$scan_tmp" "$run_network_audits" "$max_findings" "$include_paths" "$exclude_paths" <<'PY'
+python3 - "$target" "$scan_tmp" "$run_network_audits" "$max_findings" "$include_paths" "$exclude_paths" <<'PY'
 import json
 import os
 import re
@@ -63,7 +58,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-output_path, target, scan_tmp, run_network_audits, max_findings, include_paths, exclude_paths = sys.argv[1:]
+target, scan_tmp, run_network_audits, max_findings, include_paths, exclude_paths = sys.argv[1:]
 target_path = Path(target)
 scan_tmp_path = Path(scan_tmp)
 max_findings = int(max_findings)
@@ -576,7 +571,6 @@ payload = {
     "coverageGaps": coverage_gaps,
 }
 
-with open(output_path, "w", encoding="utf-8") as handle:
-    json.dump(payload, handle, indent=2)
-    handle.write("\n")
+json.dump(payload, sys.stdout, separators=(",", ":"))
+sys.stdout.write("\n")
 PY

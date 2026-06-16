@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-mailbox_dir="${RIEL_MAILBOX_DIR:?RIEL_MAILBOX_DIR is required}"
-output_path="${mailbox_dir}/outbox/output.json"
-mkdir -p "$(dirname "$output_path")"
-
 name="${1:-friend}"
 if [[ -z "$name" ]]; then
   name="friend"
@@ -32,11 +28,11 @@ else
   local_time="$(TZ=UTC date +"%Y-%m-%d %H:%M:%S %Z")"
 fi
 
-python3 - "$output_path" "$greeting" "$name" "$iso" "$local_time" "$timezone" <<'PY'
+python3 - "$greeting" "$name" "$iso" "$local_time" "$timezone" <<'PY'
 import json
 import sys
 
-output_path, greeting, name, iso, local_time, timezone = sys.argv[1:]
+greeting, name, iso, local_time, timezone = sys.argv[1:]
 payload = {
     "runtime": "local-bash",
     "greeting": greeting,
@@ -55,7 +51,6 @@ payload = {
         "Welcome back",
     ],
 }
-with open(output_path, "w", encoding="utf-8") as handle:
-    json.dump(payload, handle, indent=2)
-    handle.write("\n")
+json.dump(payload, sys.stdout, separators=(",", ":"))
+sys.stdout.write("\n")
 PY

@@ -5,7 +5,7 @@ Google Cloud Speech-to-Text v1 long-running recognition.
 
 The add-on uploads the extracted audio file to Google Cloud Storage, calls
 `speech:longrunningrecognize`, polls the operation, and writes transcript,
-caption, and raw response files to the Rielflow mailbox.
+caption, and raw response files under the Rielflow artifact directory.
 
 ## Add-on
 
@@ -42,7 +42,7 @@ Example node reference:
     "name": "tacogips/google-speech-to-text",
     "version": "1",
     "inputs": {
-      "audioPath": "{{mailbox.latest.output.payload.audioExtract.audioPath}}",
+      "audioPath": "{{inbox.latest.output.payload.audioExtract.audioPath}}",
       "languageCode": "ja-JP",
       "gcsUriPrefix": "gs://my-transcription-bucket/rielflow/audio"
     },

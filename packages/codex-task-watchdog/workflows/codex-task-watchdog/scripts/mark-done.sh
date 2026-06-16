@@ -2,10 +2,6 @@
 
 set -eu
 
-mailbox_dir="${RIEL_MAILBOX_DIR:?RIEL_MAILBOX_DIR is required}"
-output_path="${mailbox_dir}/outbox/output.json"
-mkdir -p "$(dirname "$output_path")"
-
 TASK_LIST_PATH="${TASK_LIST_PATH:-./tasks/list.jsonl}" \
 TASK_EVENT_SCHEDULED_AT="${TASK_EVENT_SCHEDULED_AT:-}" \
 bun -e '
@@ -13,14 +9,10 @@ const fs = require("fs");
 const path = require("path");
 
 const taskListPath = process.env.TASK_LIST_PATH?.trim() || "./tasks/list.jsonl";
-const outputPath = path.join(process.env.RIEL_MAILBOX_DIR, "outbox", "output.json");
 const now = new Date().toISOString();
 
 function emit(payload, when = {}) {
-  fs.writeFileSync(
-    outputPath,
-    `${JSON.stringify({ when, payload }, null, 2)}\n`,
-  );
+  process.stdout.write(`${JSON.stringify({ when, payload })}\n`);
 }
 
 function readTasks(filePath) {

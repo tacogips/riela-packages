@@ -1,6 +1,3 @@
-const fs = require("node:fs");
-const path = require("node:path");
-
 const greetings = [
   "Hello",
   "Good morning",
@@ -8,11 +5,6 @@ const greetings = [
   "Good evening",
   "Welcome back"
 ];
-
-const mailboxDir = process.env.RIEL_MAILBOX_DIR;
-if (!mailboxDir) {
-  throw new Error("RIEL_MAILBOX_DIR is required");
-}
 
 const name = process.argv[2] && process.argv[2].trim().length > 0
   ? process.argv[2].trim()
@@ -42,6 +34,4 @@ const output = {
   greetingsAvailable: greetings
 };
 
-const outputPath = path.join(mailboxDir, "outbox", "output.json");
-fs.mkdirSync(path.dirname(outputPath), { recursive: true });
-fs.writeFileSync(outputPath, `${JSON.stringify(output, null, 2)}\n`);
+process.stdout.write(`${JSON.stringify(output)}\n`);

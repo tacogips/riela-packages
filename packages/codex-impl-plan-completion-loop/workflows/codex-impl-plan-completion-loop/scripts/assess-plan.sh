@@ -2,12 +2,8 @@
 
 set -eu
 
-mailbox_dir="${RIEL_MAILBOX_DIR:?RIEL_MAILBOX_DIR is required}"
 plan_path="${PLAN_PATH:-}"
 target_tasks_json="${TARGET_TASKS_JSON:-}"
-output_path="${mailbox_dir}/outbox/output.json"
-
-mkdir -p "$(dirname "$output_path")"
 
 PLAN_PATH="$plan_path" TARGET_TASKS_JSON="$target_tasks_json" bun -e '
 const fs = require("fs");
@@ -26,20 +22,11 @@ if ((process.env.TARGET_TASKS_JSON ?? "").trim().length > 0) {
   }
 }
 
-const outputPath = path.join(process.env.RIEL_MAILBOX_DIR, "outbox", "output.json");
-
 function emit(payload) {
-  fs.writeFileSync(
-    outputPath,
-    `${JSON.stringify(
-      {
-        when: { plan_complete: payload.plan_complete === true },
-        payload,
-      },
-      null,
-      2,
-    )}\n`,
-  );
+  process.stdout.write(`${JSON.stringify({
+    when: { plan_complete: payload.plan_complete === true },
+    payload,
+  })}\n`);
 }
 
 function readPlanTasks(planPath) {
@@ -123,10 +110,14 @@ function readPlanDesignReference(planPath) {
 
 function isPlanComplete(planPath) {
   const tasks = readPlanTasks(planPath);
+  const topStatus = readPlanTopStatus(planPath);
+  if (topStatus !== "Completed") {
+    return false;
+  }
   if (tasks.length > 0) {
     return tasks.every((task) => task.status === "Completed");
   }
-  return readPlanTopStatus(planPath) === "Completed";
+  return true;
 }
 
 function selectPlanPath() {
@@ -242,13 +233,24 @@ const tasks = readPlanTasks(planPath);
 const topStatus = readPlanTopStatus(planPath);
 
 const completedTasks = tasks.filter((task) => task.status === "Completed");
-const incompleteTasks = tasks.filter((task) => task.status !== "Completed");
+const rawIncompleteTasks = tasks.filter((task) => task.status !== "Completed");
+const topStatusIncomplete = topStatus !== "Completed";
+const incompleteTasks =
+  topStatusIncomplete && rawIncompleteTasks.length === 0
+    ? [{
+        taskId: "PLAN-STATUS",
+        title: `Complete plan-level remaining work (${topStatus})`,
+        status: topStatus,
+        dependencies: "See full plan audit notes",
+        completionCriteria: [],
+      }]
+    : rawIncompleteTasks;
 const inProgress = incompleteTasks.find((task) => task.status === "In Progress");
 const notStarted = incompleteTasks.find((task) => task.status === "Not Started");
 const ready = incompleteTasks.find((task) => task.status === "Ready");
 const nextTask = inProgress ?? notStarted ?? ready ?? incompleteTasks[0] ?? null;
 const planComplete =
-  tasks.length > 0 ? incompleteTasks.length === 0 : topStatus === "Completed";
+  !topStatusIncomplete && (tasks.length === 0 || rawIncompleteTasks.length === 0);
 const remainingCount =
   tasks.length > 0 ? incompleteTasks.length : planComplete ? 0 : 1;
 

@@ -12,19 +12,14 @@ if [ -z "$url" ]; then
   echo "youtube-mp4-download requires a non-empty URL" >&2
   exit 2
 fi
-if [ -z "${RIEL_MAILBOX_DIR:-}" ]; then
-  echo "RIEL_MAILBOX_DIR is not set" >&2
-  exit 2
-fi
-
 yt_dlp_path="${yt_dlp_path:-yt-dlp}"
 output_directory="${output_directory:-video}"
 file_name_template="${file_name_template:-%(title).200B-%(id)s.%(ext)s}"
 format_selector="${format_selector:-bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best}"
 node_path="${node_path:-node}"
 
-outbox_dir="$RIEL_MAILBOX_DIR/outbox"
-files_dir="$outbox_dir/files/$output_directory"
+artifact_root="${RIEL_ARTIFACT_DIR:-.rielflow/artifacts}"
+files_dir="$artifact_root/addons/youtube-mp4-download/$output_directory"
 mkdir -p "$files_dir"
 
 "$yt_dlp_path" \
@@ -33,7 +28,7 @@ mkdir -p "$files_dir"
   --merge-output-format mp4 \
   --format "$format_selector" \
   --output "$files_dir/$file_name_template" \
-  "$url"
+  "$url" >&2
 
 mp4_path="$(find "$files_dir" -type f -name '*.mp4' -print | sort | tail -n 1)"
 if [ -z "$mp4_path" ] || [ ! -f "$mp4_path" ]; then
@@ -43,13 +38,12 @@ fi
 
 file_name="$(basename "$mp4_path")"
 file_size="$(wc -c < "$mp4_path" | tr -d ' ')"
-mkdir -p "$outbox_dir"
 
 URL="$url" \
 MP4_PATH="$mp4_path" \
 FILE_NAME="$file_name" \
 FILE_SIZE="$file_size" \
-"$node_path" <<'NODE' > "$outbox_dir/output.json"
+"$node_path" <<'NODE'
 const payload = {
   youtubeMp4Download: {
     status: "downloaded",
@@ -66,5 +60,5 @@ Object.assign(payload, {
   fileName: payload.youtubeMp4Download.fileName,
   fileSize: payload.youtubeMp4Download.fileSize
 });
-process.stdout.write(`${JSON.stringify(payload, null, 2)}\n`);
+process.stdout.write(`${JSON.stringify(payload)}\n`);
 NODE

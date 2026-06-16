@@ -24,11 +24,6 @@ case "$gcs_uri_prefix" in
     exit 2
     ;;
 esac
-if [ -z "${RIEL_MAILBOX_DIR:-}" ]; then
-  echo "RIEL_MAILBOX_DIR is not set" >&2
-  exit 2
-fi
-
 language_code="${language_code:-ja-JP}"
 encoding="FLAC"
 sample_rate_hertz="16000"
@@ -41,9 +36,9 @@ gcloud_path="${GCLOUD_PATH:-gcloud}"
 poll_interval_seconds="${GOOGLE_SPEECH_POLL_INTERVAL_SECONDS:-15}"
 operation_timeout_seconds="${GOOGLE_SPEECH_OPERATION_TIMEOUT_SECONDS:-14400}"
 
-outbox_dir="$RIEL_MAILBOX_DIR/outbox"
-files_dir="$outbox_dir/files/transcripts"
-tmp_dir="$outbox_dir/tmp"
+artifact_root="${RIEL_ARTIFACT_DIR:-.rielflow/artifacts}"
+files_dir="$artifact_root/addons/google-speech-to-text/transcripts"
+tmp_dir="$artifact_root/addons/google-speech-to-text/tmp"
 mkdir -p "$files_dir" "$tmp_dir"
 
 access_token="$("$node_bin" <<'NODE'
@@ -309,7 +304,7 @@ NODE
   sleep "$poll_interval_seconds"
 done
 
-"$node_bin" - "$response_json" "$output_formats" "$transcript_txt" "$transcript_srt" "$transcript_vtt" "$language_code" "$audio_path" "$gcs_uri" "$operation_name" > "$outbox_dir/output.json" <<'NODE'
+"$node_bin" - "$response_json" "$output_formats" "$transcript_txt" "$transcript_srt" "$transcript_vtt" "$language_code" "$audio_path" "$gcs_uri" "$operation_name" <<'NODE'
 const fs = require("node:fs");
 const [responseJsonPath, outputFormatsRaw, txtPath, srtPath, vttPath, languageCode, audioPath, gcsUri, operationName] = process.argv.slice(2);
 const operation = JSON.parse(fs.readFileSync(responseJsonPath, "utf8"));
@@ -408,5 +403,5 @@ const payload = {
   transcript,
   transcriptPath: outputFiles.txt ?? null
 };
-process.stdout.write(`${JSON.stringify(payload, null, 2)}\n`);
+process.stdout.write(`${JSON.stringify(payload)}\n`);
 NODE
