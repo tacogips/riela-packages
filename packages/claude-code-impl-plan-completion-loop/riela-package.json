@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "27125f3182bb55194ad6d5f4efebd744",
+  "checksum": "1482d63ef034653659ad6cab2df8cd17",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-impl-plan-completion-loop",
   "dependencies": [
@@ -27,10 +27,9 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "cb854f5bd39e2d8d4bccb2a7227a890cda1f404e10ac48cc541013f85a4dc514"
+    "digest": "81653b9fe97c6a2ad70d150d6d76ae5a3239d2deb0403f5a2743248720bfa647"
   },
   "backends": [
     "claude-code-agent"
-  ],
-  "packageId": "claude-code-impl-plan-completion-loop"
+  ]
 }

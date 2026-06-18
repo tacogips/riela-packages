@@ -11,7 +11,7 @@
     "greeting"
   ],
   "registry": "default",
-  "checksum": "081cba35bb72031a6bf9c7cb8d741429",
+  "checksum": "735313060dc8f4445b64d94595ce6858",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/greeting-container",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -29,10 +29,9 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "d9d8f5adfbcecdf07af1f7b41451942ecaad6cba02cdf24ec6a29aadb4cd7dd9"
+    "digest": "0e3b97a306c57aeb7d2ab5f8da431ddc4737b355eb2789acc7cd3f18361e93a5"
   },
   "backends": [
     "native-container"
-  ],
-  "packageId": "greeting-container"
+  ]
 }

@@ -12,7 +12,7 @@
     "container"
   ],
   "registry": "default",
-  "checksum": "668be54bdef91b4c17d7de285ba5a7f8",
+  "checksum": "e6ce5ae8a8268d16abe409ea2167a98c",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-website-builder",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -33,12 +33,11 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "b1f7f35f8da493128ac67b3c6e79bae4e28841d5bd85768e3d77721d770ecf58"
+    "digest": "f1479de32d97abced7204f5818efca984a4bd007f2c23c7b66a78919382d535f"
   },
   "backends": [
     "claude-code-agent"
   ],
-  "packageId": "claude-code-website-builder",
   "skillDirectory": "skills",
   "dependencies": [
     "codex-website-builder"

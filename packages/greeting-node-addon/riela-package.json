@@ -11,7 +11,7 @@
     "bash"
   ],
   "registry": "default",
-  "checksum": "deee9c6b7194786c577106dfcf909ec7",
+  "checksum": "265aea5f01775bbe020a21e2dbbea604",
   "checksumAlgorithm": "md5",
   "repository": "https://github.com/tacogips/riela-packages",
   "addons": [
@@ -39,7 +39,6 @@
   ],
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "06b3167b0cad3c28846db21757778e57d0099c11d4128efd37fc081652f106fd"
-  },
-  "packageId": "greeting-node-addon"
+    "digest": "89652c9861266b53be7fae554222ab37cde6dd4d313bcb6c2abd3ceed6819996"
+  }
 }

@@ -9,7 +9,7 @@
     "generic"
   ],
   "registry": "default",
-  "checksum": "b12000023facc56086d4c988ce847a50",
+  "checksum": "3bcb98407a1c07eacf7309ca36318239",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-goal",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -27,12 +27,11 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "478f5adf440c3c0607d940ab7ddf49b083e88b10ad0cff0f94c60ed7cbc0c049"
+    "digest": "bafae225dae6c7a96d15074cbd9177daeabd0cb52362efe4422d1a4b4b618d1f"
   },
   "backends": [
     "cursor-cli-agent"
   ],
-  "packageId": "cursor-cli-goal",
   "skillDirectory": "skills",
   "dependencies": [
     "codex-goal"

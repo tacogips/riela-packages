@@ -8,7 +8,7 @@
     "hydra"
   ],
   "registry": "default",
-  "checksum": "17a4b1c6e9c920ba398df80c18af0fdf",
+  "checksum": "d18c2739551066e4610146f81695b0ae",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-hydra-codex-design-and-implement-review-loop",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -26,13 +26,12 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "d3766775b6cdd4ebed40c27daa8585d3a5b12f989d21be59d71958cb1e80414c"
+    "digest": "11874dc62078831a8959da368e041926ad88879486ad3192b9cc5f31528253d3"
   },
   "backends": [
     "codex-agent",
     "cursor-cli-agent"
   ],
-  "packageId": "cursor-cli-hydra-codex-design-and-implement-review-loop",
   "skillDirectory": "skills",
   "dependencies": [
     "codex-design-and-implement-review-loop"

@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "01353ffdd42c620beba140b283d6b117",
+  "checksum": "75b6f770e2847f16c723cbe8b27309da",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-refactoring-slice-review",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -23,10 +23,9 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "29182f7be8cc90a2a2be4343e0fdc195d7056555433ab44929266c1a1f698684"
+    "digest": "b8a9f398b40f2c1e36667b27e4d0a3f84a07db5307719d4e1155911d925dbe34"
   },
   "backends": [
     "codex-agent"
-  ],
-  "packageId": "codex-refactoring-slice-review"
+  ]
 }

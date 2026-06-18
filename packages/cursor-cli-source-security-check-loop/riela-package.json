@@ -9,7 +9,7 @@
     "sast"
   ],
   "registry": "default",
-  "checksum": "83c5fe5c76e8a8287bc269cc08c1182f",
+  "checksum": "6e8a66521e3794c9771c4d18dd78c43c",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-source-security-check-loop",
   "dependencies": [
@@ -31,11 +31,10 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "18ec6a313cdeff035fc0f4549c6bac295b452660b35c5521d491bb19e23c05c8"
+    "digest": "8cca52406af9f9cbbe3788f3d817f37dab404844fef0dae03ce54aa63935d83f"
   },
   "backends": [
     "cursor-cli-agent"
   ],
-  "packageId": "cursor-cli-source-security-check-loop",
   "skillDirectory": "skills"
 }

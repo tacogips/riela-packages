@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "62db34760bbc15d8f51fadb8bc90f852",
+  "checksum": "b5050cea3618f47202f23f2ff718a1ed",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-recent-change-quality-loop",
   "dependencies": [
@@ -27,10 +27,9 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "b1ce7e4e996bef4e9a3014151700ba2b016ef11f838f42ac984a2142f56289a1"
+    "digest": "5f9640fcb4732df5186172939cf355aba685ca798f955a630653b9194d42e8d4"
   },
   "backends": [
     "cursor-cli-agent"
-  ],
-  "packageId": "cursor-cli-recent-change-quality-loop"
+  ]
 }

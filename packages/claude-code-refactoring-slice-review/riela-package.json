@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "522a339780c0b94fb43d34a53ffc0d9a",
+  "checksum": "3085e098fc7ec0a9e53389ba202e9569",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-refactoring-slice-review",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -23,12 +23,11 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "dc7e5875c41c061b4f6de83cdbb35c9dc42cda3ed1e6c467e3aae59ac64100a1"
+    "digest": "f85d4e1252a78abeb045d0c63c079cf1c2820f87545a29c0bd1cd07cc9e0c134"
   },
   "backends": [
     "claude-code-agent"
   ],
-  "packageId": "claude-code-refactoring-slice-review",
   "dependencies": [
     "codex-refactoring-slice-review"
   ]

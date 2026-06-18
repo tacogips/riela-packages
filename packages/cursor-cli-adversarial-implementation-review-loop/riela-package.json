@@ -9,7 +9,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "5a70328a661eb4b5055515d9c539a009",
+  "checksum": "6f1a7cf5f3863b466502a24d7cd4b127",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-adversarial-implementation-review-loop",
   "dependencies": [
@@ -31,10 +31,9 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "8c983ffa7d5fc11ade62993fdeabf21f2cf6ec79ac5c358c06bc56acd70e86dd"
+    "digest": "cb6914d8cb8c032c8387be0cb21b6316391dede6887e1cd9902e9ef9e5ecc32a"
   },
   "backends": [
     "cursor-cli-agent"
-  ],
-  "packageId": "cursor-cli-adversarial-implementation-review-loop"
+  ]
 }

@@ -2,211 +2,59 @@ version: "3"
 
 vars:
   RIELA_ROOT: '{{.RIELA_ROOT | default "../riela"}}'
-  RIELA_BIN: "{{.RIELA_ROOT}}/packages/riela/src/bin.ts"
+  RIELA_BIN: 'swift run --package-path "{{.RIELA_ROOT}}" riela'
 
 tasks:
   package:check-digests:
     desc: Check every package manifest checksum and integrity digest.
     cmds:
-      - |
-        bun -e '
-        import path from "node:path";
-        import {
-          computeWorkflowNodeAddonPackageChecksum,
-          computeWorkflowNodeAddonPackageIntegrityDigest,
-          computeWorkflowPackageChecksum,
-          computeWorkflowPackageIntegrityDigest,
-        } from "{{.RIELA_ROOT}}/packages/riela/src/workflow/packages/checksum.ts";
+      - bun .agents/skills/riela-package-release/scripts/update-package-digests.ts --all --dry-run
 
-        const root = `${process.cwd()}/packages`;
-        const manifests = Array.from(new Bun.Glob("*/riela-package.json").scanSync({ cwd: root })).sort();
-        let failed = false;
-
-        function safeRelativePath(value, label) {
-          if (typeof value !== "string" || value.length === 0) {
-            return { ok: false, error: `${label} must be a non-empty string` };
-          }
-          if (path.isAbsolute(value)) {
-            return { ok: false, error: `${label} must be relative` };
-          }
-          const normalized = path.posix.normalize(value);
-          if (normalized === "." || normalized.startsWith("../") || normalized === "..") {
-            return { ok: false, error: `${label} must stay inside the package` };
-          }
-          return { ok: true, value: normalized };
-        }
-
-        async function readJson(filePath) {
-          try {
-            return { ok: true, value: await Bun.file(filePath).json() };
-          } catch (error) {
-            return { ok: false, error };
-          }
-        }
-
-        async function validateNodeAddonPackage({ packageName, packageRoot, manifest }) {
-          if (!Array.isArray(manifest.addons) || manifest.addons.length === 0) {
-            return { ok: false, error: "node-addon package must define non-empty addons[]" };
-          }
-
-          for (const [index, addon] of manifest.addons.entries()) {
-            if (typeof addon?.name !== "string" || addon.name.length === 0) {
-              return { ok: false, error: `addons[${index}].name must be a non-empty string` };
-            }
-            if (typeof addon.version !== "string" || addon.version.length === 0) {
-              return { ok: false, error: `addons[${index}].version must be a non-empty string` };
-            }
-
-            const sourcePath = safeRelativePath(addon.sourcePath, `addons[${index}].sourcePath`);
-            if (!sourcePath.ok) {
-              return sourcePath;
-            }
-
-            const addonRoot = path.join(packageRoot, sourcePath.value);
-            const addonManifestPath = path.join(addonRoot, "addon.json");
-            const addonManifestFile = Bun.file(addonManifestPath);
-            if (!(await addonManifestFile.exists())) {
-              return { ok: false, error: `missing ${path.relative(packageRoot, addonManifestPath)}` };
-            }
-
-            const addonManifest = await readJson(addonManifestPath);
-            if (!addonManifest.ok) {
-              return { ok: false, error: `invalid JSON in ${path.relative(packageRoot, addonManifestPath)}` };
-            }
-
-            if (addonManifest.value.name !== addon.name) {
-              return { ok: false, error: `addon name mismatch for ${addon.name}` };
-            }
-            if (addonManifest.value.version !== addon.version) {
-              return { ok: false, error: `addon version mismatch for ${addon.name}` };
-            }
-
-            const promptTemplateFile = addonManifest.value.resolution?.promptTemplateFile;
-            if (promptTemplateFile !== undefined) {
-              const promptPath = safeRelativePath(promptTemplateFile, `${addon.name}.resolution.promptTemplateFile`);
-              if (!promptPath.ok) {
-                return promptPath;
-              }
-              const promptFile = Bun.file(path.join(addonRoot, promptPath.value));
-              if (!(await promptFile.exists())) {
-                return { ok: false, error: `missing ${path.posix.join(sourcePath.value, promptPath.value)}` };
-              }
-            }
-          }
-
-          return { ok: true };
-        }
-
-        for (const rel of manifests) {
-          const packageName = rel.split("/")[0];
-          const packageRoot = `${root}/${packageName}`;
-          const manifest = await Bun.file(`${packageRoot}/riela-package.json`).json();
-          const kind = manifest.kind ?? "workflow";
-
-          if (kind === "node-addon") {
-            const addonCheck = await validateNodeAddonPackage({ packageName, packageRoot, manifest });
-            const checksum = await computeWorkflowNodeAddonPackageChecksum({ packageRoot });
-            const integrity = await computeWorkflowNodeAddonPackageIntegrityDigest({ packageRoot });
-            const checksumOk = checksum.ok && checksum.value.checksum === manifest.checksum;
-            const integrityOk = integrity.ok && integrity.value.digest === manifest.integrity?.digest;
-            console.log(`${packageName}\tnode-addon=${addonCheck.ok ? "ok" : "bad"}\tchecksum=${checksumOk ? "ok" : "bad"}\tintegrity=${integrityOk ? "ok" : "bad"}`);
-            if (!addonCheck.ok) {
-              console.error(addonCheck.error);
-            }
-            failed = failed || !addonCheck.ok || !checksumOk || !integrityOk;
-            continue;
-          }
-
-          if (kind !== "workflow") {
-            console.log(`${packageName}\tkind=${kind}\tbad`);
-            console.error(`unsupported package kind: ${kind}`);
-            failed = true;
-            continue;
-          }
-
-          const checksum = await computeWorkflowPackageChecksum({
-            packageRoot,
-            workflowDirectory: manifest.workflowDirectory,
-          });
-          const integrity = await computeWorkflowPackageIntegrityDigest({
-            packageRoot,
-            workflowDirectory: manifest.workflowDirectory,
-          });
-
-          const checksumOk = checksum.ok && checksum.value.checksum === manifest.checksum;
-          const integrityOk = integrity.ok && integrity.value.digest === manifest.integrity?.digest;
-          console.log(`${packageName}\tchecksum=${checksumOk ? "ok" : "bad"}\tintegrity=${integrityOk ? "ok" : "bad"}`);
-          failed = failed || !checksumOk || !integrityOk;
-        }
-
-        if (failed) {
-          process.exit(1);
-        }
-        '
-
-  workflow:validate:
-    desc: Validate all packaged workflows with cross-workflow callees visible.
+  package:validate:
+    desc: Validate every package manifest with the local Swift Riela CLI.
     cmds:
       - |
+        set -e
+        for manifest in packages/*/riela-package.json; do
+          package_dir=$(dirname "$manifest")
+          package_id=$(basename "$package_dir")
+          {{.RIELA_BIN}} package install "$package_id" \
+            --source "$package_dir" \
+            --dry-run \
+            --output json >/dev/null
+          echo "${package_id} package ok"
+        done
+
+  workflow:validate:
+    desc: Validate concrete packaged workflows with cross-workflow callees visible.
+    cmds:
+      - |
+        set -e
         workflow_tmp=$(mktemp -d)
-        addon_tmp=$(mktemp -d)
-        trap 'rm -rf "$workflow_tmp" "$addon_tmp"' EXIT
+        trap 'rm -rf "$workflow_tmp"' EXIT
 
         for workflow_dir in packages/*/workflows/*; do
+          [ -d "$workflow_dir" ] || continue
+          workflow=$(basename "$workflow_dir")
+          if bun -e 'const workflow = JSON.parse(await Bun.file(process.argv[1]).text()); process.exit(workflow.extends ? 0 : 1);' "$workflow_dir/workflow.json"; then
+            echo "${workflow} extends skip"
+            continue
+          fi
           cp -R "$workflow_dir" "$workflow_tmp/$(basename "$workflow_dir")"
         done
 
-        for package_addons in packages/*/addons; do
-          [ -d "$package_addons" ] || continue
-          while IFS= read -r addon_version_dir; do
-            rel=${addon_version_dir#"$package_addons"/}
-            mkdir -p "$addon_tmp/$(dirname "$rel")"
-            cp -R "$addon_version_dir" "$addon_tmp/$rel"
-          done < <(find "$package_addons" -mindepth 3 -maxdepth 3 -type d)
+        for workflow_dir in "$workflow_tmp"/*; do
+          [ -d "$workflow_dir" ] || continue
+          workflow=$(basename "$workflow_dir")
+          {{.RIELA_BIN}} workflow validate "$workflow" \
+            --workflow-definition-dir "$workflow_tmp" \
+            --output json >/dev/null
+          echo "${workflow} ok"
         done
 
-        WORKFLOW_TMP="$workflow_tmp" ADDON_TMP="$addon_tmp" bun -e '
-        import { readdir } from "node:fs/promises";
-        import path from "node:path";
-        import { loadWorkflowFromDisk } from "{{.RIELA_ROOT}}/packages/riela/src/workflow/load.ts";
-
-        const workflowRoot = process.env.WORKFLOW_TMP;
-        const addonRoot = process.env.ADDON_TMP;
-        if (workflowRoot === undefined || addonRoot === undefined) {
-          throw new Error("missing validation roots");
-        }
-        let failed = false;
-        for (const entry of await readdir(workflowRoot, { withFileTypes: true })) {
-          if (!entry.isDirectory()) {
-            continue;
-          }
-          const workflow = entry.name;
-          const loaded = await loadWorkflowFromDisk(workflow, {
-            workflowRoot,
-            addonRoot,
-            cwd: process.cwd(),
-            allowUnpackagedExecutableAddons: true,
-          });
-          if (!loaded.ok) {
-            failed = true;
-            console.error(`${workflow} failed`);
-            for (const issue of loaded.error.issues ?? []) {
-              console.error(`[${issue.severity}] ${issue.path}: ${issue.message}`);
-            }
-            if (loaded.error.issues === undefined) {
-              console.error(loaded.error.message);
-            }
-            continue;
-          }
-          console.log(`${workflow} ok`);
-        }
-        if (failed) {
-          process.exit(1);
-        }
-        '
-
   check:
-    desc: Run package digest and workflow validation checks.
-    deps:
-      - package:check-digests
-      - workflow:validate
+    desc: Run package digest, package manifest, and workflow validation checks.
+    cmds:
+      - task: package:check-digests
+      - task: package:validate
+      - task: workflow:validate

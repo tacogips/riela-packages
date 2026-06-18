@@ -55,10 +55,11 @@ task check
 
 ## Notes
 
-- The local riela source checkout is expected at `../riela` unless
+- The local Swift Riela source checkout is expected at `../riela` unless
   `RIELA_ROOT` is set.
-- `kind: "node-addon"` packages are skipped by the digest script; validate them
-  through `task package:check-digests`.
+- `kind: "node-addon"` packages are included by the digest script. Their
+  package-level checksum and integrity digest cover the package payload, while
+  add-on `contentDigest` values remain explicit add-on artifact locks.
 - For project-scope installs, this package also projects broad maintainer
   guidance to `AGENTS.md`; the named Codex skill remains available under
   `.codex/skills/riela-package-release`.

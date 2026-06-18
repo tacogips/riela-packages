@@ -20,7 +20,7 @@ Use this skill in the `riela-packages` registry repository when preparing packag
   `addons[].name`, for example `tacogips/youtube-mp4-download`. The
   `riela/` add-on namespace is reserved for built-ins.
 - The local riela source checkout is expected at `../riela` unless `RIELA_ROOT` is set.
-- `bun` and `task` should be available; `flake.nix` includes `go-task`.
+- `bun`, `task`, and the local Swift Riela checkout should be available.
 
 ## Standard Workflow
 
@@ -52,14 +52,17 @@ Use `--dry-run` first when you only need to see stale manifests.
 task check
 ```
 
-This runs digest checks for every package and validates all packaged workflows with cross-workflow callees visible.
+This runs digest checks for every package, validates every package manifest
+with the Swift Riela decoder, and validates concrete packaged workflows with
+cross-workflow callees visible. Workflows that only extend another workflow are
+covered by package validation and skipped during direct workflow validation.
 
 4. If package names, descriptions, tags, backends, or package inventory changed, update `README.md` package listings and verify the table still matches `packages/*/riela-package.json`.
 
 5. Review install-facing behavior for changed packages:
 
 ```bash
-bun run "${RIELA_ROOT:-../riela}/packages/riela/src/bin.ts" package search "<package-id>" --registry default --refresh --output json
+swift run --package-path "${RIELA_ROOT:-../riela}" riela package search "<package-id>" --registry default --refresh --output json
 ```
 
 For workflow packages, also verify the workflow can be inspected or validated from the package payload when relevant.
@@ -75,9 +78,9 @@ For workflow packages, also verify the workflow can be inspected or validated fr
 - `checksumAlgorithm: "md5"`
 - `integrity.digestAlgorithm: "sha256"`
 
-`kind: "node-addon"` packages are skipped by this script until riela exposes
-a generic non-workflow package digest API. Validate node-addon structure through
-`task package:check-digests`.
+`kind: "node-addon"` packages are included by this script. Their package-level
+checksum and integrity digest cover the package payload, while add-on
+`contentDigest` values remain explicit add-on artifact locks.
 
 Examples:
 

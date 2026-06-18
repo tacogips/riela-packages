@@ -9,7 +9,7 @@
     "generic"
   ],
   "registry": "default",
-  "checksum": "980289c16a88a02d793141ff5729e6eb",
+  "checksum": "fc55591fcf83538348782e47a061f982",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-goal",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -27,11 +27,10 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "fa338348300f3af4aaf61b50c863775f864e85931dd1cfaabc755fe46f31f625"
+    "digest": "07acdaa13fffd76c9d5a985054056d8e10aeadd472494d172e869b860e0bd25b"
   },
   "backends": [
     "codex-agent"
   ],
-  "packageId": "codex-goal",
   "skillDirectory": "skills"
 }

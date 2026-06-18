@@ -10,7 +10,7 @@
     "meta"
   ],
   "registry": "default",
-  "checksum": "29a116ddaab2ff9e342ef05ad789a40d",
+  "checksum": "a04908486a22ee2f410280e85085b029",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-developer-workflows",
   "dependencies": [
@@ -43,11 +43,10 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "34e9f0d3ace57b1a68b306a5f98d20a01b764562895c156f606ea7e866c62b6c"
+    "digest": "04e9a29101101af7cf6051fae950da8bff4b2ad84021a3ec1205d72c3b1fc3d5"
   },
   "backends": [
     "cursor-cli-agent"
   ],
-  "packageId": "cursor-cli-developer-workflows",
   "skillDirectory": "skills"
 }

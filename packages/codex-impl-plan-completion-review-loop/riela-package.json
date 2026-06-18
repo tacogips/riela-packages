@@ -9,7 +9,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "ecc45b2b52c5fcee88e57a392d0c4fd2",
+  "checksum": "6190b92dccecd4c7a18d749c5f597788",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-impl-plan-completion-review-loop",
   "dependencies": [
@@ -31,11 +31,10 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "85ad534d59234a16d22107f981a20f9f52be762eb98a0b638e658953210dd59d"
+    "digest": "d98dcf08e34e9c442724ba4a58e95e04fd0d0fad6e6cfe545619251a7dce36ec"
   },
   "backends": [
     "codex-agent"
   ],
-  "packageId": "codex-impl-plan-completion-review-loop",
   "skillDirectory": "skills"
 }

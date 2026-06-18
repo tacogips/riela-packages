@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "951171e94cb4d476109ad7da4331d55b",
+  "checksum": "df02bfdee7e1da201aa2ff5bf416e301",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-refactoring-divide-and-conquer",
   "dependencies": [
@@ -27,11 +27,10 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "6e0d8e0bffb4ab77731edfb3c4a6c396a28155ddab16c4d5e47a284e877afaed"
+    "digest": "7d31ef06fb3018f0afbfde782bb6c586a21bd01362c7bd109fe7cfbfaa28415a"
   },
   "backends": [
     "claude-code-agent"
   ],
-  "packageId": "claude-code-refactoring-divide-and-conquer",
   "skillDirectory": "skills"
 }

@@ -11,7 +11,7 @@
     "codex-agent"
   ],
   "registry": "default",
-  "checksum": "56b85ff8d0752f35bceafbbc94a07752",
+  "checksum": "2bc7adf197dfae5b41d4aec299e0e367",
   "checksumAlgorithm": "md5",
   "repository": "https://github.com/tacogips/riela-packages",
   "addons": [
@@ -23,7 +23,6 @@
   ],
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "10013a59cd3bfa71fe30f1ae7a22a99a616ad8825bdfd59e80e681c0ff04e7f3"
-  },
-  "packageId": "release-note-node-addon"
+    "digest": "2e26dc452a80d08bdb379f2c62b4d8d5ec90934d30419ed5e789bcf80adebe17"
+  }
 }

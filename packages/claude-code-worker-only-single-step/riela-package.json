@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "364312303310931997cd8822ed6b3861",
+  "checksum": "4d007d4fe306ec77a1e53b8aab7c12de",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-worker-only-single-step",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -23,11 +23,10 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "20d29dbec63adbeb748d59481d56ea447ec2c950b4f381e5d7524a494851c580"
+    "digest": "7e7872618883196223ac0f91266d2715b8bc63c0588b82130e516ce86d2efccf"
   },
   "backends": [
     "claude-code-agent"
   ],
-  "packageId": "claude-code-worker-only-single-step",
   "skillDirectory": "skills"
 }
