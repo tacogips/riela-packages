@@ -78,22 +78,22 @@ Return adapter JSON:
       {
         "sliceId": "workflow-runtime-package",
         "title": "Workflow runtime package ownership",
-        "ownedPaths": ["packages/rielflow-core/src", "packages/rielflow-core/package.json"],
-        "excludedPaths": ["dist", "packages/rielflow-core/dist"],
+        "ownedPaths": ["packages/riela-core/src", "packages/riela-core/package.json"],
+        "excludedPaths": ["dist", "packages/riela-core/dist"],
         "dependencyNotes": [
-          "Runtime implementation files now live under packages/rielflow/src/workflow.",
-          "Public API callers through packages/rielflow/src/index.ts and packages/rielflow/src/lib.ts must keep behavior."
+          "Runtime implementation files now live under packages/riela/src/workflow.",
+          "Public API callers through packages/riela/src/index.ts and packages/riela/src/lib.ts must keep behavior."
         ],
         "reviewQuestions": [
           "Which runtime responsibilities should move behind package-owned exports?",
-          "Which packages/rielflow/src/workflow imports are temporary compatibility dependencies rather than ownership roots?",
+          "Which packages/riela/src/workflow imports are temporary compatibility dependencies rather than ownership roots?",
           "In duplicate-scavenge mode, are there duplicate implementations of validation, parsing, normalization, routing, or output handling that should share one existing helper?"
         ],
         "duplicateSearchHints": [
-          "Compare validation and routing helper patterns against packages/rielflow/src/cli, packages/rielflow/src/graphql, packages/rielflow/src/server, and packages/*/src.",
+          "Compare validation and routing helper patterns against packages/riela/src/cli, packages/riela/src/graphql, packages/riela/src/server, and packages/*/src.",
           "Record counterpart paths and behavioral differences before proposing consolidation."
         ],
-        "suggestedVerification": ["bun test packages/rielflow/src/workflow/**/*.test.ts", "bun run build"]
+        "suggestedVerification": ["bun test packages/riela/src/workflow/**/*.test.ts", "bun run build"]
       }
     ],
     "globalConstraints": [

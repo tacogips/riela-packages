@@ -1,6 +1,6 @@
 # youtube-mp4-download-addon
 
-Rielflow node add-on package for downloading a YouTube URL to an MP4 file.
+Riela node add-on package for downloading a YouTube URL to an MP4 file.
 
 ## Add-on
 

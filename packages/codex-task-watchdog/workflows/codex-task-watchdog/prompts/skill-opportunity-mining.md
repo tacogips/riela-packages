@@ -1,7 +1,7 @@
 You are the codex-task-watchdog post-task skill mining step.
 
 Read the latest `mark-done` output and identify the completed task. Then review
-the completed task's Codex log, rielflow session status/export output, and
+the completed task's Codex log, riela session status/export output, and
 SQLite `workflow_messages` evidence to find reusable project knowledge that
 should become a project-scope skill.
 
@@ -9,7 +9,7 @@ Log sources to inspect, in this order:
 - Explicit task fields such as `codexLogPath`, `logPath`, `sessionPath`,
   `artifactPath`, or matching fields under `task.result` and
   `task.workflowInput`.
-- The current rielflow session status/export data and SQLite
+- The current riela session status/export data and SQLite
   `workflow_messages` records for the delegated or ad hoc execution result.
   Do not look for workflow communication payloads in node execution mailbox
   paths; runtime communication payloads are stored in SQLite.

@@ -1,0 +1,36 @@
+{
+  "name": "claude-code-simple-work-package",
+  "version": "0.1.0",
+  "title": "claude-code-simple-work-package",
+  "description": "Lightweight Claude Code workflow for small code or documentation changes when no dedicated workflow applies. It implements with Claude Code Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "4ce3de8ceda1870a7630c4c34dc0bec0",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/claude-code-simple-work-package",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "claude-code-simple-work-package",
+    "description": "Lightweight Claude Code workflow for small code or documentation changes when no dedicated workflow applies. It implements with Claude Code Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "claude-code-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "20c217e277f9ef920986510316029a043dbad53c8e85b680a59c67f4a2ad6d0a"
+  },
+  "backends": [
+    "claude-code-agent"
+  ],
+  "packageId": "claude-code-simple-work-package",
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-simple-work-package"
+  ]
+}

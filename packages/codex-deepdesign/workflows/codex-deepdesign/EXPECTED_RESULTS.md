@@ -8,7 +8,7 @@ Ignore `sessionId`, timestamps, and artifact paths.
 Command:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow validate codex-deepdesign --workflow-definition-dir ./packages/codex-deepdesign/workflows
+bun run packages/riela/src/bin.ts workflow validate codex-deepdesign --workflow-definition-dir ./packages/codex-deepdesign/workflows
 ```
 
 Expected result: the workflow is valid.
@@ -18,7 +18,7 @@ Expected result: the workflow is valid.
 Command:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow run codex-deepdesign \
+bun run packages/riela/src/bin.ts workflow run codex-deepdesign \
   --workflow-definition-dir ./packages/codex-deepdesign/workflows \
   --mock-scenario ./packages/codex-deepdesign/workflows/codex-deepdesign/mock-scenario.json \
   --output json

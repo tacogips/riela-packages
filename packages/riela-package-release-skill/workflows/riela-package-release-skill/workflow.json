@@ -1,0 +1,36 @@
+{
+  "workflowId": "riela-package-release-skill",
+  "description": "Skill package reference workflow for installing riela package release maintainer guidance for agent-generic and Claude use.",
+  "defaults": {
+    "maxLoopIterations": 3,
+    "nodeTimeoutMs": 120000
+  },
+  "entryStepId": "skill-installed",
+  "nodes": [
+    {
+      "id": "skill-installed",
+      "nodeFile": "nodes/node-skill-installed.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "skill-installed",
+      "nodeId": "skill-installed",
+      "description": "Report that this package exists to install riela package release maintainer guidance.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielaPackage": {
+      "title": "riela-package-release-skill",
+      "description": "Maintainer skill package for updating riela package manifests, validating packaged workflows, and preparing registry releases.",
+      "tags": [
+        "skill",
+        "package",
+        "release",
+        "riela"
+      ],
+      "backends": []
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "riela-package-release-skill",
+  "version": "0.1.0",
+  "title": "riela-package-release-skill",
+  "description": "Maintainer skill package for updating riela package manifests, validating packaged workflows, and preparing registry releases.",
+  "tags": [
+    "skill",
+    "package",
+    "release",
+    "riela"
+  ],
+  "registry": "default",
+  "checksum": "0c05532c91ffe57d955d5815b6c348f0",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/riela-package-release-skill",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "riela-package-release-skill",
+    "description": "Maintainer skill package for updating riela package manifests, validating packaged workflows, and preparing registry releases.",
+    "tags": [
+      "skill",
+      "package",
+      "release",
+      "riela"
+    ],
+    "backends": []
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "6fa5ccaab31e72d1921c1dae0622d06e93d4d4e2a023d1b6c2898f7ecea92368"
+  },
+  "backends": [],
+  "packageId": "riela-package-release-skill",
+  "skillDirectory": "skills"
+}

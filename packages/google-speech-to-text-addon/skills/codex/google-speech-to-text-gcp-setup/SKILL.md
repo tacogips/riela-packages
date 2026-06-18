@@ -1,6 +1,6 @@
 ---
 name: google-speech-to-text-gcp-setup
-description: Use when configuring or verifying Google Cloud permissions for the tacogips/google-speech-to-text Rielflow node add-on, including service account credentials, Cloud Storage bucket or prefix access, Speech-to-Text API enablement, and live smoke tests through the add-on.
+description: Use when configuring or verifying Google Cloud permissions for the tacogips/google-speech-to-text Riela node add-on, including service account credentials, Cloud Storage bucket or prefix access, Speech-to-Text API enablement, and live smoke tests through the add-on.
 ---
 
 # Google Speech-to-Text GCP Setup
@@ -35,7 +35,7 @@ If credentials come from kinko in this repository, load them without displaying
 values:
 
 ```bash
-repo_root="${RIELFLOW_PACKAGES_ROOT:-$PWD}"
+repo_root="${RIELA_PACKAGES_ROOT:-$PWD}"
 eval "$(kinko export bash --force --path "$repo_root")"
 node -e '
 const c = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
@@ -57,8 +57,8 @@ console.log(JSON.stringify({
 2. A non-public Cloud Storage bucket for temporary uploaded audio:
    - Uniform bucket-level access is preferred.
    - Public access prevention should stay on.
-   - Use a dedicated prefix for Rielflow temporary audio, for example
-     `rielflow-smoke` or `rielflow/audio`.
+   - Use a dedicated prefix for Riela temporary audio, for example
+     `riela-smoke` or `riela/audio`.
 
 3. Bucket IAM for the add-on service account:
    - Grant `roles/storage.objectAdmin` on the bucket to allow upload, read,
@@ -111,7 +111,7 @@ viewer; the important checks are object create, read, and delete.
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 printf '%s' "$GOOGLE_APPLICATION_CREDENTIALS_JSON" > "$tmp/sa.json"
-printf 'rielflow smoke\n' > "$tmp/test.txt"
+printf 'riela smoke\n' > "$tmp/test.txt"
 export CLOUDSDK_CONFIG="$tmp/gcloud"
 
 gcloud auth activate-service-account --key-file="$tmp/sa.json" >/dev/null
@@ -122,7 +122,7 @@ gcloud storage rm "$GCS_URI_PREFIX/test.txt"
 
 ## Verify The Add-on Path
 
-Run the add-on through rielflow's node add-on runner or a small temporary
+Run the add-on through riela's node add-on runner or a small temporary
 workflow against a real local audio file and the configured `gcsUriPrefix`.
 Inspect the workflow result through `session status --output json`,
 `session export --output json`, or GraphQL/runtime database diagnostics.

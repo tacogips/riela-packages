@@ -1,6 +1,6 @@
 ---
 name: riel-claude-code-deepdesign
-description: Use when running, editing, or troubleshooting the packaged claude-code-deepdesign rielflow workflow for design-doc specification authoring with deep and broad review loops.
+description: Use when running, editing, or troubleshooting the packaged claude-code-deepdesign riela workflow for design-doc specification authoring with deep and broad review loops.
 ---
 
 # Riel Claude Code Deepdesign
@@ -20,7 +20,7 @@ Use this skill when the user asks Claude Code to create or refine design-doc spe
 Run from the repository root after checkout or installation:
 
 ```bash
-rielflow workflow run claude-code-deepdesign \
+riela workflow run claude-code-deepdesign \
   --variables '{"workflowInput":{"feature":"Describe the feature to design.","targetDesignDoc":"design-docs/specs/design-example.md","constraints":["Design documentation only."],"acceptanceCriteria":["Deep review has no high or middle findings.","Broad review has no high or middle findings."]}}' \
   --output json --no-auto-improve
 ```
@@ -53,21 +53,21 @@ Both reviewers must return adapter JSON with `when.needs_revision` and `payload.
 Validate the package workflow after edits:
 
 ```bash
-rielflow workflow validate claude-code-deepdesign \
+riela workflow validate claude-code-deepdesign \
   --workflow-definition-dir ./packages/claude-code-deepdesign/workflows
 ```
 
 Run the bundled mock scenario when prompts, transitions, or review payloads change:
 
 ```bash
-rielflow workflow run claude-code-deepdesign \
+riela workflow run claude-code-deepdesign \
   --workflow-definition-dir ./packages/claude-code-deepdesign/workflows \
   --mock-scenario ./packages/claude-code-deepdesign/workflows/claude-code-deepdesign/mock-scenario.json \
   --output json
 ```
 
-Refresh `rielflow-package.json` digests after changing the workflow or packaged skill:
+Refresh `riela-package.json` digests after changing the workflow or packaged skill:
 
 ```bash
-bun .agents/skills/rielflow-package-release/scripts/update-package-digests.ts claude-code-deepdesign
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts claude-code-deepdesign
 ```

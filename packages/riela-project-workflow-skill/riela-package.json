@@ -1,0 +1,35 @@
+{
+  "name": "riela-project-workflow-skill",
+  "version": "0.1.0",
+  "title": "riela-project-workflow-skill",
+  "description": "Skill package that teaches agents to turn work into a project-scope Riela workflow and then execute that workflow.",
+  "tags": [
+    "skill",
+    "workflow",
+    "project-scope",
+    "riela"
+  ],
+  "registry": "default",
+  "checksum": "d8355505db769efc60a6c424d3964bac",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/riela-project-workflow-skill",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "riela-project-workflow-skill",
+    "description": "Skill package that teaches agents to turn work into a project-scope Riela workflow and then execute that workflow.",
+    "tags": [
+      "skill",
+      "workflow",
+      "project-scope",
+      "riela"
+    ],
+    "backends": []
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "2691f63a6c903522e6917ebfec49353b50a4ea2979a9380ddfb17076b63ac87b"
+  },
+  "backends": [],
+  "packageId": "riela-project-workflow-skill",
+  "skillDirectory": "skills"
+}

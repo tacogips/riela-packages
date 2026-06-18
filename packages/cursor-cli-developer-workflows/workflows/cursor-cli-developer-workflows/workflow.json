@@ -21,7 +21,7 @@
     }
   ],
   "metadata": {
-    "rielflowPackage": {
+    "rielaPackage": {
       "title": "cursor-cli-developer-workflows",
       "description": "Meta package that installs the standard Cursor CLI developer workflow set and one Cursor rule for choosing among them.",
       "tags": [

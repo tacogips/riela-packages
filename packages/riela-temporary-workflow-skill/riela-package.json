@@ -1,0 +1,35 @@
+{
+  "name": "riela-temporary-workflow-skill",
+  "version": "0.1.0",
+  "title": "riela-temporary-workflow-skill",
+  "description": "Skill package that teaches agents how to create and run temporary riela workflows from inline JSON or JSON files.",
+  "tags": [
+    "skill",
+    "workflow",
+    "temporary",
+    "riela"
+  ],
+  "registry": "default",
+  "checksum": "22400b2f79567023e53e4cc5357f993f",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/riela-temporary-workflow-skill",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "riela-temporary-workflow-skill",
+    "description": "Skill package that teaches agents how to create and run temporary riela workflows from inline JSON or JSON files.",
+    "tags": [
+      "skill",
+      "workflow",
+      "temporary",
+      "riela"
+    ],
+    "backends": []
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "97646f25b93eab069fd3ac5ca6dcc0a94281590539b2276f03a13ed933e25439"
+  },
+  "backends": [],
+  "packageId": "riela-temporary-workflow-skill",
+  "skillDirectory": "skills"
+}

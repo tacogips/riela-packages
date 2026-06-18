@@ -1,6 +1,6 @@
 {
   "workflowId": "codex-task-watchdog",
-  "description": "Background Codex task watcher. It runs under rielflow events serve, polls ./tasks/list.jsonl on cron/event ticks, claims one newly added active task at a time, dispatches dependency workflows by task kind, or runs an ad hoc Codex worker, marks the task done, mines the completed Codex log for reusable project-scope skills under .agents, reviews the skill changes, and commits the accepted result.",
+  "description": "Background Codex task watcher. It runs under riela events serve, polls ./tasks/list.jsonl on cron/event ticks, claims one newly added active task at a time, dispatches dependency workflows by task kind, or runs an ad hoc Codex worker, marks the task done, mines the completed Codex log for reusable project-scope skills under .agents, reviews the skill changes, and commits the accepted result.",
   "defaults": {
     "maxLoopIterations": 8,
     "nodeTimeoutMs": 3600000,
@@ -10,15 +10,15 @@
     }
   },
   "prompts": {
-    "rielflowPromptTemplate": "Coordinate {{workflowId}} as one polling pass of a long-running task watcher. Start by claiming at most one active task from ./tasks/list.jsonl. If a running task exists, if all tasks are done, or if no active task exists, finish with skip output and let the background event server keep watching. Otherwise dispatch by task kind: design-and-impl to codex-design-and-implement-review-loop, design-deepthin/design-deepthink/deepdesign to codex-deepdesign, review to codex-recent-change-quality-loop, and adhoc to a local Codex worker. After a dependency workflow or adhoc worker completes, mark the running task done, review the completed task's Codex log, rielflow session status/export output, or SQLite workflow_messages evidence for reusable lessons, create or update project-scope skills under .agents/skills when warranted, run an independent skill review step, generate a commit message, commit the accepted queue and skill changes, and then publish the result.",
+    "rielaPromptTemplate": "Coordinate {{workflowId}} as one polling pass of a long-running task watcher. Start by claiming at most one active task from ./tasks/list.jsonl. If a running task exists, if all tasks are done, or if no active task exists, finish with skip output and let the background event server keep watching. Otherwise dispatch by task kind: design-and-impl to codex-design-and-implement-review-loop, design-deepthin/design-deepthink/deepdesign to codex-deepdesign, review to codex-recent-change-quality-loop, and adhoc to a local Codex worker. After a dependency workflow or adhoc worker completes, mark the running task done, review the completed task's Codex log, riela session status/export output, or SQLite workflow_messages evidence for reusable lessons, create or update project-scope skills under .agents/skills when warranted, run an independent skill review step, generate a commit message, commit the accepted queue and skill changes, and then publish the result.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Keep selected task id, status transitions, dependency workflow input, execution result, Codex log references, skill files, review decisions, commit evidence, and skip reason explicit."
   },
-  "managerStepId": "rielflow-manager",
-  "entryStepId": "rielflow-manager",
+  "managerStepId": "riela-manager",
+  "entryStepId": "riela-manager",
   "nodes": [
     {
-      "id": "rielflow-manager",
-      "nodeFile": "nodes/node-rielflow-manager.json"
+      "id": "riela-manager",
+      "nodeFile": "nodes/node-riela-manager.json"
     },
     {
       "id": "claim-next-task",
@@ -59,7 +59,7 @@
     {
       "id": "git-commit",
       "addon": {
-        "name": "rielflow/git-commit",
+        "name": "riela/git-commit",
         "version": "1",
         "config": {
           "commitMessageTemplate": "{{inbox.latest.output.payload.commitMessage}}",
@@ -75,8 +75,8 @@
   ],
   "steps": [
     {
-      "id": "rielflow-manager",
-      "nodeId": "rielflow-manager",
+      "id": "riela-manager",
+      "nodeId": "riela-manager",
       "description": "Start one watchdog polling pass and hand execution to the claim step.",
       "role": "manager",
       "transitions": [
@@ -125,7 +125,7 @@
       "transitions": [
         {
           "toWorkflowId": "codex-design-and-implement-review-loop",
-          "toStepId": "rielflow-manager",
+          "toStepId": "riela-manager",
           "resumeStepId": "mark-done"
         }
       ]
@@ -138,7 +138,7 @@
       "transitions": [
         {
           "toWorkflowId": "codex-deepdesign",
-          "toStepId": "rielflow-manager",
+          "toStepId": "riela-manager",
           "resumeStepId": "mark-done"
         }
       ]
@@ -151,7 +151,7 @@
       "transitions": [
         {
           "toWorkflowId": "codex-recent-change-quality-loop",
-          "toStepId": "rielflow-manager",
+          "toStepId": "riela-manager",
           "resumeStepId": "mark-done"
         }
       ]
@@ -230,7 +230,7 @@
     }
   ],
   "metadata": {
-    "rielflowPackage": {
+    "rielaPackage": {
       "title": "codex-task-watchdog",
       "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl with post-task skill mining and commit.",
       "tags": [

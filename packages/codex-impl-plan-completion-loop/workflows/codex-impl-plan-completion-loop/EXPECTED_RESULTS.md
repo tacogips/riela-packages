@@ -13,7 +13,7 @@ implementation path is `step1-plan-assess` -> `step2-handoff` ->
 Command:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow validate codex-impl-plan-completion-loop --workflow-definition-dir .rielflow/workflows
+bun run packages/riela/src/bin.ts workflow validate codex-impl-plan-completion-loop --workflow-definition-dir .riela/workflows
 ```
 
 Expected result: the workflow is valid.
@@ -23,9 +23,9 @@ Expected result: the workflow is valid.
 Completed-plan command:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow run codex-impl-plan-completion-loop \
-  --workflow-definition-dir .rielflow/workflows \
-  --mock-scenario .rielflow/workflows/codex-impl-plan-completion-loop/mock-scenario.json \
+bun run packages/riela/src/bin.ts workflow run codex-impl-plan-completion-loop \
+  --workflow-definition-dir .riela/workflows \
+  --mock-scenario .riela/workflows/codex-impl-plan-completion-loop/mock-scenario.json \
   --output json
 ```
 
@@ -42,7 +42,7 @@ Expected stable run summary:
 }
 ```
 
-Expected path: `rielflow-manager` -> `step1-plan-assess` -> `step4-archive-completed-plans` -> `workflow-output`
+Expected path: `riela-manager` -> `step1-plan-assess` -> `step4-archive-completed-plans` -> `workflow-output`
 
 Expected final output node: `workflow-output`
 

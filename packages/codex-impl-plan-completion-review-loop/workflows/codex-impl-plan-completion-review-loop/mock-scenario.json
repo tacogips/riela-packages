@@ -52,7 +52,7 @@
       "handoffSummary": "Delegating implementation-plan completion before review."
     }
   },
-  "rielflow-manager": [
+  "riela-manager": [
     {
       "provider": "scenario-mock",
       "model": "gpt-5.5",

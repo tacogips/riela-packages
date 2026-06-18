@@ -1,0 +1,36 @@
+{
+  "workflowId": "riela-workflow-skill-creator-skill",
+  "description": "Skill package reference workflow for installing Riela workflow usage skill authoring guidance.",
+  "defaults": {
+    "maxLoopIterations": 3,
+    "nodeTimeoutMs": 120000
+  },
+  "entryStepId": "skill-installed",
+  "nodes": [
+    {
+      "id": "skill-installed",
+      "nodeFile": "nodes/node-skill-installed.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "skill-installed",
+      "nodeId": "skill-installed",
+      "description": "Report that this package exists to install workflow usage skill authoring guidance.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielaPackage": {
+      "title": "riela-workflow-skill-creator-skill",
+      "description": "Skill package that teaches maintainers how to author packaged usage skills for Riela workflows, including agent-specific skill placement.",
+      "tags": [
+        "skill",
+        "workflow",
+        "creator",
+        "riela"
+      ],
+      "backends": []
+    }
+  }
+}

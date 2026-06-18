@@ -1,0 +1,41 @@
+{
+  "name": "cursor-cli-source-security-check-loop",
+  "version": "0.1.2",
+  "title": "cursor-cli-source-security-check-loop",
+  "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Cursor CLI, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
+  "tags": [
+    "workflow",
+    "security",
+    "sast"
+  ],
+  "registry": "default",
+  "checksum": "83c5fe5c76e8a8287bc269cc08c1182f",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-source-security-check-loop",
+  "dependencies": [
+    "codex-source-security-check-loop",
+    "cursor-cli-design-and-implement-review-loop"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-source-security-check-loop",
+    "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Cursor CLI, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
+    "tags": [
+      "workflow",
+      "security",
+      "sast"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "18ec6a313cdeff035fc0f4549c6bac295b452660b35c5521d491bb19e23c05c8"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ],
+  "packageId": "cursor-cli-source-security-check-loop",
+  "skillDirectory": "skills"
+}

@@ -21,7 +21,7 @@ implementation-plan path, not by a recent time window.
 ## Standard Run
 
 ```bash
-rielflow workflow run codex-adversarial-implementation-review-loop \
+riela workflow run codex-adversarial-implementation-review-loop \
   --variables '{"workflowInput":{"reviewSubject":"Describe the implementation result to review.","targetPaths":["src"],"constraints":["Do not revert unrelated dirty worktree changes."]}}' \
   --output json --no-auto-improve
 ```
@@ -29,7 +29,7 @@ rielflow workflow run codex-adversarial-implementation-review-loop \
 To review existing work without first dispatching implementation:
 
 ```bash
-rielflow workflow run codex-adversarial-implementation-review-loop \
+riela workflow run codex-adversarial-implementation-review-loop \
   --variables '{"workflowInput":{"skipInitialImplementation":true,"reviewSubject":"Review the completed implementation for the described feature.","targetPaths":["src"],"changedFiles":[]}}' \
   --output json --no-auto-improve
 ```
@@ -48,5 +48,5 @@ task check
 Refresh package digests after workflow or skill changes:
 
 ```bash
-bun .agents/skills/rielflow-package-release/scripts/update-package-digests.ts codex-adversarial-implementation-review-loop
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts codex-adversarial-implementation-review-loop
 ```

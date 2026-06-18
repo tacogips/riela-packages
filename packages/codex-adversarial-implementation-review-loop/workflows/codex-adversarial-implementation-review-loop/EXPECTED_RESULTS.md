@@ -13,7 +13,7 @@ blocking fixes until no high or medium findings remain.
 Command:
 
 ```bash
-rielflow workflow validate codex-adversarial-implementation-review-loop
+riela workflow validate codex-adversarial-implementation-review-loop
 ```
 
 Expected result: the workflow is valid when this package and
@@ -25,8 +25,8 @@ the workflow loader.
 Command:
 
 ```bash
-rielflow workflow run codex-adversarial-implementation-review-loop \
-  --mock-scenario .rielflow/workflows/codex-adversarial-implementation-review-loop/mock-scenario.json \
+riela workflow run codex-adversarial-implementation-review-loop \
+  --mock-scenario .riela/workflows/codex-adversarial-implementation-review-loop/mock-scenario.json \
   --output json
 ```
 
@@ -43,7 +43,7 @@ Expected stable run summary:
 }
 ```
 
-Expected path: `rielflow-manager` -> `adversarial-review` -> `exit-gate` -> `workflow-output`
+Expected path: `riela-manager` -> `adversarial-review` -> `exit-gate` -> `workflow-output`
 
 Expected final output node: `workflow-output`
 

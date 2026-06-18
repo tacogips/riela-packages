@@ -26,7 +26,7 @@ The agent review stages incorporate read-only logic from Anthropic's
 Run from a repository root:
 
 ```bash
-rielflow workflow run codex-source-security-check-loop \
+riela workflow run codex-source-security-check-loop \
   --from-registry \
   --registry default \
   --variables '{"workflowInput":{"targetPath":".","runNetworkAudits":"false","maxFindings":50}}'

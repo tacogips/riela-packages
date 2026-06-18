@@ -8,7 +8,7 @@ Ignore `sessionId`, timestamps, and artifact paths.
 Command:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow validate claude-code-worker-only-single-step --workflow-definition-dir ./examples
+bun run packages/riela/src/bin.ts workflow validate claude-code-worker-only-single-step --workflow-definition-dir ./examples
 ```
 
 Expected result: the workflow is valid.
@@ -18,7 +18,7 @@ Expected result: the workflow is valid.
 Command:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow inspect claude-code-worker-only-single-step --workflow-definition-dir ./examples --output json
+bun run packages/riela/src/bin.ts workflow inspect claude-code-worker-only-single-step --workflow-definition-dir ./examples --output json
 ```
 
 Expected stable inspection facts:
@@ -32,7 +32,7 @@ Expected stable inspection facts:
 Command:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow run claude-code-worker-only-single-step \
+bun run packages/riela/src/bin.ts workflow run claude-code-worker-only-single-step \
   --workflow-definition-dir ./examples \
   --mock-scenario ./examples/claude-code-worker-only-single-step/mock-scenario.json \
   --output json

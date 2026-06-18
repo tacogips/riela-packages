@@ -10,7 +10,7 @@
     }
   },
   "prompts": {
-    "rielflowPromptTemplate": "Coordinate {{workflowId}}. First package the operator request and dispatch codex-impl-plan-completion-loop through the cross-workflow transition. After it completes, summarize the implementation result, package a recent-change review request, and dispatch codex-recent-change-quality-loop. Finish only after the review-and-improve workflow returns an accepted result.",
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. First package the operator request and dispatch codex-impl-plan-completion-loop through the cross-workflow transition. After it completes, summarize the implementation result, package a recent-change review request, and dispatch codex-recent-change-quality-loop. Finish only after the review-and-improve workflow returns an accepted result.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Keep workflow-call inputs, delegated results, reviewed ranges, verification evidence, changed files, and residual risks explicit."
   },
   "managerStepId": "wrapper-manager",
@@ -62,7 +62,7 @@
       "transitions": [
         {
           "toWorkflowId": "codex-impl-plan-completion-loop",
-          "toStepId": "rielflow-manager",
+          "toStepId": "riela-manager",
           "resumeStepId": "impl-loop-result"
         }
       ]
@@ -86,7 +86,7 @@
       "transitions": [
         {
           "toWorkflowId": "codex-recent-change-quality-loop",
-          "toStepId": "rielflow-manager",
+          "toStepId": "riela-manager",
           "resumeStepId": "review-loop-result"
         }
       ]
@@ -110,7 +110,7 @@
     }
   ],
   "metadata": {
-    "rielflowPackage": {
+    "rielaPackage": {
       "title": "codex-impl-plan-completion-review-loop",
       "description": "Run the Codex implementation-plan completion loop, then run the recent-change quality review-and-improve loop against the resulting work.",
       "tags": [

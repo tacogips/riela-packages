@@ -1,4 +1,0 @@
-interface:
-  display_name: "Rielflow Temporary Workflow"
-  short_description: "Create and run temporary rielflow workflow JSON"
-  default_prompt: "Use $rielflow-temporary-workflow to create and run a temporary rielflow workflow from embedded JSON."

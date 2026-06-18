@@ -1,6 +1,6 @@
 # codex-website-builder
 
-`codex-website-builder` is a Rielflow workflow package for building and
+`codex-website-builder` is a Riela workflow package for building and
 iterating SolidJS websites with Bun. It separates the work into Codex GPT-5.5
 nodes for site design, asset generation, implementation, Docker-contained Bun
 server operation, and Playwright-based review. Each generated source snapshot
@@ -60,29 +60,29 @@ mounted workspace.
 ## Event Sources
 
 The workflow does not hardcode Telegram, Discord, or other chat providers.
-Rielflow event sources live outside the workflow under `.rielflow-events`.
+Riela event sources live outside the workflow under `.riela-events`.
 Multiple source definitions can be installed together, and only the selected
 one should have `"enabled": true`; the others should use `"enabled": false`.
-`rielflow events serve` starts only enabled sources, so changing providers does
+`riela events serve` starts only enabled sources, so changing providers does
 not require editing the workflow.
 
 This package includes templates in
-`workflows/codex-website-builder/event-templates/.rielflow-events`.
+`workflows/codex-website-builder/event-templates/.riela-events`.
 Copy one or more templates into the target project event root, enable exactly
 one source/binding/destination set, then validate:
 
 ```bash
-rielflow events validate \
-  --workflow-definition-dir .rielflow/workflows \
-  --event-root .rielflow-events
+riela events validate \
+  --workflow-definition-dir .riela/workflows \
+  --event-root .riela-events
 ```
 
 Start serving events:
 
 ```bash
-rielflow events serve \
-  --workflow-definition-dir .rielflow/workflows \
-  --event-root .rielflow-events
+riela events serve \
+  --workflow-definition-dir .riela/workflows \
+  --event-root .riela-events
 ```
 
 ## Direct Run Input

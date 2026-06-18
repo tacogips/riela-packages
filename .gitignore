@@ -91,16 +91,16 @@ impl-plans/.progress.lock
 **/.envrc.private*
 .private*/
 
-# rielflow runtime artifacts and session store (default paths)
-.rielflow/artifacts/
-.rielflow/artifacts/**
-.rielflow/logs/
-.rielflow/logs/**
-.rielflow-data/
-.rielflow-data/**
-.rielflow-opt/
-.rielflow-opt/**
-.rielflow-artifact/
-.rielflow-artifact/**
-.rielflow-datas/
-.rielflow-datas/**
+# riela runtime artifacts and session store (default paths)
+.riela/artifacts/
+.riela/artifacts/**
+.riela/logs/
+.riela/logs/**
+.riela-data/
+.riela-data/**
+.riela-opt/
+.riela-opt/**
+.riela-artifact/
+.riela-artifact/**
+.riela-datas/
+.riela-datas/**

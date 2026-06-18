@@ -1,6 +1,6 @@
 ---
 name: riel-codex-simple-work-package
-description: Use when making small code or documentation changes under a directory and no more specialized rielflow workflow applies. Runs the packaged codex-simple-work-package workflow with Codex GPT-5.5 high-effort implementation and high-effort review, looping back only for high or middle findings.
+description: Use when making small code or documentation changes under a directory and no more specialized riela workflow applies. Runs the packaged codex-simple-work-package workflow with Codex GPT-5.5 high-effort implementation and high-effort review, looping back only for high or middle findings.
 ---
 
 # Riel Codex Simple Work Package
@@ -23,7 +23,7 @@ a directory or file scope and no dedicated workflow is a better fit.
 Run from the repository root after checkout or installation:
 
 ```bash
-rielflow workflow run codex-simple-work-package \
+riela workflow run codex-simple-work-package \
   --variables '{"workflowInput":{"targetDirectory":"path/to/dir","requestedChange":"Describe the small code or documentation change.","acceptanceCriteria":["Review has no high or middle findings."]}}' \
   --output json --no-auto-improve
 ```
@@ -46,13 +46,13 @@ asks for them.
 Validate the package workflow after edits:
 
 ```bash
-rielflow workflow validate codex-simple-work-package \
+riela workflow validate codex-simple-work-package \
   --workflow-definition-dir ./packages/codex-simple-work-package/workflows
 ```
 
-Refresh `rielflow-package.json` digests after changing the workflow or packaged
+Refresh `riela-package.json` digests after changing the workflow or packaged
 skill:
 
 ```bash
-bun .agents/skills/rielflow-package-release/scripts/update-package-digests.ts codex-simple-work-package
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts codex-simple-work-package
 ```

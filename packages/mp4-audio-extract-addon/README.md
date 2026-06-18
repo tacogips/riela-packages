@@ -1,6 +1,6 @@
 # mp4-audio-extract-addon
 
-Rielflow node add-on package for extracting speech-ready FLAC audio from MP4.
+Riela node add-on package for extracting speech-ready FLAC audio from MP4.
 
 ## Add-on
 

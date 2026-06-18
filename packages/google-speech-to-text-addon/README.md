@@ -1,11 +1,11 @@
 # google-speech-to-text-addon
 
-Rielflow node add-on package for transcribing a local static audio file with
+Riela node add-on package for transcribing a local static audio file with
 Google Cloud Speech-to-Text v1 long-running recognition.
 
 The add-on uploads the extracted audio file to Google Cloud Storage, calls
 `speech:longrunningrecognize`, polls the operation, and writes transcript,
-caption, and raw response files under the Rielflow artifact directory.
+caption, and raw response files under the Riela artifact directory.
 
 ## Add-on
 
@@ -44,7 +44,7 @@ Example node reference:
     "inputs": {
       "audioPath": "{{inbox.latest.output.payload.audioExtract.audioPath}}",
       "languageCode": "ja-JP",
-      "gcsUriPrefix": "gs://my-transcription-bucket/rielflow/audio"
+      "gcsUriPrefix": "gs://my-transcription-bucket/riela/audio"
     },
     "env": {
       "GOOGLE_APPLICATION_CREDENTIALS_JSON": {

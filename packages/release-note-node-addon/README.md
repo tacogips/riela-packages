@@ -5,7 +5,7 @@ Declarative node add-on package for generating release-note worker nodes.
 Install:
 
 ```bash
-rielflow package install release-note-node-addon
+riela package install release-note-node-addon
 ```
 
 Use from a workflow node:

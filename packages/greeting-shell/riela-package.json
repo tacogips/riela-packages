@@ -1,0 +1,38 @@
+{
+  "name": "greeting-shell",
+  "version": "0.1.0",
+  "title": "Greeting Shell",
+  "description": "Example workflow package with a native Bash command node that outputs a greeting with the current datetime.",
+  "tags": [
+    "workflow",
+    "node-package",
+    "command",
+    "bash",
+    "greeting"
+  ],
+  "registry": "default",
+  "checksum": "f5d9c49fa74a47a865fa4626a6a80257",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/greeting-shell",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "Greeting Shell",
+    "description": "Run a local Bash greeting worker and emit datetime output.",
+    "tags": [
+      "workflow",
+      "command",
+      "bash"
+    ],
+    "backends": [
+      "native-command"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "19b481c9affc35db709d5d6fac1d1cf52b0567445fd28d26f39cbfcedef0cced"
+  },
+  "backends": [
+    "native-command"
+  ],
+  "packageId": "greeting-shell"
+}

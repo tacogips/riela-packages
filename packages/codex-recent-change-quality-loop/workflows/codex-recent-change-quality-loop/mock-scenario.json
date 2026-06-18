@@ -1,5 +1,5 @@
 {
-  "rielflow-manager": [
+  "riela-manager": [
     {
       "provider": "scenario-mock",
       "model": "gpt-5.5",
@@ -10,8 +10,8 @@
         "hours": 24,
         "targetScope": [
           "README.md",
-          ".rielflow/README.md",
-          ".rielflow/workflows/codex-recent-change-quality-loop"
+          ".riela/README.md",
+          ".riela/workflows/codex-recent-change-quality-loop"
         ],
         "notes": [
           "Start the recent-change quality loop."
@@ -61,11 +61,11 @@
         "needs_fix": true,
         "recommendedFixPlan": [
           "Replace the local fixer step with a delegated workflow handoff.",
-          "Document the delegated-review behavior in README and .rielflow/README."
+          "Document the delegated-review behavior in README and .riela/README."
         ],
         "verificationSuggestions": [
-          "task rielflow-design-loop-validate",
-          "task rielflow-recent-change-validate"
+          "task riela-design-loop-validate",
+          "task riela-recent-change-validate"
         ]
       }
     },
@@ -91,9 +91,9 @@
         "needs_fix": false,
         "recommendedFixPlan": [],
         "verificationSuggestions": [
-          "task rielflow-design-loop-validate",
-          "task rielflow-recent-change-validate",
-          "task rielflow-workflows"
+          "task riela-design-loop-validate",
+          "task riela-recent-change-validate",
+          "task riela-workflows"
         ]
       }
     }
@@ -165,11 +165,11 @@
         ],
         "recommendedFixPlan": [
           "Replace the local fixer step with a delegated workflow handoff.",
-          "Document the delegated-review behavior in README and .rielflow/README."
+          "Document the delegated-review behavior in README and .riela/README."
         ],
         "verificationSuggestions": [
-          "task rielflow-design-loop-validate",
-          "task rielflow-recent-change-validate"
+          "task riela-design-loop-validate",
+          "task riela-recent-change-validate"
         ]
       },
       "handoffSummary": "Prepared an issue-resolution handoff for codex-design-and-implement-review-loop using the blocking recent-change review findings."
@@ -266,8 +266,8 @@
       "dependencies": [],
       "parallelizableTasks": [],
       "verification": [
-        "task rielflow-design-loop-validate",
-        "task rielflow-recent-change-validate"
+        "task riela-design-loop-validate",
+        "task riela-recent-change-validate"
       ],
       "completionCriteria": [
         "Delegated workflow call is validated.",
@@ -304,15 +304,15 @@
       "issueReference": "codex-recent-change-quality-loop#delegated-review",
       "changedFiles": [
         "README.md",
-        ".rielflow/README.md",
-        ".rielflow/workflows/codex-recent-change-quality-loop/workflow.json"
+        ".riela/README.md",
+        ".riela/workflows/codex-recent-change-quality-loop/workflow.json"
       ],
       "implementationSummary": "Delegated the recent-change blocking findings into codex-design-and-implement-review-loop, updated the workflow and repository-facing guidance, and reran validation.",
       "implPlanPaths": [],
       "implPlanUpdates": [],
       "verification": [
-        "task rielflow-design-loop-validate",
-        "task rielflow-recent-change-validate"
+        "task riela-design-loop-validate",
+        "task riela-recent-change-validate"
       ],
       "addressedFeedback": [],
       "risks": []
@@ -341,7 +341,7 @@
       "workflowMode": "issue-resolution",
       "documentationFiles": [
         "README.md",
-        ".rielflow/README.md"
+        ".riela/README.md"
       ],
       "skillFiles": [
       ],
@@ -363,8 +363,8 @@
       "commitMessage": "feat: delegate recent-change findings into design workflow",
       "committedFiles": [
         "README.md",
-        ".rielflow/README.md",
-        ".rielflow/workflows/codex-recent-change-quality-loop/workflow.json"
+        ".riela/README.md",
+        ".riela/workflows/codex-recent-change-quality-loop/workflow.json"
       ],
       "changeSummary": "Accepted delegated-fix workflow changes and refreshed repository-facing documentation.",
       "residualRisks": []
@@ -402,8 +402,8 @@
         "implPlanPaths": [],
         "changedFiles": [
           "README.md",
-          ".rielflow/README.md",
-          ".rielflow/workflows/codex-recent-change-quality-loop/workflow.json"
+          ".riela/README.md",
+          ".riela/workflows/codex-recent-change-quality-loop/workflow.json"
         ],
         "designReviewSummary": "Design accepted with the delegated workflow-call pattern.",
         "implPlanReviewSummary": "Implementation planning accepted with delegated validation tasks.",
@@ -415,8 +415,8 @@
         "pushedRemote": "origin",
         "pushedBranch": "main",
         "verification": [
-          "task rielflow-design-loop-validate",
-          "task rielflow-recent-change-validate"
+          "task riela-design-loop-validate",
+          "task riela-recent-change-validate"
         ],
         "residualRisks": [
           "A future polish pass could narrow the delegated issue title further."
@@ -444,12 +444,12 @@
         ],
         "changedFiles": [
           "README.md",
-          ".rielflow/README.md",
-          ".rielflow/workflows/codex-recent-change-quality-loop/workflow.json"
+          ".riela/README.md",
+          ".riela/workflows/codex-recent-change-quality-loop/workflow.json"
         ],
         "verification": [
-          "task rielflow-design-loop-validate",
-          "task rielflow-recent-change-validate"
+          "task riela-design-loop-validate",
+          "task riela-recent-change-validate"
         ],
         "residualLowRisks": [
           "A future polish pass could narrow the delegated issue title further."
@@ -473,12 +473,12 @@
       "delegatedIssueReference": "codex-recent-change-quality-loop#delegated-review",
       "delegatedChangedFiles": [
         "README.md",
-        ".rielflow/README.md",
-        ".rielflow/workflows/codex-recent-change-quality-loop/workflow.json"
+        ".riela/README.md",
+        ".riela/workflows/codex-recent-change-quality-loop/workflow.json"
       ],
       "delegatedVerification": [
-        "task rielflow-design-loop-validate",
-        "task rielflow-recent-change-validate"
+        "task riela-design-loop-validate",
+        "task riela-recent-change-validate"
       ],
       "delegatedCommitHash": "fedcba9876543210fedcba9876543210fedcba98",
       "reviewResumePlan": "Re-run Step 1 review across the same recent window and working tree after the delegated workflow commit.",

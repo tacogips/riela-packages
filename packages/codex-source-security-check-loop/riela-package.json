@@ -1,0 +1,42 @@
+{
+  "name": "codex-source-security-check-loop",
+  "version": "0.1.2",
+  "title": "codex-source-security-check-loop",
+  "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Codex, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
+  "tags": [
+    "workflow",
+    "security",
+    "sast"
+  ],
+  "registry": "default",
+  "checksum": "620c30a73cd2d948b001571121417fa7",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/codex-source-security-check-loop",
+  "dependencies": [
+    "codex-design-and-implement-review-loop"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "codex-source-security-check-loop",
+    "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Codex, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
+    "tags": [
+      "workflow",
+      "security",
+      "sast"
+    ],
+    "backends": [
+      "native-command",
+      "codex-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "bdd586db165c8aaea4e0425bc91aefac0ee46249355a71e1e5afd09aaafc55e9"
+  },
+  "backends": [
+    "native-command",
+    "codex-agent"
+  ],
+  "packageId": "codex-source-security-check-loop",
+  "skillDirectory": "skills"
+}

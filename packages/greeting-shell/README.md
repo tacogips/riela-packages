@@ -3,10 +3,10 @@
 Workflow package example with a single native Bash command node.
 
 The workflow runs a local Bash script, picks one greeting from a fixed set, and
-emits the greeting plus current datetime as Rielflow node output.
+emits the greeting plus current datetime as Riela node output.
 
 Run as a temporary workflow from the registry:
 
 ```bash
-rielflow workflow run greeting-shell --from-registry --registry default --variables '{"workflowInput":{"name":"Taco","greetingIndex":2,"timezone":"Asia/Tokyo"}}'
+riela workflow run greeting-shell --from-registry --registry default --variables '{"workflowInput":{"name":"Taco","greetingIndex":2,"timezone":"Asia/Tokyo"}}'
 ```

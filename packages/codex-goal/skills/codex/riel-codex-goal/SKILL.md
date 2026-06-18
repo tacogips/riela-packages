@@ -18,10 +18,10 @@ finishing.
 - Effort: `high`
 - Goal review rule: after `goal`, `goal-quality-review` routes back to `goal`
   until the goal is clear, testable, scoped, and has workflow routing guidance
-  when a specialized Rielflow workflow is a better fit
+  when a specialized Riela workflow is a better fit
 - Plan review rule: after `plan`, `plan-quality-review` routes back to `plan`
   until the plan is actionable, scoped, verifiable, avoids plan files, and has
-  workflow dispatch guidance when a specialized Rielflow workflow is a better
+  workflow dispatch guidance when a specialized Riela workflow is a better
   fit
 - Completion loop rule: `goal-review` routes back to `plan` when replanning is
   required, routes back to `work` when implementation is incomplete, and
@@ -29,7 +29,7 @@ finishing.
 - Plan persistence: the plan is held only in workflow session/output data; the
   workflow must not create plan files
 - Delegation rule: goal, planning, work, and review steps may call or recommend
-  a more specific Rielflow workflow when that workflow is a better fit than the
+  a more specific Riela workflow when that workflow is a better fit than the
   generic loop
 - Workflow discovery rule: every goal, review, planning, and work step should
   actively inspect available project/user workflows, installed packages,
@@ -41,7 +41,7 @@ finishing.
 Run from the repository root after checkout or installation:
 
 ```bash
-rielflow workflow run codex-goal \
+riela workflow run codex-goal \
   --variables '{"workflowInput":{"requestedOutcome":"Describe the desired outcome.","targetScope":"path or project scope","constraints":["Do not create plan files."],"acceptanceCriteria":["The goal review reports the goal achieved."]}}' \
   --output json --no-auto-improve
 ```
@@ -67,13 +67,13 @@ for them.
 Validate the package workflow after edits:
 
 ```bash
-rielflow workflow validate codex-goal \
+riela workflow validate codex-goal \
   --workflow-definition-dir ./packages/codex-goal/workflows
 ```
 
-Refresh `rielflow-package.json` digests after changing the workflow or packaged
+Refresh `riela-package.json` digests after changing the workflow or packaged
 skill:
 
 ```bash
-bun .agents/skills/rielflow-package-release/scripts/update-package-digests.ts codex-goal
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts codex-goal
 ```

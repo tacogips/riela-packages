@@ -1,0 +1,40 @@
+{
+  "name": "codex-adversarial-implementation-review-loop",
+  "version": "0.1.0",
+  "title": "codex-adversarial-implementation-review-loop",
+  "description": "Run a scoped Codex implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+  "tags": [
+    "workflow",
+    "codex",
+    "review"
+  ],
+  "registry": "default",
+  "checksum": "ba9a61ddeeb31033df2008aa09badbbb",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/codex-adversarial-implementation-review-loop",
+  "dependencies": [
+    "codex-design-and-implement-review-loop"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "codex-adversarial-implementation-review-loop",
+    "description": "Run a scoped Codex implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+    "tags": [
+      "workflow",
+      "codex",
+      "review"
+    ],
+    "backends": [
+      "codex-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "70841a6e12cca949e595aea980e2e9720e41e80ccbefbd8d2353a8541a8e2e07"
+  },
+  "backends": [
+    "codex-agent"
+  ],
+  "packageId": "codex-adversarial-implementation-review-loop",
+  "skillDirectory": "skills"
+}

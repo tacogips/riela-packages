@@ -1,0 +1,36 @@
+{
+  "workflowId": "riela-workflow-creator-skill",
+  "description": "Skill package reference workflow for installing riela workflow bundle authoring skills.",
+  "defaults": {
+    "maxLoopIterations": 3,
+    "nodeTimeoutMs": 120000
+  },
+  "entryStepId": "skill-installed",
+  "nodes": [
+    {
+      "id": "skill-installed",
+      "nodeFile": "nodes/node-skill-installed.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "skill-installed",
+      "nodeId": "skill-installed",
+      "description": "Report that this package exists to install riela workflow bundle authoring skills.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielaPackage": {
+      "title": "riela-workflow-creator-skill",
+      "description": "Skill package that teaches agents how to create, modify, validate, and run riela workflow bundles without authoring packaged usage skills.",
+      "tags": [
+        "skill",
+        "workflow",
+        "creator",
+        "riela"
+      ],
+      "backends": []
+    }
+  }
+}

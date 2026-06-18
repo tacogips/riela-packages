@@ -1,5 +1,5 @@
 {
-  "rielflow-manager": {
+  "riela-manager": {
     "provider": "scenario-mock",
     "model": "gpt-5.5",
     "when": {
@@ -310,8 +310,8 @@
       "payload": {
         "issueReference": "tacogips/cursor-agent#123",
         "changedFiles": [
-          "packages/rielflow/src/workflow/review-findings.ts",
-          "packages/rielflow/src/workflow/review-findings.test.ts",
+          "packages/riela/src/workflow/review-findings.ts",
+          "packages/riela/src/workflow/review-findings.test.ts",
           "impl-plans/active/workflow-review-findings.md"
         ],
         "implementationSummary": "Implemented persisted review-finding records and rerun replay, but did not update the implementation-plan progress log yet.",
@@ -331,8 +331,8 @@
       "payload": {
         "issueReference": "tacogips/cursor-agent#123",
         "changedFiles": [
-          "packages/rielflow/src/workflow/review-findings.ts",
-          "packages/rielflow/src/workflow/review-findings.test.ts",
+          "packages/riela/src/workflow/review-findings.ts",
+          "packages/riela/src/workflow/review-findings.test.ts",
           "impl-plans/active/workflow-review-findings.md"
         ],
         "implementationSummary": "Step 6 implemented the approved plan, addressed Step 7 feedback, and updated implementation-plan progress.",
@@ -361,8 +361,8 @@
       "feedback": [],
       "accepted": true,
       "reviewedFiles": [
-        "packages/rielflow/src/workflow/review-findings.ts",
-        "packages/rielflow/src/workflow/review-findings.test.ts",
+        "packages/riela/src/workflow/review-findings.ts",
+        "packages/riela/src/workflow/review-findings.test.ts",
         "impl-plans/active/workflow-review-findings.md"
       ],
       "verificationGaps": [],
@@ -380,12 +380,12 @@
       "accepted": true,
       "findings": [],
       "reviewedFiles": [
-        "packages/rielflow/src/workflow/review-findings.ts",
-        "packages/rielflow/src/workflow/review-findings.test.ts",
+        "packages/riela/src/workflow/review-findings.ts",
+        "packages/riela/src/workflow/review-findings.test.ts",
         "impl-plans/active/workflow-review-findings.md"
       ],
       "testFilesChanged": [
-        "packages/rielflow/src/workflow/review-findings.test.ts"
+        "packages/riela/src/workflow/review-findings.test.ts"
       ],
       "removedOrWeakenedTests": [],
       "suspectedTestOnlyHacks": [],
@@ -462,11 +462,11 @@
       "workflowMode": "issue-resolution",
       "documentationFiles": [
         "README.md",
-        ".agents/skills/rielflow-impl-workflow/SKILL.md"
+        ".agents/skills/riela-impl-workflow/SKILL.md"
       ],
       "userFacingSurfaces": [
         "README.md",
-        ".agents/skills/rielflow-impl-workflow/SKILL.md"
+        ".agents/skills/riela-impl-workflow/SKILL.md"
       ],
       "documentationSummary": "Refreshed the README and the exposed workflow skill documentation so they match the accepted implementation behavior before commit generation.",
       "residualRisks": []
@@ -508,10 +508,10 @@
         "impl-plans/active/workflow-review-findings.md",
         "impl-plans/completed/workflow-review-findings.md",
         "impl-plans/README.md",
-        "packages/rielflow/src/workflow/review-findings.ts",
-        "packages/rielflow/src/workflow/review-findings.test.ts",
+        "packages/riela/src/workflow/review-findings.ts",
+        "packages/riela/src/workflow/review-findings.test.ts",
         "README.md",
-        ".agents/skills/rielflow-impl-workflow/SKILL.md"
+        ".agents/skills/riela-impl-workflow/SKILL.md"
       ],
       "changeSummary": "Accepted implementation, design, plan, and user-facing documentation updates for persisted workflow review findings across reruns.",
       "residualRisks": []
@@ -519,7 +519,7 @@
   },
   "step10-git-commit": {
     "provider": "scenario-mock",
-    "model": "rielflow/git-commit@1",
+    "model": "riela/git-commit@1",
     "when": {
       "always": true
     },
@@ -533,10 +533,10 @@
         "impl-plans/active/workflow-review-findings.md",
         "impl-plans/completed/workflow-review-findings.md",
         "impl-plans/README.md",
-        "packages/rielflow/src/workflow/review-findings.ts",
-        "packages/rielflow/src/workflow/review-findings.test.ts",
+        "packages/riela/src/workflow/review-findings.ts",
+        "packages/riela/src/workflow/review-findings.test.ts",
         "README.md",
-        ".agents/skills/rielflow-impl-workflow/SKILL.md"
+        ".agents/skills/riela-impl-workflow/SKILL.md"
       ],
       "git": {
         "status": "committed",
@@ -548,10 +548,10 @@
           "impl-plans/active/workflow-review-findings.md",
           "impl-plans/completed/workflow-review-findings.md",
           "impl-plans/README.md",
-          "packages/rielflow/src/workflow/review-findings.ts",
-          "packages/rielflow/src/workflow/review-findings.test.ts",
+          "packages/riela/src/workflow/review-findings.ts",
+          "packages/riela/src/workflow/review-findings.test.ts",
           "README.md",
-          ".agents/skills/rielflow-impl-workflow/SKILL.md"
+          ".agents/skills/riela-impl-workflow/SKILL.md"
         ]
       },
       "residualRisks": []
@@ -559,7 +559,7 @@
   },
   "step11-git-push": {
     "provider": "scenario-mock",
-    "model": "rielflow/git-push@1",
+    "model": "riela/git-push@1",
     "when": {
       "always": true
     },
@@ -594,12 +594,12 @@
       ],
       "implPlanPaths": ["impl-plans/completed/workflow-review-findings.md"],
       "changedFiles": [
-        "packages/rielflow/src/workflow/review-findings.ts",
-        "packages/rielflow/src/workflow/review-findings.test.ts",
+        "packages/riela/src/workflow/review-findings.ts",
+        "packages/riela/src/workflow/review-findings.test.ts",
         "impl-plans/completed/workflow-review-findings.md",
         "impl-plans/README.md",
         "README.md",
-        ".agents/skills/rielflow-impl-workflow/SKILL.md"
+        ".agents/skills/riela-impl-workflow/SKILL.md"
       ],
       "designReviewSummary": "Design accepted after the unresolved retention decision was moved into user QA.",
       "implPlanReviewSummary": "Implementation plan accepted after explicit persistence migration and regression verification tasks were added.",
@@ -609,7 +609,7 @@
       "adversarialReviewSummary": "Adversarial review accepted the rerun persistence behavior with no high or mid findings.",
       "documentationFiles": [
         "README.md",
-        ".agents/skills/rielflow-impl-workflow/SKILL.md"
+        ".agents/skills/riela-impl-workflow/SKILL.md"
       ],
       "documentationSummary": "Step 8 refreshed the README and the user-facing workflow skill so they match the accepted implementation behavior before commit generation.",
       "archivedImplPlanPaths": [

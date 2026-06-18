@@ -1,0 +1,37 @@
+{
+  "name": "cursor-cli-refactoring-divide-and-conquer",
+  "version": "0.1.0",
+  "title": "cursor-cli-refactoring-divide-and-conquer",
+  "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "3aa0d0e1bdeca82904d65165a23137be",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-refactoring-divide-and-conquer",
+  "dependencies": [
+    "codex-refactoring-divide-and-conquer",
+    "cursor-cli-refactoring-slice-review"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-refactoring-divide-and-conquer",
+    "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "80a42f6210aacb3037136ade8a21926302d4a8d74c68f33e0b130a3f85fbec1e"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ],
+  "packageId": "cursor-cli-refactoring-divide-and-conquer",
+  "skillDirectory": "skills"
+}

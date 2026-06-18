@@ -10,15 +10,15 @@
     }
   },
   "prompts": {
-    "rielflowPromptTemplate": "Coordinate {{workflowId}}. Normalize the user's direct request or chat event feedback, then run site-design, asset-generate, server-node, bun-container-server, source-commit-message, git-commit, and review-node. The design node must choose and pin the CSS framework and all allowed website libraries before implementation. The server node must create or revise a SolidJS site without running Bun on the host. The bun-container-server node must build the packaged lightweight Bun Docker image, bind-mount the repository, run Bun install/build/server commands in Docker, and return a review URL. The source commit step snapshots generated website source after each server/container pass. The review node must use Playwright against the running server, assess the site, and route back to site-design for product/design or dependency-policy problems, asset-generate for image or asset problems, or server-node for implementation/runtime problems. Finish only when review accepts the running site with no high or middle findings.",
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Normalize the user's direct request or chat event feedback, then run site-design, asset-generate, server-node, bun-container-server, source-commit-message, git-commit, and review-node. The design node must choose and pin the CSS framework and all allowed website libraries before implementation. The server node must create or revise a SolidJS site without running Bun on the host. The bun-container-server node must build the packaged lightweight Bun Docker image, bind-mount the repository, run Bun install/build/server commands in Docker, and return a review URL. The source commit step snapshots generated website source after each server/container pass. The review node must use Playwright against the running server, assess the site, and route back to site-design for product/design or dependency-policy problems, asset-generate for image or asset problems, or server-node for implementation/runtime problems. Finish only when review accepts the running site with no high or middle findings.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Keep event provenance, target directory, pinned design stack, dependency allowlist, asset paths, Docker/Bun server URL, git snapshot intent, Playwright checks, findings, route booleans, and residual risks explicit."
   },
-  "managerStepId": "rielflow-manager",
-  "entryStepId": "rielflow-manager",
+  "managerStepId": "riela-manager",
+  "entryStepId": "riela-manager",
   "nodes": [
     {
-      "id": "rielflow-manager",
-      "nodeFile": "nodes/node-rielflow-manager.json"
+      "id": "riela-manager",
+      "nodeFile": "nodes/node-riela-manager.json"
     },
     {
       "id": "site-design",
@@ -43,7 +43,7 @@
     {
       "id": "git-commit",
       "addon": {
-        "name": "rielflow/git-commit",
+        "name": "riela/git-commit",
         "version": "1",
         "config": {
           "commitMessageTemplate": "{{inbox.latest.output.payload.commitMessage}}",
@@ -63,8 +63,8 @@
   ],
   "steps": [
     {
-      "id": "rielflow-manager",
-      "nodeId": "rielflow-manager",
+      "id": "riela-manager",
+      "nodeId": "riela-manager",
       "description": "Normalize direct workflow input or chat event feedback for website creation or iteration.",
       "role": "manager",
       "transitions": [
@@ -177,7 +177,7 @@
     }
   ],
   "metadata": {
-    "rielflowPackage": {
+    "rielaPackage": {
       "title": "codex-website-builder",
       "description": "Event-ready Codex workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
       "tags": [

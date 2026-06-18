@@ -1,0 +1,33 @@
+{
+  "name": "codex-design-and-implement-review-loop",
+  "version": "0.1.0",
+  "title": "codex-design-and-implement-review-loop",
+  "description": "Shared Codex workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "68dc8fb9de22c3544a4f04d3fb56eb8d",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/codex-design-and-implement-review-loop",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "codex-design-and-implement-review-loop",
+    "description": "Shared Codex workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "codex-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "d7c6271e6b6205c3073e314887d4f0704d2f4a0c53c98fa0b528adaf4b54a125"
+  },
+  "backends": [
+    "codex-agent"
+  ],
+  "packageId": "codex-design-and-implement-review-loop",
+  "skillDirectory": "skills"
+}

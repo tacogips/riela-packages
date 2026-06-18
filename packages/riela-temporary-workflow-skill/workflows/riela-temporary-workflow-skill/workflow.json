@@ -1,0 +1,36 @@
+{
+  "workflowId": "riela-temporary-workflow-skill",
+  "description": "Skill package reference workflow for installing riela temporary workflow skills.",
+  "defaults": {
+    "maxLoopIterations": 3,
+    "nodeTimeoutMs": 120000
+  },
+  "entryStepId": "skill-installed",
+  "nodes": [
+    {
+      "id": "skill-installed",
+      "nodeFile": "nodes/node-skill-installed.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "skill-installed",
+      "nodeId": "skill-installed",
+      "description": "Report that this package exists to install riela temporary workflow skills.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielaPackage": {
+      "title": "riela-temporary-workflow-skill",
+      "description": "Skill package that teaches agents how to create and run temporary riela workflows from inline JSON or JSON files.",
+      "tags": [
+        "skill",
+        "workflow",
+        "temporary",
+        "riela"
+      ],
+      "backends": []
+    }
+  }
+}

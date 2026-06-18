@@ -1,6 +1,6 @@
 ---
 name: riel-cursor-cli-developer-workflows
-description: Use when choosing or running Cursor CLI Rielflow developer workflows after installing the cursor-cli-developer-workflows meta package. Dispatches among design, implementation, simple work, implementation-plan completion, recent-change review, refactoring, security, task watchdog, and website workflows.
+description: Use when choosing or running Cursor CLI Riela developer workflows after installing the cursor-cli-developer-workflows meta package. Dispatches among design, implementation, simple work, implementation-plan completion, recent-change review, refactoring, security, task watchdog, and website workflows.
 ---
 
 # riel-cursor-cli-developer-workflows
@@ -19,13 +19,13 @@ Install the meta package instead of installing individual Cursor CLI developer
 workflow packages by hand:
 
 ```bash
-rielflow package install cursor-cli-developer-workflows --pre-install-check
+riela package install cursor-cli-developer-workflows --pre-install-check
 ```
 
 For user-wide access:
 
 ```bash
-rielflow package install cursor-cli-developer-workflows --user-scope --pre-install-check
+riela package install cursor-cli-developer-workflows --user-scope --pre-install-check
 ```
 
 ## Dispatch
@@ -65,7 +65,7 @@ a hydra workflow and that hydra package is installed separately.
 Design:
 
 ```bash
-rielflow workflow run cursor-cli-deepdesign \
+riela workflow run cursor-cli-deepdesign \
   --variables '{"workflowInput":{"feature":"Describe the feature to design.","targetDesignDoc":"design-docs/specs/design-example.md","constraints":["Design documentation only."],"acceptanceCriteria":["Deep review has no high or middle findings.","Broad review has no high or middle findings."]}}' \
   --output json --no-auto-improve
 ```
@@ -73,7 +73,7 @@ rielflow workflow run cursor-cli-deepdesign \
 Default implementation:
 
 ```bash
-rielflow workflow run cursor-cli-design-and-implement-review-loop \
+riela workflow run cursor-cli-design-and-implement-review-loop \
   --variables '{"workflowInput":{"requestedBehavior":"Describe the requested behavior.","targetFeatureArea":"Describe the affected area."}}' \
   --output json
 ```
@@ -81,7 +81,7 @@ rielflow workflow run cursor-cli-design-and-implement-review-loop \
 Small work package:
 
 ```bash
-rielflow workflow run cursor-cli-simple-work-package \
+riela workflow run cursor-cli-simple-work-package \
   --variables '{"workflowInput":{"targetDirectory":"path/to/dir","requestedChange":"Describe the small change.","acceptanceCriteria":["Review has no high or middle findings."]}}' \
   --output json --no-auto-improve
 ```
@@ -89,7 +89,7 @@ rielflow workflow run cursor-cli-simple-work-package \
 Security check:
 
 ```bash
-rielflow workflow run cursor-cli-source-security-check-loop \
+riela workflow run cursor-cli-source-security-check-loop \
   --variables '{"workflowInput":{"targetPath":".","runNetworkAudits":"false","maxFindings":50,"constraints":["Do not stage, commit, or push unless the user explicitly asks.","Do not revert unrelated dirty worktree changes.","Keep fixes narrowly scoped to verified security findings."]}}' \
   --output json --verbose --no-auto-improve
 ```
@@ -102,24 +102,24 @@ rielflow workflow run cursor-cli-source-security-check-loop \
 - Prefer the meta package for installation so this rule cannot reference
   uninstalled standard Cursor CLI developer workflows.
 - If a listed workflow is unexpectedly unavailable, run
-  `rielflow package status cursor-cli-developer-workflows --output json` and
+  `riela package status cursor-cli-developer-workflows --output json` and
   reinstall or update the meta package before falling back.
 
 ## Verification
 
 After changing this package or dispatcher rule, validate from the
-`rielflow-packages` repository root:
+`riela-packages` repository root:
 
 ```bash
-bun .agents/skills/rielflow-package-release/scripts/update-package-digests.ts cursor-cli-developer-workflows
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts cursor-cli-developer-workflows
 task check
 ```
 
 For installed user-scope packages, verify visibility with:
 
 ```bash
-rielflow package status cursor-cli-developer-workflows --scope user --output json
-rielflow workflow validate cursor-cli-developer-workflows --scope user
+riela package status cursor-cli-developer-workflows --scope user --output json
+riela workflow validate cursor-cli-developer-workflows --scope user
 ```
 
 Expected output from the meta workflow is a JSON payload listing this dispatcher

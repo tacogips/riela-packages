@@ -29,15 +29,15 @@ Use the packaged workflow bundle:
 Preferred entry point from the repository root:
 
 ```bash
-rielflow workflow package checkout cursor-cli-hydra-codex-design-and-implement-review-loop
-rielflow workflow run cursor-cli-hydra-codex-design-and-implement-review-loop --output json
+riela workflow package checkout cursor-cli-hydra-codex-design-and-implement-review-loop
+riela workflow run cursor-cli-hydra-codex-design-and-implement-review-loop --output json
 ```
 
 Equivalent direct command:
 
 ```bash
-rielflow workflow package checkout cursor-cli-hydra-codex-design-and-implement-review-loop
-rielflow workflow run cursor-cli-hydra-codex-design-and-implement-review-loop --output json
+riela workflow package checkout cursor-cli-hydra-codex-design-and-implement-review-loop
+riela workflow run cursor-cli-hydra-codex-design-and-implement-review-loop --output json
 ```
 
 ## Model Routing

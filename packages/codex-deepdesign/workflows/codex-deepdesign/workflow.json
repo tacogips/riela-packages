@@ -10,15 +10,15 @@
     }
   },
   "prompts": {
-    "rielflowPromptTemplate": "Coordinate {{workflowId}}. Start with Node 1 design authoring. Node 1 creates or revises design-doc specifications for the requested feature. Node 2 reviews the design deeply for unstated assumptions, unplanned use cases, prerequisites, irregular states, error handling, and lifecycle edge cases. If Node 2 reports any high or middle finding, route back to Node 1 with the review feedback. If Node 2 accepts, run Node 3. Node 3 reviews broadly for impacts on other features, overlap with existing capabilities, adjacent workflows, combined use cases, migration and compatibility concerns, and cross-feature gaps. If Node 3 reports any high or middle finding, route back to Node 1 with the review feedback. If Node 3 accepts, run Node 4. Node 4 adversarially reviews failure modes, misuse paths, misleading success cases, and overconfident assumptions. If Node 4 reports any high or middle finding, route back to Node 1 with the review feedback. Finish only after Node 2, Node 3, and Node 4 accept the latest design with no high or middle findings.",
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Start with Node 1 design authoring. Node 1 creates or revises design-doc specifications for the requested feature. Node 2 reviews the design deeply for unstated assumptions, unplanned use cases, prerequisites, irregular states, error handling, and lifecycle edge cases. If Node 2 reports any high or middle finding, route back to Node 1 with the review feedback. If Node 2 accepts, run Node 3. Node 3 reviews broadly for impacts on other features, overlap with existing capabilities, adjacent workflows, combined use cases, migration and compatibility concerns, and cross-feature gaps. If Node 3 reports any high or middle finding, route back to Node 1 with the review feedback. If Node 3 accepts, run Node 4. Node 4 adversarially reviews failure modes, misuse paths, misleading success cases, and overconfident assumptions. If Node 4 reports any high or middle finding, route back to Node 1 with the review feedback. Finish only after Node 2, Node 3, and Node 4 accept the latest design with no high or middle findings.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Keep design-doc paths, review severity, assumptions, cross-feature impacts, addressed feedback, routing booleans, verification, and residual risks explicit."
   },
-  "managerStepId": "rielflow-manager",
-  "entryStepId": "rielflow-manager",
+  "managerStepId": "riela-manager",
+  "entryStepId": "riela-manager",
   "nodes": [
     {
-      "id": "rielflow-manager",
-      "nodeFile": "nodes/node-rielflow-manager.json"
+      "id": "riela-manager",
+      "nodeFile": "nodes/node-riela-manager.json"
     },
     {
       "id": "node1-design-author",
@@ -44,8 +44,8 @@
   ],
   "steps": [
     {
-      "id": "rielflow-manager",
-      "nodeId": "rielflow-manager",
+      "id": "riela-manager",
+      "nodeId": "riela-manager",
       "description": "Start the deep design workflow and preserve request inputs for the design author and reviewers.",
       "role": "manager",
       "transitions": [
@@ -121,7 +121,7 @@
     }
   ],
   "metadata": {
-    "rielflowPackage": {
+    "rielaPackage": {
       "title": "codex-deepdesign",
       "description": "Create and iteratively review design-doc specifications with one Codex author, one deep edge-case reviewer, one broad integration reviewer, and one adversarial failure-mode reviewer until no high or middle findings remain.",
       "tags": [

@@ -1,6 +1,6 @@
 {
   "workflowId": "codex-goal",
-  "description": "Generic Codex GPT-5.5 workflow that creates and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the requested work, and reviews whether the goal is achieved before looping back to work or planning. Goal, planning, and review steps may delegate to a more specific Rielflow workflow when appropriate.",
+  "description": "Generic Codex GPT-5.5 workflow that creates and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the requested work, and reviews whether the goal is achieved before looping back to work or planning. Goal, planning, and review steps may delegate to a more specific Riela workflow when appropriate.",
   "defaults": {
     "maxLoopIterations": 10,
     "nodeTimeoutMs": 3600000,
@@ -10,7 +10,7 @@
     }
   },
   "prompts": {
-    "workerSystemPromptTemplate": "Return concise business JSON only. At every goal, review, planning, and work step, actively investigate whether an installed, project-scope, user-scope, packaged, or otherwise available Rielflow workflow should be used before defaulting to generic work. Keep the workflow discovery evidence, delegation decision, goal, in-session plan, work evidence, review decision, changed files, verification, and residual risks explicit."
+    "workerSystemPromptTemplate": "Return concise business JSON only. At every goal, review, planning, and work step, actively investigate whether an installed, project-scope, user-scope, packaged, or otherwise available Riela workflow should be used before defaulting to generic work. Keep the workflow discovery evidence, delegation decision, goal, in-session plan, work evidence, review decision, changed files, verification, and residual risks explicit."
   },
   "entryStepId": "goal",
   "nodes": [
@@ -79,7 +79,7 @@
     {
       "id": "plan",
       "nodeId": "plan",
-      "description": "Create or revise an in-session plan without writing a plan file, or delegate to a more specific Rielflow workflow when the goal calls for it.",
+      "description": "Create or revise an in-session plan without writing a plan file, or delegate to a more specific Riela workflow when the goal calls for it.",
       "role": "worker",
       "sessionPolicy": {
         "mode": "reuse",
@@ -129,7 +129,7 @@
     {
       "id": "goal-review",
       "nodeId": "goal-review",
-      "description": "Review whether the latest work achieves the goal, optionally delegate to a more specific Rielflow workflow, and route to planning, work, or final output.",
+      "description": "Review whether the latest work achieves the goal, optionally delegate to a more specific Riela workflow, and route to planning, work, or final output.",
       "role": "worker",
       "transitions": [
         {
@@ -154,9 +154,9 @@
     }
   ],
   "metadata": {
-    "rielflowPackage": {
+    "rielaPackage": {
       "title": "codex-goal",
-      "description": "Generic Codex workflow that defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific Rielflow workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+      "description": "Generic Codex workflow that defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific Riela workflow when appropriate, and reviews goal completion before looping back to work or planning.",
       "tags": [
         "workflow",
         "codex",

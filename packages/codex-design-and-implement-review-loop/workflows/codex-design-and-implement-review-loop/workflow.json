@@ -7,15 +7,15 @@
     "nodeTimeoutMs": 3600000
   },
   "prompts": {
-    "rielflowPromptTemplate": "Coordinate {{workflowId}}. Run Step 1 intake first. If Step 1 classifies independent feature fanout items, run feature-local design and implementation-plan work through the local bounded fanout worker, join at Step 5 feature-plan join, then continue to Step 6 for issue-resolution mode or Step 9 for planning-only mode. If Step 1 does not classify fanout items, run the sequential path: Step 2 design-doc update, Step 2 self-review, Step 3 design review, Step 4 implementation-plan creation, Step 4 self-review, and Step 5 implementation-plan review. If a self-review reports blocking findings, route back to its authoring step before running the independent review. If Step 3 reports any high or mid findings, route back to Step 2. If Step 5 reports design changes are required, route back to Step 2. If Step 5 reports plan-only changes are required, route back to Step 4. After Step 5 acceptance for a planning-only run, run Step 9 commit-message creation, Step 10 git commit, Step 11 git push, then finish. Otherwise run Step 6 implementation, Step 6 self-review, Step 6 test-integrity check, then Step 7 implementation review. If Step 6 self-review, Step 6 test-integrity check, or Step 7 reports any high or mid findings, route back to Step 6. If Step 7 accepts and marks requires_adversarial_review, run Step 7 adversarial implementation review before documentation refresh. If the adversarial review reports any high or mid finding, route back to Step 6. After Step 7 acceptance and any required adversarial acceptance, run Step 8 user-facing documentation refresh, then Step 8 implementation-plan completion check. If Step 8 completion check reports needs_revision, return to Step 8; otherwise run Step 9 commit-message creation, Step 10 git commit, Step 11 git push, then finish. Finish only when the required self-review, test-integrity check, independent review, and high-risk adversarial gates are accepted, feature-local fanout branches have been joined when present, accepted implementation plans are not left completed under impl-plans/active, and the final workflow changes have been committed and pushed for the selected mode.",
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Run Step 1 intake first. If Step 1 classifies independent feature fanout items, run feature-local design and implementation-plan work through the local bounded fanout worker, join at Step 5 feature-plan join, then continue to Step 6 for issue-resolution mode or Step 9 for planning-only mode. If Step 1 does not classify fanout items, run the sequential path: Step 2 design-doc update, Step 2 self-review, Step 3 design review, Step 4 implementation-plan creation, Step 4 self-review, and Step 5 implementation-plan review. If a self-review reports blocking findings, route back to its authoring step before running the independent review. If Step 3 reports any high or mid findings, route back to Step 2. If Step 5 reports design changes are required, route back to Step 2. If Step 5 reports plan-only changes are required, route back to Step 4. After Step 5 acceptance for a planning-only run, run Step 9 commit-message creation, Step 10 git commit, Step 11 git push, then finish. Otherwise run Step 6 implementation, Step 6 self-review, Step 6 test-integrity check, then Step 7 implementation review. If Step 6 self-review, Step 6 test-integrity check, or Step 7 reports any high or mid findings, route back to Step 6. If Step 7 accepts and marks requires_adversarial_review, run Step 7 adversarial implementation review before documentation refresh. If the adversarial review reports any high or mid finding, route back to Step 6. After Step 7 acceptance and any required adversarial acceptance, run Step 8 user-facing documentation refresh, then Step 8 implementation-plan completion check. If Step 8 completion check reports needs_revision, return to Step 8; otherwise run Step 9 commit-message creation, Step 10 git commit, Step 11 git push, then finish. Finish only when the required self-review, test-integrity check, independent review, and high-risk adversarial gates are accepted, feature-local fanout branches have been joined when present, accepted implementation plans are not left completed under impl-plans/active, and the final workflow changes have been committed and pushed for the selected mode.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Keep workflow mode, issue references, codex-agent references, file paths, findings, review decisions, and verification commands explicit."
   },
-  "managerStepId": "rielflow-manager",
-  "entryStepId": "rielflow-manager",
+  "managerStepId": "riela-manager",
+  "entryStepId": "riela-manager",
   "nodes": [
     {
-      "id": "rielflow-manager",
-      "nodeFile": "nodes/node-rielflow-manager.json"
+      "id": "riela-manager",
+      "nodeFile": "nodes/node-riela-manager.json"
     },
     {
       "id": "step1-issue-intake",
@@ -76,7 +76,7 @@
     {
       "id": "step10-git-commit",
       "addon": {
-        "name": "rielflow/git-commit",
+        "name": "riela/git-commit",
         "version": "1",
         "config": {
           "commitMessageTemplate": "{{inbox.latest.output.payload.commitMessage}}",
@@ -87,7 +87,7 @@
     {
       "id": "step11-git-push",
       "addon": {
-        "name": "rielflow/git-push",
+        "name": "riela/git-push",
         "version": "1",
         "config": {}
       }
@@ -100,8 +100,8 @@
   ],
   "steps": [
     {
-      "id": "rielflow-manager",
-      "nodeId": "rielflow-manager",
+      "id": "riela-manager",
+      "nodeId": "riela-manager",
       "description": "Start the shared workflow and hand execution to the intake worker.",
       "role": "manager",
       "transitions": [
@@ -424,7 +424,7 @@
     }
   ],
   "metadata": {
-    "rielflowPackage": {
+    "rielaPackage": {
       "title": "codex-design-and-implement-review-loop",
       "description": "Shared Codex workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion, with an optional adversarial implementation review gate for high-risk changes.",
       "tags": [

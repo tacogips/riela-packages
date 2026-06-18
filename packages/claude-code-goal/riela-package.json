@@ -1,0 +1,40 @@
+{
+  "name": "claude-code-goal",
+  "version": "0.1.0",
+  "title": "claude-code-goal",
+  "description": "Generic Claude Code Opus 4.8 workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+  "tags": [
+    "workflow",
+    "claude-code",
+    "generic"
+  ],
+  "registry": "default",
+  "checksum": "9dfad5dee1bd2cd4fe54fa602793f6a2",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/claude-code-goal",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "claude-code-goal",
+    "description": "Generic Claude Code Opus 4.8 workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+    "tags": [
+      "workflow",
+      "claude-code",
+      "generic"
+    ],
+    "backends": [
+      "claude-code-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "193fdd70ced981e9e4a9a549ad92fff9ab35ae2946a1c1489facd33a71ebdad4"
+  },
+  "backends": [
+    "claude-code-agent"
+  ],
+  "packageId": "claude-code-goal",
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-goal"
+  ]
+}

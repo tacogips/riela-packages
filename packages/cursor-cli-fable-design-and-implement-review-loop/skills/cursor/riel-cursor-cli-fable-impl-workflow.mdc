@@ -29,15 +29,15 @@ Use the packaged workflow bundle:
 Preferred entry point from the repository root:
 
 ```bash
-rielflow workflow package checkout cursor-cli-fable-design-and-implement-review-loop
-rielflow workflow run cursor-cli-fable-design-and-implement-review-loop --output json
+riela workflow package checkout cursor-cli-fable-design-and-implement-review-loop
+riela workflow run cursor-cli-fable-design-and-implement-review-loop --output json
 ```
 
 Equivalent direct command:
 
 ```bash
-rielflow workflow package checkout cursor-cli-fable-design-and-implement-review-loop
-rielflow workflow run cursor-cli-fable-design-and-implement-review-loop --output json
+riela workflow package checkout cursor-cli-fable-design-and-implement-review-loop
+riela workflow run cursor-cli-fable-design-and-implement-review-loop --output json
 ```
 
 ## Model Routing
@@ -84,5 +84,5 @@ After the workflow finishes, report:
 - commit hash
 - pushed remote and branch
 
-If the workflow fails because `rielflow` appears incorrect, switch to the
+If the workflow fails because `riela` appears incorrect, switch to the
 current repository's fix workflow.

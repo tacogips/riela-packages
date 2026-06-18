@@ -1,6 +1,6 @@
 ---
 name: riel-codex-deepdesign
-description: Use when running, editing, or troubleshooting the packaged codex-deepdesign rielflow workflow for design-doc specification authoring with deep and broad review loops.
+description: Use when running, editing, or troubleshooting the packaged codex-deepdesign riela workflow for design-doc specification authoring with deep and broad review loops.
 ---
 
 # Riel Codex Deepdesign
@@ -20,7 +20,7 @@ Use this skill when the user asks Codex to create or refine design-doc specifica
 Run from the repository root after checkout or installation:
 
 ```bash
-rielflow workflow run codex-deepdesign \
+riela workflow run codex-deepdesign \
   --variables '{"workflowInput":{"feature":"Describe the feature to design.","targetDesignDoc":"design-docs/specs/design-example.md","constraints":["Design documentation only."],"acceptanceCriteria":["Deep review has no high or middle findings.","Broad review has no high or middle findings.","Adversarial review has no high or middle findings."]}}' \
   --output json --no-auto-improve
 ```
@@ -55,21 +55,21 @@ All reviewers must return adapter JSON with `when.needs_revision` and `payload.n
 Validate the package workflow after edits:
 
 ```bash
-rielflow workflow validate codex-deepdesign \
+riela workflow validate codex-deepdesign \
   --workflow-definition-dir ./packages/codex-deepdesign/workflows
 ```
 
 Run the bundled mock scenario when prompts, transitions, or review payloads change:
 
 ```bash
-rielflow workflow run codex-deepdesign \
+riela workflow run codex-deepdesign \
   --workflow-definition-dir ./packages/codex-deepdesign/workflows \
   --mock-scenario ./packages/codex-deepdesign/workflows/codex-deepdesign/mock-scenario.json \
   --output json
 ```
 
-Refresh `rielflow-package.json` digests after changing the workflow or packaged skill:
+Refresh `riela-package.json` digests after changing the workflow or packaged skill:
 
 ```bash
-bun .agents/skills/rielflow-package-release/scripts/update-package-digests.ts codex-deepdesign
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts codex-deepdesign
 ```

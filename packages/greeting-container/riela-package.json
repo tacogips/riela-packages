@@ -1,0 +1,38 @@
+{
+  "name": "greeting-container",
+  "version": "0.1.0",
+  "title": "Greeting Container",
+  "description": "Example workflow package with a native container node that runs Node.js and outputs a greeting with the current datetime.",
+  "tags": [
+    "workflow",
+    "node-package",
+    "container",
+    "node",
+    "greeting"
+  ],
+  "registry": "default",
+  "checksum": "081cba35bb72031a6bf9c7cb8d741429",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/greeting-container",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "Greeting Container",
+    "description": "Run a Node.js greeting worker inside a container and emit datetime output.",
+    "tags": [
+      "workflow",
+      "container",
+      "node"
+    ],
+    "backends": [
+      "native-container"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "d9d8f5adfbcecdf07af1f7b41451942ecaad6cba02cdf24ec6a29aadb4cd7dd9"
+  },
+  "backends": [
+    "native-container"
+  ],
+  "packageId": "greeting-container"
+}

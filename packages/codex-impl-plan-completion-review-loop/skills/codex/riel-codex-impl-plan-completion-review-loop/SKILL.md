@@ -33,7 +33,7 @@ This skill is intentionally distinct from:
 Run from the repository root after checkout or installation:
 
 ```bash
-rielflow workflow run codex-impl-plan-completion-review-loop \
+riela workflow run codex-impl-plan-completion-review-loop \
   --variables '{"workflowInput":{"hours":24,"constraints":["Do not revert unrelated dirty worktree changes."]}}' \
   --output json --no-auto-improve
 ```
@@ -41,16 +41,16 @@ rielflow workflow run codex-impl-plan-completion-review-loop \
 To constrain implementation to one active plan:
 
 ```bash
-rielflow workflow run codex-impl-plan-completion-review-loop \
+riela workflow run codex-impl-plan-completion-review-loop \
   --variables '{"workflowInput":{"planPath":"impl-plans/active/example.md","hours":24,"targetPaths":["impl-plans/active/example.md"],"constraints":["Do not revert unrelated dirty worktree changes."]}}' \
   --output json --no-auto-improve
 ```
 
-For a source checkout without an installed `rielflow` binary, use the equivalent
+For a source checkout without an installed `riela` binary, use the equivalent
 checkout command:
 
 ```bash
-bun run packages/rielflow/src/bin.ts workflow run codex-impl-plan-completion-review-loop \
+bun run packages/riela/src/bin.ts workflow run codex-impl-plan-completion-review-loop \
   --variables '{"workflowInput":{"hours":24}}' \
   --output json --no-auto-improve
 ```
@@ -84,9 +84,9 @@ Validate package metadata and all packaged workflows from the registry checkout:
 task check
 ```
 
-Refresh `rielflow-package.json` digests after changing the workflow or packaged
+Refresh `riela-package.json` digests after changing the workflow or packaged
 skill:
 
 ```bash
-bun .agents/skills/rielflow-package-release/scripts/update-package-digests.ts codex-impl-plan-completion-review-loop
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts codex-impl-plan-completion-review-loop
 ```

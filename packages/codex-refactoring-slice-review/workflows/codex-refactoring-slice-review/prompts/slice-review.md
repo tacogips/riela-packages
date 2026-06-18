@@ -41,4 +41,4 @@ Return adapter JSON with this child output contract:
 - `payload.verificationSuggestions[]`: commands or checks relevant to the slice-level recommendation.
 - `payload.residualRisks[]`: accepted risks or reasons not to consolidate apparent duplicates.
 
-Use `when.has_findings: false` and empty `findings` / `proposedTasks` when no actionable high or mid maintainability work exists for the slice. Keep fixture-level examples and stable assertions in `.rielflow/workflows/codex-refactoring-slice-review/mock-scenario.json` and `.rielflow/workflows/codex-refactoring-slice-review/EXPECTED_RESULTS.md`.
+Use `when.has_findings: false` and empty `findings` / `proposedTasks` when no actionable high or mid maintainability work exists for the slice. Keep fixture-level examples and stable assertions in `.riela/workflows/codex-refactoring-slice-review/mock-scenario.json` and `.riela/workflows/codex-refactoring-slice-review/EXPECTED_RESULTS.md`.

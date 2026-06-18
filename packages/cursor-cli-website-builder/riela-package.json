@@ -1,0 +1,46 @@
+{
+  "name": "cursor-cli-website-builder",
+  "version": "0.1.0",
+  "title": "cursor-cli-website-builder",
+  "description": "Event-ready Cursor CLI workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+  "tags": [
+    "workflow",
+    "codex",
+    "website",
+    "solidjs",
+    "event",
+    "container"
+  ],
+  "registry": "default",
+  "checksum": "781ccf5933104d7550d19a0cc683ccc8",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-website-builder",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-website-builder",
+    "description": "Event-ready Cursor CLI workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+    "tags": [
+      "workflow",
+      "codex",
+      "website",
+      "solidjs",
+      "event",
+      "container"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "9730134f5184b084bd853262d0ce7336854f7cbc490dcd0d06b6270378ad65ce"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ],
+  "packageId": "cursor-cli-website-builder",
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-website-builder"
+  ]
+}

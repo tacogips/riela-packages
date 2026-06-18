@@ -18,10 +18,10 @@ improve the plan, do the work, and review completion before finishing.
 - Effort: `high`
 - Goal review rule: after `goal`, `goal-quality-review` routes back to `goal`
   until the goal is clear, testable, scoped, and has workflow routing guidance
-  when a specialized Rielflow workflow is a better fit
+  when a specialized Riela workflow is a better fit
 - Plan review rule: after `plan`, `plan-quality-review` routes back to `plan`
   until the plan is actionable, scoped, verifiable, avoids plan files, and has
-  workflow dispatch guidance when a specialized Rielflow workflow is a better
+  workflow dispatch guidance when a specialized Riela workflow is a better
   fit
 - Completion loop rule: `goal-review` routes back to `plan` when replanning is
   required, routes back to `work` when implementation is incomplete, and
@@ -36,7 +36,7 @@ improve the plan, do the work, and review completion before finishing.
 Run from the repository root after checkout or installation:
 
 ```bash
-rielflow workflow run claude-code-goal \
+riela workflow run claude-code-goal \
   --variables '{"workflowInput":{"requestedOutcome":"Describe the desired outcome.","targetScope":"path or project scope","constraints":["Do not create plan files."],"acceptanceCriteria":["The goal review reports the goal achieved."]}}' \
   --output json --no-auto-improve
 ```
@@ -46,12 +46,12 @@ rielflow workflow run claude-code-goal \
 Validate the package workflow after edits:
 
 ```bash
-rielflow workflow validate claude-code-goal \
+riela workflow validate claude-code-goal \
   --workflow-definition-dir ./packages/claude-code-goal/workflows
 ```
 
 Refresh digests after changing the workflow or packaged skill:
 
 ```bash
-bun .agents/skills/rielflow-package-release/scripts/update-package-digests.ts claude-code-goal
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts claude-code-goal
 ```

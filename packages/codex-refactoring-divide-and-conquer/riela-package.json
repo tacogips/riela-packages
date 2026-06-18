@@ -1,0 +1,36 @@
+{
+  "name": "codex-refactoring-divide-and-conquer",
+  "version": "0.1.0",
+  "title": "codex-refactoring-divide-and-conquer",
+  "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "b7f765d0eb5ae76c5073b0998f9680f2",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/codex-refactoring-divide-and-conquer",
+  "dependencies": [
+    "codex-refactoring-slice-review"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "codex-refactoring-divide-and-conquer",
+    "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "codex-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "dda51063dd8e77968d8ad4a21707984d756079bb62979c0ffa4ce73b4b46565e"
+  },
+  "backends": [
+    "codex-agent"
+  ],
+  "packageId": "codex-refactoring-divide-and-conquer",
+  "skillDirectory": "skills"
+}

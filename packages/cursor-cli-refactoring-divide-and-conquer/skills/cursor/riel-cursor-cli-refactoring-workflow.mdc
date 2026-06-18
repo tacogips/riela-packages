@@ -1,11 +1,11 @@
 ---
 name: riel-cursor-cli-refactoring-workflow
-description: Use when planning, running, monitoring, or troubleshooting the packaged rielflow divide-and-conquer refactoring workflow. Applies to `cursor-cli-refactoring-divide-and-conquer`, duplicate-scavenge refactoring, concurrent slice review via `cursor-cli-refactoring-slice-review`, generated refactoring implementation plans, implementation/review loop handling, blocked verification, dependency-owned agent mocks, and final plan archival.
+description: Use when planning, running, monitoring, or troubleshooting the packaged riela divide-and-conquer refactoring workflow. Applies to `cursor-cli-refactoring-divide-and-conquer`, duplicate-scavenge refactoring, concurrent slice review via `cursor-cli-refactoring-slice-review`, generated refactoring implementation plans, implementation/review loop handling, blocked verification, dependency-owned agent mocks, and final plan archival.
 ---
 
 # riel-cursor-cli-refactoring-workflow
 
-Use this skill when the user asks to refactor rielflow through the divide-and-conquer workflow, asks whether the refactoring workflow is progressing, or asks to create/continue a maintainability refactor using workflow review loops.
+Use this skill when the user asks to refactor riela through the divide-and-conquer workflow, asks whether the refactoring workflow is progressing, or asks to create/continue a maintainability refactor using workflow review loops.
 
 ## Workflow Bundle
 
@@ -21,10 +21,10 @@ Use this skill when the user asks to refactor rielflow through the divide-and-co
 Run from the repository root:
 
 ```bash
-rielflow workflow package checkout cursor-cli-refactoring-divide-and-conquer
-rielflow workflow package checkout cursor-cli-refactoring-slice-review
-rielflow workflow run cursor-cli-refactoring-divide-and-conquer \
-  --variables '{"workflowInput":{"requestedOutcome":"Improve rielflow maintainability using divide-and-conquer refactoring.","targetPaths":["src/workflow","src/cli","src/lib.ts","packages",".rielflow/workflows"],"excludePaths":["dist","node_modules","/tmp","impl-plans/completed"],"maxSlices":6,"constraints":["Do not stage, commit, or push unless the user explicitly asks.","Do not revert unrelated dirty worktree changes.","Keep each implementation pass to one bounded task.","Update any generated refactoring plan progress as tasks are implemented."],"verificationPreferences":["Run narrow Bun tests for touched code first.","Run workflow validate for changed workflow bundles.","Run git diff --check before completion."]}}' \
+riela workflow package checkout cursor-cli-refactoring-divide-and-conquer
+riela workflow package checkout cursor-cli-refactoring-slice-review
+riela workflow run cursor-cli-refactoring-divide-and-conquer \
+  --variables '{"workflowInput":{"requestedOutcome":"Improve riela maintainability using divide-and-conquer refactoring.","targetPaths":["src/workflow","src/cli","src/lib.ts","packages",".riela/workflows"],"excludePaths":["dist","node_modules","/tmp","impl-plans/completed"],"maxSlices":6,"constraints":["Do not stage, commit, or push unless the user explicitly asks.","Do not revert unrelated dirty worktree changes.","Keep each implementation pass to one bounded task.","Update any generated refactoring plan progress as tasks are implemented."],"verificationPreferences":["Run narrow Bun tests for touched code first.","Run workflow validate for changed workflow bundles.","Run git diff --check before completion."]}}' \
   --output json --verbose --no-auto-improve
 ```
 
@@ -54,7 +54,7 @@ Example input:
   "workflowInput": {
     "requestedOutcome": "Run duplicate-scavenge refactoring on the selected paths and consolidate safe duplicate candidates.",
     "refactoringMode": "duplicate-scavenge",
-    "targetPaths": ["src", "packages", ".rielflow/workflows"],
+    "targetPaths": ["src", "packages", ".riela/workflows"],
     "excludePaths": ["dist", "node_modules", "impl-plans/completed"],
     "maxSlices": 8,
     "constraints": [
@@ -83,13 +83,13 @@ verification commands.
 Record the parent session id from workflow output. Monitor with:
 
 ```bash
-rielflow session status <session-id> --output json
+riela session status <session-id> --output json
 ```
 
 Useful compact status query:
 
 ```bash
-rielflow session status <session-id> --output json \
+riela session status <session-id> --output json \
   | jq '{status, queue, nodeExecutionCounter, currentStepId, counts:.nodeExecutionCounts, lastTransition:(.transitions[-1] // null), lastExec:(.nodeExecutions[-1] // null)}'
 ```
 
@@ -133,20 +133,20 @@ bun test src/package-boundaries.test.ts
 Validate changed workflows:
 
 ```bash
-rielflow workflow validate cursor-cli-refactoring-divide-and-conquer --output json
-rielflow workflow validate cursor-cli-refactoring-slice-review --output json
+riela workflow validate cursor-cli-refactoring-divide-and-conquer --output json
+riela workflow validate cursor-cli-refactoring-slice-review --output json
 ```
 
 If mock scenarios changed, run them with `workflow run --mock-scenario`.
 
 ## Agent Package Mock Rule
 
-Do not create rielflow-local replacements for dependency agent mocks. rielflow adapter tests should consume dependency-owned test SDK exports, such as:
+Do not create riela-local replacements for dependency agent mocks. riela adapter tests should consume dependency-owned test SDK exports, such as:
 
 - `cursor-cli-agent/sdk/testing`
 - `claude-code-agent/sdk/testing`
 
-If those exports are missing, update or fix the owning dependency package (`codex-agent`, `claude-code-agent`, or `cursor-cli-agent`) rather than teaching rielflow dependency internals.
+If those exports are missing, update or fix the owning dependency package (`codex-agent`, `claude-code-agent`, or `cursor-cli-agent`) rather than teaching riela dependency internals.
 
 ## Completion
 

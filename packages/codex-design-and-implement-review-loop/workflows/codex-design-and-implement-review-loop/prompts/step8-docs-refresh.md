@@ -8,7 +8,7 @@ Rules:
 - Refresh the user-facing documentation that should describe the shipped
   behavior before commit generation.
 - Mandatory review targets: `README.md` and
-  `.codex/skills/rielflow-impl-workflow/SKILL.md`.
+  `.codex/skills/riela-impl-workflow/SKILL.md`.
 - If another user-facing workflow skill or repository-facing README section is
   directly affected by the accepted implementation, update it in the same step.
 - Do not reopen design or implementation scope. This step is for documentation

@@ -10,15 +10,15 @@
     }
   },
   "prompts": {
-    "rielflowPromptTemplate": "Coordinate {{workflowId}}. Start with deterministic security scanning, derive harness-style attack-surface focus areas, triage the scanner evidence and source code, then run an adversarial verification pass before routing. If verified high or medium findings remain, package a narrow fix request for codex-design-and-implement-review-loop. After the delegated fix returns, rescan deterministically and rerun harness recon, triage, and adversarial verification. Repeat until no verified high or medium findings remain, then publish output. Low findings may be accepted only when explicitly documented as residual risk.",
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Start with deterministic security scanning, derive harness-style attack-surface focus areas, triage the scanner evidence and source code, then run an adversarial verification pass before routing. If verified high or medium findings remain, package a narrow fix request for codex-design-and-implement-review-loop. After the delegated fix returns, rescan deterministically and rerun harness recon, triage, and adversarial verification. Repeat until no verified high or medium findings remain, then publish output. Low findings may be accepted only when explicitly documented as residual risk.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Keep commands, scanner availability, findings, severity, affected files, fix scope, verification, routing decisions, and residual risks explicit."
   },
-  "managerStepId": "rielflow-manager",
-  "entryStepId": "rielflow-manager",
+  "managerStepId": "riela-manager",
+  "entryStepId": "riela-manager",
   "nodes": [
     {
-      "id": "rielflow-manager",
-      "nodeFile": "nodes/node-rielflow-manager.json"
+      "id": "riela-manager",
+      "nodeFile": "nodes/node-riela-manager.json"
     },
     {
       "id": "deterministic-scan",
@@ -56,8 +56,8 @@
   ],
   "steps": [
     {
-      "id": "rielflow-manager",
-      "nodeId": "rielflow-manager",
+      "id": "riela-manager",
+      "nodeId": "riela-manager",
       "description": "Start the source security check loop and normalize scan inputs.",
       "role": "manager",
       "transitions": [
@@ -137,7 +137,7 @@
       "transitions": [
         {
           "toWorkflowId": "codex-design-and-implement-review-loop",
-          "toStepId": "rielflow-manager",
+          "toStepId": "riela-manager",
           "resumeStepId": "step7-post-fix-review"
         }
       ]
@@ -161,7 +161,7 @@
     }
   ],
   "metadata": {
-    "rielflowPackage": {
+    "rielaPackage": {
       "title": "codex-source-security-check-loop",
       "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Codex, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
       "tags": [

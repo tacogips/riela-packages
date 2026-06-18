@@ -21,7 +21,7 @@ Return JSON with:
 - `workflowMode`
 - `commitMessage`
 - `committedFiles`: a JSON array of repository-relative file path strings only,
-  with no status objects or metadata, because the next `rielflow/git-commit`
+  with no status objects or metadata, because the next `riela/git-commit`
   add-on stages exactly these paths.
 - `changeSummary`
 - `residualRisks`

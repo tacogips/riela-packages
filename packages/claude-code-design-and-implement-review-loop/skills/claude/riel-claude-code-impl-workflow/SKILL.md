@@ -1,6 +1,6 @@
 ---
 name: riel-claude-code-impl-workflow
-description: Use when implementation work in a rielflow project changes behavior, adds functionality, or fixes bugs and the user has not explicitly asked to avoid workflows. Routes the work through the packaged `claude-code-design-and-implement-review-loop` workflow, including design/plan alignment, implementation, review, user-facing documentation refresh, commit-message generation, and built-in git commit/push steps.
+description: Use when implementation work in a riela project changes behavior, adds functionality, or fixes bugs and the user has not explicitly asked to avoid workflows. Routes the work through the packaged `claude-code-design-and-implement-review-loop` workflow, including design/plan alignment, implementation, review, user-facing documentation refresh, commit-message generation, and built-in git commit/push steps.
 ---
 
 # Riel Claude Code Implementation Workflow
@@ -21,7 +21,7 @@ Use this skill as the default Claude Code path for implementation work in this r
 
 - the user explicitly says not to use a workflow
 - the task is documentation-only or planning-only with no implementation
-- the task is specifically to debug or repair `rielflow` itself; use the current repository's fix workflow skill
+- the task is specifically to debug or repair `riela` itself; use the current repository's fix workflow skill
 - the task is to operate or troubleshoot live `workflow run --auto-improve`
   supervision rather than implement repository behavior; use
   an auto-improve operations skill
@@ -36,15 +36,15 @@ Use the packaged workflow bundle:
 Preferred entry point from the repository root:
 
 ```bash
-rielflow workflow package checkout claude-code-design-and-implement-review-loop
-rielflow workflow run claude-code-design-and-implement-review-loop --output json
+riela workflow package checkout claude-code-design-and-implement-review-loop
+riela workflow run claude-code-design-and-implement-review-loop --output json
 ```
 
 Equivalent direct command:
 
 ```bash
-rielflow workflow package checkout claude-code-design-and-implement-review-loop
-rielflow workflow run claude-code-design-and-implement-review-loop --output json
+riela workflow package checkout claude-code-design-and-implement-review-loop
+riela workflow run claude-code-design-and-implement-review-loop --output json
 ```
 
 ## Runtime Inputs
@@ -67,7 +67,7 @@ explicit issue/reference context. Typical fields:
 
 Keep `workflowInput.claudeCodeAgentReferences` explicit when the issue depends on
 Claude Code-specific behavior. `claude-code-agent` is an execution-backend identifier, not
-Rielflow product branding, and should not be renamed or generalized during
+Riela product branding, and should not be renamed or generalized during
 product-name updates.
 
 Planning-only mode is available via:
@@ -102,13 +102,13 @@ only.
 Rename-related issue-resolution runs should preserve `DIVEDRA_*` environment
 variables as compatibility/runtime contracts unless a design explicitly
 approves a migration. Product-owned package names, CLI examples, workflow
-catalog paths, and human-facing documentation should use Rielflow/`rielflow`.
+catalog paths, and human-facing documentation should use Riela/`riela`.
 
 Telemetry-related issue-resolution runs should keep user-facing documentation
 aligned with the runtime privacy contract. OpenTelemetry tracing is opt-in via
-an OTLP endpoint or `RIELFLOW_OTEL_ENABLED=true`; workflow message payloads
+an OTLP endpoint or `RIELA_OTEL_ENABLED=true`; workflow message payloads
 stored in SQLite `workflow_messages.payload_json` must remain excluded unless
-`RIELFLOW_OTEL_EXPORT_MESSAGES=true` is explicitly set for trusted fixtures.
+`RIELA_OTEL_EXPORT_MESSAGES=true` is explicitly set for trusted fixtures.
 Do not describe runtime communication payloads as inbox/outbox files; SQLite
 `workflow_messages` is the source of truth. Jaeger smoke checks should use the
 repository-owned
@@ -151,5 +151,5 @@ After the workflow finishes, report:
 - commit hash
 - pushed remote and branch
 
-If the workflow fails because `rielflow` appears incorrect, switch to the
+If the workflow fails because `riela` appears incorrect, switch to the
 current repository's fix workflow.

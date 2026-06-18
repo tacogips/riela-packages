@@ -1,0 +1,40 @@
+{
+  "name": "cursor-cli-hydra-codex-design-and-implement-review-loop",
+  "version": "0.1.0",
+  "title": "cursor-cli-hydra-codex-design-and-implement-review-loop",
+  "description": "Explicit hydra workflow variant that uses Codex GPT-5.5 for design, review, and all non-implementation agent steps, while using Cursor Composer 2.5 for implementation.",
+  "tags": [
+    "workflow",
+    "hydra"
+  ],
+  "registry": "default",
+  "checksum": "17a4b1c6e9c920ba398df80c18af0fdf",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-hydra-codex-design-and-implement-review-loop",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-hydra-codex-design-and-implement-review-loop",
+    "description": "Explicit hydra workflow variant that uses Codex GPT-5.5 for design, review, and all non-implementation agent steps, while using Cursor Composer 2.5 for implementation.",
+    "tags": [
+      "workflow",
+      "hydra"
+    ],
+    "backends": [
+      "codex-agent",
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "d3766775b6cdd4ebed40c27daa8585d3a5b12f989d21be59d71958cb1e80414c"
+  },
+  "backends": [
+    "codex-agent",
+    "cursor-cli-agent"
+  ],
+  "packageId": "cursor-cli-hydra-codex-design-and-implement-review-loop",
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-design-and-implement-review-loop"
+  ]
+}

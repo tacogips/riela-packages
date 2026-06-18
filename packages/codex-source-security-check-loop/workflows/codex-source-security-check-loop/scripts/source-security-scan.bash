@@ -68,7 +68,7 @@ default_excludes = {
     ".git",
     ".hg",
     ".svn",
-    ".rielflow",
+    ".riela",
     ".next",
     ".turbo",
     ".cache",

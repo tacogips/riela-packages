@@ -6,7 +6,7 @@ native Bash command node template that outputs a JSON greeting.
 ## Install
 
 ```bash
-rielflow package install greeting-node-addon
+riela package install greeting-node-addon
 ```
 
 ## Runtime
@@ -24,7 +24,7 @@ Use the installed add-on from a workflow node:
     "name": "examples/greeting-shell",
     "version": "1",
     "inputs": {
-      "name": "Rielflow",
+      "name": "Riela",
       "greetingIndex": "1",
       "timezone": "UTC"
     }

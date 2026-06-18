@@ -24,7 +24,7 @@
     }
   ],
   "metadata": {
-    "rielflowPackage": {
+    "rielaPackage": {
       "title": "codex-refactoring-slice-review",
       "description": "Read-only review workflow for one codebase slice produced by codex-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
       "tags": [

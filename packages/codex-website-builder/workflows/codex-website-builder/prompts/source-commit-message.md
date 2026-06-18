@@ -11,7 +11,7 @@ Rules:
   `site-design`, relevant generated asset files, `package.json`, and `bun.lock`
   or `bun.lockb` when produced by the Dockerized Bun install.
 - Exclude unrelated dirty worktree paths, runtime logs, PID files,
-  `.rielflow/website-builder/`, `node_modules/`, `dist/`, event receipts,
+  `.riela/website-builder/`, `node_modules/`, `dist/`, event receipts,
   credentials, token files, private chat transcripts, and unrelated user edits.
 - If there are no relevant source changes, return `has_source_changes: false`
   and an empty `committedFiles` array. The workflow will skip the git commit

@@ -1,5 +1,5 @@
 {
-  "rielflow-manager": {
+  "riela-manager": {
     "provider": "scenario-mock",
     "model": "gpt-5.5",
     "when": {

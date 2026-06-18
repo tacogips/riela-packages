@@ -10,7 +10,7 @@
     }
   },
   "prompts": {
-    "rielflowPromptTemplate": "Coordinate {{workflowId}}. Normalize the operator creation request, then dispatch codex-deepdesign to create or revise the design with deep, broad, and adversarial design reviews. After deep design returns accepted, summarize the design result and dispatch codex-impl-plan-completion-loop so active implementation plans are completed through the adversarial implementation review loop. After implementation-plan completion returns, summarize implementation evidence and dispatch codex-source-security-check-loop over the explicit target paths or repository target. Finish only after the security check loop reports no verified high or medium findings.",
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Normalize the operator creation request, then dispatch codex-deepdesign to create or revise the design with deep, broad, and adversarial design reviews. After deep design returns accepted, summarize the design result and dispatch codex-impl-plan-completion-loop so active implementation plans are completed through the adversarial implementation review loop. After implementation-plan completion returns, summarize implementation evidence and dispatch codex-source-security-check-loop over the explicit target paths or repository target. Finish only after the security check loop reports no verified high or medium findings.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Keep child workflow inputs, accepted results, design docs, implementation plans, target paths, changed files, verification evidence, security findings, residual risks, and routing decisions explicit."
   },
   "managerStepId": "creation-manager",
@@ -70,7 +70,7 @@
       "transitions": [
         {
           "toWorkflowId": "codex-deepdesign",
-          "toStepId": "rielflow-manager",
+          "toStepId": "riela-manager",
           "resumeStepId": "deepdesign-result"
         }
       ]
@@ -94,7 +94,7 @@
       "transitions": [
         {
           "toWorkflowId": "codex-impl-plan-completion-loop",
-          "toStepId": "rielflow-manager",
+          "toStepId": "riela-manager",
           "resumeStepId": "impl-completion-result"
         }
       ]
@@ -118,7 +118,7 @@
       "transitions": [
         {
           "toWorkflowId": "codex-source-security-check-loop",
-          "toStepId": "rielflow-manager",
+          "toStepId": "riela-manager",
           "resumeStepId": "security-result"
         }
       ]
@@ -142,7 +142,7 @@
     }
   ],
   "metadata": {
-    "rielflowPackage": {
+    "rielaPackage": {
       "title": "codex-deep-creation",
       "description": "Run deep design, adversarial implementation-plan completion, and source security checks as one Codex creation workflow.",
       "tags": [

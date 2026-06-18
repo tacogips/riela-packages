@@ -3,7 +3,7 @@ set -euo pipefail
 
 workflow_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 repo_dir="$(pwd)"
-runtime_dir="${repo_dir}/.rielflow/website-builder"
+runtime_dir="${repo_dir}/.riela/website-builder"
 mkdir -p "$runtime_dir"
 invocation_input="$(cat || true)"
 
@@ -149,12 +149,12 @@ fi
 
 image_tag="${WEBSITE_BUILDER_IMAGE_TAG:-}"
 if [[ -z "$image_tag" || "$image_tag" == "{{workflowInput.bunImageTag}}" ]]; then
-  image_tag="rielflow/codex-website-builder-bun:0.1.0"
+  image_tag="riela/codex-website-builder-bun:0.1.0"
 fi
 containerfile="${workflow_dir}/containers/bun-site-runner/Containerfile"
 container_context="${workflow_dir}/containers/bun-site-runner"
 container_name_source="$(printf '%s-%s' "$RIEL_WORKFLOW_EXECUTION_ID" "$TARGET_DIRECTORY" | tr '/:_ .' '-----')"
-container_name="rielflow-website-${container_name_source:0:80}"
+container_name="riela-website-${container_name_source:0:80}"
 log_file="${runtime_dir}/${container_name}.log"
 container_id_file="${runtime_dir}/${container_name}.cid"
 

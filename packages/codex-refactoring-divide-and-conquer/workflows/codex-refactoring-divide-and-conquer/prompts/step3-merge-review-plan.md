@@ -74,13 +74,13 @@ Return adapter JSON:
       {
         "groupId": "DUP-001",
         "repeatedConcept": "workflow input validation",
-        "ownerPaths": ["packages/rielflow/src/workflow/example.ts"],
-        "counterpartPaths": ["packages/rielflow/src/cli/example.ts", "packages/rielflow/src/graphql/example.ts"],
+        "ownerPaths": ["packages/riela/src/workflow/example.ts"],
+        "counterpartPaths": ["packages/riela/src/cli/example.ts", "packages/riela/src/graphql/example.ts"],
         "behaviorToPreserve": ["CLI usage errors", "GraphQL typed errors"],
         "knownDifferencesNotToCollapse": ["Different external error envelopes."],
         "consolidationTarget": "Existing validation helper or new narrow workflow-owned helper.",
         "conflicts": [],
-        "verificationCommands": ["bun test packages/rielflow/src/workflow/example.test.ts"]
+        "verificationCommands": ["bun test packages/riela/src/workflow/example.test.ts"]
       }
     ],
     "tasks": [
@@ -88,23 +88,23 @@ Return adapter JSON:
         "taskId": "REF-001",
         "title": "Move workflow runtime ownership to package exports",
         "status": "Ready",
-        "ownedPaths": ["packages/rielflow-core/src", "packages/rielflow-core/package.json"],
-        "excludedPaths": ["packages/rielflow/src/workflow/**/*.test.ts", "dist", "packages/rielflow-core/dist"],
+        "ownedPaths": ["packages/riela-core/src", "packages/riela-core/package.json"],
+        "excludedPaths": ["packages/riela/src/workflow/**/*.test.ts", "dist", "packages/riela-core/dist"],
         "dependsOn": [],
         "duplicateGroupIds": ["DUP-001"],
         "repeatedConcept": "workflow input validation",
-        "counterpartPaths": ["packages/rielflow/src/cli/example.ts", "packages/rielflow/src/graphql/example.ts"],
+        "counterpartPaths": ["packages/riela/src/cli/example.ts", "packages/riela/src/graphql/example.ts"],
         "behaviorToPreserve": ["CLI usage errors", "GraphQL typed errors"],
         "knownDifferencesNotToCollapse": ["Different external error envelopes."],
         "consolidationTarget": "Existing validation helper or new narrow workflow-owned helper.",
         "conflicts": [],
-        "verificationCommands": ["bun test packages/rielflow/src/workflow/**/*.test.ts", "bun run build"]
+        "verificationCommands": ["bun test packages/riela/src/workflow/**/*.test.ts", "bun run build"]
       }
     ],
     "nextTaskId": "REF-001",
     "conflicts": [],
     "residualRisks": [
-      "Former root workflow sources now live under packages/rielflow/src/workflow.",
+      "Former root workflow sources now live under packages/riela/src/workflow.",
       "No provisioning package is planned because no concrete provisioning source surface was identified."
     ]
   }

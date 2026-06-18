@@ -36,7 +36,7 @@ gcloud_path="${GCLOUD_PATH:-gcloud}"
 poll_interval_seconds="${GOOGLE_SPEECH_POLL_INTERVAL_SECONDS:-15}"
 operation_timeout_seconds="${GOOGLE_SPEECH_OPERATION_TIMEOUT_SECONDS:-14400}"
 
-artifact_root="${RIEL_ARTIFACT_DIR:-.rielflow/artifacts}"
+artifact_root="${RIEL_ARTIFACT_DIR:-.riela/artifacts}"
 files_dir="$artifact_root/addons/google-speech-to-text/transcripts"
 tmp_dir="$artifact_root/addons/google-speech-to-text/tmp"
 mkdir -p "$files_dir" "$tmp_dir"

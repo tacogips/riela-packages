@@ -1,5 +1,5 @@
 {
-  "rielflow-manager": {
+  "riela-manager": {
     "provider": "scenario-mock",
     "model": "gpt-5.5",
     "when": {
@@ -29,7 +29,7 @@
       "nextTaskId": null,
       "implementationRequired": false,
       "verificationCommands": [
-        "bun test packages/rielflow/src/workflow/engine.test.ts -t plan-completion-loop"
+        "bun test packages/riela/src/workflow/engine.test.ts -t plan-completion-loop"
       ],
       "residualRisks": []
     }

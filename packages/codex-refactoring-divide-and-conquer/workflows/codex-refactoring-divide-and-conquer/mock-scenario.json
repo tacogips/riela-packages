@@ -1,5 +1,5 @@
 {
-  "rielflow-manager": {
+  "riela-manager": {
     "provider": "scenario-mock",
     "model": "gpt-5.5",
     "when": {
@@ -50,12 +50,12 @@
             "package.json",
             "Taskfile.yml",
             "scripts",
-            "packages/rielflow/package.json",
-            "packages/rielflow/src",
-            "packages/rielflow-core/package.json",
-            "packages/rielflow-core/src",
-            "packages/rielflow-addons/package.json",
-            "packages/rielflow-addons/src"
+            "packages/riela/package.json",
+            "packages/riela/src",
+            "packages/riela-core/package.json",
+            "packages/riela-core/src",
+            "packages/riela-addons/package.json",
+            "packages/riela-addons/src"
           ],
           "excludedPaths": [
             "dist",
@@ -72,27 +72,27 @@
           "Do package entrypoints duplicate root src validation, declaration sync, or export normalization logic?"
         ],
         "duplicateSearchHints": [
-          "Compare packages/*/src entrypoints with packages/rielflow/src/lib.ts and scripts/sync-package-declarations.ts.",
+          "Compare packages/*/src entrypoints with packages/riela/src/lib.ts and scripts/sync-package-declarations.ts.",
           "Record counterpart paths and behavioral differences before recommending shared helpers."
         ],
           "suggestedVerification": [
             "bun run build",
-            "bun test packages/rielflow/src/package-boundaries.test.ts"
+            "bun test packages/riela/src/package-boundaries.test.ts"
           ]
         },
         {
           "sliceId": "src-compatibility-surfaces",
           "title": "Root src compatibility surfaces",
           "ownedPaths": [
-            "packages/rielflow/src/cli",
-            "packages/rielflow/src/bin.ts",
-            "packages/rielflow/src/lib.ts",
-            "packages/rielflow/src/workflow",
-            "packages/rielflow/src/graphql",
-            "packages/rielflow/src/server",
-            "packages/rielflow/src/events",
-            "packages/rielflow/src/hook",
-            "packages/rielflow/src/shared"
+            "packages/riela/src/cli",
+            "packages/riela/src/bin.ts",
+            "packages/riela/src/lib.ts",
+            "packages/riela/src/workflow",
+            "packages/riela/src/graphql",
+            "packages/riela/src/server",
+            "packages/riela/src/events",
+            "packages/riela/src/hook",
+            "packages/riela/src/shared"
           ],
           "excludedPaths": [
             "src/**/*.test.ts"
@@ -107,7 +107,7 @@
           "Which validation, parsing, normalization, routing, mailbox/output, or workflow-helper implementations repeat across root src areas?"
         ],
         "duplicateSearchHints": [
-          "Compare packages/rielflow/src/cli, packages/rielflow/src/workflow, packages/rielflow/src/graphql, packages/rielflow/src/server, packages/rielflow/src/events, and packages/rielflow/src/shared for parallel helper implementations.",
+          "Compare packages/riela/src/cli, packages/riela/src/workflow, packages/riela/src/graphql, packages/riela/src/server, packages/riela/src/events, and packages/riela/src/shared for parallel helper implementations.",
           "Preserve public API and error-envelope differences while identifying consolidation targets."
         ],
           "suggestedVerification": [
@@ -136,14 +136,14 @@
         "findings": [
           {
             "severity": "mid",
-            "file": "packages/rielflow/src/index.ts",
+            "file": "packages/riela/src/index.ts",
             "problem": "Package entrypoints still depend on root src as the implementation owner.",
             "duplicateScavenge": {
               "repeatedConcept": "package/root export normalization",
               "counterpartPaths": [
-                "packages/rielflow/src/lib.ts",
-                "packages/rielflow-core/src/index.ts",
-                "packages/rielflow-addons/src/index.ts"
+                "packages/riela/src/lib.ts",
+                "packages/riela-core/src/index.ts",
+                "packages/riela-addons/src/index.ts"
               ],
               "behavioralDifferences": [
                 "Root src remains the compatibility API while package entrypoints become ownership roots."
@@ -193,14 +193,14 @@
         "findings": [
           {
             "severity": "mid",
-            "file": "packages/rielflow/src/lib.ts",
+            "file": "packages/riela/src/lib.ts",
             "problem": "Root public API still acts as the implementation center for package consumers.",
             "duplicateScavenge": {
               "repeatedConcept": "root src compatibility and package facade exports",
               "counterpartPaths": [
-                "packages/rielflow/src/index.ts",
-                "packages/rielflow-core/src/index.ts",
-                "packages/rielflow-addons/src/index.ts"
+                "packages/riela/src/index.ts",
+                "packages/riela-core/src/index.ts",
+                "packages/riela-addons/src/index.ts"
               ],
               "behavioralDifferences": [
                 "Root src is the public compatibility facade; packages are future ownership roots."
@@ -217,14 +217,14 @@
             "taskId": "REF-002",
             "title": "Narrow root src compatibility surfaces after package contracts exist",
             "ownedPaths": [
-              "packages/rielflow/src/lib.ts",
-              "packages/rielflow/src/cli.ts",
-              "packages/rielflow/src/workflow",
-              "packages/rielflow/src/graphql",
-              "packages/rielflow/src/server",
-              "packages/rielflow/src/events",
-              "packages/rielflow/src/hook",
-              "packages/rielflow/src/shared"
+              "packages/riela/src/lib.ts",
+              "packages/riela/src/cli.ts",
+              "packages/riela/src/workflow",
+              "packages/riela/src/graphql",
+              "packages/riela/src/server",
+              "packages/riela/src/events",
+              "packages/riela/src/hook",
+              "packages/riela/src/shared"
             ],
             "blockedBy": [
               "REF-001"
@@ -271,12 +271,12 @@
           "groupId": "DUP-001",
           "repeatedConcept": "package/root export normalization",
           "ownerPaths": [
-            "packages/rielflow/src",
-            "packages/rielflow-core/src",
-            "packages/rielflow-addons/src"
+            "packages/riela/src",
+            "packages/riela-core/src",
+            "packages/riela-addons/src"
           ],
           "counterpartPaths": [
-            "packages/rielflow/src/lib.ts"
+            "packages/riela/src/lib.ts"
           ],
           "behaviorToPreserve": [
             "Root src remains the compatibility API until package entrypoints pass build and API checks."
@@ -286,7 +286,7 @@
           ],
           "consolidationTarget": "Package-owned entrypoint contract with root compatibility shims.",
           "verificationCommands": [
-            "bun test packages/rielflow/src/package-boundaries.test.ts",
+            "bun test packages/riela/src/package-boundaries.test.ts",
             "bun run build"
           ]
         }
@@ -316,7 +316,7 @@
           ],
           "dependsOn": [],
           "verificationCommands": [
-            "bun test packages/rielflow/src/package-boundaries.test.ts",
+            "bun test packages/riela/src/package-boundaries.test.ts",
             "bun run build"
           ]
         },

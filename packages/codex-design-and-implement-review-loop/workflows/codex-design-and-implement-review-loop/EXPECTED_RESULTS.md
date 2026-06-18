@@ -2,7 +2,7 @@
 
 Stable assertions for deterministic verification with the bundled mock scenarios.
 Ignore `sessionId`, timestamps, and artifact paths.
-Use the available `rielflow` command. Add `--scope user` for a user-scope
+Use the available `riela` command. Add `--scope user` for a user-scope
 install, or `--workflow-definition-dir <root>` when validating an unpacked
 workflow directory.
 
@@ -11,7 +11,7 @@ workflow directory.
 Command:
 
 ```bash
-rielflow workflow validate codex-design-and-implement-review-loop
+riela workflow validate codex-design-and-implement-review-loop
 ```
 
 Expected result: the workflow is valid.
@@ -21,8 +21,8 @@ Expected result: the workflow is valid.
 Issue-resolution command:
 
 ```bash
-rielflow workflow run codex-design-and-implement-review-loop \
-  --mock-scenario .rielflow/workflows/codex-design-and-implement-review-loop/mock-scenario.json \
+riela workflow run codex-design-and-implement-review-loop \
+  --mock-scenario .riela/workflows/codex-design-and-implement-review-loop/mock-scenario.json \
   --output json
 ```
 
@@ -55,12 +55,12 @@ Expected final output payload:
   ],
   "implPlanPaths": ["impl-plans/completed/workflow-review-findings.md"],
   "changedFiles": [
-    "packages/rielflow/src/workflow/review-findings.ts",
-    "packages/rielflow/src/workflow/review-findings.test.ts",
+    "packages/riela/src/workflow/review-findings.ts",
+    "packages/riela/src/workflow/review-findings.test.ts",
     "impl-plans/completed/workflow-review-findings.md",
     "impl-plans/README.md",
     "README.md",
-    ".codex/skills/rielflow-impl-workflow/SKILL.md"
+    ".codex/skills/riela-impl-workflow/SKILL.md"
   ],
   "designReviewSummary": "Design accepted after the unresolved retention decision was moved into user QA.",
   "implPlanReviewSummary": "Implementation plan accepted after explicit persistence migration and regression verification tasks were added.",
@@ -70,7 +70,7 @@ Expected final output payload:
   "adversarialReviewSummary": "Adversarial review accepted the rerun persistence behavior with no high or mid findings.",
   "documentationFiles": [
     "README.md",
-    ".codex/skills/rielflow-impl-workflow/SKILL.md"
+    ".codex/skills/riela-impl-workflow/SKILL.md"
   ],
   "documentationSummary": "Step 8 refreshed the README and the user-facing workflow skill so they match the accepted implementation behavior before commit generation.",
   "archivedImplPlanPaths": [
@@ -89,8 +89,8 @@ Expected final output payload:
 Planning-only command:
 
 ```bash
-rielflow workflow run codex-design-and-implement-review-loop \
-  --mock-scenario .rielflow/workflows/codex-design-and-implement-review-loop/mock-scenario-planning-only.json \
+riela workflow run codex-design-and-implement-review-loop \
+  --mock-scenario .riela/workflows/codex-design-and-implement-review-loop/mock-scenario-planning-only.json \
   --output json
 ```
 

@@ -12,21 +12,21 @@
         "package.json",
         "Taskfile.yml",
         "scripts",
-        "packages/rielflow/src",
-        "packages/rielflow-core/src",
-        "packages/rielflow-addons/src",
+        "packages/riela/src",
+        "packages/riela-core/src",
+        "packages/riela-addons/src",
         "src"
       ],
       "reviewedPaths": [
         "package.json",
         "scripts/sync-package-declarations.ts",
-        "packages/rielflow/src/index.ts",
-        "packages/rielflow/src/lib.ts"
+        "packages/riela/src/index.ts",
+        "packages/riela/src/lib.ts"
       ],
       "findings": [
         {
           "severity": "mid",
-          "file": "packages/rielflow/src/index.ts",
+          "file": "packages/riela/src/index.ts",
           "line": 1,
           "problem": "Package entrypoints still depend on root src as the source owner.",
           "recommendedRefactor": "Move implementation ownership behind package-local entrypoints while keeping root src as compatibility shims.",
@@ -35,16 +35,16 @@
           "duplicateScavenge": {
             "repeatedConcept": "package/root export normalization",
             "counterpartPaths": [
-              "packages/rielflow/src/lib.ts",
-              "packages/rielflow-core/src/index.ts",
-              "packages/rielflow-addons/src/index.ts"
+              "packages/riela/src/lib.ts",
+              "packages/riela-core/src/index.ts",
+              "packages/riela-addons/src/index.ts"
             ],
             "behavioralDifferences": [
               "Root src remains the compatibility API while package entrypoints become ownership roots."
             ],
             "consolidationTarget": "Package-owned entrypoint contract with root src compatibility shims.",
             "verificationSuggestions": [
-              "bun test packages/rielflow/src/package-boundaries.test.ts",
+              "bun test packages/riela/src/package-boundaries.test.ts",
               "bun run build"
             ]
           }
@@ -62,7 +62,7 @@
           ],
           "blockedBy": [],
           "verificationCommands": [
-            "bun test packages/rielflow/src/package-boundaries.test.ts",
+            "bun test packages/riela/src/package-boundaries.test.ts",
             "bun run build"
           ]
         }
@@ -73,7 +73,7 @@
         "No provisioning package should be created because no concrete provisioning source surface was identified."
       ],
       "verificationSuggestions": [
-        "bun run packages/rielflow/src/bin.ts workflow validate codex-refactoring-slice-review --workflow-definition-dir .rielflow/workflows",
+        "bun run packages/riela/src/bin.ts workflow validate codex-refactoring-slice-review --workflow-definition-dir .riela/workflows",
         "bun run build"
       ],
       "residualRisks": [

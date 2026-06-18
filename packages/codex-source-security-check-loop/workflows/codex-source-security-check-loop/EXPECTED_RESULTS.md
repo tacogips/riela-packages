@@ -17,6 +17,6 @@ Running `codex-source-security-check-loop` should:
 Smoke validation:
 
 ```bash
-rielflow workflow validate codex-source-security-check-loop \
+riela workflow validate codex-source-security-check-loop \
   --workflow-definition-dir ./packages/codex-source-security-check-loop/workflows
 ```

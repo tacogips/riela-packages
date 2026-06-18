@@ -22,7 +22,7 @@ audio_channel_count="${audio_channel_count:-1}"
 node_path="${node_path:-node}"
 output_directory="${output_directory:-audio}"
 
-artifact_root="${RIEL_ARTIFACT_DIR:-.rielflow/artifacts}"
+artifact_root="${RIEL_ARTIFACT_DIR:-.riela/artifacts}"
 files_dir="$artifact_root/addons/mp4-audio-extract/$output_directory"
 audio_path="$files_dir/extracted.flac"
 mkdir -p "$files_dir"

@@ -8,7 +8,7 @@ Ignore `sessionId`, timestamps, and artifact paths.
 Command:
 
 ```bash
-rielflow workflow validate codex-deep-creation
+riela workflow validate codex-deep-creation
 ```
 
 Expected result: the workflow is valid when this package and its dependencies
@@ -19,8 +19,8 @@ are installed or otherwise visible to the workflow loader.
 Command:
 
 ```bash
-rielflow workflow run codex-deep-creation \
-  --mock-scenario .rielflow/workflows/codex-deep-creation/mock-scenario.json \
+riela workflow run codex-deep-creation \
+  --mock-scenario .riela/workflows/codex-deep-creation/mock-scenario.json \
   --output json
 ```
 

@@ -14,7 +14,7 @@ The mock scenario should run the generic goal loop once:
   verification, and residual risks.
 
 Each goal, review, planning, and work step should actively investigate whether
-an available Rielflow workflow should be used. Outputs should record workflow
+an available Riela workflow should be used. Outputs should record workflow
 discovery evidence, the delegation decision, and any invoked workflow results.
 
 If `goal-quality-review` returns `when.needs_goal_revision: true`, the workflow
@@ -28,4 +28,4 @@ to `plan`. If it returns `when.needs_work: true`, the workflow must route back
 to `work`. It should reach `workflow-output` only when both flags are false.
 
 Goal, planning, work, and review outputs should preserve recommended or invoked
-Rielflow workflow delegation when a specialized workflow is a better fit.
+Riela workflow delegation when a specialized workflow is a better fit.

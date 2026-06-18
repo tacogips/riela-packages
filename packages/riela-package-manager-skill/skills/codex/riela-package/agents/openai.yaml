@@ -1,0 +1,4 @@
+interface:
+  display_name: "Riela Package"
+  short_description: "Search and install riela packages"
+  default_prompt: "Use $riela-package to find and install the right riela package."

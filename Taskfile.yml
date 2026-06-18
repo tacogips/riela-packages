@@ -1,8 +1,8 @@
 version: "3"
 
 vars:
-  RIELFLOW_ROOT: '{{.RIELFLOW_ROOT | default "../rielflow"}}'
-  RIELFLOW_BIN: "{{.RIELFLOW_ROOT}}/packages/rielflow/src/bin.ts"
+  RIELA_ROOT: '{{.RIELA_ROOT | default "../riela"}}'
+  RIELA_BIN: "{{.RIELA_ROOT}}/packages/riela/src/bin.ts"
 
 tasks:
   package:check-digests:
@@ -16,10 +16,10 @@ tasks:
           computeWorkflowNodeAddonPackageIntegrityDigest,
           computeWorkflowPackageChecksum,
           computeWorkflowPackageIntegrityDigest,
-        } from "{{.RIELFLOW_ROOT}}/packages/rielflow/src/workflow/packages/checksum.ts";
+        } from "{{.RIELA_ROOT}}/packages/riela/src/workflow/packages/checksum.ts";
 
         const root = `${process.cwd()}/packages`;
-        const manifests = Array.from(new Bun.Glob("*/rielflow-package.json").scanSync({ cwd: root })).sort();
+        const manifests = Array.from(new Bun.Glob("*/riela-package.json").scanSync({ cwd: root })).sort();
         let failed = false;
 
         function safeRelativePath(value, label) {
@@ -100,7 +100,7 @@ tasks:
         for (const rel of manifests) {
           const packageName = rel.split("/")[0];
           const packageRoot = `${root}/${packageName}`;
-          const manifest = await Bun.file(`${packageRoot}/rielflow-package.json`).json();
+          const manifest = await Bun.file(`${packageRoot}/riela-package.json`).json();
           const kind = manifest.kind ?? "workflow";
 
           if (kind === "node-addon") {
@@ -168,7 +168,7 @@ tasks:
         WORKFLOW_TMP="$workflow_tmp" ADDON_TMP="$addon_tmp" bun -e '
         import { readdir } from "node:fs/promises";
         import path from "node:path";
-        import { loadWorkflowFromDisk } from "{{.RIELFLOW_ROOT}}/packages/rielflow/src/workflow/load.ts";
+        import { loadWorkflowFromDisk } from "{{.RIELA_ROOT}}/packages/riela/src/workflow/load.ts";
 
         const workflowRoot = process.env.WORKFLOW_TMP;
         const addonRoot = process.env.ADDON_TMP;

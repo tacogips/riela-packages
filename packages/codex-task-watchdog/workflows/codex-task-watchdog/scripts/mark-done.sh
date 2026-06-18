@@ -67,7 +67,7 @@ runningRow.task = {
     status: "completed",
     completedAt: now,
     scheduledAt: process.env.TASK_EVENT_SCHEDULED_AT || null,
-    note: "Task completed by codex-task-watchdog workflow. Inspect rielflow session status/export output and SQLite workflow_messages for full delegated workflow or adhoc output.",
+    note: "Task completed by codex-task-watchdog workflow. Inspect riela session status/export output and SQLite workflow_messages for full delegated workflow or adhoc output.",
   },
 };
 writeTasks(taskListPath, rows);

@@ -2,7 +2,7 @@
 
 Stable assertions for deterministic verification with the bundled mock scenario.
 Ignore `sessionId`, timestamps, and artifact paths.
-Use the available `rielflow` command. Add `--scope user` for a user-scope
+Use the available `riela` command. Add `--scope user` for a user-scope
 install, or validate through the registry-wide package checks when testing this
 source repository.
 
@@ -11,7 +11,7 @@ source repository.
 Command:
 
 ```bash
-rielflow workflow validate codex-impl-plan-completion-review-loop
+riela workflow validate codex-impl-plan-completion-review-loop
 ```
 
 Expected result: the workflow is valid when this package and its dependencies
@@ -22,8 +22,8 @@ are installed or otherwise visible to the workflow loader.
 Command:
 
 ```bash
-rielflow workflow run codex-impl-plan-completion-review-loop \
-  --mock-scenario .rielflow/workflows/codex-impl-plan-completion-review-loop/mock-scenario.json \
+riela workflow run codex-impl-plan-completion-review-loop \
+  --mock-scenario .riela/workflows/codex-impl-plan-completion-review-loop/mock-scenario.json \
   --output json
 ```
 

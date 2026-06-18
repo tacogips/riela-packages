@@ -1,4 +1,0 @@
-interface:
-  display_name: "Rielflow Project Workflow"
-  short_description: "Turn work into a project-scope Rielflow workflow and run it"
-  default_prompt: "Use $rielflow-project-workflow to create, validate, and run a project-scope Rielflow workflow for this task."

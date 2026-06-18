@@ -1,11 +1,11 @@
 ---
 name: riel-codex-deep-creation
-description: "Use when the user asks Codex for deep creation: deep design, adversarial implementation-plan completion, and source security checks in one Rielflow workflow."
+description: "Use when the user asks Codex for deep creation: deep design, adversarial implementation-plan completion, and source security checks in one Riela workflow."
 ---
 
 # Riel Codex Deep Creation
 
-Use this skill when the user asks for `deep creation`, `rielflow deep creation`,
+Use this skill when the user asks for `deep creation`, `riela deep creation`,
 `deep-impl-plan-completion` followed by security checks, or a full creation flow
 that must run deep design, adversarial implementation, and security checking.
 
@@ -26,7 +26,7 @@ not the recent-change review loop.
 ## Standard Run
 
 ```bash
-rielflow workflow run codex-deep-creation \
+riela workflow run codex-deep-creation \
   --variables '{"workflowInput":{"feature":"Describe the feature to create.","targetDesignDoc":"design-docs/specs/example.md","targetPaths":["src"],"securityTargetPath":"src","constraints":["Do not revert unrelated dirty worktree changes."]}}' \
   --output json --no-auto-improve
 ```
@@ -46,5 +46,5 @@ task check
 Refresh package digests after workflow or skill changes:
 
 ```bash
-bun .agents/skills/rielflow-package-release/scripts/update-package-digests.ts codex-deep-creation
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts codex-deep-creation
 ```

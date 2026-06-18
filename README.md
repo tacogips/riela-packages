@@ -1,11 +1,11 @@
-# Awesome Rielflow Packages
+# Awesome Riela Packages
 
-A curated package index for reusable Rielflow workflows and agent skills.
+A curated package index for reusable Riela workflows and agent skills.
 
-This repository is the default Rielflow package registry:
+This repository is the default Riela package registry:
 
 ```text
-https://github.com/tacogips/rielflow-packages
+https://github.com/tacogips/riela-packages
 ```
 
 ## Install
@@ -13,31 +13,31 @@ https://github.com/tacogips/rielflow-packages
 Search the registry:
 
 ```bash
-rielflow package search "<keyword>" --refresh
+riela package search "<keyword>" --refresh
 ```
 
 Install a package into the current project:
 
 ```bash
-rielflow package install <package-id>
+riela package install <package-id>
 ```
 
 Install a package for the current user:
 
 ```bash
-rielflow package install <package-id> --user-scope
+riela package install <package-id> --user-scope
 ```
 
 Inspect installed packages:
 
 ```bash
-rielflow package list
-rielflow package status <package-id>
+riela package list
+riela package status <package-id>
 ```
 
 ## Which Package Should I Install?
 
-Rielflow installs workflows and skills at package granularity. A package can
+Riela installs workflows and skills at package granularity. A package can
 also declare dependencies, so installing one package may install the workflows
 and skills that it needs.
 
@@ -130,7 +130,7 @@ for single-workflow use and for package dependencies.
   feature-local fanout, implementation, review, documentation refresh, and
   commit-message preparation. `backend: codex-agent`; includes Codex skills.
 - [codex-goal](packages/codex-goal) -
-  Generic Codex GPT-5.5 workflow that actively investigates available Rielflow
+  Generic Codex GPT-5.5 workflow that actively investigates available Riela
   workflows at each step, creates and reviews a testable goal, creates and
   reviews an in-session plan without writing plan files, performs the work, may
   delegate to a more specific workflow when appropriate, and reviews whether the
@@ -196,7 +196,7 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
   Shared Claude Code workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion. `backend: claude-code-agent`; includes Claude skills.
 - [claude-code-goal](packages/claude-code-goal) -
   Generic Claude Code Opus 4.8 workflow that actively investigates available
-  Rielflow workflows at each step, creates and reviews a testable goal, creates
+  Riela workflows at each step, creates and reviews a testable goal, creates
   and reviews an in-session plan without writing plan files, performs the work,
   may delegate to a more specific workflow when appropriate, and reviews whether
   the goal is achieved before looping back to work or planning. `backend:
@@ -246,7 +246,7 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 - [cursor-cli-fable-design-and-implement-review-loop](packages/cursor-cli-fable-design-and-implement-review-loop) -
   Explicit Claude Fable 5 variant of the Cursor CLI implementation workflow. It uses Claude Fable 5 for review agent steps, Composer 2.5 for implementation, and Claude Opus 4.8 for design and other agent steps. The default implementation skill remains the GPT-5.5 plus Composer workflow unless the user explicitly requests the Fable variant. `backend: cursor-cli-agent`; includes Cursor skills.
 - [cursor-cli-goal](packages/cursor-cli-goal) -
-  Generic Cursor CLI workflow that actively investigates available Rielflow
+  Generic Cursor CLI workflow that actively investigates available Riela
   workflows at each step, creates and reviews a testable goal, creates and
   reviews an in-session plan without writing plan files, performs the work with
   Composer 2.5, uses GPT-5.5 for other agent steps, may delegate to a more
@@ -282,30 +282,30 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 
 ### Skill Packages
 
-- [rielflow-package-manager-skill](packages/rielflow-package-manager-skill) -
-  Installs Codex and Claude skills for searching Rielflow package registries,
+- [riela-package-manager-skill](packages/riela-package-manager-skill) -
+  Installs Codex and Claude skills for searching Riela package registries,
   installing packages into project or user scope, listing installed packages,
   updating packages, and removing packages.
-- [rielflow-package-release-skill](packages/rielflow-package-release-skill) -
+- [riela-package-release-skill](packages/riela-package-release-skill) -
   Installs agent-generic, Codex, and Claude maintainer guidance for refreshing
   package digests, validating packaged workflows, and preparing registry
   releases.
-- [rielflow-package-installer-skill](packages/rielflow-package-installer-skill) -
+- [riela-package-installer-skill](packages/riela-package-installer-skill) -
   Installs Codex and Claude bootstrap skills for installing
-  `rielflow-package-manager-skill` from `tacogips/rielflow-packages`.
-- [rielflow-temporary-workflow-skill](packages/rielflow-temporary-workflow-skill) -
+  `riela-package-manager-skill` from `tacogips/riela-packages`.
+- [riela-temporary-workflow-skill](packages/riela-temporary-workflow-skill) -
   Installs Codex and Claude skills for creating and running temporary
   workflows from inline JSON or JSON files without project/user-scope
   installation.
-- [rielflow-project-workflow-skill](packages/rielflow-project-workflow-skill) -
+- [riela-project-workflow-skill](packages/riela-project-workflow-skill) -
   Installs Codex, Claude, and Cursor guidance for turning requested work into a
-  project-scope Rielflow workflow and then executing that workflow.
-- [rielflow-workflow-creator-skill](packages/rielflow-workflow-creator-skill) -
+  project-scope Riela workflow and then executing that workflow.
+- [riela-workflow-creator-skill](packages/riela-workflow-creator-skill) -
   Installs Codex and Claude skills for creating, modifying, validating, and
-  running portable Rielflow workflow bundles.
-- [rielflow-workflow-skill-creator-skill](packages/rielflow-workflow-skill-creator-skill) -
+  running portable Riela workflow bundles.
+- [riela-workflow-skill-creator-skill](packages/riela-workflow-skill-creator-skill) -
   Installs agent-generic, Codex, and Claude guidance for creating packaged
-  skills that teach agents how to use Rielflow workflow packages.
+  skills that teach agents how to use Riela workflow packages.
 
 ## Package Summary
 
@@ -357,20 +357,20 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 | [cursor-cli-source-security-check-loop](packages/cursor-cli-source-security-check-loop) | workflow | `cursor-cli-agent` | Cursor |
 | [cursor-cli-task-watchdog](packages/cursor-cli-task-watchdog) | workflow | `cursor-cli-agent` | Cursor |
 | [cursor-cli-website-builder](packages/cursor-cli-website-builder) | workflow | `cursor-cli-agent` | Cursor |
-| [rielflow-package-installer-skill](packages/rielflow-package-installer-skill) | skill | - | Codex, Claude |
-| [rielflow-package-manager-skill](packages/rielflow-package-manager-skill) | skill | - | Codex, Claude |
-| [rielflow-package-release-skill](packages/rielflow-package-release-skill) | skill | - | Agents, Codex, Claude |
-| [rielflow-project-workflow-skill](packages/rielflow-project-workflow-skill) | skill | - | Codex, Claude, Cursor |
-| [rielflow-temporary-workflow-skill](packages/rielflow-temporary-workflow-skill) | skill | - | Codex, Claude |
-| [rielflow-workflow-creator-skill](packages/rielflow-workflow-creator-skill) | skill | - | Codex, Claude |
-| [rielflow-workflow-skill-creator-skill](packages/rielflow-workflow-skill-creator-skill) | skill | - | Agents, Codex, Claude |
+| [riela-package-installer-skill](packages/riela-package-installer-skill) | skill | - | Codex, Claude |
+| [riela-package-manager-skill](packages/riela-package-manager-skill) | skill | - | Codex, Claude |
+| [riela-package-release-skill](packages/riela-package-release-skill) | skill | - | Agents, Codex, Claude |
+| [riela-project-workflow-skill](packages/riela-project-workflow-skill) | skill | - | Codex, Claude, Cursor |
+| [riela-temporary-workflow-skill](packages/riela-temporary-workflow-skill) | skill | - | Codex, Claude |
+| [riela-workflow-creator-skill](packages/riela-workflow-creator-skill) | skill | - | Codex, Claude |
+| [riela-workflow-skill-creator-skill](packages/riela-workflow-skill-creator-skill) | skill | - | Agents, Codex, Claude |
 
 ## Package Layout
 
 Each package directory can include:
 
-- `rielflow-package.json` - package manifest consumed by the package manager.
-- `workflows/<workflow-id>/workflow.json` - Rielflow workflow bundle.
+- `riela-package.json` - package manifest consumed by the package manager.
+- `workflows/<workflow-id>/workflow.json` - Riela workflow bundle.
 - `skills/agents/AGENTS.md` - agent-generic project guidance projected to
   `AGENTS.md` for project-scope installs.
 - `skills/codex/**/SKILL.md` - Codex skills projected by the package.
@@ -379,12 +379,12 @@ Each package directory can include:
   for project-scope installs.
 
 Package directories should use filesystem-safe names under `packages/`.
-Registry-visible package ids live in `rielflow-package.json.name` and may be
+Registry-visible package ids live in `riela-package.json.name` and may be
 unscoped, such as `greeting-node-addon`, or scoped, such as
 `@tacogips/youtube-mp4-download-addon`. Prefer scoped package ids for
 third-party or personal registries. Node add-on package entries use a separate
 add-on namespace in `addons[].name`, such as `tacogips/youtube-mp4-download`;
-the `rielflow/` add-on namespace is reserved for built-ins.
+the `riela/` add-on namespace is reserved for built-ins.
 
 Use backend-specific skill directories for workflow-specific usage skills:
 Codex-only workflows use `skills/codex`, Claude Code-only workflows use
@@ -394,5 +394,5 @@ Codex and Claude skills; add `skills/agents/AGENTS.md` only when broad project
 guidance should also be projected to root `AGENTS.md`.
 
 Packages that call another workflow declare it in `dependencies` inside
-`rielflow-package.json`; the package manager checks those out before validating
+`riela-package.json`; the package manager checks those out before validating
 the caller workflow.

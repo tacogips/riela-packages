@@ -1,0 +1,36 @@
+{
+  "name": "cursor-cli-fable-design-and-implement-review-loop",
+  "version": "0.1.0",
+  "title": "cursor-cli-fable-design-and-implement-review-loop",
+  "description": "Cursor CLI workflow variant for explicit Claude Fable 5 review runs. It uses Claude Fable 5 for review agent steps, Composer 2.5 for implementation, and Claude Opus 4.8 for design and all other agent steps.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "8a1a5b7f57f44fb63d77adafd92d77a3",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-fable-design-and-implement-review-loop",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-fable-design-and-implement-review-loop",
+    "description": "Cursor CLI workflow variant for explicit Claude Fable 5 review runs. It uses Claude Fable 5 for review agent steps, Composer 2.5 for implementation, and Claude Opus 4.8 for design and all other agent steps.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "38125755e6525d80cd61746ff117ac9b654c23658198e4a2adf24e5876724119"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ],
+  "packageId": "cursor-cli-fable-design-and-implement-review-loop",
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-design-and-implement-review-loop"
+  ]
+}

@@ -18,7 +18,7 @@ file_name_template="${file_name_template:-%(title).200B-%(id)s.%(ext)s}"
 format_selector="${format_selector:-bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best}"
 node_path="${node_path:-node}"
 
-artifact_root="${RIEL_ARTIFACT_DIR:-.rielflow/artifacts}"
+artifact_root="${RIEL_ARTIFACT_DIR:-.riela/artifacts}"
 files_dir="$artifact_root/addons/youtube-mp4-download/$output_directory"
 mkdir -p "$files_dir"
 

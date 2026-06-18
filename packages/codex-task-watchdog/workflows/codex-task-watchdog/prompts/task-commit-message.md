@@ -9,7 +9,7 @@ Rules:
 - Include the task queue file from `mark-done.payload.taskListPath` when it is a
   repository-relative path or can be normalized to one safely.
 - Include only accepted project-scope skill files from `.agents/skills`.
-- Exclude unrelated dirty worktree paths, generated logs, rielflow runtime
+- Exclude unrelated dirty worktree paths, generated logs, riela runtime
   artifacts, private files, and rejected skill files.
 - If no project-scope skill was created or updated, still commit the completed
   task queue update so the watchdog records task completion.
@@ -20,7 +20,7 @@ Return JSON with:
 - `taskId`
 - `commitMessage`
 - `committedFiles`: a JSON array of repository-relative file path strings only,
-  with no status objects or metadata, because the next `rielflow/git-commit`
+  with no status objects or metadata, because the next `riela/git-commit`
   add-on stages exactly these paths.
 - `skillChanges`
 - `reviewSummary`

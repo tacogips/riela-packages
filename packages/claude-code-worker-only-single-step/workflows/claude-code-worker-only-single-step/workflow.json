@@ -23,7 +23,7 @@
     }
   ],
   "metadata": {
-    "rielflowPackage": {
+    "rielaPackage": {
       "title": "claude-code-worker-only-single-step",
       "description": "Minimal manager-less reference workflow that starts directly at one worker step through explicit entryStepId authoring.",
       "tags": [

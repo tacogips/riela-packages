@@ -1,0 +1,36 @@
+{
+  "name": "claude-code-design-and-implement-review-loop",
+  "version": "0.1.0",
+  "title": "claude-code-design-and-implement-review-loop",
+  "description": "Shared Claude Code workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "66b1a2dca1a3f1929386a95d6f9cdcbf",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/claude-code-design-and-implement-review-loop",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "claude-code-design-and-implement-review-loop",
+    "description": "Shared Claude Code workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "claude-code-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "ea4c82a64ad36398677cb42e70c5f3e355ee8a73d729651ac91d14c764a5a67b"
+  },
+  "backends": [
+    "claude-code-agent"
+  ],
+  "packageId": "claude-code-design-and-implement-review-loop",
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-design-and-implement-review-loop"
+  ]
+}
