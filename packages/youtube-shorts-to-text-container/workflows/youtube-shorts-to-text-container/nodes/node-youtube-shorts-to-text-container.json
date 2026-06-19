@@ -1,0 +1,22 @@
+{
+  "id": "youtube-shorts-to-text-container",
+  "description": "Run a Docker-contained worker that downloads a YouTube Shorts video and transcribes the extracted audio.",
+  "nodeType": "command",
+  "variables": {},
+  "command": {
+    "scriptPath": "scripts/run-youtube-shorts-to-text-container.bash",
+    "argvTemplate": [
+      "{{workflowInput.url}}",
+      "{{workflowInput.languageCode}}",
+      "{{workflowInput.gcsUriPrefix}}"
+    ],
+    "envTemplate": {
+      "YOUTUBE_SHORTS_TO_TEXT_IMAGE": "{{workflowInput.image}}",
+      "GOOGLE_SPEECH_POLL_INTERVAL_SECONDS": "{{workflowInput.pollIntervalSeconds}}",
+      "GOOGLE_SPEECH_OPERATION_TIMEOUT_SECONDS": "{{workflowInput.operationTimeoutSeconds}}"
+    }
+  },
+  "output": {
+    "description": "Return downloaded media paths, transcript paths, and a transcript preview."
+  }
+}

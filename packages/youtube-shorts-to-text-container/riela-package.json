@@ -1,0 +1,34 @@
+{
+  "name": "@tacogips/youtube-shorts-to-text-container",
+  "version": "0.1.0",
+  "kind": "workflow",
+  "description": "Download a YouTube Shorts URL and transcribe its audio through a Docker-contained worker.",
+  "tags": [
+    "youtube",
+    "shorts",
+    "docker",
+    "ffmpeg",
+    "speech-to-text"
+  ],
+  "registry": "https://github.com/tacogips/riela-packages",
+  "workflowDirectory": "workflows/youtube-shorts-to-text-container",
+  "checksumAlgorithm": "md5",
+  "checksum": "96bf809596ca4693a32ee12bbfb40c2e",
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "e5edeb94f37a1bd4efeb3b3fb13adab58bc5e4390d7b99e8340d934cb825a4c2",
+    "signatures": []
+  },
+  "workflow": {
+    "description": "Download a YouTube Shorts URL to MP4, extract FLAC audio, upload it to Google Cloud Storage, and transcribe it with Google Speech-to-Text.",
+    "tags": [
+      "youtube",
+      "shorts",
+      "docker",
+      "speech-to-text"
+    ],
+    "backends": [
+      "native-command"
+    ]
+  }
+}

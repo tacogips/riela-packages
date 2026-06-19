@@ -104,6 +104,9 @@ for single-workflow use and for package dependencies.
 - [youtube-mp4-to-text-workflow](packages/youtube-mp4-to-text-workflow) -
   Example workflow package that downloads a YouTube MP4, extracts speech-ready
   audio, and transcribes it with Google Speech-to-Text through node add-ons.
+- [youtube-shorts-to-text-container](packages/youtube-shorts-to-text-container) -
+  Workflow package that downloads a YouTube Shorts URL and transcribes it with
+  Google Speech-to-Text through a Docker-contained worker.
 
 ### Codex Agent Workflows
 
@@ -318,6 +321,7 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 | [greeting-container](packages/greeting-container) | workflow | `native-container` | - |
 | [greeting-shell](packages/greeting-shell) | workflow | `native-command` | - |
 | [youtube-mp4-to-text-workflow](packages/youtube-mp4-to-text-workflow) | workflow | `native-command` | - |
+| [youtube-shorts-to-text-container](packages/youtube-shorts-to-text-container) | workflow | `native-command`, Docker | - |
 | [codex-adversarial-implementation-review-loop](packages/codex-adversarial-implementation-review-loop) | workflow | `codex-agent` | Codex |
 | [codex-deep-creation](packages/codex-deep-creation) | workflow | `codex-agent` | Codex |
 | [codex-deepdesign](packages/codex-deepdesign) | workflow | `codex-agent` | Codex |
