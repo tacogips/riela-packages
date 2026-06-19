@@ -1,76 +1,70 @@
 ---
 name: riela-package
-description: Use when searching, installing, listing, updating, or removing riela workflow packages through the riela package manager. Covers package search, registry refresh, project-scope installs, user-scope installs, installed package verification, and package-installed skills.
+description: Use when searching, installing, listing, updating, or removing riela workflow packages through the riela package manager. Covers local source installs, project-scope installs, user-scope installs, installed package verification, and package-installed skills.
 metadata:
   short-description: Search and install riela packages
 ---
 
 # Riela Package
 
-Use this skill when the user wants to find or install a riela registry package. Riela packages are Git-backed workflow bundles and may also install agent skills.
+Use this skill when the user wants to find or install a riela package. Riela packages are Git-backed workflow bundles and may also install agent skills.
 
 For raw public GitHub workflow directory URLs, use `riela-workflow-checkout` instead.
 
 ## Command
 
-When `riela` is installed, prefer:
+When `riela` is installed, prefer local package sources:
 
 ```bash
-riela package search "<query>" --refresh
-riela package install <package-id>
+find <riela-packages-checkout>/packages -mindepth 1 -maxdepth 1 -type d -name "*<query>*"
+riela package install <package-id> --source <riela-packages-checkout>/packages/<package-id>
 ```
 
 Inside the riela source checkout, prefer:
 
 ```bash
-riela package search "<query>" --refresh
-riela package install <package-id>
+find ../riela-packages/packages -mindepth 1 -maxdepth 1 -type d -name "*<query>*"
+riela package install <package-id> --source ../riela-packages/packages/<package-id>
 ```
 
-Default registry:
+Default local package checkout:
 
 ```text
-https://github.com/tacogips/riela-packages
+~/gits/tacogips/riela-packages
 ```
 
 ## Standard Workflow
 
-1. Search before installing unless the package id is already explicit:
+1. Search local package directories before installing unless the package id is already explicit:
 
 ```bash
-riela package search "<keyword>" --refresh --output json
+find ~/gits/tacogips/riela-packages/packages -mindepth 1 -maxdepth 1 -type d -name "*<keyword>*"
 ```
 
-Useful filters:
+If the package id is known, derive the source path directly:
 
 ```bash
-riela package search "<keyword>" --tag <tag> --backend <backend> --limit <n> --output json
-riela package search "<keyword>" --registry <id-or-url> --refresh --output json
+package_id="<package-id>"
+package_source="$HOME/gits/tacogips/riela-packages/packages/$package_id"
 ```
 
-2. Pick the package id from `packages[].packageId` or `records[].packageName`. If search results are empty, run once with `--refresh` before reporting no match.
+2. Pick the package id from the matching directory name. If search results are empty, report that no matching package was found and include the query used.
 
 3. Choose install scope:
    - Project scope is the default for project-local workflow and skill use.
-   - User scope is for user-wide reusable packages and skills; use `--user-scope`.
+   - User scope is for user-wide reusable packages and skills; use `--scope user`.
    - Use `--project-root <path>` or `--user-root <path>` only when the destination root must be explicit.
 
-4. Install with pre-install checks when package contents may execute or install skills:
+4. Install the package:
 
 ```bash
-riela package install <package-id> --pre-install-check --output json
+riela package install <package-id> --source <package-dir> --output json
 ```
 
 User scope:
 
 ```bash
-riela package install <package-id> --user-scope --pre-install-check --output json
-```
-
-Strict pre-install checks:
-
-```bash
-riela package install <package-id> --pre-install-check --pre-install-check-mode reject --output json
+riela package install <package-id> --source <package-dir> --scope user --output json
 ```
 
 5. Verify the install:
@@ -127,4 +121,4 @@ riela package registry add <id> --registry-url <url> --local-path <path> --branc
 
 ## Reporting
 
-Report the selected package id, registry, scope, workflow name, destination, checksum/content digest, pre-install check status, and installed skills. If an install was skipped or failed, include the exact package command and the failure message.
+Report the selected package id, source path, scope, workflow name, destination, checksum/content digest, and installed skills. If an install was skipped or failed, include the exact package command and the failure message.

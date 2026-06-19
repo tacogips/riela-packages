@@ -103,7 +103,7 @@ bun run src/main.ts workflow checkout \
 ```
 
 Checkout defaults to project scope and installs under
-`<project>/.riela/workflows/<workflow-name>`. Add `--user-scope` to install
+`<project>/.riela/workflows/<workflow-name>`. Add `--scope user` to install
 under `~/.riela/workflows/<workflow-name>`. The command validates the remote
 bundle in staging before writing the destination, rejects duplicates unless
 `--overwrite` is set, and records provenance under

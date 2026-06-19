@@ -71,7 +71,7 @@ https://github.com/<owner>/<repo>/tree/<ref>/.riela/workflows/<workflow-name>
 ```
 
 - `--project-root <path>` or `RIEL_PROJECT_ROOT` can make the project scope explicit.
-- Add `--user-scope` to install under:
+- Add `--scope user` to install under:
 
 ```text
 <user-root>/workflows/<workflow-name>
@@ -103,7 +103,7 @@ Text output prints the checked-out workflow name, scope, destination, and regist
 1. Confirm the source URL points to a single workflow directory containing `workflow.json`.
 2. Choose scope:
    - Default to project scope unless the user asks for user-wide installation.
-   - Use `--user-scope` for user-wide installation.
+   - Use `--scope user` for user-wide installation.
    - Use `--project-root` or `--user-root` only when the destination root must be explicit.
    - Use `--workflow-definition-dir` only when the user wants a direct workflow definition directory destination.
 3. Reject or remove conflicting remote-control options before running checkout:
@@ -131,7 +131,7 @@ User-scope checkout:
 ```bash
 riela workflow checkout \
   https://github.com/<owner>/<repo>/tree/<ref>/.riela/workflows/<workflow-name> \
-  --user-scope
+  --scope user
 ```
 
 Replace an existing checkout after staged validation succeeds:

@@ -64,7 +64,7 @@ covered by package validation and skipped during direct workflow validation.
 5. Review install-facing behavior for changed packages:
 
 ```bash
-swift run --package-path "${RIELA_ROOT:-../riela}" riela package search "<package-id>" --registry default --refresh --output json
+swift run --package-path "${RIELA_ROOT:-../riela}" riela package search "<package-id>" --registry default --output json
 ```
 
 For workflow packages, also verify the workflow can be inspected or validated

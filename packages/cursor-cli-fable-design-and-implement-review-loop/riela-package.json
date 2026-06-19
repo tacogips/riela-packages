@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "7882284604ffc4702f129e67f54cf99f",
+  "checksum": "4d7e6bdb37c01ca55924befd44b9c6d1",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-fable-design-and-implement-review-loop",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "92008d2594e0b2e6a46ea55caa856046113b92d7834e829c7163d5cb4f5f8745"
+    "digest": "ac422ae488458e99549cda820b95b3187dd332d3e77d1320efe5fd2b8497e655"
   },
   "backends": [
     "cursor-cli-agent"

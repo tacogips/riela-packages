@@ -1,8 +1,0 @@
----
-name: riel-cursor-cli-package-maintainer
-description: Use when maintaining the packaged cursor-cli-design-and-implement-review-loop workflow.
----
-
-# riel-cursor-cli-package-maintainer
-
-When modifying this packaged workflow, keep the workflow, prompts, expected results, and package manifest aligned. Validate the workflow before publishing registry changes.

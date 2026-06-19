@@ -2,7 +2,7 @@
 
 A curated package index for reusable Riela workflows and agent skills.
 
-This repository is the default Riela package registry:
+This repository is the default source checkout for Riela packages:
 
 ```text
 https://github.com/tacogips/riela-packages
@@ -10,22 +10,22 @@ https://github.com/tacogips/riela-packages
 
 ## Install
 
-Search the registry:
+Search available package directories:
 
 ```bash
-riela package search "<keyword>" --refresh
+find packages -mindepth 1 -maxdepth 1 -type d -name "*<keyword>*"
 ```
 
 Install a package into the current project:
 
 ```bash
-riela package install <package-id>
+riela package install <package-id> --source packages/<package-id>
 ```
 
 Install a package for the current user:
 
 ```bash
-riela package install <package-id> --user-scope
+riela package install <package-id> --source packages/<package-id> --scope user
 ```
 
 Inspect installed packages:
@@ -55,8 +55,7 @@ Current developer workflow install pattern:
 
 - Cursor CLI standard developer setup:
   install `cursor-cli-developer-workflows`. It depends on the standard
-  `cursor-cli-*` developer workflows and projects one Cursor dispatcher rule,
-  `riel-cursor-cli-developer-workflows`, that chooses among them.
+  `cursor-cli-*` developer workflows.
 - Codex setup:
   install the needed `codex-*` workflow packages directly, such as
   `codex-design-and-implement-review-loop`, `codex-simple-work-package`, or

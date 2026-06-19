@@ -9,7 +9,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "b1edd361176c75af2f3333194a5d2716",
+  "checksum": "046091cb9310b6c0bf4a8cc72cec0129",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-adversarial-implementation-review-loop",
   "dependencies": [
@@ -30,7 +30,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "6450a5b03d350a5a1d955a6c1e6518dbe3aa9d9d1a845d4012621cbc886aa614"
+    "digest": "e67aed2a5f8b5cdd31db38a0d6e2f0aaccdc0e57a66a2b8532614c48757146e1"
   },
   "backends": [
     "codex-agent"

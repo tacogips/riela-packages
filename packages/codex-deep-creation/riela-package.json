@@ -9,7 +9,7 @@
     "creation"
   ],
   "registry": "default",
-  "checksum": "3c38f8032651ad6f972edd6aa110c6d6",
+  "checksum": "f3dc06740f3795bed3ecd6cf643bb396",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-deep-creation",
   "dependencies": [
@@ -32,7 +32,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "4d3510731a8eaae3f8a7624c925752ceb639e5adb3c214e471e5ab9363bfda4b"
+    "digest": "ae27d114b2a9f5dc12c2bf7ea5453d382741f89cf8008944345a618d45ca283e"
   },
   "backends": [
     "codex-agent"

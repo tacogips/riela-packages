@@ -6,8 +6,8 @@ user-invocable: true
 
 # Riela Package Installer
 
-Use this skill when the user wants to install the `riela-package` skill from
-the `tacogips/riela-packages` registry.
+Use this skill when the user wants to install the `riela-package` skill from a
+local `tacogips/riela-packages` checkout.
 
 This is a bootstrap skill. Its target package is:
 
@@ -15,10 +15,10 @@ This is a bootstrap skill. Its target package is:
 riela-package-manager-skill
 ```
 
-Registry:
+Default source:
 
 ```text
-https://github.com/tacogips/riela-packages
+~/gits/tacogips/riela-packages/packages/riela-package-manager-skill
 ```
 
 ## Install
@@ -27,8 +27,7 @@ Default to project scope:
 
 ```bash
 riela package install riela-package-manager-skill \
-  --registry https://github.com/tacogips/riela-packages \
-  --pre-install-check \
+  --source ~/gits/tacogips/riela-packages/packages/riela-package-manager-skill \
   --output json
 ```
 
@@ -36,9 +35,8 @@ Use user scope only when the user asks for a user-wide skill:
 
 ```bash
 riela package install riela-package-manager-skill \
-  --registry https://github.com/tacogips/riela-packages \
-  --user-scope \
-  --pre-install-check \
+  --source ~/gits/tacogips/riela-packages/packages/riela-package-manager-skill \
+  --scope user \
   --output json
 ```
 
@@ -60,9 +58,8 @@ Report:
 
 - install scope
 - package id
-- registry URL
-- pre-install check result
+- source path
 - projected skill paths from the install JSON
 
-Expected installed skills include `riela-package` for Claude and Codex when
+Expected installed skills include `riela-package` for Codex and Claude when
 the package manager projects both vendors.
