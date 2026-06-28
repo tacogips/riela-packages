@@ -12,7 +12,7 @@
     "container"
   ],
   "registry": "default",
-  "checksum": "66158501d38c110b4e2e3a31794400ab",
+  "checksum": "e734ed4ce2f554b06aac99783863798e",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-website-builder",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -34,7 +34,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "012f484216ededa3729a69948618d8e5052b263702595cb891d95f94c0a9c572"
+    "digest": "cbdc2fd3e27e7fa941e0d7b7ba791b5fc45b239429a006b2f09099c9dea23191"
   },
   "backends": [
     "codex-agent",

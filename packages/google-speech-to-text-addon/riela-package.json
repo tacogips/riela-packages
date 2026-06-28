@@ -11,12 +11,28 @@
   ],
   "registry": "https://github.com/tacogips/riela-packages",
   "checksumAlgorithm": "md5",
-  "checksum": "60b5e70abdee60722e0b7faea8432a6f",
+  "checksum": "b515c9189cc1305dc307366e5392abe0",
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "41f9ca1076f10fc757ba2c62ac0917c4f64d61b0b99574fffd71f951e852d718",
+    "digest": "e8f907bdbcd18a88770dc19faed9712aef896c89c90c1feb0fccf370d9eaca3c",
     "signatures": []
   },
+  "environmentVariables": [
+    {
+      "name": "GOOGLE_ACCESS_TOKEN",
+      "description": "Google OAuth access token; one supported authentication option for Speech-to-Text.",
+      "secret": true
+    },
+    {
+      "name": "GOOGLE_APPLICATION_CREDENTIALS",
+      "description": "Path to a Google service-account credentials JSON file; one supported authentication option."
+    },
+    {
+      "name": "GOOGLE_APPLICATION_CREDENTIALS_JSON",
+      "description": "Inline Google service-account credentials JSON; one supported authentication option.",
+      "secret": true
+    }
+  ],
   "skillDirectory": "skills",
   "addons": [
     {

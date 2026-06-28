@@ -10,7 +10,7 @@
     "cron"
   ],
   "registry": "default",
-  "checksum": "4ddfdc05c853a2e395e5b1bbc5ca0ca4",
+  "checksum": "f012fc8ff349e7c08bd3620c3a3b4374",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-task-watchdog",
   "dependencies": [
@@ -35,7 +35,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "681a5935d21d684f6cc9b92227b4fb757c98adc91ca597f5814674e3cf7a802d"
+    "digest": "8937ee02eedb179a5e0981303f0ad2f579ed4ff71861a329ff1a6cdd64bc8445"
   },
   "backends": [
     "claude-code-agent"

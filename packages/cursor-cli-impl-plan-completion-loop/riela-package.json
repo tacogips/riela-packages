@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "971edd2a576fd0900ea041a0b8393f02",
+  "checksum": "689047c0a9eff2b8d089189f3933386a",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-impl-plan-completion-loop",
   "dependencies": [
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "429b863d526495a92c4c2a51d36cc3e6bf7894a484410984ef83a608ba417566"
+    "digest": "f71da875ead50632cca74a3a0519768ff1e4b53bd76cd0c3a8426bbdd11aa8b9"
   },
   "backends": [
     "cursor-cli-agent"

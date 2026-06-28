@@ -1,6 +1,6 @@
 {
   "workflowId": "riela-package-manager-skill",
-  "description": "Skill package reference workflow for riela package registry search and project/user-scope package installs.",
+  "description": "Skill package reference workflow for riela package search, install, validation, RielaApp profile availability, and package environment metadata.",
   "defaults": {
     "maxLoopIterations": 3,
     "nodeTimeoutMs": 120000
@@ -23,7 +23,7 @@
   "metadata": {
     "rielaPackage": {
       "title": "riela-package-manager-skill",
-      "description": "Skill package that teaches agents how to search riela package registries and install packages into project or user scope.",
+      "description": "Skill package that teaches agents how to search, install, inspect, validate, and use riela packages, including RielaApp enable/disable and required environment metadata.",
       "tags": [
         "skill",
         "package",

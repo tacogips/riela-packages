@@ -9,7 +9,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "14e2173bf7790afba1c6435a90c597db",
+  "checksum": "7ad7d990a67d071788e02a96196453c3",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-impl-plan-completion-review-loop",
   "dependencies": [
@@ -32,7 +32,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "3bbf7e004ae0a8388a2641161158f66ed174127c897d2ca7608005d6fe097165"
+    "digest": "73937445d863dffb0260a4c02dd1e0d36253511b1c5b11e2089228ab7a29b49e"
   },
   "backends": [
     "claude-code-agent"

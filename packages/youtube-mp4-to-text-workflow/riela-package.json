@@ -13,12 +13,28 @@
   "registry": "https://github.com/tacogips/riela-packages",
   "workflowDirectory": "workflows/youtube-mp4-to-text",
   "checksumAlgorithm": "md5",
-  "checksum": "c92ddd355e233453385ca9f9d9cd1cda",
+  "checksum": "01dea2dce35c043c8760d39b2a10b06b",
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "eff95fc3119d735298494576cee2b43440458dc37aac7b760fb6d436228c78a8",
+    "digest": "7a9f0496a19e149010d1029544772f4cfc79e9817479e3f13af8b95566da0f28",
     "signatures": []
   },
+  "environmentVariables": [
+    {
+      "name": "GOOGLE_ACCESS_TOKEN",
+      "description": "Google OAuth access token; one supported authentication option for Speech-to-Text.",
+      "secret": true
+    },
+    {
+      "name": "GOOGLE_APPLICATION_CREDENTIALS",
+      "description": "Path to a Google service-account credentials JSON file; one supported authentication option."
+    },
+    {
+      "name": "GOOGLE_APPLICATION_CREDENTIALS_JSON",
+      "description": "Inline Google service-account credentials JSON; one supported authentication option.",
+      "secret": true
+    }
+  ],
   "dependencies": [
     {
       "packageId": "@tacogips/youtube-mp4-download-addon",

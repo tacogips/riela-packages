@@ -2,20 +2,20 @@
   "name": "riela-package-manager-skill",
   "version": "0.1.0",
   "title": "riela-package-manager-skill",
-  "description": "Skill package that teaches agents how to search and install riela packages into project or user scope.",
+  "description": "Skill package that teaches agents how to search, install, inspect, validate, and use riela packages, including RielaApp enable/disable and required environment metadata.",
   "tags": [
     "skill",
     "package",
     "riela"
   ],
   "registry": "default",
-  "checksum": "d6d4c2188f187ddebf2edeffb177aa72",
+  "checksum": "8b5303c74d13a6720a8284c122d5fd00",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/riela-package-manager-skill",
   "repository": "https://github.com/tacogips/riela-packages",
   "workflow": {
     "title": "riela-package-manager-skill",
-    "description": "Skill package that teaches agents how to search riela package registries and install packages into project or user scope.",
+    "description": "Skill package that teaches agents how to search, install, inspect, validate, and use riela packages, including RielaApp enable/disable and required environment metadata.",
     "tags": [
       "skill",
       "package",
@@ -25,7 +25,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "a73109d1cc9b4dc46658c9c838b55dc054df592afa5d006e85917ad7b9021367"
+    "digest": "26ae58861a898719eb09abe0fe52efa15160fd91fbb313bb7defc92f613ed8e6"
   },
   "backends": [],
   "skillDirectory": "skills"

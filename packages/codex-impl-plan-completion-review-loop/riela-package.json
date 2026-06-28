@@ -9,7 +9,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "eb2c324856542f5a86af061095cb3a98",
+  "checksum": "652682ed74870de4349501b80fe9b228",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-impl-plan-completion-review-loop",
   "dependencies": [
@@ -31,7 +31,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "de809b74a8a3fc7234aa563e6a00bcdf19f373d098bfb63cf3c8fd6226f013cc"
+    "digest": "677a2308cd6494de48dbe30d482dc93adec64e6db26fa8b1acdc1e60c462a1de"
   },
   "backends": [
     "codex-agent"

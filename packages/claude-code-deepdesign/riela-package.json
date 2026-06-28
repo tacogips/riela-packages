@@ -9,7 +9,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "ab2b9e79318594f597aa2204be15afe7",
+  "checksum": "b4a271a545de5ff66daf817f008de797",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-deepdesign",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "a02b72540e9d4fb02e74224818ec6d29274d9538ab6d8475084ac4dbd5fb7541"
+    "digest": "44d4c17bed28ae1059a7e48487cbc3e800d4cfa5385c7b7219bbf481a644ce35"
   },
   "backends": [
     "claude-code-agent"

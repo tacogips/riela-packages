@@ -11,7 +11,7 @@
     "bash"
   ],
   "registry": "default",
-  "checksum": "265aea5f01775bbe020a21e2dbbea604",
+  "checksum": "2bafb58682f563bff2e9923117ff5e8d",
   "checksumAlgorithm": "md5",
   "repository": "https://github.com/tacogips/riela-packages",
   "addons": [
@@ -39,6 +39,6 @@
   ],
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "89652c9861266b53be7fae554222ab37cde6dd4d313bcb6c2abd3ceed6819996"
+    "digest": "35b8c61e12a9fdbd60ae8c7d328c23ec0af2b821d668a4fcf1ba352cc0189f65"
   }
 }

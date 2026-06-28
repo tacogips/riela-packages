@@ -12,7 +12,7 @@
     "container"
   ],
   "registry": "default",
-  "checksum": "5d8e91bdbf9ca2da6def120f54005ded",
+  "checksum": "0937e0ab7715f2f10d44cee080753ab7",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-website-builder",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -33,7 +33,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "55ec24578884e2ff96cd3029c02da215698c8ddc224cdd012c881237af5574db"
+    "digest": "2ce650eae2ab8224433ff6c24b8fe7170ed54fd6a8c12b10e6db1444a6dbc93e"
   },
   "backends": [
     "cursor-cli-agent"

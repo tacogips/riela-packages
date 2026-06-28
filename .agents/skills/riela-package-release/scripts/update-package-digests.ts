@@ -65,12 +65,15 @@ const selectedPackageIds = all
   : packageIds;
 
 function shouldExclude(relativePath: string): boolean {
+  const entryNames = relativePath.split("/");
   return (
+    relativePath === manifestFile ||
     relativePath.startsWith(".git/") ||
-    relativePath.startsWith(".riela/") ||
-    relativePath.includes("/.riela/") ||
-    relativePath.endsWith(".tmp") ||
-    relativePath === ".riela-package-provenance.json"
+    entryNames.includes(".DS_Store") ||
+    entryNames.includes("__MACOSX") ||
+    entryNames.includes(".git") ||
+    entryNames.includes(".hg") ||
+    entryNames.includes(".svn")
   );
 }
 
@@ -94,61 +97,7 @@ async function collectFiles(root: string): Promise<string[]> {
   }
 
   await visit(root);
-  return files.sort((left, right) => left.localeCompare(right));
-}
-
-function normalizeManifestDigestInput(
-  parsed: Readonly<Record<string, unknown>>,
-): Readonly<Record<string, unknown>> {
-  const rawIntegrity = parsed["integrity"];
-  const integrityObject =
-    typeof rawIntegrity === "object" &&
-    rawIntegrity !== null &&
-    !Array.isArray(rawIntegrity)
-      ? (rawIntegrity as Readonly<Record<string, unknown>>)
-      : {};
-  const signatures = Array.isArray(integrityObject["signatures"])
-    ? integrityObject["signatures"]
-    : [];
-  return {
-    ...parsed,
-    checksum: "",
-    checksumAlgorithm: "md5",
-    integrity: {
-      ...integrityObject,
-      digestAlgorithm: "sha256",
-      digest: "",
-      signatures,
-    },
-  };
-}
-
-function normalizeDigestInput(relativePath: string, content: Buffer): Buffer {
-  if (relativePath !== manifestFile) {
-    return content;
-  }
-  try {
-    const parsed = JSON.parse(content.toString("utf8")) as unknown;
-    if (
-      typeof parsed !== "object" ||
-      parsed === null ||
-      Array.isArray(parsed)
-    ) {
-      return content;
-    }
-    return Buffer.from(
-      `${JSON.stringify(
-        normalizeManifestDigestInput(
-          parsed as Readonly<Record<string, unknown>>,
-        ),
-        null,
-        2,
-      )}\n`,
-      "utf8",
-    );
-  } catch {
-    return content;
-  }
+  return files.sort((left, right) => (left < right ? -1 : left > right ? 1 : 0));
 }
 
 async function computePackageDigest(input: {
@@ -158,7 +107,7 @@ async function computePackageDigest(input: {
   requireWorkflowBundle: boolean;
 }): Promise<string> {
   const files = await collectFiles(input.packageRoot);
-  const hasManifest = files.includes(manifestFile);
+  const hasManifest = existsSync(path.join(input.packageRoot, manifestFile));
   const workflowJson =
     input.workflowDirectory === undefined
       ? undefined
@@ -181,10 +130,9 @@ async function computePackageDigest(input: {
   const hash = createHash(input.hashAlgorithm);
   for (const relativePath of files) {
     const content = await readFile(path.join(input.packageRoot, relativePath));
-    hash.update(relativePath);
-    hash.update("\0");
-    hash.update(normalizeDigestInput(relativePath, content));
-    hash.update("\0");
+    hash.update(`path:${relativePath}\n`);
+    hash.update(content);
+    hash.update("\n");
   }
   return hash.digest("hex");
 }

@@ -285,9 +285,9 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 ### Skill Packages
 
 - [riela-package-manager-skill](packages/riela-package-manager-skill) -
-  Installs Codex and Claude skills for searching Riela package registries,
-  installing packages into project or user scope, listing installed packages,
-  updating packages, and removing packages.
+  Installs Codex and Claude skills for searching, installing, inspecting,
+  validating, packing, and using Riela packages, including `.rielapkg`
+  archives, RielaApp enable/disable flows, and required environment metadata.
 - [riela-package-release-skill](packages/riela-package-release-skill) -
   Installs agent-generic, Codex, and Claude maintainer guidance for refreshing
   package digests, validating packaged workflows, and preparing registry

@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "8800c7a27affbf76b5b3e6c4eb56d33b",
+  "checksum": "c65f09a66385187ccbc66123480d6a2a",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-simple-work-package",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "efb45f4cbc8fbadf14ad2e5f443f426ce1d45ff80e1f536a7ccaf7047f7f383f"
+    "digest": "b9a373feaa3c47e3d3f53369a607eda7ac867e66e540a62078eb786f192159a6"
   },
   "backends": [
     "codex-agent"

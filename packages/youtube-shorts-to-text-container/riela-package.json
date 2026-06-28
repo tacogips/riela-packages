@@ -13,12 +13,28 @@
   "registry": "https://github.com/tacogips/riela-packages",
   "workflowDirectory": "workflows/youtube-shorts-to-text-container",
   "checksumAlgorithm": "md5",
-  "checksum": "96bf809596ca4693a32ee12bbfb40c2e",
+  "checksum": "8c1aa9aeb53e8c95a9038d036dca3180",
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "e5edeb94f37a1bd4efeb3b3fb13adab58bc5e4390d7b99e8340d934cb825a4c2",
+    "digest": "d321b5e34a32f24f6c6718e8f01a681eb9811924fecd4de1289d827029663667",
     "signatures": []
   },
+  "environmentVariables": [
+    {
+      "name": "GOOGLE_ACCESS_TOKEN",
+      "description": "Google OAuth access token; one supported authentication option for Speech-to-Text.",
+      "secret": true
+    },
+    {
+      "name": "GOOGLE_APPLICATION_CREDENTIALS",
+      "description": "Path to a Google service-account credentials JSON file; one supported authentication option."
+    },
+    {
+      "name": "GOOGLE_APPLICATION_CREDENTIALS_JSON",
+      "description": "Inline Google service-account credentials JSON; one supported authentication option.",
+      "secret": true
+    }
+  ],
   "workflow": {
     "description": "Download a YouTube Shorts URL to MP4, extract FLAC audio, upload it to Google Cloud Storage, and transcribe it with Google Speech-to-Text.",
     "tags": [
