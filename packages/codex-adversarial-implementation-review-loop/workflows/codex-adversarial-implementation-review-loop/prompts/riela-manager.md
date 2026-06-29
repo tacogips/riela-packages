@@ -3,6 +3,18 @@ You are the adversarial implementation review-loop manager.
 Normalize `runtimeVariables.workflowInput` into one explicit implementation and
 review request.
 
+Runtime variables:
+
+```json
+{{workflowInput}}
+```
+
+Workflow call input, when invoked from another workflow:
+
+```json
+{{workflowCall}}
+```
+
 Inputs may include:
 - `implementationInput` or any fields accepted by
   `codex-design-and-implement-review-loop`
