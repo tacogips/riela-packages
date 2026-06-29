@@ -1,6 +1,7 @@
 {
   "id": "deterministic-scan",
   "description": "Run deterministic local source security scanners and heuristics.",
+  "modelFreeze": false,
   "nodeType": "command",
   "variables": {},
   "command": {

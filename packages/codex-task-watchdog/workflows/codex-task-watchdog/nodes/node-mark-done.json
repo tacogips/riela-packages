@@ -1,6 +1,7 @@
 {
   "id": "mark-done",
   "description": "Mark the currently running task as done in the JSONL queue.",
+  "modelFreeze": false,
   "nodeType": "command",
   "variables": {},
   "command": {

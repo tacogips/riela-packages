@@ -3,6 +3,7 @@
   "description": "Self-review the latest refactoring task implementation.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/step5-self-review.md",
   "variables": {},
   "output": {

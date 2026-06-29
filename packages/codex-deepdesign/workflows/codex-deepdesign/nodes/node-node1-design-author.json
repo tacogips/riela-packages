@@ -3,6 +3,7 @@
   "description": "Create or revise the design-doc specification from the request and latest review feedback.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "effort": "high",
   "sessionPolicy": {
     "mode": "reuse"

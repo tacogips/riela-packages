@@ -3,6 +3,7 @@
   "description": "Package the next incomplete active implementation plan for delegated execution by codex-adversarial-implementation-review-loop.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/step2-handoff.md",
   "variables": {},
   "output": {

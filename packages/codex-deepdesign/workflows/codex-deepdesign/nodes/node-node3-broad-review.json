@@ -3,6 +3,7 @@
   "description": "Review the design broadly for feature interactions, existing similar functionality, combined use cases, and cross-feature gaps.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/node3-broad-review.md",
   "variables": {},

@@ -10,7 +10,7 @@
     "meta"
   ],
   "registry": "default",
-  "checksum": "f8d7cef54acac17d1bc42cba6a9b0b51",
+  "checksum": "7762add1734970380bb029a8f64b375f",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-developer-workflows",
   "dependencies": [
@@ -43,7 +43,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "2e70670c48908550453c1d8960773e809f4f469658f41efb4a30ce2c2917b204"
+    "digest": "a10699a83b1ea4b44aafc7b164bc1aabe7ff0d4786e44725d88dd3717be8ddfc"
   },
   "backends": [
     "cursor-cli-agent"

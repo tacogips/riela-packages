@@ -3,6 +3,7 @@
   "description": "Run the claimed task directly as an ad hoc Codex worker.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/adhoc-codex.md",
   "variables": {},
   "output": {

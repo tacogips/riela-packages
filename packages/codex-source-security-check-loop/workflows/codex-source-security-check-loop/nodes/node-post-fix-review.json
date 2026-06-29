@@ -3,6 +3,7 @@
   "description": "Capture the delegated security-fix workflow result before rescanning.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/post-fix-review.md",
   "variables": {},
   "output": {

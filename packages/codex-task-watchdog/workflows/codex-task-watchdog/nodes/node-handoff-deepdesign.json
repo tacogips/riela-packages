@@ -3,6 +3,7 @@
   "description": "Prepare a codex-deepdesign call for the claimed task.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/handoff-deepdesign.md",
   "variables": {},
   "output": {

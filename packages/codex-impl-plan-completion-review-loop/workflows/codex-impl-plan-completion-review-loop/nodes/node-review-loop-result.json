@@ -3,6 +3,7 @@
   "description": "Summarize the codex-recent-change-quality-loop result.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/review-loop-result.md",
   "variables": {},
   "output": {

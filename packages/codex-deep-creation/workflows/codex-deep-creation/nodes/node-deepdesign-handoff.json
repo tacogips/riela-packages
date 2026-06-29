@@ -3,6 +3,7 @@
   "description": "Build the codex-deepdesign workflow input.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/deepdesign-handoff.md",
   "variables": {},
   "output": {

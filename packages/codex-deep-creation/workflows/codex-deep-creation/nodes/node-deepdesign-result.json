@@ -3,6 +3,7 @@
   "description": "Summarize the accepted codex-deepdesign result.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/deepdesign-result.md",
   "variables": {},
   "output": {

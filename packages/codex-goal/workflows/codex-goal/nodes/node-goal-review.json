@@ -3,6 +3,7 @@
   "description": "Review whether the latest work achieves the goal and route back to planning, work, or final output.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/goal-review.md",
   "variables": {},

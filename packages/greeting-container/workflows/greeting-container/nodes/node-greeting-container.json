@@ -1,6 +1,7 @@
 {
   "id": "greeting-container",
   "description": "Run Node.js inside a container and output a greeting with the current datetime.",
+  "modelFreeze": false,
   "nodeType": "container",
   "variables": {},
   "container": {

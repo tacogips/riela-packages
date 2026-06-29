@@ -3,6 +3,7 @@
   "description": "Implement exactly one ready task from the refactoring plan.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/step4-implement-next-task.md",
   "variables": {},
   "output": {

@@ -3,6 +3,7 @@
   "description": "Prepare a delegated security-fix request for codex-design-and-implement-review-loop.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/fix-handoff.md",
   "variables": {},
   "output": {

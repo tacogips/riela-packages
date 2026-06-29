@@ -3,6 +3,7 @@
   "description": "Build the codex-impl-plan-completion-loop workflow input.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/impl-completion-handoff.md",
   "variables": {},
   "output": {

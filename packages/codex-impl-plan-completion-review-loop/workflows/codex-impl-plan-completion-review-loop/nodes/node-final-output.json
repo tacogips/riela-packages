@@ -3,6 +3,7 @@
   "description": "Publish the combined implementation-plan completion and review-and-improve result.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/final-output.md",
   "variables": {},
   "output": {

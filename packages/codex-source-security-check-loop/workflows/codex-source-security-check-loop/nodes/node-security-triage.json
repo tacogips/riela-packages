@@ -3,6 +3,7 @@
   "description": "Review deterministic security evidence and source code.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/security-triage.md",
   "variables": {},
   "output": {

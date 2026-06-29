@@ -3,6 +3,7 @@
   "description": "Review the simple-work diff and request a rerun only for high or middle findings.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/review.md",
   "variables": {},

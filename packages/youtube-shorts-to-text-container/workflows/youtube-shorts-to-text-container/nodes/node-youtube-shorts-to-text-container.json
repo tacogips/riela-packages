@@ -1,6 +1,7 @@
 {
   "id": "youtube-shorts-to-text-container",
   "description": "Run a Docker-contained worker that downloads a YouTube Shorts video and transcribes the extracted audio.",
+  "modelFreeze": false,
   "nodeType": "command",
   "variables": {},
   "command": {

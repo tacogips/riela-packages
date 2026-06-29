@@ -1,6 +1,7 @@
 {
   "id": "skill-installed",
   "description": "Explain that the useful artifact in this package is the installed riela-workflow skill.",
+  "modelFreeze": false,
   "nodeType": "command",
   "variables": {},
   "command": {

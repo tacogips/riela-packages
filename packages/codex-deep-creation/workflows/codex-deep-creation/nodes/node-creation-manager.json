@@ -3,6 +3,7 @@
   "description": "Normalize a full deep creation request for design, implementation-plan completion, and security checking.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/creation-manager.md",
   "variables": {},
   "output": {

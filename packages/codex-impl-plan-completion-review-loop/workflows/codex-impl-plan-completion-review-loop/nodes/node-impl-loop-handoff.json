@@ -3,6 +3,7 @@
   "description": "Prepare a delegated request for codex-impl-plan-completion-loop.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/impl-loop-handoff.md",
   "variables": {},
   "output": {

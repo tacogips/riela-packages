@@ -3,6 +3,7 @@
   "description": "Execute the current in-session plan or address review feedback using Codex GPT-5.5 high effort.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "effort": "high",
   "sessionPolicy": {
     "mode": "reuse"

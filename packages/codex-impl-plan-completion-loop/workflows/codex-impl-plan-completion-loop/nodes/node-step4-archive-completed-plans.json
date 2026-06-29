@@ -1,6 +1,7 @@
 {
   "id": "step4-archive-completed-plans",
   "description": "Archive completed active implementation plans and refresh implementation-plan indexes before publishing final workflow output.",
+  "modelFreeze": false,
   "nodeType": "command",
   "variables": {},
   "command": {

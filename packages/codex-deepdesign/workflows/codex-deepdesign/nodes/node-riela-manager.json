@@ -3,6 +3,7 @@
   "description": "Coordinate the deep design workflow.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/riela-manager.md",
   "variables": {},
   "input": {

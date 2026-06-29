@@ -3,6 +3,7 @@
   "description": "Coordinate the refactoring divide-and-conquer workflow and preserve runtime inputs, including duplicate-scavenge mode markers.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/riela-manager.md",
   "variables": {},
   "input": {

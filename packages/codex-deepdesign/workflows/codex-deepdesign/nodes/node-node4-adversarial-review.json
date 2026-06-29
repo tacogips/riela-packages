@@ -3,6 +3,7 @@
   "description": "Adversarially review the design for failure modes, misuse paths, misleading success cases, and overconfident assumptions.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/node4-adversarial-review.md",
   "variables": {},

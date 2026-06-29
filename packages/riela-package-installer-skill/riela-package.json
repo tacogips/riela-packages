@@ -10,7 +10,7 @@
     "riela"
   ],
   "registry": "default",
-  "checksum": "9cf5410527c6c2b9148d91ac3669c2b8",
+  "checksum": "7c35fa187ad179b10bee730eea5b43ce",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/riela-package-installer-skill",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "2fcf482ffc7bdbe7d832609d4304c5f44ab5e5fc7470423c02241eb40fd999e7"
+    "digest": "910a600affe57217af16c322665502a75b134d2cc4a2ad7cf9a5c37c1c756606"
   },
   "backends": [],
   "skillDirectory": "skills"

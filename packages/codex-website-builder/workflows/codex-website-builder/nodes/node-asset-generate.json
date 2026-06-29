@@ -3,6 +3,7 @@
   "description": "Generate or revise image and media assets for the SolidJS website with Codex GPT-5.5 high effort.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "effort": "high",
   "sessionPolicy": {
     "mode": "reuse"

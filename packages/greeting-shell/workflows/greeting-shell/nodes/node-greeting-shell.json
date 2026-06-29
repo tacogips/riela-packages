@@ -1,6 +1,7 @@
 {
   "id": "greeting-shell",
   "description": "Run a local Bash script and output a greeting with the current datetime.",
+  "modelFreeze": false,
   "nodeType": "command",
   "variables": {},
   "command": {

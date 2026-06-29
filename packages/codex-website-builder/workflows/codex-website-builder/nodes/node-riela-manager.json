@@ -3,6 +3,7 @@
   "description": "Normalize direct workflow input or chat event feedback for website creation or iteration.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/riela-manager.md",
   "variables": {},

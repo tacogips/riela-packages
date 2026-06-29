@@ -1,6 +1,7 @@
 {
   "id": "bun-container-server",
   "description": "Build the packaged Bun Docker image, bind-mount the repository, and run install/build/server commands inside Docker.",
+  "modelFreeze": false,
   "nodeType": "command",
   "variables": {},
   "command": {

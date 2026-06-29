@@ -3,6 +3,7 @@
   "description": "Create a clear, testable goal for the requested generic work package using Codex GPT-5.5 high effort.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "effort": "high",
   "sessionPolicy": {
     "mode": "reuse"

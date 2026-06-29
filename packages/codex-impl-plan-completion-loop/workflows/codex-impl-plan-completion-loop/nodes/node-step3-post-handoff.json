@@ -3,6 +3,7 @@
   "description": "Record the delegated codex-adversarial-implementation-review-loop result before the next active-plan assessment.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/step3-post-handoff.md",
   "variables": {},
   "output": {

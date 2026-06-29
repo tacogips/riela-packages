@@ -1,6 +1,7 @@
 {
   "id": "claim-next-task",
   "description": "Claim one active task from the JSONL queue, or report a skip reason.",
+  "modelFreeze": false,
   "nodeType": "command",
   "variables": {},
   "command": {

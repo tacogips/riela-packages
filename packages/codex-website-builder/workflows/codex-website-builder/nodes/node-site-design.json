@@ -3,6 +3,7 @@
   "description": "Create or revise the site design brief and pinned dependency allowlist with Codex GPT-5.5 high effort.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "effort": "high",
   "sessionPolicy": {
     "mode": "reuse"

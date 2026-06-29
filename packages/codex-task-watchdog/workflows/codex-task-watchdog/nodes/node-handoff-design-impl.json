@@ -3,6 +3,7 @@
   "description": "Prepare a codex-design-and-implement-review-loop call for the claimed task.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/handoff-design-impl.md",
   "variables": {},
   "output": {

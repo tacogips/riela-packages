@@ -1,6 +1,7 @@
 {
   "id": "package-installed",
   "description": "Explain that this package installs the Cursor CLI developer workflow dispatcher and standard dependency workflow set.",
+  "modelFreeze": false,
   "nodeType": "command",
   "variables": {},
   "command": {

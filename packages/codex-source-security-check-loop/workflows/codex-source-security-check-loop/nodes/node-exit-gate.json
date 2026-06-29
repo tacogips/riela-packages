@@ -3,6 +3,7 @@
   "description": "Route based on blocking security findings.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/exit-gate.md",
   "variables": {},
   "output": {

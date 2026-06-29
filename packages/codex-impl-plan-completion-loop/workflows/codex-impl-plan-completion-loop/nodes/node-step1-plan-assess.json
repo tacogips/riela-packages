@@ -1,6 +1,7 @@
 {
   "id": "step1-plan-assess",
   "description": "Find the next incomplete active implementation plan and report whether active implementation work is complete.",
+  "modelFreeze": false,
   "nodeType": "command",
   "variables": {},
   "command": {

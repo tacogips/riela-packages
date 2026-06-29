@@ -13,10 +13,10 @@
   "registry": "https://github.com/tacogips/riela-packages",
   "workflowDirectory": "workflows/youtube-shorts-to-text-container",
   "checksumAlgorithm": "md5",
-  "checksum": "8c1aa9aeb53e8c95a9038d036dca3180",
+  "checksum": "3a5f537d2efb2e49f399c865dee9c8e0",
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "d321b5e34a32f24f6c6718e8f01a681eb9811924fecd4de1289d827029663667",
+    "digest": "c5f1b76de90e18c8d32818170d858146ba6d1c110f0db09c28f516a6e703b7b7",
     "signatures": []
   },
   "environmentVariables": [

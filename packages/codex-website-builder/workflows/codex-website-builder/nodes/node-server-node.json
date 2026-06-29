@@ -3,6 +3,7 @@
   "description": "Implement or revise the SolidJS/Bun website source without running Bun on the host; containerized Bun execution happens in bun-container-server.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "effort": "high",
   "sessionPolicy": {
     "mode": "reuse"
