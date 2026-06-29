@@ -3,6 +3,7 @@
   "description": "Perform read-only adversarial implementation review against the explicit review subject.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/adversarial-review.md",
   "variables": {},
   "output": {

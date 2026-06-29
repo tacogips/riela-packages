@@ -3,6 +3,7 @@
   "description": "Summarize the accepted initial implementation result for adversarial review.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/implementation-result.md",
   "variables": {},
   "output": {

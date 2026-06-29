@@ -3,6 +3,7 @@
   "description": "Summarize the delegated fix result before the next adversarial review pass.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.5",
+  "modelFreeze": false,
   "promptTemplateFile": "prompts/post-fix-result.md",
   "variables": {},
   "output": {
