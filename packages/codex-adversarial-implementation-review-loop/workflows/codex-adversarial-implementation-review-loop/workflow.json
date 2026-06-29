@@ -33,10 +33,6 @@
       "nodeFile": "nodes/node-adversarial-review.json"
     },
     {
-      "id": "exit-gate",
-      "nodeFile": "nodes/node-exit-gate.json"
-    },
-    {
       "id": "fix-handoff",
       "nodeFile": "nodes/node-fix-handoff.json"
     },
@@ -97,17 +93,6 @@
       "description": "Adversarially review the latest implemented result against the explicit review subject.",
       "role": "worker",
       "stallTimeoutMs": 900000,
-      "transitions": [
-        {
-          "toStepId": "exit-gate"
-        }
-      ]
-    },
-    {
-      "id": "exit-gate",
-      "nodeId": "exit-gate",
-      "description": "Route to fix handoff when high or medium adversarial findings remain; otherwise finish.",
-      "role": "worker",
       "transitions": [
         {
           "toStepId": "fix-handoff",

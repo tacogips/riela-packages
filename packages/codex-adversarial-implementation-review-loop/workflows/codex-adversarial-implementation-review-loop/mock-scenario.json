@@ -60,19 +60,6 @@
       "reviewSummary": "Accepted explicit-target adversarial review with no high or medium findings."
     }
   },
-  "exit-gate": {
-    "provider": "scenario-mock",
-    "model": "gpt-5.5",
-    "when": {
-      "needs_fix": false
-    },
-    "payload": {
-      "needs_fix": false,
-      "decision": "accept",
-      "blockingFindings": [],
-      "exitReason": "No high or medium adversarial findings remain."
-    }
-  },
   "workflow-output": {
     "provider": "scenario-mock",
     "model": "gpt-5.5",

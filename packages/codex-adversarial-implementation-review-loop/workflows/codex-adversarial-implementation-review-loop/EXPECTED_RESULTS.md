@@ -37,13 +37,13 @@ Expected stable run summary:
   "status": "completed",
   "workflowName": "codex-adversarial-implementation-review-loop",
   "workflowId": "codex-adversarial-implementation-review-loop",
-  "nodeExecutions": 4,
-  "transitions": 3,
+  "nodeExecutions": 3,
+  "transitions": 2,
   "exitCode": 0
 }
 ```
 
-Expected path: `riela-manager` -> `adversarial-review` -> `exit-gate` -> `workflow-output`
+Expected path: `riela-manager` -> `adversarial-review` -> `workflow-output`
 
 Expected final output node: `workflow-output`
 

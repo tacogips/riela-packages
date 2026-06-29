@@ -9,5 +9,5 @@
   "output": {
     "description": "Return findings, severity, reviewed paths, verification gaps, needs_fix boolean, residual risks, and accepted status."
   },
-  "effort": "high"
+  "effort": "medium"
 }
