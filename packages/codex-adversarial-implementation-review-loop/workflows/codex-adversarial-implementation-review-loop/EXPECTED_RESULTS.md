@@ -7,6 +7,9 @@ The mock scenario covers the explicit-target review acceptance path with
 `skipInitialImplementation` behavior. Normal implementation runs first dispatch
 `codex-design-and-implement-review-loop`, then adversarially review and delegate
 blocking fixes until no high or medium findings remain.
+The final `workflow-output` step must base acceptance on the latest direct
+runtime input from `adversarial-review` (`_rielaInput.latest.payload`), not on
+older sessions, cached root outputs, or a broad recent-change review.
 
 ## Validate
 

@@ -7,7 +7,76 @@
   "promptTemplateFile": "prompts/workflow-output.md",
   "variables": {},
   "output": {
-    "description": "Return final status, review subject, delegated runs, final findings, changed files, verification, and residual risks."
+    "description": "Return final status, review subject, delegated runs, final findings, changed files, verification, and residual risks.",
+    "jsonSchema": {
+      "type": "object",
+      "required": [
+        "status",
+        "workflowId",
+        "reviewSubject",
+        "targetPaths",
+        "finalFindings",
+        "changedFiles",
+        "verification",
+        "residualRisks",
+        "operatorNotes"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "accepted",
+            "failed"
+          ]
+        },
+        "workflowId": {
+          "type": "string",
+          "const": "codex-adversarial-implementation-review-loop"
+        },
+        "reviewSubject": {
+          "type": "string",
+          "minLength": 1
+        },
+        "targetPaths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "childWorkflowRuns": {
+          "type": "array"
+        },
+        "finalFindings": {
+          "type": "array"
+        },
+        "changedFiles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "verification": {
+          "type": "array"
+        },
+        "residualRisks": {
+          "type": "array"
+        },
+        "verificationGaps": {
+          "type": "array"
+        },
+        "operatorNotes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "maxValidationAttempts": 2
   },
   "effort": "medium"
 }
