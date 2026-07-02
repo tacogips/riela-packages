@@ -96,6 +96,8 @@ impl-plans/.progress.lock
 .riela/artifacts/**
 .riela/logs/
 .riela/logs/**
+.riela/sessions/
+.riela/sessions/**
 .riela-data/
 .riela-data/**
 .riela-opt/
