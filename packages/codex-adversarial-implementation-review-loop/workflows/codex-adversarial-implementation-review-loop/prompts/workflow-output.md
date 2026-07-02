@@ -1,5 +1,9 @@
 Summarize the accepted adversarial implementation review-loop result.
 
+Use only the payloads provided in this input message. Do not run commands.
+Do not read files. Do not inspect repository state, logs, skills, sessions, or
+prior history. Produce the final JSON immediately from the provided payloads.
+
 Use the runtime-provided latest direct input from the immediately preceding
 `adversarial-review` step as the authoritative source of the accepted review:
 

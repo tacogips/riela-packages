@@ -1,6 +1,11 @@
 Publish the final accepted simple-work result.
 
-Read the latest implementation and review outputs. Return JSON with:
+Use only the implementation and review payloads provided in this input
+message. Do not run commands. Do not read files. Do not inspect repository
+state, logs, skills, sessions, or prior history. Produce the final JSON
+immediately from the provided payloads.
+
+Return JSON with:
 - `status`: `accepted`
 - `changedFiles`
 - `implementationSummary`
