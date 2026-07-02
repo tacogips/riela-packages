@@ -1,0 +1,12 @@
+{
+  "id": "final-output",
+  "description": "Publish the final Fable orchestration result after Fable accepts completion.",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-fable-5",
+  "modelFreeze": false,
+  "promptTemplateFile": "prompts/final-output.md",
+  "variables": {},
+  "output": {
+    "description": "Return final status, accepted markdown goal and plan, delegated Codex runs, changed files, verification evidence, residual risks, and operator notes."
+  }
+}

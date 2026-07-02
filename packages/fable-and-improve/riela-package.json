@@ -1,0 +1,45 @@
+{
+  "name": "fable-and-improve",
+  "version": "0.1.0",
+  "title": "fable-and-improve",
+  "description": "Claude Code Fable orchestrator workflow that researches the request, maintains markdown goal and plan state, delegates implementation and review to codex-design-and-implement-review-loop, and repeats until Fable verifies completion.",
+  "tags": [
+    "workflow",
+    "claude-code",
+    "codex",
+    "fable",
+    "review"
+  ],
+  "registry": "default",
+  "checksum": "e470d24c680b483261e6b1dc979e15af",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/fable-and-improve",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "fable-and-improve",
+    "description": "Claude Code Fable researches and plans in markdown, delegates implementation and review to codex-design-and-implement-review-loop, then checks completion and loops on remaining TODOs.",
+    "tags": [
+      "workflow",
+      "claude-code",
+      "codex",
+      "fable",
+      "review"
+    ],
+    "backends": [
+      "claude-code-agent",
+      "codex-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "7eed1563be6056c7d82593439d0ea0018296fae0fc002d77a51e6ba667628304"
+  },
+  "backends": [
+    "claude-code-agent",
+    "codex-agent"
+  ],
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-design-and-implement-review-loop"
+  ]
+}

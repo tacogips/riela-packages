@@ -1,0 +1,53 @@
+{
+  "id": "fable-goal-plan",
+  "description": "Claude Code Fable researches the request and creates or revises markdown goal and work-plan state.",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-fable-5",
+  "modelFreeze": false,
+  "effort": "high",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "promptTemplateFile": "prompts/fable-goal-plan.md",
+  "variables": {},
+  "input": {
+    "description": "Operator request. Preferred fields are workflowInput.requestedOutcome, targetScope, constraints, acceptanceCriteria, verificationHint, and optional previous Fable review TODOs.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "workflowInput": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "requestedOutcome": {
+              "type": "string",
+              "minLength": 1
+            },
+            "targetScope": {
+              "type": "string"
+            },
+            "constraints": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "acceptanceCriteria": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "verificationHint": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "output": {
+    "description": "Return JSON containing markdown goal and plan state, acceptance criteria, constraints, risks, verification plan, and the first Codex delegation brief."
+  }
+}

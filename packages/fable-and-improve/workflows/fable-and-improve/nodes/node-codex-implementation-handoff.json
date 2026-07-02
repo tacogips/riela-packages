@@ -1,0 +1,12 @@
+{
+  "id": "codex-implementation-handoff",
+  "description": "Prepare a delegated request for codex-design-and-implement-review-loop from the latest Fable markdown goal and plan.",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-fable-5",
+  "modelFreeze": false,
+  "promptTemplateFile": "prompts/codex-implementation-handoff.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON whose payload contains workflowInput for codex-design-and-implement-review-loop plus preserved Fable orchestration context."
+  }
+}

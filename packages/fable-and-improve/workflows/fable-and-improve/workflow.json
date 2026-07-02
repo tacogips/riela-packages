@@ -1,0 +1,125 @@
+{
+  "workflowId": "fable-and-improve",
+  "description": "Claude Code Fable acts as the orchestrator: it researches the request, creates markdown goal and work-plan state, delegates implementation/review/improvement to codex-design-and-implement-review-loop, then verifies completion and repeats while actionable TODOs remain.",
+  "defaults": {
+    "maxLoopIterations": 8,
+    "nodeTimeoutMs": 3600000,
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    }
+  },
+  "prompts": {
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Start with the Fable goal-and-plan step. That step researches the request, writes markdown goal and work-plan state, and decides the first Codex delegation. Package the latest Fable markdown state for codex-design-and-implement-review-loop. After Codex returns, summarize the delegated result, then have Fable verify whether the original goal is complete. If Fable reports needs_replan, return to goal-and-plan to revise the markdown state. If Fable reports needs_todo, package those TODOs for another Codex design-and-implement-review-loop run. Finish only when Fable reports no remaining blocking TODOs.",
+    "workerSystemPromptTemplate": "Return concise business JSON only. Keep the Fable markdown goal, markdown plan, delegated Codex workflow inputs, delegated results, completion decision, TODOs, verification evidence, changed files, and residual risks explicit."
+  },
+  "managerStepId": "fable-goal-plan",
+  "entryStepId": "fable-goal-plan",
+  "nodes": [
+    {
+      "id": "fable-goal-plan",
+      "nodeFile": "nodes/node-fable-goal-plan.json"
+    },
+    {
+      "id": "codex-implementation-handoff",
+      "nodeFile": "nodes/node-codex-implementation-handoff.json"
+    },
+    {
+      "id": "codex-implementation-result",
+      "nodeFile": "nodes/node-codex-implementation-result.json"
+    },
+    {
+      "id": "fable-goal-review",
+      "nodeFile": "nodes/node-fable-goal-review.json"
+    },
+    {
+      "id": "final-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-final-output.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "fable-goal-plan",
+      "nodeId": "fable-goal-plan",
+      "description": "Use Claude Code Fable to research the request, maintain markdown goal state, and create or revise the work plan.",
+      "role": "manager",
+      "transitions": [
+        {
+          "toStepId": "codex-implementation-handoff"
+        }
+      ]
+    },
+    {
+      "id": "codex-implementation-handoff",
+      "nodeId": "codex-implementation-handoff",
+      "description": "Package the current Fable goal, plan, constraints, and remaining TODOs for codex-design-and-implement-review-loop.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-design-and-implement-review-loop",
+          "toStepId": "riela-manager",
+          "resumeStepId": "codex-implementation-result"
+        }
+      ]
+    },
+    {
+      "id": "codex-implementation-result",
+      "nodeId": "codex-implementation-result",
+      "description": "Summarize the delegated Codex implementation, review, and improvement result for Fable verification.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "fable-goal-review"
+        }
+      ]
+    },
+    {
+      "id": "fable-goal-review",
+      "nodeId": "fable-goal-review",
+      "description": "Use Claude Code Fable to verify goal completion and decide whether to replan, delegate remaining TODOs, or finish.",
+      "role": "worker",
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "fable-goal-plan"
+      },
+      "transitions": [
+        {
+          "toStepId": "fable-goal-plan",
+          "label": "needs_replan"
+        },
+        {
+          "toStepId": "codex-implementation-handoff",
+          "label": "needs_todo"
+        },
+        {
+          "toStepId": "final-output",
+          "label": "!(needs_replan || needs_todo)"
+        }
+      ]
+    },
+    {
+      "id": "final-output",
+      "nodeId": "final-output",
+      "description": "Publish the accepted Fable goal, markdown plan, Codex evidence, verification, changed files, residual risks, and final status.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielaPackage": {
+      "title": "fable-and-improve",
+      "description": "Claude Code Fable researches and plans in markdown, delegates implementation/review/improvement to codex-design-and-implement-review-loop, and loops until Fable verifies completion.",
+      "tags": [
+        "workflow",
+        "claude-code",
+        "codex",
+        "fable",
+        "review"
+      ],
+      "backends": [
+        "claude-code-agent",
+        "codex-agent"
+      ]
+    }
+  }
+}

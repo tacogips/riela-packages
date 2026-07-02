@@ -190,6 +190,12 @@ for single-workflow use and for package dependencies.
 
 These packages use `claude-code-agent`. The Codex-derived variants inherit the matching Codex workflow with `workflow.json` `extends`, then patch agent nodes to Claude Code Opus 4.8 and rewrite same-family workflow calls.
 
+- [fable-and-improve](packages/fable-and-improve) -
+  Claude Code Fable orchestrates the request, creates markdown goal and plan
+  state, delegates implementation/review/improvement to
+  `codex-design-and-implement-review-loop`, then verifies completion and loops
+  on remaining TODOs. `backend: claude-code-agent, codex-agent`; includes
+  Claude skills.
 - [claude-code-deepdesign](packages/claude-code-deepdesign) -
   Create and iteratively review design-doc specifications with one Claude Code author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain. `backend: claude-code-agent`; includes Claude skills.
 - [claude-code-adversarial-implementation-review-loop](packages/claude-code-adversarial-implementation-review-loop) -
@@ -348,6 +354,7 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 | [claude-code-task-watchdog](packages/claude-code-task-watchdog) | workflow | `claude-code-agent` | Claude |
 | [claude-code-website-builder](packages/claude-code-website-builder) | workflow | `claude-code-agent` | Claude |
 | [claude-code-worker-only-single-step](packages/claude-code-worker-only-single-step) | workflow | `claude-code-agent` | Claude |
+| [fable-and-improve](packages/fable-and-improve) | workflow | `claude-code-agent`, `codex-agent` | Claude |
 | [cursor-cli-adversarial-implementation-review-loop](packages/cursor-cli-adversarial-implementation-review-loop) | workflow | `cursor-cli-agent` | - |
 | [cursor-cli-deepdesign](packages/cursor-cli-deepdesign) | workflow | `cursor-cli-agent` | Cursor |
 | [cursor-cli-design-and-implement-review-loop](packages/cursor-cli-design-and-implement-review-loop) | workflow | `cursor-cli-agent` | Cursor |

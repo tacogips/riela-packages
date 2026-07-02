@@ -1,0 +1,12 @@
+{
+  "id": "codex-implementation-result",
+  "description": "Summarize the codex-design-and-implement-review-loop result for Fable completion review.",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-fable-5",
+  "modelFreeze": false,
+  "promptTemplateFile": "prompts/codex-implementation-result.md",
+  "variables": {},
+  "output": {
+    "description": "Return delegated workflow status, changed files, verification, accepted plan/design evidence, residual risks, and Fable context."
+  }
+}
