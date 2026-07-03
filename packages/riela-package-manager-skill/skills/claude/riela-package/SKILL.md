@@ -89,6 +89,25 @@ riela workflow validate <workflow-name>
 riela workflow usage <workflow-name>
 ```
 
+When running a package-provided workflow that may take more than a quick smoke
+test, prefer JSONL output so progress and the session id are visible before the
+final result:
+
+```bash
+riela workflow run <workflow-name> --output jsonl
+```
+
+Avoid `--output json` for long-running package workflow runs unless a caller
+strictly requires a single final JSON document. With JSON output the CLI buffers
+until the run finishes, so `session status` and `session progress` cannot be
+used until the session id is known. After a session id is available, inspect it
+with:
+
+```bash
+riela session progress <session-id> --output json
+riela session status <session-id> --output json
+```
+
 If the package manifest has `environmentVariables`, report the required names
 and whether they are configured when that is visible from the surface you are
 using. In RielaApp, select the package-backed workflow to see `set`/`missing`

@@ -105,7 +105,7 @@ Run the project workflow:
 riela workflow run <workflow-id> \
   --scope project \
   --variables '{"workflowInput":{"requestedWork":"Describe the requested work.","acceptanceCriteria":["Workflow output confirms completion."],"constraints":["Preserve unrelated dirty worktree changes."]}}' \
-  --output json
+  --output jsonl
 ```
 
 If lookup cannot discover project scope, validate and run with the explicit
@@ -113,8 +113,13 @@ workflow root:
 
 ```bash
 riela workflow validate <workflow-id> --workflow-definition-dir .riela/workflows --output json
-riela workflow run <workflow-id> --workflow-definition-dir .riela/workflows --output json
+riela workflow run <workflow-id> --workflow-definition-dir .riela/workflows --output jsonl
 ```
+
+Use JSONL for project workflow runs so the session id and current-step
+progress are visible during non-trivial work. Use final-only `--output json`
+only for short deterministic checks or callers that strictly require a single
+JSON document.
 
 ## Expected Output
 

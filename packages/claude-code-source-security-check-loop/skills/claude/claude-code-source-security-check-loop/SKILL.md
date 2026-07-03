@@ -22,7 +22,7 @@ riela package install claude-code-source-security-check-loop
 riela package install claude-code-design-and-implement-review-loop
 riela workflow run claude-code-source-security-check-loop \
   --variables '{"workflowInput":{"targetPath":".","runNetworkAudits":"false","maxFindings":50,"constraints":["Do not stage, commit, or push unless the user explicitly asks.","Do not revert unrelated dirty worktree changes.","Keep fixes narrowly scoped to verified security findings."]}}' \
-  --output json --verbose --no-auto-improve
+  --output jsonl --verbose --no-auto-improve
 ```
 
 For registry-backed one-off runs:
@@ -32,10 +32,12 @@ riela workflow run claude-code-source-security-check-loop \
   --from-registry \
   --registry default \
   --variables '{"workflowInput":{"targetPath":".","runNetworkAudits":"false","maxFindings":50}}' \
-  --output json --verbose --no-auto-improve
+  --output jsonl --verbose --no-auto-improve
 ```
 
 Set `workflowInput.runNetworkAudits` to `"true"` only when dependency audit commands may use network access.
+Use JSONL output for this loop so the session id and progress remain visible
+during long deterministic scans, agent triage, and fix-routing passes.
 
 ## What The Workflow Checks
 

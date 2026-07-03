@@ -20,10 +20,12 @@ riela workflow run <workflow-name> \
   --nested-supervisor \
   --max-supervised-attempts 3 \
   --workflow-mutation-mode execution-copy \
-  --output json
+  --output jsonl
 ```
 
 This is the recommended mode when the user wants riela to monitor the target workflow, detect terminal failure or stalls, preserve supervision audit state, and let a paired supervisor workflow drive remediation.
+JSONL output is preferred for supervised runs because the session id, progress,
+and terminal result are visible as events during long executions.
 
 ## CLI Pattern
 
@@ -32,7 +34,7 @@ riela workflow run <workflow-name> \
   --workflow-definition-dir <root> \
   --auto-improve \
   --max-supervised-attempts 3 \
-  --output json
+  --output jsonl
 ```
 
 Nested supervisor:
@@ -42,7 +44,7 @@ riela workflow run <workflow-name> \
   --workflow-definition-dir <root> \
   --auto-improve \
   --nested-supervisor \
-  --output json
+  --output jsonl
 ```
 
 Read `references/auto-improve.md` for policy options and inspection.
@@ -55,3 +57,5 @@ Read `references/auto-improve.md` for policy options and inspection.
 - Remote GraphQL execution must carry the same supervision policy as local execution.
 - Default mutation mode should be execution-scoped copy unless the user explicitly wants in-place workflow edits.
 - Inspect supervision state through session status/export or GraphQL/library supervision summaries.
+- Avoid `--output json` for long supervised runs unless a caller strictly needs
+  one final JSON document; it buffers until completion and hides the session id.

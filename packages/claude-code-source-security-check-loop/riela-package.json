@@ -9,7 +9,7 @@
     "sast"
   ],
   "registry": "default",
-  "checksum": "c87d8d579bf34b9dc48d88b3d2cfa494",
+  "checksum": "bf6bc44a1904939fbfc4227f52bc03d9",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-source-security-check-loop",
   "dependencies": [
@@ -31,7 +31,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "4c57dc58573a0c2b9a53ded6490e2722815d22e2c31eba61c9bac5ef6f27677f"
+    "digest": "72b76a2854483dd575e1881c6f1f2e52c67fdf7de81892583b0e3df462a195d1"
   },
   "backends": [
     "claude-code-agent"

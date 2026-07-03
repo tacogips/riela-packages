@@ -55,14 +55,14 @@ bun run src/main.ts workflow run <package-id> \
   --from-registry \
   --registry default \
   --branch main \
-  --output json
+  --output jsonl
 ```
 
 ```bash
 bun run src/main.ts workflow run \
   https://github.com/<owner>/<repo>/tree/main/.riela/workflows/<workflow-name> \
   --from-registry \
-  --output json
+  --output jsonl
 ```
 
 Branchless GitHub directory URLs, such as
@@ -74,7 +74,7 @@ branch, then the GitHub repository default branch.
 bun run src/main.ts workflow run <owner>/<workflow-dir> \
   --from-registry \
   --registry default \
-  --output json
+  --output jsonl
 ```
 
 Registry-backed runs are explicit and local-only. Bare `workflow run <name>`
@@ -148,7 +148,7 @@ bun run src/main.ts workflow inspect <workflow-name> \
 ```bash
 bun run src/main.ts workflow run <workflow-name> \
   --workflow-definition-dir ./examples \
-  --output json
+  --output jsonl
 ```
 
 Recommended supervised execution:
@@ -160,10 +160,13 @@ bun run src/main.ts workflow run <workflow-name> \
   --nested-supervisor \
   --max-supervised-attempts 3 \
   --workflow-mutation-mode execution-copy \
-  --output json
+  --output jsonl
 ```
 
 Use this recommended path when the workflow may need retries, stall detection, remediation, or a supervisor workflow to drive recovery. Use plain `workflow run` for quick local checks, deterministic mock runs, or cases where supervision is intentionally disabled.
+Use JSONL for long or supervised runs so the session id and progress events are
+visible before the final result. Use `--output json` only when a caller
+strictly requires one final JSON document and does not need live progress.
 
 For deterministic local testing:
 
@@ -205,7 +208,10 @@ bun run src/main.ts session continue <session-id> \
 - Validate before running unless the user explicitly asks to skip validation.
 - For AI-guided workflow selection, prefer `workflow usage --output json` before `workflow run`.
 - Prefer supervised execution with `--auto-improve --nested-supervisor` for real work where failure recovery matters.
-- Prefer `--output json` when the result will be parsed, saved, or compared.
+- Prefer `--output jsonl` for real, long-running, supervised, or agent-driven
+  workflow runs because it exposes the session id and progress before
+  completion. Use `--output json` for short deterministic checks or callers
+  that strictly need a single final JSON document.
 - Prefer `--mock-scenario` for demos, tests, and docs because it avoids real backend calls.
 - Keep OpenTelemetry message payload export disabled for normal runs. Telemetry
   can be enabled with an OTLP endpoint or `RIELA_OTEL_ENABLED=true`, but
@@ -244,7 +250,7 @@ Then target it:
 bun run src/main.ts workflow run <workflow-name> \
   --workflow-definition-dir ./examples \
   --endpoint http://127.0.0.1:43173/graphql \
-  --output json
+  --output jsonl
 ```
 
 Remote-capable operations include `workflow run`, `session resume`, and `session rerun`. `call-step` and `session continue` remain local-only; detailed diagnostics are GraphQL queries rather than separate session subcommands.
