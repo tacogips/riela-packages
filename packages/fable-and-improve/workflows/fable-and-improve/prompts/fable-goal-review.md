@@ -13,7 +13,9 @@ Rules:
 - Never set both `needs_replan` and `needs_todo` to true.
 - Follow-up TODOs must be actionable enough for `codex-design-and-implement-review-loop`.
 
-Return one JSON object only:
+Return one JSON object only. Because `when` is present, every non-routing
+field must be nested under `payload` (a top-level `when` without a `payload`
+object is rejected by the adapter contract):
 
 ```json
 {
@@ -21,15 +23,17 @@ Return one JSON object only:
     "needs_replan": false,
     "needs_todo": false
   },
-  "goalAchieved": true,
-  "completionDecision": "accepted",
-  "evidence": [],
-  "remainingTodos": [],
-  "replanReason": null,
-  "followUpDelegationHint": null,
-  "changedFiles": [],
-  "verificationEvidence": [],
-  "residualRisks": [],
-  "operatorNotes": []
+  "payload": {
+    "goalAchieved": true,
+    "completionDecision": "accepted",
+    "evidence": [],
+    "remainingTodos": [],
+    "replanReason": null,
+    "followUpDelegationHint": null,
+    "changedFiles": [],
+    "verificationEvidence": [],
+    "residualRisks": [],
+    "operatorNotes": []
+  }
 }
 ```

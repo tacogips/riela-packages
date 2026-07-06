@@ -12,10 +12,15 @@ Rules:
 - Preserve constraints, acceptance criteria, target scope, review mode, risk level, and verification hints.
 - Make clear that the child workflow owns implementation, review, improvement, verification, documentation refresh, and any commit/push behavior already defined by that child workflow.
 
-Return adapter JSON shaped like:
+Return adapter JSON shaped like (the `when` envelope keeps the accepted
+payload identical between live and mock runs — without it the `payload`
+wrapper would itself become the accepted payload):
 
 ```json
 {
+  "when": {
+    "always": true
+  },
   "payload": {
     "workflowInput": {
       "executionMode": "issue-resolution",
