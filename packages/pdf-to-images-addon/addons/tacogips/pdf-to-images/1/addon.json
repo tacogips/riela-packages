@@ -1,0 +1,65 @@
+{
+  "name": "tacogips/pdf-to-images",
+  "version": "1",
+  "description": "Render PDF pages to image artifacts inside a Python PyMuPDF container.",
+  "allowedRoles": ["worker"],
+  "resolution": {
+    "kind": "node-payload-template",
+    "nodeType": "command",
+    "description": "Render PDF pages to PNG or JPEG files for image analysis.",
+    "command": {
+      "scriptPath": "pdf_to_images.py",
+      "argvTemplate": [
+        "{{addon.inputs.pdfPath}}",
+        "{{addon.inputs.outputDirectory}}",
+        "{{addon.inputs.dpi}}",
+        "{{addon.inputs.firstPage}}",
+        "{{addon.inputs.lastPage}}",
+        "{{addon.inputs.format}}"
+      ]
+    }
+  },
+  "execution": {
+    "kind": "container",
+    "entrypoint": "pdf-to-images",
+    "containerfilePath": "Containerfile",
+    "runtimeHints": []
+  },
+  "capabilities": [
+    {
+      "name": "container.build",
+      "required": true,
+      "reason": "builds the packaged Python PyMuPDF image from Containerfile"
+    },
+    {
+      "name": "container.run",
+      "required": true,
+      "reason": "runs Python and PyMuPDF inside the container to render PDF pages"
+    },
+    {
+      "name": "filesystem.read",
+      "required": true,
+      "scope": "addon.input",
+      "reason": "reads the provided PDF file"
+    },
+    {
+      "name": "filesystem.write",
+      "required": true,
+      "scope": "runtime.output",
+      "reason": "writes rendered page image artifacts and output JSON"
+    }
+  ],
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "pdfPath": { "type": "string", "minLength": 1 },
+      "outputDirectory": { "type": "string", "default": "pdf-pages" },
+      "dpi": { "type": "integer", "minimum": 36, "maximum": 600, "default": 160 },
+      "firstPage": { "type": "integer", "minimum": 1 },
+      "lastPage": { "type": "integer", "minimum": 1 },
+      "format": { "type": "string", "enum": ["png", "jpeg"], "default": "png" }
+    },
+    "required": ["pdfPath"],
+    "additionalProperties": false
+  }
+}

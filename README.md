@@ -10,31 +10,49 @@ https://github.com/tacogips/riela-packages
 
 ## Install
 
-The riela CLI does not clone this registry automatically. Get a local
-checkout first:
+Recent riela source builds include managed registry sync and dependency-aware
+installs. Sync the default registry once:
+
+```bash
+riela package registry sync
+```
+
+Then search and install packages from any project:
+
+```bash
+riela package search "<keyword>"
+riela package install <package-id>
+```
+
+Use `--scope user` to install user-wide:
+
+```bash
+riela package install <package-id> --scope user
+```
+
+For older riela releases, including 0.1.17, get a local checkout first:
 
 ```bash
 git clone https://github.com/tacogips/riela-packages
 ```
 
-Search packages by name or tag from your project directory:
+Then search packages from your project directory with an explicit local path:
 
 ```bash
 riela package search "<keyword>" --local-path /path/to/riela-packages
 ```
 
-`riela package search` matches package names and tags only, not descriptions.
-Without `--local-path`, the default registry checkout is expected at
-`<working-directory>-packages`, a sibling directory of your project; passing
-`--local-path` explicitly is usually clearer.
+Older releases match package names and tags only, not descriptions. Without
+`--local-path`, those releases expect the default registry checkout at
+`<working-directory>-packages`, a sibling directory of your project.
 
-Install a package into the current project:
+Install a package from that checkout into the current project:
 
 ```bash
 riela package install <package-id> --local-path /path/to/riela-packages
 ```
 
-Install a package for the current user:
+Or install it for the current user:
 
 ```bash
 riela package install <package-id> --local-path /path/to/riela-packages --scope user
@@ -52,9 +70,10 @@ lives in `packages/youtube-mp4-download-addon`. Id-based installs resolve
 scoped ids from the registry checkout; `--source` always takes the directory
 path.
 
-Packages do not install their dependencies automatically. The `dependencies`
-field in `riela-package.json` is metadata for validation and documentation, so
-install each dependency explicitly. List a package's dependencies with:
+Recent riela source builds install `dependencies` automatically by default.
+Older releases treat the `dependencies` field in `riela-package.json` as
+metadata for validation and documentation, so install each dependency
+explicitly. List a package's dependencies with:
 
 ```bash
 jq -r '.dependencies[]? | if type == "object" then .packageId else . end' \
@@ -70,19 +89,99 @@ riela package list
 riela package status <package-id>
 ```
 
+## Registry Index
+
+This repository publishes a generated `registry-index.json` at the repository
+root. It summarizes every package's name, version, kind, tags, description,
+backends, workflow metadata, dependencies, add-ons, required environment, and
+sha256 integrity digest so future riela releases can search and resolve the
+default registry without scanning every manifest from a full clone.
+
+Maintainers regenerate and verify the index with:
+
+```bash
+task package:generate-index
+task package:check-index
+```
+
+## Release Archives
+
+The `Package Archives` workflow publishes `.rielapkg` archives to the fixed
+`registry-packages` GitHub Release. It also uploads `package-archives.json` and
+a release-scoped `registry-index.json` whose entries include `archiveURL` and
+`archiveSHA256`, giving newer riela builds a clone-free install path with
+sha256 verification.
+
+Maintainers can produce the same release assets locally with:
+
+```bash
+task package:generate-release-index
+```
+
+This writes `dist/rielapkg/*.rielapkg`, `dist/package-archives.json`, and
+`dist/registry-index.json`.
+
+After the `Package Archives` workflow publishes the fixed `registry-packages`
+release, verify that every generated archive and release index asset is
+present:
+
+```bash
+task package:check-release-publication
+```
+
+## Container Images
+
+Container node add-ons publish prebuilt multi-arch images to GHCR from
+`.github/workflows/container-images.yml`. The workflow discovers add-ons with
+`execution.kind: "container"` and `containerfilePath`, then builds the package
+image declared in `riela-package.json`. Each build job uploads a
+`container-image-digest-<package-id>` artifact containing JSON records in the
+form `[{ "packageId": "...", "image": "...", "digest": "sha256:..." }]`.
+
+Maintainers can inspect and verify the image matrix locally with:
+
+```bash
+bun .agents/skills/riela-package-release/scripts/container-image-matrix.ts --format matrix
+task package:check-container-images
+```
+
+After the GHCR images have been pushed, bake the pushed manifest digest back
+into each add-on manifest with:
+
+```bash
+task package:update-container-image-digests
+task package:generate-index
+```
+
+For CI or release scripts that already captured image digests, pass a digest
+file instead of querying GHCR:
+
+```bash
+bun .agents/skills/riela-package-release/scripts/update-container-image-digests.ts --all --digest-file image-digests.json
+```
+
+If you downloaded the per-package workflow artifacts, merge them first:
+
+```bash
+jq -s 'add' container-image-digest-*/*.json > image-digests.json
+bun .agents/skills/riela-package-release/scripts/update-container-image-digests.ts --all --digest-file image-digests.json
+task package:generate-index
+```
+
 ## Which Package Should I Install?
 
 Riela installs workflows and skills at package granularity. A package declares
-the workflows it calls in `dependencies`, but the current riela CLI does not
-install those dependencies for you — install each dependency id alongside the
-package (see the `jq` one-liner in the Install section).
+the workflows it calls in `dependencies`. Recent riela source builds install
+those dependencies automatically; older releases require installing each
+dependency id alongside the package (see the `jq` one-liner in the Install
+section).
 
 Use the package structure this way:
 
 - Install a meta package when you want a standard toolset for an agent surface.
   A meta package carries the dispatcher skill and pins the standard workflow
-  set in its `dependencies`; install those dependency packages together with
-  it. It does not replace the individual workflow packages.
+  set in its `dependencies`; on recent riela builds, those dependency packages
+  are installed with it. It does not replace the individual workflow packages.
 - Install an individual workflow package when you want only one workflow, want a
   workflow as a dependency of another package, or are maintaining that workflow.
 - Install a skill package when you only need agent guidance for package
@@ -91,8 +190,9 @@ Use the package structure this way:
 Current developer workflow install pattern:
 
 - Cursor CLI standard developer setup:
-  install `cursor-cli-developer-workflows` together with the standard
-  `cursor-cli-*` developer workflow packages listed in its `dependencies`.
+  install `cursor-cli-developer-workflows`; on older riela releases, also
+  install the standard `cursor-cli-*` developer workflow packages listed in its
+  `dependencies`.
 - Codex setup:
   install the needed `codex-*` workflow packages directly, such as
   `codex-design-and-implement-review-loop`, `codex-simple-work-package`, or
@@ -126,6 +226,9 @@ available for single-workflow use and for package dependencies.
 - [mp4-audio-extract-addon](packages/mp4-audio-extract-addon) -
   Node add-on package that extracts speech-ready FLAC audio from an MP4 file
   using `ffmpeg`.
+- [pdf-to-images-addon](packages/pdf-to-images-addon) -
+  Container node add-on package that renders PDF pages to PNG or JPEG images
+  using Python and PyMuPDF for visual analysis workflows.
 - [google-speech-to-text-addon](packages/google-speech-to-text-addon) -
   Node add-on package that transcribes local audio with Google Cloud
   Speech-to-Text v1 long-running recognition; includes a Codex setup skill.

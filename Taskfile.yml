@@ -10,6 +10,43 @@ tasks:
     cmds:
       - bun .agents/skills/riela-package-release/scripts/update-package-digests.ts --all --dry-run
 
+  package:generate-index:
+    desc: Generate registry-index.json from package manifests.
+    cmds:
+      - bun .agents/skills/riela-package-release/scripts/generate-registry-index.ts
+
+  package:check-index:
+    desc: Check generated registry-index.json is current.
+    cmds:
+      - bun .agents/skills/riela-package-release/scripts/generate-registry-index.ts --check
+
+  package:check-container-images:
+    desc: Check container add-on image metadata and build contexts.
+    cmds:
+      - bun .agents/skills/riela-package-release/scripts/container-image-matrix.ts --check
+
+  package:update-container-image-digests:
+    desc: Update container add-on execution.imageDigest pins from pushed GHCR image tags.
+    cmds:
+      - bun .agents/skills/riela-package-release/scripts/update-container-image-digests.ts --all
+
+  package:pack-release-archives:
+    desc: Pack every package as a .rielapkg release archive and write archive SHA256 metadata.
+    cmds:
+      - bun .agents/skills/riela-package-release/scripts/pack-release-archives.ts --all --archive-base-url https://github.com/tacogips/riela-packages/releases/download/registry-packages
+
+  package:generate-release-index:
+    desc: Generate a release registry index with .rielapkg archive URLs and SHA256 pins.
+    cmds:
+      - task: package:pack-release-archives
+      - bun .agents/skills/riela-package-release/scripts/generate-registry-index.ts --output dist/registry-index.json --archive-manifest dist/package-archives.json
+
+  package:check-release-publication:
+    desc: Check that the registry-packages GitHub Release contains generated .rielapkg assets.
+    cmds:
+      - task: package:generate-release-index
+      - bun .agents/skills/riela-package-release/scripts/check-release-publication.ts
+
   package:validate:
     desc: Validate every package manifest with the local Swift Riela CLI.
     cmds:
@@ -21,6 +58,7 @@ tasks:
           {{.RIELA_BIN}} package install "$package_id" \
             --source "$package_dir" \
             --dry-run \
+            --no-dependencies \
             --output json >/dev/null
           echo "${package_id} package ok"
         done
@@ -53,8 +91,10 @@ tasks:
         done
 
   check:
-    desc: Run package digest, package manifest, and workflow validation checks.
+    desc: Run package digest, registry index, package manifest, and workflow validation checks.
     cmds:
       - task: package:check-digests
+      - task: package:check-index
+      - task: package:check-container-images
       - task: package:validate
       - task: workflow:validate

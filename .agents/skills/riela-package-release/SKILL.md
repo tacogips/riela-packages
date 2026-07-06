@@ -67,6 +67,42 @@ swift run --package-path "${RIELA_ROOT:-../riela}" riela package search "<packag
 
 For workflow packages, also verify the workflow can be inspected or validated from the package payload when relevant.
 
+For container node add-on packages, after GHCR images have been pushed, update
+`execution.imageDigest` pins and regenerate the registry index:
+
+```bash
+task package:update-container-image-digests
+task package:generate-index
+```
+
+The `Container Images` workflow uploads per-package digest artifacts named
+`container-image-digest-<package-id>`. After downloading those artifacts, merge
+them and pin manifests without another GHCR lookup:
+
+```bash
+jq -s 'add' container-image-digest-*/*.json > image-digests.json
+bun .agents/skills/riela-package-release/scripts/update-container-image-digests.ts --all --digest-file image-digests.json
+task package:generate-index
+```
+
+For release archive publication, generate `.rielapkg` assets and the
+release-scoped registry index:
+
+```bash
+task package:generate-release-index
+```
+
+The GitHub `Package Archives` workflow publishes those assets to the fixed
+`registry-packages` release. The release-scoped index includes `archiveURL` and
+`archiveSHA256` pins for clone-free installs.
+
+After publication, verify that the fixed release contains every generated
+archive plus `package-archives.json` and `registry-index.json`:
+
+```bash
+task package:check-release-publication
+```
+
 6. Before commit or push, run a commit-target safety review. Check only staged or intended content for real credentials, private URLs, and machine-local absolute paths.
 
 ## Digest Script
@@ -98,8 +134,11 @@ Treat a package update as release-ready only when:
 
 - package manifests are refreshed and `task package:check-digests` passes
 - packaged workflows validate through `task workflow:validate`
+- `.rielapkg` release archives are regenerated when package payloads change
 - generated or packaged skills still have valid `SKILL.md` frontmatter and matching `agents/openai.yaml`
 - `README.md` reflects any package inventory or metadata changes
+- container node add-ons either have no published image yet or have refreshed
+  `execution.imageDigest` pins from GHCR after image publication
 - `git diff --cached` has been safety-reviewed before commit
 - the final branch is pushed to the registry branch that consumers use, normally `main`
 

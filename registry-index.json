@@ -1,0 +1,3176 @@
+{
+  "schemaVersion": 1,
+  "registry": {
+    "id": "default",
+    "url": "https://github.com/tacogips/riela-packages"
+  },
+  "packages": [
+    {
+      "name": "@tacogips/google-speech-to-text-addon",
+      "directory": "packages/google-speech-to-text-addon",
+      "version": "0.1.0",
+      "kind": "node-addon",
+      "description": "Transcribe local audio with Google Cloud Speech-to-Text v1 long-running recognition.",
+      "tags": [
+        "audio",
+        "google-cloud",
+        "speech-to-text",
+        "transcription"
+      ],
+      "registry": "https://github.com/tacogips/riela-packages",
+      "backends": [],
+      "dependencies": [],
+      "requiredEnvironment": [
+        {
+          "name": "GOOGLE_ACCESS_TOKEN",
+          "description": "OAuth access token for Google Cloud Speech-to-Text and Cloud Storage. Provide one of GOOGLE_ACCESS_TOKEN, GOOGLE_APPLICATION_CREDENTIALS, or GOOGLE_APPLICATION_CREDENTIALS_JSON; gcloud is used as a fallback token source when none is set.",
+          "required": false,
+          "secret": true
+        },
+        {
+          "name": "GOOGLE_APPLICATION_CREDENTIALS",
+          "description": "Path to a Google service account credential JSON file able to upload to the target Cloud Storage bucket and run Speech-to-Text recognition. Alternative to GOOGLE_ACCESS_TOKEN and GOOGLE_APPLICATION_CREDENTIALS_JSON.",
+          "required": false,
+          "secret": false
+        },
+        {
+          "name": "GOOGLE_APPLICATION_CREDENTIALS_JSON",
+          "description": "Inline Google service account credential JSON. Alternative to GOOGLE_ACCESS_TOKEN and GOOGLE_APPLICATION_CREDENTIALS.",
+          "required": false,
+          "secret": true
+        }
+      ],
+      "addons": [
+        {
+          "name": "tacogips/google-speech-to-text",
+          "version": "1",
+          "sourcePath": "addons/tacogips/google-speech-to-text/1",
+          "execution": {
+            "kind": "local-command",
+            "entrypoint": "google-speech-to-text.bash",
+            "runtimeHints": [
+              "bash",
+              "node",
+              "curl"
+            ]
+          },
+          "capabilities": [
+            {
+              "name": "process.spawn",
+              "required": true,
+              "reason": "runs curl and node to upload audio, start long-running recognition, and poll the operation"
+            },
+            {
+              "name": "network.egress",
+              "required": true,
+              "reason": "uploads audio to Cloud Storage and calls speech.googleapis.com"
+            },
+            {
+              "name": "filesystem.read",
+              "required": true,
+              "reason": "reads the audio file submitted to Google Speech-to-Text"
+            },
+            {
+              "name": "filesystem.write",
+              "required": true,
+              "scope": "runtime.output",
+              "reason": "writes transcripts, captions, raw response, and output JSON"
+            },
+            {
+              "name": "env.read",
+              "required": false,
+              "scope": "addon.env",
+              "reason": "reads explicit Google authentication environment bindings"
+            }
+          ],
+          "contentDigest": "sha256:7657440dae57041643b33c6a60d41ba486e4d560adae48056d6fa8ff3d705f4b"
+        }
+      ],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "b515c9189cc1305dc307366e5392abe0"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "e8f907bdbcd18a88770dc19faed9712aef896c89c90c1feb0fccf370d9eaca3c"
+      }
+    },
+    {
+      "name": "@tacogips/mp4-audio-extract-addon",
+      "directory": "packages/mp4-audio-extract-addon",
+      "version": "0.1.0",
+      "kind": "node-addon",
+      "description": "Extract FLAC audio from an MP4 file using ffmpeg.",
+      "tags": [
+        "audio",
+        "ffmpeg",
+        "flac",
+        "mp4"
+      ],
+      "registry": "https://github.com/tacogips/riela-packages",
+      "backends": [],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [
+        {
+          "name": "tacogips/mp4-audio-extract",
+          "version": "1",
+          "sourcePath": "addons/tacogips/mp4-audio-extract/1",
+          "execution": {
+            "kind": "local-command",
+            "entrypoint": "mp4-audio-extract.bash",
+            "runtimeHints": [
+              "bash",
+              "node",
+              "ffmpeg"
+            ]
+          },
+          "capabilities": [
+            {
+              "name": "process.spawn",
+              "required": true,
+              "reason": "runs ffmpeg to extract audio from MP4"
+            },
+            {
+              "name": "filesystem.write",
+              "required": true,
+              "scope": "runtime.output",
+              "reason": "writes the extracted audio artifact and output JSON"
+            }
+          ],
+          "contentDigest": "sha256:643c2809c9f471443295e1b8ef08aa6b089ffed8dd6b3da91a5c805df1a750a8"
+        }
+      ],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "c5f6b893aec99d6417bdb05165ab830a"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "7f568d249490ec8259f06647c1f15769c251bd2689f8b680cda0108378920c95"
+      }
+    },
+    {
+      "name": "@tacogips/pdf-to-images-addon",
+      "directory": "packages/pdf-to-images-addon",
+      "version": "0.1.0",
+      "kind": "node-addon",
+      "description": "Render PDF pages to PNG or JPEG image artifacts inside a Python PyMuPDF container for visual analysis workflows.",
+      "tags": [
+        "container",
+        "image",
+        "pdf",
+        "pymupdf",
+        "vision"
+      ],
+      "registry": "https://github.com/tacogips/riela-packages",
+      "backends": [],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [
+        {
+          "name": "tacogips/pdf-to-images",
+          "version": "1",
+          "sourcePath": "addons/tacogips/pdf-to-images/1",
+          "execution": {
+            "kind": "container",
+            "entrypoint": "pdf-to-images",
+            "containerfilePath": "Containerfile",
+            "image": "ghcr.io/tacogips/riela-packages/pdf-to-images-addon:0.1.0",
+            "runtimeHints": []
+          },
+          "capabilities": [
+            {
+              "name": "container.build",
+              "required": true,
+              "reason": "builds the packaged Python PyMuPDF image from Containerfile"
+            },
+            {
+              "name": "container.run",
+              "required": true,
+              "reason": "runs Python and PyMuPDF inside the container to render PDF pages"
+            },
+            {
+              "name": "filesystem.read",
+              "required": true,
+              "scope": "addon.input",
+              "reason": "reads the provided PDF file"
+            },
+            {
+              "name": "filesystem.write",
+              "required": true,
+              "scope": "runtime.output",
+              "reason": "writes rendered page image artifacts and output JSON"
+            }
+          ],
+          "contentDigest": "sha256:242d9e70080e92460c6849eb17e6a9c2d059824794d0256117d800d3e6bd075d"
+        }
+      ],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "1a6b5274da4302ec7ce54c0a17fb4057"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "f7c529dd065246d37f5d4f5f0d2ff91ca04279e8a1bf9e19d8b1d749a6c813c0"
+      }
+    },
+    {
+      "name": "@tacogips/youtube-mp4-download-addon",
+      "directory": "packages/youtube-mp4-download-addon",
+      "version": "0.1.0",
+      "kind": "node-addon",
+      "description": "Download a YouTube URL to an MP4 file using yt-dlp.",
+      "tags": [
+        "mp4",
+        "video",
+        "youtube",
+        "yt-dlp"
+      ],
+      "registry": "https://github.com/tacogips/riela-packages",
+      "backends": [],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [
+        {
+          "name": "tacogips/youtube-mp4-download",
+          "version": "1",
+          "sourcePath": "addons/tacogips/youtube-mp4-download/1",
+          "execution": {
+            "kind": "local-command",
+            "entrypoint": "youtube-mp4-download.bash",
+            "runtimeHints": [
+              "bash",
+              "node",
+              "yt-dlp"
+            ]
+          },
+          "capabilities": [
+            {
+              "name": "process.spawn",
+              "required": true,
+              "reason": "runs yt-dlp to download and mux video"
+            },
+            {
+              "name": "network.egress",
+              "required": true,
+              "reason": "yt-dlp downloads media from the requested URL"
+            },
+            {
+              "name": "filesystem.write",
+              "required": true,
+              "scope": "runtime.output",
+              "reason": "writes the downloaded MP4 artifact and output JSON"
+            }
+          ],
+          "contentDigest": "sha256:024676e2e6e9e084011b62e9aa48bb7baee2e6c1a1d53a691815c5df1782c6cf"
+        }
+      ],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "d6b2a9ed336ae23fb064d67559c8e4c1"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "cbfe538d398aa18e94005661d48944119d49966b79b383c8c20143356380c949"
+      }
+    },
+    {
+      "name": "@tacogips/youtube-mp4-to-text-workflow",
+      "directory": "packages/youtube-mp4-to-text-workflow",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "description": "Example workflow that downloads YouTube MP4, extracts audio, and transcribes it with Google Speech-to-Text.",
+      "tags": [
+        "example",
+        "ffmpeg",
+        "mp4",
+        "speech-to-text",
+        "youtube"
+      ],
+      "registry": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/youtube-mp4-to-text",
+        "tags": [],
+        "backends": []
+      },
+      "backends": [
+        "native-command"
+      ],
+      "dependencies": [
+        {
+          "packageId": "@tacogips/youtube-mp4-download-addon",
+          "registry": "https://github.com/tacogips/riela-packages",
+          "kind": "node-addon",
+          "addons": [
+            {
+              "name": "tacogips/youtube-mp4-download",
+              "version": "1",
+              "contentDigest": "sha256:024676e2e6e9e084011b62e9aa48bb7baee2e6c1a1d53a691815c5df1782c6cf",
+              "capabilityGrant": {
+                "process.spawn": {
+                  "allowed": true
+                },
+                "network.egress": {
+                  "allowed": true
+                },
+                "filesystem.write": {
+                  "allowed": true,
+                  "scope": "runtime.output"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "packageId": "@tacogips/mp4-audio-extract-addon",
+          "registry": "https://github.com/tacogips/riela-packages",
+          "kind": "node-addon",
+          "addons": [
+            {
+              "name": "tacogips/mp4-audio-extract",
+              "version": "1",
+              "contentDigest": "sha256:643c2809c9f471443295e1b8ef08aa6b089ffed8dd6b3da91a5c805df1a750a8",
+              "capabilityGrant": {
+                "process.spawn": {
+                  "allowed": true
+                },
+                "filesystem.write": {
+                  "allowed": true,
+                  "scope": "runtime.output"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "packageId": "@tacogips/google-speech-to-text-addon",
+          "registry": "https://github.com/tacogips/riela-packages",
+          "kind": "node-addon",
+          "addons": [
+            {
+              "name": "tacogips/google-speech-to-text",
+              "version": "1",
+              "contentDigest": "sha256:7657440dae57041643b33c6a60d41ba486e4d560adae48056d6fa8ff3d705f4b",
+              "capabilityGrant": {
+                "process.spawn": {
+                  "allowed": true
+                },
+                "network.egress": {
+                  "allowed": true
+                },
+                "filesystem.read": {
+                  "allowed": true
+                },
+                "filesystem.write": {
+                  "allowed": true,
+                  "scope": "runtime.output"
+                },
+                "env.read": {
+                  "allowed": true,
+                  "scope": "addon.env"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "requiredEnvironment": [
+        {
+          "name": "GOOGLE_ACCESS_TOKEN",
+          "description": "OAuth access token for Google Cloud Speech-to-Text and Cloud Storage. Provide one of GOOGLE_ACCESS_TOKEN, GOOGLE_APPLICATION_CREDENTIALS, or GOOGLE_APPLICATION_CREDENTIALS_JSON; gcloud is used as a fallback token source when none is set.",
+          "required": false,
+          "secret": true
+        },
+        {
+          "name": "GOOGLE_APPLICATION_CREDENTIALS",
+          "description": "Path to a Google service account credential JSON file able to upload to the target Cloud Storage bucket and run Speech-to-Text recognition. Alternative to GOOGLE_ACCESS_TOKEN and GOOGLE_APPLICATION_CREDENTIALS_JSON.",
+          "required": false,
+          "secret": false
+        },
+        {
+          "name": "GOOGLE_APPLICATION_CREDENTIALS_JSON",
+          "description": "Inline Google service account credential JSON. Alternative to GOOGLE_ACCESS_TOKEN and GOOGLE_APPLICATION_CREDENTIALS.",
+          "required": false,
+          "secret": true
+        }
+      ],
+      "addons": [],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "01dea2dce35c043c8760d39b2a10b06b"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "7a9f0496a19e149010d1029544772f4cfc79e9817479e3f13af8b95566da0f28"
+      }
+    },
+    {
+      "name": "@tacogips/youtube-shorts-to-text-container",
+      "directory": "packages/youtube-shorts-to-text-container",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "description": "Download a YouTube Shorts URL and transcribe its audio through a Docker-contained worker.",
+      "tags": [
+        "docker",
+        "ffmpeg",
+        "shorts",
+        "speech-to-text",
+        "youtube"
+      ],
+      "registry": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/youtube-shorts-to-text-container",
+        "description": "Download a YouTube Shorts URL to MP4, extract FLAC audio, upload it to Google Cloud Storage, and transcribe it with Google Speech-to-Text.",
+        "tags": [
+          "youtube",
+          "shorts",
+          "docker",
+          "speech-to-text"
+        ],
+        "backends": [
+          "native-command"
+        ]
+      },
+      "backends": [
+        "native-command"
+      ],
+      "dependencies": [],
+      "requiredEnvironment": [
+        {
+          "name": "GOOGLE_ACCESS_TOKEN",
+          "description": "OAuth access token for Google Cloud Speech-to-Text and Cloud Storage. Provide one of GOOGLE_ACCESS_TOKEN, GOOGLE_APPLICATION_CREDENTIALS, or GOOGLE_APPLICATION_CREDENTIALS_JSON; gcloud is used as a fallback token source when none is set.",
+          "required": false,
+          "secret": true
+        },
+        {
+          "name": "GOOGLE_APPLICATION_CREDENTIALS",
+          "description": "Path to a Google service account credential JSON file able to upload to the target Cloud Storage bucket and run Speech-to-Text recognition. Alternative to GOOGLE_ACCESS_TOKEN and GOOGLE_APPLICATION_CREDENTIALS_JSON.",
+          "required": false,
+          "secret": false
+        },
+        {
+          "name": "GOOGLE_APPLICATION_CREDENTIALS_JSON",
+          "description": "Inline Google service account credential JSON. Alternative to GOOGLE_ACCESS_TOKEN and GOOGLE_APPLICATION_CREDENTIALS.",
+          "required": false,
+          "secret": true
+        }
+      ],
+      "addons": [],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "3a5f537d2efb2e49f399c865dee9c8e0"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "c5f1b76de90e18c8d32818170d858146ba6d1c110f0db09c28f516a6e703b7b7"
+      }
+    },
+    {
+      "name": "claude-code-adversarial-implementation-review-loop",
+      "directory": "packages/claude-code-adversarial-implementation-review-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "claude-code-adversarial-implementation-review-loop",
+      "description": "Run a scoped Claude Code implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+      "tags": [
+        "claude",
+        "review",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/claude-code-adversarial-implementation-review-loop",
+        "title": "claude-code-adversarial-implementation-review-loop",
+        "description": "Run a scoped Claude Code implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+        "tags": [
+          "workflow",
+          "claude",
+          "review"
+        ],
+        "backends": [
+          "claude-code-agent"
+        ]
+      },
+      "backends": [
+        "claude-code-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-adversarial-implementation-review-loop"
+        },
+        {
+          "packageId": "claude-code-design-and-implement-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "09e7e86f54d7c0593521455ba68de51c"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "13c3e461d0abc1a0e018ef436ef7ce46329bdb3e95e55d91cbb4cc8adedf63f8"
+      }
+    },
+    {
+      "name": "claude-code-deepdesign",
+      "directory": "packages/claude-code-deepdesign",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "claude-code-deepdesign",
+      "description": "Create and iteratively review design-doc specifications with one Claude Code author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+      "tags": [
+        "design-doc",
+        "review",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/claude-code-deepdesign",
+        "title": "claude-code-deepdesign",
+        "description": "Create and iteratively review design-doc specifications with one Claude Code author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+        "tags": [
+          "workflow",
+          "design-doc",
+          "review"
+        ],
+        "backends": [
+          "claude-code-agent"
+        ]
+      },
+      "backends": [
+        "claude-code-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-deepdesign"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "6ebaf1d13cc3a2de940bb53fcf0ae67a"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "bede547c145e80b58fc98e0321fd53e822e75dbaeb49d66fe54b48ff84421619"
+      }
+    },
+    {
+      "name": "claude-code-design-and-implement-review-loop",
+      "directory": "packages/claude-code-design-and-implement-review-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "claude-code-design-and-implement-review-loop",
+      "description": "Shared Claude Code workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/claude-code-design-and-implement-review-loop",
+        "title": "claude-code-design-and-implement-review-loop",
+        "description": "Shared Claude Code workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "claude-code-agent"
+        ]
+      },
+      "backends": [
+        "claude-code-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-design-and-implement-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "74d448fa4b04690df851b7163f2636c5"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "a1e239f3632e71479d73d8630fa5633c3d06240d085cc4024a191b0b62c4e750"
+      }
+    },
+    {
+      "name": "claude-code-goal",
+      "directory": "packages/claude-code-goal",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "claude-code-goal",
+      "description": "Generic Claude Code Opus 4.8 workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+      "tags": [
+        "claude-code",
+        "generic",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/claude-code-goal",
+        "title": "claude-code-goal",
+        "description": "Generic Claude Code Opus 4.8 workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+        "tags": [
+          "workflow",
+          "claude-code",
+          "generic"
+        ],
+        "backends": [
+          "claude-code-agent"
+        ]
+      },
+      "backends": [
+        "claude-code-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-goal"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "af7b47985a8b62c48e02d6220f1d2136"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "b9ae058e6e147158ad2bb73a60e20367bdd08dca8ebabf22d6e9905cddc31d85"
+      }
+    },
+    {
+      "name": "claude-code-impl-plan-completion-loop",
+      "directory": "packages/claude-code-impl-plan-completion-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "claude-code-impl-plan-completion-loop",
+      "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to claude-code-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/claude-code-impl-plan-completion-loop",
+        "title": "claude-code-impl-plan-completion-loop",
+        "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to claude-code-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "claude-code-agent"
+        ]
+      },
+      "backends": [
+        "claude-code-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-impl-plan-completion-loop"
+        },
+        {
+          "packageId": "claude-code-adversarial-implementation-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "f5bc9815a84f2b45b51690235895c8c1"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "9c413ec2dace8ee5801bd336c6da2747f9eed46fb09b01991461d8a895c3b62b"
+      }
+    },
+    {
+      "name": "claude-code-impl-plan-completion-review-loop",
+      "directory": "packages/claude-code-impl-plan-completion-review-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "claude-code-impl-plan-completion-review-loop",
+      "description": "Run the Claude Code implementation-plan completion loop, then run the recent-change quality review-and-improve loop against the resulting work.",
+      "tags": [
+        "claude-code",
+        "review",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/claude-code-impl-plan-completion-review-loop",
+        "title": "claude-code-impl-plan-completion-review-loop",
+        "description": "Run the Claude Code implementation-plan completion loop, then run the recent-change quality review-and-improve loop against the resulting work.",
+        "tags": [
+          "workflow",
+          "claude-code",
+          "review"
+        ],
+        "backends": [
+          "claude-code-agent"
+        ]
+      },
+      "backends": [
+        "claude-code-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-impl-plan-completion-review-loop"
+        },
+        {
+          "packageId": "claude-code-impl-plan-completion-loop"
+        },
+        {
+          "packageId": "claude-code-recent-change-quality-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "c05a16fc88e25dc9f5569e54d2da4a8b"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "94394fb73f5f644bca96ce7b370cee4e1b3275240d315743b852d16cb790aec8"
+      }
+    },
+    {
+      "name": "claude-code-recent-change-quality-loop",
+      "directory": "packages/claude-code-recent-change-quality-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "claude-code-recent-change-quality-loop",
+      "description": "Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/claude-code-recent-change-quality-loop",
+        "title": "claude-code-recent-change-quality-loop",
+        "description": "Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "claude-code-agent"
+        ]
+      },
+      "backends": [
+        "claude-code-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-recent-change-quality-loop"
+        },
+        {
+          "packageId": "claude-code-design-and-implement-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "94d0fb97966fba20379d17f421161da6"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "b39eabec1e4c5abe733a370652730163ef17b25f78451c624e0f21005e0cafb5"
+      }
+    },
+    {
+      "name": "claude-code-refactoring-divide-and-conquer",
+      "directory": "packages/claude-code-refactoring-divide-and-conquer",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "claude-code-refactoring-divide-and-conquer",
+      "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/claude-code-refactoring-divide-and-conquer",
+        "title": "claude-code-refactoring-divide-and-conquer",
+        "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "claude-code-agent"
+        ]
+      },
+      "backends": [
+        "claude-code-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-refactoring-divide-and-conquer"
+        },
+        {
+          "packageId": "claude-code-refactoring-slice-review"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "afbd4421d5f948d3f748efe401fc4f0a"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "24c071d5678c29df3c28731f7abf565b00d3214f3b0604e3e46b7dbe9976a91a"
+      }
+    },
+    {
+      "name": "claude-code-refactoring-slice-review",
+      "directory": "packages/claude-code-refactoring-slice-review",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "claude-code-refactoring-slice-review",
+      "description": "Read-only review workflow for one codebase slice produced by claude-code-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/claude-code-refactoring-slice-review",
+        "title": "claude-code-refactoring-slice-review",
+        "description": "Read-only review workflow for one codebase slice produced by claude-code-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "claude-code-agent"
+        ]
+      },
+      "backends": [
+        "claude-code-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-refactoring-slice-review"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "23eb898306c73ef7c09e310c6ba4e26f"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "4a6b3857833799f938ead49eeaca94b32f33014951cc8ba4c853f7b288235d4b"
+      }
+    },
+    {
+      "name": "claude-code-simple-work-package",
+      "directory": "packages/claude-code-simple-work-package",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "claude-code-simple-work-package",
+      "description": "Lightweight Claude Code workflow for small code or documentation changes when no dedicated workflow applies. It implements with Claude Code Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/claude-code-simple-work-package",
+        "title": "claude-code-simple-work-package",
+        "description": "Lightweight Claude Code workflow for small code or documentation changes when no dedicated workflow applies. It implements with Claude Code Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "claude-code-agent"
+        ]
+      },
+      "backends": [
+        "claude-code-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-simple-work-package"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "89ce6db283e5cf41b733c81385f4bb53"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "efde6ae7b54d3d7c9293f99cbdf92f0a348a21d364b716fa6f9ba003c5061426"
+      }
+    },
+    {
+      "name": "claude-code-source-security-check-loop",
+      "directory": "packages/claude-code-source-security-check-loop",
+      "version": "0.1.2",
+      "kind": "workflow",
+      "title": "claude-code-source-security-check-loop",
+      "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Claude Code, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
+      "tags": [
+        "sast",
+        "security",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/claude-code-source-security-check-loop",
+        "title": "claude-code-source-security-check-loop",
+        "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Claude Code, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
+        "tags": [
+          "workflow",
+          "security",
+          "sast"
+        ],
+        "backends": [
+          "claude-code-agent"
+        ]
+      },
+      "backends": [
+        "claude-code-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-source-security-check-loop"
+        },
+        {
+          "packageId": "claude-code-design-and-implement-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "b461032b5547ff0d4e00c78fec21791c"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "759c84064791387c73892e1108a8c4db0dc2d9086c8d2646bb60ed13cfa25706"
+      }
+    },
+    {
+      "name": "claude-code-task-watchdog",
+      "directory": "packages/claude-code-task-watchdog",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "claude-code-task-watchdog",
+      "description": "Long-running Claude Code task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Claude Code execution, post-task skill mining, skill review, and commit.",
+      "tags": [
+        "automation",
+        "codex",
+        "cron",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/claude-code-task-watchdog",
+        "title": "claude-code-task-watchdog",
+        "description": "Long-running Claude Code task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Claude Code execution, post-task skill mining, skill review, and commit.",
+        "tags": [
+          "workflow",
+          "codex",
+          "automation",
+          "cron"
+        ],
+        "backends": [
+          "claude-code-agent"
+        ]
+      },
+      "backends": [
+        "claude-code-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-task-watchdog"
+        },
+        {
+          "packageId": "claude-code-design-and-implement-review-loop"
+        },
+        {
+          "packageId": "claude-code-deepdesign"
+        },
+        {
+          "packageId": "claude-code-recent-change-quality-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "a6e2ffcb34464a003b9317415de585c5"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "a1a282332b358b4821ebd8fa9645d4f025df2f73d2c1e8cad90886cbcdd73d6b"
+      }
+    },
+    {
+      "name": "claude-code-website-builder",
+      "directory": "packages/claude-code-website-builder",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "claude-code-website-builder",
+      "description": "Event-ready Claude Code workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+      "tags": [
+        "codex",
+        "container",
+        "event",
+        "solidjs",
+        "website",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/claude-code-website-builder",
+        "title": "claude-code-website-builder",
+        "description": "Event-ready Claude Code workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+        "tags": [
+          "workflow",
+          "codex",
+          "website",
+          "solidjs",
+          "event",
+          "container"
+        ],
+        "backends": [
+          "claude-code-agent"
+        ]
+      },
+      "backends": [
+        "claude-code-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-website-builder"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "1cd0409ec689ef2a136be16d5e52f98c"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "538e707ac871dd0335af94c253c94f5115ef2b3b39f06b7532c69fc5144694e9"
+      }
+    },
+    {
+      "name": "claude-code-worker-only-single-step",
+      "directory": "packages/claude-code-worker-only-single-step",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "claude-code-worker-only-single-step",
+      "description": "Minimal manager-less reference workflow that starts directly at one worker step through explicit entryStepId authoring.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/claude-code-worker-only-single-step",
+        "title": "claude-code-worker-only-single-step",
+        "description": "Minimal manager-less reference workflow that starts directly at one worker step through explicit entryStepId authoring.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "claude-code-agent"
+        ]
+      },
+      "backends": [
+        "claude-code-agent"
+      ],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "bbe3c9e095960d152fbf14b8a0039c25"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "44c68b4872be547d7a669ee6467579bde0164905f0626f66f7d8e495406d0dd2"
+      }
+    },
+    {
+      "name": "codex-adversarial-implementation-review-loop",
+      "directory": "packages/codex-adversarial-implementation-review-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "codex-adversarial-implementation-review-loop",
+      "description": "Run a scoped Codex implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+      "tags": [
+        "codex",
+        "review",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/codex-adversarial-implementation-review-loop",
+        "title": "codex-adversarial-implementation-review-loop",
+        "description": "Run a scoped Codex implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+        "tags": [
+          "workflow",
+          "codex",
+          "review"
+        ],
+        "backends": [
+          "codex-agent"
+        ]
+      },
+      "backends": [
+        "codex-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-design-and-implement-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "ddf3eebb4de49c224c578dae0393650d"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "cfde1a4bcd83fcedb884e181bdde8927ef986378c2df0d68fc5a87a4b5f18ebc"
+      }
+    },
+    {
+      "name": "codex-deep-creation",
+      "directory": "packages/codex-deep-creation",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "codex-deep-creation",
+      "description": "Run deep design, adversarial implementation-plan completion, and source security checks as one Codex creation workflow.",
+      "tags": [
+        "codex",
+        "creation",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/codex-deep-creation",
+        "title": "codex-deep-creation",
+        "description": "Run deep design, adversarial implementation-plan completion, and source security checks as one Codex creation workflow.",
+        "tags": [
+          "workflow",
+          "codex",
+          "creation"
+        ],
+        "backends": [
+          "codex-agent"
+        ]
+      },
+      "backends": [
+        "codex-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-deepdesign"
+        },
+        {
+          "packageId": "codex-impl-plan-completion-loop"
+        },
+        {
+          "packageId": "codex-source-security-check-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "bf498a4efc5f5e76690c88a6d6f87927"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "a811fa636d533e568f20daf87484cb24be8b5b5cf1e8765ebda7711b21d30dfd"
+      }
+    },
+    {
+      "name": "codex-deepdesign",
+      "directory": "packages/codex-deepdesign",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "codex-deepdesign",
+      "description": "Create and iteratively review design-doc specifications with one Codex author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+      "tags": [
+        "design-doc",
+        "review",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/codex-deepdesign",
+        "title": "codex-deepdesign",
+        "description": "Create and iteratively review design-doc specifications with one Codex author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+        "tags": [
+          "workflow",
+          "design-doc",
+          "review"
+        ],
+        "backends": [
+          "codex-agent"
+        ]
+      },
+      "backends": [
+        "codex-agent"
+      ],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "09e529c57f4c8ab091d1ec43c9cd9244"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "dbf86e19b5a40278868463dba1067b13efbc28c1ee2619be01fbd52b262e4964"
+      }
+    },
+    {
+      "name": "codex-design-and-implement-review-loop",
+      "directory": "packages/codex-design-and-implement-review-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "codex-design-and-implement-review-loop",
+      "description": "Shared Codex workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/codex-design-and-implement-review-loop",
+        "title": "codex-design-and-implement-review-loop",
+        "description": "Shared Codex workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "codex-agent"
+        ]
+      },
+      "backends": [
+        "codex-agent"
+      ],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "bb6a7fb835c3a0744ea3319a3edd2791"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "75f9c6915e017e1b07f46ed0206c852bfb6950a5630828042971ecae7d9f0576"
+      }
+    },
+    {
+      "name": "codex-goal",
+      "directory": "packages/codex-goal",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "codex-goal",
+      "description": "Generic Codex workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+      "tags": [
+        "codex",
+        "generic",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/codex-goal",
+        "title": "codex-goal",
+        "description": "Generic Codex workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+        "tags": [
+          "workflow",
+          "codex",
+          "generic"
+        ],
+        "backends": [
+          "codex-agent"
+        ]
+      },
+      "backends": [
+        "codex-agent"
+      ],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "d4d7aa29315131920930aa47add6b4b1"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "207289acca4bcc16c835387838a9a8c29d32025697a719c6119edc2542861169"
+      }
+    },
+    {
+      "name": "codex-impl-plan-completion-loop",
+      "directory": "packages/codex-impl-plan-completion-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "codex-impl-plan-completion-loop",
+      "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to codex-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/codex-impl-plan-completion-loop",
+        "title": "codex-impl-plan-completion-loop",
+        "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to codex-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "codex-agent"
+        ]
+      },
+      "backends": [
+        "codex-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-adversarial-implementation-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "1a4a7f94f496b7be04a066ec1ad66058"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "8d8a28c2ab799fd4bb78200efb877af1367099406769d4f088b06739a4bf8974"
+      }
+    },
+    {
+      "name": "codex-impl-plan-completion-review-loop",
+      "directory": "packages/codex-impl-plan-completion-review-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "codex-impl-plan-completion-review-loop",
+      "description": "Run the Codex implementation-plan completion loop, then run the recent-change quality review-and-improve loop against the resulting work.",
+      "tags": [
+        "codex",
+        "review",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/codex-impl-plan-completion-review-loop",
+        "title": "codex-impl-plan-completion-review-loop",
+        "description": "Run the Codex implementation-plan completion loop, then run the recent-change quality review-and-improve loop against the resulting work.",
+        "tags": [
+          "workflow",
+          "codex",
+          "review"
+        ],
+        "backends": [
+          "codex-agent"
+        ]
+      },
+      "backends": [
+        "codex-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-impl-plan-completion-loop"
+        },
+        {
+          "packageId": "codex-recent-change-quality-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "07723de7225d46a4a9afba763b6aee6b"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "65e3e6d8fe2ad4035cdb0baf151b57cd006ff126f7cec2edc6aeefa2a551065e"
+      }
+    },
+    {
+      "name": "codex-recent-change-quality-loop",
+      "directory": "packages/codex-recent-change-quality-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "codex-recent-change-quality-loop",
+      "description": "Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/codex-recent-change-quality-loop",
+        "title": "codex-recent-change-quality-loop",
+        "description": "Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "codex-agent"
+        ]
+      },
+      "backends": [
+        "codex-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-design-and-implement-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "c85b569e250937d2da69fd136f1a1602"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "c2232d8a8c37b3aee09d1a70b970af4940385e87e03cd296bd9162876123a005"
+      }
+    },
+    {
+      "name": "codex-refactoring-divide-and-conquer",
+      "directory": "packages/codex-refactoring-divide-and-conquer",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "codex-refactoring-divide-and-conquer",
+      "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/codex-refactoring-divide-and-conquer",
+        "title": "codex-refactoring-divide-and-conquer",
+        "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "codex-agent"
+        ]
+      },
+      "backends": [
+        "codex-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-refactoring-slice-review"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "d6aa4902543e8ea70091b3ab95c056ce"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "5d43c25df1ca5cf175e7584aaae4b4806687951b7f60180d34b1d0cf335ebeb0"
+      }
+    },
+    {
+      "name": "codex-refactoring-slice-review",
+      "directory": "packages/codex-refactoring-slice-review",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "codex-refactoring-slice-review",
+      "description": "Read-only review workflow for one codebase slice produced by codex-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/codex-refactoring-slice-review",
+        "title": "codex-refactoring-slice-review",
+        "description": "Read-only review workflow for one codebase slice produced by codex-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "codex-agent"
+        ]
+      },
+      "backends": [
+        "codex-agent"
+      ],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "cc53f8b628aa6f626178d5dda64906e1"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "856a366f6262f5ff179e479ab862d5efb2f05fb731244182e9e6521112129258"
+      }
+    },
+    {
+      "name": "codex-simple-work-package",
+      "directory": "packages/codex-simple-work-package",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "codex-simple-work-package",
+      "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.5 high effort, reviews the diff, and loops back only for high or middle findings.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/codex-simple-work-package",
+        "title": "codex-simple-work-package",
+        "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.5 high effort, reviews the diff, and loops back only for high or middle findings.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "codex-agent"
+        ]
+      },
+      "backends": [
+        "codex-agent"
+      ],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "860634705d22177512bbc476255cf2ac"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "b098fb8683bb33ce39e4e908302ceaebe5a76a29291107b804795d53b1d9fe07"
+      }
+    },
+    {
+      "name": "codex-source-security-check-loop",
+      "directory": "packages/codex-source-security-check-loop",
+      "version": "0.1.2",
+      "kind": "workflow",
+      "title": "codex-source-security-check-loop",
+      "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Codex, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
+      "tags": [
+        "sast",
+        "security",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/codex-source-security-check-loop",
+        "title": "codex-source-security-check-loop",
+        "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Codex, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
+        "tags": [
+          "workflow",
+          "security",
+          "sast"
+        ],
+        "backends": [
+          "native-command",
+          "codex-agent"
+        ]
+      },
+      "backends": [
+        "codex-agent",
+        "native-command"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-design-and-implement-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "7bb39111522080f88103350c43032683"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "38c68586b598e1c403f3782fec880161a457e013b9a94d588a0c605da336b8d9"
+      }
+    },
+    {
+      "name": "codex-task-watchdog",
+      "directory": "packages/codex-task-watchdog",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "codex-task-watchdog",
+      "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Codex execution, post-task skill mining, skill review, and commit.",
+      "tags": [
+        "automation",
+        "codex",
+        "cron",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/codex-task-watchdog",
+        "title": "codex-task-watchdog",
+        "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Codex execution, post-task skill mining, skill review, and commit.",
+        "tags": [
+          "workflow",
+          "codex",
+          "automation",
+          "cron"
+        ],
+        "backends": [
+          "codex-agent"
+        ]
+      },
+      "backends": [
+        "codex-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-design-and-implement-review-loop"
+        },
+        {
+          "packageId": "codex-deepdesign"
+        },
+        {
+          "packageId": "codex-recent-change-quality-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "b9af987f9d8bc06000781eb7c987f2a2"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "cd47c804a2db8dfb8d28d0c505ebad2759325aceb0a7ea17cb6688bfe4129114"
+      }
+    },
+    {
+      "name": "codex-website-builder",
+      "directory": "packages/codex-website-builder",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "codex-website-builder",
+      "description": "Event-ready Codex workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+      "tags": [
+        "codex",
+        "container",
+        "event",
+        "solidjs",
+        "website",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/codex-website-builder",
+        "title": "codex-website-builder",
+        "description": "Event-ready Codex workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+        "tags": [
+          "workflow",
+          "codex",
+          "website",
+          "solidjs",
+          "event",
+          "container"
+        ],
+        "backends": [
+          "codex-agent",
+          "native-command"
+        ]
+      },
+      "backends": [
+        "codex-agent",
+        "native-command"
+      ],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "883e2b103fe69f2a6ac1e0fdcefc83cd"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "9e42422ed7d97c3850243d6280ad25e5a9a771ebd96f5388e215ddb1c190ede3"
+      }
+    },
+    {
+      "name": "cursor-cli-adversarial-implementation-review-loop",
+      "directory": "packages/cursor-cli-adversarial-implementation-review-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "cursor-cli-adversarial-implementation-review-loop",
+      "description": "Run a scoped Cursor CLI implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+      "tags": [
+        "cursor",
+        "review",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/cursor-cli-adversarial-implementation-review-loop",
+        "title": "cursor-cli-adversarial-implementation-review-loop",
+        "description": "Run a scoped Cursor CLI implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+        "tags": [
+          "workflow",
+          "cursor",
+          "review"
+        ],
+        "backends": [
+          "cursor-cli-agent"
+        ]
+      },
+      "backends": [
+        "cursor-cli-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-adversarial-implementation-review-loop"
+        },
+        {
+          "packageId": "cursor-cli-design-and-implement-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "9f9e9559bdeecc8c8766d060f56abf15"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "41b9d778674bfd3c59796db8f030e926912b2dc09374f916ed787afbcd55d86a"
+      }
+    },
+    {
+      "name": "cursor-cli-deepdesign",
+      "directory": "packages/cursor-cli-deepdesign",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "cursor-cli-deepdesign",
+      "description": "Create and iteratively review design-doc specifications with one Cursor CLI author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+      "tags": [
+        "design-doc",
+        "review",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/cursor-cli-deepdesign",
+        "title": "cursor-cli-deepdesign",
+        "description": "Create and iteratively review design-doc specifications with one Cursor CLI author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+        "tags": [
+          "workflow",
+          "design-doc",
+          "review"
+        ],
+        "backends": [
+          "cursor-cli-agent"
+        ]
+      },
+      "backends": [
+        "cursor-cli-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-deepdesign"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "c3fedd3782e69e75e64c313092d8cb48"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "feeffd12c814c780644ea21900a0fa300fb1cb3931a19a332782ad5d67960059"
+      }
+    },
+    {
+      "name": "cursor-cli-design-and-implement-review-loop",
+      "directory": "packages/cursor-cli-design-and-implement-review-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "cursor-cli-design-and-implement-review-loop",
+      "description": "Shared Cursor CLI workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/cursor-cli-design-and-implement-review-loop",
+        "title": "cursor-cli-design-and-implement-review-loop",
+        "description": "Shared Cursor CLI workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "cursor-cli-agent"
+        ]
+      },
+      "backends": [
+        "cursor-cli-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-design-and-implement-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "bf4622f0bf5feb2c612a609e3ab119b2"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "0ffcedd8f9b0ad804efb3d9c09b9a0e205ca595cd1d4145082e59d5695c54cb0"
+      }
+    },
+    {
+      "name": "cursor-cli-developer-workflows",
+      "directory": "packages/cursor-cli-developer-workflows",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "cursor-cli-developer-workflows",
+      "description": "Meta package that pins the standard Cursor CLI developer workflow set in its dependencies and ships one Cursor dispatcher rule for choosing among them. Install the listed dependency packages together with this package.",
+      "tags": [
+        "cursor",
+        "developer",
+        "meta",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/cursor-cli-developer-workflows",
+        "title": "cursor-cli-developer-workflows",
+        "description": "Meta package that pins the standard Cursor CLI developer workflow set in its dependencies and ships one Cursor dispatcher rule for choosing among them. Install the listed dependency packages together with this package.",
+        "tags": [
+          "workflow",
+          "cursor",
+          "developer",
+          "meta"
+        ],
+        "backends": [
+          "cursor-cli-agent"
+        ]
+      },
+      "backends": [
+        "cursor-cli-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "cursor-cli-adversarial-implementation-review-loop"
+        },
+        {
+          "packageId": "cursor-cli-deepdesign"
+        },
+        {
+          "packageId": "cursor-cli-design-and-implement-review-loop"
+        },
+        {
+          "packageId": "cursor-cli-fable-design-and-implement-review-loop"
+        },
+        {
+          "packageId": "cursor-cli-impl-plan-completion-loop"
+        },
+        {
+          "packageId": "cursor-cli-recent-change-quality-loop"
+        },
+        {
+          "packageId": "cursor-cli-refactoring-divide-and-conquer"
+        },
+        {
+          "packageId": "cursor-cli-refactoring-slice-review"
+        },
+        {
+          "packageId": "cursor-cli-simple-work-package"
+        },
+        {
+          "packageId": "cursor-cli-source-security-check-loop"
+        },
+        {
+          "packageId": "cursor-cli-task-watchdog"
+        },
+        {
+          "packageId": "cursor-cli-website-builder"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "34343b394b2257b5d2125789eb7e81e3"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "5d42bc26277b445bb280f9f7da46c6d7c8d24743a9f7674f98069ea62a345499"
+      }
+    },
+    {
+      "name": "cursor-cli-fable-design-and-implement-review-loop",
+      "directory": "packages/cursor-cli-fable-design-and-implement-review-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "cursor-cli-fable-design-and-implement-review-loop",
+      "description": "Cursor CLI workflow variant for explicit Claude Fable 5 review runs. It uses Claude Fable 5 for review agent steps, Composer 2.5 for implementation, and Claude Opus 4.8 for design and all other agent steps.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/cursor-cli-fable-design-and-implement-review-loop",
+        "title": "cursor-cli-fable-design-and-implement-review-loop",
+        "description": "Cursor CLI workflow variant for explicit Claude Fable 5 review runs. It uses Claude Fable 5 for review agent steps, Composer 2.5 for implementation, and Claude Opus 4.8 for design and all other agent steps.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "cursor-cli-agent"
+        ]
+      },
+      "backends": [
+        "cursor-cli-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-design-and-implement-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "244de9845198254f7cef110337016d66"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "a62f9a3181f3ac2a2cec1188b61001bacef9f052de4a2199220121c84649c81c"
+      }
+    },
+    {
+      "name": "cursor-cli-goal",
+      "directory": "packages/cursor-cli-goal",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "cursor-cli-goal",
+      "description": "Generic Cursor CLI workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work with Composer 2.5, uses GPT-5.5 for the other steps, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+      "tags": [
+        "cursor-cli",
+        "generic",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/cursor-cli-goal",
+        "title": "cursor-cli-goal",
+        "description": "Generic Cursor CLI workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work with Composer 2.5, uses GPT-5.5 for the other steps, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+        "tags": [
+          "workflow",
+          "cursor-cli",
+          "generic"
+        ],
+        "backends": [
+          "cursor-cli-agent"
+        ]
+      },
+      "backends": [
+        "cursor-cli-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-goal"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "b79016691d7ec2d83931a489d66f1b28"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "74754f0922da46c544a8c869127bc7bb3f93eaaa0aa158295c1869777c587d13"
+      }
+    },
+    {
+      "name": "cursor-cli-hydra-claude-design-and-implement-review-loop",
+      "directory": "packages/cursor-cli-hydra-claude-design-and-implement-review-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "cursor-cli-hydra-claude-design-and-implement-review-loop",
+      "description": "Explicit hydra workflow variant that uses Claude Code Fable 5 for design and review agent steps, Cursor Composer 2.5 for implementation, and Claude Code Opus 4.8 for all other agent steps.",
+      "tags": [
+        "hydra",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/cursor-cli-hydra-claude-design-and-implement-review-loop",
+        "title": "cursor-cli-hydra-claude-design-and-implement-review-loop",
+        "description": "Explicit hydra workflow variant that uses Claude Code Fable 5 for design and review agent steps, Cursor Composer 2.5 for implementation, and Claude Code Opus 4.8 for all other agent steps.",
+        "tags": [
+          "workflow",
+          "hydra"
+        ],
+        "backends": [
+          "claude-code-agent",
+          "cursor-cli-agent"
+        ]
+      },
+      "backends": [
+        "claude-code-agent",
+        "cursor-cli-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-design-and-implement-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "ade4b567219e563fb976588fec58e2f4"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "4bee92104b5dfc12fb5a29056b569d6b6fc1b1834d492211e056ccd6cdd214a9"
+      }
+    },
+    {
+      "name": "cursor-cli-hydra-codex-design-and-implement-review-loop",
+      "directory": "packages/cursor-cli-hydra-codex-design-and-implement-review-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "cursor-cli-hydra-codex-design-and-implement-review-loop",
+      "description": "Explicit hydra workflow variant that uses Codex GPT-5.5 for design, review, and all non-implementation agent steps, while using Cursor Composer 2.5 for implementation.",
+      "tags": [
+        "hydra",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/cursor-cli-hydra-codex-design-and-implement-review-loop",
+        "title": "cursor-cli-hydra-codex-design-and-implement-review-loop",
+        "description": "Explicit hydra workflow variant that uses Codex GPT-5.5 for design, review, and all non-implementation agent steps, while using Cursor Composer 2.5 for implementation.",
+        "tags": [
+          "workflow",
+          "hydra"
+        ],
+        "backends": [
+          "codex-agent",
+          "cursor-cli-agent"
+        ]
+      },
+      "backends": [
+        "codex-agent",
+        "cursor-cli-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-design-and-implement-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "d2a2d8672e937508d51144e49d4c139a"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "d18b255298d097db4f6948764df0b891ab98a435b235225cbdf86b0a419c9b50"
+      }
+    },
+    {
+      "name": "cursor-cli-impl-plan-completion-loop",
+      "directory": "packages/cursor-cli-impl-plan-completion-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "cursor-cli-impl-plan-completion-loop",
+      "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to cursor-cli-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/cursor-cli-impl-plan-completion-loop",
+        "title": "cursor-cli-impl-plan-completion-loop",
+        "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to cursor-cli-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "cursor-cli-agent"
+        ]
+      },
+      "backends": [
+        "cursor-cli-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-impl-plan-completion-loop"
+        },
+        {
+          "packageId": "cursor-cli-adversarial-implementation-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "4e026581223b159dc34251ef090be1f3"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "b160bd288b778613c8e3129b6db0dca2799501f21cd52c16f19e27812315ede5"
+      }
+    },
+    {
+      "name": "cursor-cli-impl-plan-completion-review-loop",
+      "directory": "packages/cursor-cli-impl-plan-completion-review-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "cursor-cli-impl-plan-completion-review-loop",
+      "description": "Run the Cursor CLI implementation-plan completion loop, then run the recent-change quality review-and-improve loop against the resulting work.",
+      "tags": [
+        "cursor-cli",
+        "review",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/cursor-cli-impl-plan-completion-review-loop",
+        "title": "cursor-cli-impl-plan-completion-review-loop",
+        "description": "Run the Cursor CLI implementation-plan completion loop, then run the recent-change quality review-and-improve loop against the resulting work.",
+        "tags": [
+          "workflow",
+          "cursor-cli",
+          "review"
+        ],
+        "backends": [
+          "cursor-cli-agent"
+        ]
+      },
+      "backends": [
+        "cursor-cli-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-impl-plan-completion-review-loop"
+        },
+        {
+          "packageId": "cursor-cli-impl-plan-completion-loop"
+        },
+        {
+          "packageId": "cursor-cli-recent-change-quality-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "87adbeed622230bcef13c53376fb19db"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "8b253f55edc113151fd6963bedca0ee07e07709122c53039c316d777b17edc84"
+      }
+    },
+    {
+      "name": "cursor-cli-recent-change-quality-loop",
+      "directory": "packages/cursor-cli-recent-change-quality-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "cursor-cli-recent-change-quality-loop",
+      "description": "Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/cursor-cli-recent-change-quality-loop",
+        "title": "cursor-cli-recent-change-quality-loop",
+        "description": "Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "cursor-cli-agent"
+        ]
+      },
+      "backends": [
+        "cursor-cli-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-recent-change-quality-loop"
+        },
+        {
+          "packageId": "cursor-cli-design-and-implement-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "6edb6f914448b26288937aca5b8ef515"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "70956c81e89e3f0a1eee14d13af7fe5cce98916854f633e0eca1169add0f757d"
+      }
+    },
+    {
+      "name": "cursor-cli-refactoring-divide-and-conquer",
+      "directory": "packages/cursor-cli-refactoring-divide-and-conquer",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "cursor-cli-refactoring-divide-and-conquer",
+      "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/cursor-cli-refactoring-divide-and-conquer",
+        "title": "cursor-cli-refactoring-divide-and-conquer",
+        "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "cursor-cli-agent"
+        ]
+      },
+      "backends": [
+        "cursor-cli-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-refactoring-divide-and-conquer"
+        },
+        {
+          "packageId": "cursor-cli-refactoring-slice-review"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "47f4663d21419d49368dfe24a233a0dc"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "8de26d82429bbbe964eb5ff66b2bc0fdb44d6b80b10e411cae815aadedce0910"
+      }
+    },
+    {
+      "name": "cursor-cli-refactoring-slice-review",
+      "directory": "packages/cursor-cli-refactoring-slice-review",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "cursor-cli-refactoring-slice-review",
+      "description": "Read-only review workflow for one codebase slice produced by cursor-cli-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/cursor-cli-refactoring-slice-review",
+        "title": "cursor-cli-refactoring-slice-review",
+        "description": "Read-only review workflow for one codebase slice produced by cursor-cli-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "cursor-cli-agent"
+        ]
+      },
+      "backends": [
+        "cursor-cli-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-refactoring-slice-review"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "0ea59eb26fd9a20fc64bb0849c5e7273"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "2ead8c5b24b51c9861e72108e43767c8655102a160c219657ee59576f97d042e"
+      }
+    },
+    {
+      "name": "cursor-cli-simple-work-package",
+      "directory": "packages/cursor-cli-simple-work-package",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "cursor-cli-simple-work-package",
+      "description": "Lightweight Cursor CLI workflow for small code or documentation changes when no dedicated workflow applies. It implements with Cursor CLI Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings.",
+      "tags": [
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/cursor-cli-simple-work-package",
+        "title": "cursor-cli-simple-work-package",
+        "description": "Lightweight Cursor CLI workflow for small code or documentation changes when no dedicated workflow applies. It implements with Cursor CLI Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings.",
+        "tags": [
+          "workflow"
+        ],
+        "backends": [
+          "cursor-cli-agent"
+        ]
+      },
+      "backends": [
+        "cursor-cli-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-simple-work-package"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "b675be69e438c989587cb2e683861f9c"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "3f86893d67f1fdb08d91b65285fc4311f39aff89faea113b87019593b9772a92"
+      }
+    },
+    {
+      "name": "cursor-cli-source-security-check-loop",
+      "directory": "packages/cursor-cli-source-security-check-loop",
+      "version": "0.1.2",
+      "kind": "workflow",
+      "title": "cursor-cli-source-security-check-loop",
+      "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Cursor CLI, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
+      "tags": [
+        "sast",
+        "security",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/cursor-cli-source-security-check-loop",
+        "title": "cursor-cli-source-security-check-loop",
+        "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Cursor CLI, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
+        "tags": [
+          "workflow",
+          "security",
+          "sast"
+        ],
+        "backends": [
+          "cursor-cli-agent"
+        ]
+      },
+      "backends": [
+        "cursor-cli-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-source-security-check-loop"
+        },
+        {
+          "packageId": "cursor-cli-design-and-implement-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "2b231a12921f91b3a949e0434b2e394b"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "5b0b342846aff83943e6ade290725bd31976a6c35e30940c5a039b7ceaf7e704"
+      }
+    },
+    {
+      "name": "cursor-cli-task-watchdog",
+      "directory": "packages/cursor-cli-task-watchdog",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "cursor-cli-task-watchdog",
+      "description": "Long-running Cursor CLI task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Cursor CLI execution, post-task skill mining, skill review, and commit.",
+      "tags": [
+        "automation",
+        "codex",
+        "cron",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/cursor-cli-task-watchdog",
+        "title": "cursor-cli-task-watchdog",
+        "description": "Long-running Cursor CLI task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Cursor CLI execution, post-task skill mining, skill review, and commit.",
+        "tags": [
+          "workflow",
+          "codex",
+          "automation",
+          "cron"
+        ],
+        "backends": [
+          "cursor-cli-agent"
+        ]
+      },
+      "backends": [
+        "cursor-cli-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-task-watchdog"
+        },
+        {
+          "packageId": "cursor-cli-design-and-implement-review-loop"
+        },
+        {
+          "packageId": "cursor-cli-deepdesign"
+        },
+        {
+          "packageId": "cursor-cli-recent-change-quality-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "0898f09aac7464d56ba51c02bf496dc3"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "e5e1f6b89466c0839f9a06858d422d844bb8169a8f224c83b21d1d60daa6dd24"
+      }
+    },
+    {
+      "name": "cursor-cli-website-builder",
+      "directory": "packages/cursor-cli-website-builder",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "cursor-cli-website-builder",
+      "description": "Event-ready Cursor CLI workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+      "tags": [
+        "codex",
+        "container",
+        "event",
+        "solidjs",
+        "website",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/cursor-cli-website-builder",
+        "title": "cursor-cli-website-builder",
+        "description": "Event-ready Cursor CLI workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+        "tags": [
+          "workflow",
+          "codex",
+          "website",
+          "solidjs",
+          "event",
+          "container"
+        ],
+        "backends": [
+          "cursor-cli-agent"
+        ]
+      },
+      "backends": [
+        "cursor-cli-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-website-builder"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "fa2e0487bc3c75a1bf4ba8e59f416b93"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "5ce8b618e8c54a1209bdf12bb16ed8e7dbf5271fb5e78b6b93ed12134e527a42"
+      }
+    },
+    {
+      "name": "fable-and-improve",
+      "directory": "packages/fable-and-improve",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "fable-and-improve",
+      "description": "Claude Code Fable orchestrator workflow that researches the request, maintains markdown goal and plan state, delegates implementation and review to codex-design-and-implement-review-loop, and repeats until Fable verifies completion.",
+      "tags": [
+        "claude-code",
+        "codex",
+        "fable",
+        "review",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/fable-and-improve",
+        "title": "fable-and-improve",
+        "description": "Claude Code Fable researches and plans in markdown, delegates implementation and review to codex-design-and-implement-review-loop, then checks completion and loops on remaining TODOs.",
+        "tags": [
+          "workflow",
+          "claude-code",
+          "codex",
+          "fable",
+          "review"
+        ],
+        "backends": [
+          "claude-code-agent",
+          "codex-agent"
+        ]
+      },
+      "backends": [
+        "claude-code-agent",
+        "codex-agent"
+      ],
+      "dependencies": [
+        {
+          "packageId": "codex-design-and-implement-review-loop"
+        }
+      ],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "3f2caf8a46e5bcf226f4f5bc47cfa6b3"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "0757559a57d83a973b0beda189f5e70553b779d99931264691be7e71768d9d1d"
+      }
+    },
+    {
+      "name": "greeting-container",
+      "directory": "packages/greeting-container",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "Greeting Container",
+      "description": "Example workflow package with a native container node that runs Node.js and outputs a greeting with the current datetime.",
+      "tags": [
+        "container",
+        "greeting",
+        "node",
+        "node-package",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/greeting-container",
+        "title": "Greeting Container",
+        "description": "Run a Node.js greeting worker inside a container and emit datetime output.",
+        "tags": [
+          "workflow",
+          "container",
+          "node"
+        ],
+        "backends": [
+          "native-container"
+        ]
+      },
+      "backends": [
+        "native-container"
+      ],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "c605d7e6edaa5b628d8f1ef1fcb03064"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "5213d2416ff86cfbb34e2b69bd31bbc64051de4fd93b171e39e697e1ab3bbf5a"
+      }
+    },
+    {
+      "name": "greeting-node-addon",
+      "directory": "packages/greeting-node-addon",
+      "version": "0.1.0",
+      "kind": "node-addon",
+      "title": "Greeting Node Add-on",
+      "description": "Executable node add-on package that installs a reusable Bash greeting worker node.",
+      "tags": [
+        "bash",
+        "greeting",
+        "native-command",
+        "node-addon"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "backends": [],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [
+        {
+          "name": "examples/greeting-shell",
+          "version": "1",
+          "sourcePath": "addons/examples/greeting-shell/1",
+          "execution": {
+            "kind": "local-command",
+            "entrypoint": "greeting.bash",
+            "runtimeHints": [
+              "bash",
+              "jq"
+            ]
+          },
+          "capabilities": [
+            {
+              "name": "process.spawn",
+              "required": true,
+              "reason": "runs the packaged greeting Bash script"
+            }
+          ],
+          "contentDigest": "sha256:9f12f3980389b468f0880daf8a18b809851053d61a7b39a576e97f0ed800cc89"
+        }
+      ],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "2bafb58682f563bff2e9923117ff5e8d"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "35b8c61e12a9fdbd60ae8c7d328c23ec0af2b821d668a4fcf1ba352cc0189f65"
+      }
+    },
+    {
+      "name": "greeting-shell",
+      "directory": "packages/greeting-shell",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "Greeting Shell",
+      "description": "Example workflow package with a native Bash command node that outputs a greeting with the current datetime.",
+      "tags": [
+        "bash",
+        "command",
+        "greeting",
+        "node-package",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/greeting-shell",
+        "title": "Greeting Shell",
+        "description": "Run a local Bash greeting worker and emit datetime output.",
+        "tags": [
+          "workflow",
+          "command",
+          "bash"
+        ],
+        "backends": [
+          "native-command"
+        ]
+      },
+      "backends": [
+        "native-command"
+      ],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "77161c5145a04541e2fb215986bd8ec4"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "069221ba11576d5b1f5e6f033c3b91db91a56bd80cb48175bb51fa43c928cc6c"
+      }
+    },
+    {
+      "name": "release-note-node-addon",
+      "directory": "packages/release-note-node-addon",
+      "version": "0.1.0",
+      "kind": "node-addon",
+      "title": "Release Note Node Add-on",
+      "description": "Declarative node add-on package that installs a reusable release-note worker node template.",
+      "tags": [
+        "codex-agent",
+        "node-addon",
+        "release-note",
+        "template"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "backends": [],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [
+        {
+          "name": "examples/release-note",
+          "version": "1",
+          "sourcePath": "addons/examples/release-note/1"
+        }
+      ],
+      "skills": [],
+      "checksum": {
+        "algorithm": "md5",
+        "value": "317b23da2e25d713c7502efbc4238e7a"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "07d35a184cfcb09bb16d70af32a7106569229c7c0eff20bed141821631f0a4fc"
+      }
+    },
+    {
+      "name": "riela-package-installer-skill",
+      "directory": "packages/riela-package-installer-skill",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "riela-package-installer-skill",
+      "description": "Skill-only bootstrap package for installing the riela-package package-management skill from tacogips/riela-packages.",
+      "tags": [
+        "installer",
+        "package",
+        "riela",
+        "skill"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/riela-package-installer-skill",
+        "title": "riela-package-installer-skill",
+        "description": "Skill-only bootstrap package for installing the riela-package package-management skill from tacogips/riela-packages.",
+        "tags": [
+          "skill",
+          "package",
+          "installer",
+          "riela"
+        ],
+        "backends": []
+      },
+      "backends": [],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "7c35fa187ad179b10bee730eea5b43ce"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "910a600affe57217af16c322665502a75b134d2cc4a2ad7cf9a5c37c1c756606"
+      }
+    },
+    {
+      "name": "riela-package-manager-skill",
+      "directory": "packages/riela-package-manager-skill",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "riela-package-manager-skill",
+      "description": "Skill package that teaches agents how to search, install, inspect, validate, and use riela packages, including RielaApp enable/disable and required environment metadata.",
+      "tags": [
+        "package",
+        "riela",
+        "skill"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/riela-package-manager-skill",
+        "title": "riela-package-manager-skill",
+        "description": "Skill package that teaches agents how to search, install, inspect, validate, and use riela packages, including RielaApp enable/disable and required environment metadata.",
+        "tags": [
+          "skill",
+          "package",
+          "riela"
+        ],
+        "backends": []
+      },
+      "backends": [],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "190f6ab1ad042c3ed824c9a555670676"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "04118c760824d02564353269816ba9444ebf3a54cf2f6602a95a783be12e3e9b"
+      }
+    },
+    {
+      "name": "riela-package-release-skill",
+      "directory": "packages/riela-package-release-skill",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "riela-package-release-skill",
+      "description": "Maintainer skill package for updating riela package manifests, validating packaged workflows, and preparing registry releases.",
+      "tags": [
+        "package",
+        "release",
+        "riela",
+        "skill"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/riela-package-release-skill",
+        "title": "riela-package-release-skill",
+        "description": "Maintainer skill package for updating riela package manifests, validating packaged workflows, and preparing registry releases.",
+        "tags": [
+          "skill",
+          "package",
+          "release",
+          "riela"
+        ],
+        "backends": []
+      },
+      "backends": [],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "d0068c3cd8555018428945afb6d42179"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "58d7074a75c7889bc5d0538c2be3e8a070780e8f927ca492d8d6e5718bfbc25b"
+      }
+    },
+    {
+      "name": "riela-project-workflow-skill",
+      "directory": "packages/riela-project-workflow-skill",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "riela-project-workflow-skill",
+      "description": "Skill package that teaches agents to turn work into a project-scope Riela workflow and then execute that workflow.",
+      "tags": [
+        "project-scope",
+        "riela",
+        "skill",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/riela-project-workflow-skill",
+        "title": "riela-project-workflow-skill",
+        "description": "Skill package that teaches agents to turn work into a project-scope Riela workflow and then execute that workflow.",
+        "tags": [
+          "skill",
+          "workflow",
+          "project-scope",
+          "riela"
+        ],
+        "backends": []
+      },
+      "backends": [],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "d8d2c0b8e42e8571c677a90090c3a75d"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "b468fb038fc74d59217e2a3005d9a05e85be9de0e03d470b810fee139aa0240c"
+      }
+    },
+    {
+      "name": "riela-temporary-workflow-skill",
+      "directory": "packages/riela-temporary-workflow-skill",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "riela-temporary-workflow-skill",
+      "description": "Skill package that teaches agents how to create and run temporary riela workflows from inline JSON or JSON files.",
+      "tags": [
+        "riela",
+        "skill",
+        "temporary",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/riela-temporary-workflow-skill",
+        "title": "riela-temporary-workflow-skill",
+        "description": "Skill package that teaches agents how to create and run temporary riela workflows from inline JSON or JSON files.",
+        "tags": [
+          "skill",
+          "workflow",
+          "temporary",
+          "riela"
+        ],
+        "backends": []
+      },
+      "backends": [],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "b400393ac9f51dd79efb9453e3b20077"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "daac97a2972dd41d9829d844bba78e075b0d332e2cba60e640a8cfb87689d99f"
+      }
+    },
+    {
+      "name": "riela-workflow-creator-skill",
+      "directory": "packages/riela-workflow-creator-skill",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "riela-workflow-creator-skill",
+      "description": "Skill package that teaches agents how to create, modify, validate, and run riela workflow bundles without authoring packaged usage skills.",
+      "tags": [
+        "creator",
+        "riela",
+        "skill",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/riela-workflow-creator-skill",
+        "title": "riela-workflow-creator-skill",
+        "description": "Skill package that teaches agents how to create, modify, validate, and run riela workflow bundles without authoring packaged usage skills.",
+        "tags": [
+          "skill",
+          "workflow",
+          "creator",
+          "riela"
+        ],
+        "backends": []
+      },
+      "backends": [],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "e59c0a753e06f9468b8ed55e085f7afd"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "a494e88eef5079909e139548329c2c0645606990fa4e4a1c3632fcf7b4e7bead"
+      }
+    },
+    {
+      "name": "riela-workflow-skill-creator-skill",
+      "directory": "packages/riela-workflow-skill-creator-skill",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "riela-workflow-skill-creator-skill",
+      "description": "Skill package that teaches maintainers how to author packaged usage skills for Riela workflows, including agent-specific skill placement.",
+      "tags": [
+        "creator",
+        "riela",
+        "skill",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/riela-workflow-skill-creator-skill",
+        "title": "riela-workflow-skill-creator-skill",
+        "description": "Skill package that teaches maintainers how to author packaged usage skills for Riela workflows, including agent-specific skill placement.",
+        "tags": [
+          "skill",
+          "workflow",
+          "creator",
+          "riela"
+        ],
+        "backends": []
+      },
+      "backends": [],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "ff3d7fc9c75132501a1cbb0fe70d321e"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "6c437063709916420f1bfd66fc34e87f214f473d7ace2f632d4f2180b3bb9f41"
+      }
+    }
+  ]
+}
