@@ -28,7 +28,8 @@
         "entrypoint": "pdf-to-images",
         "containerfilePath": "Containerfile",
         "image": "ghcr.io/tacogips/riela-packages/pdf-to-images-addon:0.1.0",
-        "runtimeHints": []
+        "runtimeHints": [],
+        "imageDigest": "sha256:939b2d6fc3d0d4119dae3fe197f9f05a253a2d26b073714175710aa650cc577f"
       },
       "capabilities": [
         {
