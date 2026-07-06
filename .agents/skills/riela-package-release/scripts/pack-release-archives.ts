@@ -271,10 +271,24 @@ function collectZipEntries(root: string): ZipEntry[] {
         continue;
       }
       const relativePath = path.relative(root, absolutePath).split(path.sep).join("/");
+      if (!shouldArchivePath(relativePath)) {
+        continue;
+      }
       const mode = statSync(absolutePath).mode & 0o111 ? 0o100755 : 0o100644;
       entries.push({ absolutePath, archivePath: relativePath, mode });
     }
   }
+}
+
+function shouldArchivePath(relativePath: string): boolean {
+  const segments = relativePath.split("/");
+  if (segments.some((segment) => segment === "__pycache__" || segment === ".DS_Store")) {
+    return false;
+  }
+  if (relativePath.endsWith(".pyc") || relativePath.endsWith(".pyo")) {
+    return false;
+  }
+  return true;
 }
 
 function crc32(buffer: Buffer): number {
