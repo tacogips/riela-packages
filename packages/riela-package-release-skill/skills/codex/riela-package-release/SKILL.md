@@ -32,13 +32,13 @@ git diff -- packages/<package-id>
    script, or package payload:
 
 ```bash
-bun .riela/workflows/riela-package-release-skill/scripts/update-package-digests.ts <package-id>
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts <package-id>
 ```
 
 For broad changes:
 
 ```bash
-bun .riela/workflows/riela-package-release-skill/scripts/update-package-digests.ts --all
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts --all
 ```
 
 3. Validate package metadata and workflows:

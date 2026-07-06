@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "a2d5ccab4ef1579604989bee71527712",
+  "checksum": "1a4a7f94f496b7be04a066ec1ad66058",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-impl-plan-completion-loop",
   "dependencies": [
@@ -26,7 +26,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "c9aba866e288d4dff5f7e0dcf735ea378d91eb8fff9ec9212530351fd6150eec"
+    "digest": "8d8a28c2ab799fd4bb78200efb877af1367099406769d4f088b06739a4bf8974"
   },
   "backends": [
     "codex-agent"

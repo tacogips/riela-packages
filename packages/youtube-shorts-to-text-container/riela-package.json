@@ -22,16 +22,20 @@
   "environmentVariables": [
     {
       "name": "GOOGLE_ACCESS_TOKEN",
-      "description": "Google OAuth access token; one supported authentication option for Speech-to-Text.",
+      "description": "OAuth access token for Google Cloud Speech-to-Text and Cloud Storage. Provide one of GOOGLE_ACCESS_TOKEN, GOOGLE_APPLICATION_CREDENTIALS, or GOOGLE_APPLICATION_CREDENTIALS_JSON; gcloud is used as a fallback token source when none is set.",
+      "required": false,
       "secret": true
     },
     {
       "name": "GOOGLE_APPLICATION_CREDENTIALS",
-      "description": "Path to a Google service-account credentials JSON file; one supported authentication option."
+      "description": "Path to a Google service account credential JSON file able to upload to the target Cloud Storage bucket and run Speech-to-Text recognition. Alternative to GOOGLE_ACCESS_TOKEN and GOOGLE_APPLICATION_CREDENTIALS_JSON.",
+      "required": false,
+      "secret": false
     },
     {
       "name": "GOOGLE_APPLICATION_CREDENTIALS_JSON",
-      "description": "Inline Google service-account credentials JSON; one supported authentication option.",
+      "description": "Inline Google service account credential JSON. Alternative to GOOGLE_ACCESS_TOKEN and GOOGLE_APPLICATION_CREDENTIALS.",
+      "required": false,
       "secret": true
     }
   ],
@@ -46,5 +50,8 @@
     "backends": [
       "native-command"
     ]
-  }
+  },
+  "backends": [
+    "native-command"
+  ]
 }

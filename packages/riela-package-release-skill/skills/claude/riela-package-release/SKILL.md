@@ -39,14 +39,14 @@ git diff -- packages/<package-id>
    refresh package digests:
 
 ```bash
-bun .riela/workflows/riela-package-release-skill/scripts/update-package-digests.ts <package-id>
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts <package-id>
 ```
 
 For broad changes or after moving shared packaged skills, refresh every
 manifest:
 
 ```bash
-bun .riela/workflows/riela-package-release-skill/scripts/update-package-digests.ts --all
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts --all
 ```
 
 Use `--dry-run` first when you only need to see stale manifests.
@@ -95,9 +95,9 @@ checksum and integrity digest cover the package payload, while add-on
 Examples:
 
 ```bash
-bun .riela/workflows/riela-package-release-skill/scripts/update-package-digests.ts codex-design-and-implement-review-loop
-bun .riela/workflows/riela-package-release-skill/scripts/update-package-digests.ts --all --dry-run
-RIELA_ROOT=/path/to/riela bun .riela/workflows/riela-package-release-skill/scripts/update-package-digests.ts --all
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts codex-design-and-implement-review-loop
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts --all --dry-run
+RIELA_ROOT=/path/to/riela bun .agents/skills/riela-package-release/scripts/update-package-digests.ts --all
 ```
 
 If `--dry-run` finds stale manifests, it exits non-zero and reports the fields

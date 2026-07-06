@@ -10,23 +10,58 @@ https://github.com/tacogips/riela-packages
 
 ## Install
 
-Search available package directories:
+The riela CLI does not clone this registry automatically. Get a local
+checkout first:
 
 ```bash
-find packages -mindepth 1 -maxdepth 1 -type d -name "*<keyword>*"
+git clone https://github.com/tacogips/riela-packages
 ```
+
+Search packages by name or tag from your project directory:
+
+```bash
+riela package search "<keyword>" --local-path /path/to/riela-packages
+```
+
+`riela package search` matches package names and tags only, not descriptions.
+Without `--local-path`, the default registry checkout is expected at
+`<working-directory>-packages`, a sibling directory of your project; passing
+`--local-path` explicitly is usually clearer.
 
 Install a package into the current project:
 
 ```bash
-riela package install <package-id> --source packages/<package-id>
+riela package install <package-id> --local-path /path/to/riela-packages
 ```
 
 Install a package for the current user:
 
 ```bash
-riela package install <package-id> --source packages/<package-id> --scope user
+riela package install <package-id> --local-path /path/to/riela-packages --scope user
 ```
+
+From inside a registry checkout you can install by directory path instead:
+
+```bash
+riela package install <package-id> --source packages/<package-directory>
+```
+
+Most package ids match their directory name under `packages/`. The media
+packages use scoped ids, for example `@tacogips/youtube-mp4-download-addon`
+lives in `packages/youtube-mp4-download-addon`. Id-based installs resolve
+scoped ids from the registry checkout; `--source` always takes the directory
+path.
+
+Packages do not install their dependencies automatically. The `dependencies`
+field in `riela-package.json` is metadata for validation and documentation, so
+install each dependency explicitly. List a package's dependencies with:
+
+```bash
+jq -r '.dependencies[]? | if type == "object" then .packageId else . end' \
+  packages/<package-directory>/riela-package.json
+```
+
+then run `riela package install` for each listed id.
 
 Inspect installed packages:
 
@@ -37,15 +72,17 @@ riela package status <package-id>
 
 ## Which Package Should I Install?
 
-Riela installs workflows and skills at package granularity. A package can
-also declare dependencies, so installing one package may install the workflows
-and skills that it needs.
+Riela installs workflows and skills at package granularity. A package declares
+the workflows it calls in `dependencies`, but the current riela CLI does not
+install those dependencies for you — install each dependency id alongside the
+package (see the `jq` one-liner in the Install section).
 
 Use the package structure this way:
 
 - Install a meta package when you want a standard toolset for an agent surface.
-  Meta packages are install bundles and dispatcher-skill carriers; they do not
-  replace the individual workflow packages.
+  A meta package carries the dispatcher skill and pins the standard workflow
+  set in its `dependencies`; install those dependency packages together with
+  it. It does not replace the individual workflow packages.
 - Install an individual workflow package when you want only one workflow, want a
   workflow as a dependency of another package, or are maintaining that workflow.
 - Install a skill package when you only need agent guidance for package
@@ -54,8 +91,8 @@ Use the package structure this way:
 Current developer workflow install pattern:
 
 - Cursor CLI standard developer setup:
-  install `cursor-cli-developer-workflows`. It depends on the standard
-  `cursor-cli-*` developer workflows.
+  install `cursor-cli-developer-workflows` together with the standard
+  `cursor-cli-*` developer workflow packages listed in its `dependencies`.
 - Codex setup:
   install the needed `codex-*` workflow packages directly, such as
   `codex-design-and-implement-review-loop`, `codex-simple-work-package`, or
@@ -68,10 +105,10 @@ Current developer workflow install pattern:
   `claude-code-source-security-check-loop`. There is intentionally no Claude
   Code developer meta package yet.
 
-This means a Cursor install can use one top-level package for the standard
-developer workflow set, while Codex and Claude Code installs remain explicit
-per-workflow installs for now. The individual Cursor packages remain available
-for single-workflow use and for package dependencies.
+This means a Cursor install can use one top-level package id to pin the
+standard developer workflow set, while Codex and Claude Code installs remain
+explicit per-workflow installs for now. The individual Cursor packages remain
+available for single-workflow use and for package dependencies.
 
 ## Packages
 
@@ -115,17 +152,14 @@ for single-workflow use and for package dependencies.
   deep edge-case reviewer, a broad integration reviewer, and an adversarial
   failure-mode reviewer. It loops back to the author until all reviewers report
   no high or middle findings, and it records provisional decisions when user
-  confirmation would normally be required. `backend: codex-agent`; includes
-  Codex skills.
+  confirmation would normally be required. `backend: codex-agent`.
 - [codex-adversarial-implementation-review-loop](packages/codex-adversarial-implementation-review-loop) -
   Runs a scoped implementation request, adversarially reviews the implemented
   result against explicit target paths and evidence, delegates blocking fixes,
-  and repeats until no high or medium findings remain. `backend: codex-agent`;
-  includes Codex skills.
+  and repeats until no high or medium findings remain. `backend: codex-agent`.
 - [codex-deep-creation](packages/codex-deep-creation) -
   Runs deep design, adversarial implementation-plan completion, and source
-  security checks as one full creation workflow. `backend: codex-agent`;
-  includes Codex skills.
+  security checks as one full creation workflow. `backend: codex-agent`.
 - [codex-design-and-implement-review-loop](packages/codex-design-and-implement-review-loop) -
   Shared Codex workflow for issue resolution or planning-only design and
   implementation-plan handoff. It supports a sequential path, bounded
@@ -137,7 +171,7 @@ for single-workflow use and for package dependencies.
   reviews an in-session plan without writing plan files, performs the work, may
   delegate to a more specific workflow when appropriate, and reviews whether the
   goal is achieved before looping back to work or planning. `backend:
-  codex-agent`; includes Codex skills.
+  codex-agent`.
 - [codex-impl-plan-completion-loop](packages/codex-impl-plan-completion-loop) -
   Finds incomplete implementation plans under `impl-plans/active`, delegates
   each selected plan to `codex-adversarial-implementation-review-loop`, and repeats
@@ -145,8 +179,7 @@ for single-workflow use and for package dependencies.
 - [codex-impl-plan-completion-review-loop](packages/codex-impl-plan-completion-review-loop) -
   Runs `codex-impl-plan-completion-loop` first, then runs
   `codex-recent-change-quality-loop` so completed implementation work is
-  reviewed and improved before final output. `backend: codex-agent`; includes
-  Codex skills.
+  reviewed and improved before final output. `backend: codex-agent`.
 - [codex-recent-change-quality-loop](packages/codex-recent-change-quality-loop) -
   Reviews recent code changes, including uncommitted changes, delegates
   blocking findings to `codex-design-and-implement-review-loop`, and re-reviews
@@ -162,7 +195,7 @@ for single-workflow use and for package dependencies.
   Lightweight workflow for small code or documentation changes when no
   dedicated workflow applies. It implements with Codex GPT-5.5 high effort,
   reviews the diff, and loops back only for high or middle findings.
-  `backend: codex-agent`; includes Codex skills.
+  `backend: codex-agent`.
 - [codex-task-watchdog](packages/codex-task-watchdog) -
   Runs a background task watcher for `./tasks/list.jsonl`, repeatedly polling
   for newly added active tasks, skipping while another task is running,
@@ -174,13 +207,12 @@ for single-workflow use and for package dependencies.
   Builds and iterates SolidJS websites with Bun through separate Codex nodes for
   site design, pinned CSS/library selection, asset generation, implementation,
   Docker-contained Bun server operation, Playwright review, chat feedback
-  routing, and git snapshot commits. `backend: codex-agent, native-command`;
-  includes Codex skills.
+  routing, and git snapshot commits. `backend: codex-agent, native-command`.
 - [codex-refactoring-divide-and-conquer](packages/codex-refactoring-divide-and-conquer) -
   Splits a codebase into package or processing-group slices, reviews slices
   concurrently, merges findings into a refactoring plan, implements bounded
   tasks, self-reviews, independently post-reviews, and loops until completion or
-  accepted residual risk. `backend: codex-agent`; includes Codex skills.
+  accepted residual risk. `backend: codex-agent`.
 - [codex-refactoring-slice-review](packages/codex-refactoring-slice-review) -
   Read-only review workflow for one codebase slice produced by
   `codex-refactoring-divide-and-conquer`, including duplicate-scavenge review
@@ -197,7 +229,7 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
   on remaining TODOs. `backend: claude-code-agent, codex-agent`; includes
   Claude skills.
 - [claude-code-deepdesign](packages/claude-code-deepdesign) -
-  Create and iteratively review design-doc specifications with one Claude Code author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain. `backend: claude-code-agent`; includes Claude skills.
+  Create and iteratively review design-doc specifications with one Claude Code author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain. `backend: claude-code-agent`.
 - [claude-code-adversarial-implementation-review-loop](packages/claude-code-adversarial-implementation-review-loop) -
   Run a scoped Claude Code implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain. `backend: claude-code-agent`.
 - [claude-code-design-and-implement-review-loop](packages/claude-code-design-and-implement-review-loop) -
@@ -208,7 +240,7 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
   and reviews an in-session plan without writing plan files, performs the work,
   may delegate to a more specific workflow when appropriate, and reviews whether
   the goal is achieved before looping back to work or planning. `backend:
-  claude-code-agent`; includes Claude skills.
+  claude-code-agent`.
 - [claude-code-impl-plan-completion-loop](packages/claude-code-impl-plan-completion-loop) -
   Find incomplete implementation plans under impl-plans/active, delegate each selected plan to claude-code-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain. `backend: claude-code-agent`.
 - [claude-code-impl-plan-completion-review-loop](packages/claude-code-impl-plan-completion-review-loop) -
@@ -219,52 +251,51 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
 - [claude-code-recent-change-quality-loop](packages/claude-code-recent-change-quality-loop) -
   Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain. `backend: claude-code-agent`.
 - [claude-code-refactoring-divide-and-conquer](packages/claude-code-refactoring-divide-and-conquer) -
-  Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts. `backend: claude-code-agent`; includes Claude skills.
+  Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts. `backend: claude-code-agent`.
 - [claude-code-refactoring-slice-review](packages/claude-code-refactoring-slice-review) -
   Read-only review workflow for one codebase slice produced by claude-code-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept. `backend: claude-code-agent`.
 - [claude-code-simple-work-package](packages/claude-code-simple-work-package) -
-  Lightweight Claude Code workflow for small code or documentation changes when no dedicated workflow applies. It implements with Claude Code Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings. `backend: claude-code-agent`; includes Claude skills.
+  Lightweight Claude Code workflow for small code or documentation changes when no dedicated workflow applies. It implements with Claude Code Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings. `backend: claude-code-agent`.
 - [claude-code-source-security-check-loop](packages/claude-code-source-security-check-loop) -
   Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Claude Code, delegate blocking fixes, and rescan until verified high and medium findings are resolved. `backend: claude-code-agent`; includes Claude skills.
 - [claude-code-task-watchdog](packages/claude-code-task-watchdog) -
   Long-running Claude Code task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Claude Code execution, post-task skill mining, skill review, and commit. `backend: claude-code-agent`; includes Claude skills.
 - [claude-code-website-builder](packages/claude-code-website-builder) -
-  Event-ready Claude Code workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites. `backend: claude-code-agent`; includes Claude skills.
+  Event-ready Claude Code workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites. `backend: claude-code-agent`.
 - [claude-code-worker-only-single-step](packages/claude-code-worker-only-single-step) -
-  Minimal manager-less reference workflow that starts directly at one worker step through explicit entryStepId authoring. `backend: claude-code-agent`; includes Claude skills.
+  Minimal manager-less reference workflow that starts directly at one worker step through explicit entryStepId authoring. `backend: claude-code-agent`.
 
 ### Cursor CLI Agent Workflows
 
 These packages use `cursor-cli-agent`. Each one inherits the matching Codex workflow with `workflow.json` `extends`, then patches implementation steps to Composer 2.5, non-implementation agent steps to GPT-5.5, and rewrites same-family workflow calls.
 
 - [cursor-cli-developer-workflows](packages/cursor-cli-developer-workflows) -
-  Meta package that installs the standard Cursor CLI developer workflow set and
-  one Cursor rule for choosing among design, implementation, simple work,
-  implementation-plan completion, recent-change review, refactoring, security,
-  task watchdog, and website workflows. Install this package when a Cursor
-  environment should have the full standard developer workflow set available
-  without separate per-workflow installs. `backend: cursor-cli-agent`; includes
-  Cursor skills.
+  Meta package that pins the standard Cursor CLI developer workflow set in its
+  `dependencies` and ships one Cursor rule for choosing among design,
+  implementation, simple work, implementation-plan completion, recent-change
+  review, refactoring, security, task watchdog, and website workflows. Install
+  this package plus its listed dependency packages to give a Cursor environment
+  the full standard developer workflow set. `backend: cursor-cli-agent`;
+  includes Cursor skills.
 - [cursor-cli-deepdesign](packages/cursor-cli-deepdesign) -
-  Create and iteratively review design-doc specifications with one Cursor CLI author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain. `backend: cursor-cli-agent`; includes Cursor skills.
+  Create and iteratively review design-doc specifications with one Cursor CLI author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain. `backend: cursor-cli-agent`.
 - [cursor-cli-adversarial-implementation-review-loop](packages/cursor-cli-adversarial-implementation-review-loop) -
   Run a scoped Cursor CLI implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain. `backend: cursor-cli-agent`.
 - [cursor-cli-design-and-implement-review-loop](packages/cursor-cli-design-and-implement-review-loop) -
   Shared Cursor CLI workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow uses GPT-5.5 for design and review agent steps, uses Composer 2.5 for implementation, and owns both the sequential path and the bounded feature-local fanout path before implementation or planning-only completion. `backend: cursor-cli-agent`; includes Cursor skills.
 - [cursor-cli-fable-design-and-implement-review-loop](packages/cursor-cli-fable-design-and-implement-review-loop) -
-  Explicit Claude Fable 5 variant of the Cursor CLI implementation workflow. It uses Claude Fable 5 for review agent steps, Composer 2.5 for implementation, and Claude Opus 4.8 for design and other agent steps. The default implementation skill remains the GPT-5.5 plus Composer workflow unless the user explicitly requests the Fable variant. `backend: cursor-cli-agent`; includes Cursor skills.
+  Explicit Claude Fable 5 variant of the Cursor CLI implementation workflow. It uses Claude Fable 5 for review agent steps, Composer 2.5 for implementation, and Claude Opus 4.8 for design and other agent steps. The default implementation skill remains the GPT-5.5 plus Composer workflow unless the user explicitly requests the Fable variant. `backend: cursor-cli-agent`.
 - [cursor-cli-goal](packages/cursor-cli-goal) -
   Generic Cursor CLI workflow that actively investigates available Riela
   workflows at each step, creates and reviews a testable goal, creates and
   reviews an in-session plan without writing plan files, performs the work with
   Composer 2.5, uses GPT-5.5 for other agent steps, may delegate to a more
   specific workflow when appropriate, and reviews whether the goal is achieved
-  before looping back to work or planning. `backend: cursor-cli-agent`; includes
-  Cursor skills.
+  before looping back to work or planning. `backend: cursor-cli-agent`.
 - [cursor-cli-hydra-codex-design-and-implement-review-loop](packages/cursor-cli-hydra-codex-design-and-implement-review-loop) -
-  Explicit hydra Codex variant of the implementation workflow. It uses Codex GPT-5.5 for design, review, and all non-implementation agent steps, and Cursor Composer 2.5 for implementation. It is selected only when the user explicitly requests the hydra Codex workflow. `backend: codex-agent,cursor-cli-agent`; includes Cursor skills.
+  Explicit hydra Codex variant of the implementation workflow. It uses Codex GPT-5.5 for design, review, and all non-implementation agent steps, and Cursor Composer 2.5 for implementation. It is selected only when the user explicitly requests the hydra Codex workflow. `backend: codex-agent,cursor-cli-agent`.
 - [cursor-cli-hydra-claude-design-and-implement-review-loop](packages/cursor-cli-hydra-claude-design-and-implement-review-loop) -
-  Explicit hydra Claude variant of the implementation workflow. It uses Claude Code Fable 5 for design and review agent steps, Cursor Composer 2.5 for implementation, and Claude Code Opus 4.8 for other agent steps. It is selected only when the user explicitly requests the hydra Claude workflow. `backend: claude-code-agent,cursor-cli-agent`; includes Cursor skills.
+  Explicit hydra Claude variant of the implementation workflow. It uses Claude Code Fable 5 for design and review agent steps, Cursor Composer 2.5 for implementation, and Claude Code Opus 4.8 for other agent steps. It is selected only when the user explicitly requests the hydra Claude workflow. `backend: claude-code-agent,cursor-cli-agent`.
 - [cursor-cli-impl-plan-completion-loop](packages/cursor-cli-impl-plan-completion-loop) -
   Find incomplete implementation plans under impl-plans/active, delegate each selected plan to cursor-cli-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain. `backend: cursor-cli-agent`.
 - [cursor-cli-impl-plan-completion-review-loop](packages/cursor-cli-impl-plan-completion-review-loop) -
@@ -276,17 +307,17 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 - [cursor-cli-recent-change-quality-loop](packages/cursor-cli-recent-change-quality-loop) -
   Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain. `backend: cursor-cli-agent`.
 - [cursor-cli-refactoring-divide-and-conquer](packages/cursor-cli-refactoring-divide-and-conquer) -
-  Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts. `backend: cursor-cli-agent`; includes Cursor skills.
+  Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts. `backend: cursor-cli-agent`.
 - [cursor-cli-refactoring-slice-review](packages/cursor-cli-refactoring-slice-review) -
   Read-only review workflow for one codebase slice produced by cursor-cli-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept. `backend: cursor-cli-agent`.
 - [cursor-cli-simple-work-package](packages/cursor-cli-simple-work-package) -
-  Lightweight Cursor CLI workflow for small code or documentation changes when no dedicated workflow applies. It implements with Cursor CLI Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings. `backend: cursor-cli-agent`; includes Cursor skills.
+  Lightweight Cursor CLI workflow for small code or documentation changes when no dedicated workflow applies. It implements with Cursor CLI Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings. `backend: cursor-cli-agent`.
 - [cursor-cli-source-security-check-loop](packages/cursor-cli-source-security-check-loop) -
   Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Cursor CLI, delegate blocking fixes, and rescan until verified high and medium findings are resolved. `backend: cursor-cli-agent`; includes Cursor skills.
 - [cursor-cli-task-watchdog](packages/cursor-cli-task-watchdog) -
   Long-running Cursor CLI task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Cursor CLI execution, post-task skill mining, skill review, and commit. `backend: cursor-cli-agent`; includes Cursor skills.
 - [cursor-cli-website-builder](packages/cursor-cli-website-builder) -
-  Event-ready Cursor CLI workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites. `backend: cursor-cli-agent`; includes Cursor skills.
+  Event-ready Cursor CLI workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites. `backend: cursor-cli-agent`.
 
 ### Skill Packages
 
@@ -319,54 +350,61 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 
 | Package | Type | Backend | Skills |
 | --- | --- | --- | --- |
-| [release-note-node-addon](packages/release-note-node-addon) | node-addon | `codex-agent` | - |
-| [greeting-node-addon](packages/greeting-node-addon) | node-addon | `native-command` | - |
-| [youtube-mp4-download-addon](packages/youtube-mp4-download-addon) | node-addon | `native-command` | - |
-| [mp4-audio-extract-addon](packages/mp4-audio-extract-addon) | node-addon | `native-command` | - |
-| [google-speech-to-text-addon](packages/google-speech-to-text-addon) | node-addon | `native-command` | Codex |
+| [release-note-node-addon](packages/release-note-node-addon) | node-addon | - | - |
+| [greeting-node-addon](packages/greeting-node-addon) | node-addon | - | - |
+| [google-speech-to-text-addon](packages/google-speech-to-text-addon) | node-addon | - | Codex |
+| [mp4-audio-extract-addon](packages/mp4-audio-extract-addon) | node-addon | - | - |
+| [youtube-mp4-download-addon](packages/youtube-mp4-download-addon) | node-addon | - | - |
 | [greeting-container](packages/greeting-container) | workflow | `native-container` | - |
 | [greeting-shell](packages/greeting-shell) | workflow | `native-command` | - |
 | [youtube-mp4-to-text-workflow](packages/youtube-mp4-to-text-workflow) | workflow | `native-command` | - |
-| [youtube-shorts-to-text-container](packages/youtube-shorts-to-text-container) | workflow | `native-command`, Docker | - |
-| [codex-adversarial-implementation-review-loop](packages/codex-adversarial-implementation-review-loop) | workflow | `codex-agent` | Codex |
-| [codex-deep-creation](packages/codex-deep-creation) | workflow | `codex-agent` | Codex |
-| [codex-deepdesign](packages/codex-deepdesign) | workflow | `codex-agent` | Codex |
+| [youtube-shorts-to-text-container](packages/youtube-shorts-to-text-container) | workflow | `native-command` | - |
+| [codex-adversarial-implementation-review-loop](packages/codex-adversarial-implementation-review-loop) | workflow | `codex-agent` | - |
+| [codex-deep-creation](packages/codex-deep-creation) | workflow | `codex-agent` | - |
+| [codex-deepdesign](packages/codex-deepdesign) | workflow | `codex-agent` | - |
 | [codex-design-and-implement-review-loop](packages/codex-design-and-implement-review-loop) | workflow | `codex-agent` | Codex |
+| [codex-goal](packages/codex-goal) | workflow | `codex-agent` | - |
 | [codex-impl-plan-completion-loop](packages/codex-impl-plan-completion-loop) | workflow | `codex-agent` | - |
-| [codex-impl-plan-completion-review-loop](packages/codex-impl-plan-completion-review-loop) | workflow | `codex-agent` | Codex |
+| [codex-impl-plan-completion-review-loop](packages/codex-impl-plan-completion-review-loop) | workflow | `codex-agent` | - |
 | [codex-recent-change-quality-loop](packages/codex-recent-change-quality-loop) | workflow | `codex-agent` | - |
-| [codex-refactoring-divide-and-conquer](packages/codex-refactoring-divide-and-conquer) | workflow | `codex-agent` | Codex |
+| [codex-refactoring-divide-and-conquer](packages/codex-refactoring-divide-and-conquer) | workflow | `codex-agent` | - |
 | [codex-refactoring-slice-review](packages/codex-refactoring-slice-review) | workflow | `codex-agent` | - |
-| [codex-simple-work-package](packages/codex-simple-work-package) | workflow | `codex-agent` | Codex |
+| [codex-simple-work-package](packages/codex-simple-work-package) | workflow | `codex-agent` | - |
 | [codex-source-security-check-loop](packages/codex-source-security-check-loop) | workflow | `native-command`, `codex-agent` | Codex |
 | [codex-task-watchdog](packages/codex-task-watchdog) | workflow | `codex-agent` | Codex |
-| [codex-website-builder](packages/codex-website-builder) | workflow | `codex-agent`, `native-command` | Codex |
+| [codex-website-builder](packages/codex-website-builder) | workflow | `codex-agent`, `native-command` | - |
 | [claude-code-adversarial-implementation-review-loop](packages/claude-code-adversarial-implementation-review-loop) | workflow | `claude-code-agent` | - |
-| [claude-code-deepdesign](packages/claude-code-deepdesign) | workflow | `claude-code-agent` | Claude |
+| [claude-code-deepdesign](packages/claude-code-deepdesign) | workflow | `claude-code-agent` | - |
 | [claude-code-design-and-implement-review-loop](packages/claude-code-design-and-implement-review-loop) | workflow | `claude-code-agent` | Claude |
+| [claude-code-goal](packages/claude-code-goal) | workflow | `claude-code-agent` | - |
 | [claude-code-impl-plan-completion-loop](packages/claude-code-impl-plan-completion-loop) | workflow | `claude-code-agent` | - |
 | [claude-code-impl-plan-completion-review-loop](packages/claude-code-impl-plan-completion-review-loop) | workflow | `claude-code-agent` | - |
 | [claude-code-recent-change-quality-loop](packages/claude-code-recent-change-quality-loop) | workflow | `claude-code-agent` | - |
-| [claude-code-refactoring-divide-and-conquer](packages/claude-code-refactoring-divide-and-conquer) | workflow | `claude-code-agent` | Claude |
+| [claude-code-refactoring-divide-and-conquer](packages/claude-code-refactoring-divide-and-conquer) | workflow | `claude-code-agent` | - |
 | [claude-code-refactoring-slice-review](packages/claude-code-refactoring-slice-review) | workflow | `claude-code-agent` | - |
-| [claude-code-simple-work-package](packages/claude-code-simple-work-package) | workflow | `claude-code-agent` | Claude |
+| [claude-code-simple-work-package](packages/claude-code-simple-work-package) | workflow | `claude-code-agent` | - |
 | [claude-code-source-security-check-loop](packages/claude-code-source-security-check-loop) | workflow | `claude-code-agent` | Claude |
 | [claude-code-task-watchdog](packages/claude-code-task-watchdog) | workflow | `claude-code-agent` | Claude |
-| [claude-code-website-builder](packages/claude-code-website-builder) | workflow | `claude-code-agent` | Claude |
-| [claude-code-worker-only-single-step](packages/claude-code-worker-only-single-step) | workflow | `claude-code-agent` | Claude |
+| [claude-code-website-builder](packages/claude-code-website-builder) | workflow | `claude-code-agent` | - |
+| [claude-code-worker-only-single-step](packages/claude-code-worker-only-single-step) | workflow | `claude-code-agent` | - |
 | [fable-and-improve](packages/fable-and-improve) | workflow | `claude-code-agent`, `codex-agent` | Claude |
 | [cursor-cli-adversarial-implementation-review-loop](packages/cursor-cli-adversarial-implementation-review-loop) | workflow | `cursor-cli-agent` | - |
-| [cursor-cli-deepdesign](packages/cursor-cli-deepdesign) | workflow | `cursor-cli-agent` | Cursor |
+| [cursor-cli-deepdesign](packages/cursor-cli-deepdesign) | workflow | `cursor-cli-agent` | - |
 | [cursor-cli-design-and-implement-review-loop](packages/cursor-cli-design-and-implement-review-loop) | workflow | `cursor-cli-agent` | Cursor |
+| [cursor-cli-developer-workflows](packages/cursor-cli-developer-workflows) | workflow | `cursor-cli-agent` | Cursor |
+| [cursor-cli-fable-design-and-implement-review-loop](packages/cursor-cli-fable-design-and-implement-review-loop) | workflow | `cursor-cli-agent` | - |
+| [cursor-cli-goal](packages/cursor-cli-goal) | workflow | `cursor-cli-agent` | - |
+| [cursor-cli-hydra-claude-design-and-implement-review-loop](packages/cursor-cli-hydra-claude-design-and-implement-review-loop) | workflow | `claude-code-agent`, `cursor-cli-agent` | - |
+| [cursor-cli-hydra-codex-design-and-implement-review-loop](packages/cursor-cli-hydra-codex-design-and-implement-review-loop) | workflow | `codex-agent`, `cursor-cli-agent` | - |
 | [cursor-cli-impl-plan-completion-loop](packages/cursor-cli-impl-plan-completion-loop) | workflow | `cursor-cli-agent` | - |
 | [cursor-cli-impl-plan-completion-review-loop](packages/cursor-cli-impl-plan-completion-review-loop) | workflow | `cursor-cli-agent` | - |
 | [cursor-cli-recent-change-quality-loop](packages/cursor-cli-recent-change-quality-loop) | workflow | `cursor-cli-agent` | - |
-| [cursor-cli-refactoring-divide-and-conquer](packages/cursor-cli-refactoring-divide-and-conquer) | workflow | `cursor-cli-agent` | Cursor |
+| [cursor-cli-refactoring-divide-and-conquer](packages/cursor-cli-refactoring-divide-and-conquer) | workflow | `cursor-cli-agent` | - |
 | [cursor-cli-refactoring-slice-review](packages/cursor-cli-refactoring-slice-review) | workflow | `cursor-cli-agent` | - |
-| [cursor-cli-simple-work-package](packages/cursor-cli-simple-work-package) | workflow | `cursor-cli-agent` | Cursor |
+| [cursor-cli-simple-work-package](packages/cursor-cli-simple-work-package) | workflow | `cursor-cli-agent` | - |
 | [cursor-cli-source-security-check-loop](packages/cursor-cli-source-security-check-loop) | workflow | `cursor-cli-agent` | Cursor |
 | [cursor-cli-task-watchdog](packages/cursor-cli-task-watchdog) | workflow | `cursor-cli-agent` | Cursor |
-| [cursor-cli-website-builder](packages/cursor-cli-website-builder) | workflow | `cursor-cli-agent` | Cursor |
+| [cursor-cli-website-builder](packages/cursor-cli-website-builder) | workflow | `cursor-cli-agent` | - |
 | [riela-package-installer-skill](packages/riela-package-installer-skill) | skill | - | Codex, Claude |
 | [riela-package-manager-skill](packages/riela-package-manager-skill) | skill | - | Codex, Claude |
 | [riela-package-release-skill](packages/riela-package-release-skill) | skill | - | Agents, Codex, Claude |

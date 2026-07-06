@@ -21,8 +21,8 @@ type Manifest = {
 const manifestFile = "riela-package.json";
 
 const usage = `Usage:
-  bun .riela/workflows/riela-package-release-skill/scripts/update-package-digests.ts <package-id> [<package-id>...]
-  bun .riela/workflows/riela-package-release-skill/scripts/update-package-digests.ts --all
+  bun .agents/skills/riela-package-release/scripts/update-package-digests.ts <package-id> [<package-id>...]
+  bun .agents/skills/riela-package-release/scripts/update-package-digests.ts --all
 
 Options:
   --all      Update every packages/*/riela-package.json manifest.

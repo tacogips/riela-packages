@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "e0bc0f1a5422cc3b4360cdcea07111fc",
+  "checksum": "0ea59eb26fd9a20fc64bb0849c5e7273",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-refactoring-slice-review",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "aa2c02c7945147046684b3b3a9301a0a187731d1d6405da606f852d6db9e04b2"
+    "digest": "2ead8c5b24b51c9861e72108e43767c8655102a160c219657ee59576f97d042e"
   },
   "backends": [
     "cursor-cli-agent"

@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "b91c52a5ea769552b5831c505e8d9f8e",
+  "checksum": "b675be69e438c989587cb2e683861f9c",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-simple-work-package",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "26e8ae03381735f16f3b5cb2780662dfe03aa1a0a2b0c67f93144cf64e3eeae6"
+    "digest": "3f86893d67f1fdb08d91b65285fc4311f39aff89faea113b87019593b9772a92"
   },
   "backends": [
     "cursor-cli-agent"
