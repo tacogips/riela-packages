@@ -83,7 +83,7 @@
               "reason": "reads explicit Google authentication environment bindings"
             }
           ],
-          "contentDigest": "sha256:7657440dae57041643b33c6a60d41ba486e4d560adae48056d6fa8ff3d705f4b"
+          "contentDigest": "sha256:798a436764088df87e1d28af2be3781101f20c3ffe6b820f5b5f74ed141748e3"
         }
       ],
       "skills": [],
@@ -140,7 +140,7 @@
               "reason": "writes the extracted audio artifact and output JSON"
             }
           ],
-          "contentDigest": "sha256:643c2809c9f471443295e1b8ef08aa6b089ffed8dd6b3da91a5c805df1a750a8"
+          "contentDigest": "sha256:8771ab696ac95a80b0322f629883bda874316bc5c322741f44c2205d74aa7894"
         }
       ],
       "skills": [],
@@ -207,17 +207,17 @@
               "reason": "writes rendered page image artifacts and output JSON"
             }
           ],
-          "contentDigest": "sha256:242d9e70080e92460c6849eb17e6a9c2d059824794d0256117d800d3e6bd075d"
+          "contentDigest": "sha256:727355244935c45d3c4521e1e35ae12bdf26a97f0149f7af4722e13af060a105"
         }
       ],
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "43024fe462264b6ed60fcfbf80c72995"
+        "value": "94a920964baf3068680ad6b247a5e229"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "46fbc2b6cdf0525e5ad7d39b4ba7d6d3d73b3bca2a2ce3439a94646ad9555753"
+        "digest": "7b5357a0617705a398fe5a862a187d836eebbc57ae3b97bc0112764f0a123012"
       }
     },
     {
@@ -268,7 +268,7 @@
               "reason": "writes the downloaded MP4 artifact and output JSON"
             }
           ],
-          "contentDigest": "sha256:024676e2e6e9e084011b62e9aa48bb7baee2e6c1a1d53a691815c5df1782c6cf"
+          "contentDigest": "sha256:607c3324a1418be4fce1996815ae09ce52efa20e7821d3afecc95370e3f15698"
         }
       ],
       "skills": [],
@@ -312,7 +312,7 @@
             {
               "name": "tacogips/youtube-mp4-download",
               "version": "1",
-              "contentDigest": "sha256:024676e2e6e9e084011b62e9aa48bb7baee2e6c1a1d53a691815c5df1782c6cf",
+              "contentDigest": "sha256:607c3324a1418be4fce1996815ae09ce52efa20e7821d3afecc95370e3f15698",
               "capabilityGrant": {
                 "process.spawn": {
                   "allowed": true
@@ -336,7 +336,7 @@
             {
               "name": "tacogips/mp4-audio-extract",
               "version": "1",
-              "contentDigest": "sha256:643c2809c9f471443295e1b8ef08aa6b089ffed8dd6b3da91a5c805df1a750a8",
+              "contentDigest": "sha256:8771ab696ac95a80b0322f629883bda874316bc5c322741f44c2205d74aa7894",
               "capabilityGrant": {
                 "process.spawn": {
                   "allowed": true
@@ -357,7 +357,7 @@
             {
               "name": "tacogips/google-speech-to-text",
               "version": "1",
-              "contentDigest": "sha256:7657440dae57041643b33c6a60d41ba486e4d560adae48056d6fa8ff3d705f4b",
+              "contentDigest": "sha256:798a436764088df87e1d28af2be3781101f20c3ffe6b820f5b5f74ed141748e3",
               "capabilityGrant": {
                 "process.spawn": {
                   "allowed": true
@@ -2698,11 +2698,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "3f2caf8a46e5bcf226f4f5bc47cfa6b3"
+        "value": "8a4fff5d4b2c44c46518fd4a33325abe"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "0757559a57d83a973b0beda189f5e70553b779d99931264691be7e71768d9d1d"
+        "digest": "2c4326655484b56b217cabe9d4d63045c96311093392c34f1775b54527abe19c"
       }
     },
     {
@@ -2788,7 +2788,7 @@
               "reason": "runs the packaged greeting Bash script"
             }
           ],
-          "contentDigest": "sha256:9f12f3980389b468f0880daf8a18b809851053d61a7b39a576e97f0ed800cc89"
+          "contentDigest": "sha256:bc7e1c72cb53d3ab30a88fea9e46ae3ca4e26e3be73b7ef9a4249557b0d4be75"
         }
       ],
       "skills": [],
@@ -2998,11 +2998,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "d0068c3cd8555018428945afb6d42179"
+        "value": "3ae8ab0381a2a2565b30b896c4704229"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "58d7074a75c7889bc5d0538c2be3e8a070780e8f927ca492d8d6e5718bfbc25b"
+        "digest": "4b5b6aacc59a199bec8b3d64bb7d77a28730dfca87acc9f0c658bc0db46365a8"
       }
     },
     {

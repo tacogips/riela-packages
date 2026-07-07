@@ -186,23 +186,25 @@ const entries = await collectEntries();
 if (check) {
   let failed = false;
   for (const entry of entries) {
+    let entryFailed = false;
     if (!existsSync(path.join(repoRoot, entry.context))) {
       console.error(`${entry.packageId}\tmissing context: ${entry.context}`);
-      failed = true;
+      entryFailed = true;
     }
     if (!existsSync(path.join(repoRoot, entry.file))) {
       console.error(`${entry.packageId}\tmissing Containerfile: ${entry.file}`);
-      failed = true;
+      entryFailed = true;
     }
     if (entry.image !== entry.expectedImage) {
       console.error(`${entry.packageId}\timage mismatch: expected ${entry.expectedImage}, found ${entry.image}`);
-      failed = true;
+      entryFailed = true;
     }
     if (!entry.contentDigest?.startsWith("sha256:")) {
       console.error(`${entry.packageId}\tmissing sha256 contentDigest for ${entry.addonName}`);
-      failed = true;
+      entryFailed = true;
     }
-    console.log(`${entry.packageId}\t${failed ? "check" : "ok"}`);
+    console.log(`${entry.packageId}\t${entryFailed ? "failed" : "ok"}`);
+    failed = failed || entryFailed;
   }
   process.exit(failed ? 1 : 0);
 }

@@ -69,8 +69,11 @@ function shouldExclude(relativePath: string): boolean {
   return (
     relativePath === manifestFile ||
     relativePath.startsWith(".git/") ||
+    relativePath.endsWith(".pyc") ||
+    relativePath.endsWith(".pyo") ||
     entryNames.includes(".DS_Store") ||
     entryNames.includes("__MACOSX") ||
+    entryNames.includes("__pycache__") ||
     entryNames.includes(".git") ||
     entryNames.includes(".hg") ||
     entryNames.includes(".svn")

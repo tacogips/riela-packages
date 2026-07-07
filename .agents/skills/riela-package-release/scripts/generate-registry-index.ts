@@ -160,10 +160,12 @@ function asStringArray(value: unknown): string[] {
   return value.filter((item): item is string => typeof item === "string");
 }
 
+function compareStrings(left: string, right: string): number {
+  return left < right ? -1 : left > right ? 1 : 0;
+}
+
 function uniqueSorted(values: string[]): string[] {
-  return Array.from(new Set(values.filter((value) => value.length > 0))).sort(
-    (left, right) => left.localeCompare(right),
-  );
+  return Array.from(new Set(values.filter((value) => value.length > 0))).sort(compareStrings);
 }
 
 function compactObject<T extends JsonObject>(value: T): T {
@@ -275,7 +277,7 @@ const packageDirectories = readdirSync(packagesRoot, { withFileTypes: true })
   .filter((directoryName) =>
     existsSync(path.join(packagesRoot, directoryName, manifestFile)),
   )
-  .sort((left, right) => left.localeCompare(right));
+  .sort(compareStrings);
 
 const packages: RegistryIndexPackage[] = [];
 const archivesByPackage = archiveManifestPath === undefined
@@ -290,8 +292,8 @@ for (const directoryName of packageDirectories) {
 }
 
 packages.sort((left, right) => {
-  const byName = left.name.localeCompare(right.name);
-  return byName === 0 ? left.directory.localeCompare(right.directory) : byName;
+  const byName = compareStrings(left.name, right.name);
+  return byName === 0 ? compareStrings(left.directory, right.directory) : byName;
 });
 
 const index = {

@@ -48,7 +48,7 @@
         {
           "name": "tacogips/youtube-mp4-download",
           "version": "1",
-          "contentDigest": "sha256:024676e2e6e9e084011b62e9aa48bb7baee2e6c1a1d53a691815c5df1782c6cf",
+          "contentDigest": "sha256:607c3324a1418be4fce1996815ae09ce52efa20e7821d3afecc95370e3f15698",
           "capabilityGrant": {
             "process.spawn": {
               "allowed": true
@@ -72,7 +72,7 @@
         {
           "name": "tacogips/mp4-audio-extract",
           "version": "1",
-          "contentDigest": "sha256:643c2809c9f471443295e1b8ef08aa6b089ffed8dd6b3da91a5c805df1a750a8",
+          "contentDigest": "sha256:8771ab696ac95a80b0322f629883bda874316bc5c322741f44c2205d74aa7894",
           "capabilityGrant": {
             "process.spawn": {
               "allowed": true
@@ -93,7 +93,7 @@
         {
           "name": "tacogips/google-speech-to-text",
           "version": "1",
-          "contentDigest": "sha256:7657440dae57041643b33c6a60d41ba486e4d560adae48056d6fa8ff3d705f4b",
+          "contentDigest": "sha256:798a436764088df87e1d28af2be3781101f20c3ffe6b820f5b5f74ed141748e3",
           "capabilityGrant": {
             "process.spawn": {
               "allowed": true

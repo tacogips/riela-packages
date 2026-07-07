@@ -126,11 +126,16 @@ function requiredValue(values: string[], index: number, option: string): string 
 }
 
 async function fetchRelease(ownerRepo: string, tag: string): Promise<GitHubRelease> {
+  const token = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
+  const headers: Record<string, string> = {
+    Accept: "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
   const response = await fetch(`https://api.github.com/repos/${ownerRepo}/releases/tags/${tag}`, {
-    headers: {
-      Accept: "application/vnd.github+json",
-      "X-GitHub-Api-Version": "2022-11-28",
-    },
+    headers,
   });
   if (response.status === 404) {
     throw new Error(`release not found: ${ownerRepo}@${tag}`);

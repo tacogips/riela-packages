@@ -10,6 +10,16 @@ tasks:
     cmds:
       - bun .agents/skills/riela-package-release/scripts/update-package-digests.ts --all --dry-run
 
+  package:check-addon-digests:
+    desc: Check every add-on contentDigest and dependency lock against add-on sources.
+    cmds:
+      - bun .agents/skills/riela-package-release/scripts/update-addon-content-digests.ts --all --check
+
+  package:update-addon-digests:
+    desc: Recompute add-on contentDigest values and sync dependency locks.
+    cmds:
+      - bun .agents/skills/riela-package-release/scripts/update-addon-content-digests.ts --all
+
   package:generate-index:
     desc: Generate registry-index.json from package manifests.
     cmds:
@@ -94,6 +104,7 @@ tasks:
     desc: Run package digest, registry index, package manifest, and workflow validation checks.
     cmds:
       - task: package:check-digests
+      - task: package:check-addon-digests
       - task: package:check-index
       - task: package:check-container-images
       - task: package:validate

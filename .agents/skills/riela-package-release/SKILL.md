@@ -38,6 +38,13 @@ git diff -- packages/<package-id>
 bun .agents/skills/riela-package-release/scripts/update-package-digests.ts <package-id>
 ```
 
+If add-on source files under `addons[].sourcePath` changed, also refresh add-on
+content digests and dependency locks:
+
+```bash
+bun .agents/skills/riela-package-release/scripts/update-addon-content-digests.ts <package-id>
+```
+
 For broad changes or after moving shared packaged skills, refresh every manifest:
 
 ```bash
@@ -117,6 +124,19 @@ task package:check-release-publication
 `kind: "node-addon"` packages are included by this script. Their package-level
 checksum and integrity digest cover the package payload, while add-on
 `contentDigest` values remain explicit add-on artifact locks.
+
+`scripts/update-addon-content-digests.ts` recomputes those add-on locks:
+
+- `addons[].contentDigest` as sha256 over the add-on `sourcePath` file tree,
+  using the same file-walk recipe and cache-file exclusions as the package
+  digest script
+- matching `dependencies[].addons[].contentDigest` locks in every package
+  manifest are synced to the recomputed values
+
+Run it whenever add-on source files change, then refresh package digests and
+regenerate the registry index. Use `--check` (or `--dry-run`) to fail on stale
+digests without writing; `task package:check-addon-digests` wires this into
+`task check`.
 
 Examples:
 

@@ -12,10 +12,10 @@
   ],
   "registry": "https://github.com/tacogips/riela-packages",
   "checksumAlgorithm": "md5",
-  "checksum": "43024fe462264b6ed60fcfbf80c72995",
+  "checksum": "94a920964baf3068680ad6b247a5e229",
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "46fbc2b6cdf0525e5ad7d39b4ba7d6d3d73b3bca2a2ce3439a94646ad9555753",
+    "digest": "7b5357a0617705a398fe5a862a187d836eebbc57ae3b97bc0112764f0a123012",
     "signatures": []
   },
   "addons": [
@@ -55,7 +55,7 @@
           "reason": "writes rendered page image artifacts and output JSON"
         }
       ],
-      "contentDigest": "sha256:242d9e70080e92460c6849eb17e6a9c2d059824794d0256117d800d3e6bd075d"
+      "contentDigest": "sha256:727355244935c45d3c4521e1e35ae12bdf26a97f0149f7af4722e13af060a105"
     }
   ]
 }

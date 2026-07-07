@@ -172,9 +172,13 @@ for (const packageId of selectedPackageIds) {
     }
     changed = true;
     packageChanged = true;
+    if (check) {
+      console.error(`${packageId}\t${entry.addonName}\tstale imageDigest ${current ?? "-"} -> ${digest}`);
+      continue;
+    }
     const action = current === undefined ? "set" : "update";
     console.log(`${packageId}\t${entry.addonName}\t${action} imageDigest ${current ?? "-"} -> ${digest}`);
-    if (!check && !dryRun) {
+    if (!dryRun) {
       manifest.addons![entry.addonIndex].execution!.imageDigest = digest;
     }
   }

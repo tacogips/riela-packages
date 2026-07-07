@@ -85,9 +85,12 @@ def main(argv: list[str]) -> int:
         image_format = "jpeg"
     if image_format not in {"png", "jpeg"}:
         usage_error(f"Unsupported image format: {image_format}")
+    output_path = Path(output_directory)
+    if output_path.is_absolute() or ".." in output_path.parts:
+        usage_error("outputDirectory must be a relative path without '..' segments")
 
     artifact_root = Path(os.environ.get("RIELA_ARTIFACT_DIR", ".riela/artifacts"))
-    files_dir = artifact_root / "addons" / "pdf-to-images" / output_directory
+    files_dir = artifact_root / "addons" / "pdf-to-images" / output_path
     files_dir.mkdir(parents=True, exist_ok=True)
 
     document = fitz.open(source)

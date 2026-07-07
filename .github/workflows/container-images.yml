@@ -41,6 +41,11 @@ jobs:
         with:
           bun-version: 1.3.13
 
+      - name: Check container add-on metadata
+        run: |
+          set -euo pipefail
+          bun .agents/skills/riela-package-release/scripts/container-image-matrix.ts --check
+
       - name: Build matrix
         id: matrix
         run: |

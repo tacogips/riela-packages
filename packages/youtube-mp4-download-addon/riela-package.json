@@ -49,7 +49,7 @@
           "reason": "writes the downloaded MP4 artifact and output JSON"
         }
       ],
-      "contentDigest": "sha256:024676e2e6e9e084011b62e9aa48bb7baee2e6c1a1d53a691815c5df1782c6cf"
+      "contentDigest": "sha256:607c3324a1418be4fce1996815ae09ce52efa20e7821d3afecc95370e3f15698"
     }
   ]
 }

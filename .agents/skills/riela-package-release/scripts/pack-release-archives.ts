@@ -106,8 +106,8 @@ const selectedPackageIds = all
       .sort()
   : packageIds;
 
-const actualOutputDir = path.resolve(repoRoot, check ? `.tmp-release-archives-${process.pid}` : outputDir);
-const actualManifestPath = path.resolve(repoRoot, check ? `.tmp-package-archives-${process.pid}.json` : manifestPath);
+const logicalOutputDir = path.resolve(repoRoot, outputDir);
+const actualOutputDir = check ? path.resolve(repoRoot, `.tmp-release-archives-${process.pid}`) : logicalOutputDir;
 
 try {
   if (existsSync(actualOutputDir)) {
@@ -124,7 +124,10 @@ try {
     const archivePath = path.join(actualOutputDir, archiveFile);
     createZipArchive(packageRoot, archivePath);
     const archiveSHA256 = `sha256:${sha256File(archivePath)}`;
-    const relativeArchivePath = path.relative(repoRoot, archivePath).split(path.sep).join("/");
+    const relativeArchivePath = path
+      .relative(repoRoot, path.join(logicalOutputDir, archiveFile))
+      .split(path.sep)
+      .join("/");
     archives.push({
       packageId,
       packageName: requiredString(manifest.name, `${packageId}: name`),
@@ -137,7 +140,7 @@ try {
     console.log(`${packageId}\t${archiveFile}\t${archiveSHA256}`);
   }
 
-  archives.sort((left, right) => left.packageName.localeCompare(right.packageName) || left.packageId.localeCompare(right.packageId));
+  archives.sort((left, right) => compareStrings(left.packageName, right.packageName) || compareStrings(left.packageId, right.packageId));
   const rendered = `${JSON.stringify({ schemaVersion: 1, archives }, null, 2)}\n`;
 
   if (check) {
@@ -157,7 +160,6 @@ try {
 } finally {
   if (check) {
     await rm(actualOutputDir, { recursive: true, force: true });
-    await rm(actualManifestPath, { force: true });
   }
 }
 
@@ -256,11 +258,11 @@ function createZipArchive(packageRoot: string, archivePath: string): void {
 function collectZipEntries(root: string): ZipEntry[] {
   const entries: ZipEntry[] = [];
   visit(root);
-  return entries.sort((left, right) => left.archivePath.localeCompare(right.archivePath));
+  return entries.sort((left, right) => compareStrings(left.archivePath, right.archivePath));
 
   function visit(directory: string): void {
     const children = readdirSync(directory, { withFileTypes: true })
-      .sort((left, right) => left.name.localeCompare(right.name));
+      .sort((left, right) => compareStrings(left.name, right.name));
     for (const child of children) {
       const absolutePath = path.join(directory, child.name);
       if (child.isDirectory()) {
@@ -281,8 +283,9 @@ function collectZipEntries(root: string): ZipEntry[] {
 }
 
 function shouldArchivePath(relativePath: string): boolean {
+  const ignoredSegments = ["__pycache__", ".DS_Store", "__MACOSX", ".git", ".hg", ".svn"];
   const segments = relativePath.split("/");
-  if (segments.some((segment) => segment === "__pycache__" || segment === ".DS_Store")) {
+  if (segments.some((segment) => ignoredSegments.includes(segment))) {
     return false;
   }
   if (relativePath.endsWith(".pyc") || relativePath.endsWith(".pyo")) {
@@ -312,6 +315,10 @@ function safeArchiveToken(value: string): string {
     .replace(/[^a-z0-9._-]+/g, "-")
     .replace(/^[._-]+|[._-]+$/g, "");
   return token.length === 0 ? "package" : token;
+}
+
+function compareStrings(left: string, right: string): number {
+  return left < right ? -1 : left > right ? 1 : 0;
 }
 
 function requiredString(value: unknown, label: string): string {

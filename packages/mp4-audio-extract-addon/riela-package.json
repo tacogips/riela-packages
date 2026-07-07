@@ -44,7 +44,7 @@
           "reason": "writes the extracted audio artifact and output JSON"
         }
       ],
-      "contentDigest": "sha256:643c2809c9f471443295e1b8ef08aa6b089ffed8dd6b3da91a5c805df1a750a8"
+      "contentDigest": "sha256:8771ab696ac95a80b0322f629883bda874316bc5c322741f44c2205d74aa7894"
     }
   ]
 }
