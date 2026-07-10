@@ -2,7 +2,7 @@
   "id": "slice-review",
   "description": "Perform read-only maintainability and duplicate-scavenge review for one refactoring slice.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/slice-review.md",
   "variables": {},

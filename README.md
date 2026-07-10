@@ -269,7 +269,7 @@ available for single-workflow use and for package dependencies.
   feature-local fanout, implementation, review, documentation refresh, and
   commit-message preparation. `backend: codex-agent`; includes Codex skills.
 - [codex-goal](packages/codex-goal) -
-  Generic Codex GPT-5.5 workflow that actively investigates available Riela
+  Generic Codex GPT-5.6 SOL workflow that actively investigates available Riela
   workflows at each step, creates and reviews a testable goal, creates and
   reviews an in-session plan without writing plan files, performs the work, may
   delegate to a more specific workflow when appropriate, and reviews whether the
@@ -296,7 +296,7 @@ available for single-workflow use and for package dependencies.
   codex-agent`; includes Codex skills.
 - [codex-simple-work-package](packages/codex-simple-work-package) -
   Lightweight workflow for small code or documentation changes when no
-  dedicated workflow applies. It implements with Codex GPT-5.5 high effort,
+  dedicated workflow applies. It implements with Codex GPT-5.6 SOL high effort,
   reviews the diff, and loops back only for high or middle findings.
   `backend: codex-agent`.
 - [codex-task-watchdog](packages/codex-task-watchdog) -
@@ -370,7 +370,7 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
 
 ### Cursor CLI Agent Workflows
 
-These packages use `cursor-cli-agent`. Each one inherits the matching Codex workflow with `workflow.json` `extends`, then patches implementation steps to Composer 2.5, non-implementation agent steps to GPT-5.5, and rewrites same-family workflow calls.
+These packages use `cursor-cli-agent`. Each one inherits the matching Codex workflow with `workflow.json` `extends`, then patches implementation steps to Composer 2.5, non-implementation agent steps to GPT-5.6 SOL, and rewrites same-family workflow calls.
 
 - [cursor-cli-developer-workflows](packages/cursor-cli-developer-workflows) -
   Meta package that pins the standard Cursor CLI developer workflow set in its
@@ -385,18 +385,18 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 - [cursor-cli-adversarial-implementation-review-loop](packages/cursor-cli-adversarial-implementation-review-loop) -
   Run a scoped Cursor CLI implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain. `backend: cursor-cli-agent`.
 - [cursor-cli-design-and-implement-review-loop](packages/cursor-cli-design-and-implement-review-loop) -
-  Shared Cursor CLI workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow uses GPT-5.5 for design and review agent steps, uses Composer 2.5 for implementation, and owns both the sequential path and the bounded feature-local fanout path before implementation or planning-only completion. `backend: cursor-cli-agent`; includes Cursor skills.
+  Shared Cursor CLI workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow uses GPT-5.6 SOL for design and review agent steps, uses Composer 2.5 for implementation, and owns both the sequential path and the bounded feature-local fanout path before implementation or planning-only completion. `backend: cursor-cli-agent`; includes Cursor skills.
 - [cursor-cli-fable-design-and-implement-review-loop](packages/cursor-cli-fable-design-and-implement-review-loop) -
-  Explicit Claude Fable 5 variant of the Cursor CLI implementation workflow. It uses Claude Fable 5 for review agent steps, Composer 2.5 for implementation, and Claude Opus 4.8 for design and other agent steps. The default implementation skill remains the GPT-5.5 plus Composer workflow unless the user explicitly requests the Fable variant. `backend: cursor-cli-agent`.
+  Explicit Claude Fable 5 variant of the Cursor CLI implementation workflow. It uses Claude Fable 5 for review agent steps, Composer 2.5 for implementation, and Claude Opus 4.8 for design and other agent steps. The default implementation skill remains the GPT-5.6 SOL plus Composer workflow unless the user explicitly requests the Fable variant. `backend: cursor-cli-agent`.
 - [cursor-cli-goal](packages/cursor-cli-goal) -
   Generic Cursor CLI workflow that actively investigates available Riela
   workflows at each step, creates and reviews a testable goal, creates and
   reviews an in-session plan without writing plan files, performs the work with
-  Composer 2.5, uses GPT-5.5 for other agent steps, may delegate to a more
+  Composer 2.5, uses GPT-5.6 SOL for other agent steps, may delegate to a more
   specific workflow when appropriate, and reviews whether the goal is achieved
   before looping back to work or planning. `backend: cursor-cli-agent`.
 - [cursor-cli-hydra-codex-design-and-implement-review-loop](packages/cursor-cli-hydra-codex-design-and-implement-review-loop) -
-  Explicit hydra Codex variant of the implementation workflow. It uses Codex GPT-5.5 for design, review, and all non-implementation agent steps, and Cursor Composer 2.5 for implementation. It is selected only when the user explicitly requests the hydra Codex workflow. `backend: codex-agent,cursor-cli-agent`.
+  Explicit hydra Codex variant of the implementation workflow. It uses Codex GPT-5.6 SOL for design, review, and all non-implementation agent steps, and Cursor Composer 2.5 for implementation. It is selected only when the user explicitly requests the hydra Codex workflow. `backend: codex-agent,cursor-cli-agent`.
 - [cursor-cli-hydra-claude-design-and-implement-review-loop](packages/cursor-cli-hydra-claude-design-and-implement-review-loop) -
   Explicit hydra Claude variant of the implementation workflow. It uses Claude Code Fable 5 for design and review agent steps, Cursor Composer 2.5 for implementation, and Claude Code Opus 4.8 for other agent steps. It is selected only when the user explicitly requests the hydra Claude workflow. `backend: claude-code-agent,cursor-cli-agent`.
 - [cursor-cli-impl-plan-completion-loop](packages/cursor-cli-impl-plan-completion-loop) -
@@ -404,7 +404,7 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 - [cursor-cli-impl-plan-completion-review-loop](packages/cursor-cli-impl-plan-completion-review-loop) -
   Runs `cursor-cli-impl-plan-completion-loop` first, then runs
   `cursor-cli-recent-change-quality-loop` so completed implementation work is
-  reviewed and improved before final output. Uses GPT-5.5 for wrapper and
+  reviewed and improved before final output. Uses GPT-5.6 SOL for wrapper and
   review steps, while delegated implementation steps use Composer 2.5.
   `backend: cursor-cli-agent`.
 - [cursor-cli-recent-change-quality-loop](packages/cursor-cli-recent-change-quality-loop) -

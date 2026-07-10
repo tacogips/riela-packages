@@ -2,7 +2,7 @@
   "id": "post-fix-review",
   "description": "Capture the delegated security-fix workflow result before rescanning.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/post-fix-review.md",
   "variables": {},

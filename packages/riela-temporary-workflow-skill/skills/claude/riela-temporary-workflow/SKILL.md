@@ -44,7 +44,7 @@ Temporary workflows use one JSON object with this shape:
       "id": "main-worker",
       "description": "Do the one-off task.",
       "executionBackend": "codex-agent",
-      "model": "gpt-5.5",
+      "model": "gpt-5.6-sol",
       "promptTemplate": "Return one concise JSON object with the requested result.",
       "variables": {}
     }

@@ -2,7 +2,7 @@
   "id": "workflow-output",
   "description": "Summarize the accepted review result after any delegated implementation handoff completes.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/workflow-output.md",
   "variables": {},

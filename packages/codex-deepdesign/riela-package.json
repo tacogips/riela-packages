@@ -9,7 +9,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "09e529c57f4c8ab091d1ec43c9cd9244",
+  "checksum": "c43ce361b93696858e433c8ab61e01a8",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-deepdesign",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "dbf86e19b5a40278868463dba1067b13efbc28c1ee2619be01fbd52b262e4964"
+    "digest": "99ada7308d717ab862eb91395f4bb235f12f2d097ee400280d2f143e2fea66a2"
   },
   "backends": [
     "codex-agent"

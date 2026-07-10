@@ -1,6 +1,6 @@
 # cursor-cli-hydra-codex-design-and-implement-review-loop
 
-Explicit hydra workflow variant that uses Codex GPT-5.5 for design, review, and all non-implementation agent steps, while using Cursor Composer 2.5 for implementation.
+Explicit hydra workflow variant that uses Codex GPT-5.6 SOL for design, review, and all non-implementation agent steps, while using Cursor Composer 2.5 for implementation.
 
 - Package id: `cursor-cli-hydra-codex-design-and-implement-review-loop`
 - Backends: `codex-agent`, `cursor-cli-agent`

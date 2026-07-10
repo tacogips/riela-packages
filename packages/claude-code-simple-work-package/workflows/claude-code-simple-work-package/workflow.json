@@ -20,8 +20,8 @@
       "codex-": "claude-code-",
       "Codex": "Claude Code",
       "codex": "claude-code",
-      "GPT-5.5": "Sonnet 4.5",
-      "gpt-5.5": "claude-sonnet-4-5"
+      "GPT-5.6 SOL": "Sonnet 4.5",
+      "gpt-5.6-sol": "claude-sonnet-4-5"
     },
     "agentNodePatch": {
       "executionBackend": "claude-code-agent",

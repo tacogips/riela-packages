@@ -9,7 +9,7 @@
     "sast"
   ],
   "registry": "default",
-  "checksum": "7bb39111522080f88103350c43032683",
+  "checksum": "037fc036fa045ee08b8001a1fc2d0de1",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-source-security-check-loop",
   "dependencies": [
@@ -31,7 +31,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "38c68586b598e1c403f3782fec880161a457e013b9a94d588a0c605da336b8d9"
+    "digest": "89a2e6dc74dfd15ed95a8491e65a0dac439f05026094777bd5284220f8c150d6"
   },
   "backends": [
     "native-command",

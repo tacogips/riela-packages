@@ -2,7 +2,7 @@
   "id": "node2-deep-review",
   "description": "Review the design deeply for unstated assumptions, edge cases, prerequisites, irregular states, and error handling gaps.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/node2-deep-review.md",

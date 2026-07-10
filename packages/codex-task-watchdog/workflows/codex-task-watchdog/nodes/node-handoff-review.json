@@ -2,7 +2,7 @@
   "id": "handoff-review",
   "description": "Prepare a codex-recent-change-quality-loop call for the claimed task.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/handoff-review.md",
   "variables": {},

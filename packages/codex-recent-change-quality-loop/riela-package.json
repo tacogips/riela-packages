@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "c85b569e250937d2da69fd136f1a1602",
+  "checksum": "4e53f9b8dcbfa6cfc28141a50c565ef9",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-recent-change-quality-loop",
   "dependencies": [
@@ -26,7 +26,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "c2232d8a8c37b3aee09d1a70b970af4940385e87e03cd296bd9162876123a005"
+    "digest": "f73abaa1b167ee533067ab5d1f4154da9918a1c062928acfac3ba30f4f21a983"
   },
   "backends": [
     "codex-agent"

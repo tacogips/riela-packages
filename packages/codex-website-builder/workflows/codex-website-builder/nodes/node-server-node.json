@@ -2,7 +2,7 @@
   "id": "server-node",
   "description": "Implement or revise the SolidJS/Bun website source without running Bun on the host; containerized Bun execution happens in bun-container-server.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
   "sessionPolicy": {

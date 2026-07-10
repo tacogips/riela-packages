@@ -1,6 +1,6 @@
 {
   "workflowId": "codex-goal",
-  "description": "Generic Codex GPT-5.5 workflow that creates and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the requested work, and reviews whether the goal is achieved before looping back to work or planning. Goal, planning, and review steps may delegate to a more specific Riela workflow when appropriate.",
+  "description": "Generic Codex GPT-5.6 SOL workflow that creates and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the requested work, and reviews whether the goal is achieved before looping back to work or planning. Goal, planning, and review steps may delegate to a more specific Riela workflow when appropriate.",
   "defaults": {
     "maxLoopIterations": 10,
     "nodeTimeoutMs": 3600000,

@@ -2,7 +2,7 @@
   "id": "task-commit-message",
   "description": "Generate the commit message and exact files for the completed watchdog task and reviewed project-scope skill changes.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/task-commit-message.md",
   "variables": {},

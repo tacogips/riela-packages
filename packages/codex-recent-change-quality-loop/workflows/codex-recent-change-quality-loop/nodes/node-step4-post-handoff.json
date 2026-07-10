@@ -2,7 +2,7 @@
   "id": "step4-post-handoff",
   "description": "Consume the delegated design-and-implement workflow result and prepare the next review pass.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step4-post-handoff.md",
   "variables": {},

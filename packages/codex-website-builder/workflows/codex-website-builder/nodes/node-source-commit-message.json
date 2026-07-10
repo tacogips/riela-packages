@@ -2,7 +2,7 @@
   "id": "source-commit-message",
   "description": "Prepare a git snapshot commit message and exact generated source file list after a server-node pass.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/source-commit-message.md",

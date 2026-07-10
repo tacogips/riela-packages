@@ -2,7 +2,7 @@
   "id": "step2-exit-gate",
   "description": "Route based on Step 1 review severity.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step2-exit-gate.md",
   "variables": {},

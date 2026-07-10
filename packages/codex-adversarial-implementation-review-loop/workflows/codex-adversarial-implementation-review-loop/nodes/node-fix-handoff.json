@@ -2,7 +2,7 @@
   "id": "fix-handoff",
   "description": "Package blocking adversarial findings into a delegated implementation fix request.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/fix-handoff.md",
   "variables": {},

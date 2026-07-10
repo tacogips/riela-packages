@@ -2,7 +2,7 @@
   "id": "skill-review",
   "description": "Review and correct project-scope skill changes created from the completed task log.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/skill-review.md",
   "variables": {},

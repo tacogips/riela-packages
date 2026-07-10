@@ -2,7 +2,7 @@
   "id": "step6-post-refactor-review",
   "description": "Independently review the latest refactoring task and routing state.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step6-post-refactor-review.md",
   "variables": {},

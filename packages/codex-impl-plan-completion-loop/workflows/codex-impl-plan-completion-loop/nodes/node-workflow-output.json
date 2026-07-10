@@ -2,7 +2,7 @@
   "id": "workflow-output",
   "description": "Summarize final implementation-plan completion evidence.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/workflow-output.md",
   "variables": {},

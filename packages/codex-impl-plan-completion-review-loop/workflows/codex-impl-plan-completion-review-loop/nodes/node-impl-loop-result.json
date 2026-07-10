@@ -2,7 +2,7 @@
   "id": "impl-loop-result",
   "description": "Summarize the codex-impl-plan-completion-loop result.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/impl-loop-result.md",
   "variables": {},

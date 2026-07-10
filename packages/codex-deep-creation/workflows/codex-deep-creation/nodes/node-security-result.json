@@ -2,7 +2,7 @@
   "id": "security-result",
   "description": "Summarize the accepted source security check result.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/security-result.md",
   "variables": {},

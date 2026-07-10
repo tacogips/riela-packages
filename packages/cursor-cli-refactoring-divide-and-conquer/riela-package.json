@@ -7,7 +7,7 @@
     "workflow"
   ],
   "registry": "default",
-  "checksum": "47f4663d21419d49368dfe24a233a0dc",
+  "checksum": "7705c4bc0fe2424c098cea427bbeed8d",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-refactoring-divide-and-conquer",
   "dependencies": [
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "8de26d82429bbbe964eb5ff66b2bc0fdb44d6b80b10e411cae815aadedce0910"
+    "digest": "9367d010f4dfa46d6cb5538eaa78a46fda76463760a2c5edd766caa41815a3f0"
   },
   "backends": [
     "cursor-cli-agent"

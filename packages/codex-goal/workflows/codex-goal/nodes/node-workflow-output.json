@@ -2,7 +2,7 @@
   "id": "workflow-output",
   "description": "Publish the accepted final result after the goal review confirms completion.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/workflow-output.md",
   "variables": {},

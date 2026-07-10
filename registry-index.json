@@ -517,11 +517,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "09e7e86f54d7c0593521455ba68de51c"
+        "value": "90409b8546593b5581edbf237314b6ea"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "13c3e461d0abc1a0e018ef436ef7ce46329bdb3e95e55d91cbb4cc8adedf63f8"
+        "digest": "31da9d7ea4ef4615d53cb69b9b140925a8687d00d9840fe99d0a92d9fc136e42"
       }
     },
     {
@@ -565,11 +565,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "6ebaf1d13cc3a2de940bb53fcf0ae67a"
+        "value": "e23294dd03f1bbad83d14fdf472865d5"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "bede547c145e80b58fc98e0321fd53e822e75dbaeb49d66fe54b48ff84421619"
+        "digest": "02db172c95ba8888de77d1a6a8da9e6d26f46cdb66f6bdcdd53d39fed899ed33"
       }
     },
     {
@@ -609,11 +609,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "74d448fa4b04690df851b7163f2636c5"
+        "value": "2e88d174562db7545256f7a5cf8d85b1"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "a1e239f3632e71479d73d8630fa5633c3d06240d085cc4024a191b0b62c4e750"
+        "digest": "6795a9c762739b638ddb105d88f354d33df4a106619c3a0c9517c6ae7731c2f7"
       }
     },
     {
@@ -657,11 +657,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "af7b47985a8b62c48e02d6220f1d2136"
+        "value": "bab2d9df1bf4ef14137acdc5b09e4093"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "b9ae058e6e147158ad2bb73a60e20367bdd08dca8ebabf22d6e9905cddc31d85"
+        "digest": "393c66ec01eb43b23119803871185ffca7ca2c297603762d0497d68e7f9a2646"
       }
     },
     {
@@ -703,11 +703,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "f5bc9815a84f2b45b51690235895c8c1"
+        "value": "19724c34cb623435ab9f4838773694a7"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "9c413ec2dace8ee5801bd336c6da2747f9eed46fb09b01991461d8a895c3b62b"
+        "digest": "848649431a7a7d43b7c2c396ffcb8ba12207987692f8b49ce16fa2677215aecc"
       }
     },
     {
@@ -756,11 +756,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "c05a16fc88e25dc9f5569e54d2da4a8b"
+        "value": "f8f6a9edc702c424cd173b8a4810a94d"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "94394fb73f5f644bca96ce7b370cee4e1b3275240d315743b852d16cb790aec8"
+        "digest": "1b9e3e46deacdda6d6cd5839f0cf7a6686dd96ccf97be6893aadbafd8f2882a2"
       }
     },
     {
@@ -802,11 +802,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "94d0fb97966fba20379d17f421161da6"
+        "value": "038f10a67f53408bc6b25957f92e23c5"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "b39eabec1e4c5abe733a370652730163ef17b25f78451c624e0f21005e0cafb5"
+        "digest": "ee5b081102526928b9825fecdbcb4eac713880875e7e79a2265818a8b86163c8"
       }
     },
     {
@@ -849,11 +849,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "afbd4421d5f948d3f748efe401fc4f0a"
+        "value": "64a44ccabfa9a950bda52cf83d607ffc"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "24c071d5678c29df3c28731f7abf565b00d3214f3b0604e3e46b7dbe9976a91a"
+        "digest": "a2146a5038523a5e5ccc9a30369322d56ff370d8c0a8517db8a9c21cebad04bc"
       }
     },
     {
@@ -892,11 +892,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "23eb898306c73ef7c09e310c6ba4e26f"
+        "value": "3bcea736101c1adb81e9e0b2dbd9d35a"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "4a6b3857833799f938ead49eeaca94b32f33014951cc8ba4c853f7b288235d4b"
+        "digest": "30f611d607b37664f21b32d678cf95845f35bacec655de3f095f6a6b9e8e0e3f"
       }
     },
     {
@@ -936,11 +936,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "89ce6db283e5cf41b733c81385f4bb53"
+        "value": "5572709bf7bdd6bc9d5be959c733d8f5"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "efde6ae7b54d3d7c9293f99cbdf92f0a348a21d364b716fa6f9ba003c5061426"
+        "digest": "4298012f6cf3ef5d872c127819881fcc11ae8db4cd0a3e03ef70b45d5f42f5a8"
       }
     },
     {
@@ -987,11 +987,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "b461032b5547ff0d4e00c78fec21791c"
+        "value": "8b6990b8f34b351eb1b2567312cd9ddd"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "759c84064791387c73892e1108a8c4db0dc2d9086c8d2646bb60ed13cfa25706"
+        "digest": "72cd927ea59cceca13629cb96861b3a8c8fb4876e6edd8e3bb83df797a5a682b"
       }
     },
     {
@@ -1046,11 +1046,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "a6e2ffcb34464a003b9317415de585c5"
+        "value": "c516a363acdb296f3710a30e680a777f"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "a1a282332b358b4821ebd8fa9645d4f025df2f73d2c1e8cad90886cbcdd73d6b"
+        "digest": "b95cd536cafac04a2847adc79debbe325e86f79f56cfe58e426984beb29223d0"
       }
     },
     {
@@ -1100,11 +1100,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "1cd0409ec689ef2a136be16d5e52f98c"
+        "value": "f9cd5c4023e6179d1643b04ba0705f3e"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "538e707ac871dd0335af94c253c94f5115ef2b3b39f06b7532c69fc5144694e9"
+        "digest": "fec0fc595ed553c8f1960aea31a8f8ec610732c055a1a8f109cdab99ba17ed4f"
       }
     },
     {
@@ -1188,11 +1188,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "ddf3eebb4de49c224c578dae0393650d"
+        "value": "350896598835a65bfcf02a34289aa15c"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "cfde1a4bcd83fcedb884e181bdde8927ef986378c2df0d68fc5a87a4b5f18ebc"
+        "digest": "6bef488cfd02e0ba15c01019778c682abd80ac102b7bb31c545327681ca31d33"
       }
     },
     {
@@ -1242,11 +1242,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "bf498a4efc5f5e76690c88a6d6f87927"
+        "value": "a3c3c0f8e776451b1055c99a64b2b21b"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "a811fa636d533e568f20daf87484cb24be8b5b5cf1e8765ebda7711b21d30dfd"
+        "digest": "6f0adf34f4697ffba3b7ef72fb1c97aa28251bffc668327a6b2f3639d53599b2"
       }
     },
     {
@@ -1286,11 +1286,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "09e529c57f4c8ab091d1ec43c9cd9244"
+        "value": "c43ce361b93696858e433c8ab61e01a8"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "dbf86e19b5a40278868463dba1067b13efbc28c1ee2619be01fbd52b262e4964"
+        "digest": "99ada7308d717ab862eb91395f4bb235f12f2d097ee400280d2f143e2fea66a2"
       }
     },
     {
@@ -1326,11 +1326,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "bb6a7fb835c3a0744ea3319a3edd2791"
+        "value": "e53a3beab17fa861002e045697a8fc65"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "75f9c6915e017e1b07f46ed0206c852bfb6950a5630828042971ecae7d9f0576"
+        "digest": "4e36f6f1e162f4d49ba1ffbc1eb90aa9ca71054725d7aa2fe38f9c601cc66f2a"
       }
     },
     {
@@ -1370,11 +1370,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "d4d7aa29315131920930aa47add6b4b1"
+        "value": "4375dc1ad141dc1db2ad742d9acaf7cf"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "207289acca4bcc16c835387838a9a8c29d32025697a719c6119edc2542861169"
+        "digest": "985221caeaeefe374fa19a767b272105ed1dc50f01e6a0cb5eb7475e5afbe2b0"
       }
     },
     {
@@ -1413,11 +1413,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "1a4a7f94f496b7be04a066ec1ad66058"
+        "value": "51f4793eac5cee47cf5f9b7703931125"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "8d8a28c2ab799fd4bb78200efb877af1367099406769d4f088b06739a4bf8974"
+        "digest": "608ad11db0172d893e3bdf4a79a9a661939ac1723c85451fb6960851c779d5ed"
       }
     },
     {
@@ -1464,11 +1464,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "07723de7225d46a4a9afba763b6aee6b"
+        "value": "ec8a9bed9b9fa9ebb2a62da7295985d1"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "65e3e6d8fe2ad4035cdb0baf151b57cd006ff126f7cec2edc6aeefa2a551065e"
+        "digest": "99f7f087d8bbac79075f6b432274128186aecf578585a49f8addb55c2e92539b"
       }
     },
     {
@@ -1507,11 +1507,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "c85b569e250937d2da69fd136f1a1602"
+        "value": "4e53f9b8dcbfa6cfc28141a50c565ef9"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "c2232d8a8c37b3aee09d1a70b970af4940385e87e03cd296bd9162876123a005"
+        "digest": "f73abaa1b167ee533067ab5d1f4154da9918a1c062928acfac3ba30f4f21a983"
       }
     },
     {
@@ -1551,11 +1551,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "d6aa4902543e8ea70091b3ab95c056ce"
+        "value": "a1386fe91f6537c2d1cd1676698e3e1a"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "5d43c25df1ca5cf175e7584aaae4b4806687951b7f60180d34b1d0cf335ebeb0"
+        "digest": "10a074e7ddcdfb908778461502ff96d3e17da10ae3fb79d685b3b37564a0dbcc"
       }
     },
     {
@@ -1590,11 +1590,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "cc53f8b628aa6f626178d5dda64906e1"
+        "value": "f0de569d246f16c6513de2c7ee9f27cd"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "856a366f6262f5ff179e479ab862d5efb2f05fb731244182e9e6521112129258"
+        "digest": "fe2f4153652cd9953e4112205442060534e2ea45558c10b71f47814bb0b5ef26"
       }
     },
     {
@@ -1603,7 +1603,7 @@
       "version": "0.1.0",
       "kind": "workflow",
       "title": "codex-simple-work-package",
-      "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.5 high effort, reviews the diff, and loops back only for high or middle findings.",
+      "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.6 SOL high effort, reviews the diff, and loops back only for high or middle findings.",
       "tags": [
         "workflow"
       ],
@@ -1612,7 +1612,7 @@
       "workflow": {
         "directory": "workflows/codex-simple-work-package",
         "title": "codex-simple-work-package",
-        "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.5 high effort, reviews the diff, and loops back only for high or middle findings.",
+        "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.6 SOL high effort, reviews the diff, and loops back only for high or middle findings.",
         "tags": [
           "workflow"
         ],
@@ -1630,11 +1630,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "860634705d22177512bbc476255cf2ac"
+        "value": "aa44791f58d768ccb821b460cd02e9f9"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "b098fb8683bb33ce39e4e908302ceaebe5a76a29291107b804795d53b1d9fe07"
+        "digest": "989d3c8957831fb05b43d33ac2699c33883e58039dcd30867dd3d7aacd392fde"
       }
     },
     {
@@ -1680,11 +1680,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "7bb39111522080f88103350c43032683"
+        "value": "037fc036fa045ee08b8001a1fc2d0de1"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "38c68586b598e1c403f3782fec880161a457e013b9a94d588a0c605da336b8d9"
+        "digest": "89a2e6dc74dfd15ed95a8491e65a0dac439f05026094777bd5284220f8c150d6"
       }
     },
     {
@@ -1736,11 +1736,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "b9af987f9d8bc06000781eb7c987f2a2"
+        "value": "dfe0d9f0b0a731f414c793b73c19b32e"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "cd47c804a2db8dfb8d28d0c505ebad2759325aceb0a7ea17cb6688bfe4129114"
+        "digest": "16e522953341a6c91180dc1b3e5b2b42d1e20e017c1ffa8960a1947acdf72024"
       }
     },
     {
@@ -1788,11 +1788,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "883e2b103fe69f2a6ac1e0fdcefc83cd"
+        "value": "9d18e4aff3fcad80f5f9df473ae3aaad"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "9e42422ed7d97c3850243d6280ad25e5a9a771ebd96f5388e215ddb1c190ede3"
+        "digest": "4e8dae8f4faf3f6da3159733ffb0bdffe1856b9ba815134e74400e531be51d7a"
       }
     },
     {
@@ -1838,11 +1838,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "9f9e9559bdeecc8c8766d060f56abf15"
+        "value": "d1a9c03e9610c4159b0970ac90558cf2"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "41b9d778674bfd3c59796db8f030e926912b2dc09374f916ed787afbcd55d86a"
+        "digest": "df18a25e0d62c1bb50a65a7a3657cd52699e11b77a8f24b2dfb18d4f48e989bb"
       }
     },
     {
@@ -1886,11 +1886,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "c3fedd3782e69e75e64c313092d8cb48"
+        "value": "a8368a9cfad73d2e763a0122356f128c"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "feeffd12c814c780644ea21900a0fa300fb1cb3931a19a332782ad5d67960059"
+        "digest": "1d4f8155d1020792c40c13b4e86df72c3a877296d59a73f5a27ecf4b09d76fe3"
       }
     },
     {
@@ -1930,11 +1930,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "bf4622f0bf5feb2c612a609e3ab119b2"
+        "value": "3f2a137056076076950a5cab1776b833"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "0ffcedd8f9b0ad804efb3d9c09b9a0e205ca595cd1d4145082e59d5695c54cb0"
+        "digest": "7a06af25a915493dc7cc894a297688cdf8db5aca3ba9e35f0b016c4f6369ceb7"
       }
     },
     {
@@ -2070,7 +2070,7 @@
       "version": "0.1.0",
       "kind": "workflow",
       "title": "cursor-cli-goal",
-      "description": "Generic Cursor CLI workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work with Composer 2.5, uses GPT-5.5 for the other steps, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+      "description": "Generic Cursor CLI workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work with Composer 2.5, uses GPT-5.6 SOL for the other steps, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
       "tags": [
         "cursor-cli",
         "generic",
@@ -2081,7 +2081,7 @@
       "workflow": {
         "directory": "workflows/cursor-cli-goal",
         "title": "cursor-cli-goal",
-        "description": "Generic Cursor CLI workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work with Composer 2.5, uses GPT-5.5 for the other steps, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+        "description": "Generic Cursor CLI workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work with Composer 2.5, uses GPT-5.6 SOL for the other steps, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
         "tags": [
           "workflow",
           "cursor-cli",
@@ -2105,11 +2105,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "b79016691d7ec2d83931a489d66f1b28"
+        "value": "2ece1eb06a0ac72092e0ae0bcbcce7f1"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "74754f0922da46c544a8c869127bc7bb3f93eaaa0aa158295c1869777c587d13"
+        "digest": "46479034044a833d4cdb70fc06e76e53e939ee2a069bd34d868e2e4d36e6481c"
       }
     },
     {
@@ -2166,7 +2166,7 @@
       "version": "0.1.0",
       "kind": "workflow",
       "title": "cursor-cli-hydra-codex-design-and-implement-review-loop",
-      "description": "Explicit hydra workflow variant that uses Codex GPT-5.5 for design, review, and all non-implementation agent steps, while using Cursor Composer 2.5 for implementation.",
+      "description": "Explicit hydra workflow variant that uses Codex GPT-5.6 SOL for design, review, and all non-implementation agent steps, while using Cursor Composer 2.5 for implementation.",
       "tags": [
         "hydra",
         "workflow"
@@ -2176,7 +2176,7 @@
       "workflow": {
         "directory": "workflows/cursor-cli-hydra-codex-design-and-implement-review-loop",
         "title": "cursor-cli-hydra-codex-design-and-implement-review-loop",
-        "description": "Explicit hydra workflow variant that uses Codex GPT-5.5 for design, review, and all non-implementation agent steps, while using Cursor Composer 2.5 for implementation.",
+        "description": "Explicit hydra workflow variant that uses Codex GPT-5.6 SOL for design, review, and all non-implementation agent steps, while using Cursor Composer 2.5 for implementation.",
         "tags": [
           "workflow",
           "hydra"
@@ -2201,11 +2201,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "d2a2d8672e937508d51144e49d4c139a"
+        "value": "44f45a103391777d23b9698422b5417f"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "d18b255298d097db4f6948764df0b891ab98a435b235225cbdf86b0a419c9b50"
+        "digest": "bd326a1b75f9091cd79a599db04017b0672285f85a2f0687254328f9042e1643"
       }
     },
     {
@@ -2247,11 +2247,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "4e026581223b159dc34251ef090be1f3"
+        "value": "b60bb45e8e8834b2f36e27f39cdb3761"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "b160bd288b778613c8e3129b6db0dca2799501f21cd52c16f19e27812315ede5"
+        "digest": "5fb1a69ce257a8e89541100dcb7179d0d63ff9f8c727194296d9bbbd54ce2d97"
       }
     },
     {
@@ -2300,11 +2300,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "87adbeed622230bcef13c53376fb19db"
+        "value": "e7c6077d228e7f4451a8016b96278424"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "8b253f55edc113151fd6963bedca0ee07e07709122c53039c316d777b17edc84"
+        "digest": "ecd927e383d658a2657a2c533a319537eccc1219f1ed4fbca3c4ed7d12552ba7"
       }
     },
     {
@@ -2346,11 +2346,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "6edb6f914448b26288937aca5b8ef515"
+        "value": "b0f2a6da0eff7122fd923f08009749a5"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "70956c81e89e3f0a1eee14d13af7fe5cce98916854f633e0eca1169add0f757d"
+        "digest": "9d87773b6f24fec2faf40121800a5f744067ab7bbb9637bf8b58c4b001c7e078"
       }
     },
     {
@@ -2393,11 +2393,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "47f4663d21419d49368dfe24a233a0dc"
+        "value": "7705c4bc0fe2424c098cea427bbeed8d"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "8de26d82429bbbe964eb5ff66b2bc0fdb44d6b80b10e411cae815aadedce0910"
+        "digest": "9367d010f4dfa46d6cb5538eaa78a46fda76463760a2c5edd766caa41815a3f0"
       }
     },
     {
@@ -2436,11 +2436,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "0ea59eb26fd9a20fc64bb0849c5e7273"
+        "value": "ffbdd0f155754798bd10344cc5d0a652"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "2ead8c5b24b51c9861e72108e43767c8655102a160c219657ee59576f97d042e"
+        "digest": "ddf1a48b6285ff13bfa0646f4bfc661e6c7307fa27df8dccae58caf455349171"
       }
     },
     {
@@ -2480,11 +2480,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "b675be69e438c989587cb2e683861f9c"
+        "value": "28544d89d1e1395cfba5f2db7b2aceb0"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "3f86893d67f1fdb08d91b65285fc4311f39aff89faea113b87019593b9772a92"
+        "digest": "44f8f1dde4031954bebe02e3c388d3151d0347569aa66aba3cf24be5c71c9175"
       }
     },
     {
@@ -2531,11 +2531,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "2b231a12921f91b3a949e0434b2e394b"
+        "value": "0c95f14bae92a0db068fdc016abe7e94"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "5b0b342846aff83943e6ade290725bd31976a6c35e30940c5a039b7ceaf7e704"
+        "digest": "03489893973e9f98ccab60ce511cf98641baede4f8c851f1a461a0081773057d"
       }
     },
     {
@@ -2590,11 +2590,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "0898f09aac7464d56ba51c02bf496dc3"
+        "value": "e7d985ca9beec39cd8bc1c5ecd8e96f0"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "e5e1f6b89466c0839f9a06858d422d844bb8169a8f224c83b21d1d60daa6dd24"
+        "digest": "18265fc68e76131ce258ca013016592f3a21454f95eccc67d21fc44374fd695d"
       }
     },
     {
@@ -2644,11 +2644,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "fa2e0487bc3c75a1bf4ba8e59f416b93"
+        "value": "bbc4809acc7e49d13c30a3e216a29b8e"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "5ce8b618e8c54a1209bdf12bb16ed8e7dbf5271fb5e78b6b93ed12134e527a42"
+        "digest": "586f5f479068dc42bb7d5877ca6d33365fcffbfcd07be9154954d081d008caf7"
       }
     },
     {
@@ -2698,11 +2698,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "8a4fff5d4b2c44c46518fd4a33325abe"
+        "value": "5347e5d41516e4fa78196be001fc1f60"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "2c4326655484b56b217cabe9d4d63045c96311093392c34f1775b54527abe19c"
+        "digest": "f44049e8ec710b6cb577d27930b3de45bf0964b981d3bbda63f8b5cd40c087ba"
       }
     },
     {
@@ -2874,11 +2874,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "317b23da2e25d713c7502efbc4238e7a"
+        "value": "667c478d6b30d34737d09107866f5c91"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "07d35a184cfcb09bb16d70af32a7106569229c7c0eff20bed141821631f0a4fc"
+        "digest": "619349bf44e3605ae31be56afa944a12daf8613e215a9f81d2c70baee2ba31ae"
       }
     },
     {
@@ -3040,11 +3040,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "d8d2c0b8e42e8571c677a90090c3a75d"
+        "value": "abd9634f7bd9e5bc1e43e251c2ff9d35"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "b468fb038fc74d59217e2a3005d9a05e85be9de0e03d470b810fee139aa0240c"
+        "digest": "ff1a63a53383f1e78c5cd769d16ba22c143b273dddb3de6c23824fd927e09893"
       }
     },
     {
@@ -3082,11 +3082,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "b400393ac9f51dd79efb9453e3b20077"
+        "value": "437de1c6ed8c00c7bcf3a4ea9bfb1f86"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "daac97a2972dd41d9829d844bba78e075b0d332e2cba60e640a8cfb87689d99f"
+        "digest": "b29d0ff04a83b9ca139b95f33a570e2104b7fbac299bd5696cf07f3d0557a4b4"
       }
     },
     {
@@ -3124,11 +3124,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "e59c0a753e06f9468b8ed55e085f7afd"
+        "value": "3b92f55e95b93ff1a3e9012950864898"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "a494e88eef5079909e139548329c2c0645606990fa4e4a1c3632fcf7b4e7bead"
+        "digest": "2755138ee7ec33e1c974ef5af86e6a08d3df314dc5c475968524b594b5a6ace0"
       }
     },
     {

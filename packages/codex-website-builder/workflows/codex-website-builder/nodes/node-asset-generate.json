@@ -1,8 +1,8 @@
 {
   "id": "asset-generate",
-  "description": "Generate or revise image and media assets for the SolidJS website with Codex GPT-5.5 high effort.",
+  "description": "Generate or revise image and media assets for the SolidJS website with Codex GPT-5.6 SOL high effort.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
   "sessionPolicy": {

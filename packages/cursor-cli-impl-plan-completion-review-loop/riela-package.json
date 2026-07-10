@@ -9,7 +9,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "87adbeed622230bcef13c53376fb19db",
+  "checksum": "e7c6077d228e7f4451a8016b96278424",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-impl-plan-completion-review-loop",
   "dependencies": [
@@ -32,7 +32,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "8b253f55edc113151fd6963bedca0ee07e07709122c53039c316d777b17edc84"
+    "digest": "ecd927e383d658a2657a2c533a319537eccc1219f1ed4fbca3c4ed7d12552ba7"
   },
   "backends": [
     "cursor-cli-agent"

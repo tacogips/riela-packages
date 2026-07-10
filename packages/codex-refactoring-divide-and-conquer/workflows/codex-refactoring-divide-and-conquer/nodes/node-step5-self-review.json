@@ -2,7 +2,7 @@
   "id": "step5-self-review",
   "description": "Self-review the latest refactoring task implementation.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step5-self-review.md",
   "variables": {},

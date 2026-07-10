@@ -9,7 +9,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "c3fedd3782e69e75e64c313092d8cb48",
+  "checksum": "a8368a9cfad73d2e763a0122356f128c",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-deepdesign",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "feeffd12c814c780644ea21900a0fa300fb1cb3931a19a332782ad5d67960059"
+    "digest": "1d4f8155d1020792c40c13b4e86df72c3a877296d59a73f5a27ecf4b09d76fe3"
   },
   "backends": [
     "cursor-cli-agent"

@@ -2,7 +2,7 @@
   "id": "riela-manager",
   "description": "Normalize adversarial implementation review inputs and decide whether to run an initial implementation handoff.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/riela-manager.md",
   "variables": {},

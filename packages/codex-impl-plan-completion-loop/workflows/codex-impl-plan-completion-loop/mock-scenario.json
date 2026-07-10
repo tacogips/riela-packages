@@ -1,7 +1,7 @@
 {
   "riela-manager": {
     "provider": "scenario-mock",
-    "model": "gpt-5.5",
+    "model": "gpt-5.6-sol",
     "when": {
       "always": true
     },
@@ -52,7 +52,7 @@
   },
   "workflow-output": {
     "provider": "scenario-mock",
-    "model": "gpt-5.5",
+    "model": "gpt-5.6-sol",
     "when": {
       "always": true
     },

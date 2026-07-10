@@ -1,7 +1,7 @@
 # codex-website-builder
 
 `codex-website-builder` is a Riela workflow package for building and
-iterating SolidJS websites with Bun. It separates the work into Codex GPT-5.5
+iterating SolidJS websites with Bun. It separates the work into Codex GPT-5.6 SOL
 nodes for site design, asset generation, implementation, Docker-contained Bun
 server operation, and Playwright-based review. Each generated source snapshot
 is committed before review so the project can be restored through git history.

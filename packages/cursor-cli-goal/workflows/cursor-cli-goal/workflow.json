@@ -1,6 +1,6 @@
 {
   "workflowId": "cursor-cli-goal",
-  "description": "Generic Cursor CLI workflow that creates and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the requested work with Composer 2.5, uses GPT-5.5 for the other steps, and reviews whether the goal is achieved before looping back to work or planning.",
+  "description": "Generic Cursor CLI workflow that creates and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the requested work with Composer 2.5, uses GPT-5.6 SOL for the other steps, and reviews whether the goal is achieved before looping back to work or planning.",
   "extends": {
     "workflowId": "codex-goal",
     "stringReplacements": {
@@ -24,7 +24,7 @@
     },
     "agentNodePatch": {
       "executionBackend": "cursor-cli-agent",
-      "model": "gpt-5.5"
+      "model": "gpt-5.6-sol"
     },
     "nodePatch": {
       "work": {

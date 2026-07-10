@@ -2,7 +2,7 @@
   "id": "review-node",
   "description": "Operate the running website with Playwright, review behavior and UX, and route feedback to the right node.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/review-node.md",

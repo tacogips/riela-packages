@@ -10,7 +10,7 @@
     "riela"
   ],
   "registry": "default",
-  "checksum": "b400393ac9f51dd79efb9453e3b20077",
+  "checksum": "437de1c6ed8c00c7bcf3a4ea9bfb1f86",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/riela-temporary-workflow-skill",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "daac97a2972dd41d9829d844bba78e075b0d332e2cba60e640a8cfb87689d99f"
+    "digest": "b29d0ff04a83b9ca139b95f33a570e2104b7fbac299bd5696cf07f3d0557a4b4"
   },
   "backends": [],
   "skillDirectory": "skills"

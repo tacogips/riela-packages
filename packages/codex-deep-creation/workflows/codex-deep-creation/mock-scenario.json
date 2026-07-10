@@ -1,7 +1,7 @@
 {
   "creation-manager": {
     "provider": "scenario-mock",
-    "model": "gpt-5.5",
+    "model": "gpt-5.6-sol",
     "when": {
       "always": true
     },
@@ -37,7 +37,7 @@
   },
   "deepdesign-handoff": {
     "provider": "scenario-mock",
-    "model": "gpt-5.5",
+    "model": "gpt-5.6-sol",
     "when": {
       "always": true
     },
@@ -54,7 +54,7 @@
   },
   "deepdesign-result": {
     "provider": "scenario-mock",
-    "model": "gpt-5.5",
+    "model": "gpt-5.6-sol",
     "when": {
       "always": true
     },
@@ -81,7 +81,7 @@
   },
   "impl-completion-handoff": {
     "provider": "scenario-mock",
-    "model": "gpt-5.5",
+    "model": "gpt-5.6-sol",
     "when": {
       "always": true
     },
@@ -100,7 +100,7 @@
   },
   "impl-completion-result": {
     "provider": "scenario-mock",
-    "model": "gpt-5.5",
+    "model": "gpt-5.6-sol",
     "when": {
       "always": true
     },
@@ -133,7 +133,7 @@
   },
   "security-handoff": {
     "provider": "scenario-mock",
-    "model": "gpt-5.5",
+    "model": "gpt-5.6-sol",
     "when": {
       "always": true
     },
@@ -156,7 +156,7 @@
   },
   "security-result": {
     "provider": "scenario-mock",
-    "model": "gpt-5.5",
+    "model": "gpt-5.6-sol",
     "when": {
       "always": true
     },
@@ -179,7 +179,7 @@
   },
   "workflow-output": {
     "provider": "scenario-mock",
-    "model": "gpt-5.5",
+    "model": "gpt-5.6-sol",
     "when": {
       "always": true
     },

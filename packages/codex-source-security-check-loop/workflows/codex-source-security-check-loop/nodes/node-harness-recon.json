@@ -2,7 +2,7 @@
   "id": "harness-recon",
   "description": "Derive attack-surface focus areas and verifier rubric using the reference harness threat-model and recon patterns.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/harness-recon.md",

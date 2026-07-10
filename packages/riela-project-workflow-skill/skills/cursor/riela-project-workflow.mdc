@@ -58,7 +58,7 @@ workflow-first process.
 - Prefer `promptTemplateFile` for prompts longer than a few lines.
 - Use `executionBackend: "cursor-cli-agent"` for Cursor CLI agent nodes.
 - Use `model: "composer-2.5"` for implementation work nodes.
-- Use `model: "gpt-5.5"` for planning, review, and final-output nodes.
+- Use `model: "gpt-5.6-sol"` for planning, review, and final-output nodes.
 - Include at least these steps for non-trivial work:
   `intake-or-plan`, `work`, `review`, and `workflow-output`.
 - Add dedicated verification, security, migration, release, or documentation
@@ -89,7 +89,7 @@ Minimal Cursor CLI review node:
   "id": "review",
   "description": "Review the requested project work.",
   "executionBackend": "cursor-cli-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "promptTemplateFile": "prompts/review.md",
   "variables": {}
 }

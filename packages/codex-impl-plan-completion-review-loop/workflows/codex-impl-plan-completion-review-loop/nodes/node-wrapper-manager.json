@@ -2,7 +2,7 @@
   "id": "wrapper-manager",
   "description": "Coordinate the implementation-plan completion plus review wrapper.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/wrapper-manager.md",
   "variables": {},

@@ -2,7 +2,7 @@
   "id": "review-loop-result",
   "description": "Summarize the codex-recent-change-quality-loop result.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/review-loop-result.md",
   "variables": {},

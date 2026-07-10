@@ -2,7 +2,7 @@
   "id": "impl-loop-handoff",
   "description": "Prepare a delegated request for codex-impl-plan-completion-loop.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/impl-loop-handoff.md",
   "variables": {},

@@ -2,7 +2,7 @@
   "id": "adversarial-verification",
   "description": "Adversarially verify, deduplicate, and rank triaged security findings before fix routing.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/adversarial-verification.md",

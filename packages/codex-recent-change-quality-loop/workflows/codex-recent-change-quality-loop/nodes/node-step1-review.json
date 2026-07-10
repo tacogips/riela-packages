@@ -2,7 +2,7 @@
   "id": "step1-review",
   "description": "Review recent committed and uncommitted changes for quality issues.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step1-review.md",
   "variables": {},

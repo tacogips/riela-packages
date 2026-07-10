@@ -2,7 +2,7 @@
   "id": "exit-gate",
   "description": "Route based on blocking security findings.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/exit-gate.md",
   "variables": {},

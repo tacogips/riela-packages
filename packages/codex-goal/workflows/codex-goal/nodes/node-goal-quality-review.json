@@ -2,7 +2,7 @@
   "id": "goal-quality-review",
   "description": "Review the proposed goal and request improvement before planning when the goal is unclear, untestable, incorrectly scoped, or missing routing guidance.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/goal-quality-review.md",

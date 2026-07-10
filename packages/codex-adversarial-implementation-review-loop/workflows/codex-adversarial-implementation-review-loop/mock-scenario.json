@@ -1,7 +1,7 @@
 {
   "riela-manager": {
     "provider": "scenario-mock",
-    "model": "gpt-5.5",
+    "model": "gpt-5.6-sol",
     "when": {
       "skip_initial_implementation": true
     },
@@ -33,7 +33,7 @@
   },
   "adversarial-review": {
     "provider": "scenario-mock",
-    "model": "gpt-5.5",
+    "model": "gpt-5.6-sol",
     "when": {
       "needs_fix": false
     },
@@ -62,7 +62,7 @@
   },
   "workflow-output": {
     "provider": "scenario-mock",
-    "model": "gpt-5.5",
+    "model": "gpt-5.6-sol",
     "when": {
       "always": true
     },

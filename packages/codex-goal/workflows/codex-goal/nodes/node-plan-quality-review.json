@@ -2,7 +2,7 @@
   "id": "plan-quality-review",
   "description": "Review the in-session plan and request improvement before work when the plan is incomplete, poorly routed, unverifiable, or unsafe.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.5",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/plan-quality-review.md",
