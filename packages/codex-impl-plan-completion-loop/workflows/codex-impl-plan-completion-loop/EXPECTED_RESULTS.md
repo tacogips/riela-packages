@@ -8,6 +8,10 @@ implementation path is `step1-plan-assess` -> `step2-handoff` ->
 `codex-adversarial-implementation-review-loop` -> `step3-post-handoff` ->
 `step1-plan-assess`, repeating until Step 1 reports `plan_complete`.
 
+Step 1 renders `PLAN_PATH` and `TARGET_TASKS_JSON` from the latest upstream
+manager payload. A manager-selected active plan must not be replaced by the
+alphabetical auto-selection fallback.
+
 ## Validate
 
 Command:

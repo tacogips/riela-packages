@@ -7,8 +7,8 @@
   "command": {
     "scriptPath": "scripts/assess-plan.sh",
     "envTemplate": {
-      "PLAN_PATH": "{{workflowInput.planPath}}",
-      "TARGET_TASKS_JSON": "{{workflowInput.targetTasks}}"
+      "PLAN_PATH": "{{planPath}}",
+      "TARGET_TASKS_JSON": "{{targetTasks}}"
     }
   },
   "output": {

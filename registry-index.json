@@ -1413,11 +1413,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "51f4793eac5cee47cf5f9b7703931125"
+        "value": "0b9c16791878b090a516cd202ecd8880"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "608ad11db0172d893e3bdf4a79a9a661939ac1723c85451fb6960851c779d5ed"
+        "digest": "d6a6fb62e4d439d14ba7988cc9238c61f392e2289dc4bf4315aa69cccba4fcd1"
       }
     },
     {
