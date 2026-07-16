@@ -131,3 +131,36 @@ Expected planning-only final output payload:
   "residualRisks": []
 }
 ```
+
+## Run (feature fanout)
+
+Feature-fanout command, exercising the bounded fanout path where the intake
+step emits `when.has_feature_fanout` with a non-empty `payload.featureFanoutItems`
+array. Each item runs the feature-local design/plan branch concurrently before
+joining at `step5-feature-plan-join`:
+
+```bash
+riela workflow run codex-design-and-implement-review-loop \
+  --mock-scenario .riela/workflows/codex-design-and-implement-review-loop/mock-scenario-fanout.json \
+  --output json
+```
+
+Expected stable run summary:
+
+```json
+{
+  "status": "completed",
+  "workflowName": "codex-design-and-implement-review-loop",
+  "workflowId": "codex-design-and-implement-review-loop",
+  "nodeExecutions": 18,
+  "transitions": 17,
+  "exitCode": 0
+}
+```
+
+The run routes `step1-issue-intake` → `[fanout: feature-local-plan]` →
+`step5-feature-plan-join` → `step6-implement` → … → `workflow-output`, skipping
+the linear single-feature design/plan steps. The join receives the ordered
+branch outputs through `runtimeVariables.fanoutJoin`.
+
+Expected final output node: `workflow-output`, with `payload.status` `accepted`.

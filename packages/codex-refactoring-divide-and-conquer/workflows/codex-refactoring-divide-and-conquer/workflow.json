@@ -72,7 +72,7 @@
           "label": "has_review_slices",
           "fanout": {
             "groupId": "codex-refactoring-slice-review",
-            "itemsFrom": "/payload/reviewSlices",
+            "itemsFrom": "/reviewSlices",
             "itemVariable": "refactorSlice",
             "concurrency": 8,
             "joinStepId": "step3-merge-review-plan",
