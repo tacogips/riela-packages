@@ -59,7 +59,7 @@ workflow-first process.
 - Keep workflow ids lowercase and filesystem safe, for example
   `project-task-<short-topic>`.
 - Prefer `promptTemplateFile` for prompts longer than a few lines.
-- Use `executionBackend: "codex-agent"` and `model: "gpt-5.6-sol"` for Codex
+- Use `executionBackend: "codex-agent"` and `model: "gpt-5.6-terra"` for Codex
   agent nodes.
 - Include at least these steps for non-trivial work:
   `intake-or-plan`, `work`, `review`, and `workflow-output`.
@@ -78,7 +78,7 @@ Minimal Codex worker node:
   "id": "work",
   "description": "Perform the requested project work.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.6-sol",
+  "model": "gpt-5.6-terra",
   "promptTemplateFile": "prompts/work.md",
   "variables": {}
 }

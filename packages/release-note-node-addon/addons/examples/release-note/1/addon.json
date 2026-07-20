@@ -9,7 +9,7 @@
     "kind": "node-payload-template",
     "nodeType": "agent",
     "executionBackend": "codex-agent",
-    "model": "gpt-5.6-sol",
+    "model": "gpt-5.6-terra",
     "promptTemplateFile": "prompt.md"
   },
   "inputSchema": {
