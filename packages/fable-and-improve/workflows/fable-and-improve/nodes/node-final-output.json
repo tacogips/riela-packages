@@ -5,7 +5,9 @@
   "model": "claude-fable-5",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/final-output.md",
-  "variables": {},
+  "variables": {
+    "claudePermissionMode": "bypassPermissions"
+  },
   "output": {
     "description": "Return final status, accepted markdown goal and plan, delegated Codex runs, changed files, verification evidence, residual risks, and operator notes."
   }

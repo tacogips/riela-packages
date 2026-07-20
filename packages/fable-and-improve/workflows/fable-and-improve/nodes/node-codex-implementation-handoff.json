@@ -5,7 +5,9 @@
   "model": "claude-fable-5",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/codex-implementation-handoff.md",
-  "variables": {},
+  "variables": {
+    "claudePermissionMode": "bypassPermissions"
+  },
   "output": {
     "description": "Return adapter JSON whose payload contains workflowInput for codex-design-and-implement-review-loop plus preserved Fable orchestration context."
   }

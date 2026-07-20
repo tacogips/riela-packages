@@ -9,7 +9,9 @@
     "mode": "reuse"
   },
   "promptTemplateFile": "prompts/fable-goal-plan.md",
-  "variables": {},
+  "variables": {
+    "claudePermissionMode": "bypassPermissions"
+  },
   "input": {
     "description": "Operator request. Preferred fields are workflowInput.requestedOutcome, targetScope, constraints, acceptanceCriteria, verificationHint, and optional previous Fable review TODOs.",
     "jsonSchema": {

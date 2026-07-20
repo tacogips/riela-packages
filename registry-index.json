@@ -2698,11 +2698,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "5347e5d41516e4fa78196be001fc1f60"
+        "value": "b0a8d988ce227e2b0ba5a6bb149764c7"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "f44049e8ec710b6cb577d27930b3de45bf0964b981d3bbda63f8b5cd40c087ba"
+        "digest": "77734e4f8d878f6cdf8b20f33f06816f73c30ba4ab1e1618d73232f85f99ea57"
       }
     },
     {

@@ -9,7 +9,9 @@
     "mode": "reuse"
   },
   "promptTemplateFile": "prompts/fable-goal-review.md",
-  "variables": {},
+  "variables": {
+    "claudePermissionMode": "bypassPermissions"
+  },
   "output": {
     "description": "Return JSON with when.needs_replan, when.needs_todo, goalAchieved, follow-up TODOs, verification evidence, changed files, and residual risks."
   }
