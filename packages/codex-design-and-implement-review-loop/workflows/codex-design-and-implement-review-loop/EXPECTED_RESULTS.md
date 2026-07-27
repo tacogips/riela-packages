@@ -18,17 +18,15 @@ Expected result: the workflow is valid.
 
 ## Run
 
-Issue-resolution command. The full review path (design-revision loop,
-plan-revision loop, implementation-review loop, adversarial review, and the
-non-blocking Step 7b E2E evidence node) is longer than the default computed
-step budget (`steps.count + maxLoopIterations`), which would otherwise force an
-early exit to `workflow-output`. Pass an explicit `--max-steps` so the full path
-is asserted:
+Issue-resolution command. The default computed step budget
+(`steps.count + maxLoopIterations`, with `maxLoopIterations: 30`) accommodates
+the full review path (design-revision loop, plan-revision loop,
+implementation-review loop, adversarial review, and the non-blocking Step 7b
+E2E evidence node), so no explicit `--max-steps` is needed:
 
 ```bash
 riela workflow run codex-design-and-implement-review-loop \
   --mock-scenario .riela/workflows/codex-design-and-implement-review-loop/mock-scenario.json \
-  --max-steps 40 \
   --output json
 ```
 
