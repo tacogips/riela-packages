@@ -18,11 +18,17 @@ Expected result: the workflow is valid.
 
 ## Run
 
-Issue-resolution command:
+Issue-resolution command. The full review path (design-revision loop,
+plan-revision loop, implementation-review loop, adversarial review, and the
+non-blocking Step 7b E2E evidence node) is longer than the default computed
+step budget (`steps.count + maxLoopIterations`), which would otherwise force an
+early exit to `workflow-output`. Pass an explicit `--max-steps` so the full path
+is asserted:
 
 ```bash
 riela workflow run codex-design-and-implement-review-loop \
   --mock-scenario .riela/workflows/codex-design-and-implement-review-loop/mock-scenario.json \
+  --max-steps 40 \
   --output json
 ```
 
@@ -33,11 +39,16 @@ Expected stable run summary:
   "status": "completed",
   "workflowName": "codex-design-and-implement-review-loop",
   "workflowId": "codex-design-and-implement-review-loop",
-  "nodeExecutions": 29,
-  "transitions": 28,
+  "nodeExecutions": 30,
+  "transitions": 29,
   "exitCode": 0
 }
 ```
+
+The accepted implementation path routes `step7-review` →
+`step7-adversarial-review` → `step7b-e2e-evidence` → `step8-docs-refresh`, where
+`step7b-e2e-evidence` runs headless browser E2E as non-blocking evidence and
+always proceeds to Step 8.
 
 Expected final output node: `workflow-output`
 
@@ -152,15 +163,19 @@ Expected stable run summary:
   "status": "completed",
   "workflowName": "codex-design-and-implement-review-loop",
   "workflowId": "codex-design-and-implement-review-loop",
-  "nodeExecutions": 18,
-  "transitions": 17,
+  "nodeExecutions": 19,
+  "transitions": 18,
   "exitCode": 0
 }
 ```
 
 The run routes `step1-issue-intake` → `[fanout: feature-local-plan]` →
-`step5-feature-plan-join` → `step6-implement` → … → `workflow-output`, skipping
-the linear single-feature design/plan steps. The join receives the ordered
-branch outputs through `runtimeVariables.fanoutJoin`.
+`step5-feature-plan-join` → `step6-implement` → … → `step7-review` →
+`step7-adversarial-review` → `step7b-e2e-evidence` → `step8-docs-refresh` → … →
+`workflow-output`, skipping the linear single-feature design/plan steps. The
+fanout path stays within the default step budget, so it traverses the
+non-blocking `step7b-e2e-evidence` evidence node without an explicit
+`--max-steps`. The join receives the ordered branch outputs through
+`runtimeVariables.fanoutJoin`.
 
 Expected final output node: `workflow-output`, with `payload.status` `accepted`.
