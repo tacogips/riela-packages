@@ -6,7 +6,7 @@
   "modelFreeze": false,
   "promptTemplateFile": "prompts/final-output.md",
   "variables": {
-    "claudePermissionMode": "bypassPermissions"
+    "claudePermissionMode": "default"
   },
   "output": {
     "description": "Return final status, accepted markdown goal and plan, delegated Codex runs, changed files, verification evidence, residual risks, and operator notes."

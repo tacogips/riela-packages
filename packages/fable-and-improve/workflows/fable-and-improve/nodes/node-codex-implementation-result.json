@@ -6,7 +6,7 @@
   "modelFreeze": false,
   "promptTemplateFile": "prompts/codex-implementation-result.md",
   "variables": {
-    "claudePermissionMode": "bypassPermissions"
+    "claudePermissionMode": "default"
   },
   "output": {
     "description": "Return delegated workflow status, changed files, verification, accepted plan/design evidence, residual risks, and Fable context."
