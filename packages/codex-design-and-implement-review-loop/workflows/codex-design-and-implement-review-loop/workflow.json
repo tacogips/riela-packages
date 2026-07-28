@@ -447,6 +447,7 @@
       "nodeId": "step6-implement",
       "description": "Implement the accepted plan, run verification, and update plan progress.",
       "role": "worker",
+      "timeoutMs": 14400000,
       "loop": {
         "role": "worker",
         "evidenceTags": [
