@@ -11,7 +11,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "b0a8d988ce227e2b0ba5a6bb149764c7",
+  "checksum": "f588a845438cf9301f9bbd9438a93af7",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/fable-and-improve",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -32,7 +32,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "77734e4f8d878f6cdf8b20f33f06816f73c30ba4ab1e1618d73232f85f99ea57"
+    "digest": "d006f8d89e1c2646da6d7d62fc76dfc278c27872264e5e5a974342e4f34a39ea"
   },
   "backends": [
     "claude-code-agent",
