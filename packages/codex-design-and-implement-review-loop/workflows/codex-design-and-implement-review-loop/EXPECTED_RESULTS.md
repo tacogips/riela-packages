@@ -171,7 +171,9 @@ The run routes `step1-issue-intake` → `[fanout: feature-local-plan]` →
 `step5-feature-plan-join` → `step6-implement` → … → `step7-review` →
 `step7-adversarial-review` → `step7b-e2e-evidence` → `step8-docs-refresh` → … →
 `workflow-output`, skipping the linear single-feature design/plan steps. The
-fanout path stays within the default step budget, so it traverses the
+implementation step has a four-hour (`14400000` ms) per-step timeout so
+full-project verification is not terminated by the one-hour workflow default.
+The fanout path stays within the default step budget, so it traverses the
 non-blocking `step7b-e2e-evidence` evidence node without an explicit
 `--max-steps`. The join receives the ordered branch outputs through
 `runtimeVariables.fanoutJoin`.
