@@ -5,7 +5,7 @@ Claude Code Fable orchestrator workflow that researches the request, maintains m
 - Package id: `fable-and-improve`
 - Backends: `claude-code-agent`, `codex-agent`
 - Workflows: `fable-and-improve`
-- Skills: Claude Code
+- Skills: Claude Code, Codex
 
 ## Install
 

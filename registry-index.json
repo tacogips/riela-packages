@@ -1326,11 +1326,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "d55bbe85ff5b68859d33bf27a8638165"
+        "value": "c5dcfa7fb6d124d277cd8c446c2d1671"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "1a7808f5ccd507ed9f3be347a2c970190b73d553ec01c7d9dd3e46a96ea82341"
+        "digest": "d48ecf8a532bf3c3fb186b04554dddd84c0ec7567ec6ea40479db16dad888e1c"
       }
     },
     {
@@ -2698,11 +2698,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "f588a845438cf9301f9bbd9438a93af7"
+        "value": "cc7611d12ecc82ccd3dd195637cce8ec"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "d006f8d89e1c2646da6d7d62fc76dfc278c27872264e5e5a974342e4f34a39ea"
+        "digest": "f38b95aab061c0324d3e7d8e81ea9470c60a4bd5a08f5ef91955e2191da423f0"
       }
     },
     {

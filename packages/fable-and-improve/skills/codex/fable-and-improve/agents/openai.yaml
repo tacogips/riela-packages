@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fable and Improve"
+  short_description: "Fable plans, Codex implements and reviews"
+  default_prompt: "Use $fable-and-improve to have Fable plan and verify this task while Codex implements and reviews it."
