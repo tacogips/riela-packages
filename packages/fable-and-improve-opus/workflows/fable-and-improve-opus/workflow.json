@@ -1,0 +1,127 @@
+{
+  "workflowId": "fable-and-improve-opus",
+  "description": "Fable researches and plans the goal, Opus 5 implements and independently reviews it, and Fable verifies completion while routing replanning or concrete follow-up work.",
+  "defaults": {
+    "maxLoopIterations": 8,
+    "nodeTimeoutMs": 3600000,
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    }
+  },
+  "prompts": {
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Fable owns goal definition, planning, and final acceptance. Opus 5 owns implementation, verification, independent review, and improvement. Loop on review findings or Fable TODOs until the evidence satisfies the goal.",
+    "workerSystemPromptTemplate": "Return concise business JSON only. Preserve the markdown goal and plan, changed files, verification evidence, review findings, remaining TODOs, and residual risks."
+  },
+  "managerStepId": "fable-goal-plan",
+  "entryStepId": "fable-goal-plan",
+  "nodes": [
+    {
+      "id": "fable-goal-plan",
+      "nodeFile": "nodes/node-fable-goal-plan.json"
+    },
+    {
+      "id": "opus-implementation",
+      "nodeFile": "nodes/node-opus-implementation.json"
+    },
+    {
+      "id": "opus-review",
+      "nodeFile": "nodes/node-opus-review.json"
+    },
+    {
+      "id": "fable-goal-review",
+      "nodeFile": "nodes/node-fable-goal-review.json"
+    },
+    {
+      "id": "final-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-final-output.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "fable-goal-plan",
+      "nodeId": "fable-goal-plan",
+      "description": "Use Fable to investigate the request and create or revise a testable markdown goal and development plan.",
+      "role": "manager",
+      "transitions": [
+        {
+          "toStepId": "opus-implementation"
+        }
+      ]
+    },
+    {
+      "id": "opus-implementation",
+      "nodeId": "opus-implementation",
+      "description": "Use Opus 5 to implement or improve the current Fable plan and verify the changed result.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "opus-review"
+        }
+      ]
+    },
+    {
+      "id": "opus-review",
+      "nodeId": "opus-review",
+      "description": "Use an independent Opus 5 session to review implementation quality and request concrete fixes when needed.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "opus-implementation",
+          "label": "needs_revision"
+        },
+        {
+          "toStepId": "fable-goal-review",
+          "label": "!needs_revision"
+        }
+      ]
+    },
+    {
+      "id": "fable-goal-review",
+      "nodeId": "fable-goal-review",
+      "description": "Use Fable to compare the accepted Opus result with the goal and decide whether to replan, delegate TODOs, or finish.",
+      "role": "worker",
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "fable-goal-plan"
+      },
+      "transitions": [
+        {
+          "toStepId": "fable-goal-plan",
+          "label": "needs_replan"
+        },
+        {
+          "toStepId": "opus-implementation",
+          "label": "needs_todo"
+        },
+        {
+          "toStepId": "final-output",
+          "label": "!(needs_replan || needs_todo)"
+        }
+      ]
+    },
+    {
+      "id": "final-output",
+      "nodeId": "final-output",
+      "description": "Publish the accepted Fable goal, Opus development evidence, verification, changed files, and residual risks.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielaPackage": {
+      "title": "fable-and-improve-opus",
+      "description": "Fable plans and verifies while Claude Opus 5 implements, reviews, and improves the result.",
+      "tags": [
+        "workflow",
+        "claude-code",
+        "fable",
+        "opus",
+        "review"
+      ],
+      "backends": [
+        "claude-code-agent"
+      ]
+    }
+  }
+}

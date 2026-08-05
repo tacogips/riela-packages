@@ -2706,6 +2706,54 @@
       }
     },
     {
+      "name": "fable-and-improve-opus",
+      "directory": "packages/fable-and-improve-opus",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "fable-and-improve-opus",
+      "description": "Claude Code Fable plans and verifies development while independent Claude Opus 5 sessions implement, review, and improve the result until completion.",
+      "tags": [
+        "claude-code",
+        "fable",
+        "opus",
+        "review",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/fable-and-improve-opus",
+        "title": "fable-and-improve-opus",
+        "description": "Claude Code Fable creates and maintains the goal and plan, Claude Opus 5 implements and independently reviews the work, and Fable verifies completion.",
+        "tags": [
+          "workflow",
+          "claude-code",
+          "fable",
+          "opus",
+          "review"
+        ],
+        "backends": [
+          "claude-code-agent"
+        ]
+      },
+      "backends": [
+        "claude-code-agent"
+      ],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "ba7e2040f7db419a148be296f7a07edd"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "1d1777aaf922a486b9dfb341b6da21e04543c9adcbac550a94c1278851cdd6cd"
+      }
+    },
+    {
       "name": "greeting-container",
       "directory": "packages/greeting-container",
       "version": "0.1.0",

@@ -331,6 +331,11 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
   `codex-design-and-implement-review-loop`, then verifies completion and loops
   on remaining TODOs. `backend: claude-code-agent, codex-agent`; includes
   Claude skills.
+- [fable-and-improve-opus](packages/fable-and-improve-opus) -
+  Claude Code Fable researches the request and owns the goal, plan, and final
+  acceptance while frozen Claude Opus 5 sessions implement, independently
+  review, and improve the result. `backend: claude-code-agent`; includes
+  Claude skills.
 - [claude-code-deepdesign](packages/claude-code-deepdesign) -
   Create and iteratively review design-doc specifications with one Claude Code author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain. `backend: claude-code-agent`.
 - [claude-code-adversarial-implementation-review-loop](packages/claude-code-adversarial-implementation-review-loop) -
@@ -491,6 +496,7 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 | [claude-code-website-builder](packages/claude-code-website-builder) | workflow | `claude-code-agent` | - |
 | [claude-code-worker-only-single-step](packages/claude-code-worker-only-single-step) | workflow | `claude-code-agent` | - |
 | [fable-and-improve](packages/fable-and-improve) | workflow | `claude-code-agent`, `codex-agent` | Claude |
+| [fable-and-improve-opus](packages/fable-and-improve-opus) | workflow | `claude-code-agent` | Claude |
 | [cursor-cli-adversarial-implementation-review-loop](packages/cursor-cli-adversarial-implementation-review-loop) | workflow | `cursor-cli-agent` | - |
 | [cursor-cli-deepdesign](packages/cursor-cli-deepdesign) | workflow | `cursor-cli-agent` | - |
 | [cursor-cli-design-and-implement-review-loop](packages/cursor-cli-design-and-implement-review-loop) | workflow | `cursor-cli-agent` | Cursor |

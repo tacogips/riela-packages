@@ -1,0 +1,18 @@
+{
+  "id": "opus-implementation",
+  "description": "Claude Opus 5 implements the Fable plan, addresses review findings or follow-up TODOs, and verifies the result.",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-opus-5",
+  "modelFreeze": true,
+  "effort": "high",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "promptTemplateFile": "prompts/opus-implementation.md",
+  "variables": {
+    "claudePermissionMode": "bypassPermissions"
+  },
+  "output": {
+    "description": "Return implementation status, changed files, verification evidence, documentation updates, addressed findings, and residual risks."
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "fable-goal-plan": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "goalMarkdown": "## Goal\nAdd and verify the requested documentation note.",
+      "planMarkdown": "## Plan\n1. Let Opus add the narrow note.\n2. Verify it.\n3. Review the result independently.",
+      "acceptanceCriteria": [
+        "The note exists.",
+        "The verification passes."
+      ],
+      "targetScope": [
+        "docs/example.md"
+      ],
+      "constraints": [
+        "Do not modify unrelated files."
+      ],
+      "assumptions": [],
+      "risks": [],
+      "verificationPlan": [
+        "rg -n \"Opus smoke note\" docs/example.md"
+      ],
+      "opusImplementationBrief": {
+        "requestedBehavior": "Add and verify the Opus smoke note.",
+        "targetFeatureArea": "documentation",
+        "riskLevel": "low"
+      },
+      "planningNotes": [],
+      "previousTodoResolution": []
+    }
+  },
+  "opus-implementation": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "implementationStatus": "completed",
+      "implementationSummary": "Added the requested note.",
+      "changedFiles": [
+        "docs/example.md"
+      ],
+      "testsAddedOrUpdated": [],
+      "verificationEvidence": [
+        {
+          "command": "rg -n \"Opus smoke note\" docs/example.md",
+          "result": "passed"
+        }
+      ],
+      "documentationUpdated": true,
+      "addressedReviewFindings": [],
+      "addressedFableTodos": [],
+      "commitStatus": "not-requested",
+      "pushStatus": "not-requested",
+      "residualRisks": [],
+      "operatorNotes": [],
+      "goalMarkdown": "## Goal\nAdd and verify the requested documentation note.",
+      "planMarkdown": "## Plan\n1. Let Opus add the narrow note.\n2. Verify it.\n3. Review the result independently."
+    }
+  },
+  "opus-review": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5",
+    "when": {
+      "needs_revision": false
+    },
+    "payload": {
+      "reviewStatus": "accepted",
+      "findings": [],
+      "verificationAssessment": [
+        "The requested verification passed."
+      ],
+      "acceptanceCriteriaAssessment": [
+        "All criteria are satisfied."
+      ],
+      "revisionInstructions": [],
+      "acceptedResidualRisks": [],
+      "reviewEvidence": [
+        "Independent Opus review accepted the narrow diff."
+      ]
+    }
+  },
+  "fable-goal-review": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": {
+      "needs_replan": false,
+      "needs_todo": false
+    },
+    "payload": {
+      "goalAchieved": true,
+      "completionDecision": "accepted",
+      "evidence": [
+        "Opus implemented and independently reviewed the note."
+      ],
+      "remainingTodos": [],
+      "replanReason": null,
+      "followUpImplementationHint": null,
+      "changedFiles": [
+        "docs/example.md"
+      ],
+      "verificationEvidence": [
+        "The requested verification passed."
+      ],
+      "reviewEvidence": [
+        "Independent Opus review accepted."
+      ],
+      "residualRisks": [],
+      "operatorNotes": []
+    }
+  },
+  "final-output": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "completed",
+      "goalAchieved": true,
+      "goalMarkdown": "## Goal\nAdd and verify the requested documentation note.",
+      "planMarkdown": "## Plan\n1. Let Opus add the narrow note.\n2. Verify it.\n3. Review the result independently.",
+      "changedFiles": [
+        "docs/example.md"
+      ],
+      "implementationEvidence": [
+        "Opus added the requested note."
+      ],
+      "reviewEvidence": [
+        "Independent Opus review accepted."
+      ],
+      "verificationEvidence": [
+        "The requested verification passed."
+      ],
+      "commitStatus": "not-requested",
+      "pushStatus": "not-requested",
+      "residualRisks": [],
+      "operatorNotes": []
+    }
+  }
+}

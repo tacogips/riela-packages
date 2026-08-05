@@ -1,0 +1,18 @@
+{
+  "id": "fable-goal-review",
+  "description": "Claude Code Fable verifies whether the accepted Opus result satisfies the goal and decides whether more work remains.",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-fable-5",
+  "modelFreeze": true,
+  "effort": "high",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "promptTemplateFile": "prompts/fable-goal-review.md",
+  "variables": {
+    "claudePermissionMode": "bypassPermissions"
+  },
+  "output": {
+    "description": "Return when.needs_replan, when.needs_todo, goalAchieved, remaining TODOs, verification evidence, changed files, and residual risks."
+  }
+}
