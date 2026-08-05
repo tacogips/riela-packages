@@ -1,0 +1,16 @@
+{
+  "id": "step6-implement-self-review",
+  "description": "Self-review the implementation diff and verification evidence before the independent implementation review.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.6-sol",
+  "modelFreeze": false,
+  "effort": "high",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "promptTemplateFile": "prompts/step6-implement-self-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return JSON with implementation self-review findings, feedback, reviewed files, verification gaps, residual risks, and the acceptance decision."
+  }
+}

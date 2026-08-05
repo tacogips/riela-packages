@@ -347,7 +347,7 @@
   "step6-implement": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-5.6-sol",
+      "model": "gpt-5.6-terra",
       "when": {
         "always": true
       },
@@ -376,7 +376,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-5.6-sol",
+      "model": "gpt-5.6-terra",
       "when": {
         "always": true
       },

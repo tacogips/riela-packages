@@ -45,8 +45,7 @@
         "nestedCodex": "deny",
         "allowedBackends": [
           "codex-agent"
-        ],
-        "requiredWorkerModel": "gpt-5.6-sol"
+        ]
       },
       "network": {
         "mode": "inherit-command"
@@ -171,6 +170,10 @@
     {
       "id": "step6-implement",
       "nodeFile": "nodes/node-step6-implement.json"
+    },
+    {
+      "id": "step6-implement-self-review",
+      "nodeFile": "nodes/node-step6-implement-self-review.json"
     },
     {
       "id": "step7-review",
@@ -466,10 +469,9 @@
     },
     {
       "id": "step6-implement-self-review",
-      "nodeId": "step6-implement",
+      "nodeId": "step6-implement-self-review",
       "description": "Self-review the implementation diff and verification evidence before the independent implementation review.",
       "role": "worker",
-      "promptVariant": "self-review",
       "sessionPolicy": {
         "mode": "reuse",
         "inheritFromStepId": "step6-implement"
