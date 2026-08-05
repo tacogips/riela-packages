@@ -1,0 +1,12 @@
+{
+  "id": "fable-impl-plan",
+  "description": "Claude Fable authors or revises the implementation plan from the accepted analysis and design.",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-fable-5",
+  "modelFreeze": true,
+  "effort": "high",
+  "sessionPolicy": { "mode": "reuse" },
+  "promptTemplateFile": "prompts/fable-impl-plan.md",
+  "variables": { "claudePermissionMode": "bypassPermissions" },
+  "output": { "description": "Return planMarkdown, implPlanPaths, ordered tasks, dependencies, verification plan, completion criteria, and Codex implementation brief." }
+}

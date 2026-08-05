@@ -1,13 +1,16 @@
 {
-  "workflowId": "fable-and-improve-opus",
-  "description": "Claude Fable analyzes the request, authors the design and implementation plan, Claude Opus 5 implements and independently reviews, and Fable verifies completion.",
+  "workflowId": "fable-and-improve-codex",
+  "description": "Claude Fable analyzes the request, authors the design and implementation plan, Codex implements with GPT-5.6 Terra and independently reviews with GPT-5.6 SOL, and Fable verifies completion.",
   "defaults": {
     "maxLoopIterations": 8,
     "nodeTimeoutMs": 3600000,
-    "supervision": { "monitorIntervalMs": 15000, "stallTimeoutMs": 300000 }
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    }
   },
   "prompts": {
-    "rielaPromptTemplate": "Coordinate {{workflowId}}. Fable owns repository analysis, design, implementation-plan authoring, replanning, and final acceptance. Claude Opus 5 owns implementation and improvement, and an independent Opus 5 session owns implementation review. Loop blocking findings back to implementation, route invalid plans back to Fable analysis, and finish only after Fable verifies the goal.",
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Fable owns repository analysis, design, implementation-plan authoring, replanning, and final acceptance. Codex GPT-5.6 Terra owns implementation and improvement. An independent Codex GPT-5.6 SOL session owns implementation review. Loop blocking review findings back to Terra, route invalid plans back to Fable analysis, and finish only after Fable verifies the goal.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Preserve analysis, design and implementation-plan artifacts, changed files, verification evidence, review findings, remaining TODOs, and residual risks."
   },
   "managerStepId": "fable-analysis",
@@ -16,8 +19,8 @@
     { "id": "fable-analysis", "nodeFile": "nodes/node-fable-analysis.json" },
     { "id": "fable-design", "nodeFile": "nodes/node-fable-design.json" },
     { "id": "fable-impl-plan", "nodeFile": "nodes/node-fable-impl-plan.json" },
-    { "id": "opus-implementation", "nodeFile": "nodes/node-opus-implementation.json" },
-    { "id": "opus-review", "nodeFile": "nodes/node-opus-review.json" },
+    { "id": "codex-implementation", "nodeFile": "nodes/node-codex-implementation.json" },
+    { "id": "codex-review", "nodeFile": "nodes/node-codex-review.json" },
     { "id": "fable-goal-review", "nodeFile": "nodes/node-fable-goal-review.json" },
     { "id": "final-output", "kind": "output", "nodeFile": "nodes/node-final-output.json" }
   ],
@@ -43,50 +46,50 @@
       "description": "Use Fable to author or revise an actionable implementation plan from the accepted design.",
       "role": "worker",
       "sessionPolicy": { "mode": "reuse", "inheritFromStepId": "fable-design" },
-      "transitions": [{ "toStepId": "opus-implementation" }]
+      "transitions": [{ "toStepId": "codex-implementation" }]
     },
     {
-      "id": "opus-implementation",
-      "nodeId": "opus-implementation",
-      "description": "Use Claude Opus 5 to implement or improve the current Fable-authored plan and verify the result.",
+      "id": "codex-implementation",
+      "nodeId": "codex-implementation",
+      "description": "Use Codex GPT-5.6 Terra to implement or improve the current Fable-authored plan and verify the result.",
       "role": "worker",
-      "transitions": [{ "toStepId": "opus-review" }]
+      "transitions": [{ "toStepId": "codex-review" }]
     },
     {
-      "id": "opus-review",
-      "nodeId": "opus-review",
-      "description": "Use an independent Claude Opus 5 session to review the implementation and request concrete fixes.",
+      "id": "codex-review",
+      "nodeId": "codex-review",
+      "description": "Use an independent Codex GPT-5.6 SOL session to review the implementation and request concrete fixes.",
       "role": "worker",
       "transitions": [
-        { "toStepId": "opus-implementation", "label": "needs_revision" },
+        { "toStepId": "codex-implementation", "label": "needs_revision" },
         { "toStepId": "fable-goal-review", "label": "!(needs_revision)" }
       ]
     },
     {
       "id": "fable-goal-review",
       "nodeId": "fable-goal-review",
-      "description": "Use Fable to compare the accepted Opus result with the analysis, design, plan, and goal.",
+      "description": "Use Fable to compare the accepted Codex result with the analysis, design, plan, and goal.",
       "role": "worker",
       "sessionPolicy": { "mode": "reuse", "inheritFromStepId": "fable-analysis" },
       "transitions": [
         { "toStepId": "fable-analysis", "label": "needs_replan" },
-        { "toStepId": "opus-implementation", "label": "needs_todo" },
+        { "toStepId": "codex-implementation", "label": "needs_todo" },
         { "toStepId": "final-output", "label": "!(needs_replan || needs_todo)" }
       ]
     },
     {
       "id": "final-output",
       "nodeId": "final-output",
-      "description": "Publish the accepted Fable analysis, design, implementation plan, Opus evidence, and final status.",
+      "description": "Publish the accepted Fable analysis, design, implementation plan, Codex evidence, and final status.",
       "role": "worker"
     }
   ],
   "metadata": {
     "rielaPackage": {
-      "title": "fable-and-improve-opus",
-      "description": "Fable analyzes, designs, and plans; Opus implements and independently reviews; Fable verifies completion.",
-      "tags": ["workflow", "claude-code", "fable", "opus", "review"],
-      "backends": ["claude-code-agent"]
+      "title": "fable-and-improve-codex",
+      "description": "Fable analyzes, designs, and plans; Codex Terra implements; Codex SOL reviews; Fable verifies completion.",
+      "tags": ["workflow", "claude-code", "codex", "fable", "review"],
+      "backends": ["claude-code-agent", "codex-agent"]
     }
   }
 }

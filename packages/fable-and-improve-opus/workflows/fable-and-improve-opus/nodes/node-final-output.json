@@ -1,6 +1,6 @@
 {
   "id": "final-output",
-  "description": "Publish the final result after Fable accepts the Opus-developed work.",
+  "description": "Publish the final result after Fable accepts the Opus implementation and review against its analysis, design, and plan.",
   "executionBackend": "claude-code-agent",
   "model": "claude-fable-5",
   "modelFreeze": true,
@@ -9,6 +9,6 @@
     "claudePermissionMode": "default"
   },
   "output": {
-    "description": "Return final status, goal and plan, changed files, implementation and review evidence, verification, residual risks, and operator notes."
+    "description": "Return final status, analysis, design, plan, changed files, implementation and review evidence, verification, residual risks, and operator notes."
   }
 }

@@ -1,0 +1,26 @@
+{
+  "id": "fable-analysis",
+  "description": "Claude Fable analyzes the request and repository before design or implementation planning.",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-fable-5",
+  "modelFreeze": true,
+  "effort": "high",
+  "sessionPolicy": { "mode": "reuse" },
+  "promptTemplateFile": "prompts/fable-analysis.md",
+  "variables": { "claudePermissionMode": "bypassPermissions" },
+  "input": {
+    "description": "Operator request in workflowInput, including requestedOutcome and optional scope, constraints, acceptanceCriteria, and verificationHint.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "workflowInput": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": { "requestedOutcome": { "type": "string", "minLength": 1 } }
+        }
+      }
+    }
+  },
+  "output": { "description": "Return analysisMarkdown, acceptance criteria, repository evidence, scope, constraints, assumptions, and risks." }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "final-output",
+  "description": "Publish the final result after Fable accepts the Terra implementation and SOL review.",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-fable-5",
+  "modelFreeze": true,
+  "promptTemplateFile": "prompts/final-output.md",
+  "variables": {
+    "claudePermissionMode": "default"
+  },
+  "output": {
+    "description": "Return final status, analysis, design, plan, implementation and review evidence, verification, changed files, residual risks, and operator notes."
+  }
+}

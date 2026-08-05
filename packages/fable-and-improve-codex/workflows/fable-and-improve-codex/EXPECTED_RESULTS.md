@@ -5,10 +5,10 @@
 1. `fable-analysis` analyzes the request and repository with `claude-fable-5`.
 2. `fable-design` authors the design with `claude-fable-5`.
 3. `fable-impl-plan` authors the implementation plan with `claude-fable-5`.
-4. `opus-implementation` implements with `claude-opus-5`.
-5. `opus-review` independently accepts with `claude-opus-5` and `needs_revision: false`.
+4. `codex-implementation` implements with `gpt-5.6-terra`.
+5. `codex-review` independently accepts with `gpt-5.6-sol` and `needs_revision: false`.
 6. `fable-goal-review` accepts completion, then `final-output` publishes the result.
 
-Expected stable result: workflow `fable-and-improve-opus` completes with exit
+Expected stable result: workflow `fable-and-improve-codex` completes with exit
 code `0`, `goalAchieved: true`, and explicit analysis, design, plan,
 implementation, review, and verification evidence.

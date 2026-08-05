@@ -2652,12 +2652,12 @@
       }
     },
     {
-      "name": "fable-and-improve",
-      "directory": "packages/fable-and-improve",
+      "name": "fable-and-improve-codex",
+      "directory": "packages/fable-and-improve-codex",
       "version": "0.1.0",
       "kind": "workflow",
-      "title": "fable-and-improve",
-      "description": "Claude Code Fable orchestrator workflow that researches the request, maintains markdown goal and plan state, delegates implementation and review to codex-design-and-implement-review-loop, and repeats until Fable verifies completion.",
+      "title": "fable-and-improve-codex",
+      "description": "Claude Fable analyzes, designs, and plans development; Codex Terra implements; Codex SOL independently reviews; Fable verifies completion.",
       "tags": [
         "claude-code",
         "codex",
@@ -2668,9 +2668,9 @@
       "registry": "default",
       "repository": "https://github.com/tacogips/riela-packages",
       "workflow": {
-        "directory": "workflows/fable-and-improve",
-        "title": "fable-and-improve",
-        "description": "Claude Code Fable researches and plans in markdown, delegates implementation and review to codex-design-and-implement-review-loop, then checks completion and loops on remaining TODOs.",
+        "directory": "workflows/fable-and-improve-codex",
+        "title": "fable-and-improve-codex",
+        "description": "Fable owns analysis, design, planning, and acceptance; Codex Terra implements and Codex SOL reviews.",
         "tags": [
           "workflow",
           "claude-code",
@@ -2687,22 +2687,18 @@
         "claude-code-agent",
         "codex-agent"
       ],
-      "dependencies": [
-        {
-          "packageId": "codex-design-and-implement-review-loop"
-        }
-      ],
+      "dependencies": [],
       "requiredEnvironment": [],
       "addons": [],
       "skills": [],
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "cc7611d12ecc82ccd3dd195637cce8ec"
+        "value": "810df2045eab2531e97d2528c891f141"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "f38b95aab061c0324d3e7d8e81ea9470c60a4bd5a08f5ef91955e2191da423f0"
+        "digest": "8a4d9de8b4fb865bee683997a05de75f076750bc5ab361151e366bc4d219c916"
       }
     },
     {
@@ -2711,7 +2707,7 @@
       "version": "0.1.0",
       "kind": "workflow",
       "title": "fable-and-improve-opus",
-      "description": "Claude Code Fable plans and verifies development while independent Claude Opus 5 sessions implement, review, and improve the result until completion.",
+      "description": "Claude Fable analyzes, designs, and plans development; Claude Opus 5 implements and independently reviews; Fable verifies completion.",
       "tags": [
         "claude-code",
         "fable",
@@ -2724,7 +2720,7 @@
       "workflow": {
         "directory": "workflows/fable-and-improve-opus",
         "title": "fable-and-improve-opus",
-        "description": "Claude Code Fable creates and maintains the goal and plan, Claude Opus 5 implements and independently reviews the work, and Fable verifies completion.",
+        "description": "Fable owns analysis, design, planning, and acceptance; Opus implements and independently reviews.",
         "tags": [
           "workflow",
           "claude-code",
@@ -2746,11 +2742,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "ba7e2040f7db419a148be296f7a07edd"
+        "value": "5bcdf0123b8ecb0719caa2b78e8cc1cd"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "1d1777aaf922a486b9dfb341b6da21e04543c9adcbac550a94c1278851cdd6cd"
+        "digest": "bd94dcb66726209a5361f83b4ff0e45cbcece893892c1dc50e8ce2e3709e236c"
       }
     },
     {

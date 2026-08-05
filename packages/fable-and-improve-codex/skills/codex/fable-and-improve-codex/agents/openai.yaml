@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fable and Improve Codex"
+  short_description: "Fable designs; Terra builds; SOL reviews"
+  default_prompt: "Use $fable-and-improve-codex to have Fable analyze, design, and plan this task while Terra implements and SOL reviews it."

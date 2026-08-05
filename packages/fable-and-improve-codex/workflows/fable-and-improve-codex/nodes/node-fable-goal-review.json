@@ -1,6 +1,6 @@
 {
   "id": "fable-goal-review",
-  "description": "Claude Fable verifies whether the accepted Opus implementation and review satisfy the analysis, design, plan, and goal.",
+  "description": "Claude Fable verifies whether the accepted Terra implementation and SOL review satisfy the analysis, design, plan, and goal.",
   "executionBackend": "claude-code-agent",
   "model": "claude-fable-5",
   "modelFreeze": true,
@@ -13,6 +13,6 @@
     "claudePermissionMode": "bypassPermissions"
   },
   "output": {
-    "description": "Return when.needs_replan, when.needs_todo, goalAchieved, remaining TODOs, verification evidence, changed files, and residual risks."
+    "description": "Return routing decisions, goal completion, remaining TODOs, verification and review evidence, changed files, and residual risks."
   }
 }

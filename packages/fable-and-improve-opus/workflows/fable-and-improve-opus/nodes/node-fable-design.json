@@ -1,0 +1,12 @@
+{
+  "id": "fable-design",
+  "description": "Claude Fable authors or revises the design from the repository analysis.",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-fable-5",
+  "modelFreeze": true,
+  "effort": "high",
+  "sessionPolicy": { "mode": "reuse" },
+  "promptTemplateFile": "prompts/fable-design.md",
+  "variables": { "claudePermissionMode": "bypassPermissions" },
+  "output": { "description": "Return designMarkdown, designDocPaths, decisions, alternatives, interfaces, data flow, edge cases, and addressed feedback." }
+}

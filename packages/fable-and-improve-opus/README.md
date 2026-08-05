@@ -1,8 +1,8 @@
 # fable-and-improve-opus
 
-Claude Code Fable researches the request and maintains the goal and plan.
-Claude Opus 5 implements the plan, a separate Opus 5 session reviews the
-result, and Fable verifies completion and routes any remaining work.
+Claude Fable analyzes the request, authors the design and implementation plan,
+and verifies completion. Claude Opus 5 implements the plan, and a separate
+Opus 5 session independently reviews the result.
 
 - Package id: `fable-and-improve-opus`
 - Backend: `claude-code-agent`

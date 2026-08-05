@@ -1,0 +1,11 @@
+{
+  "id": "codex-review",
+  "description": "An independent Codex GPT-5.6 SOL session reviews the implementation and routes blocking findings back to Terra.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.6-sol",
+  "modelFreeze": true,
+  "effort": "high",
+  "promptTemplateFile": "prompts/codex-review.md",
+  "variables": {},
+  "output": { "description": "Return when.needs_revision plus findings, verification assessment, accepted risks, and concrete revision instructions." }
+}
