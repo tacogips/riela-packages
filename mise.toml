@@ -1,0 +1,139 @@
+min_version = "2026.8.3"
+
+[[hooks.enter]]
+shell = "bash"
+script = '''
+if command -v kinko >/dev/null 2>&1 && kinko hook --help >/dev/null 2>&1; then
+  eval "$(kinko --path "$MISE_PROJECT_ROOT" hook enter bash)"
+fi
+'''
+
+[[hooks.leave]]
+shell = "bash"
+script = '''
+if command -v kinko >/dev/null 2>&1 && kinko hook --help >/dev/null 2>&1; then
+  eval "$(kinko hook leave bash)"
+fi
+'''
+
+[tools]
+bun = "latest"
+swift = "6.3.3"
+
+[tasks."package:check-digests"]
+description = "Check every package manifest checksum and integrity digest."
+run = '''
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts --all --dry-run
+'''
+
+[tasks."package:check-addon-digests"]
+description = "Check every add-on contentDigest and dependency lock against add-on sources."
+run = '''
+bun .agents/skills/riela-package-release/scripts/update-addon-content-digests.ts --all --check
+'''
+
+[tasks."package:update-addon-digests"]
+description = "Recompute add-on contentDigest values and sync dependency locks."
+run = '''
+bun .agents/skills/riela-package-release/scripts/update-addon-content-digests.ts --all
+'''
+
+[tasks."package:generate-index"]
+description = "Generate registry-index.json from package manifests."
+run = '''
+bun .agents/skills/riela-package-release/scripts/generate-registry-index.ts
+'''
+
+[tasks."package:check-index"]
+description = "Check generated registry-index.json is current."
+run = '''
+bun .agents/skills/riela-package-release/scripts/generate-registry-index.ts --check
+'''
+
+[tasks."package:check-container-images"]
+description = "Check container add-on image metadata and build contexts."
+run = '''
+bun .agents/skills/riela-package-release/scripts/container-image-matrix.ts --check
+'''
+
+[tasks."package:update-container-image-digests"]
+description = "Update container add-on execution.imageDigest pins from pushed GHCR image tags."
+run = '''
+bun .agents/skills/riela-package-release/scripts/update-container-image-digests.ts --all
+'''
+
+[tasks."package:pack-release-archives"]
+description = "Pack every package as a .rielapkg release archive and write archive SHA256 metadata."
+run = '''
+bun .agents/skills/riela-package-release/scripts/pack-release-archives.ts --all --archive-base-url https://github.com/tacogips/riela-packages/releases/download/registry-packages
+'''
+
+[tasks."package:generate-release-index"]
+description = "Generate a release registry index with .rielapkg archive URLs and SHA256 pins."
+run = '''
+mise run package:pack-release-archives
+bun .agents/skills/riela-package-release/scripts/generate-registry-index.ts --output dist/registry-index.json --archive-manifest dist/package-archives.json
+'''
+
+[tasks."package:check-release-publication"]
+description = "Check that the registry-packages GitHub Release contains generated .rielapkg assets."
+run = '''
+mise run package:generate-release-index
+bun .agents/skills/riela-package-release/scripts/check-release-publication.ts
+'''
+
+[tasks."package:validate"]
+description = "Validate every package manifest with the local Swift Riela CLI."
+run = '''
+set -e
+for manifest in packages/*/riela-package.json; do
+  package_dir=$(dirname "$manifest")
+  package_id=$(basename "$package_dir")
+  swift run --package-path "${RIELA_ROOT:-../riela}" riela package install "$package_id" \
+    --source "$package_dir" \
+    --dry-run \
+    --no-dependencies \
+    --output json >/dev/null
+  echo "${package_id} package ok"
+done
+
+'''
+
+[tasks."workflow:validate"]
+description = "Validate concrete packaged workflows with cross-workflow callees visible."
+run = '''
+set -e
+workflow_tmp=$(mktemp -d)
+trap 'rm -rf "$workflow_tmp"' EXIT
+
+for workflow_dir in packages/*/workflows/*; do
+  [ -d "$workflow_dir" ] || continue
+  workflow=$(basename "$workflow_dir")
+  if bun -e 'const workflow = JSON.parse(await Bun.file(process.argv[1]).text()); process.exit(workflow.extends ? 0 : 1);' "$workflow_dir/workflow.json"; then
+    echo "${workflow} extends skip"
+    continue
+  fi
+  cp -R "$workflow_dir" "$workflow_tmp/$(basename "$workflow_dir")"
+done
+
+for workflow_dir in "$workflow_tmp"/*; do
+  [ -d "$workflow_dir" ] || continue
+  workflow=$(basename "$workflow_dir")
+  swift run --package-path "${RIELA_ROOT:-../riela}" riela workflow validate "$workflow" \
+    --workflow-definition-dir "$workflow_tmp" \
+    --output json >/dev/null
+  echo "${workflow} ok"
+done
+
+'''
+
+[tasks."check"]
+description = "Run package digest, registry index, package manifest, and workflow validation checks."
+run = '''
+mise run package:check-digests
+mise run package:check-addon-digests
+mise run package:check-index
+mise run package:check-container-images
+mise run package:validate
+mise run workflow:validate
+'''

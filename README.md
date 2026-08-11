@@ -100,8 +100,8 @@ default registry without scanning every manifest from a full clone.
 Maintainers regenerate and verify the index with:
 
 ```bash
-task package:generate-index
-task package:check-index
+mise run package:generate-index
+mise run package:check-index
 ```
 
 ## Release Archives
@@ -115,7 +115,7 @@ sha256 verification.
 Maintainers can produce the same release assets locally with:
 
 ```bash
-task package:generate-release-index
+mise run package:generate-release-index
 ```
 
 This writes `dist/rielapkg/*.rielapkg`, `dist/package-archives.json`, and
@@ -126,7 +126,7 @@ release, verify that every generated archive and release index asset is
 present:
 
 ```bash
-task package:check-release-publication
+mise run package:check-release-publication
 ```
 
 ## Container Images
@@ -142,15 +142,15 @@ Maintainers can inspect and verify the image matrix locally with:
 
 ```bash
 bun .agents/skills/riela-package-release/scripts/container-image-matrix.ts --format matrix
-task package:check-container-images
+mise run package:check-container-images
 ```
 
 After the GHCR images have been pushed, bake the pushed manifest digest back
 into each add-on manifest with:
 
 ```bash
-task package:update-container-image-digests
-task package:generate-index
+mise run package:update-container-image-digests
+mise run package:generate-index
 ```
 
 For CI or release scripts that already captured image digests, pass a digest
@@ -165,7 +165,7 @@ If you downloaded the per-package workflow artifacts, merge them first:
 ```bash
 jq -s 'add' container-image-digest-*/*.json > image-digests.json
 bun .agents/skills/riela-package-release/scripts/update-container-image-digests.ts --all --digest-file image-digests.json
-task package:generate-index
+mise run package:generate-index
 ```
 
 ## Which Package Should I Install?
