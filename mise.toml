@@ -18,6 +18,8 @@ fi
 
 [tools]
 bun = "latest"
+gitleaks = "latest"
+pre-commit = "latest"
 swift = "6.3.3"
 
 [tasks."package:check-digests"]
@@ -136,4 +138,23 @@ mise run package:check-index
 mise run package:check-container-images
 mise run package:validate
 mise run workflow:validate
+'''
+
+[tasks.install-git-hooks]
+description = "Install mise tools and the repository pre-commit hook"
+run = '''
+mise install
+
+hooks_path=$(git config --local --get core.hooksPath || true)
+if [ "$hooks_path" = ".git/hooks" ]; then
+  git config --local --unset-all core.hooksPath
+  hooks_path=""
+fi
+
+if [ -z "$hooks_path" ]; then
+  mise exec -- pre-commit install
+else
+  mise exec -- pre-commit validate-config .pre-commit-config.yaml
+  echo "Using existing custom Git hooks path: $hooks_path"
+fi
 '''
