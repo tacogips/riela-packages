@@ -1,6 +1,6 @@
 {
   "workflowId": "fable-and-improve-codex",
-  "description": "Claude Fable analyzes the request, authors the design and implementation plan, Codex implements with GPT-5.6 Terra and independently reviews with GPT-5.6 SOL, and Fable verifies completion.",
+  "description": "Claude Fable analyzes the request, recalls prior knowledge from the kaiba knowledge base, authors the design and implementation plan, Codex implements with GPT-5.6 Terra and independently reviews with GPT-5.6 SOL, Fable verifies completion, and a self-review step feeds durable lessons back into the knowledge base before the final output.",
   "defaults": {
     "maxLoopIterations": 8,
     "nodeTimeoutMs": 3600000,
@@ -10,32 +10,90 @@
     }
   },
   "prompts": {
-    "rielaPromptTemplate": "Coordinate {{workflowId}}. Fable owns repository analysis, design, implementation-plan authoring, replanning, and final acceptance. Codex GPT-5.6 Terra owns implementation and improvement. An independent Codex GPT-5.6 SOL session owns implementation review. Loop blocking review findings back to Terra, route invalid plans back to Fable analysis, and finish only after Fable verifies the goal.",
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Fable owns repository analysis, design, implementation-plan authoring, replanning, and final acceptance. Codex GPT-5.6 Terra owns implementation and improvement. An independent Codex GPT-5.6 SOL session owns implementation review. Loop blocking review findings back to Terra, route invalid plans back to Fable analysis, and finish only after Fable verifies the goal and the knowledge-base self-review has run.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Preserve analysis, design and implementation-plan artifacts, changed files, verification evidence, review findings, remaining TODOs, and residual risks."
   },
   "managerStepId": "fable-analysis",
   "entryStepId": "fable-analysis",
   "nodes": [
     { "id": "fable-analysis", "nodeFile": "nodes/node-fable-analysis.json" },
+    {
+      "id": "kb-recall-prior",
+      "addon": {
+        "name": "kaiba/memory-recall",
+        "version": "1",
+        "config": {
+          "query": "{{knowledgeQuery}}",
+          "limit": 5,
+          "includeAssociations": true,
+          "associationDepth": 2
+        }
+      }
+    },
     { "id": "fable-design", "nodeFile": "nodes/node-fable-design.json" },
     { "id": "fable-impl-plan", "nodeFile": "nodes/node-fable-impl-plan.json" },
     { "id": "codex-implementation", "nodeFile": "nodes/node-codex-implementation.json" },
     { "id": "codex-review", "nodeFile": "nodes/node-codex-review.json" },
     { "id": "fable-goal-review", "nodeFile": "nodes/node-fable-goal-review.json" },
+    { "id": "kb-self-review", "nodeFile": "nodes/node-kb-self-review.json" },
+    {
+      "id": "kb-recall-related",
+      "addon": {
+        "name": "kaiba/memory-recall",
+        "version": "1",
+        "config": {
+          "query": "{{knowledgeQuery}}",
+          "limit": 5,
+          "includeAssociations": true,
+          "associationDepth": 2,
+          "passthrough": "{\"candidateContent\":\"{{candidateContent}}\",\"candidateTags\":\"{{candidateTags}}\",\"knowledgeQuery\":\"{{knowledgeQuery}}\"}"
+        }
+      }
+    },
+    { "id": "kb-merge-judge", "nodeFile": "nodes/node-kb-merge-judge.json" },
+    {
+      "id": "kb-create",
+      "addon": {
+        "name": "kaiba/memory-consolidate",
+        "version": "1",
+        "config": {
+          "autoAssociate": true,
+          "associationLimit": 8
+        }
+      }
+    },
+    {
+      "id": "kb-merge",
+      "addon": {
+        "name": "kaiba/note-update",
+        "version": "1",
+        "config": {
+          "noteId": "{{mergeNoteId}}",
+          "bodyMarkdown": "{{mergedBody}}"
+        }
+      }
+    },
     { "id": "final-output", "kind": "output", "nodeFile": "nodes/node-final-output.json" }
   ],
   "steps": [
     {
       "id": "fable-analysis",
       "nodeId": "fable-analysis",
-      "description": "Use Fable to analyze the operator request, repository state, constraints, risks, and testable acceptance criteria.",
+      "description": "Use Fable to analyze the operator request, repository state, constraints, risks, and testable acceptance criteria, and to name a knowledge-base search keyword.",
       "role": "manager",
+      "transitions": [{ "toStepId": "kb-recall-prior" }]
+    },
+    {
+      "id": "kb-recall-prior",
+      "nodeId": "kb-recall-prior",
+      "description": "Recall durable prior knowledge from the kaiba knowledge base for the analysis topic before design starts.",
+      "role": "worker",
       "transitions": [{ "toStepId": "fable-design" }]
     },
     {
       "id": "fable-design",
       "nodeId": "fable-design",
-      "description": "Use Fable to author or revise the design from the accepted analysis without implementing production code.",
+      "description": "Use Fable to author or revise the design from the accepted analysis and recalled prior knowledge without implementing production code.",
       "role": "worker",
       "sessionPolicy": { "mode": "reuse", "inheritFromStepId": "fable-analysis" },
       "transitions": [{ "toStepId": "fable-impl-plan" }]
@@ -74,21 +132,63 @@
       "transitions": [
         { "toStepId": "fable-analysis", "label": "needs_replan" },
         { "toStepId": "codex-implementation", "label": "needs_todo" },
-        { "toStepId": "final-output", "label": "!(needs_replan || needs_todo)" }
+        { "toStepId": "kb-self-review", "label": "!(needs_replan || needs_todo)" }
       ]
+    },
+    {
+      "id": "kb-self-review",
+      "nodeId": "kb-self-review",
+      "description": "Use Fable to self-review the accepted run and extract at most one durable knowledge candidate for the knowledge base.",
+      "role": "worker",
+      "sessionPolicy": { "mode": "reuse", "inheritFromStepId": "fable-goal-review" },
+      "transitions": [{ "toStepId": "kb-recall-related" }]
+    },
+    {
+      "id": "kb-recall-related",
+      "nodeId": "kb-recall-related",
+      "description": "Recall existing knowledge-base notes related to the self-review candidate.",
+      "role": "worker",
+      "transitions": [{ "toStepId": "kb-merge-judge" }]
+    },
+    {
+      "id": "kb-merge-judge",
+      "nodeId": "kb-merge-judge",
+      "description": "Use Fable to decide whether the candidate knowledge is created, merged into an existing note, or skipped.",
+      "role": "worker",
+      "sessionPolicy": { "mode": "reuse", "inheritFromStepId": "kb-self-review" },
+      "transitions": [
+        { "toStepId": "kb-create", "label": "create_knowledge" },
+        { "toStepId": "kb-merge", "label": "merge_knowledge" },
+        { "toStepId": "final-output", "label": "!(create_knowledge || merge_knowledge)" }
+      ]
+    },
+    {
+      "id": "kb-create",
+      "nodeId": "kb-create",
+      "description": "Write the accepted candidate as a new kaiba knowledge-base note with graph auto-association.",
+      "role": "worker",
+      "transitions": [{ "toStepId": "final-output" }]
+    },
+    {
+      "id": "kb-merge",
+      "nodeId": "kb-merge",
+      "description": "Rewrite the existing kaiba note with the generalized merged body so the knowledge base absorbs the lesson without growing.",
+      "role": "worker",
+      "transitions": [{ "toStepId": "final-output" }]
     },
     {
       "id": "final-output",
       "nodeId": "final-output",
-      "description": "Publish the accepted Fable analysis, design, implementation plan, Codex evidence, and final status.",
-      "role": "worker"
+      "description": "Publish the accepted Fable analysis, design, implementation plan, Codex evidence, knowledge-base update, and final status.",
+      "role": "worker",
+      "sessionPolicy": { "mode": "reuse", "inheritFromStepId": "kb-merge-judge" }
     }
   ],
   "metadata": {
     "rielaPackage": {
       "title": "fable-and-improve-codex",
-      "description": "Fable analyzes, designs, and plans; Codex Terra implements; Codex SOL reviews; Fable verifies completion.",
-      "tags": ["workflow", "claude-code", "codex", "fable", "review"],
+      "description": "Fable analyzes, designs, and plans with knowledge-base recall; Codex Terra implements; Codex SOL reviews; Fable verifies completion and self-reviews lessons into the knowledge base.",
+      "tags": ["workflow", "claude-code", "codex", "fable", "review", "knowledge-base"],
       "backends": ["claude-code-agent", "codex-agent"]
     }
   }

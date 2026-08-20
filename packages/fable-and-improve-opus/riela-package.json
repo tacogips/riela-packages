@@ -1,6 +1,6 @@
 {
   "name": "fable-and-improve-opus",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "title": "fable-and-improve-opus",
   "description": "Claude Fable analyzes, designs, and plans development; Claude Opus 5 implements and independently reviews; Fable verifies completion.",
   "tags": [
@@ -11,7 +11,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "5bcdf0123b8ecb0719caa2b78e8cc1cd",
+  "checksum": "0d2385c0a3a5bcbf4e6b1d6eb401fb91",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/fable-and-improve-opus",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -31,7 +31,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "bd94dcb66726209a5361f83b4ff0e45cbcece893892c1dc50e8ce2e3709e236c"
+    "digest": "c1154b4e6f4e32ced9c983a76acca5c1e8caaf809874f87c31466300aa57eb15"
   },
   "backends": [
     "claude-code-agent"

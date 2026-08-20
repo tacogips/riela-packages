@@ -22,5 +22,16 @@
       }
     }
   },
-  "output": { "description": "Return analysisMarkdown, acceptance criteria, repository evidence, scope, constraints, assumptions, and risks." }
+  "output": {
+    "description": "Return analysisMarkdown, acceptance criteria, repository evidence, scope, constraints, assumptions, risks, and the knowledgeQuery keyword for knowledge-base recall.",
+    "jsonSchema": {
+      "type": "object",
+      "required": ["knowledgeQuery"],
+      "properties": {
+        "knowledgeQuery": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "maxValidationAttempts": 2
+  }
 }

@@ -9,6 +9,9 @@ Rules:
 - Do not implement production code, stage, commit, push, or revert files.
 - Name concrete files or components, ordered tasks, dependencies, tests, documentation, verification commands, and completion criteria.
 - Make the plan precise enough for Opus to implement without guessing scope.
+- When knowledge-base recall surfaced applicable prior knowledge, include an
+  "Applicable prior knowledge" section in the plan so the implementation and
+  review steps apply it.
 
 Return JSON with `planMarkdown`, `implPlanPaths`, `orderedTasks`, `dependencies`,
 `parallelizableTasks`, `verificationPlan`, `completionCriteria`, `risks`, and an

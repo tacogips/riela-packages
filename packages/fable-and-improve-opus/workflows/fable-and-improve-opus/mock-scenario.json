@@ -2,33 +2,55 @@
   "fable-analysis": {
     "provider": "scenario-mock",
     "model": "claude-fable-5",
-    "when": { "always": true },
+    "when": {
+      "always": true
+    },
     "payload": {
       "analysisMarkdown": "## Analysis\nA documentation note is missing from docs/example.md.",
       "requestedOutcome": "Add and verify the requested documentation note.",
-      "acceptanceCriteria": ["The note exists.", "Verification passes."],
-      "targetScope": ["docs/example.md"],
-      "repositoryEvidence": ["docs/example.md exists."],
-      "constraints": ["Do not modify unrelated files."],
+      "acceptanceCriteria": [
+        "The note exists.",
+        "Verification passes."
+      ],
+      "targetScope": [
+        "docs/example.md"
+      ],
+      "repositoryEvidence": [
+        "docs/example.md exists."
+      ],
+      "constraints": [
+        "Do not modify unrelated files."
+      ],
       "assumptions": [],
       "risks": [],
       "openQuestions": [],
-      "addressedReplanFeedback": []
+      "addressedReplanFeedback": [],
+      "knowledgeQuery": "documentation"
     }
   },
   "fable-design": {
     "provider": "scenario-mock",
     "model": "claude-fable-5",
-    "when": { "always": true },
+    "when": {
+      "always": true
+    },
     "payload": {
       "designMarkdown": "## Design\nAdd one narrowly scoped note to the existing documentation section.",
-      "designDocPaths": ["design-docs/specs/fable-smoke-note.md"],
-      "decisions": ["Preserve the surrounding documentation structure."],
+      "designDocPaths": [
+        "design-docs/specs/fable-smoke-note.md"
+      ],
+      "decisions": [
+        "Preserve the surrounding documentation structure."
+      ],
       "alternatives": [],
       "interfaces": [],
       "dataFlow": [],
-      "edgeCases": ["Avoid duplicate notes."],
-      "testStrategy": ["Search for the exact note."],
+      "edgeCases": [
+        "Avoid duplicate notes."
+      ],
+      "testStrategy": [
+        "Search for the exact note."
+      ],
       "risks": [],
       "addressedReplanFeedback": []
     }
@@ -36,15 +58,26 @@
   "fable-impl-plan": {
     "provider": "scenario-mock",
     "model": "claude-fable-5",
-    "when": { "always": true },
+    "when": {
+      "always": true
+    },
     "payload": {
       "planMarkdown": "## Plan\n1. Update docs/example.md.\n2. Verify the exact note.",
-      "implPlanPaths": ["impl-plans/active/fable-smoke-note.md"],
-      "orderedTasks": ["Add the note.", "Run exact-text verification."],
+      "implPlanPaths": [
+        "impl-plans/active/fable-smoke-note.md"
+      ],
+      "orderedTasks": [
+        "Add the note.",
+        "Run exact-text verification."
+      ],
       "dependencies": [],
       "parallelizableTasks": [],
-      "verificationPlan": ["rg -n \"Fable smoke note\" docs/example.md"],
-      "completionCriteria": ["The exact-text check passes."],
+      "verificationPlan": [
+        "rg -n \"Fable smoke note\" docs/example.md"
+      ],
+      "completionCriteria": [
+        "The exact-text check passes."
+      ],
       "risks": [],
       "opusImplementationBrief": {
         "requestedBehavior": "Add the Fable smoke note.",
@@ -56,15 +89,29 @@
   "opus-implementation": {
     "provider": "scenario-mock",
     "model": "claude-opus-5",
-    "when": { "always": true },
+    "when": {
+      "always": true
+    },
     "payload": {
       "implementationStatus": "completed",
       "implementationSummary": "Added the planned documentation note.",
-      "changedFiles": ["docs/example.md", "impl-plans/completed/fable-smoke-note.md"],
+      "changedFiles": [
+        "docs/example.md",
+        "impl-plans/completed/fable-smoke-note.md"
+      ],
       "testsAddedOrUpdated": [],
-      "verificationEvidence": [{ "command": "rg -n \"Fable smoke note\" docs/example.md", "result": "passed" }],
-      "documentationUpdated": ["docs/example.md"],
-      "implementationPlanUpdates": ["Archived the completed plan."],
+      "verificationEvidence": [
+        {
+          "command": "rg -n \"Fable smoke note\" docs/example.md",
+          "result": "passed"
+        }
+      ],
+      "documentationUpdated": [
+        "docs/example.md"
+      ],
+      "implementationPlanUpdates": [
+        "Archived the completed plan."
+      ],
       "addressedReviewFindings": [],
       "addressedFableTodos": [],
       "commitStatus": "not-requested",
@@ -76,51 +123,125 @@
   "opus-review": {
     "provider": "scenario-mock",
     "model": "claude-opus-5",
-    "when": { "needs_revision": false },
+    "when": {
+      "needs_revision": false
+    },
     "payload": {
       "reviewStatus": "accepted",
       "findings": [],
-      "verificationAssessment": ["Exact-text verification passed."],
-      "acceptanceCriteriaAssessment": ["All criteria met."],
+      "verificationAssessment": [
+        "Exact-text verification passed."
+      ],
+      "acceptanceCriteriaAssessment": [
+        "All criteria met."
+      ],
       "revisionInstructions": [],
       "acceptedResidualRisks": [],
-      "reviewEvidence": ["Reviewed docs/example.md and the verification result."]
+      "reviewEvidence": [
+        "Reviewed docs/example.md and the verification result."
+      ]
     }
   },
   "fable-goal-review": {
     "provider": "scenario-mock",
     "model": "claude-fable-5",
-    "when": { "needs_replan": false, "needs_todo": false },
+    "when": {
+      "needs_replan": false,
+      "needs_todo": false
+    },
     "payload": {
       "goalAchieved": true,
       "completionDecision": "accepted",
-      "evidence": ["Implementation and independent review satisfy the Fable artifacts."],
+      "evidence": [
+        "Implementation and independent review satisfy the Fable artifacts."
+      ],
       "remainingTodos": [],
       "replanReason": null,
       "followUpImplementationHint": null,
-      "changedFiles": ["docs/example.md", "impl-plans/completed/fable-smoke-note.md"],
-      "verificationEvidence": ["Exact-text verification passed."],
-      "reviewEvidence": ["independent Opus review accepted the result."],
+      "changedFiles": [
+        "docs/example.md",
+        "impl-plans/completed/fable-smoke-note.md"
+      ],
+      "verificationEvidence": [
+        "Exact-text verification passed."
+      ],
+      "reviewEvidence": [
+        "independent Opus review accepted the result."
+      ],
       "residualRisks": [],
       "operatorNotes": []
+    }
+  },
+  "kb-self-review": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "knowledgeQuery": "documentation",
+      "candidateContent": "Exact-text verification is a reliable low-cost acceptance check for small documentation changes; skipping it lets duplicate or misplaced notes slip through.",
+      "candidateTags": [
+        "kb",
+        "documentation"
+      ]
+    }
+  },
+  "kb-merge-judge": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "decision": "create",
+      "create_knowledge": true,
+      "merge_knowledge": false,
+      "reason": "No existing note covers documentation acceptance checks.",
+      "entries": [
+        {
+          "content": "Exact-text verification is a reliable low-cost acceptance check for small documentation changes; skipping it lets duplicate or misplaced notes slip through.",
+          "topicTags": [
+            "kb",
+            "documentation"
+          ]
+        }
+      ],
+      "mergeNoteId": "",
+      "mergedBody": ""
     }
   },
   "final-output": {
     "provider": "scenario-mock",
     "model": "claude-fable-5",
-    "when": { "always": true },
+    "when": {
+      "always": true
+    },
     "payload": {
       "status": "accepted",
       "goalAchieved": true,
       "analysisMarkdown": "## Analysis\nA documentation note is missing from docs/example.md.",
       "designMarkdown": "## Design\nAdd one narrowly scoped note to the existing documentation section.",
       "planMarkdown": "## Plan\n1. Update docs/example.md.\n2. Verify the exact note.",
-      "designDocPaths": ["design-docs/specs/fable-smoke-note.md"],
-      "implPlanPaths": ["impl-plans/completed/fable-smoke-note.md"],
-      "changedFiles": ["docs/example.md", "impl-plans/completed/fable-smoke-note.md"],
-      "implementationEvidence": ["Opus implementation completed."],
-      "reviewEvidence": ["independent Opus review accepted."],
-      "verificationEvidence": ["Exact-text verification passed."],
+      "designDocPaths": [
+        "design-docs/specs/fable-smoke-note.md"
+      ],
+      "implPlanPaths": [
+        "impl-plans/completed/fable-smoke-note.md"
+      ],
+      "changedFiles": [
+        "docs/example.md",
+        "impl-plans/completed/fable-smoke-note.md"
+      ],
+      "implementationEvidence": [
+        "Opus implementation completed."
+      ],
+      "reviewEvidence": [
+        "independent Opus review accepted."
+      ],
+      "verificationEvidence": [
+        "Exact-text verification passed."
+      ],
       "commitStatus": "not-requested",
       "pushStatus": "not-requested",
       "residualRisks": [],

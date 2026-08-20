@@ -13,7 +13,8 @@
       "assumptions": [],
       "risks": [],
       "openQuestions": [],
-      "addressedReplanFeedback": []
+      "addressedReplanFeedback": [],
+      "knowledgeQuery": "documentation"
     }
   },
   "fable-design": {
@@ -103,6 +104,35 @@
       "reviewEvidence": ["SOL review accepted the result."],
       "residualRisks": [],
       "operatorNotes": []
+    }
+  },
+  "kb-self-review": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": { "always": true },
+    "payload": {
+      "knowledgeQuery": "documentation",
+      "candidateContent": "Exact-text verification is a reliable low-cost acceptance check for small documentation changes; skipping it lets duplicate or misplaced notes slip through.",
+      "candidateTags": ["kb", "documentation"]
+    }
+  },
+  "kb-merge-judge": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": { "always": true },
+    "payload": {
+      "decision": "create",
+      "create_knowledge": true,
+      "merge_knowledge": false,
+      "reason": "No existing note covers documentation acceptance checks.",
+      "entries": [
+        {
+          "content": "Exact-text verification is a reliable low-cost acceptance check for small documentation changes; skipping it lets duplicate or misplaced notes slip through.",
+          "topicTags": ["kb", "documentation"]
+        }
+      ],
+      "mergeNoteId": "",
+      "mergedBody": ""
     }
   },
   "final-output": {
