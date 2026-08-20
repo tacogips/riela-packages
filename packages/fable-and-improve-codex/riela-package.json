@@ -1,6 +1,6 @@
 {
   "name": "fable-and-improve-codex",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "title": "fable-and-improve-codex",
   "description": "Claude Fable analyzes, designs, and plans development; Codex Terra implements; Codex SOL independently reviews; Fable verifies completion.",
   "tags": [
@@ -11,7 +11,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "810df2045eab2531e97d2528c891f141",
+  "checksum": "d0e1abbc3d2c0fcfaff8b789247e9fc0",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/fable-and-improve-codex",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -32,7 +32,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "8a4d9de8b4fb865bee683997a05de75f076750bc5ab361151e366bc4d219c916"
+    "digest": "cb35116315f8cfc3d9404c35729f8cbbd71708e43a9376e97dce57b7712040a0"
   },
   "backends": [
     "claude-code-agent",

@@ -1,0 +1,25 @@
+{
+  "id": "kb-self-review",
+  "description": "Claude Fable self-reviews the accepted run and extracts at most one durable knowledge candidate.",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-fable-5",
+  "modelFreeze": true,
+  "effort": "medium",
+  "sessionPolicy": { "mode": "reuse" },
+  "promptTemplateFile": "prompts/kb-self-review.md",
+  "variables": { "claudePermissionMode": "default" },
+  "output": {
+    "description": "Return the knowledge-base search keyword and at most one durable knowledge candidate.",
+    "jsonSchema": {
+      "type": "object",
+      "required": ["knowledgeQuery", "candidateContent", "candidateTags"],
+      "properties": {
+        "knowledgeQuery": { "type": "string", "minLength": 1 },
+        "candidateContent": { "type": "string" },
+        "candidateTags": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": true
+    },
+    "maxValidationAttempts": 2
+  }
+}
