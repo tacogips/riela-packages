@@ -5,18 +5,29 @@
   "model": "claude-fable-5",
   "modelFreeze": true,
   "effort": "medium",
-  "sessionPolicy": { "mode": "reuse" },
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
   "promptTemplateFile": "prompts/kb-archive-brief.md",
-  "variables": { "claudePermissionMode": "default" },
   "output": {
     "description": "Return the archive instruction decided by the merge judge.",
     "jsonSchema": {
       "type": "object",
-      "required": ["archive_note", "archiveNoteId", "archivedPointerBody"],
+      "required": [
+        "archive_note",
+        "archiveNoteId",
+        "archivedPointerBody"
+      ],
       "properties": {
-        "archive_note": { "type": "boolean" },
-        "archiveNoteId": { "type": "string" },
-        "archivedPointerBody": { "type": "string" }
+        "archive_note": {
+          "type": "boolean"
+        },
+        "archiveNoteId": {
+          "type": "string"
+        },
+        "archivedPointerBody": {
+          "type": "string"
+        }
       },
       "additionalProperties": true
     },

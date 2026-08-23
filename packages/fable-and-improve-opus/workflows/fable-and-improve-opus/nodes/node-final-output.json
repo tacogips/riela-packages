@@ -5,9 +5,6 @@
   "model": "claude-fable-5",
   "modelFreeze": true,
   "promptTemplateFile": "prompts/final-output.md",
-  "variables": {
-    "claudePermissionMode": "default"
-  },
   "output": {
     "description": "Return final status, analysis, design, plan, changed files, implementation and review evidence, verification, residual risks, and operator notes."
   }

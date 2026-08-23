@@ -2,12 +2,14 @@
   "id": "fable-analysis",
   "description": "Claude Fable analyzes the request and repository before design or implementation planning.",
   "executionBackend": "claude-code-agent",
+  "agentSandbox": "danger-full-access",
   "model": "claude-fable-5",
   "modelFreeze": true,
   "effort": "high",
-  "sessionPolicy": { "mode": "reuse" },
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
   "promptTemplateFile": "prompts/fable-analysis.md",
-  "variables": { "claudePermissionMode": "bypassPermissions" },
   "input": {
     "description": "Operator request in workflowInput, including requestedOutcome and optional scope, constraints, acceptanceCriteria, and verificationHint.",
     "jsonSchema": {
@@ -17,7 +19,12 @@
         "workflowInput": {
           "type": "object",
           "additionalProperties": true,
-          "properties": { "requestedOutcome": { "type": "string", "minLength": 1 } }
+          "properties": {
+            "requestedOutcome": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
         }
       }
     }
@@ -26,9 +33,14 @@
     "description": "Return analysisMarkdown, acceptance criteria, repository evidence, scope, constraints, assumptions, risks, and the knowledgeQuery keyword for knowledge-base recall.",
     "jsonSchema": {
       "type": "object",
-      "required": ["knowledgeQuery"],
+      "required": [
+        "knowledgeQuery"
+      ],
       "properties": {
-        "knowledgeQuery": { "type": "string", "minLength": 1 }
+        "knowledgeQuery": {
+          "type": "string",
+          "minLength": 1
+        }
       },
       "additionalProperties": true
     },

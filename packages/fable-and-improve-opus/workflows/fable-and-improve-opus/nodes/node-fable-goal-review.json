@@ -2,6 +2,7 @@
   "id": "fable-goal-review",
   "description": "Claude Fable verifies whether the accepted Opus implementation and review satisfy the analysis, design, plan, and goal.",
   "executionBackend": "claude-code-agent",
+  "agentSandbox": "danger-full-access",
   "model": "claude-fable-5",
   "modelFreeze": true,
   "effort": "high",
@@ -9,9 +10,6 @@
     "mode": "reuse"
   },
   "promptTemplateFile": "prompts/fable-goal-review.md",
-  "variables": {
-    "claudePermissionMode": "bypassPermissions"
-  },
   "output": {
     "description": "Return when.needs_replan, when.needs_todo, goalAchieved, remaining TODOs, verification evidence, changed files, and residual risks."
   }
