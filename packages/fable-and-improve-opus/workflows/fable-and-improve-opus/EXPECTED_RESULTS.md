@@ -20,6 +20,12 @@ loop:
    writes one knowledge note (`entriesWritten: 1`, non-empty `noteIds`).
 9. `final-output` publishes the result.
 
+On a `merge` decision (not exercised by this mock), the judge may also tidy
+the base: `kb-merge` rewrites the strongest overlapping note with the
+generalized body, then `kb-archive-brief` (the judge's session) re-emits the
+archive instruction and `kb-archive` collapses the redundant note to a
+one-line superseded pointer, so the base absorbs the lesson while shrinking.
+
 Run the mock against disposable roots so the real knowledge base is untouched:
 
 ```bash

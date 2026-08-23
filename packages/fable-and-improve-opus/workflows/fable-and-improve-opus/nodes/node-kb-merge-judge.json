@@ -20,7 +20,10 @@
         "reason": { "type": "string" },
         "entries": { "type": "array" },
         "mergeNoteId": { "type": "string" },
-        "mergedBody": { "type": "string" }
+        "mergedBody": { "type": "string" },
+        "archive_note": { "type": "boolean" },
+        "archiveNoteId": { "type": "string" },
+        "archivedPointerBody": { "type": "string" }
       },
       "additionalProperties": true
     },

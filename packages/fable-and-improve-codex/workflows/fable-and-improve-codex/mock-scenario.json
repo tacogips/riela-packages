@@ -132,7 +132,10 @@
         }
       ],
       "mergeNoteId": "",
-      "mergedBody": ""
+      "mergedBody": "",
+      "archive_note": false,
+      "archiveNoteId": "",
+      "archivedPointerBody": ""
     }
   },
   "final-output": {

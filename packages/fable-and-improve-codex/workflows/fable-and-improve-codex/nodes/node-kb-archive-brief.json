@@ -1,0 +1,25 @@
+{
+  "id": "kb-archive-brief",
+  "description": "Claude Fable re-emits the archive part of the merge decision so the archive step can apply it after the merge write.",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-fable-5",
+  "modelFreeze": true,
+  "effort": "medium",
+  "sessionPolicy": { "mode": "reuse" },
+  "promptTemplateFile": "prompts/kb-archive-brief.md",
+  "variables": { "claudePermissionMode": "default" },
+  "output": {
+    "description": "Return the archive instruction decided by the merge judge.",
+    "jsonSchema": {
+      "type": "object",
+      "required": ["archive_note", "archiveNoteId", "archivedPointerBody"],
+      "properties": {
+        "archive_note": { "type": "boolean" },
+        "archiveNoteId": { "type": "string" },
+        "archivedPointerBody": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "maxValidationAttempts": 2
+  }
+}

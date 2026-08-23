@@ -12,7 +12,10 @@ SOL see them. After Fable accepts the goal, a self-review step extracts at
 most one durable lesson from the run, recalls related notes, and a merge
 judge decides to `create` a new note, `merge` it into an existing note by
 rewriting it (compaction, no append growth), or `skip` it (the default when
-uncertain, so the base does not overfit to single runs). All runs sharing the
+uncertain, so the base does not overfit to single runs). When several
+existing notes overlap a merged topic, the judge also tidies the base: the
+redundant note is collapsed to a one-line superseded pointer (`kb-archive`),
+so the base absorbs lessons while shrinking. All runs sharing the
 same kaiba note root share the knowledge base; set the `noteRoot` runtime
 variable to select a different base.
 
