@@ -73,6 +73,18 @@
         }
       }
     },
+    { "id": "kb-archive-brief", "nodeFile": "nodes/node-kb-archive-brief.json" },
+    {
+      "id": "kb-archive",
+      "addon": {
+        "name": "kaiba/note-update",
+        "version": "1",
+        "config": {
+          "noteId": "{{archiveNoteId}}",
+          "bodyMarkdown": "{{archivedPointerBody}}"
+        }
+      }
+    },
     { "id": "final-output", "kind": "output", "nodeFile": "nodes/node-final-output.json" }
   ],
   "steps": [
@@ -173,6 +185,24 @@
       "id": "kb-merge",
       "nodeId": "kb-merge",
       "description": "Rewrite the existing kaiba note with the generalized merged body so the knowledge base absorbs the lesson without growing.",
+      "role": "worker",
+      "transitions": [{ "toStepId": "kb-archive-brief" }]
+    },
+    {
+      "id": "kb-archive-brief",
+      "nodeId": "kb-archive-brief",
+      "description": "Use the merge judge's session to re-emit the archive instruction after the merge write.",
+      "role": "worker",
+      "sessionPolicy": { "mode": "reuse", "inheritFromStepId": "kb-merge-judge" },
+      "transitions": [
+        { "toStepId": "kb-archive", "label": "archive_note" },
+        { "toStepId": "final-output", "label": "!(archive_note)" }
+      ]
+    },
+    {
+      "id": "kb-archive",
+      "nodeId": "kb-archive",
+      "description": "Collapse the superseded kaiba note to a one-line pointer so stale copies stop matching searches.",
       "role": "worker",
       "transitions": [{ "toStepId": "final-output" }]
     },

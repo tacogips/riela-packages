@@ -24,6 +24,8 @@ memory. Before design, it recalls prior knowledge for the analysis topic and
 carries the applicable items into the design and plan artifacts. After Fable
 accepts the goal, it self-reviews the run and creates, merges (rewrites an
 existing note instead of appending), or skips at most one durable lesson.
+When several existing notes overlap a merged topic, it also tidies the base
+by collapsing the redundant note to a one-line superseded pointer.
 The base is shared across every workflow using the same kaiba note root; pass
 a `noteRoot` runtime variable (top-level, next to `workflowInput`) to target a
 different knowledge base, and keep it stable across runs so knowledge

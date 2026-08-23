@@ -20,11 +20,20 @@ Rules:
 - `create` only when the candidate is clearly novel and reusable: fill
   `entries` with exactly one `{ "content": ..., "topicTags": [...] }` entry
   using the candidate tags.
+- Compaction: when SEVERAL existing notes overlap on the same topic, use the
+  merge to tidy the base — pick the strongest note as the merge target, fold
+  the other note's still-valid facts plus the candidate into `mergedBody`,
+  and mark the now-redundant note for archiving: set `archive_note` true,
+  put its id in `archiveNoteId`, and write `archivedPointerBody` as one
+  short line saying it was superseded by the merged note (do not repeat the
+  knowledge in it, so stale copies stop matching searches).
 - For `skip` and `merge`, `entries` must be an empty array. For `skip` and
   `create`, `mergeNoteId` and `mergedBody` must be empty strings.
+  `archive_note` may be true only for `merge`.
 - Set the routing flags consistently: `create_knowledge` is true only for
   `create`, `merge_knowledge` is true only for `merge`; both false for `skip`.
 - Do not edit, stage, commit, push, or revert files.
 
 Return JSON with `decision`, `create_knowledge`, `merge_knowledge`, `reason`,
-`entries`, `mergeNoteId`, and `mergedBody`.
+`entries`, `mergeNoteId`, `mergedBody`, `archive_note`, `archiveNoteId`, and
+`archivedPointerBody`.
