@@ -252,8 +252,8 @@ Built-in add-ons:
 - `riela/claude-code-worker`
 - `riela/x-gateway-read`
 - `riela/x-gateway`
-- `riela/mail-gateway-read`
-- `riela/mail-gateway`
+- `riela/gmail-gateway-read`
+- `riela/gmail-gateway`
 - `riela/git-commit`
 - `riela/git-push`
 

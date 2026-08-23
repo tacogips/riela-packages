@@ -157,7 +157,7 @@ Use object form with explicit version:
 }
 ```
 
-Current built-ins include `riela/chat-reply-worker`, `riela/codex-worker`, `riela/claude-code-worker`, `riela/x-gateway-read`, `riela/x-gateway`, `riela/mail-gateway-read`, `riela/mail-gateway`, `riela/git-commit`, and `riela/git-push`, all version `1`.
+Current built-ins include `riela/chat-reply-worker`, `riela/codex-worker`, `riela/claude-code-worker`, `riela/x-gateway-read`, `riela/x-gateway`, `riela/gmail-gateway-read`, `riela/gmail-gateway`, `riela/git-commit`, and `riela/git-push`, all version `1`.
 
 ## External Portability
 

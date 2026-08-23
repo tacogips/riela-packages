@@ -20,8 +20,8 @@ Current built-ins, version `1`:
 - `riela/workflow-package-sandbox-review`
 - `riela/x-gateway-read`
 - `riela/x-gateway`
-- `riela/mail-gateway-read`
-- `riela/mail-gateway`
+- `riela/gmail-gateway-read`
+- `riela/gmail-gateway`
 - `riela/git-commit`
 - `riela/git-push`
 
