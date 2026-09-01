@@ -23,7 +23,7 @@ variable to select a different base.
 - Backends: `claude-code-agent`, `codex-agent`
 - Models: `claude-fable-5`, `gpt-5.6-terra`, `gpt-5.6-sol`
 - Workflow: `fable-and-improve-codex`
-- Skills: Claude Code, Codex
+- Skills: Claude Code
 
 ## Install
 

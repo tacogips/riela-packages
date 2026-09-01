@@ -7,7 +7,7 @@ Design, planning, and review nodes use Codex GPT-5.6 SOL. The implementation nod
 - Package id: `codex-design-and-implement-review-loop`
 - Backends: `codex-agent`
 - Workflows: `codex-design-and-implement-review-loop`
-- Skills: Codex
+- Skills: Codex (`codex-design-and-implement-review-loop`)
 
 ## Install
 
