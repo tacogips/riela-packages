@@ -4,7 +4,10 @@
   "defaults": {
     "maxLoopIterations": 8,
     "nodeTimeoutMs": 3600000,
-    "supervision": { "monitorIntervalMs": 15000, "stallTimeoutMs": 300000 }
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    }
   },
   "prompts": {
     "rielaPromptTemplate": "Coordinate {{workflowId}}. Fable owns repository analysis, design, implementation-plan authoring, replanning, and final acceptance. Claude Opus 5 owns implementation and improvement, and an independent Opus 5 session owns implementation review. Loop blocking findings back to implementation, route invalid plans back to Fable analysis, and finish only after Fable verifies the goal and the knowledge-base self-review has run.",
@@ -13,7 +16,10 @@
   "managerStepId": "fable-analysis",
   "entryStepId": "fable-analysis",
   "nodes": [
-    { "id": "fable-analysis", "nodeFile": "nodes/node-fable-analysis.json" },
+    {
+      "id": "fable-analysis",
+      "nodeFile": "nodes/node-fable-analysis.json"
+    },
     {
       "id": "kb-recall-prior",
       "addon": {
@@ -27,12 +33,26 @@
         }
       }
     },
-    { "id": "fable-design", "nodeFile": "nodes/node-fable-design.json" },
-    { "id": "fable-impl-plan", "nodeFile": "nodes/node-fable-impl-plan.json" },
-    { "id": "opus-implementation", "nodeFile": "nodes/node-opus-implementation.json" },
-    { "id": "opus-review", "nodeFile": "nodes/node-opus-review.json" },
-    { "id": "fable-goal-review", "nodeFile": "nodes/node-fable-goal-review.json" },
-    { "id": "kb-self-review", "nodeFile": "nodes/node-kb-self-review.json" },
+    {
+      "id": "fable-design",
+      "nodeFile": "nodes/node-fable-design.json"
+    },
+    {
+      "id": "opus-implementation",
+      "nodeFile": "nodes/node-opus-implementation.json"
+    },
+    {
+      "id": "opus-review",
+      "nodeFile": "nodes/node-opus-review.json"
+    },
+    {
+      "id": "fable-goal-review",
+      "nodeFile": "nodes/node-fable-goal-review.json"
+    },
+    {
+      "id": "kb-self-review",
+      "nodeFile": "nodes/node-kb-self-review.json"
+    },
     {
       "id": "kb-recall-related",
       "addon": {
@@ -47,7 +67,10 @@
         }
       }
     },
-    { "id": "kb-merge-judge", "nodeFile": "nodes/node-kb-merge-judge.json" },
+    {
+      "id": "kb-merge-judge",
+      "nodeFile": "nodes/node-kb-merge-judge.json"
+    },
     {
       "id": "kb-create",
       "addon": {
@@ -70,7 +93,10 @@
         }
       }
     },
-    { "id": "kb-archive-brief", "nodeFile": "nodes/node-kb-archive-brief.json" },
+    {
+      "id": "kb-archive-brief",
+      "nodeFile": "nodes/node-kb-archive-brief.json"
+    },
     {
       "id": "kb-archive",
       "addon": {
@@ -82,7 +108,11 @@
         }
       }
     },
-    { "id": "final-output", "kind": "output", "nodeFile": "nodes/node-final-output.json" }
+    {
+      "id": "final-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-final-output.json"
+    }
   ],
   "steps": [
     {
@@ -90,37 +120,48 @@
       "nodeId": "fable-analysis",
       "description": "Use Fable to analyze the operator request, repository state, constraints, risks, and testable acceptance criteria, and to name a knowledge-base search keyword.",
       "role": "manager",
-      "transitions": [{ "toStepId": "kb-recall-prior" }]
+      "transitions": [
+        {
+          "toStepId": "kb-recall-prior"
+        }
+      ]
     },
     {
       "id": "kb-recall-prior",
       "nodeId": "kb-recall-prior",
       "description": "Recall durable prior knowledge from the kaiba knowledge base for the analysis topic before design starts.",
       "role": "worker",
-      "transitions": [{ "toStepId": "fable-design" }]
+      "transitions": [
+        {
+          "toStepId": "fable-design"
+        }
+      ]
     },
     {
       "id": "fable-design",
       "nodeId": "fable-design",
-      "description": "Use Fable to author or revise the design from the accepted analysis without implementing production code.",
+      "description": "Author design, implementation plan, and their consistency self-check in one Fable execution.",
       "role": "worker",
-      "sessionPolicy": { "mode": "reuse", "inheritFromStepId": "fable-analysis" },
-      "transitions": [{ "toStepId": "fable-impl-plan" }]
-    },
-    {
-      "id": "fable-impl-plan",
-      "nodeId": "fable-impl-plan",
-      "description": "Use Fable to author or revise an actionable implementation plan from the accepted design.",
-      "role": "worker",
-      "sessionPolicy": { "mode": "reuse", "inheritFromStepId": "fable-design" },
-      "transitions": [{ "toStepId": "opus-implementation" }]
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "fable-analysis"
+      },
+      "transitions": [
+        {
+          "toStepId": "opus-implementation"
+        }
+      ]
     },
     {
       "id": "opus-implementation",
       "nodeId": "opus-implementation",
       "description": "Use Claude Opus 5 to implement or improve the current Fable-authored plan and verify the result.",
       "role": "worker",
-      "transitions": [{ "toStepId": "opus-review" }]
+      "transitions": [
+        {
+          "toStepId": "opus-review"
+        }
+      ]
     },
     {
       "id": "opus-review",
@@ -128,8 +169,14 @@
       "description": "Use an independent Claude Opus 5 session to review the implementation and request concrete fixes.",
       "role": "worker",
       "transitions": [
-        { "toStepId": "opus-implementation", "label": "needs_revision" },
-        { "toStepId": "fable-goal-review", "label": "!(needs_revision)" }
+        {
+          "toStepId": "opus-implementation",
+          "label": "needs_revision"
+        },
+        {
+          "toStepId": "fable-goal-review",
+          "label": "!(needs_revision)"
+        }
       ]
     },
     {
@@ -137,11 +184,23 @@
       "nodeId": "fable-goal-review",
       "description": "Use Fable to compare the accepted Opus result with the analysis, design, plan, and goal.",
       "role": "worker",
-      "sessionPolicy": { "mode": "reuse", "inheritFromStepId": "fable-analysis" },
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "fable-analysis"
+      },
       "transitions": [
-        { "toStepId": "fable-analysis", "label": "needs_replan" },
-        { "toStepId": "opus-implementation", "label": "needs_todo" },
-        { "toStepId": "kb-self-review", "label": "!(needs_replan || needs_todo)" }
+        {
+          "toStepId": "fable-analysis",
+          "label": "needs_replan"
+        },
+        {
+          "toStepId": "opus-implementation",
+          "label": "needs_todo"
+        },
+        {
+          "toStepId": "kb-self-review",
+          "label": "!(needs_replan || needs_todo)"
+        }
       ]
     },
     {
@@ -149,26 +208,49 @@
       "nodeId": "kb-self-review",
       "description": "Use Fable to self-review the accepted run and extract at most one durable knowledge candidate for the knowledge base.",
       "role": "worker",
-      "sessionPolicy": { "mode": "reuse", "inheritFromStepId": "fable-goal-review" },
-      "transitions": [{ "toStepId": "kb-recall-related" }]
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "fable-goal-review"
+      },
+      "transitions": [
+        {
+          "toStepId": "kb-recall-related"
+        }
+      ]
     },
     {
       "id": "kb-recall-related",
       "nodeId": "kb-recall-related",
       "description": "Recall existing knowledge-base notes related to the self-review candidate.",
       "role": "worker",
-      "transitions": [{ "toStepId": "kb-merge-judge" }]
+      "transitions": [
+        {
+          "toStepId": "kb-merge-judge"
+        }
+      ]
     },
     {
       "id": "kb-merge-judge",
       "nodeId": "kb-merge-judge",
       "description": "Use Fable to decide whether the candidate knowledge is created, merged into an existing note, or skipped.",
       "role": "worker",
-      "sessionPolicy": { "mode": "reuse", "inheritFromStepId": "kb-self-review" },
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "kb-self-review"
+      },
       "transitions": [
-        { "toStepId": "kb-create", "label": "create_knowledge" },
-        { "toStepId": "kb-merge", "label": "merge_knowledge" },
-        { "toStepId": "final-output", "label": "!(create_knowledge || merge_knowledge)" }
+        {
+          "toStepId": "kb-create",
+          "label": "create_knowledge"
+        },
+        {
+          "toStepId": "kb-merge",
+          "label": "merge_knowledge"
+        },
+        {
+          "toStepId": "final-output",
+          "label": "!(create_knowledge || merge_knowledge)"
+        }
       ]
     },
     {
@@ -176,24 +258,41 @@
       "nodeId": "kb-create",
       "description": "Write the accepted candidate as a new kaiba knowledge-base note with graph auto-association.",
       "role": "worker",
-      "transitions": [{ "toStepId": "final-output" }]
+      "transitions": [
+        {
+          "toStepId": "final-output"
+        }
+      ]
     },
     {
       "id": "kb-merge",
       "nodeId": "kb-merge",
       "description": "Rewrite the existing kaiba note with the generalized merged body so the knowledge base absorbs the lesson without growing.",
       "role": "worker",
-      "transitions": [{ "toStepId": "kb-archive-brief" }]
+      "transitions": [
+        {
+          "toStepId": "kb-archive-brief"
+        }
+      ]
     },
     {
       "id": "kb-archive-brief",
       "nodeId": "kb-archive-brief",
       "description": "Use the merge judge's session to re-emit the archive instruction after the merge write.",
       "role": "worker",
-      "sessionPolicy": { "mode": "reuse", "inheritFromStepId": "kb-merge-judge" },
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "kb-merge-judge"
+      },
       "transitions": [
-        { "toStepId": "kb-archive", "label": "archive_note" },
-        { "toStepId": "final-output", "label": "!(archive_note)" }
+        {
+          "toStepId": "kb-archive",
+          "label": "archive_note"
+        },
+        {
+          "toStepId": "final-output",
+          "label": "!(archive_note)"
+        }
       ]
     },
     {
@@ -201,22 +300,38 @@
       "nodeId": "kb-archive",
       "description": "Collapse the superseded kaiba note to a one-line pointer so stale copies stop matching searches.",
       "role": "worker",
-      "transitions": [{ "toStepId": "final-output" }]
+      "transitions": [
+        {
+          "toStepId": "final-output"
+        }
+      ]
     },
     {
       "id": "final-output",
       "nodeId": "final-output",
       "description": "Publish the accepted Fable analysis, design, implementation plan, Opus evidence, knowledge-base update, and final status.",
       "role": "worker",
-      "sessionPolicy": { "mode": "reuse", "inheritFromStepId": "kb-merge-judge" }
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "kb-merge-judge"
+      }
     }
   ],
   "metadata": {
     "rielaPackage": {
       "title": "fable-and-improve-opus",
       "description": "Fable analyzes, designs, and plans with knowledge-base recall; Opus implements and independently reviews; Fable verifies completion and self-reviews lessons into the knowledge base.",
-      "tags": ["workflow", "claude-code", "fable", "opus", "review", "knowledge-base"],
-      "backends": ["claude-code-agent"]
+      "tags": [
+        "workflow",
+        "claude-code",
+        "fable",
+        "opus",
+        "review",
+        "knowledge-base"
+      ],
+      "backends": [
+        "claude-code-agent"
+      ]
     }
   }
 }

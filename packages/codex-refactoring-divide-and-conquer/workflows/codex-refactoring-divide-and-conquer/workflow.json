@@ -11,7 +11,7 @@
     }
   },
   "prompts": {
-    "rielaPromptTemplate": "Coordinate {{workflowId}}. Start by slicing the codebase. Dispatch read-only slice reviews through bounded fanout. Merge review results into a deduplicated refactoring plan. Treat duplicate-scavenge as an additive mode when workflowInput.refactoringMode or freeform requestedOutcome/constraints request it, and let each step prompt own its phase-specific duplicate guidance. If workflowInput.executionMode requests plan-only, finish after plan creation. Otherwise implement exactly one ready plan task per implementation pass, self-review it, then run an independent post-refactor review. Route back to implementation when high or mid findings remain. If the task is accepted and the plan still has ready tasks, continue with the next task. Finish only when the plan is complete, blocked, or only accepted low residual risks remain. Do not stage, commit, push, or revert unrelated dirty worktree changes.",
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Start by slicing the codebase. Dispatch read-only slice reviews through bounded fanout. Merge review results into a deduplicated refactoring plan. Treat duplicate-scavenge as an additive mode when workflowInput.refactoringMode or freeform requestedOutcome/constraints request it, and let each step prompt own its phase-specific duplicate guidance. If workflowInput.executionMode requests plan-only, finish after plan creation. Otherwise implement exactly one ready plan task per implementation pass, complete its integrated author self-check, then run an independent post-refactor review. Route back to implementation when high or mid findings remain. If the task is accepted and the plan still has ready tasks, continue with the next task. Finish only when the plan is complete, blocked, or only accepted low residual risks remain. Do not stage, commit, push, or revert unrelated dirty worktree changes.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Keep slice ids, plan ids, task ids, changed files, verification commands, review findings, routing flags, blockers, and residual risks explicit."
   },
   "managerStepId": "riela-manager",
@@ -32,10 +32,6 @@
     {
       "id": "step4-implement-next-task",
       "nodeFile": "nodes/node-step4-implement-next-task.json"
-    },
-    {
-      "id": "step5-self-review",
-      "nodeFile": "nodes/node-step5-self-review.json"
     },
     {
       "id": "step6-post-refactor-review",
@@ -116,23 +112,7 @@
       "role": "worker",
       "transitions": [
         {
-          "toStepId": "step5-self-review"
-        }
-      ]
-    },
-    {
-      "id": "step5-self-review",
-      "nodeId": "step5-self-review",
-      "description": "Self-review the latest implementation task before independent review.",
-      "role": "worker",
-      "transitions": [
-        {
-          "toStepId": "step4-implement-next-task",
-          "label": "needs_revision"
-        },
-        {
-          "toStepId": "step6-post-refactor-review",
-          "label": "!(needs_revision)"
+          "toStepId": "step6-post-refactor-review"
         }
       ]
     },

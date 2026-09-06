@@ -13,14 +13,18 @@ manually emulating its orchestration.
 - Codex `gpt-6-astra`: design, design review, implementation-plan creation,
   implementation-plan review, and feature-local plan joining
 - Codex `gpt-5.6-terra`: implementation, tests, verification, and revisions
-- Codex `gpt-5.6-sol`: intake, implementation self-review, test-integrity
-  review, independent and adversarial implementation review, documentation,
-  and completion checks
+- Codex `gpt-5.6-sol`: intake, test-integrity review, independent and
+  adversarial implementation review, documentation, and completion checks
 
 The workflow supports ordinary issue resolution and planning-only handoff. It
 can fan out independent feature plans, joins them before implementation, and
 loops blocking design, plan, test-integrity, implementation, or adversarial
 review findings back to the owning Codex step.
+
+Design, implementation-plan, and implementation author self-checklists run
+inside their authoring steps. Independent design, plan, test-integrity, and
+implementation review gates remain separate so fewer executions do not weaken
+acceptance criteria.
 
 ## Run
 
@@ -40,3 +44,14 @@ validation without starting the workflow.
 
 Report the resulting artifacts, changed files, verification evidence, review
 decisions, residual risks, and final workflow status.
+
+## Maintainer verification
+
+After changing this packaged workflow or skill in the registry checkout, run:
+
+```bash
+riela workflow validate codex-design-and-implement-review-loop \
+  --workflow-definition-dir ./packages/codex-design-and-implement-review-loop/workflows
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts \
+  codex-design-and-implement-review-loop
+```

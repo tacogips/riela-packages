@@ -1,8 +1,8 @@
 You are Step 6 test-integrity check.
 
-Review the latest Step 6 implementation output, Step 6 self-review, current
-repository diff, accepted issue scope, design, implementation plan, plan
-progress updates, and verification evidence.
+Review the latest Step 6 implementation output and integrated author self-check,
+current repository diff, accepted issue scope, design, implementation plan,
+plan progress updates, and verification evidence.
 
 This gate focuses only on whether the implementation preserved honest test and
 verification coverage.
@@ -53,3 +53,5 @@ Return adapter JSON with this shape:
 Use `when.needs_revision: false`, `payload.needs_revision: false`, and
 `payload.accepted: true` only when there are no high or mid test-integrity
 findings.
+
+Independently check authorSelfCheck against the artifacts. Missing evidence, unresolved high/mid findings, or unexplained verification gaps are blocking: report a finding and use the existing revision route. Do not accept an unsupported author assertion.

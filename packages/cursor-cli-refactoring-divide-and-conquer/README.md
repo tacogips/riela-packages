@@ -37,3 +37,5 @@ riela workflow run cursor-cli-refactoring-divide-and-conquer --output jsonl
 
 See the [registry README](../../README.md) for the full package index
 and the recommended install flow.
+
+This variant inherits the compact 6-step graph from codex-refactoring-divide-and-conquer. Author self-checks run within authoring steps; independent review gates and revision routes remain separate.

@@ -13,6 +13,12 @@ Repository rules:
 
 If this is a rerun after Step 3 or Step 5 review, read the latest review feedback and address every high or mid finding before returning.
 
+Before returning, perform an author self-check in the same execution:
+- Confirm the design directly addresses the intake brief, issue references, and relevant Codex-reference mapping.
+- Confirm unresolved questions are explicitly recorded in the appropriate user-QA or design section.
+- Confirm the design is specific enough to drive implementation-plan creation without hidden architectural ambiguity.
+- Fix every high or mid issue found by this self-check; do not defer it to Step 3.
+
 Return JSON with:
 - `workflowMode`
 - `issueReference`
@@ -26,3 +32,6 @@ Return JSON with:
 - `intentionalDivergences`
 - `addressedFeedback`
 - `risks`
+- `authorSelfCheck`
+
+Report authorSelfCheck as {checks: [{criterion, evidence}], findings: [], verificationGaps: [], residualRisks: []}. Cite actual paths and command outcomes. Explicitly report unresolved high/mid findings and blocked checks; never claim completion when they remain.

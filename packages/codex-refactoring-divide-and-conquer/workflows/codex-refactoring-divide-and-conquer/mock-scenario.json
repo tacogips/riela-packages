@@ -66,15 +66,15 @@
             "Package roots are the primary ownership targets.",
             "Root src remains a compatibility dependency until package source ownership lands."
           ],
-        "reviewQuestions": [
-          "Which exports must remain stable while packages become source owners?",
-          "Do build scripts and declaration sync enforce package-owned source boundaries?",
-          "Do package entrypoints duplicate root src validation, declaration sync, or export normalization logic?"
-        ],
-        "duplicateSearchHints": [
-          "Compare packages/*/src entrypoints with packages/riela/src/lib.ts and scripts/sync-package-declarations.ts.",
-          "Record counterpart paths and behavioral differences before recommending shared helpers."
-        ],
+          "reviewQuestions": [
+            "Which exports must remain stable while packages become source owners?",
+            "Do build scripts and declaration sync enforce package-owned source boundaries?",
+            "Do package entrypoints duplicate root src validation, declaration sync, or export normalization logic?"
+          ],
+          "duplicateSearchHints": [
+            "Compare packages/*/src entrypoints with packages/riela/src/lib.ts and scripts/sync-package-declarations.ts.",
+            "Record counterpart paths and behavioral differences before recommending shared helpers."
+          ],
           "suggestedVerification": [
             "bun run build",
             "bun test packages/riela/src/package-boundaries.test.ts"
@@ -101,15 +101,15 @@
             "Root src files should become shims over package-owned implementations.",
             "No provisioning source surface was identified under src."
           ],
-        "reviewQuestions": [
-          "Which root src modules should remain compatibility facades?",
-          "Where do CLI, workflow, server/graphql, events/hooks, and shared surfaces need package-owned contracts?",
-          "Which validation, parsing, normalization, routing, mailbox/output, or workflow-helper implementations repeat across root src areas?"
-        ],
-        "duplicateSearchHints": [
-          "Compare packages/riela/src/cli, packages/riela/src/workflow, packages/riela/src/graphql, packages/riela/src/server, packages/riela/src/events, and packages/riela/src/shared for parallel helper implementations.",
-          "Preserve public API and error-envelope differences while identifying consolidation targets."
-        ],
+          "reviewQuestions": [
+            "Which root src modules should remain compatibility facades?",
+            "Where do CLI, workflow, server/graphql, events/hooks, and shared surfaces need package-owned contracts?",
+            "Which validation, parsing, normalization, routing, mailbox/output, or workflow-helper implementations repeat across root src areas?"
+          ],
+          "duplicateSearchHints": [
+            "Compare packages/riela/src/cli, packages/riela/src/workflow, packages/riela/src/graphql, packages/riela/src/server, packages/riela/src/events, and packages/riela/src/shared for parallel helper implementations.",
+            "Preserve public API and error-envelope differences while identifying consolidation targets."
+          ],
           "suggestedVerification": [
             "bun run typecheck",
             "bun run test"

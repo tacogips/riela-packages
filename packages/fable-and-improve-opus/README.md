@@ -33,6 +33,8 @@ riela package install fable-and-improve-opus \
   --scope user
 ```
 
+The compact graph has 14 steps: design and implementation planning share one Fable execution, with both artifacts and their consistency evidence retained. Independent implementation review, goal acceptance, and knowledge-base operations remain separate.
+
 ## Run
 
 ```bash

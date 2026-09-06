@@ -51,3 +51,5 @@ Return adapter JSON with this shape:
 
 Use `when.needs_design_revision: false`, `when.needs_revision: false`, and `payload.accepted: true` only when there are no high or mid findings.
 Do not set both revision flags to `true` in the same response.
+
+Independently check authorSelfCheck against the artifacts. Missing evidence, unresolved high/mid findings, or unexplained verification gaps are blocking: report a finding and use the existing revision route. Do not accept an unsupported author assertion.

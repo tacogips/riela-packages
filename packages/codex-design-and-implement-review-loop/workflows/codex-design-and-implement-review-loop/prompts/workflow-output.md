@@ -15,6 +15,7 @@ If Step 5 accepted a planning-only run, Step 9 emitted the commit message, Step 
 - `implPlanReviewSummary`
 - `commitMessage`
 - `commitHash`
+- `committedFiles`
 - `pushedRemote`
 - `pushedBranch`
 - `nextStep`
@@ -40,6 +41,7 @@ If the workflow continued through Step 8, Step 9 emitted the commit message, Ste
 - `implPlanCompletionSummary`
 - `commitMessage`
 - `commitHash`
+- `committedFiles`
 - `pushedRemote`
 - `pushedBranch`
 - `verification`

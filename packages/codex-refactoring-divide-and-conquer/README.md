@@ -36,3 +36,5 @@ riela workflow run codex-refactoring-divide-and-conquer --output jsonl
 
 See the [registry README](../../README.md) for the full package index
 and the recommended install flow.
+
+The compact graph has 6 steps. Each implementation task includes its author self-check; the independent post-refactor review still routes blocking findings to implementation.

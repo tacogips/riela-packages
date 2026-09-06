@@ -30,11 +30,15 @@
         "review handoff storage",
         "implementation retry flow"
       ],
-      "constraints": ["Preserve existing workflow step-addressed behavior."],
+      "constraints": [
+        "Preserve existing workflow step-addressed behavior."
+      ],
       "unknowns": [
         "Retention duration for stored findings still needs product confirmation."
       ],
-      "risks": ["Retention semantics are not fully decided."],
+      "risks": [
+        "Retention semantics are not fully decided."
+      ],
       "reviewMode": "adversarial",
       "riskLevel": "high",
       "requiresAdversarialReview": true,
@@ -95,7 +99,9 @@
           "Persist review findings alongside workflow execution metadata.",
           "Replay high and mid findings into rerun implementation context."
         ],
-        "openQuestions": ["Retention duration is tracked in user QA."],
+        "openQuestions": [
+          "Retention duration is tracked in user QA."
+        ],
         "issueToDesignMapping": [
           "Issue rerun feedback loss maps to persisted review-finding records."
         ],
@@ -107,23 +113,6 @@
       }
     }
   ],
-  "step2-design-self-review": {
-    "provider": "scenario-mock",
-    "model": "gpt-6-astra",
-    "when": {
-      "needs_revision": false
-    },
-    "payload": {
-      "needs_revision": false,
-      "findings": [],
-      "feedback": [],
-      "accepted": true,
-      "reviewedDesignDocPaths": [
-        "design-docs/specs/design-workflow-review-findings.md"
-      ],
-      "residualRisks": []
-    }
-  },
   "step3-design-review": [
     {
       "provider": "scenario-mock",
@@ -173,7 +162,9 @@
       "payload": {
         "workflowMode": "issue-resolution",
         "issueReference": "tacogips/cursor-agent#123",
-        "implPlanPaths": ["impl-plans/active/workflow-review-findings.md"],
+        "implPlanPaths": [
+          "impl-plans/active/workflow-review-findings.md"
+        ],
         "designReferences": [
           "design-docs/specs/design-workflow-review-findings.md"
         ],
@@ -186,8 +177,12 @@
           "Rerun context loading depends on persisted review-finding records."
         ],
         "parallelizableTasks": [],
-        "verification": ["task typecheck"],
-        "completionCriteria": ["Typecheck passes"],
+        "verification": [
+          "task typecheck"
+        ],
+        "completionCriteria": [
+          "Typecheck passes"
+        ],
         "addressedFeedback": [],
         "risks": [
           "Migration and regression verification work are underspecified."
@@ -203,7 +198,9 @@
       "payload": {
         "workflowMode": "issue-resolution",
         "issueReference": "tacogips/cursor-agent#123",
-        "implPlanPaths": ["impl-plans/active/workflow-review-findings.md"],
+        "implPlanPaths": [
+          "impl-plans/active/workflow-review-findings.md"
+        ],
         "designReferences": [
           "design-docs/specs/design-workflow-review-findings.md"
         ],
@@ -222,7 +219,10 @@
         "parallelizableTasks": [
           "Progress-log updates can be prepared while persistence-test coverage is added."
         ],
-        "verification": ["task test", "task typecheck"],
+        "verification": [
+          "task test",
+          "task typecheck"
+        ],
         "completionCriteria": [
           "Tests pass",
           "Typecheck passes",
@@ -235,25 +235,6 @@
       }
     }
   ],
-  "step4-impl-plan-self-review": {
-    "provider": "scenario-mock",
-    "model": "gpt-6-astra",
-    "when": {
-      "needs_design_revision": false,
-      "needs_revision": false
-    },
-    "payload": {
-      "needs_design_revision": false,
-      "needs_revision": false,
-      "findings": [],
-      "feedback": [],
-      "accepted": true,
-      "reviewedImplPlanPaths": [
-        "impl-plans/active/workflow-review-findings.md"
-      ],
-      "residualRisks": []
-    }
-  },
   "step5-impl-plan-review": [
     {
       "provider": "scenario-mock",
@@ -315,11 +296,19 @@
           "impl-plans/active/workflow-review-findings.md"
         ],
         "implementationSummary": "Implemented persisted review-finding records and rerun replay, but did not update the implementation-plan progress log yet.",
-        "implPlanPaths": ["impl-plans/active/workflow-review-findings.md"],
-        "implPlanUpdates": ["Marked persistence and replay tasks complete."],
-        "verification": ["task test"],
+        "implPlanPaths": [
+          "impl-plans/active/workflow-review-findings.md"
+        ],
+        "implPlanUpdates": [
+          "Marked persistence and replay tasks complete."
+        ],
+        "verification": [
+          "task test"
+        ],
         "addressedFeedback": [],
-        "risks": ["Progress log update is still missing."]
+        "risks": [
+          "Progress log update is still missing."
+        ]
       }
     },
     {
@@ -336,12 +325,17 @@
           "impl-plans/active/workflow-review-findings.md"
         ],
         "implementationSummary": "Step 6 implemented the approved plan, addressed Step 7 feedback, and updated implementation-plan progress.",
-        "implPlanPaths": ["impl-plans/active/workflow-review-findings.md"],
+        "implPlanPaths": [
+          "impl-plans/active/workflow-review-findings.md"
+        ],
         "implPlanUpdates": [
           "Marked persistence, replay, migration, and regression-test tasks complete.",
           "Updated progress log and completion criteria."
         ],
-        "verification": ["task test", "task typecheck"],
+        "verification": [
+          "task test",
+          "task typecheck"
+        ],
         "addressedFeedback": [
           "Updated the implementation-plan progress log and reran typecheck."
         ],
@@ -349,26 +343,6 @@
       }
     }
   ],
-  "step6-implement-self-review": {
-    "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
-    "when": {
-      "needs_revision": false
-    },
-    "payload": {
-      "needs_revision": false,
-      "findings": [],
-      "feedback": [],
-      "accepted": true,
-      "reviewedFiles": [
-        "packages/riela/src/workflow/review-findings.ts",
-        "packages/riela/src/workflow/review-findings.test.ts",
-        "impl-plans/active/workflow-review-findings.md"
-      ],
-      "verificationGaps": [],
-      "residualRisks": []
-    }
-  },
   "step6-test-integrity-check": {
     "provider": "scenario-mock",
     "model": "gpt-5.6-sol",
@@ -487,35 +461,30 @@
       "residualRisks": []
     }
   },
-  "step8-impl-plan-completion-check": {
+  "step9-commit-message": {
     "provider": "scenario-mock",
     "model": "gpt-5.6-sol",
     "when": {
       "needs_revision": false
     },
     "payload": {
+      "decision": "accepted",
       "workflowMode": "issue-resolution",
-      "checkedImplPlanPaths": ["impl-plans/active/workflow-review-findings.md"],
+      "checkedImplPlanPaths": [
+        "impl-plans/active/workflow-review-findings.md"
+      ],
       "activeImplPlanFindings": [
         "impl-plans/active/workflow-review-findings.md was completed by the accepted implementation and should be archived before commit generation."
       ],
       "archivedImplPlanPaths": [
         "impl-plans/completed/workflow-review-findings.md"
       ],
-      "updatedIndexFiles": ["impl-plans/README.md"],
+      "updatedIndexFiles": [
+        "impl-plans/README.md"
+      ],
       "needs_revision": false,
       "completionSummary": "Archived the completed implementation plan from active to completed and updated the implementation-plan index before commit generation.",
-      "residualRisks": []
-    }
-  },
-  "step9-commit-message": {
-    "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
-    "when": {
-      "always": true
-    },
-    "payload": {
-      "workflowMode": "issue-resolution",
+      "residualRisks": [],
       "commitMessage": "feat: persist workflow review findings across reruns",
       "committedFiles": [
         "design-docs/specs/design-workflow-review-findings.md",
@@ -529,7 +498,8 @@
         ".agents/skills/riela-impl-workflow/SKILL.md"
       ],
       "changeSummary": "Accepted implementation, design, plan, and user-facing documentation updates for persisted workflow review findings across reruns.",
-      "residualRisks": []
+      "accepted": true,
+      "findings": []
     }
   },
   "step10-git-commit": {
@@ -539,20 +509,6 @@
       "always": true
     },
     "payload": {
-      "commitMessage": "feat: persist workflow review findings across reruns",
-      "commitHash": "abc123def4567890abc123def4567890abc123de",
-      "commitStatus": "committed",
-      "committedFiles": [
-        "design-docs/specs/design-workflow-review-findings.md",
-        "design-docs/user-qa/qa-review-finding-retention.md",
-        "impl-plans/active/workflow-review-findings.md",
-        "impl-plans/completed/workflow-review-findings.md",
-        "impl-plans/README.md",
-        "packages/riela/src/workflow/review-findings.ts",
-        "packages/riela/src/workflow/review-findings.test.ts",
-        "README.md",
-        ".agents/skills/riela-impl-workflow/SKILL.md"
-      ],
       "git": {
         "status": "committed",
         "commitMessage": "feat: persist workflow review findings across reruns",
@@ -567,9 +523,9 @@
           "packages/riela/src/workflow/review-findings.test.ts",
           "README.md",
           ".agents/skills/riela-impl-workflow/SKILL.md"
-        ]
-      },
-      "residualRisks": []
+        ],
+        "operation": "commit"
+      }
     }
   },
   "step11-git-push": {
@@ -579,17 +535,13 @@
       "always": true
     },
     "payload": {
-      "commitHash": "abc123def4567890abc123def4567890abc123de",
-      "pushedRemote": "origin",
-      "pushedBranch": "main",
-      "pushStatus": "pushed",
       "git": {
         "status": "pushed",
         "commitHash": "abc123def4567890abc123def4567890abc123de",
         "pushedRemote": "origin",
-        "pushedBranch": "main"
-      },
-      "residualRisks": []
+        "pushedBranch": "main",
+        "operation": "push"
+      }
     }
   },
   "workflow-output": {
@@ -607,7 +559,9 @@
         "design-docs/specs/design-workflow-review-findings.md",
         "design-docs/user-qa/qa-review-finding-retention.md"
       ],
-      "implPlanPaths": ["impl-plans/completed/workflow-review-findings.md"],
+      "implPlanPaths": [
+        "impl-plans/completed/workflow-review-findings.md"
+      ],
       "changedFiles": [
         "packages/riela/src/workflow/review-findings.ts",
         "packages/riela/src/workflow/review-findings.test.ts",
@@ -635,8 +589,22 @@
       "commitHash": "abc123def4567890abc123def4567890abc123de",
       "pushedRemote": "origin",
       "pushedBranch": "main",
-      "verification": ["task test", "task typecheck"],
-      "residualRisks": []
+      "verification": [
+        "task test",
+        "task typecheck"
+      ],
+      "residualRisks": [],
+      "committedFiles": [
+        "design-docs/specs/design-workflow-review-findings.md",
+        "design-docs/user-qa/qa-review-finding-retention.md",
+        "impl-plans/active/workflow-review-findings.md",
+        "impl-plans/completed/workflow-review-findings.md",
+        "impl-plans/README.md",
+        "packages/riela/src/workflow/review-findings.ts",
+        "packages/riela/src/workflow/review-findings.test.ts",
+        "README.md",
+        ".agents/skills/riela-impl-workflow/SKILL.md"
+      ]
     }
   }
 }

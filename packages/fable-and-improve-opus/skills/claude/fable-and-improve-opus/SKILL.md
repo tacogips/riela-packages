@@ -41,6 +41,8 @@ riela workflow run fable-and-improve-opus \
   --output jsonl
 ```
 
+Design and implementation planning run together in fable-design. Require both artifacts and their consistency evidence; the independent implementation review and Fable goal review still gate acceptance.
+
 Use `--scope user` for a user-scope install. Report the final artifacts,
 changed files, verification, independent review evidence, residual risks, and
 `goalAchieved` status.

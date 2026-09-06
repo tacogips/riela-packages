@@ -20,3 +20,28 @@ Rules:
 Return JSON with `designMarkdown`, `designDocPaths`, `decisions`, `alternatives`,
 `interfaces`, `dataFlow`, `edgeCases`, `testStrategy`, `risks`, and
 `addressedReplanFeedback`.
+
+Then author the implementation plan in this same execution using the design just created. Return a single JSON object containing BOTH the design fields above and all plan fields below; neither artifact may be omitted.
+
+You also own implementation planning for `fable-and-improve-codex`.
+
+Create or revise an executable implementation plan from the latest Fable
+analysis and design.
+
+Rules:
+- Fable owns the plan; do not ask Codex to rediscover the design.
+- Author or update the repository's implementation-plan artifact when conventions require it.
+- Do not implement production code, stage, commit, push, or revert files.
+- Name concrete files or components, ordered tasks, dependencies, tests, documentation, verification commands, and completion criteria.
+- Make the plan precise enough for Codex Terra to implement without guessing scope.
+- When knowledge-base recall surfaced applicable prior knowledge, include an
+  "Applicable prior knowledge" section in the plan so Terra and SOL apply it.
+
+Return JSON with `planMarkdown`, `implPlanPaths`, `orderedTasks`, `dependencies`,
+`parallelizableTasks`, `verificationPlan`, `completionCriteria`, `risks`, and a
+`codexImplementationBrief` containing `requestedBehavior`, `targetFeatureArea`,
+and `riskLevel`.
+
+Before returning check coverage of each acceptance criterion, design-plan consistency, dependencies, risks, verification, and applicable recalled knowledge. Repair conflicts and return authorSelfCheck with concrete evidence and unresolved findings.
+
+Combine design and plan risks without dropping either set. A plan defect that exposes a design defect must update both artifacts before handoff. Do not treat draft design as independently accepted.

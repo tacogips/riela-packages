@@ -52,16 +52,7 @@
         "Search for the exact note."
       ],
       "risks": [],
-      "addressedReplanFeedback": []
-    }
-  },
-  "fable-impl-plan": {
-    "provider": "scenario-mock",
-    "model": "claude-fable-5",
-    "when": {
-      "always": true
-    },
-    "payload": {
+      "addressedReplanFeedback": [],
       "planMarkdown": "## Plan\n1. Update docs/example.md.\n2. Verify the exact note.",
       "implPlanPaths": [
         "impl-plans/active/fable-smoke-note.md"
@@ -78,7 +69,6 @@
       "completionCriteria": [
         "The exact-text check passes."
       ],
-      "risks": [],
       "opusImplementationBrief": {
         "requestedBehavior": "Add the Fable smoke note.",
         "targetFeatureArea": "documentation",

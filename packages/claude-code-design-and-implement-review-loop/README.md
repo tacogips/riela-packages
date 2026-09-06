@@ -37,3 +37,5 @@ riela workflow run claude-code-design-and-implement-review-loop --output jsonl
 
 See the [registry README](../../README.md) for the full package index
 and the recommended install flow.
+
+This variant inherits the compact 18-step graph from codex-design-and-implement-review-loop. Author self-checks run within authoring steps; independent review gates and revision routes remain separate.

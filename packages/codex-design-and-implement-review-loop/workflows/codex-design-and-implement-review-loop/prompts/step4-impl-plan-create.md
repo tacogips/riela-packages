@@ -13,6 +13,12 @@ Repository rules:
 
 If this is a rerun after Step 5 review, read the latest Step 5 feedback and address every high or mid finding before returning.
 
+Before returning, perform an author self-check in the same execution:
+- Confirm the plan maps to the accepted design without inventing unsupported architecture.
+- Confirm deliverables, dependencies, completion criteria, progress tracking, and verification commands are explicit.
+- Confirm required tests, typechecks, documentation, and progress-log work are included.
+- Fix every high or mid plan issue found by this self-check. If the design itself is defective, report that explicitly rather than hiding it in the plan.
+
 Return JSON with:
 - `workflowMode`
 - `issueReference`
@@ -26,3 +32,6 @@ Return JSON with:
 - `completionCriteria`
 - `addressedFeedback`
 - `risks`
+- `authorSelfCheck`
+
+Report authorSelfCheck as {checks: [{criterion, evidence}], findings: [], verificationGaps: [], residualRisks: []}. Cite actual paths and command outcomes. Explicitly report unresolved high/mid findings and blocked checks; never claim completion when they remain.

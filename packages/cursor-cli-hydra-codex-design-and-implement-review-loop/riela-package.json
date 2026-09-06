@@ -8,7 +8,7 @@
     "hydra"
   ],
   "registry": "default",
-  "checksum": "44f45a103391777d23b9698422b5417f",
+  "checksum": "cd0b30886157931ef8f16a7db0e2d008",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-hydra-codex-design-and-implement-review-loop",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -26,7 +26,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "bd326a1b75f9091cd79a599db04017b0672285f85a2f0687254328f9042e1643"
+    "digest": "75ea48ecf610cde43e7e9b57b048bccacc061f83d6d72d8296f7b0b5d280e8f4"
   },
   "backends": [
     "codex-agent",

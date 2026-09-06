@@ -113,7 +113,7 @@
       },
       {
         "id": "implementation-plan-completion-check",
-        "stepId": "step8-impl-plan-completion-check",
+        "stepId": "step9-commit-message",
         "required": false,
         "acceptWhen": {
           "decision": "accepted",
@@ -129,7 +129,7 @@
     }
   },
   "prompts": {
-    "rielaPromptTemplate": "Coordinate {{workflowId}}. Run Step 1 intake first. If Step 1 classifies independent feature fanout items, run feature-local design and implementation-plan work through the local bounded fanout worker, join at Step 5 feature-plan join, then continue to Step 6 for issue-resolution mode or Step 9 for planning-only mode. If Step 1 does not classify fanout items, run the sequential path: Step 2 design-doc update, Step 2 self-review, Step 3 design review, Step 4 implementation-plan creation, Step 4 self-review, and Step 5 implementation-plan review. If a self-review reports blocking findings, route back to its authoring step before running the independent review. If Step 3 reports any high or mid findings, route back to Step 2. If Step 5 reports design changes are required, route back to Step 2. If Step 5 reports plan-only changes are required, route back to Step 4. After Step 5 acceptance for a planning-only run, run Step 9 commit-message creation, Step 10 git commit, Step 11 git push, then finish. Otherwise run Step 6 implementation, Step 6 self-review, Step 6 test-integrity check, then Step 7 implementation review. If Step 6 self-review, Step 6 test-integrity check, or Step 7 reports any high or mid findings, route back to Step 6. If Step 7 accepts and marks requires_adversarial_review, run Step 7 adversarial implementation review before documentation refresh. If the adversarial review reports any high or mid finding, route back to Step 6. After Step 7 acceptance and any required adversarial acceptance, run the advisory, non-blocking Step 7b headless E2E evidence step, which always proceeds to Step 8 and never loops back to implementation. Then run Step 8 user-facing documentation refresh, followed by the Step 8 implementation-plan completion check. If Step 8 completion check reports needs_revision, return to Step 8; otherwise run Step 9 commit-message creation, Step 10 git commit, Step 11 git push, then finish. Finish only when the required self-review, test-integrity check, independent review, and high-risk adversarial gates are accepted, feature-local fanout branches have been joined when present, accepted implementation plans are not left completed under impl-plans/active, and the final workflow changes have been committed and pushed for the selected mode.",
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Run Step 1 intake first. If Step 1 classifies independent feature fanout items, run feature-local design and implementation-plan work through the local bounded fanout worker, join at Step 5 feature-plan join, then continue to Step 6 for issue-resolution mode or Step 9 for planning-only mode. If Step 1 does not classify fanout items, run the sequential path: Step 2 design-doc update with its integrated author self-check, Step 3 independent design review, Step 4 implementation-plan creation with its integrated author self-check, and Step 5 independent implementation-plan review. If Step 3 reports any high or mid findings, route back to Step 2. If Step 5 reports design changes are required, route back to Step 2. If Step 5 reports plan-only changes are required, route back to Step 4. After Step 5 acceptance for a planning-only run, run Step 9 commit-message creation, Step 10 git commit, Step 11 git push, then finish. Otherwise run Step 6 implementation with its integrated diff and verification self-check, Step 6 test-integrity check, then Step 7 implementation review. If the Step 6 test-integrity check or Step 7 reports any high or mid findings, route back to Step 6. If Step 7 accepts and marks requires_adversarial_review, run Step 7 adversarial implementation review before documentation refresh. If the adversarial review reports any high or mid finding, route back to Step 6. After Step 7 acceptance and any required adversarial acceptance, run the advisory, non-blocking Step 7b headless E2E evidence step, which always proceeds to Step 8 and never loops back to implementation. Then run Step 8 user-facing documentation refresh, followed by Step 9 completion verification and commit-message creation. Step 9 archives completed plans only in issue-resolution mode; planning-only keeps plans active. If Step 9 reports needs_revision, return to Step 8; otherwise run Step 10 git commit, Step 11 git push, then finish. Finish only when the integrated author self-checks are satisfied, the test-integrity check and independent reviews are accepted, any required high-risk adversarial gate is accepted, feature-local fanout branches have been joined when present, accepted implementation plans are not left completed under impl-plans/active, and the final workflow changes have been committed and pushed for the selected mode.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Keep workflow mode, issue references, codex-agent references, file paths, findings, review decisions, and verification commands explicit."
   },
   "managerStepId": "riela-manager",
@@ -172,10 +172,6 @@
       "nodeFile": "nodes/node-step6-implement.json"
     },
     {
-      "id": "step6-implement-self-review",
-      "nodeFile": "nodes/node-step6-implement-self-review.json"
-    },
-    {
       "id": "step7-review",
       "nodeFile": "nodes/node-step7-review.json"
     },
@@ -194,10 +190,6 @@
     {
       "id": "step8-docs-refresh",
       "nodeFile": "nodes/node-step8-docs-refresh.json"
-    },
-    {
-      "id": "step8-impl-plan-completion-check",
-      "nodeFile": "nodes/node-step8-impl-plan-completion-check.json"
     },
     {
       "id": "step9-commit-message",
@@ -287,28 +279,7 @@
       },
       "transitions": [
         {
-          "toStepId": "step2-design-self-review"
-        }
-      ]
-    },
-    {
-      "id": "step2-design-self-review",
-      "nodeId": "step2-design-doc-update",
-      "description": "Self-review the design update before the independent design review.",
-      "role": "worker",
-      "promptVariant": "self-review",
-      "sessionPolicy": {
-        "mode": "reuse",
-        "inheritFromStepId": "step2-design-doc-update"
-      },
-      "transitions": [
-        {
-          "toStepId": "step2-design-doc-update",
-          "label": "needs_revision"
-        },
-        {
-          "toStepId": "step3-design-review",
-          "label": "!(needs_revision)"
+          "toStepId": "step3-design-review"
         }
       ]
     },
@@ -352,32 +323,7 @@
       },
       "transitions": [
         {
-          "toStepId": "step4-impl-plan-self-review"
-        }
-      ]
-    },
-    {
-      "id": "step4-impl-plan-self-review",
-      "nodeId": "step4-impl-plan-create",
-      "description": "Self-review the implementation plan and design-plan consistency before the independent implementation-plan review.",
-      "role": "worker",
-      "promptVariant": "self-review",
-      "sessionPolicy": {
-        "mode": "reuse",
-        "inheritFromStepId": "step4-impl-plan-create"
-      },
-      "transitions": [
-        {
-          "toStepId": "step2-design-doc-update",
-          "label": "needs_design_revision"
-        },
-        {
-          "toStepId": "step4-impl-plan-create",
-          "label": "needs_revision && !(needs_design_revision)"
-        },
-        {
-          "toStepId": "step5-impl-plan-review",
-          "label": "!(needs_design_revision || needs_revision)"
+          "toStepId": "step5-impl-plan-review"
         }
       ]
     },
@@ -463,27 +409,7 @@
       },
       "transitions": [
         {
-          "toStepId": "step6-implement-self-review"
-        }
-      ]
-    },
-    {
-      "id": "step6-implement-self-review",
-      "nodeId": "step6-implement-self-review",
-      "description": "Self-review the implementation diff and verification evidence before the independent implementation review.",
-      "role": "worker",
-      "sessionPolicy": {
-        "mode": "reuse",
-        "inheritFromStepId": "step6-implement"
-      },
-      "transitions": [
-        {
-          "toStepId": "step6-implement",
-          "label": "needs_revision"
-        },
-        {
-          "toStepId": "step6-test-integrity-check",
-          "label": "!(needs_revision)"
+          "toStepId": "step6-test-integrity-check"
         }
       ]
     },
@@ -602,15 +528,25 @@
       },
       "transitions": [
         {
-          "toStepId": "step8-impl-plan-completion-check"
+          "toStepId": "step9-commit-message"
         }
       ]
     },
     {
-      "id": "step8-impl-plan-completion-check",
-      "nodeId": "step8-impl-plan-completion-check",
-      "description": "Verify accepted implementation plans are archived out of impl-plans/active before commit generation.",
+      "id": "step9-commit-message",
+      "nodeId": "step9-commit-message",
+      "description": "Check completion for issue-resolution and prepare commit evidence; planning-only preserves active plans.",
       "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "step8-docs-refresh",
+          "label": "needs_revision"
+        },
+        {
+          "toStepId": "step10-git-commit",
+          "label": "!(needs_revision)"
+        }
+      ],
       "loop": {
         "role": "gate",
         "gateId": "implementation-plan-completion-check",
@@ -619,28 +555,7 @@
           "completion-check"
         ],
         "recordsVerification": true
-      },
-      "transitions": [
-        {
-          "toStepId": "step8-docs-refresh",
-          "label": "needs_revision"
-        },
-        {
-          "toStepId": "step9-commit-message",
-          "label": "!(needs_revision)"
-        }
-      ]
-    },
-    {
-      "id": "step9-commit-message",
-      "nodeId": "step9-commit-message",
-      "description": "Emit the final change summary and commit message after planning-only acceptance or implementation acceptance.",
-      "role": "worker",
-      "transitions": [
-        {
-          "toStepId": "step10-git-commit"
-        }
-      ]
+      }
     },
     {
       "id": "step10-git-commit",

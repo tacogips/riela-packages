@@ -3,7 +3,7 @@ You are Step 6: independent post-refactor review and loop gate.
 Review against:
 - the merged refactoring plan
 - the task just implemented
-- the Step 5 self-review
+- the implementation's integrated authorSelfCheck evidence
 - repository diff and verification evidence
 - remaining plan tasks
 - duplicate-scavenge constraints when the selected task consolidates duplicate
@@ -47,3 +47,5 @@ Return adapter JSON:
   }
 }
 ```
+
+Independently verify the implementation authorSelfCheck against the actual diff; missing check evidence or unresolved high/mid findings must take the existing needs_revision route.

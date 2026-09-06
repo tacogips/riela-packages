@@ -1,6 +1,6 @@
 {
   "id": "fable-design",
-  "description": "Claude Fable authors or revises the design from the repository analysis.",
+  "description": "Author design and actionable implementation plan with consistency self-check.",
   "executionBackend": "claude-code-agent",
   "agentSandbox": "danger-full-access",
   "model": "claude-fable-5",
@@ -11,6 +11,6 @@
   },
   "promptTemplateFile": "prompts/fable-design.md",
   "output": {
-    "description": "Return designMarkdown, designDocPaths, decisions, alternatives, interfaces, data flow, edge cases, and addressed feedback."
+    "description": "Return designMarkdown, designDocPaths, decisions, alternatives, interfaces, data flow, edge cases, and addressed feedback. Also return all plan fields, the implementation brief, and authorSelfCheck evidence."
   }
 }

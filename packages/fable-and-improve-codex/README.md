@@ -32,6 +32,8 @@ riela package install fable-and-improve-codex \
   --source <riela-packages-checkout>/packages/fable-and-improve-codex
 ```
 
+The compact graph has 14 steps: design and implementation planning share one Fable execution, with both artifacts and their consistency evidence retained. Independent implementation review, goal acceptance, and knowledge-base operations remain separate.
+
 Add `--scope user` for a user-scope install.
 
 ## Run

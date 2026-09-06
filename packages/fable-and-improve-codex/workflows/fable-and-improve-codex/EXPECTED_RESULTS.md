@@ -8,17 +8,16 @@ loop:
 2. `kb-recall-prior` recalls durable prior knowledge from the kaiba knowledge
    base (`kaiba/memory-recall`; `resultCount: 0` against an empty note root).
 3. `fable-design` authors the design with `claude-fable-5`, applying the
-   recalled knowledge.
-4. `fable-impl-plan` authors the implementation plan with `claude-fable-5`.
-5. `codex-implementation` implements with `gpt-5.6-terra`.
-6. `codex-review` independently accepts with `gpt-5.6-sol` and
+   recalled knowledge, then authors the implementation plan and checks their consistency in the same execution.
+4. `codex-implementation` implements with `gpt-5.6-terra`.
+5. `codex-review` independently accepts with `gpt-5.6-sol` and
    `needs_revision: false`.
-7. `fable-goal-review` accepts completion.
-8. `kb-self-review` extracts one durable lesson, `kb-recall-related` recalls
+6. `fable-goal-review` accepts completion.
+7. `kb-self-review` extracts one durable lesson, `kb-recall-related` recalls
    related notes, and `kb-merge-judge` decides `create`
    (`create_knowledge: true`), so `kb-create` (`kaiba/memory-consolidate`)
    writes one knowledge note (`entriesWritten: 1`, non-empty `noteIds`).
-9. `final-output` publishes the result.
+8. `final-output` publishes the result.
 
 On a `merge` decision (not exercised by this mock), the judge may also tidy
 the base: `kb-merge` rewrites the strongest overlapping note with the

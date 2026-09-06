@@ -37,3 +37,5 @@ Expected final output highlights:
   ]
 }
 ```
+
+Implementation mode routes step4-implement-next-task directly to step6-post-refactor-review, with the former Step 5 checklist integrated into implementation. Independent high/mid findings must return to Step 4.

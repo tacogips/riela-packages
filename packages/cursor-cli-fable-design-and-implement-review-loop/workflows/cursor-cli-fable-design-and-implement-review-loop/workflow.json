@@ -44,7 +44,7 @@
       "step7-adversarial-review": {
         "model": "claude-fable-5"
       },
-      "step8-impl-plan-completion-check": {
+      "step9-commit-message": {
         "model": "claude-fable-5"
       }
     }

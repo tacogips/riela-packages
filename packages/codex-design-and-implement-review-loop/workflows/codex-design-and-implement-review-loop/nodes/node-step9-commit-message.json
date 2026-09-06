@@ -1,12 +1,12 @@
 {
   "id": "step9-commit-message",
-  "description": "Summarize the accepted workflow changes and emit the commit message that the command-node git step must use verbatim.",
+  "description": "Verify plan completion and archive for issue-resolution, then prepare commit evidence; preserve active plans for planning-only.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step9-commit-message.md",
   "variables": {},
   "output": {
-    "description": "Return JSON with workflow mode, commit message, committed files, change summary, and any residual git risks before the command-node push."
+    "description": "Return adapter JSON with when.needs_revision, payload.needs_revision, completion evidence and, only on acceptance, commitMessage, committedFiles, changeSummary."
   }
 }

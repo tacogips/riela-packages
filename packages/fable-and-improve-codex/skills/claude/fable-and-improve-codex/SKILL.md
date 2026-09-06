@@ -40,3 +40,5 @@ riela workflow run fable-and-improve-codex \
 Use `--scope user` for a user-scope install. Report the final artifacts,
 changed files, verification, review evidence, residual risks, and
 `goalAchieved` status.
+
+Design and implementation planning run together in fable-design. Require both artifacts and their consistency evidence; the independent implementation review and Fable goal review still gate acceptance.

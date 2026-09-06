@@ -140,23 +140,6 @@
       }
     }
   ],
-  "step2-design-self-review": {
-    "provider": "scenario-mock",
-    "model": "gpt-6-astra",
-    "when": {
-      "needs_revision": false
-    },
-    "payload": {
-      "needs_revision": false,
-      "findings": [],
-      "feedback": [],
-      "accepted": true,
-      "reviewedDesignDocPaths": [
-        "design-docs/specs/design-workflow-review-findings.md"
-      ],
-      "residualRisks": []
-    }
-  },
   "step3-design-review": [
     {
       "provider": "scenario-mock",
@@ -279,25 +262,6 @@
       }
     }
   ],
-  "step4-impl-plan-self-review": {
-    "provider": "scenario-mock",
-    "model": "gpt-6-astra",
-    "when": {
-      "needs_design_revision": false,
-      "needs_revision": false
-    },
-    "payload": {
-      "needs_design_revision": false,
-      "needs_revision": false,
-      "findings": [],
-      "feedback": [],
-      "accepted": true,
-      "reviewedImplPlanPaths": [
-        "impl-plans/active/workflow-review-findings.md"
-      ],
-      "residualRisks": []
-    }
-  },
   "step5-impl-plan-review": [
     {
       "provider": "scenario-mock",
@@ -406,26 +370,6 @@
       }
     }
   ],
-  "step6-implement-self-review": {
-    "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
-    "when": {
-      "needs_revision": false
-    },
-    "payload": {
-      "needs_revision": false,
-      "findings": [],
-      "feedback": [],
-      "accepted": true,
-      "reviewedFiles": [
-        "packages/riela/src/workflow/review-findings.ts",
-        "packages/riela/src/workflow/review-findings.test.ts",
-        "impl-plans/active/workflow-review-findings.md"
-      ],
-      "verificationGaps": [],
-      "residualRisks": []
-    }
-  },
   "step6-test-integrity-check": {
     "provider": "scenario-mock",
     "model": "gpt-5.6-sol",
@@ -544,13 +488,14 @@
       "residualRisks": []
     }
   },
-  "step8-impl-plan-completion-check": {
+  "step9-commit-message": {
     "provider": "scenario-mock",
     "model": "gpt-5.6-sol",
     "when": {
       "needs_revision": false
     },
     "payload": {
+      "decision": "accepted",
       "workflowMode": "issue-resolution",
       "checkedImplPlanPaths": [
         "impl-plans/active/workflow-review-findings.md"
@@ -566,17 +511,7 @@
       ],
       "needs_revision": false,
       "completionSummary": "Archived the completed implementation plan from active to completed and updated the implementation-plan index before commit generation.",
-      "residualRisks": []
-    }
-  },
-  "step9-commit-message": {
-    "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
-    "when": {
-      "always": true
-    },
-    "payload": {
-      "workflowMode": "issue-resolution",
+      "residualRisks": [],
       "commitMessage": "feat: persist workflow review findings across reruns",
       "committedFiles": [
         "design-docs/specs/design-workflow-review-findings.md",
@@ -590,7 +525,8 @@
         ".agents/skills/riela-impl-workflow/SKILL.md"
       ],
       "changeSummary": "Accepted implementation, design, plan, and user-facing documentation updates for persisted workflow review findings across reruns.",
-      "residualRisks": []
+      "accepted": true,
+      "findings": []
     }
   },
   "step10-git-commit": {
@@ -600,20 +536,6 @@
       "always": true
     },
     "payload": {
-      "commitMessage": "feat: persist workflow review findings across reruns",
-      "commitHash": "abc123def4567890abc123def4567890abc123de",
-      "commitStatus": "committed",
-      "committedFiles": [
-        "design-docs/specs/design-workflow-review-findings.md",
-        "design-docs/user-qa/qa-review-finding-retention.md",
-        "impl-plans/active/workflow-review-findings.md",
-        "impl-plans/completed/workflow-review-findings.md",
-        "impl-plans/README.md",
-        "packages/riela/src/workflow/review-findings.ts",
-        "packages/riela/src/workflow/review-findings.test.ts",
-        "README.md",
-        ".agents/skills/riela-impl-workflow/SKILL.md"
-      ],
       "git": {
         "status": "committed",
         "commitMessage": "feat: persist workflow review findings across reruns",
@@ -628,9 +550,9 @@
           "packages/riela/src/workflow/review-findings.test.ts",
           "README.md",
           ".agents/skills/riela-impl-workflow/SKILL.md"
-        ]
-      },
-      "residualRisks": []
+        ],
+        "operation": "commit"
+      }
     }
   },
   "step11-git-push": {
@@ -640,17 +562,13 @@
       "always": true
     },
     "payload": {
-      "commitHash": "abc123def4567890abc123def4567890abc123de",
-      "pushedRemote": "origin",
-      "pushedBranch": "main",
-      "pushStatus": "pushed",
       "git": {
         "status": "pushed",
         "commitHash": "abc123def4567890abc123def4567890abc123de",
         "pushedRemote": "origin",
-        "pushedBranch": "main"
-      },
-      "residualRisks": []
+        "pushedBranch": "main",
+        "operation": "push"
+      }
     }
   },
   "workflow-output": {
@@ -702,7 +620,18 @@
         "task test",
         "task typecheck"
       ],
-      "residualRisks": []
+      "residualRisks": [],
+      "committedFiles": [
+        "design-docs/specs/design-workflow-review-findings.md",
+        "design-docs/user-qa/qa-review-finding-retention.md",
+        "impl-plans/active/workflow-review-findings.md",
+        "impl-plans/completed/workflow-review-findings.md",
+        "impl-plans/README.md",
+        "packages/riela/src/workflow/review-findings.ts",
+        "packages/riela/src/workflow/review-findings.test.ts",
+        "README.md",
+        ".agents/skills/riela-impl-workflow/SKILL.md"
+      ]
     }
   },
   "feature-local-plan": {

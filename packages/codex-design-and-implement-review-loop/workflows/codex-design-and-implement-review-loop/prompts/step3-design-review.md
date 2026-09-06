@@ -41,3 +41,5 @@ Return adapter JSON with this shape:
 ```
 
 Use `when.needs_revision: false`, `payload.needs_revision: false`, and `payload.accepted: true` only when there are no high or mid findings.
+
+Independently check authorSelfCheck against the artifacts. Missing evidence, unresolved high/mid findings, or unexplained verification gaps are blocking: report a finding and use the existing revision route. Do not accept an unsupported author assertion.

@@ -22,7 +22,9 @@ Issue-resolution command. The default computed step budget
 (`steps.count + maxLoopIterations`, with `maxLoopIterations: 30`) accommodates
 the full review path (design-revision loop, plan-revision loop,
 implementation-review loop, adversarial review, and the non-blocking Step 7b
-E2E evidence node), so no explicit `--max-steps` is needed:
+E2E evidence node), so no explicit `--max-steps` is needed. Design, plan, and
+implementation author self-checklists are integrated into their authoring
+steps; the independent review gates remain separate:
 
 ```bash
 riela workflow run codex-design-and-implement-review-loop \
@@ -35,10 +37,9 @@ Expected stable run summary:
 ```json
 {
   "status": "completed",
-  "workflowName": "codex-design-and-implement-review-loop",
   "workflowId": "codex-design-and-implement-review-loop",
-  "nodeExecutions": 30,
-  "transitions": 29,
+  "nodeExecutions": 23,
+  "transitions": 22,
   "exitCode": 0
 }
 ```
@@ -88,6 +89,17 @@ Expected final output payload:
   "implPlanCompletionSummary": "Archived the completed implementation plan from active to completed before commit generation.",
   "commitMessage": "feat: persist workflow review findings across reruns",
   "commitHash": "abc123def4567890abc123def4567890abc123de",
+  "committedFiles": [
+    "design-docs/specs/design-workflow-review-findings.md",
+    "design-docs/user-qa/qa-review-finding-retention.md",
+    "impl-plans/active/workflow-review-findings.md",
+    "impl-plans/completed/workflow-review-findings.md",
+    "impl-plans/README.md",
+    "packages/riela/src/workflow/review-findings.ts",
+    "packages/riela/src/workflow/review-findings.test.ts",
+    "README.md",
+    ".agents/skills/riela-impl-workflow/SKILL.md"
+  ],
   "pushedRemote": "origin",
   "pushedBranch": "main",
   "verification": ["task test", "task typecheck"],
@@ -108,10 +120,9 @@ Expected planning-only run summary:
 ```json
 {
   "status": "completed",
-  "workflowName": "codex-design-and-implement-review-loop",
   "workflowId": "codex-design-and-implement-review-loop",
-  "nodeExecutions": 18,
-  "transitions": 17,
+  "nodeExecutions": 14,
+  "transitions": 13,
   "exitCode": 0
 }
 ```
@@ -134,6 +145,10 @@ Expected planning-only final output payload:
   "implPlanReviewSummary": "Implementation plan and design consistency review accepted after transcript edge-case tasks were added.",
   "commitMessage": "docs: add codex-reference session history design and plan",
   "commitHash": "fedcba9876543210fedcba9876543210fedcba98",
+  "committedFiles": [
+    "design-docs/specs/design-codex-reference-session-history.md",
+    "impl-plans/active/codex-reference-session-history.md"
+  ],
   "pushedRemote": "origin",
   "pushedBranch": "main",
   "nextStep": "Run a full issue-resolution execution for impl-plans/active/codex-reference-session-history.md when implementation is approved.",
@@ -159,10 +174,9 @@ Expected stable run summary:
 ```json
 {
   "status": "completed",
-  "workflowName": "codex-design-and-implement-review-loop",
   "workflowId": "codex-design-and-implement-review-loop",
-  "nodeExecutions": 19,
-  "transitions": 18,
+  "nodeExecutions": 16,
+  "transitions": 15,
   "exitCode": 0
 }
 ```
@@ -184,3 +198,5 @@ non-blocking `step7b-e2e-evidence` evidence node without an explicit
 `runtimeVariables.fanoutJoin`.
 
 Expected final output node: `workflow-output`, with `payload.status` `accepted`.
+
+Step 9 includes completion verification and commit preparation. In issue-resolution, needs_revision routes to Step 8 docs and cannot reach git commit until accepted. Planning-only keeps plans active.
