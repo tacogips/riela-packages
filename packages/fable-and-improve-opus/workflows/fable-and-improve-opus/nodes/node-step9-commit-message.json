@@ -1,0 +1,12 @@
+{
+  "id": "step9-commit-message",
+  "description": "Verify plan completion and archive for issue-resolution, then prepare commit evidence; preserve active plans for planning-only.",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-opus-5",
+  "modelFreeze": false,
+  "promptTemplateFile": "prompts/step9-commit-message.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON with when.needs_revision, payload.needs_revision, completion evidence and, only on acceptance, commitMessage, committedFiles, changeSummary."
+  }
+}

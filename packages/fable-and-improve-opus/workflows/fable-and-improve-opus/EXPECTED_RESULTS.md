@@ -1,41 +1,5 @@
 # Expected results
 
-`mock-scenario.json` verifies the responsibility split plus the knowledge-base
-loop:
+Run workflow validate/inspect, then workflow run fable-and-improve-opus with its bundled mock-scenario.json, isolated --session-store and --artifact-root. Use the paired Riela source build. Mock calls do not invoke models, commit or push.
 
-1. `fable-analysis` analyzes the request and repository with `claude-fable-5`
-   and names a `knowledgeQuery` keyword.
-2. `kb-recall-prior` recalls durable prior knowledge from the kaiba knowledge
-   base (`kaiba/memory-recall`; `resultCount: 0` against an empty note root).
-3. `fable-design` authors the design with `claude-fable-5`, applying the
-   recalled knowledge, then authors the implementation plan and checks their consistency in the same execution.
-4. `opus-implementation` implements with `claude-opus-5`.
-5. `opus-review` independently accepts with `claude-opus-5` and
-   `needs_revision: false`.
-6. `fable-goal-review` accepts completion.
-7. `kb-self-review` extracts one durable lesson, `kb-recall-related` recalls
-   related notes, and `kb-merge-judge` decides `create`
-   (`create_knowledge: true`), so `kb-create` (`kaiba/memory-consolidate`)
-   writes one knowledge note (`entriesWritten: 1`, non-empty `noteIds`).
-8. `final-output` publishes the result.
-
-On a `merge` decision (not exercised by this mock), the judge may also tidy
-the base: `kb-merge` rewrites the strongest overlapping note with the
-generalized body, then `kb-archive-brief` (the judge's session) re-emits the
-archive instruction and `kb-archive` collapses the redundant note to a
-one-line superseded pointer, so the base absorbs the lesson while shrinking.
-
-Run the mock against disposable roots so the real knowledge base is untouched:
-
-```bash
-riela workflow run fable-and-improve-opus \
-  --workflow-definition-dir <riela-packages-checkout>/packages/fable-and-improve-opus/workflows \
-  --mock-scenario <riela-packages-checkout>/packages/fable-and-improve-opus/workflows/fable-and-improve-opus/mock-scenario.json \
-  --variables '{"memoryRoot":"./tmp/fable-and-improve-opus/memory","noteRoot":"./tmp/fable-and-improve-opus/notes","workflowInput":{"requestedOutcome":"Add and verify the requested documentation note."}}' \
-  --output json
-```
-
-Expected stable result: workflow `fable-and-improve-opus` completes with exit
-code `0`, `goalAchieved: true`, explicit analysis, design, plan,
-implementation, review, and verification evidence, and one knowledge-base note
-written by `kb-create`.
+Expect completed and exitCode 0. fable-design precedes plan-checkpoint and plan-git-commit. dispatch-plans starts native implementation/review branches; branch-evidence ends each branch before the parent reconcile-implementations and integration-review. Revisions return to their owning worker; dependency waves repeat only after integration acceptance. Final Git steps and base-branch-integrate precede knowledge self-review and final-output. Existing Claude models remain unchanged.

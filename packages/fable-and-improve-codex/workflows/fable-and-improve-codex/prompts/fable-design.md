@@ -33,9 +33,9 @@ Rules:
 - Author or update the repository's implementation-plan artifact when conventions require it.
 - Do not implement production code, stage, commit, push, or revert files.
 - Name concrete files or components, ordered tasks, dependencies, tests, documentation, verification commands, and completion criteria.
-- Make the plan precise enough for Codex Terra to implement without guessing scope.
+- Make the plan precise enough for Codex SOL to implement without guessing scope.
 - When knowledge-base recall surfaced applicable prior knowledge, include an
-  "Applicable prior knowledge" section in the plan so Terra and SOL apply it.
+  "Applicable prior knowledge" section in the plan so SOL and Terra apply it.
 
 Return JSON with `planMarkdown`, `implPlanPaths`, `orderedTasks`, `dependencies`,
 `parallelizableTasks`, `verificationPlan`, `completionCriteria`, `risks`, and a
@@ -45,3 +45,5 @@ and `riskLevel`.
 Before returning check coverage of each acceptance criterion, design-plan consistency, dependencies, risks, verification, and applicable recalled knowledge. Repair conflicts and return authorSelfCheck with concrete evidence and unresolved findings.
 
 Combine design and plan risks without dropping either set. A plan defect that exposes a design defect must update both artifacts before handoff. Do not treat draft design as independently accepted.
+
+Author ALL plan files in this single node. Each has planId, planPath, dependsOn, writePaths, sharedPaths, acceptanceCriteria and verification. Minimize shared-file edits and order coupled plans into dependency waves. Require fresh reads and immutable pre/post edit snapshots, overwrite detection and serial repair. No worktrees, planning fanout or parallel Git. Write accepted design and plan files to the repository before checkpoint; return their exact paths. Shared indexes, lockfiles and global formatting belong to serial reconciliation.

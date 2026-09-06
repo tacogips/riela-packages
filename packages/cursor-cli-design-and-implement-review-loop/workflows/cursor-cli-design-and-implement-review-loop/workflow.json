@@ -1,6 +1,6 @@
 {
   "workflowId": "cursor-cli-design-and-implement-review-loop",
-  "description": "Shared Cursor CLI workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+  "description": "Single-node design and planning, committed conflict-aware plans, same-branch parallel implementation and review, overwrite reconciliation, and serialized commit, push and base-branch integration.",
   "extends": {
     "workflowId": "codex-design-and-implement-review-loop",
     "stringReplacements": {

@@ -36,3 +36,5 @@ riela workflow run codex-impl-plan-completion-loop --output jsonl
 
 See the [registry README](../../README.md) for the full package index
 and the recommended install flow.
+
+Automatic assessment delegates all incomplete active plans as one batch to the shared design/implementation workflow; explicit plan requests remain scoped to one plan. The child plans dependencies once and uses native fanout for implementation/review. Assessment and archive scripts use Python 3 standard library only; Bun is not required at workflow runtime.

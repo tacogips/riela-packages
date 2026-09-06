@@ -1,20 +1,20 @@
 {
   "name": "cursor-cli-hydra-codex-design-and-implement-review-loop",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "title": "cursor-cli-hydra-codex-design-and-implement-review-loop",
-  "description": "Explicit hydra workflow variant that uses Codex GPT-5.6 SOL for design, review, and all non-implementation agent steps, while using Cursor Composer 2.5 for implementation.",
+  "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
   "tags": [
     "workflow",
     "hydra"
   ],
   "registry": "default",
-  "checksum": "cd0b30886157931ef8f16a7db0e2d008",
+  "checksum": "81ffbdfe2ca88ba680979b5208df4135",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-hydra-codex-design-and-implement-review-loop",
   "repository": "https://github.com/tacogips/riela-packages",
   "workflow": {
     "title": "cursor-cli-hydra-codex-design-and-implement-review-loop",
-    "description": "Explicit hydra workflow variant that uses Codex GPT-5.6 SOL for design, review, and all non-implementation agent steps, while using Cursor Composer 2.5 for implementation.",
+    "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
     "tags": [
       "workflow",
       "hydra"
@@ -26,7 +26,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "75ea48ecf610cde43e7e9b57b048bccacc061f83d6d72d8296f7b0b5d280e8f4"
+    "digest": "b0d87348cdb298c5049d4588c97d13c3048e43ebc054d6d08856f055bf867658"
   },
   "backends": [
     "codex-agent",

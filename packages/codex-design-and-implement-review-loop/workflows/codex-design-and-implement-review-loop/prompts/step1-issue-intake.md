@@ -39,13 +39,11 @@ Rules:
 - If Codex-reference planning input is present, inspect the preferred local reference repository first. Use `../../codex-agent` when no other local root is supplied. Use the upstream reference URL only if local files are unavailable or incomplete.
 - Treat codex-agent as a behavioral and structural reference only. Do not copy code blindly.
 - Produce one concise intake brief that later steps can execute regardless of mode.
-- When the request contains independent feature areas that can be designed and planned concurrently, classify them into `payload.featureFanoutItems`. Each item must include a stable `featureId`, `featureTitle`, `featureSummary`, `issueReference`, `workflowMode`, `designDocPath`, `implPlanPath`, and relevant `codexAgentReferences`.
-- Set `when.has_feature_fanout` to `true` only when `payload.featureFanoutItems` is a non-empty array and the feature-local design/plan branches can run independently before dependency-aware implementation.
-- Set `when.has_feature_fanout` to `false` for simple single-path work or when branch ownership cannot be made independent.
+- Always send intake to the single design author. Do not fan out design or planning.
+- Record git context before any edits: repository root, symbolic implementationBranch, originalHead, remote, and baseBranch. Use an explicit workflowInput.baseBranch when supplied; otherwise baseBranch is the current branch. Record pre-existing tracked/untracked and staged changes for preservation. Detached HEAD or ambiguous remote selection is a blocker.
 - Preserve any explicit `reviewMode`, `riskLevel`, or `requiresAdversarialReview` input in the intake payload. Set `payload.requiresAdversarialReview` to `true` when explicitly requested, when `reviewMode` is `adversarial`, or when `riskLevel` is `high` or `critical`; otherwise leave it `false` unless the request clearly touches security-sensitive, destructive, commit/push, migration, package installation, workflow execution, manager-control, event-source, or external-command behavior.
 
 Return adapter JSON with:
-- `when.has_feature_fanout`
 - `payload.workflowMode`
 - `payload.issueReference`
 - `payload.issueTitle`
@@ -61,4 +59,6 @@ Return adapter JSON with:
 - `payload.codexAgentReferences`
 - `payload.referenceRepositoryRoot`
 - `payload.referenceRepositoryUrl`
-- `payload.featureFanoutItems`
+- `payload.gitContext`
+
+When workflowInput.implementationPlanPaths is supplied (including inside workflowCall.input), preserve the complete list in the intake. The single design and plan authors must cover all requested plans together, retaining their original tasks and paths, and partition implementation into dependency-ready native Riela waves. A singular implementationPlanPath does not override an explicit batch.

@@ -15,3 +15,5 @@ Return one JSON object only with `when.needs_revision` and a `payload` containin
 `reviewStatus`, `findings`, `verificationAssessment`,
 `acceptanceCriteriaAssessment`, `revisionInstructions`,
 `acceptedResidualRisks`, and `reviewEvidence`.
+
+During native fanout review only runtimeVariables.implementation's assigned plan and its interaction with the shared tree. Inspect fresh files against saved intent and snapshots. Preserve overwrite evidence and repair requests in output. Do not mutate source or Git. Final combined-tree acceptance belongs to integration-review after all workers stop.

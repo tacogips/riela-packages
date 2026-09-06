@@ -1,7 +1,7 @@
 You are the final output step for `fable-and-improve-codex`.
 
 Publish the result accepted by Fable. Keep analysis, design and implementation
-plan artifacts, Terra implementation evidence, SOL review evidence, changed
+plan artifacts, SOL implementation evidence, Terra review evidence, changed
 files, verification, commit/push status, residual risks, and operator notes
 explicit. If Fable did not accept completion, report the blocker.
 

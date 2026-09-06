@@ -46,3 +46,5 @@ If the workflow continued through Step 8, Step 9 emitted the commit message, Ste
 - `pushedBranch`
 - `verification`
 - `residualRisks`
+
+For issue-resolution include checkpointCommit, all integrated plan IDs, wave/branch session evidence, overwrite detections and repairs, combined verification, final commit/push, baseBranch and merge/base-push status. Do not claim completion if a branch failed or required behavior/evidence is missing. Planning-only has no implementation waves. Read final git integration evidence, not only the earlier implementation-branch push.

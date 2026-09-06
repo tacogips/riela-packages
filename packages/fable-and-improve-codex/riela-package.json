@@ -1,8 +1,8 @@
 {
   "name": "fable-and-improve-codex",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "title": "fable-and-improve-codex",
-  "description": "Claude-only invocation skill for a workflow where Fable analyzes, designs, plans, and verifies; Codex Terra implements and Codex SOL independently reviews.",
+  "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
   "tags": [
     "workflow",
     "claude-code",
@@ -11,13 +11,13 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "44724e5d4f5322d0d11a64f76cd640fb",
+  "checksum": "8c2aa5e9d8fe78a0335b02ec3c049a2b",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/fable-and-improve-codex",
   "repository": "https://github.com/tacogips/riela-packages",
   "workflow": {
     "title": "fable-and-improve-codex",
-    "description": "Fable owns analysis, design, planning, and acceptance; Codex Terra implements and Codex SOL reviews.",
+    "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
     "tags": [
       "workflow",
       "claude-code",
@@ -32,7 +32,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "8a731d31eb7236733141af8d25f310f9bd6ed449aa261b8b9e2463e9855a86b5"
+    "digest": "8cd326741447a155457e6c6fdb033ecbf59d07599e1aeb54b1323fe048999717"
   },
   "backends": [
     "claude-code-agent",

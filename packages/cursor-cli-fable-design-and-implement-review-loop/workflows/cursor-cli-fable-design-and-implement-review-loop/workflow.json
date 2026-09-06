@@ -1,6 +1,6 @@
 {
   "workflowId": "cursor-cli-fable-design-and-implement-review-loop",
-  "description": "Cursor CLI workflow variant for explicit Claude Fable 5 review runs. It uses Claude Fable 5 for review agent steps, Composer 2.5 for implementation, and Claude Opus 4.8 for design and all other agent steps.",
+  "description": "Single-node design and planning, committed conflict-aware plans, same-branch parallel implementation and review, overwrite reconciliation, and serialized commit, push and base-branch integration.",
   "extends": {
     "workflowId": "codex-design-and-implement-review-loop",
     "stringReplacements": {

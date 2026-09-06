@@ -15,3 +15,5 @@ Rules:
 Return JSON with `analysisMarkdown`, `requestedOutcome`, `acceptanceCriteria`,
 `targetScope`, `repositoryEvidence`, `constraints`, `assumptions`, `risks`,
 `openQuestions`, `addressedReplanFeedback`, and `knowledgeQuery`.
+
+Record git context before edits: symbolic implementationBranch, originalHead, remote, explicit workflowInput.baseBranch (default current branch), and pre-existing tracked/untracked/staged changes. Preserve these for checkpoint. No worktrees. On replanning choose a fresh task ID and preserve all prior evidence.

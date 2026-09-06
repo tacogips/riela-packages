@@ -1,6 +1,6 @@
 {
   "id": "fable-goal-review",
-  "description": "Claude Fable verifies whether the accepted Terra implementation and SOL review satisfy the analysis, design, plan, and goal.",
+  "description": "Claude Fable verifies whether the accepted SOL implementation and Terra review satisfy the analysis, design, plan, and goal.",
   "executionBackend": "claude-code-agent",
   "agentSandbox": "danger-full-access",
   "model": "claude-fable-5",

@@ -604,7 +604,130 @@
         "packages/riela/src/workflow/review-findings.test.ts",
         "README.md",
         ".agents/skills/riela-impl-workflow/SKILL.md"
+      ],
+      "baseBranch": "main",
+      "mergeStatus": "already-on-base",
+      "basePushStatus": "pushed"
+    }
+  },
+  "plan-checkpoint": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "commitMessage": "docs: checkpoint shared-branch implementation plans",
+      "committedFiles": [
+        "impl-plans/active/a.md",
+        "impl-plans/active/b.md"
+      ],
+      "manifestPath": "impl-plans/active/mock-dispatch.json"
+    }
+  },
+  "plan-git-commit": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "git": {
+        "status": "committed",
+        "commitHash": "1111111111111111111111111111111111111111",
+        "operation": "commit"
+      }
+    }
+  },
+  "dispatch-plans": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "implementationItems": [
+        {
+          "planId": "a",
+          "planPath": "impl-plans/active/a.md",
+          "dependsOn": [],
+          "writePaths": [
+            "a.txt"
+          ],
+          "sharedPaths": [
+            "shared.txt"
+          ],
+          "acceptanceCriteria": [
+            "a behavior retained"
+          ],
+          "trackedPaths": [
+            "a.txt",
+            "shared.txt"
+          ]
+        }
+      ],
+      "acceptedPlanIds": []
+    }
+  },
+  "branch-evidence": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "evidencePaths": [
+        "tmp/mock/accepted.json"
+      ],
+      "changedFiles": [
+        "shared.txt"
+      ],
+      "reviewDecisions": {
+        "accepted": true
+      }
+    }
+  },
+  "reconcile-implementations": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "repairs": [],
+      "unresolvedFindings": [],
+      "verification": [
+        "mock combined check"
       ]
+    }
+  },
+  "integration-review": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "needs_revision": false,
+      "plans_remaining": false
+    },
+    "payload": {
+      "accepted": true,
+      "findings": [],
+      "needs_revision": false,
+      "plans_remaining": false
+    }
+  },
+  "base-branch-integrate": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "mergeStatus": "already-on-base",
+      "baseBranch": "main",
+      "basePushStatus": "pushed",
+      "implementationCommit": "abc123def4567890abc123def4567890abc123de",
+      "implementationBranch": "main",
+      "remote": "origin"
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "workflowId": "cursor-cli-hydra-claude-design-and-implement-review-loop",
-  "description": "Explicit hydra workflow variant that uses Claude Code Fable 5 for design and review agent steps, Cursor Composer 2.5 for implementation, and Claude Code Opus 4.8 for all other agent steps.",
+  "description": "Single-node design and planning, committed conflict-aware plans, same-branch parallel implementation and review, overwrite reconciliation, and serialized commit, push and base-branch integration.",
   "extends": {
     "workflowId": "codex-design-and-implement-review-loop",
     "stringReplacements": {
@@ -38,12 +38,6 @@
       "step5-impl-plan-review": {
         "model": "claude-fable-5"
       },
-      "feature-local-plan": {
-        "model": "claude-fable-5"
-      },
-      "step5-feature-plan-join": {
-        "model": "claude-fable-5"
-      },
       "step6-implement": {
         "executionBackend": "cursor-cli-agent",
         "model": "composer-2.5"
@@ -58,6 +52,9 @@
         "model": "claude-fable-5"
       },
       "step9-commit-message": {
+        "model": "claude-fable-5"
+      },
+      "integration-review": {
         "model": "claude-fable-5"
       }
     }

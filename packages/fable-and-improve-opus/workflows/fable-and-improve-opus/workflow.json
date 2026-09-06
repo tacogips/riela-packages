@@ -1,16 +1,17 @@
 {
   "workflowId": "fable-and-improve-opus",
-  "description": "Claude Fable analyzes the request, recalls prior knowledge from the kaiba knowledge base, authors the design and implementation plan, Claude Opus 5 implements and independently reviews, Fable verifies completion, and a self-review step feeds durable lessons back into the knowledge base before the final output.",
+  "description": "Claude Fable analyzes the request, recalls prior knowledge from the kaiba knowledge base, authors the design and implementation plan, Claude Opus 5 implements and independently reviews, Fable verifies completion, and a self-review step feeds durable lessons back into the knowledge base before the final output. Accepted plans are committed before same-branch parallel implementation/review, overwrite reconciliation and serialized Git finalization.",
   "defaults": {
-    "maxLoopIterations": 8,
+    "maxLoopIterations": 30,
     "nodeTimeoutMs": 3600000,
     "supervision": {
       "monitorIntervalMs": 15000,
       "stallTimeoutMs": 300000
-    }
+    },
+    "fanoutConcurrency": 4
   },
   "prompts": {
-    "rielaPromptTemplate": "Coordinate {{workflowId}}. Fable owns repository analysis, design, implementation-plan authoring, replanning, and final acceptance. Claude Opus 5 owns implementation and improvement, and an independent Opus 5 session owns implementation review. Loop blocking findings back to implementation, route invalid plans back to Fable analysis, and finish only after Fable verifies the goal and the knowledge-base self-review has run.",
+    "rielaPromptTemplate": "Fable authors the design and all plans in one node after analysis and knowledge recall. Commit the accepted plans before same-branch Riela implementation/review fanout. Join all workers, reconcile overwritten changes, independently review the combined tree, then dispatch dependency-ready later waves. Fable confirms the goal before serialized commit, push and base integration, then knowledge self-review. No worktrees or parallel Git operations.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Preserve analysis, design and implementation-plan artifacts, changed files, verification evidence, review findings, remaining TODOs, and residual risks."
   },
   "managerStepId": "fable-analysis",
@@ -112,6 +113,69 @@
       "id": "final-output",
       "kind": "output",
       "nodeFile": "nodes/node-final-output.json"
+    },
+    {
+      "id": "plan-checkpoint",
+      "nodeFile": "nodes/node-plan-checkpoint.json"
+    },
+    {
+      "id": "plan-git-commit",
+      "addon": {
+        "name": "riela/git-commit",
+        "version": "1",
+        "config": {
+          "commitMessageTemplate": "{{inbox.latest.output.payload.commitMessage}}",
+          "committedFilesTemplate": "{{inbox.latest.output.payload.committedFiles}}",
+          "allowCommit": true
+        }
+      }
+    },
+    {
+      "id": "dispatch-plans",
+      "nodeFile": "nodes/node-dispatch-plans.json"
+    },
+    {
+      "id": "branch-evidence",
+      "nodeFile": "nodes/node-branch-evidence.json"
+    },
+    {
+      "id": "reconcile-implementations",
+      "nodeFile": "nodes/node-reconcile-implementations.json"
+    },
+    {
+      "id": "integration-review",
+      "nodeFile": "nodes/node-integration-review.json"
+    },
+    {
+      "id": "step9-commit-message",
+      "nodeFile": "nodes/node-step9-commit-message.json"
+    },
+    {
+      "id": "step10-git-commit",
+      "addon": {
+        "name": "riela/git-commit",
+        "version": "1",
+        "config": {
+          "commitMessageTemplate": "{{inbox.latest.output.payload.commitMessage}}",
+          "committedFilesTemplate": "{{inbox.latest.output.payload.committedFiles}}",
+          "allowCommit": true
+        }
+      }
+    },
+    {
+      "id": "step11-git-push",
+      "addon": {
+        "name": "riela/git-push",
+        "version": "1",
+        "config": {
+          "allowPush": true,
+          "expectedCommitHashTemplate": "{{inbox.latest.output.payload.git.commitHash}}"
+        }
+      }
+    },
+    {
+      "id": "base-branch-integrate",
+      "nodeFile": "nodes/node-base-branch-integrate.json"
     }
   ],
   "steps": [
@@ -148,7 +212,7 @@
       },
       "transitions": [
         {
-          "toStepId": "opus-implementation"
+          "toStepId": "plan-checkpoint"
         }
       ]
     },
@@ -174,7 +238,7 @@
           "label": "needs_revision"
         },
         {
-          "toStepId": "fable-goal-review",
+          "toStepId": "branch-evidence",
           "label": "!(needs_revision)"
         }
       ]
@@ -194,11 +258,11 @@
           "label": "needs_replan"
         },
         {
-          "toStepId": "opus-implementation",
+          "toStepId": "reconcile-implementations",
           "label": "needs_todo"
         },
         {
-          "toStepId": "kb-self-review",
+          "toStepId": "step9-commit-message",
           "label": "!(needs_replan || needs_todo)"
         }
       ]
@@ -315,12 +379,156 @@
         "mode": "reuse",
         "inheritFromStepId": "kb-merge-judge"
       }
+    },
+    {
+      "id": "plan-checkpoint",
+      "nodeId": "plan-checkpoint",
+      "description": "Prepare the accepted design and plan checkpoint without staging unrelated changes.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "plan-git-commit"
+        }
+      ]
+    },
+    {
+      "id": "plan-git-commit",
+      "nodeId": "plan-git-commit",
+      "description": "Commit accepted designs, plans and dispatch manifest before any implementation.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "dispatch-plans"
+        }
+      ]
+    },
+    {
+      "id": "dispatch-plans",
+      "nodeId": "dispatch-plans",
+      "description": "Select a dependency-ready wave from the committed plan manifest.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "opus-implementation",
+          "fanout": {
+            "groupId": "shared-branch-implementation",
+            "itemsFrom": "/implementationItems",
+            "itemVariable": "implementation",
+            "concurrency": 4,
+            "joinStepId": "reconcile-implementations",
+            "failurePolicy": "collect-partial",
+            "resultOrder": "input",
+            "dependencies": {
+              "branchIdFrom": "/planId",
+              "dependsOnFrom": "/dependsOn",
+              "completedBranchIdsFrom": "/acceptedPlanIds"
+            },
+            "changeTracking": {
+              "pathsFrom": "/trackedPaths"
+            },
+            "writeOwnership": {
+              "mode": "shared-workspace"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "branch-evidence",
+      "nodeId": "branch-evidence",
+      "description": "Record branch evidence after accepted reviews; never finalize git in a parallel branch.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "reconcile-implementations"
+        }
+      ]
+    },
+    {
+      "id": "reconcile-implementations",
+      "nodeId": "reconcile-implementations",
+      "description": "After all workers stop, detect and repair overwritten or missing changes and run combined verification.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "integration-review"
+        }
+      ]
+    },
+    {
+      "id": "integration-review",
+      "nodeId": "integration-review",
+      "description": "Independently verify retained plan behavior and repairs before another wave or finalization.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "reconcile-implementations",
+          "label": "needs_revision"
+        },
+        {
+          "toStepId": "dispatch-plans",
+          "label": "!(needs_revision) && plans_remaining"
+        },
+        {
+          "toStepId": "fable-goal-review",
+          "label": "!(needs_revision || plans_remaining)"
+        }
+      ]
+    },
+    {
+      "id": "step9-commit-message",
+      "nodeId": "step9-commit-message",
+      "description": "Check completion for issue-resolution and prepare commit evidence; planning-only preserves active plans.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "fable-goal-review",
+          "label": "needs_revision"
+        },
+        {
+          "toStepId": "step10-git-commit",
+          "label": "!(needs_revision)"
+        }
+      ]
+    },
+    {
+      "id": "step10-git-commit",
+      "nodeId": "step10-git-commit",
+      "description": "Use the shared built-in git commit node to stage and commit the accepted workflow changes from Step 9.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "step11-git-push"
+        }
+      ]
+    },
+    {
+      "id": "step11-git-push",
+      "nodeId": "step11-git-push",
+      "description": "Use the built-in git push node to push the commit created by Step 10 to the current branch.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "base-branch-integrate"
+        }
+      ]
+    },
+    {
+      "id": "base-branch-integrate",
+      "nodeId": "base-branch-integrate",
+      "description": "Serially integrate the verified pushed branch into the recorded base branch and push the base.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "kb-self-review"
+        }
+      ]
     }
   ],
   "metadata": {
     "rielaPackage": {
       "title": "fable-and-improve-opus",
-      "description": "Fable analyzes, designs, and plans with knowledge-base recall; Opus implements and independently reviews; Fable verifies completion and self-reviews lessons into the knowledge base.",
+      "description": "Claude Fable analyzes the request, recalls prior knowledge from the kaiba knowledge base, authors the design and implementation plan, Claude Opus 5 implements and independently reviews, Fable verifies completion, and a self-review step feeds durable lessons back into the knowledge base before the final output. Accepted plans are committed before same-branch parallel implementation/review, overwrite reconciliation and serialized Git finalization.",
       "tags": [
         "workflow",
         "claude-code",

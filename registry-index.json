@@ -575,10 +575,10 @@
     {
       "name": "claude-code-design-and-implement-review-loop",
       "directory": "packages/claude-code-design-and-implement-review-loop",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "kind": "workflow",
       "title": "claude-code-design-and-implement-review-loop",
-      "description": "Shared Claude Code workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+      "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
       "tags": [
         "workflow"
       ],
@@ -587,7 +587,7 @@
       "workflow": {
         "directory": "workflows/claude-code-design-and-implement-review-loop",
         "title": "claude-code-design-and-implement-review-loop",
-        "description": "Shared Claude Code workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+        "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
         "tags": [
           "workflow"
         ],
@@ -609,11 +609,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "4095852004ac949ec40b5834ad41b2b1"
+        "value": "ca192325f544aa987ae1c071432ec59c"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "06ed96e99b43149d93eee5d1fe267f8ef835626fd473ff0e432b4ae6c6ae7d19"
+        "digest": "68d460a0e4e4aa0d961e4e28cde4c082d975c67257766ceb8204c7e7e81648b4"
       }
     },
     {
@@ -1296,10 +1296,10 @@
     {
       "name": "codex-design-and-implement-review-loop",
       "directory": "packages/codex-design-and-implement-review-loop",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "kind": "workflow",
       "title": "codex-design-and-implement-review-loop",
-      "description": "Shared Codex workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+      "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
       "tags": [
         "workflow"
       ],
@@ -1308,7 +1308,7 @@
       "workflow": {
         "directory": "workflows/codex-design-and-implement-review-loop",
         "title": "codex-design-and-implement-review-loop",
-        "description": "Shared Codex workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+        "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
         "tags": [
           "workflow"
         ],
@@ -1326,11 +1326,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "e7c68b2501b8a02228bcc523abff8ae9"
+        "value": "eadec9ef0daf72abedd8229b8c3f8fd9"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "775afa083918ae50984433c1c487cd181039ba5fd6343b3484283f84815b24e0"
+        "digest": "46f797a25508c8dc2fb4a467c111767f80d4c7bc9efaf8aa80bd93e1c07ead9d"
       }
     },
     {
@@ -1380,10 +1380,10 @@
     {
       "name": "codex-impl-plan-completion-loop",
       "directory": "packages/codex-impl-plan-completion-loop",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "kind": "workflow",
       "title": "codex-impl-plan-completion-loop",
-      "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to codex-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
+      "description": "Assess active plans as a batch, delegate dependency-aware shared-branch implementation/review, and archive completed plans using Python.",
       "tags": [
         "workflow"
       ],
@@ -1392,7 +1392,7 @@
       "workflow": {
         "directory": "workflows/codex-impl-plan-completion-loop",
         "title": "codex-impl-plan-completion-loop",
-        "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to codex-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
+        "description": "Assess active plans as a batch, delegate dependency-aware shared-branch implementation/review, and archive completed plans using Python.",
         "tags": [
           "workflow"
         ],
@@ -1413,11 +1413,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "0b9c16791878b090a516cd202ecd8880"
+        "value": "898386250f31d2e3e56d7cc433115c69"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "d6a6fb62e4d439d14ba7988cc9238c61f392e2289dc4bf4315aa69cccba4fcd1"
+        "digest": "6887b319dcd2f09cfd38dc85d57582d09bd6cddb6912ea4e53c7b44160b96fe3"
       }
     },
     {
@@ -1896,10 +1896,10 @@
     {
       "name": "cursor-cli-design-and-implement-review-loop",
       "directory": "packages/cursor-cli-design-and-implement-review-loop",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "kind": "workflow",
       "title": "cursor-cli-design-and-implement-review-loop",
-      "description": "Shared Cursor CLI workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+      "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
       "tags": [
         "workflow"
       ],
@@ -1908,7 +1908,7 @@
       "workflow": {
         "directory": "workflows/cursor-cli-design-and-implement-review-loop",
         "title": "cursor-cli-design-and-implement-review-loop",
-        "description": "Shared Cursor CLI workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+        "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
         "tags": [
           "workflow"
         ],
@@ -1930,11 +1930,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "9793b500fb3de8c98f67054049fb3bf4"
+        "value": "13749326fa78ff1d88a32af889061860"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "e196e8949a6880a1423c3f420826a45a7192e50f7a78a68da9a12554518b8197"
+        "digest": "3a795db59685aa71c1d5f5c29a12faa6bea84924d137dc23169fbc77005add29"
       }
     },
     {
@@ -2023,10 +2023,10 @@
     {
       "name": "cursor-cli-fable-design-and-implement-review-loop",
       "directory": "packages/cursor-cli-fable-design-and-implement-review-loop",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "kind": "workflow",
       "title": "cursor-cli-fable-design-and-implement-review-loop",
-      "description": "Cursor CLI workflow variant for explicit Claude Fable 5 review runs. It uses Claude Fable 5 for review agent steps, Composer 2.5 for implementation, and Claude Opus 4.8 for design and all other agent steps.",
+      "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
       "tags": [
         "workflow"
       ],
@@ -2035,7 +2035,7 @@
       "workflow": {
         "directory": "workflows/cursor-cli-fable-design-and-implement-review-loop",
         "title": "cursor-cli-fable-design-and-implement-review-loop",
-        "description": "Cursor CLI workflow variant for explicit Claude Fable 5 review runs. It uses Claude Fable 5 for review agent steps, Composer 2.5 for implementation, and Claude Opus 4.8 for design and all other agent steps.",
+        "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
         "tags": [
           "workflow"
         ],
@@ -2057,11 +2057,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "4c5bf5ead964ec4f183bc35ef5e30f63"
+        "value": "809c03e0c36dc28f04e69ef17415779a"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "e522c7a75445dd5906449936740cd06b7c488782b569069ee09c594d69292e8c"
+        "digest": "4c21b16071930e711e7ae7823a23a14ec480213b77666c03d8ac1c5e95e7b7f7"
       }
     },
     {
@@ -2115,10 +2115,10 @@
     {
       "name": "cursor-cli-hydra-claude-design-and-implement-review-loop",
       "directory": "packages/cursor-cli-hydra-claude-design-and-implement-review-loop",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "kind": "workflow",
       "title": "cursor-cli-hydra-claude-design-and-implement-review-loop",
-      "description": "Explicit hydra workflow variant that uses Claude Code Fable 5 for design and review agent steps, Cursor Composer 2.5 for implementation, and Claude Code Opus 4.8 for all other agent steps.",
+      "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
       "tags": [
         "hydra",
         "workflow"
@@ -2128,7 +2128,7 @@
       "workflow": {
         "directory": "workflows/cursor-cli-hydra-claude-design-and-implement-review-loop",
         "title": "cursor-cli-hydra-claude-design-and-implement-review-loop",
-        "description": "Explicit hydra workflow variant that uses Claude Code Fable 5 for design and review agent steps, Cursor Composer 2.5 for implementation, and Claude Code Opus 4.8 for all other agent steps.",
+        "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
         "tags": [
           "workflow",
           "hydra"
@@ -2153,20 +2153,20 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "143e8e3a6202d965e51cec09993c134f"
+        "value": "d2a32f253b74d48c8df3beddb0c1b733"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "db466aac21085fd0a802b2e913a7dc0dcf2031e6ce67217ff6d1172055ba9de5"
+        "digest": "dc829e98eda80db8f7e7f57529b11f90ad89f38fe242dbfcc4a0d6bcaef30f92"
       }
     },
     {
       "name": "cursor-cli-hydra-codex-design-and-implement-review-loop",
       "directory": "packages/cursor-cli-hydra-codex-design-and-implement-review-loop",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "kind": "workflow",
       "title": "cursor-cli-hydra-codex-design-and-implement-review-loop",
-      "description": "Explicit hydra workflow variant that uses Codex GPT-5.6 SOL for design, review, and all non-implementation agent steps, while using Cursor Composer 2.5 for implementation.",
+      "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
       "tags": [
         "hydra",
         "workflow"
@@ -2176,7 +2176,7 @@
       "workflow": {
         "directory": "workflows/cursor-cli-hydra-codex-design-and-implement-review-loop",
         "title": "cursor-cli-hydra-codex-design-and-implement-review-loop",
-        "description": "Explicit hydra workflow variant that uses Codex GPT-5.6 SOL for design, review, and all non-implementation agent steps, while using Cursor Composer 2.5 for implementation.",
+        "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
         "tags": [
           "workflow",
           "hydra"
@@ -2201,11 +2201,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "cd0b30886157931ef8f16a7db0e2d008"
+        "value": "81ffbdfe2ca88ba680979b5208df4135"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "75ea48ecf610cde43e7e9b57b048bccacc061f83d6d72d8296f7b0b5d280e8f4"
+        "digest": "b0d87348cdb298c5049d4588c97d13c3048e43ebc054d6d08856f055bf867658"
       }
     },
     {
@@ -2654,10 +2654,10 @@
     {
       "name": "fable-and-improve-codex",
       "directory": "packages/fable-and-improve-codex",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "kind": "workflow",
       "title": "fable-and-improve-codex",
-      "description": "Claude-only invocation skill for a workflow where Fable analyzes, designs, plans, and verifies; Codex Terra implements and Codex SOL independently reviews.",
+      "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
       "tags": [
         "claude-code",
         "codex",
@@ -2670,7 +2670,7 @@
       "workflow": {
         "directory": "workflows/fable-and-improve-codex",
         "title": "fable-and-improve-codex",
-        "description": "Fable owns analysis, design, planning, and acceptance; Codex Terra implements and Codex SOL reviews.",
+        "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
         "tags": [
           "workflow",
           "claude-code",
@@ -2694,20 +2694,20 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "44724e5d4f5322d0d11a64f76cd640fb"
+        "value": "8c2aa5e9d8fe78a0335b02ec3c049a2b"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "8a731d31eb7236733141af8d25f310f9bd6ed449aa261b8b9e2463e9855a86b5"
+        "digest": "8cd326741447a155457e6c6fdb033ecbf59d07599e1aeb54b1323fe048999717"
       }
     },
     {
       "name": "fable-and-improve-opus",
       "directory": "packages/fable-and-improve-opus",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "kind": "workflow",
       "title": "fable-and-improve-opus",
-      "description": "Claude Fable analyzes, designs, and plans development; Claude Opus 5 implements and independently reviews; Fable verifies completion.",
+      "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
       "tags": [
         "claude-code",
         "fable",
@@ -2720,7 +2720,7 @@
       "workflow": {
         "directory": "workflows/fable-and-improve-opus",
         "title": "fable-and-improve-opus",
-        "description": "Fable owns analysis, design, planning, and acceptance; Opus implements and independently reviews.",
+        "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
         "tags": [
           "workflow",
           "claude-code",
@@ -2742,11 +2742,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "e49eec2a9adeb1a47f2ad4c9716fc2f9"
+        "value": "fb6525521a699b92609cf1bab18a102e"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "5000caf034e4a8ee4372a6dfcdea59e483f51d9050f472024e6c162738046af2"
+        "digest": "a4b6019c7aae4c9c8cac4807318d159a8e5e79fed45fbb00c92fa81608981ac5"
       }
     },
     {

@@ -48,3 +48,5 @@ Return adapter JSON with this shape:
 ```
 
 Use `when.needs_revision: false`, `payload.needs_revision: false`, and `payload.accepted: true` only when there are no high or mid findings.
+
+In native fanout, review only runtimeVariables.implementation's assigned plan and its interaction with the shared tree. Read per-edit intent and snapshots, detect changes lost since implementation, and record evidence for the serial integration reviewer. Do not modify files or run git mutations. A moving tree invalidates stale review evidence: re-read affected files and report drift. Preserve planId and repair requests in your payload; branch acceptance does not replace final combined-tree review.

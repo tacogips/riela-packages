@@ -5,7 +5,7 @@
   "nodeType": "command",
   "variables": {},
   "command": {
-    "scriptPath": "scripts/archive-completed-plans.sh"
+    "scriptPath": "scripts/archive-completed-plans.py"
   },
   "output": {
     "description": "Return JSON with archived plan paths, skipped plan paths, active plans remaining, and index update results."

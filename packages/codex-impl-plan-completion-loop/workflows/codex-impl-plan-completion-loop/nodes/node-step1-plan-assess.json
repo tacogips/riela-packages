@@ -5,7 +5,7 @@
   "nodeType": "command",
   "variables": {},
   "command": {
-    "scriptPath": "scripts/assess-plan.sh",
+    "scriptPath": "scripts/assess-plan.py",
     "envTemplate": {
       "PLAN_PATH": "{{planPath}}",
       "TARGET_TASKS_JSON": "{{targetTasks}}"

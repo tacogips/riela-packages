@@ -1,13 +1,13 @@
 {
   "name": "codex-impl-plan-completion-loop",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "title": "codex-impl-plan-completion-loop",
-  "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to codex-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
+  "description": "Assess active plans as a batch, delegate dependency-aware shared-branch implementation/review, and archive completed plans using Python.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "0b9c16791878b090a516cd202ecd8880",
+  "checksum": "898386250f31d2e3e56d7cc433115c69",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-impl-plan-completion-loop",
   "dependencies": [
@@ -16,7 +16,7 @@
   "repository": "https://github.com/tacogips/riela-packages",
   "workflow": {
     "title": "codex-impl-plan-completion-loop",
-    "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to codex-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
+    "description": "Assess active plans as a batch, delegate dependency-aware shared-branch implementation/review, and archive completed plans using Python.",
     "tags": [
       "workflow"
     ],
@@ -26,7 +26,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "d6a6fb62e4d439d14ba7988cc9238c61f392e2289dc4bf4315aa69cccba4fcd1"
+    "digest": "6887b319dcd2f09cfd38dc85d57582d09bd6cddb6912ea4e53c7b44160b96fe3"
   },
   "backends": [
     "codex-agent"

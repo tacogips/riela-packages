@@ -19,7 +19,10 @@ Rules:
 - Instruct the delegated workflow to use the existing implementation plan as the source of truth, update relevant design only when required by the plan or discovered constraints, implement the plan tasks, run verification, update the plan progress, adversarially review the implemented result, and fix any high or medium adversarial findings.
 - Preserve any operator-provided constraints from `runtimeVariables.workflowInput.constraints`.
 - Do not stage, commit, push, or revert files in this handoff step. Commit and push behavior belongs to the delegated workflow.
-- Keep the request scoped to one selected plan. This parent workflow will reassess `impl-plans/active` after the delegated workflow returns.
+- Pass payload.implementationPlanPaths as workflowInput.implementationPlanPaths. In automatic selection mode this is the complete incomplete-plan batch; an explicit plan request remains a singleton. Do not start one independently committing callee per plan.
+- Ask the delegated workflow's SINGLE design/plan authors to reconcile dependencies and overlaps across this batch, checkpoint all accepted plans, and execute dependency-ready implementation/review waves via native same-branch fanout with overwrite detection and serial reconciliation.
+- Preserve workflowInput.baseBranch and remote when supplied. This parent reassesses active plans only after the entire delegated batch has finalized.
+- Set requestedBehavior and reviewSubject to cover EVERY implementationPlanPaths entry; planPath is a backward-compatible primary pointer, not the batch boundary.
 
 Return adapter JSON shaped like:
 

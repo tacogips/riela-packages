@@ -1,6 +1,6 @@
 ---
 name: fable-and-improve-codex
-description: Run the fable-and-improve-codex Riela workflow when Claude Fable should analyze, design, and author the implementation plan, Codex Terra should implement, Codex SOL should independently review, and Fable should verify completion.
+description: Run the fable-and-improve-codex Riela workflow when Claude Fable should analyze, design, and author the implementation plan, Codex SOL should implement, Codex Terra should independently review, and Fable should verify completion.
 ---
 
 # Fable And Improve Codex
@@ -10,8 +10,8 @@ Run the installed workflow instead of manually emulating its orchestration.
 ## Responsibility split
 
 - Fable `claude-fable-5`: analysis, design, implementation plan, replanning, final acceptance, knowledge-base self-review
-- Codex `gpt-5.6-terra`: implementation, tests, verification, and improvements
-- Codex `gpt-5.6-sol`: independent read-only implementation review
+- Codex `gpt-5.6-sol`: implementation, tests, verification, and improvements
+- Codex `gpt-5.6-terra`: independent read-only implementation review
 
 ## Knowledge base
 
@@ -42,3 +42,5 @@ changed files, verification, review evidence, residual risks, and
 `goalAchieved` status.
 
 Design and implementation planning run together in fable-design. Require both artifacts and their consistency evidence; the independent implementation review and Fable goal review still gate acceptance.
+
+Implementation/review uses native same-branch Riela fanout with change evidence and serial overwrite reconciliation. Codex Astra independently checks combined design/implementation consistency; existing Claude Fable design and goal-review roles are unchanged. Plans are committed first; final commit, push and base integration run serially. No worktrees.

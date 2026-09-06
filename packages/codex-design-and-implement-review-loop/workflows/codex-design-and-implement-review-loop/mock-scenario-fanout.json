@@ -14,64 +14,37 @@
     "provider": "scenario-mock",
     "model": "gpt-5.6-sol",
     "when": {
-      "has_feature_fanout": true
+      "always": true
     },
     "payload": {
       "workflowMode": "issue-resolution",
-      "issueReference": "tacogips/example#456",
-      "issueTitle": "Add three independent engagement features",
-      "problemSummary": "Three independent feature areas can be designed and planned concurrently before dependency-aware implementation.",
+      "issueReference": "tacogips/cursor-agent#123",
+      "issueTitle": "Persist workflow review findings across reruns",
+      "problemSummary": "Review findings are lost across reruns, so subsequent retries cannot reliably address earlier review feedback.",
       "acceptanceSignals": [
-        "Each feature has an accepted design and implementation plan."
+        "Review findings remain available after a rerun.",
+        "Implementation retries can read prior high and mid feedback."
       ],
       "impactedAreas": [
-        "feature A area",
-        "feature B area",
-        "feature C area"
+        "workflow execution state",
+        "review handoff storage",
+        "implementation retry flow"
       ],
       "constraints": [
-        "Preserve existing behavior."
+        "Preserve existing workflow step-addressed behavior."
       ],
-      "unknowns": [],
-      "risks": [],
-      "reviewMode": "standard",
-      "riskLevel": "normal",
-      "requiresAdversarialReview": false,
+      "unknowns": [
+        "Retention duration for stored findings still needs product confirmation."
+      ],
+      "risks": [
+        "Retention semantics are not fully decided."
+      ],
+      "reviewMode": "adversarial",
+      "riskLevel": "high",
+      "requiresAdversarialReview": true,
       "codexAgentReferences": [],
       "referenceRepositoryRoot": "",
-      "referenceRepositoryUrl": "",
-      "featureFanoutItems": [
-        {
-          "featureId": "feature-a",
-          "featureTitle": "Feature A",
-          "featureSummary": "First independent feature.",
-          "issueReference": "tacogips/example#456",
-          "workflowMode": "issue-resolution",
-          "designDocPath": "design-docs/specs/feature-a.md",
-          "implPlanPath": "impl-plans/active/feature-a.md",
-          "codexAgentReferences": []
-        },
-        {
-          "featureId": "feature-b",
-          "featureTitle": "Feature B",
-          "featureSummary": "Second independent feature.",
-          "issueReference": "tacogips/example#456",
-          "workflowMode": "issue-resolution",
-          "designDocPath": "design-docs/specs/feature-b.md",
-          "implPlanPath": "impl-plans/active/feature-b.md",
-          "codexAgentReferences": []
-        },
-        {
-          "featureId": "feature-c",
-          "featureTitle": "Feature C",
-          "featureSummary": "Third independent feature.",
-          "issueReference": "tacogips/example#456",
-          "workflowMode": "issue-resolution",
-          "designDocPath": "design-docs/specs/feature-c.md",
-          "implPlanPath": "impl-plans/active/feature-c.md",
-          "codexAgentReferences": []
-        }
-      ]
+      "referenceRepositoryUrl": ""
     }
   },
   "step2-design-doc-update": [
@@ -631,71 +604,148 @@
         "packages/riela/src/workflow/review-findings.test.ts",
         "README.md",
         ".agents/skills/riela-impl-workflow/SKILL.md"
-      ]
+      ],
+      "baseBranch": "main",
+      "mergeStatus": "already-on-base",
+      "basePushStatus": "pushed"
     }
   },
-  "feature-local-plan": {
+  "plan-checkpoint": {
     "provider": "scenario-mock",
-    "model": "gpt-6-astra",
+    "model": "gpt-5.6-sol",
     "when": {
       "always": true
     },
     "payload": {
-      "workflowMode": "issue-resolution",
-      "issueReference": "tacogips/example#456",
-      "featureId": "feature-branch",
-      "featureTitle": "Feature branch",
-      "designDocPaths": [
-        "design-docs/specs/feature-branch.md"
+      "commitMessage": "docs: checkpoint shared-branch implementation plans",
+      "committedFiles": [
+        "impl-plans/active/a.md",
+        "impl-plans/active/b.md"
       ],
-      "implPlanPaths": [
-        "impl-plans/active/feature-branch.md"
-      ],
-      "reviewDecisions": {
-        "design": "accepted",
-        "implementationPlan": "accepted"
-      },
-      "codexAgentReferences": [],
-      "verification": "Design and implementation plan self-reviewed and independently reviewed; no high or mid findings remain.",
-      "addressedFeedback": [],
-      "risks": []
+      "manifestPath": "impl-plans/active/mock-dispatch.json"
     }
   },
-  "step5-feature-plan-join": {
+  "plan-git-commit": {
     "provider": "scenario-mock",
-    "model": "gpt-6-astra",
+    "model": "gpt-5.6-sol",
     "when": {
-      "planning_only": false
+      "always": true
     },
     "payload": {
-      "workflowMode": "issue-resolution",
-      "issueReference": "tacogips/example#456",
-      "fanoutGroupRunId": "feature-local-planning",
-      "joinedFeaturePlans": [
+      "git": {
+        "status": "committed",
+        "commitHash": "1111111111111111111111111111111111111111",
+        "operation": "commit"
+      }
+    }
+  },
+  "dispatch-plans": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "implementationItems": [
         {
-          "featureId": "feature-a",
-          "designDocPath": "design-docs/specs/feature-a.md",
-          "implPlanPath": "impl-plans/active/feature-a.md"
+          "planId": "a",
+          "planPath": "impl-plans/active/a.md",
+          "dependsOn": [],
+          "writePaths": [
+            "a.txt"
+          ],
+          "sharedPaths": [
+            "shared.txt"
+          ],
+          "acceptanceCriteria": [
+            "a behavior retained"
+          ],
+          "trackedPaths": [
+            "a.txt",
+            "shared.txt"
+          ]
         },
         {
-          "featureId": "feature-b",
-          "designDocPath": "design-docs/specs/feature-b.md",
-          "implPlanPath": "impl-plans/active/feature-b.md"
-        },
-        {
-          "featureId": "feature-c",
-          "designDocPath": "design-docs/specs/feature-c.md",
-          "implPlanPath": "impl-plans/active/feature-c.md"
+          "planId": "b",
+          "planPath": "impl-plans/active/b.md",
+          "dependsOn": [],
+          "writePaths": [
+            "b.txt"
+          ],
+          "sharedPaths": [
+            "shared.txt"
+          ],
+          "acceptanceCriteria": [
+            "b behavior retained"
+          ],
+          "trackedPaths": [
+            "b.txt",
+            "shared.txt"
+          ]
         }
       ],
-      "branchOutputRefs": [
-        "feature-a",
-        "feature-b",
-        "feature-c"
+      "acceptedPlanIds": []
+    }
+  },
+  "branch-evidence": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "evidencePaths": [
+        "tmp/mock/accepted.json"
       ],
-      "dependencyAwareImplementationNotes": "Implement features A, B, then C in dependency order.",
-      "addressedFeedback": [],
-      "risks": []
+      "changedFiles": [
+        "shared.txt"
+      ],
+      "reviewDecisions": {
+        "accepted": true
+      }
+    }
+  },
+  "reconcile-implementations": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "repairs": [],
+      "unresolvedFindings": [],
+      "verification": [
+        "mock combined check"
+      ]
+    }
+  },
+  "integration-review": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "needs_revision": false,
+      "plans_remaining": false
+    },
+    "payload": {
+      "accepted": true,
+      "findings": [],
+      "needs_revision": false,
+      "plans_remaining": false
+    }
+  },
+  "base-branch-integrate": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "mergeStatus": "already-on-base",
+      "baseBranch": "main",
+      "basePushStatus": "pushed",
+      "implementationCommit": "abc123def4567890abc123def4567890abc123de",
+      "implementationBranch": "main",
+      "remote": "origin"
     }
   }
 }
