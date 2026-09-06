@@ -2,7 +2,7 @@
   "id": "step3-design-review",
   "description": "Review the design-doc update and route back when any high or mid finding exists.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-astra",
   "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/step3-design-review.md",

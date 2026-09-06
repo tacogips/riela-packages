@@ -2,7 +2,7 @@
 
 Shared Codex workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.
 
-Design, planning, and review nodes use Codex GPT-5.6 SOL. The implementation node uses Codex GPT-5.6 Terra, while its follow-up self-review returns to SOL.
+Design, design-review, implementation-plan, and implementation-plan-review nodes use Codex GPT-6 Astra. The implementation node uses Codex GPT-5.6 Terra. Implementation self-review, test-integrity review, independent implementation review, and adversarial implementation review use Codex GPT-5.6 SOL.
 
 - Package id: `codex-design-and-implement-review-loop`
 - Backends: `codex-agent`

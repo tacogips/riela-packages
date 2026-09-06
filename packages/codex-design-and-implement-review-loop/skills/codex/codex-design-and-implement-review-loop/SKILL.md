@@ -10,9 +10,12 @@ manually emulating its orchestration.
 
 ## Responsibility split
 
-- Codex `gpt-5.6-sol`: intake, design, plan creation, self-review, independent
-  review gates, test-integrity review, documentation, and completion checks
+- Codex `gpt-6-astra`: design, design review, implementation-plan creation,
+  implementation-plan review, and feature-local plan joining
 - Codex `gpt-5.6-terra`: implementation, tests, verification, and revisions
+- Codex `gpt-5.6-sol`: intake, implementation self-review, test-integrity
+  review, independent and adversarial implementation review, documentation,
+  and completion checks
 
 The workflow supports ordinary issue resolution and planning-only handoff. It
 can fan out independent feature plans, joins them before implementation, and

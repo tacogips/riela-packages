@@ -77,7 +77,7 @@
   "step2-design-doc-update": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-5.6-sol",
+      "model": "gpt-6-astra",
       "when": {
         "always": true
       },
@@ -108,7 +108,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-5.6-sol",
+      "model": "gpt-6-astra",
       "when": {
         "always": true
       },
@@ -142,7 +142,7 @@
   ],
   "step2-design-self-review": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "when": {
       "needs_revision": false
     },
@@ -160,7 +160,7 @@
   "step3-design-review": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-5.6-sol",
+      "model": "gpt-6-astra",
       "when": {
         "needs_revision": true,
         "requires_adversarial_review": false
@@ -184,7 +184,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-5.6-sol",
+      "model": "gpt-6-astra",
       "when": {
         "needs_revision": false
       },
@@ -199,7 +199,7 @@
   "step4-impl-plan-create": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-5.6-sol",
+      "model": "gpt-6-astra",
       "when": {
         "always": true
       },
@@ -235,7 +235,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-5.6-sol",
+      "model": "gpt-6-astra",
       "when": {
         "always": true
       },
@@ -281,7 +281,7 @@
   ],
   "step4-impl-plan-self-review": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "when": {
       "needs_design_revision": false,
       "needs_revision": false
@@ -301,7 +301,7 @@
   "step5-impl-plan-review": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-5.6-sol",
+      "model": "gpt-6-astra",
       "when": {
         "needs_design_revision": false,
         "needs_revision": true,
@@ -328,7 +328,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-5.6-sol",
+      "model": "gpt-6-astra",
       "when": {
         "needs_design_revision": false,
         "needs_revision": false,
@@ -707,7 +707,7 @@
   },
   "feature-local-plan": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "when": {
       "always": true
     },
@@ -734,7 +734,7 @@
   },
   "step5-feature-plan-join": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "when": {
       "planning_only": false
     },
