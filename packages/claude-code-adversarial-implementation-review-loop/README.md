@@ -1,6 +1,6 @@
 # claude-code-adversarial-implementation-review-loop
 
-Run a scoped Claude Code implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.
+Run a scoped implementation request, review correctness, integration, and adversarial lenses concurrently, reduce findings, and delegate blocking fixes until accepted.
 
 - Package id: `claude-code-adversarial-implementation-review-loop`
 - Backends: `claude-code-agent`

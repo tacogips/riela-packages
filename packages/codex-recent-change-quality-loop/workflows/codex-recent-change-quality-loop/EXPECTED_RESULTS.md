@@ -41,6 +41,8 @@ Expected stable run summary:
 
 Expected final output node: `workflow-output`
 
+Expected fanout behavior: each of the two review passes dispatches the `runtime` and `docs-tests` read-only slices before the serial exit gate. Nested branch executions are not counted in the parent `nodeExecutions` total.
+
 Expected stable workflow-call facts:
 
 - the parent session records one communication with `transitionWhen = "workflow-call:__cw:step3-handoff"`

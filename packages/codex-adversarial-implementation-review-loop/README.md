@@ -1,6 +1,6 @@
 # codex-adversarial-implementation-review-loop
 
-Run a scoped Codex implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.
+Run a scoped implementation request, review independent correctness, integration, and adversarial lenses concurrently, reduce findings, delegate blocking fixes, and repeat until accepted.
 
 - Package id: `codex-adversarial-implementation-review-loop`
 - Backends: `codex-agent`

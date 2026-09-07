@@ -325,9 +325,9 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
 - [fable-and-improve-opus](packages/fable-and-improve-opus) -
   Fable authors design/plans; existing Claude models implement/review through native shared-branch fanout, overwrite reconciliation and serialized Git finalization.
 - [claude-code-deepdesign](packages/claude-code-deepdesign) -
-  Create and iteratively review design-doc specifications with one Claude Code author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain. `backend: claude-code-agent`.
+  Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings, and revise until accepted. `backend: claude-code-agent`.
 - [claude-code-adversarial-implementation-review-loop](packages/claude-code-adversarial-implementation-review-loop) -
-  Run a scoped Claude Code implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain. `backend: claude-code-agent`.
+  Run a scoped implementation request, review correctness, integration, and adversarial lenses concurrently, reduce findings, and delegate blocking fixes until accepted. `backend: claude-code-agent`.
 - [claude-code-design-and-implement-review-loop](packages/claude-code-design-and-implement-review-loop) -
   Single-author design/planning, native shared-branch implementation/review fanout, overwrite reconciliation and serialized commit/push/base integration.
 - [claude-code-goal](packages/claude-code-goal) -
@@ -345,19 +345,19 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
   reviewed and improved before final output. Uses Claude Code Opus 4.8.
   `backend: claude-code-agent`.
 - [claude-code-recent-change-quality-loop](packages/claude-code-recent-change-quality-loop) -
-  Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain. `backend: claude-code-agent`.
+  Inventory recent committed and uncommitted changes, review independent slices concurrently with bounded read-only fanout, reduce findings, and delegate blocking fixes until no high or mid findings remain. `backend: claude-code-agent`.
 - [claude-code-refactoring-divide-and-conquer](packages/claude-code-refactoring-divide-and-conquer) -
-  Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts. `backend: claude-code-agent`.
+  Divide the codebase into slices, review concurrently, build a dependency-aware refactoring task DAG, implement ready disjoint tasks in shared-workspace waves, reconcile and review each wave, and repeat until complete. `backend: claude-code-agent`.
 - [claude-code-refactoring-slice-review](packages/claude-code-refactoring-slice-review) -
   Read-only review workflow for one codebase slice produced by claude-code-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept. `backend: claude-code-agent`.
 - [claude-code-simple-work-package](packages/claude-code-simple-work-package) -
   Lightweight Claude Code workflow for small code or documentation changes when no dedicated workflow applies. It implements with Claude Code Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings. `backend: claude-code-agent`.
 - [claude-code-source-security-check-loop](packages/claude-code-source-security-check-loop) -
-  Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Claude Code, delegate blocking fixes, and rescan until verified high and medium findings are resolved. `backend: claude-code-agent`; includes Claude skills.
+  Run deterministic security checks, partition the attack surface, review focus areas concurrently, reduce and adversarially verify findings, then delegate blocking fixes. `backend: claude-code-agent`; includes Claude skills.
 - [claude-code-task-watchdog](packages/claude-code-task-watchdog) -
   Long-running Claude Code task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Claude Code execution, post-task skill mining, skill review, and commit. `backend: claude-code-agent`; includes Claude skills.
 - [claude-code-website-builder](packages/claude-code-website-builder) -
-  Event-ready Claude Code workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites. `backend: claude-code-agent`.
+  Design, build, and run a SolidJS site, then review UX, assets, and implementation concurrently before deterministic iteration. `backend: claude-code-agent`.
 - [claude-code-worker-only-single-step](packages/claude-code-worker-only-single-step) -
   Minimal manager-less reference workflow that starts directly at one worker step through explicit entryStepId authoring. `backend: claude-code-agent`.
 
@@ -374,9 +374,9 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
   the full standard developer workflow set. `backend: cursor-cli-agent`;
   includes Cursor skills.
 - [cursor-cli-deepdesign](packages/cursor-cli-deepdesign) -
-  Create and iteratively review design-doc specifications with one Cursor CLI author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain. `backend: cursor-cli-agent`.
+  Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings, and revise until accepted. `backend: cursor-cli-agent`.
 - [cursor-cli-adversarial-implementation-review-loop](packages/cursor-cli-adversarial-implementation-review-loop) -
-  Run a scoped Cursor CLI implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain. `backend: cursor-cli-agent`.
+  Run a scoped implementation request, review correctness, integration, and adversarial lenses concurrently, reduce findings, and delegate blocking fixes until accepted. `backend: cursor-cli-agent`.
 - [cursor-cli-design-and-implement-review-loop](packages/cursor-cli-design-and-implement-review-loop) -
   Single-author design/planning, native shared-branch implementation/review fanout, overwrite reconciliation and serialized commit/push/base integration.
 - [cursor-cli-fable-design-and-implement-review-loop](packages/cursor-cli-fable-design-and-implement-review-loop) -
@@ -401,19 +401,19 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
   review steps, while delegated implementation steps use Composer 2.5.
   `backend: cursor-cli-agent`.
 - [cursor-cli-recent-change-quality-loop](packages/cursor-cli-recent-change-quality-loop) -
-  Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain. `backend: cursor-cli-agent`.
+  Inventory recent committed and uncommitted changes, review independent slices concurrently with bounded read-only fanout, reduce findings, and delegate blocking fixes until no high or mid findings remain. `backend: cursor-cli-agent`.
 - [cursor-cli-refactoring-divide-and-conquer](packages/cursor-cli-refactoring-divide-and-conquer) -
-  Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts. `backend: cursor-cli-agent`.
+  Divide the codebase into slices, review concurrently, build a dependency-aware refactoring task DAG, implement ready disjoint tasks in shared-workspace waves, reconcile and review each wave, and repeat until complete. `backend: cursor-cli-agent`.
 - [cursor-cli-refactoring-slice-review](packages/cursor-cli-refactoring-slice-review) -
   Read-only review workflow for one codebase slice produced by cursor-cli-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept. `backend: cursor-cli-agent`.
 - [cursor-cli-simple-work-package](packages/cursor-cli-simple-work-package) -
   Lightweight Cursor CLI workflow for small code or documentation changes when no dedicated workflow applies. It implements with Cursor CLI Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings. `backend: cursor-cli-agent`.
 - [cursor-cli-source-security-check-loop](packages/cursor-cli-source-security-check-loop) -
-  Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Cursor CLI, delegate blocking fixes, and rescan until verified high and medium findings are resolved. `backend: cursor-cli-agent`; includes Cursor skills.
+  Run deterministic security checks, partition the attack surface, review focus areas concurrently, reduce and adversarially verify findings, then delegate blocking fixes. `backend: cursor-cli-agent`; includes Cursor skills.
 - [cursor-cli-task-watchdog](packages/cursor-cli-task-watchdog) -
   Long-running Cursor CLI task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Cursor CLI execution, post-task skill mining, skill review, and commit. `backend: cursor-cli-agent`; includes Cursor skills.
 - [cursor-cli-website-builder](packages/cursor-cli-website-builder) -
-  Event-ready Cursor CLI workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites. `backend: cursor-cli-agent`.
+  Design, build, and run a SolidJS site, then review UX, assets, and implementation concurrently before deterministic iteration. `backend: cursor-cli-agent`.
 
 ### Skill Packages
 

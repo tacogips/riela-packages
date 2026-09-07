@@ -1,6 +1,6 @@
 {
   "workflowId": "cursor-cli-website-builder",
-  "description": "Event-ready Cursor CLI workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+  "description": "Design, build, and run a SolidJS site, then review UX, assets, and implementation concurrently before deterministic iteration.",
   "extends": {
     "workflowId": "codex-website-builder",
     "stringReplacements": {

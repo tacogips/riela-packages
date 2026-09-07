@@ -31,13 +31,15 @@ Expected stable run summary:
   "status": "completed",
   "workflowName": "codex-deepdesign",
   "workflowId": "codex-deepdesign",
-  "nodeExecutions": 8,
-  "transitions": 7,
+  "nodeExecutions": 6,
+  "transitions": 5,
   "exitCode": 0
 }
 ```
 
 Expected final output node: `workflow-output`
+
+Expected fanout behavior: two review rounds, each dispatching the `deep`, `broad`, and `adversarial` branches before one `review-reducer` execution.
 
 Expected final output payload:
 

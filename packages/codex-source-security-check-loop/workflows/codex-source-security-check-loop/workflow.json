@@ -1,16 +1,17 @@
 {
   "workflowId": "codex-source-security-check-loop",
-  "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Codex, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
+  "description": "Run deterministic security checks, partition the attack surface, review independent focus areas concurrently, reduce and adversarially verify findings, then delegate blocking fixes until resolved.",
   "defaults": {
     "maxLoopIterations": 8,
     "nodeTimeoutMs": 3600000,
     "supervision": {
       "monitorIntervalMs": 15000,
       "stallTimeoutMs": 300000
-    }
+    },
+    "fanoutConcurrency": 8
   },
   "prompts": {
-    "rielaPromptTemplate": "Coordinate {{workflowId}}. Start with deterministic security scanning, derive harness-style attack-surface focus areas, triage the scanner evidence and source code, then run an adversarial verification pass before routing. If verified high or medium findings remain, package a narrow fix request for codex-design-and-implement-review-loop. After the delegated fix returns, rescan deterministically and rerun harness recon, triage, and adversarial verification. Repeat until no verified high or medium findings remain, then publish output. Low findings may be accepted only when explicitly documented as residual risk.",
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Run deterministic scanning, derive complete independent securityReviewItems, fan them out as bounded read-only source reviews, reduce every result, then run adversarial verification before routing. If verified high or medium findings remain, delegate a narrow fix request to codex-design-and-implement-review-loop. After the fix, repeat the complete scan, recon, fanout, reduction, and verification cycle.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Keep commands, scanner availability, findings, severity, affected files, fix scope, verification, routing decisions, and residual risks explicit."
   },
   "managerStepId": "riela-manager",
@@ -31,6 +32,10 @@
     {
       "id": "security-triage",
       "nodeFile": "nodes/node-security-triage.json"
+    },
+    {
+      "id": "parallel-security-review",
+      "nodeFile": "nodes/node-parallel-security-review.json"
     },
     {
       "id": "adversarial-verification",
@@ -80,7 +85,31 @@
     {
       "id": "step2-harness-recon",
       "nodeId": "harness-recon",
-      "description": "Derive harness-style attack-surface focus areas, threat classes, and verifier rubric from source and scan evidence.",
+      "description": "Derive the threat model, verifier rubric, and complete independent security-review fanout items.",
+      "role": "worker",
+      "stallTimeoutMs": 900000,
+      "transitions": [
+        {
+          "toStepId": "parallel-security-review",
+          "fanout": {
+            "groupId": "security-focus-area-review",
+            "itemsFrom": "/securityReviewItems",
+            "itemVariable": "securityReview",
+            "concurrency": 8,
+            "joinStepId": "step3-security-triage",
+            "failurePolicy": "collect-partial",
+            "resultOrder": "input",
+            "writeOwnership": {
+              "mode": "read-only"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "parallel-security-review",
+      "nodeId": "parallel-security-review",
+      "description": "Review one source-grounded security focus area without modifying or executing the target.",
       "role": "worker",
       "stallTimeoutMs": 900000,
       "transitions": [
@@ -92,7 +121,7 @@
     {
       "id": "step3-security-triage",
       "nodeId": "security-triage",
-      "description": "Review deterministic evidence and source code against the harness focus areas and secure-code-review controls.",
+      "description": "Reduce all focus-area fanout results into one evidence-backed triage set.",
       "role": "worker",
       "stallTimeoutMs": 900000,
       "transitions": [
@@ -163,11 +192,13 @@
   "metadata": {
     "rielaPackage": {
       "title": "codex-source-security-check-loop",
-      "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Codex, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
+      "description": "Run deterministic checks and bounded parallel attack-surface review before reduction, adversarial verification, and delegated fixes.",
       "tags": [
         "workflow",
         "security",
-        "sast"
+        "sast",
+        "fanout",
+        "concurrency"
       ],
       "backends": [
         "native-command",

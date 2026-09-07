@@ -1,6 +1,6 @@
 # claude-code-source-security-check-loop
 
-Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Claude Code, delegate blocking fixes, and rescan until verified high and medium findings are resolved.
+Run deterministic security checks, partition the attack surface, review focus areas concurrently, reduce and adversarially verify findings, then delegate blocking fixes.
 
 - Package id: `claude-code-source-security-check-loop`
 - Backends: `claude-code-agent`

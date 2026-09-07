@@ -66,6 +66,40 @@
         "verificationSuggestions": [
           "task riela-design-loop-validate",
           "task riela-recent-change-validate"
+        ],
+        "reviewSlices": [
+          {
+            "reviewId": "runtime",
+            "focus": "runtime correctness and recovery",
+            "changedPaths": [
+              "packages/example/src/runtime.ts"
+            ],
+            "diffCommands": [
+              "git diff"
+            ],
+            "crossCuttingChecks": [
+              "callers"
+            ],
+            "verificationCommands": [
+              "bun test"
+            ]
+          },
+          {
+            "reviewId": "docs-tests",
+            "focus": "tests and documentation contracts",
+            "changedPaths": [
+              "README.md"
+            ],
+            "diffCommands": [
+              "git diff"
+            ],
+            "crossCuttingChecks": [
+              "public behavior"
+            ],
+            "verificationCommands": [
+              "bun test"
+            ]
+          }
         ]
       }
     },
@@ -94,6 +128,40 @@
           "task riela-design-loop-validate",
           "task riela-recent-change-validate",
           "task riela-workflows"
+        ],
+        "reviewSlices": [
+          {
+            "reviewId": "runtime",
+            "focus": "runtime correctness and recovery",
+            "changedPaths": [
+              "packages/example/src/runtime.ts"
+            ],
+            "diffCommands": [
+              "git diff"
+            ],
+            "crossCuttingChecks": [
+              "callers"
+            ],
+            "verificationCommands": [
+              "bun test"
+            ]
+          },
+          {
+            "reviewId": "docs-tests",
+            "focus": "tests and documentation contracts",
+            "changedPaths": [
+              "README.md"
+            ],
+            "diffCommands": [
+              "git diff"
+            ],
+            "crossCuttingChecks": [
+              "public behavior"
+            ],
+            "verificationCommands": [
+              "bun test"
+            ]
+          }
         ]
       }
     }
@@ -343,8 +411,7 @@
         "README.md",
         ".riela/README.md"
       ],
-      "skillFiles": [
-      ],
+      "skillFiles": [],
       "documentationSummary": "Repository-facing workflow documentation was refreshed to explain the delegated recent-change remediation path.",
       "addressedBehaviorChanges": [
         "Documented that codex-recent-change-quality-loop hands blocking findings into codex-design-and-implement-review-loop before re-review."
@@ -486,5 +553,153 @@
         "A future polish pass could narrow the delegated issue title further."
       ]
     }
-  }
+  },
+  "parallel-review": [
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "hours": 24,
+        "historyBase": "HEAD~2",
+        "reviewedCommands": [
+          "git rev-list -n 1 --before=\"24 hours ago\" HEAD",
+          "git log --since=\"24 hours ago\" --stat --name-status",
+          "git diff --cached",
+          "git diff"
+        ],
+        "reviewedCommittedRange": "HEAD~2..HEAD",
+        "reviewedUncommitted": true,
+        "findings": [
+          {
+            "severity": "mid",
+            "file": "README.md",
+            "line": 1,
+            "message": "The repository does not explain that recent-change quality findings are delegated into the design-and-implement workflow before re-review.",
+            "recommendedFix": "Update the workflow definition and repository-facing docs so blocking findings are delegated through codex-design-and-implement-review-loop."
+          }
+        ],
+        "blockingFindingCount": 1,
+        "needs_fix": true,
+        "recommendedFixPlan": [
+          "Replace the local fixer step with a delegated workflow handoff.",
+          "Document the delegated-review behavior in README and .riela/README."
+        ],
+        "verificationSuggestions": [
+          "task riela-design-loop-validate",
+          "task riela-recent-change-validate"
+        ],
+        "reviewId": "runtime",
+        "reviewedPaths": [
+          "packages/example/src/runtime.ts"
+        ],
+        "verificationGaps": [],
+        "residualRisks": []
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "hours": 24,
+        "historyBase": "HEAD~3",
+        "reviewedCommands": [
+          "git rev-list -n 1 --before=\"24 hours ago\" HEAD",
+          "git log --since=\"24 hours ago\" --stat --name-status",
+          "git diff --cached",
+          "git diff"
+        ],
+        "reviewedCommittedRange": "HEAD~3..HEAD",
+        "reviewedUncommitted": false,
+        "findings": [],
+        "blockingFindingCount": 0,
+        "needs_fix": false,
+        "recommendedFixPlan": [],
+        "verificationSuggestions": [
+          "task riela-design-loop-validate",
+          "task riela-recent-change-validate",
+          "task riela-workflows"
+        ],
+        "reviewId": "docs-tests",
+        "reviewedPaths": [
+          "README.md"
+        ],
+        "verificationGaps": [],
+        "residualRisks": []
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "hours": 24,
+        "historyBase": "HEAD~3",
+        "reviewedCommands": [
+          "git rev-list -n 1 --before=\"24 hours ago\" HEAD",
+          "git log --since=\"24 hours ago\" --stat --name-status",
+          "git diff --cached",
+          "git diff"
+        ],
+        "reviewedCommittedRange": "HEAD~3..HEAD",
+        "reviewedUncommitted": false,
+        "findings": [],
+        "blockingFindingCount": 0,
+        "needs_fix": false,
+        "recommendedFixPlan": [],
+        "verificationSuggestions": [
+          "task riela-design-loop-validate",
+          "task riela-recent-change-validate",
+          "task riela-workflows"
+        ],
+        "reviewId": "runtime",
+        "reviewedPaths": [
+          "packages/example/src/runtime.ts"
+        ],
+        "verificationGaps": [],
+        "residualRisks": []
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "hours": 24,
+        "historyBase": "HEAD~3",
+        "reviewedCommands": [
+          "git rev-list -n 1 --before=\"24 hours ago\" HEAD",
+          "git log --since=\"24 hours ago\" --stat --name-status",
+          "git diff --cached",
+          "git diff"
+        ],
+        "reviewedCommittedRange": "HEAD~3..HEAD",
+        "reviewedUncommitted": false,
+        "findings": [],
+        "blockingFindingCount": 0,
+        "needs_fix": false,
+        "recommendedFixPlan": [],
+        "verificationSuggestions": [
+          "task riela-design-loop-validate",
+          "task riela-recent-change-validate",
+          "task riela-workflows"
+        ],
+        "reviewId": "docs-tests",
+        "reviewedPaths": [
+          "README.md"
+        ],
+        "verificationGaps": [],
+        "residualRisks": []
+      }
+    }
+  ]
 }

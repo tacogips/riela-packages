@@ -1,13 +1,13 @@
 {
   "name": "codex-refactoring-divide-and-conquer",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "title": "codex-refactoring-divide-and-conquer",
-  "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+  "description": "Divide the codebase into slices, review concurrently, build a dependency-aware refactoring task DAG, implement ready disjoint tasks in shared-workspace waves, reconcile and review each wave, and repeat until complete.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "76a83d043f7343a6508beec9eefbff3b",
+  "checksum": "fb5e838a0a0d4e6a59a161ae64a68edf",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-refactoring-divide-and-conquer",
   "dependencies": [
@@ -26,10 +26,11 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "d1ca052983c56b15f8a44a40c109d5761cd7de1d27fe5867a7c84c95713c3700"
+    "digest": "42b400573e37ff099b6ab087e1091d3925d489c04ea3a221735f74d165279101"
   },
   "backends": [
     "codex-agent"
   ],
-  "skillDirectory": "skills"
+  "skillDirectory": "skills",
+  "minimumRielaVersion": "0.1.37"
 }

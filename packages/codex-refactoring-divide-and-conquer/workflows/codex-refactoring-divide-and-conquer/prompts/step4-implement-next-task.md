@@ -1,12 +1,13 @@
-You are Step 4: implement exactly one ready refactoring task.
+You are Step 4: implement exactly one assigned refactoring task as a shared-workspace fanout branch.
 
 Inputs:
-- Use the latest Step 3 plan and any updated plan file as authoritative.
-- If Step 6 routed back because `plan_remaining` is true, select the next ready incomplete task.
-- If Step 5 or Step 6 routed back because `needs_revision` is true, revise the same task.
+- `runtimeVariables.refactorTask` is the complete authoritative task assigned to this branch.
+- Use the latest Step 3 plan and any updated plan file only as supporting context.
 
 Rules:
-- Implement one task only.
+- Implement only `runtimeVariables.refactorTask`; never select or begin another task.
+- Re-read owned files immediately before editing because sibling branches share the workspace.
+- Keep edits within `trackedPaths` and `ownedPaths`. If an unavoidable overlap or prerequisite appears, stop that part and report it as a blocker instead of racing a sibling.
 - Keep behavior and public APIs stable unless the plan explicitly authorizes a behavior change.
 - For duplicate-scavenge consolidation tasks, consolidate only the repeated concept
   named by the selected ready task. Treat the Step 3 duplicate group/task
@@ -18,6 +19,8 @@ Rules:
   or narrow owned abstraction when the plan identifies one. Do not create a new
   shared abstraction solely because two code blocks look similar.
 - Do not stage, commit, push, or revert unrelated dirty worktree changes.
+- Do not run a repository-wide formatter or modify shared lockfiles/build metadata unless the task explicitly owns them.
+- Use branch-isolated build/cache output paths when the toolchain supports them.
 - Do not broaden the refactor beyond the task's owned paths unless a dependency is unavoidable and documented.
 - Update the plan progress log immediately after the task iteration.
 - Mark the task completed only when every completion criterion is met and verification evidence is recorded.
@@ -40,6 +43,8 @@ Return JSON with:
 - `blocked`
 - `blockers`
 - `residualRisks`
+- `authorSelfCheck`
+- `dispatchId`
 
 Before returning, perform this author self-check inside the implementation execution. Fix high/mid issues within the selected task; preserve blocked findings explicitly. Include authorSelfCheck evidence in the implementation payload without replacing its other fields.
 

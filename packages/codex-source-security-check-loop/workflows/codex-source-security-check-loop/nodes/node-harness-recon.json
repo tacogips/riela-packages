@@ -8,6 +8,6 @@
   "promptTemplateFile": "prompts/harness-recon.md",
   "variables": {},
   "output": {
-    "description": "Return threat model, attack-surface focus areas, verifier rubric, and coverage gaps for downstream triage."
+    "description": "Return threat model, verifier rubric, coverage gaps, and 3-8 complete stable securityReviewItems for native fanout."
   }
 }

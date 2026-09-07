@@ -20,8 +20,8 @@ Design content must cover:
 - Testing or verification strategy at the design level.
 - Provisional decisions made without user confirmation, including their rationale and later review path.
 
-If this is a rerun after Node 2 or Node 3 review:
-- Read the latest review output before editing.
+If this is a rerun after the review reducer:
+- Read the complete merged reducer output before editing.
 - Address every `high` and `middle` finding explicitly.
 - Preserve accepted design decisions unless the review shows they are wrong or incomplete.
 - Record the feedback addressed in the returned JSON.
@@ -39,3 +39,7 @@ Return JSON with:
 - `openQuestions`
 - `verificationPlan`
 - `residualRisks`
+- `reviewItems`: always return these three complete, stable, input-ordered assignments so Riela can fan them out without reconstructing parent context:
+  1. `{ "reviewId": "deep", "focus": "feature invariants and irregular states", "checklist": [...] }`
+  2. `{ "reviewId": "broad", "focus": "repository and product integration", "checklist": [...] }`
+  3. `{ "reviewId": "adversarial", "focus": "failure, misuse, and misleading success", "checklist": [...] }`

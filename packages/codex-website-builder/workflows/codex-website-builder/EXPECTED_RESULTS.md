@@ -12,8 +12,9 @@
   with the repository mounted at `/workspace`.
 - Start a local Docker-hosted Bun server and return a review URL.
 - Commit generated website source snapshots before Playwright review.
-- Use Playwright in the review node and loop back to the correct node for high
-  or middle findings.
+- Dispatch Playwright-backed UX/design, assets/media, and implementation/runtime
+  review lenses concurrently, reduce their evidence serially, and loop back to
+  exactly one correction node for high or middle findings.
 - Finish only when the running site is accepted with no high or middle review
   findings.
 - Work with event-source configs outside the workflow, allowing users to enable

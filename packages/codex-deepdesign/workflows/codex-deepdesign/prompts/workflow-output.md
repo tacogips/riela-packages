@@ -1,6 +1,6 @@
 You are the workflow output step.
 
-Summarize the accepted design result after Node 2, Node 3, and Node 4 accepted the latest Node 1 design with no high or middle findings.
+Summarize the accepted design result after the parallel deep, broad, and adversarial review branches were reduced with no high or middle findings.
 
 Return JSON with:
 - `status`: `accepted`
@@ -15,3 +15,4 @@ Return JSON with:
 - `residualLowRisks`
 - `verificationPlan`
 - `recommendedNextSteps`
+- `fanoutSummary`: review IDs, concurrency used, and whether every branch completed

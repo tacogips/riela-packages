@@ -1,6 +1,6 @@
 {
   "workflowId": "codex-refactoring-divide-and-conquer",
-  "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+  "description": "Divide the codebase into slices, review concurrently, build a dependency-aware refactoring task DAG, implement ready disjoint tasks in shared-workspace waves, reconcile and review each wave, and repeat until complete.",
   "defaults": {
     "fanoutConcurrency": 8,
     "maxLoopIterations": 60,
@@ -101,7 +101,27 @@
         },
         {
           "toStepId": "step4-implement-next-task",
-          "label": "implementation_ready"
+          "label": "implementation_ready",
+          "fanout": {
+            "groupId": "refactoring-implementation-wave",
+            "itemsFrom": "/implementationItems",
+            "itemVariable": "refactorTask",
+            "concurrency": 4,
+            "joinStepId": "step6-post-refactor-review",
+            "failurePolicy": "collect-partial",
+            "resultOrder": "input",
+            "dependencies": {
+              "branchIdFrom": "/dispatchId",
+              "dependsOnFrom": "/dependsOnDispatchIds",
+              "completedBranchIdsFrom": "/acceptedDispatchIds"
+            },
+            "changeTracking": {
+              "pathsFrom": "/trackedPaths"
+            },
+            "writeOwnership": {
+              "mode": "shared-workspace"
+            }
+          }
         }
       ]
     },
@@ -123,11 +143,11 @@
       "role": "worker",
       "transitions": [
         {
-          "toStepId": "step4-implement-next-task",
+          "toStepId": "step3-merge-review-plan",
           "label": "needs_revision"
         },
         {
-          "toStepId": "step4-implement-next-task",
+          "toStepId": "step3-merge-review-plan",
           "label": "plan_remaining"
         },
         {
@@ -146,7 +166,7 @@
   "metadata": {
     "rielaPackage": {
       "title": "codex-refactoring-divide-and-conquer",
-      "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+      "description": "Review codebase slices concurrently, then implement dependency-ready refactoring tasks in bounded shared-workspace fanout waves with serial reconciliation.",
       "tags": [
         "workflow"
       ],

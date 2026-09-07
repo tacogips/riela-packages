@@ -1,15 +1,15 @@
 {
   "name": "cursor-cli-deepdesign",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "cursor-cli-deepdesign",
-  "description": "Create and iteratively review design-doc specifications with one Cursor CLI author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+  "description": "Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings, and revise until accepted.",
   "tags": [
     "workflow",
     "design-doc",
     "review"
   ],
   "registry": "default",
-  "checksum": "a8368a9cfad73d2e763a0122356f128c",
+  "checksum": "01d2a4833d03f99093e1abd60e934b8c",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-deepdesign",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "1d4f8155d1020792c40c13b4e86df72c3a877296d59a73f5a27ecf4b09d76fe3"
+    "digest": "aaac423988048e0c2794b20b5e203e9508175a443011d8bd1bc5c3c89606b552"
   },
   "backends": [
     "cursor-cli-agent"
@@ -35,5 +35,6 @@
   "skillDirectory": "skills",
   "dependencies": [
     "codex-deepdesign"
-  ]
+  ],
+  "minimumRielaVersion": "0.1.37"
 }

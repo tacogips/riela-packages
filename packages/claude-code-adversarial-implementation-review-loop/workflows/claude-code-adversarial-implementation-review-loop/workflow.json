@@ -1,6 +1,6 @@
 {
   "workflowId": "claude-code-adversarial-implementation-review-loop",
-  "description": "Run a scoped Claude Code implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+  "description": "Run a scoped implementation request, review correctness, integration, and adversarial lenses concurrently, reduce findings, and delegate blocking fixes until accepted.",
   "extends": {
     "workflowId": "codex-adversarial-implementation-review-loop",
     "stringReplacements": {

@@ -1,13 +1,13 @@
 {
   "name": "codex-recent-change-quality-loop",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "codex-recent-change-quality-loop",
-  "description": "Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.",
+  "description": "Inventory recent committed and uncommitted changes, review independent slices concurrently with bounded read-only fanout, reduce findings, and delegate blocking fixes until no high or mid findings remain.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "4e53f9b8dcbfa6cfc28141a50c565ef9",
+  "checksum": "ba7b334102b58f3141e8f0be2eafd251",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-recent-change-quality-loop",
   "dependencies": [
@@ -26,9 +26,10 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "f73abaa1b167ee533067ab5d1f4154da9918a1c062928acfac3ba30f4f21a983"
+    "digest": "80ee8442ff7cc39aae96aa7591342d8707f2986eb3f81ee022761ed680b3b7de"
   },
   "backends": [
     "codex-agent"
-  ]
+  ],
+  "minimumRielaVersion": "0.1.37"
 }

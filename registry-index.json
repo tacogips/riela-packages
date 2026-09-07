@@ -477,10 +477,10 @@
     {
       "name": "claude-code-adversarial-implementation-review-loop",
       "directory": "packages/claude-code-adversarial-implementation-review-loop",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "claude-code-adversarial-implementation-review-loop",
-      "description": "Run a scoped Claude Code implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+      "description": "Run a scoped implementation request, review correctness, integration, and adversarial lenses concurrently, reduce findings, and delegate blocking fixes until accepted.",
       "tags": [
         "claude",
         "review",
@@ -517,20 +517,20 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "90409b8546593b5581edbf237314b6ea"
+        "value": "395ca9243a5d80f9b350e8aada9a45be"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "31da9d7ea4ef4615d53cb69b9b140925a8687d00d9840fe99d0a92d9fc136e42"
+        "digest": "3ba117cf079c45d4017210a5ca5ed9f83a5341bcf1387a4023fd69eee540ff19"
       }
     },
     {
       "name": "claude-code-deepdesign",
       "directory": "packages/claude-code-deepdesign",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "claude-code-deepdesign",
-      "description": "Create and iteratively review design-doc specifications with one Claude Code author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+      "description": "Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings, and revise until accepted.",
       "tags": [
         "design-doc",
         "review",
@@ -565,11 +565,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "e23294dd03f1bbad83d14fdf472865d5"
+        "value": "e22a55736ffe2a1f163fc0ee124caff0"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "02db172c95ba8888de77d1a6a8da9e6d26f46cdb66f6bdcdd53d39fed899ed33"
+        "digest": "85ac1f7059789531afe52302597f15a84a2e4328261d706ece3faf534a4f885e"
       }
     },
     {
@@ -766,10 +766,10 @@
     {
       "name": "claude-code-recent-change-quality-loop",
       "directory": "packages/claude-code-recent-change-quality-loop",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "claude-code-recent-change-quality-loop",
-      "description": "Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.",
+      "description": "Inventory recent changes, review independent slices concurrently with bounded read-only fanout, reduce findings, and delegate blocking fixes until accepted.",
       "tags": [
         "workflow"
       ],
@@ -802,20 +802,20 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "038f10a67f53408bc6b25957f92e23c5"
+        "value": "5a715d0673fa6739032de01cfcba734f"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "ee5b081102526928b9825fecdbcb4eac713880875e7e79a2265818a8b86163c8"
+        "digest": "8b19d2563068828fa72563ee742718313478ea3dbbf8689ffb6c1463a49f08a9"
       }
     },
     {
       "name": "claude-code-refactoring-divide-and-conquer",
       "directory": "packages/claude-code-refactoring-divide-and-conquer",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "claude-code-refactoring-divide-and-conquer",
-      "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+      "description": "Review codebase slices concurrently, build a dependency-aware refactoring DAG, implement disjoint ready tasks in shared-workspace waves, and reconcile each wave.",
       "tags": [
         "workflow"
       ],
@@ -849,11 +849,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "704e26beb9c14649a0cfcffe3d008b79"
+        "value": "c3ee602d9a18e6da20b3ba8ee56a3ca6"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "bbfb9483eb2f9cfa2f65754660bbf5c1830af9dc1068ed330958265484e16f62"
+        "digest": "c0d85bbdb9ce5b1383b4271a49df0999fe4bb0b28b36cf69b41bf25718566f23"
       }
     },
     {
@@ -946,10 +946,10 @@
     {
       "name": "claude-code-source-security-check-loop",
       "directory": "packages/claude-code-source-security-check-loop",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "kind": "workflow",
       "title": "claude-code-source-security-check-loop",
-      "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Claude Code, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
+      "description": "Run deterministic security checks, partition the attack surface, review focus areas concurrently, reduce and adversarially verify findings, then delegate blocking fixes.",
       "tags": [
         "sast",
         "security",
@@ -987,11 +987,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "8b6990b8f34b351eb1b2567312cd9ddd"
+        "value": "3a0f940a4584d98a0c7ba960c4625ef2"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "72cd927ea59cceca13629cb96861b3a8c8fb4876e6edd8e3bb83df797a5a682b"
+        "digest": "47fd2fd936339e0d066f61cb2590814fb99aea222dfa140065d9a4421bb4ecf7"
       }
     },
     {
@@ -1056,10 +1056,10 @@
     {
       "name": "claude-code-website-builder",
       "directory": "packages/claude-code-website-builder",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "claude-code-website-builder",
-      "description": "Event-ready Claude Code workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+      "description": "Design, build, and run a SolidJS site, then review UX, assets, and implementation concurrently before deterministic iteration.",
       "tags": [
         "codex",
         "container",
@@ -1100,11 +1100,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "f9cd5c4023e6179d1643b04ba0705f3e"
+        "value": "5a386bad55219c006b449306d142707d"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "fec0fc595ed553c8f1960aea31a8f8ec610732c055a1a8f109cdab99ba17ed4f"
+        "digest": "9757200cbbdecd45ef619943595c37460155f665c52d748d145ad301e41b5ae8"
       }
     },
     {
@@ -1150,10 +1150,10 @@
     {
       "name": "codex-adversarial-implementation-review-loop",
       "directory": "packages/codex-adversarial-implementation-review-loop",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "codex-adversarial-implementation-review-loop",
-      "description": "Run a scoped Codex implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+      "description": "Run a scoped implementation request, review independent correctness, integration, and adversarial lenses concurrently, reduce findings, delegate blocking fixes, and repeat until accepted.",
       "tags": [
         "codex",
         "review",
@@ -1188,11 +1188,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "350896598835a65bfcf02a34289aa15c"
+        "value": "141ce7656fe23f5a1f1544428e086928"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "6bef488cfd02e0ba15c01019778c682abd80ac102b7bb31c545327681ca31d33"
+        "digest": "7fa265241d7e81d22329b98076441bc6ec8ccc77cf46ff9f55dc289fb4fef0e7"
       }
     },
     {
@@ -1252,10 +1252,10 @@
     {
       "name": "codex-deepdesign",
       "directory": "packages/codex-deepdesign",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "codex-deepdesign",
-      "description": "Create and iteratively review design-doc specifications with one Codex author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+      "description": "Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings deterministically, and revise until no high or middle findings remain.",
       "tags": [
         "design-doc",
         "review",
@@ -1286,11 +1286,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "c43ce361b93696858e433c8ab61e01a8"
+        "value": "0851eb446b203138c5cc8636ebb17012"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "99ada7308d717ab862eb91395f4bb235f12f2d097ee400280d2f143e2fea66a2"
+        "digest": "1f3e1f36b0ef2e1266a3879896aec7ae259f3b96b316a8fec7985d7ebd8dc577"
       }
     },
     {
@@ -1474,10 +1474,10 @@
     {
       "name": "codex-recent-change-quality-loop",
       "directory": "packages/codex-recent-change-quality-loop",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "codex-recent-change-quality-loop",
-      "description": "Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.",
+      "description": "Inventory recent committed and uncommitted changes, review independent slices concurrently with bounded read-only fanout, reduce findings, and delegate blocking fixes until no high or mid findings remain.",
       "tags": [
         "workflow"
       ],
@@ -1507,20 +1507,20 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "4e53f9b8dcbfa6cfc28141a50c565ef9"
+        "value": "ba7b334102b58f3141e8f0be2eafd251"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "f73abaa1b167ee533067ab5d1f4154da9918a1c062928acfac3ba30f4f21a983"
+        "digest": "80ee8442ff7cc39aae96aa7591342d8707f2986eb3f81ee022761ed680b3b7de"
       }
     },
     {
       "name": "codex-refactoring-divide-and-conquer",
       "directory": "packages/codex-refactoring-divide-and-conquer",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "kind": "workflow",
       "title": "codex-refactoring-divide-and-conquer",
-      "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+      "description": "Divide the codebase into slices, review concurrently, build a dependency-aware refactoring task DAG, implement ready disjoint tasks in shared-workspace waves, reconcile and review each wave, and repeat until complete.",
       "tags": [
         "workflow"
       ],
@@ -1551,11 +1551,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "76a83d043f7343a6508beec9eefbff3b"
+        "value": "fb5e838a0a0d4e6a59a161ae64a68edf"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "d1ca052983c56b15f8a44a40c109d5761cd7de1d27fe5867a7c84c95713c3700"
+        "digest": "42b400573e37ff099b6ab087e1091d3925d489c04ea3a221735f74d165279101"
       }
     },
     {
@@ -1640,10 +1640,10 @@
     {
       "name": "codex-source-security-check-loop",
       "directory": "packages/codex-source-security-check-loop",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "kind": "workflow",
       "title": "codex-source-security-check-loop",
-      "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Codex, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
+      "description": "Run deterministic security checks, partition the attack surface, review independent focus areas concurrently, reduce and adversarially verify findings, then delegate blocking fixes until resolved.",
       "tags": [
         "sast",
         "security",
@@ -1680,11 +1680,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "037fc036fa045ee08b8001a1fc2d0de1"
+        "value": "15ba745d75e17149f9989fdb4624ae2b"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "89a2e6dc74dfd15ed95a8491e65a0dac439f05026094777bd5284220f8c150d6"
+        "digest": "fdc70d7eadb2debb0936a8304a306c9828c0d4fc99719806bdf0a67352996c57"
       }
     },
     {
@@ -1746,10 +1746,10 @@
     {
       "name": "codex-website-builder",
       "directory": "packages/codex-website-builder",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "codex-website-builder",
-      "description": "Event-ready Codex workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+      "description": "Event-ready Codex workflow that designs, assets, implements, runs Bun in Docker, then reviews UX, assets, and implementation concurrently before deterministic iteration.",
       "tags": [
         "codex",
         "container",
@@ -1788,20 +1788,20 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "9d18e4aff3fcad80f5f9df473ae3aaad"
+        "value": "c44a401f36eadf9d2607c861a1b34565"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "4e8dae8f4faf3f6da3159733ffb0bdffe1856b9ba815134e74400e531be51d7a"
+        "digest": "947858ed34c37d1123c676543c4dc5393b9acd7e3540a41aa257b2784789dcca"
       }
     },
     {
       "name": "cursor-cli-adversarial-implementation-review-loop",
       "directory": "packages/cursor-cli-adversarial-implementation-review-loop",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "cursor-cli-adversarial-implementation-review-loop",
-      "description": "Run a scoped Cursor CLI implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+      "description": "Run a scoped implementation request, review correctness, integration, and adversarial lenses concurrently, reduce findings, and delegate blocking fixes until accepted.",
       "tags": [
         "cursor",
         "review",
@@ -1838,20 +1838,20 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "d1a9c03e9610c4159b0970ac90558cf2"
+        "value": "3322c91cc608bd0c8f2d2dfbf9a306df"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "df18a25e0d62c1bb50a65a7a3657cd52699e11b77a8f24b2dfb18d4f48e989bb"
+        "digest": "a2574caa01680195ee5845821c93145e527f069282d80e09ee5cc82381f0b66f"
       }
     },
     {
       "name": "cursor-cli-deepdesign",
       "directory": "packages/cursor-cli-deepdesign",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "cursor-cli-deepdesign",
-      "description": "Create and iteratively review design-doc specifications with one Cursor CLI author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+      "description": "Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings, and revise until accepted.",
       "tags": [
         "design-doc",
         "review",
@@ -1886,11 +1886,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "a8368a9cfad73d2e763a0122356f128c"
+        "value": "01d2a4833d03f99093e1abd60e934b8c"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "1d4f8155d1020792c40c13b4e86df72c3a877296d59a73f5a27ecf4b09d76fe3"
+        "digest": "aaac423988048e0c2794b20b5e203e9508175a443011d8bd1bc5c3c89606b552"
       }
     },
     {
@@ -2310,10 +2310,10 @@
     {
       "name": "cursor-cli-recent-change-quality-loop",
       "directory": "packages/cursor-cli-recent-change-quality-loop",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "cursor-cli-recent-change-quality-loop",
-      "description": "Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.",
+      "description": "Inventory recent changes, review independent slices concurrently with bounded read-only fanout, reduce findings, and delegate blocking fixes until accepted.",
       "tags": [
         "workflow"
       ],
@@ -2346,20 +2346,20 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "b0f2a6da0eff7122fd923f08009749a5"
+        "value": "c0b02e792c77606cddf469ee43d88ed0"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "9d87773b6f24fec2faf40121800a5f744067ab7bbb9637bf8b58c4b001c7e078"
+        "digest": "d38f3816bb0d3d9f8872080e86df00f70cddc68cc6bcae2668467bbef8098171"
       }
     },
     {
       "name": "cursor-cli-refactoring-divide-and-conquer",
       "directory": "packages/cursor-cli-refactoring-divide-and-conquer",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "cursor-cli-refactoring-divide-and-conquer",
-      "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+      "description": "Review codebase slices concurrently, build a dependency-aware refactoring DAG, implement disjoint ready tasks in shared-workspace waves, and reconcile each wave.",
       "tags": [
         "workflow"
       ],
@@ -2393,11 +2393,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "916ac21b65e4fc09d7c47f77cfd31bbe"
+        "value": "2092b3ec2995b1626358a09541fbe16d"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "a39619b8bede9a0014ad07872bf1e6b9ac3d4d28df11275b6aa192b2811f2fec"
+        "digest": "aa327e160194c1c41a59287ee8271f1659f85aaccc328cd596b562e40466ee59"
       }
     },
     {
@@ -2490,10 +2490,10 @@
     {
       "name": "cursor-cli-source-security-check-loop",
       "directory": "packages/cursor-cli-source-security-check-loop",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "kind": "workflow",
       "title": "cursor-cli-source-security-check-loop",
-      "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Cursor CLI, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
+      "description": "Run deterministic security checks, partition the attack surface, review focus areas concurrently, reduce and adversarially verify findings, then delegate blocking fixes.",
       "tags": [
         "sast",
         "security",
@@ -2531,11 +2531,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "0c95f14bae92a0db068fdc016abe7e94"
+        "value": "93859f837048e88216f587d5cb1b6e71"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "03489893973e9f98ccab60ce511cf98641baede4f8c851f1a461a0081773057d"
+        "digest": "74708f13e4848b47cb1c83156dc096e84a1e50e35f37e89534204bb82501af64"
       }
     },
     {
@@ -2600,10 +2600,10 @@
     {
       "name": "cursor-cli-website-builder",
       "directory": "packages/cursor-cli-website-builder",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "cursor-cli-website-builder",
-      "description": "Event-ready Cursor CLI workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+      "description": "Design, build, and run a SolidJS site, then review UX, assets, and implementation concurrently before deterministic iteration.",
       "tags": [
         "codex",
         "container",
@@ -2644,11 +2644,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "bbc4809acc7e49d13c30a3e216a29b8e"
+        "value": "e4fa9002ed1a8bffbea3933140141bf5"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "586f5f479068dc42bb7d5877ca6d33365fcffbfcd07be9154954d081d008caf7"
+        "digest": "6196b62c0eb03fb397f17c71f5720596b4eccdd2ceb11835c5b38615bb8b26c5"
       }
     },
     {

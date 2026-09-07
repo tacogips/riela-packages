@@ -1,6 +1,6 @@
 # cursor-cli-website-builder
 
-Event-ready Cursor CLI workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.
+Design, build, and run a SolidJS site, then review UX, assets, and implementation concurrently before deterministic iteration.
 
 - Package id: `cursor-cli-website-builder`
 - Backends: `cursor-cli-agent`

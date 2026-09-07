@@ -1,15 +1,15 @@
 {
   "name": "cursor-cli-source-security-check-loop",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "title": "cursor-cli-source-security-check-loop",
-  "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Cursor CLI, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
+  "description": "Run deterministic security checks, partition the attack surface, review focus areas concurrently, reduce and adversarially verify findings, then delegate blocking fixes.",
   "tags": [
     "workflow",
     "security",
     "sast"
   ],
   "registry": "default",
-  "checksum": "0c95f14bae92a0db068fdc016abe7e94",
+  "checksum": "93859f837048e88216f587d5cb1b6e71",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-source-security-check-loop",
   "dependencies": [
@@ -31,10 +31,11 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "03489893973e9f98ccab60ce511cf98641baede4f8c851f1a461a0081773057d"
+    "digest": "74708f13e4848b47cb1c83156dc096e84a1e50e35f37e89534204bb82501af64"
   },
   "backends": [
     "cursor-cli-agent"
   ],
-  "skillDirectory": "skills"
+  "skillDirectory": "skills",
+  "minimumRielaVersion": "0.1.37"
 }

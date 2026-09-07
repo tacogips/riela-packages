@@ -44,6 +44,33 @@ for (const [id, count] of expected) {
     for (const t of s.transitions ?? []) if (!t.toWorkflowId) assert(ids.has(t.toStepId));
   }
 }
+// Parallel analysis stays read-only; shared-workspace implementation is
+// dependency-aware and bounded more conservatively.
+for (const [id, groupId, concurrency] of [
+  ['codex-deepdesign', 'design-review-lenses', 3],
+  ['codex-recent-change-quality-loop', 'recent-change-review', 6],
+  ['codex-source-security-check-loop', 'security-focus-area-review', 8],
+  ['codex-adversarial-implementation-review-loop', 'implementation-review-lenses', 3],
+  ['codex-website-builder', 'website-review-lenses', 3],
+] as const) {
+  const w = read(join(bundle(id), 'workflow.json'));
+  const fanouts = w.steps.flatMap((s: any) => (s.transitions ?? []).map((t: any) => t.fanout).filter(Boolean));
+  const fanout = fanouts.find((candidate: any) => candidate.groupId === groupId);
+  assert(fanout, `${id}: missing ${groupId}`);
+  assert.equal(fanout.concurrency, concurrency, `${id}: bounded concurrency`);
+  assert.equal(fanout.writeOwnership?.mode, 'read-only', `${id}: review fanout must be read-only`);
+}
+{
+  const w = read(join(bundle(refactor), 'workflow.json'));
+  const fanouts = w.steps.flatMap((s: any) => (s.transitions ?? []).map((t: any) => t.fanout).filter(Boolean));
+  const implementation = fanouts.find((candidate: any) => candidate.groupId === 'refactoring-implementation-wave');
+  assert(implementation, `${refactor}: missing implementation wave`);
+  assert.equal(implementation.concurrency, 4);
+  assert.equal(implementation.writeOwnership?.mode, 'shared-workspace');
+  assert.equal(implementation.dependencies?.branchIdFrom, '/dispatchId');
+  assert.equal(implementation.dependencies?.completedBranchIdsFrom, '/acceptedDispatchIds');
+  assert.equal(implementation.changeTracking?.pathsFrom, '/trackedPaths');
+}
 // Inherited node overrides must reference retained registry nodes.
 for (const id of readdirSync(catalog)) {
   const w = read(join(catalog, id, 'workflow.json'));
@@ -131,8 +158,21 @@ for (const flavor of ['codex', 'opus']) run(`fable-and-improve-${flavor}`, `fabl
 run(refactor, 'refactoring-revision', m => {
   const plan = m['step3-merge-review-plan'];
   plan.when = { plan_only: false, no_plan_tasks: false, implementation_ready: true };
-  Object.assign(plan.payload, plan.when, { planOnly: false });
-  m['step4-implement-next-task'] = output({ taskId: 'REF-001', changedFiles: [], verification: ['mock verification'], authorSelfCheck: { findings: [] } });
+  const task = { ...plan.payload.tasks[0], dispatchId: 'REF-001-attempt-1', dependsOnDispatchIds: [], trackedPaths: ['packages/riela/src'] };
+  Object.assign(plan.payload, plan.when, { planOnly: false, implementationItems: [task], acceptedTaskIds: [], acceptedDispatchIds: [] });
+  const repairPlan = structuredClone(plan);
+  repairPlan.payload.implementationItems[0].dispatchId = 'REF-001-attempt-2';
+  m['step3-merge-review-plan'] = [plan, repairPlan];
+  m['step4-implement-next-task'] = [
+    output({ taskId: 'REF-001', changedFiles: [], verification: ['mock verification'], authorSelfCheck: { findings: [] } }),
+    output({ taskId: 'REF-001', changedFiles: [], verification: ['mock repair verification'], authorSelfCheck: { findings: [] } }),
+  ];
   m['step6-post-refactor-review'] = [output({ findings: [{ severity: 'mid', message: 'Preserve public behavior.' }] }, { needs_revision: true, plan_remaining: false, workflow_complete: false } as any), output({ findings: [], accepted: true }, { needs_revision: false, plan_remaining: false, workflow_complete: true } as any)];
-}, steps => { const i = steps.indexOf('step6-post-refactor-review'); assert.equal(steps[i + 1], 'step4-implement-next-task'); assert(!steps.includes('step5-self-review')); });
+}, steps => {
+  const i = steps.indexOf('step6-post-refactor-review');
+  assert.deepEqual(steps.slice(i, i + 3), ['step6-post-refactor-review', 'step3-merge-review-plan', 'step6-post-refactor-review']);
+  assert.equal(steps.filter(s => s === 'step3-merge-review-plan').length, 2);
+  assert.equal(steps.filter(s => s === 'step6-post-refactor-review').length, 2);
+  assert(!steps.includes('step5-self-review'));
+});
 console.log(`${total} regressions passed; isolated evidence: ${scratch}`);

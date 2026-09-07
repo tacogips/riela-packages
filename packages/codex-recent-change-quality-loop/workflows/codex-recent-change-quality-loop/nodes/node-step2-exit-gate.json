@@ -1,13 +1,13 @@
 {
   "id": "step2-exit-gate",
-  "description": "Route based on Step 1 review severity.",
+  "description": "Reduce all parallel review results and route based on merged severity and branch integrity.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step2-exit-gate.md",
   "variables": {},
   "output": {
-    "description": "Return adapter JSON with when.needs_fix true only when Step 1 reported high or mid findings that must be delegated into the implementation workflow."
+    "description": "Return adapter JSON with merged findings and when.needs_fix true when any branch failed or reported high/mid findings."
   },
   "effort": "high"
 }

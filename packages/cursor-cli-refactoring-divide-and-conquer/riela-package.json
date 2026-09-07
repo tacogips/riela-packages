@@ -1,13 +1,13 @@
 {
   "name": "cursor-cli-refactoring-divide-and-conquer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "cursor-cli-refactoring-divide-and-conquer",
-  "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+  "description": "Review codebase slices concurrently, build a dependency-aware refactoring DAG, implement disjoint ready tasks in shared-workspace waves, and reconcile each wave.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "916ac21b65e4fc09d7c47f77cfd31bbe",
+  "checksum": "2092b3ec2995b1626358a09541fbe16d",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-refactoring-divide-and-conquer",
   "dependencies": [
@@ -27,10 +27,11 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "a39619b8bede9a0014ad07872bf1e6b9ac3d4d28df11275b6aa192b2811f2fec"
+    "digest": "aa327e160194c1c41a59287ee8271f1659f85aaccc328cd596b562e40466ee59"
   },
   "backends": [
     "cursor-cli-agent"
   ],
-  "skillDirectory": "skills"
+  "skillDirectory": "skills",
+  "minimumRielaVersion": "0.1.37"
 }

@@ -1,15 +1,15 @@
 {
   "name": "claude-code-adversarial-implementation-review-loop",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "claude-code-adversarial-implementation-review-loop",
-  "description": "Run a scoped Claude Code implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+  "description": "Run a scoped implementation request, review correctness, integration, and adversarial lenses concurrently, reduce findings, and delegate blocking fixes until accepted.",
   "tags": [
     "workflow",
     "claude",
     "review"
   ],
   "registry": "default",
-  "checksum": "90409b8546593b5581edbf237314b6ea",
+  "checksum": "395ca9243a5d80f9b350e8aada9a45be",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-adversarial-implementation-review-loop",
   "dependencies": [
@@ -31,9 +31,10 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "31da9d7ea4ef4615d53cb69b9b140925a8687d00d9840fe99d0a92d9fc136e42"
+    "digest": "3ba117cf079c45d4017210a5ca5ed9f83a5341bcf1387a4023fd69eee540ff19"
   },
   "backends": [
     "claude-code-agent"
-  ]
+  ],
+  "minimumRielaVersion": "0.1.37"
 }

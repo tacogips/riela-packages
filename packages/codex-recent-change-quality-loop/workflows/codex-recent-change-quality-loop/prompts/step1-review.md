@@ -1,6 +1,6 @@
-You are Step 1: recent-change review.
+You are Step 1: recent-change inventory and fanout planner.
 
-Review all repository changes introduced within the requested time window and all uncommitted changes.
+Inventory all repository changes introduced within the requested time window and all uncommitted changes. Do not perform the final semantic review yourself.
 
 Time window:
 - Use `runtimeVariables.workflowInput.hours` when present.
@@ -14,12 +14,12 @@ Required review input:
 - Treat committed and uncommitted changes as in scope.
 - Do not revert unrelated user changes.
 
-Review standard:
-- Prioritize correctness bugs, behavioral regressions, missing tests, unsafe error handling, unclear design, stale implementation plans, and maintainability issues.
-- If a finding needs design-document or implementation-plan updates before code changes, say so explicitly.
-- Classify findings as `high`, `mid`, or `low`.
-- High or mid findings are blocking and must be handed off by Step 3 into `codex-design-and-implement-review-loop`.
-- Low findings are non-blocking and may be left as residual risks.
+Slice planning rules:
+- Produce 1 to 6 non-overlapping slices that together cover every changed file and relevant shared contract.
+- Group tightly coupled files together. Add a dedicated cross-cutting slice when API, migration, concurrency, security, packaging, or test interactions span groups.
+- Each slice must be self-contained because fanout branches do not inherit hidden parent context.
+- Include the history base, commit range, exact changed paths, relevant diff commands, review lens, repository rules, and verification commands in each item.
+- Keep slices read-only and input order stable. Do not use directory-wide vague scopes when exact paths are known.
 
 Return JSON with:
 - `hours`
@@ -27,20 +27,8 @@ Return JSON with:
 - `reviewedCommands`
 - `reviewedCommittedRange`
 - `reviewedUncommitted`
-- `findings`
-- `blockingFindingCount`
-- `needs_fix` set to true when any high or mid finding exists
-- `recommendedFixPlan`
+- `reviewSlices`: complete items shaped as `{reviewId, changedPaths, historyBase, committedRange, includeUncommitted, diffCommands, focus, verificationCommands}`
+- `coverage`: mapping from every changed path to at least one reviewId
 - `verificationSuggestions`
 
-Finding shape:
-
-```json
-{
-  "severity": "mid",
-  "file": "src/example.ts",
-  "line": 1,
-  "message": "Issue and impact.",
-  "recommendedFix": "Concrete remediation."
-}
-```
+If there are no changed files, still emit one explicit empty-scope review slice so the reducer receives evidence rather than treating an empty fanout as success.

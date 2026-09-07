@@ -1,6 +1,6 @@
 # claude-code-recent-change-quality-loop
 
-Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.
+Inventory recent changes, review independent slices concurrently with bounded read-only fanout, reduce findings, and delegate blocking fixes until accepted.
 
 - Package id: `claude-code-recent-change-quality-loop`
 - Backends: `claude-code-agent`

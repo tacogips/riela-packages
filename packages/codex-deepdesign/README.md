@@ -1,6 +1,6 @@
 # codex-deepdesign
 
-Create and iteratively review design-doc specifications with one Codex author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.
+Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings deterministically, and revise until no high or middle findings remain.
 
 - Package id: `codex-deepdesign`
 - Backends: `codex-agent`

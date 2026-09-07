@@ -1,13 +1,13 @@
 {
   "id": "step6-post-refactor-review",
-  "description": "Independently review the latest refactoring task and routing state.",
+  "description": "Reconcile an implementation wave, verify the combined tree, and determine repair, next-wave, or completion routing.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step6-post-refactor-review.md",
   "variables": {},
   "output": {
-    "description": "Return adapter JSON with needs_revision, plan_remaining, accepted, findings, verification evidence, and residual risks."
+    "description": "Return adapter JSON with wave coverage, accepted task/dispatch ids, repairTasks, routing flags, findings, verification evidence, and residual risks."
   },
   "effort": "high"
 }

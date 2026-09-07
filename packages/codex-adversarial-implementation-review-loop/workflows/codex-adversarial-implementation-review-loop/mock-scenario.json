@@ -31,35 +31,98 @@
       "routingDecision": "skip-initial-implementation-for-mock-acceptance"
     }
   },
-  "adversarial-review": {
-    "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
-    "when": {
-      "needs_fix": false
+  "adversarial-review": [
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "needs_fix": false
+      },
+      "payload": {
+        "accepted": true,
+        "reviewSubject": "Adversarially review completed active plan implementation.",
+        "reviewedPaths": [
+          "packages/example/src/index.ts",
+          "packages/example/src/index.test.ts"
+        ],
+        "findings": [],
+        "verificationGaps": [],
+        "residualRisks": [],
+        "changedFiles": [
+          "packages/example/src/index.ts",
+          "packages/example/src/index.test.ts"
+        ],
+        "verification": [
+          {
+            "command": "bun test packages/example/src/index.test.ts",
+            "result": "passed"
+          }
+        ],
+        "reviewSummary": "Accepted explicit-target adversarial review with no high or medium findings.",
+        "reviewId": "correctness"
+      }
     },
-    "payload": {
-      "accepted": true,
-      "reviewSubject": "Adversarially review completed active plan implementation.",
-      "reviewedPaths": [
-        "packages/example/src/index.ts",
-        "packages/example/src/index.test.ts"
-      ],
-      "findings": [],
-      "verificationGaps": [],
-      "residualRisks": [],
-      "changedFiles": [
-        "packages/example/src/index.ts",
-        "packages/example/src/index.test.ts"
-      ],
-      "verification": [
-        {
-          "command": "bun test packages/example/src/index.test.ts",
-          "result": "passed"
-        }
-      ],
-      "reviewSummary": "Accepted explicit-target adversarial review with no high or medium findings."
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "needs_fix": false
+      },
+      "payload": {
+        "accepted": true,
+        "reviewSubject": "Adversarially review completed active plan implementation.",
+        "reviewedPaths": [
+          "packages/example/src/index.ts",
+          "packages/example/src/index.test.ts"
+        ],
+        "findings": [],
+        "verificationGaps": [],
+        "residualRisks": [],
+        "changedFiles": [
+          "packages/example/src/index.ts",
+          "packages/example/src/index.test.ts"
+        ],
+        "verification": [
+          {
+            "command": "bun test packages/example/src/index.test.ts",
+            "result": "passed"
+          }
+        ],
+        "reviewSummary": "Accepted explicit-target adversarial review with no high or medium findings.",
+        "reviewId": "integration"
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "needs_fix": false
+      },
+      "payload": {
+        "accepted": true,
+        "reviewSubject": "Adversarially review completed active plan implementation.",
+        "reviewedPaths": [
+          "packages/example/src/index.ts",
+          "packages/example/src/index.test.ts"
+        ],
+        "findings": [],
+        "verificationGaps": [],
+        "residualRisks": [],
+        "changedFiles": [
+          "packages/example/src/index.ts",
+          "packages/example/src/index.test.ts"
+        ],
+        "verification": [
+          {
+            "command": "bun test packages/example/src/index.test.ts",
+            "result": "passed"
+          }
+        ],
+        "reviewSummary": "Accepted explicit-target adversarial review with no high or medium findings.",
+        "reviewId": "adversarial"
+      }
     }
-  },
+  ],
   "workflow-output": {
     "provider": "scenario-mock",
     "model": "gpt-5.6-sol",
@@ -89,6 +152,100 @@
       "operatorNotes": [
         "Mock scenario skipped initial implementation and accepted the explicit review subject."
       ]
+    }
+  },
+  "review-dispatch": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "reviewItems": [
+        {
+          "reviewId": "correctness",
+          "reviewSubject": "Adversarially review completed active plan implementation.",
+          "targetPaths": [
+            "packages/example/src/index.ts"
+          ],
+          "changedFiles": [
+            "packages/example/src/index.ts",
+            "packages/example/src/index.test.ts"
+          ],
+          "implementationEvidence": [],
+          "verification": [],
+          "constraints": [],
+          "planProgress": [],
+          "focus": "correctness",
+          "commandBudget": 3
+        },
+        {
+          "reviewId": "integration",
+          "reviewSubject": "Adversarially review completed active plan implementation.",
+          "targetPaths": [
+            "packages/example/src/index.ts"
+          ],
+          "changedFiles": [
+            "packages/example/src/index.ts",
+            "packages/example/src/index.test.ts"
+          ],
+          "implementationEvidence": [],
+          "verification": [],
+          "constraints": [],
+          "planProgress": [],
+          "focus": "integration",
+          "commandBudget": 3
+        },
+        {
+          "reviewId": "adversarial",
+          "reviewSubject": "Adversarially review completed active plan implementation.",
+          "targetPaths": [
+            "packages/example/src/index.ts"
+          ],
+          "changedFiles": [
+            "packages/example/src/index.ts",
+            "packages/example/src/index.test.ts"
+          ],
+          "implementationEvidence": [],
+          "verification": [],
+          "constraints": [],
+          "planProgress": [],
+          "focus": "adversarial",
+          "commandBudget": 3
+        }
+      ]
+    }
+  },
+  "review-reducer": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "needs_fix": false
+    },
+    "payload": {
+      "needs_fix": false,
+      "accepted": true,
+      "reviewSubject": "Adversarially review completed active plan implementation.",
+      "lensCoverage": [
+        "correctness",
+        "integration",
+        "adversarial"
+      ],
+      "findings": [],
+      "blockingFindings": [],
+      "verificationGaps": [],
+      "residualRisks": [],
+      "changedFiles": [
+        "packages/example/src/index.ts",
+        "packages/example/src/index.test.ts"
+      ],
+      "verification": [
+        {
+          "command": "bun test packages/example/src/index.test.ts",
+          "result": "passed"
+        }
+      ],
+      "reviewSummary": "All three review lenses accepted."
     }
   }
 }

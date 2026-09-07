@@ -1,16 +1,17 @@
 {
   "workflowId": "codex-adversarial-implementation-review-loop",
-  "description": "Run a scoped implementation request through codex-design-and-implement-review-loop, adversarially review the accepted implementation against the explicit review subject, delegate blocking fixes, and repeat until no high or medium findings remain.",
+  "description": "Run a scoped implementation request, review independent correctness, integration, and adversarial lenses concurrently, reduce findings, delegate blocking fixes, and repeat until accepted.",
   "defaults": {
     "maxLoopIterations": 12,
     "nodeTimeoutMs": 3600000,
     "supervision": {
       "monitorIntervalMs": 15000,
       "stallTimeoutMs": 300000
-    }
+    },
+    "fanoutConcurrency": 3
   },
   "prompts": {
-    "rielaPromptTemplate": "Coordinate {{workflowId}}. Normalize the explicit implementation and review subject first. Unless workflowInput.skipInitialImplementation is true, package the initial implementation request and dispatch codex-design-and-implement-review-loop. After the implementation returns, adversarially review the implemented result against the review subject, target paths, accepted plan, changed files, verification evidence, and user constraints. If high or medium findings remain, package only those blocking findings into a fix request for codex-design-and-implement-review-loop, then re-run adversarial review after the delegated fix returns. Finish only when the latest adversarial review accepts with no high or medium findings. Low findings may be documented as residual risks.",
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Normalize the implementation and explicit review subject. Unless skipInitialImplementation is true, dispatch codex-design-and-implement-review-loop. Prepare complete correctness, integration, and adversarial review items, fan them out concurrently in read-only mode, then reduce all results. Delegate only merged high or medium findings and repeat the parallel review after fixes. Finish only when every lens is present and accepted.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Keep review subject, target paths, delegated workflow inputs, findings, severity, fix scope, verification evidence, changed files, routing decisions, and residual risks explicit."
   },
   "managerStepId": "riela-manager",
@@ -31,6 +32,14 @@
     {
       "id": "adversarial-review",
       "nodeFile": "nodes/node-adversarial-review.json"
+    },
+    {
+      "id": "review-dispatch",
+      "nodeFile": "nodes/node-review-dispatch.json"
+    },
+    {
+      "id": "review-reducer",
+      "nodeFile": "nodes/node-review-reducer.json"
     },
     {
       "id": "fix-handoff",
@@ -54,7 +63,7 @@
       "role": "manager",
       "transitions": [
         {
-          "toStepId": "adversarial-review",
+          "toStepId": "review-dispatch",
           "label": "skip_initial_implementation"
         },
         {
@@ -83,16 +92,50 @@
       "role": "worker",
       "transitions": [
         {
-          "toStepId": "adversarial-review"
+          "toStepId": "review-dispatch"
+        }
+      ]
+    },
+    {
+      "id": "review-dispatch",
+      "nodeId": "review-dispatch",
+      "description": "Build complete stable correctness, integration, and adversarial review assignments.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "adversarial-review",
+          "fanout": {
+            "groupId": "implementation-review-lenses",
+            "itemsFrom": "/reviewItems",
+            "itemVariable": "reviewLens",
+            "concurrency": 3,
+            "joinStepId": "review-reducer",
+            "failurePolicy": "collect-partial",
+            "resultOrder": "input",
+            "writeOwnership": {
+              "mode": "read-only"
+            }
+          }
         }
       ]
     },
     {
       "id": "adversarial-review",
       "nodeId": "adversarial-review",
-      "description": "Adversarially review the latest implemented result against the explicit review subject.",
+      "description": "Review one assigned implementation lens in read-only mode.",
       "role": "worker",
       "stallTimeoutMs": 900000,
+      "transitions": [
+        {
+          "toStepId": "review-reducer"
+        }
+      ]
+    },
+    {
+      "id": "review-reducer",
+      "nodeId": "review-reducer",
+      "description": "Merge all review lenses and fail closed on missing or blocking results.",
+      "role": "worker",
       "transitions": [
         {
           "toStepId": "fix-handoff",
@@ -124,7 +167,7 @@
       "role": "worker",
       "transitions": [
         {
-          "toStepId": "adversarial-review"
+          "toStepId": "review-dispatch"
         }
       ]
     },
@@ -138,11 +181,13 @@
   "metadata": {
     "rielaPackage": {
       "title": "codex-adversarial-implementation-review-loop",
-      "description": "Run a scoped Codex implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+      "description": "Run scoped implementation and bounded parallel correctness, integration, and adversarial review with deterministic fix routing.",
       "tags": [
         "workflow",
         "codex",
-        "review"
+        "review",
+        "fanout",
+        "concurrency"
       ],
       "backends": [
         "codex-agent"

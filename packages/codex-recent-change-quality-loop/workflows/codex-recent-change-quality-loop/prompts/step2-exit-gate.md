@@ -1,12 +1,14 @@
 You are Step 2: exit gate.
 
-Read the latest Step 1 review output. Decide whether the workflow should exit or run Step 3.
+Read every result in `runtimeVariables.fanoutJoin.branches`. Decide whether the workflow should exit or run Step 3.
 
 Rules:
-- Set `needs_fix` to true if Step 1 reported any `high` or `mid` finding.
-- Set `needs_fix` to false only when Step 1 has no high or mid findings.
+- Fail closed when a planned branch is missing, failed, duplicated, malformed, or its scope is not accounted for.
+- Merge and deduplicate findings without lowering severity.
+- Set `needs_fix` to true if any branch reported any `high` or `mid` finding or could not complete.
+- Set `needs_fix` to false only when every branch completed and no high or mid findings remain.
 - Mirror the routing decision in both `when.needs_fix` and `payload.needs_fix`.
-- Do not invent new findings. If Step 1 output is ambiguous, route to Step 3 and explain the ambiguity.
+- Do not invent code findings. Treat ambiguous branch or coverage evidence as a blocking workflow-integrity finding.
 
 Return adapter JSON:
 

@@ -8,7 +8,7 @@ duplicate judgment, exploitability scoring, and report-quality grading.
 Read:
 - Step 1 deterministic scan output.
 - Step 2 harness recon output, especially `focusAreas` and `verifierRubric`.
-- Step 3 security triage output.
+- Step 3 reduced security triage output and its fanout coverage accounting.
 - Source files needed to verify the cited paths.
 
 Safety rules:
@@ -42,6 +42,7 @@ Verification procedure:
    `evidenceScore`, `reachabilityScore`, `impactScore`, `fixabilityScore`, each
    0-2. Findings with weak evidence should not route as high unless impact and
    reachability are concrete.
+7. Reject a clean result when any planned fanout focus area is absent, failed, or not represented in Step 3 coverage.
 
 Routing standard:
 - `needs_fix` is true only when at least one verified high or medium finding

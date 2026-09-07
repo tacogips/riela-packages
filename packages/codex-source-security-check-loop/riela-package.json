@@ -1,15 +1,15 @@
 {
   "name": "codex-source-security-check-loop",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "title": "codex-source-security-check-loop",
-  "description": "Run deterministic source-code security checks, derive harness-style focus areas, triage and adversarially verify findings with Codex, delegate blocking fixes, and rescan until verified high and medium findings are resolved.",
+  "description": "Run deterministic security checks, partition the attack surface, review independent focus areas concurrently, reduce and adversarially verify findings, then delegate blocking fixes until resolved.",
   "tags": [
     "workflow",
     "security",
     "sast"
   ],
   "registry": "default",
-  "checksum": "037fc036fa045ee08b8001a1fc2d0de1",
+  "checksum": "15ba745d75e17149f9989fdb4624ae2b",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-source-security-check-loop",
   "dependencies": [
@@ -31,11 +31,12 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "89a2e6dc74dfd15ed95a8491e65a0dac439f05026094777bd5284220f8c150d6"
+    "digest": "fdc70d7eadb2debb0936a8304a306c9828c0d4fc99719806bdf0a67352996c57"
   },
   "backends": [
     "native-command",
     "codex-agent"
   ],
-  "skillDirectory": "skills"
+  "skillDirectory": "skills",
+  "minimumRielaVersion": "0.1.37"
 }

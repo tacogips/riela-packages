@@ -1,6 +1,6 @@
 # cursor-cli-deepdesign
 
-Create and iteratively review design-doc specifications with one Cursor CLI author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.
+Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings, and revise until accepted.
 
 - Package id: `cursor-cli-deepdesign`
 - Backends: `cursor-cli-agent`

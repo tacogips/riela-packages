@@ -1,13 +1,13 @@
 {
   "name": "cursor-cli-recent-change-quality-loop",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "cursor-cli-recent-change-quality-loop",
-  "description": "Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.",
+  "description": "Inventory recent changes, review independent slices concurrently with bounded read-only fanout, reduce findings, and delegate blocking fixes until accepted.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "b0f2a6da0eff7122fd923f08009749a5",
+  "checksum": "c0b02e792c77606cddf469ee43d88ed0",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-recent-change-quality-loop",
   "dependencies": [
@@ -27,9 +27,10 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "9d87773b6f24fec2faf40121800a5f744067ab7bbb9637bf8b58c4b001c7e078"
+    "digest": "d38f3816bb0d3d9f8872080e86df00f70cddc68cc6bcae2668467bbef8098171"
   },
   "backends": [
     "cursor-cli-agent"
-  ]
+  ],
+  "minimumRielaVersion": "0.1.37"
 }

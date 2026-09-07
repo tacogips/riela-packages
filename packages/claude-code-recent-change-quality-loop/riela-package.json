@@ -1,13 +1,13 @@
 {
   "name": "claude-code-recent-change-quality-loop",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "claude-code-recent-change-quality-loop",
-  "description": "Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.",
+  "description": "Inventory recent changes, review independent slices concurrently with bounded read-only fanout, reduce findings, and delegate blocking fixes until accepted.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "038f10a67f53408bc6b25957f92e23c5",
+  "checksum": "5a715d0673fa6739032de01cfcba734f",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-recent-change-quality-loop",
   "dependencies": [
@@ -27,9 +27,10 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "ee5b081102526928b9825fecdbcb4eac713880875e7e79a2265818a8b86163c8"
+    "digest": "8b19d2563068828fa72563ee742718313478ea3dbbf8689ffb6c1463a49f08a9"
   },
   "backends": [
     "claude-code-agent"
-  ]
+  ],
+  "minimumRielaVersion": "0.1.37"
 }

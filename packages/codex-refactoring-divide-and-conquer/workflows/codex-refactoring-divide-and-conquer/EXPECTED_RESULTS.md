@@ -1,5 +1,11 @@
 # Expected Results
 
+Slice review remains bounded read-only fanout. In implementation mode, Step 3
+emits a dependency DAG with stable semantic task ids, unique per-attempt
+dispatch ids, and disjoint tracked paths. Riela runs the ready shared-workspace
+wave at concurrency 4 and Step 6 serially reconciles the combined tree. Repair
+attempts retain `taskId` but receive a fresh identifier-safe `dispatchId`.
+
 The deterministic mock scenario exercises the package-first duplicate-scavenge
 plan-only path:
 

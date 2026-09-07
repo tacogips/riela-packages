@@ -1,6 +1,6 @@
 # cursor-cli-refactoring-divide-and-conquer
 
-Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.
+Review codebase slices concurrently, build a dependency-aware refactoring DAG, implement disjoint ready tasks in shared-workspace waves, and reconcile each wave.
 
 - Package id: `cursor-cli-refactoring-divide-and-conquer`
 - Backends: `cursor-cli-agent`

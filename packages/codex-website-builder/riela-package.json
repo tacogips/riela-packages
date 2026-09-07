@@ -1,8 +1,8 @@
 {
   "name": "codex-website-builder",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "codex-website-builder",
-  "description": "Event-ready Codex workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+  "description": "Event-ready Codex workflow that designs, assets, implements, runs Bun in Docker, then reviews UX, assets, and implementation concurrently before deterministic iteration.",
   "tags": [
     "workflow",
     "codex",
@@ -12,7 +12,7 @@
     "container"
   ],
   "registry": "default",
-  "checksum": "9d18e4aff3fcad80f5f9df473ae3aaad",
+  "checksum": "c44a401f36eadf9d2607c861a1b34565",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-website-builder",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -34,11 +34,12 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "4e8dae8f4faf3f6da3159733ffb0bdffe1856b9ba815134e74400e531be51d7a"
+    "digest": "947858ed34c37d1123c676543c4dc5393b9acd7e3540a41aa257b2784789dcca"
   },
   "backends": [
     "codex-agent",
     "native-command"
   ],
-  "skillDirectory": "skills"
+  "skillDirectory": "skills",
+  "minimumRielaVersion": "0.1.37"
 }

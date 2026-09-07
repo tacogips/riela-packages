@@ -1,0 +1,13 @@
+{
+  "id": "parallel-design-review",
+  "description": "Review one assigned design lens from a bounded read-only fanout branch.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.6-sol",
+  "modelFreeze": false,
+  "effort": "high",
+  "promptTemplateFile": "prompts/parallel-design-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return the assigned reviewId, acceptance, severity-ranked findings, feedback, evidence, and residual risks. Never modify files."
+  }
+}

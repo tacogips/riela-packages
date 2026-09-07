@@ -1,10 +1,11 @@
-You are Step 3: merge concurrent slice-review outputs into a refactoring plan.
+You are Step 3: merge concurrent slice-review outputs into a refactoring plan and dispatch the next dependency-ready implementation wave.
 
 Inputs:
 - `runtimeVariables.fanoutJoin` contains the ordered slice-review fanout results.
 - `runtimeVariables.workflowInput.executionMode` controls plan-only behavior.
 - `runtimeVariables.workflowInput.planPath` may name an existing plan to update.
 - The latest Step 1 output contains slice definitions and constraints.
+- A prior Step 6 result, when present, contains accepted task ids and repair tasks from the preceding implementation wave.
 
 Plan-only mode:
 - Treat `executionMode: "plan-only"`, `"planning-only"`, or `"refactor-plan-only"` as plan-only.
@@ -51,6 +52,13 @@ Implementation-plan requirements:
 - Include a progress log section.
 - Include explicit exit criteria for high/mid findings and accepted low residual risks.
 
+Implementation-wave dispatch contract:
+- Emit every incomplete ready or revision task as a complete object in top-level payload `implementationItems`.
+- Each item must retain stable semantic `taskId` and add a unique stable-per-attempt, identifier-safe `dispatchId` such as `REF-001-attempt-1`. Use only letters, digits, `_`, and `-`. It must also contain `dependsOnDispatchIds` and exact `trackedPaths` arrays. Include the full bounded task contract so a branch never has to infer its assignment from another branch.
+- Carry every already accepted dispatch id in top-level payload `acceptedDispatchIds`, plus semantic `acceptedTaskIds` for plan reporting. The runtime dependency scheduler, not this prompt, selects the ready wave.
+- Make concurrently ready tasks write-disjoint. If tracked paths overlap, encode an explicit dependency edge or merge them into one bounded task.
+- On a revision loop, preserve the semantic task id but issue a new dispatch id, for example `REF-001-attempt-2`; never reuse a completed or failed attempt's dispatch id.
+
 Return adapter JSON:
 
 ```json
@@ -86,11 +94,13 @@ Return adapter JSON:
     "tasks": [
       {
         "taskId": "REF-001",
+        "dispatchId": "REF-001-attempt-1",
         "title": "Move workflow runtime ownership to package exports",
         "status": "Ready",
         "ownedPaths": ["packages/riela-core/src", "packages/riela-core/package.json"],
         "excludedPaths": ["packages/riela/src/workflow/**/*.test.ts", "dist", "packages/riela-core/dist"],
         "dependsOn": [],
+        "dependsOnDispatchIds": [],
         "duplicateGroupIds": ["DUP-001"],
         "repeatedConcept": "workflow input validation",
         "counterpartPaths": ["packages/riela/src/cli/example.ts", "packages/riela/src/graphql/example.ts"],
@@ -101,6 +111,22 @@ Return adapter JSON:
         "verificationCommands": ["bun test packages/riela/src/workflow/**/*.test.ts", "bun run build"]
       }
     ],
+    "implementationItems": [
+      {
+        "taskId": "REF-001",
+        "title": "Move workflow runtime ownership to package exports",
+        "status": "Ready",
+        "dependsOn": [],
+        "trackedPaths": ["packages/riela-core/src", "packages/riela-core/package.json"],
+        "ownedPaths": ["packages/riela-core/src", "packages/riela-core/package.json"],
+        "excludedPaths": ["dist", "packages/riela-core/dist"],
+        "completionCriteria": ["Package entrypoints and compatibility checks pass."],
+        "verificationCommands": ["bun test packages/riela/src/workflow/**/*.test.ts", "bun run build"],
+        "residualRisks": []
+      }
+    ],
+    "acceptedDispatchIds": [],
+    "acceptedTaskIds": [],
     "nextTaskId": "REF-001",
     "conflicts": [],
     "residualRisks": [

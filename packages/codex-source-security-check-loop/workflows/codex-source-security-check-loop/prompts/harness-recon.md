@@ -39,12 +39,13 @@ Recon procedure:
    attacker-controlled inputs visible in source and configuration.
 3. If a `THREAT_MODEL.md`, design doc, OpenAPI spec, route table, CLI parser,
    Dockerfile, workflow file, or package manifest is present, use it as evidence.
-4. Produce 3-10 distinct focus areas. Each focus area must be independent
+4. Produce 3-8 distinct focus areas. Each focus area must be independent
    enough that separate reviewers would not all inspect the same code path.
 5. For each focus area, name likely vulnerability classes and exact files,
    directories, routes, handlers, or symbols to inspect.
 6. Produce an adversarial verifier rubric that Step 4 can apply to every
    high or medium candidate.
+7. Project every focus area into `securityReviewItems` in stable input order. Each item must carry the complete threat-model excerpt, scanner evidence references, exact paths/symbols, trust boundary, vulnerability classes, review instructions, verifier criteria, exclusions, and safety constraints needed by an isolated fanout branch.
 
 Return JSON only:
 
@@ -96,6 +97,20 @@ Return JSON only:
       "trustBoundary": "untrusted input -> parser",
       "likelyVulnerabilityClasses": [],
       "reviewInstructions": "Concrete files, symbols, and data-flow questions Step 3 should inspect."
+    }
+  ],
+  "securityReviewItems": [
+    {
+      "reviewId": "FA-001",
+      "paths": [],
+      "entryPoints": [],
+      "trustBoundary": "untrusted input -> parser",
+      "likelyVulnerabilityClasses": [],
+      "reviewInstructions": "Concrete source questions.",
+      "scannerEvidence": [],
+      "verifierCriteria": [],
+      "falsePositiveRules": [],
+      "safetyConstraints": ["read-only", "no target execution", "no network"]
     }
   ],
   "verifierRubric": {

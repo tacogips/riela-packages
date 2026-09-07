@@ -1,13 +1,13 @@
 {
   "id": "step1-review",
-  "description": "Review recent committed and uncommitted changes for quality issues.",
+  "description": "Inventory recent committed and uncommitted changes and create complete independent review slices.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step1-review.md",
   "variables": {},
   "output": {
-    "description": "Return findings classified as high, mid, or low, with high/mid determining whether the workflow must delegate and loop."
+    "description": "Return the exact change inventory, 1-6 stable complete reviewSlices, coverage mapping, and verification suggestions."
   },
   "effort": "high"
 }

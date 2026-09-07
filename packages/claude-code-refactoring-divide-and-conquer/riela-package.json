@@ -1,13 +1,13 @@
 {
   "name": "claude-code-refactoring-divide-and-conquer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "claude-code-refactoring-divide-and-conquer",
-  "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+  "description": "Review codebase slices concurrently, build a dependency-aware refactoring DAG, implement disjoint ready tasks in shared-workspace waves, and reconcile each wave.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "704e26beb9c14649a0cfcffe3d008b79",
+  "checksum": "c3ee602d9a18e6da20b3ba8ee56a3ca6",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-refactoring-divide-and-conquer",
   "dependencies": [
@@ -27,10 +27,11 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "bbfb9483eb2f9cfa2f65754660bbf5c1830af9dc1068ed330958265484e16f62"
+    "digest": "c0d85bbdb9ce5b1383b4271a49df0999fe4bb0b28b36cf69b41bf25718566f23"
   },
   "backends": [
     "claude-code-agent"
   ],
-  "skillDirectory": "skills"
+  "skillDirectory": "skills",
+  "minimumRielaVersion": "0.1.37"
 }

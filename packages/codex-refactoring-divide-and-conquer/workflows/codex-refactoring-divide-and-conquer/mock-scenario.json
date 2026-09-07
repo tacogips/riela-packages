@@ -347,6 +347,39 @@
       ],
       "residualRisks": [
         "No provisioning package is created because no concrete provisioning source surface was found."
+      ],
+      "acceptedTaskIds": [],
+      "acceptedDispatchIds": [],
+      "implementationItems": [
+        {
+          "taskId": "REF-001",
+          "title": "Establish package source boundary contracts",
+          "status": "Ready",
+          "ownedPaths": [
+            "package.json",
+            "Taskfile.yml",
+            "scripts",
+            "packages/*/src"
+          ],
+          "excludedPaths": [
+            "dist",
+            "packages/*/dist",
+            "node_modules"
+          ],
+          "dependsOn": [],
+          "verificationCommands": [
+            "bun test packages/riela/src/package-boundaries.test.ts",
+            "bun run build"
+          ],
+          "dispatchId": "REF-001-attempt-1",
+          "dependsOnDispatchIds": [],
+          "trackedPaths": [
+            "package.json",
+            "Taskfile.yml",
+            "scripts",
+            "packages/*/src"
+          ]
+        }
       ]
     }
   },

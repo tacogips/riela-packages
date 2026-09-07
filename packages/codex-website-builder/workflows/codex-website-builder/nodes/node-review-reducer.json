@@ -1,0 +1,13 @@
+{
+  "id": "review-reducer",
+  "description": "Reduce parallel website reviews into one upstream revision route or acceptance.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.6-sol",
+  "modelFreeze": false,
+  "effort": "high",
+  "promptTemplateFile": "prompts/review-reducer.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON with complete lens coverage, merged findings, exactly one revision boolean, acceptance, and residual risks."
+  }
+}

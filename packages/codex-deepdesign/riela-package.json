@@ -1,15 +1,15 @@
 {
   "name": "codex-deepdesign",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "codex-deepdesign",
-  "description": "Create and iteratively review design-doc specifications with one Codex author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+  "description": "Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings deterministically, and revise until no high or middle findings remain.",
   "tags": [
     "workflow",
     "design-doc",
     "review"
   ],
   "registry": "default",
-  "checksum": "c43ce361b93696858e433c8ab61e01a8",
+  "checksum": "0851eb446b203138c5cc8636ebb17012",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-deepdesign",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -27,10 +27,11 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "99ada7308d717ab862eb91395f4bb235f12f2d097ee400280d2f143e2fea66a2"
+    "digest": "1f3e1f36b0ef2e1266a3879896aec7ae259f3b96b316a8fec7985d7ebd8dc577"
   },
   "backends": [
     "codex-agent"
   ],
-  "skillDirectory": "skills"
+  "skillDirectory": "skills",
+  "minimumRielaVersion": "0.1.37"
 }

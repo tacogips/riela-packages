@@ -1,6 +1,6 @@
 # claude-code-website-builder
 
-Event-ready Claude Code workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.
+Design, build, and run a SolidJS site, then review UX, assets, and implementation concurrently before deterministic iteration.
 
 - Package id: `claude-code-website-builder`
 - Backends: `claude-code-agent`

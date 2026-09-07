@@ -1,12 +1,12 @@
 {
   "id": "security-triage",
-  "description": "Review deterministic security evidence and source code.",
+  "description": "Reduce parallel source-review evidence and deterministic scanner output.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/security-triage.md",
   "variables": {},
   "output": {
-    "description": "Return high, medium, and low findings with fix recommendations and deterministic verification commands."
+    "description": "Return complete fanout coverage plus deduplicated high, medium, and low findings with fixes and verification."
   }
 }

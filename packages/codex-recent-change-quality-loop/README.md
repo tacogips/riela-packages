@@ -1,6 +1,6 @@
 # codex-recent-change-quality-loop
 
-Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.
+Inventory recent committed and uncommitted changes, review independent slices concurrently with bounded read-only fanout, reduce findings, and delegate blocking fixes until no high or mid findings remain.
 
 - Package id: `codex-recent-change-quality-loop`
 - Backends: `codex-agent`

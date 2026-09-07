@@ -40,13 +40,13 @@ Expected stable run summary:
   "status": "completed",
   "workflowName": "codex-adversarial-implementation-review-loop",
   "workflowId": "codex-adversarial-implementation-review-loop",
-  "nodeExecutions": 3,
-  "transitions": 2,
+  "nodeExecutions": 4,
+  "transitions": 3,
   "exitCode": 0
 }
 ```
 
-Expected path: `riela-manager` -> `adversarial-review` -> `workflow-output`
+Expected parent path: `riela-manager` -> `review-dispatch` -> `review-reducer` -> `workflow-output`. The dispatcher runs `correctness`, `integration`, and `adversarial` review branches concurrently before reduction.
 
 Expected final output node: `workflow-output`
 

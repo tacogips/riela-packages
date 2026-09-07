@@ -69,7 +69,36 @@
           "workflow validate",
           "workflow run --mock-scenario"
         ],
-        "residualRisks": []
+        "residualRisks": [],
+        "reviewItems": [
+          {
+            "reviewId": "deep",
+            "focus": "deep",
+            "checklist": [
+              "invariants",
+              "retries",
+              "recovery"
+            ]
+          },
+          {
+            "reviewId": "broad",
+            "focus": "broad",
+            "checklist": [
+              "integration",
+              "compatibility",
+              "migration"
+            ]
+          },
+          {
+            "reviewId": "adversarial",
+            "focus": "adversarial",
+            "checklist": [
+              "misuse",
+              "unsafe assumptions",
+              "false success"
+            ]
+          }
+        ]
       }
     },
     {
@@ -122,97 +151,39 @@
         ],
         "residualRisks": [
           "Future workflows may want a configurable severity threshold."
-        ]
-      }
-    }
-  ],
-  "node2-deep-review": [
-    {
-      "provider": "scenario-mock",
-      "model": "gpt-5.6-sol",
-      "when": {
-        "always": true
-      },
-      "payload": {
-        "needs_revision": true,
-        "accepted": false,
-        "reviewType": "deep",
-        "findings": [
+        ],
+        "reviewItems": [
           {
-            "severity": "middle",
-            "file": "design-docs/specs/design-codex-deepdesign.md",
-            "line": 1,
-            "message": "The design does not state how reviewer output drives loop routing when output is ambiguous.",
-            "recommendedChange": "Require reviewer adapter JSON with an explicit needs_revision boolean."
+            "reviewId": "deep",
+            "focus": "deep",
+            "checklist": [
+              "invariants",
+              "retries",
+              "recovery"
+            ]
+          },
+          {
+            "reviewId": "broad",
+            "focus": "broad",
+            "checklist": [
+              "integration",
+              "compatibility",
+              "migration"
+            ]
+          },
+          {
+            "reviewId": "adversarial",
+            "focus": "adversarial",
+            "checklist": [
+              "misuse",
+              "unsafe assumptions",
+              "false success"
+            ]
           }
-        ],
-        "feedback": [
-          "Require Node 2 and Node 3 to emit when.needs_revision and payload.needs_revision."
-        ],
-        "reviewedDesignDocPaths": [
-          "design-docs/specs/design-codex-deepdesign.md"
-        ]
-      }
-    },
-    {
-      "provider": "scenario-mock",
-      "model": "gpt-5.6-sol",
-      "when": {
-        "always": true
-      },
-      "payload": {
-        "needs_revision": false,
-        "accepted": true,
-        "reviewType": "deep",
-        "findings": [],
-        "feedback": [],
-        "reviewedDesignDocPaths": [
-          "design-docs/specs/design-codex-deepdesign.md"
         ]
       }
     }
   ],
-  "node3-broad-review": {
-    "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
-    "when": {
-      "always": true
-    },
-    "payload": {
-      "needs_revision": false,
-      "accepted": true,
-      "reviewType": "broad",
-      "findings": [],
-      "feedback": [],
-      "relatedExistingFeatures": [
-        "codex-design-and-implement-review-loop",
-        "codex-recent-change-quality-loop"
-      ],
-      "reviewedDesignDocPaths": [
-        "design-docs/specs/design-codex-deepdesign.md"
-      ]
-    }
-  },
-  "node4-adversarial-review": {
-    "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
-    "when": {
-      "always": true
-    },
-    "payload": {
-      "needs_revision": false,
-      "accepted": true,
-      "reviewType": "adversarial",
-      "findings": [],
-      "feedback": [],
-      "reviewedDesignDocPaths": [
-        "design-docs/specs/design-codex-deepdesign.md"
-      ],
-      "residualLowRisks": [
-        "Future workflows may want a configurable severity threshold."
-      ]
-    }
-  },
   "workflow-output": {
     "provider": "scenario-mock",
     "model": "gpt-5.6-sol",
@@ -249,5 +220,180 @@
         "Use the accepted design as input for implementation planning."
       ]
     }
-  }
+  },
+  "parallel-design-review": [
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "needs_revision": true,
+        "accepted": false,
+        "reviewType": "deep",
+        "findings": [
+          {
+            "severity": "middle",
+            "file": "design-docs/specs/design-codex-deepdesign.md",
+            "line": 1,
+            "message": "The design does not state how reviewer output drives loop routing when output is ambiguous.",
+            "recommendedChange": "Require reviewer adapter JSON with an explicit needs_revision boolean."
+          }
+        ],
+        "feedback": [
+          "Require Node 2 and Node 3 to emit when.needs_revision and payload.needs_revision."
+        ],
+        "reviewedDesignDocPaths": [
+          "design-docs/specs/design-codex-deepdesign.md"
+        ],
+        "reviewId": "deep"
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "needs_revision": false,
+        "accepted": true,
+        "reviewType": "broad",
+        "findings": [],
+        "feedback": [],
+        "relatedExistingFeatures": [
+          "codex-design-and-implement-review-loop",
+          "codex-recent-change-quality-loop"
+        ],
+        "reviewedDesignDocPaths": [
+          "design-docs/specs/design-codex-deepdesign.md"
+        ],
+        "reviewId": "broad"
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "needs_revision": false,
+        "accepted": true,
+        "reviewType": "adversarial",
+        "findings": [],
+        "feedback": [],
+        "reviewedDesignDocPaths": [
+          "design-docs/specs/design-codex-deepdesign.md"
+        ],
+        "residualLowRisks": [
+          "Future workflows may want a configurable severity threshold."
+        ],
+        "reviewId": "adversarial"
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "needs_revision": false,
+        "accepted": true,
+        "reviewType": "deep",
+        "findings": [],
+        "feedback": [],
+        "reviewedDesignDocPaths": [
+          "design-docs/specs/design-codex-deepdesign.md"
+        ],
+        "reviewId": "deep"
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "needs_revision": false,
+        "accepted": true,
+        "reviewType": "broad",
+        "findings": [],
+        "feedback": [],
+        "relatedExistingFeatures": [
+          "codex-design-and-implement-review-loop",
+          "codex-recent-change-quality-loop"
+        ],
+        "reviewedDesignDocPaths": [
+          "design-docs/specs/design-codex-deepdesign.md"
+        ],
+        "reviewId": "broad"
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "needs_revision": false,
+        "accepted": true,
+        "reviewType": "adversarial",
+        "findings": [],
+        "feedback": [],
+        "reviewedDesignDocPaths": [
+          "design-docs/specs/design-codex-deepdesign.md"
+        ],
+        "residualLowRisks": [
+          "Future workflows may want a configurable severity threshold."
+        ],
+        "reviewId": "adversarial"
+      }
+    }
+  ],
+  "review-reducer": [
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "needs_revision": true
+      },
+      "payload": {
+        "needs_revision": true,
+        "accepted": false,
+        "reviewResults": [],
+        "findings": [
+          {
+            "severity": "middle",
+            "message": "Clarify reviewer routing."
+          }
+        ],
+        "feedback": [
+          "Clarify reviewer adapter output and routing behavior."
+        ],
+        "residualLowRisks": []
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "needs_revision": false
+      },
+      "payload": {
+        "needs_revision": false,
+        "accepted": true,
+        "reviewResults": [],
+        "findings": [],
+        "feedback": [],
+        "residualLowRisks": [
+          "Future workflows may want a configurable severity threshold."
+        ]
+      }
+    }
+  ]
 }

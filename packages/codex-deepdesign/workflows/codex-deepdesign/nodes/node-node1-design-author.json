@@ -11,6 +11,6 @@
   "promptTemplateFile": "prompts/node1-design-author.md",
   "variables": {},
   "output": {
-    "description": "Return design-doc paths, design summary, assumptions, addressed feedback, decisions, open questions, validation notes, and residual risks."
+    "description": "Return design-doc paths, design summary, addressed feedback, decisions, risks, and the complete stable deep/broad/adversarial reviewItems array."
   }
 }

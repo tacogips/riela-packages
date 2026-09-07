@@ -1,0 +1,13 @@
+{
+  "id": "parallel-security-review",
+  "description": "Review one attack-surface focus area in a bounded read-only fanout branch.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.6-sol",
+  "modelFreeze": false,
+  "effort": "high",
+  "promptTemplateFile": "prompts/parallel-security-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return reviewId, source coverage, candidates with exploitability evidence, dismissed scanner signals, and coverage gaps."
+  }
+}
