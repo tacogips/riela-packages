@@ -19,6 +19,21 @@ for (const id of readdirSync(join(root, 'packages'))) {
 }
 const codex = 'codex-design-and-implement-review-loop';
 const refactor = 'codex-refactoring-divide-and-conquer';
+// Implementation and lost-work repair use Terra; coordination retains its model.
+for (const [id, nodes] of [
+  [codex, ['step6-implement', 'reconcile-implementations']],
+  ['fable-and-improve-codex', ['codex-implementation', 'reconcile-implementations']],
+  ['codex-simple-work-package', ['implement']],
+  [refactor, ['step4-implement-next-task']],
+] as const) {
+  for (const node of nodes) {
+    const payload = read(join(bundle(id), 'nodes', `node-${node}.json`));
+    assert.equal(payload.executionBackend, 'codex-agent');
+    assert.equal(payload.model, 'gpt-5.6-terra', `${id}/${node}: implementation model`);
+  }
+}
+assert.equal(read(join(bundle(codex), 'nodes/node-step2-design-doc-update.json')).model, 'gpt-6-astra');
+assert.equal(read(join(bundle(codex), 'nodes/node-dispatch-plans.json')).model, 'gpt-5.6-sol');
 const expected = new Map([[codex, 23], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 24]]);
 for (const [id, count] of expected) {
   const w = read(join(bundle(id), 'workflow.json'));

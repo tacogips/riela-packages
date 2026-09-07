@@ -1296,7 +1296,7 @@
     {
       "name": "codex-design-and-implement-review-loop",
       "directory": "packages/codex-design-and-implement-review-loop",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "kind": "workflow",
       "title": "codex-design-and-implement-review-loop",
       "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
@@ -1326,11 +1326,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "eadec9ef0daf72abedd8229b8c3f8fd9"
+        "value": "4c7efb819c8cd454cb956898ea864cd8"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "46f797a25508c8dc2fb4a467c111767f80d4c7bc9efaf8aa80bd93e1c07ead9d"
+        "digest": "51e9ad7d6c1e35d3c02069dc3e9f045cf076d87ddfd57f0cb8f95b5c109e04cb"
       }
     },
     {
@@ -1517,7 +1517,7 @@
     {
       "name": "codex-refactoring-divide-and-conquer",
       "directory": "packages/codex-refactoring-divide-and-conquer",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "codex-refactoring-divide-and-conquer",
       "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
@@ -1551,11 +1551,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "51caf27a6ac8090dfcc9d25348ab48fe"
+        "value": "76a83d043f7343a6508beec9eefbff3b"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "b35ad63bfef19b0adc7fde0171af71ad9ef6b561c4924a6b1f36963ef1b05e14"
+        "digest": "d1ca052983c56b15f8a44a40c109d5761cd7de1d27fe5867a7c84c95713c3700"
       }
     },
     {
@@ -1600,10 +1600,10 @@
     {
       "name": "codex-simple-work-package",
       "directory": "packages/codex-simple-work-package",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "codex-simple-work-package",
-      "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.6 SOL high effort, reviews the diff, and loops back only for high or middle findings.",
+      "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.6 Terra high effort, reviews the diff, and loops back only for high or middle findings.",
       "tags": [
         "workflow"
       ],
@@ -1612,7 +1612,7 @@
       "workflow": {
         "directory": "workflows/codex-simple-work-package",
         "title": "codex-simple-work-package",
-        "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.6 SOL high effort, reviews the diff, and loops back only for high or middle findings.",
+        "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.6 Terra high effort, reviews the diff, and loops back only for high or middle findings.",
         "tags": [
           "workflow"
         ],
@@ -1630,11 +1630,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "aa44791f58d768ccb821b460cd02e9f9"
+        "value": "accc0586a51a007baa590a72b4037886"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "989d3c8957831fb05b43d33ac2699c33883e58039dcd30867dd3d7aacd392fde"
+        "digest": "51a1e2e94acae63c32c99b653afd70aac20d5274eb3588d1c8dd1c56e43cc3e9"
       }
     },
     {
@@ -2654,7 +2654,7 @@
     {
       "name": "fable-and-improve-codex",
       "directory": "packages/fable-and-improve-codex",
-      "version": "0.5.0",
+      "version": "0.5.1",
       "kind": "workflow",
       "title": "fable-and-improve-codex",
       "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
@@ -2694,11 +2694,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "8c2aa5e9d8fe78a0335b02ec3c049a2b"
+        "value": "952e3c0fc51a8a411782478ca49228e6"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "8cd326741447a155457e6c6fdb033ecbf59d07599e1aeb54b1323fe048999717"
+        "digest": "6e4c11281ebdebdad6ff02e1498933b3aeaacd86886f05edd8391cdb3020b937"
       }
     },
     {

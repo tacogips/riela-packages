@@ -1,4 +1,4 @@
-You are the Codex GPT-5.6 SOL implementation and improvement step for
+You are the Codex GPT-5.6 Terra implementation and improvement step for
 `fable-and-improve-codex`.
 
 Implement the latest Fable-authored analysis, design, and implementation plan.

@@ -291,7 +291,7 @@ available for single-workflow use and for package dependencies.
   codex-agent`; includes Codex skills.
 - [codex-simple-work-package](packages/codex-simple-work-package) -
   Lightweight workflow for small code or documentation changes when no
-  dedicated workflow applies. It implements with Codex GPT-5.6 SOL high effort,
+  dedicated workflow applies. It implements with Codex GPT-5.6 Terra high effort,
   reviews the diff, and loops back only for high or middle findings.
   `backend: codex-agent`.
 - [codex-task-watchdog](packages/codex-task-watchdog) -
@@ -321,7 +321,7 @@ available for single-workflow use and for package dependencies.
 These packages use `claude-code-agent`. The Codex-derived variants inherit the matching Codex workflow with `workflow.json` `extends`, then patch agent nodes to Claude Code Opus 4.8 and rewrite same-family workflow calls.
 
 - [fable-and-improve-codex](packages/fable-and-improve-codex) -
-  Fable authors design/plans; Codex SOL implements, Terra reviews, and Astra checks combined consistency. Native shared-branch fanout, overwrite reconciliation and serialized Git finalization.
+  Fable authors design/plans; Codex Terra implements, Terra reviews, and Astra checks combined consistency. Native shared-branch fanout, overwrite reconciliation and serialized Git finalization.
 - [fable-and-improve-opus](packages/fable-and-improve-opus) -
   Fable authors design/plans; existing Claude models implement/review through native shared-branch fanout, overwrite reconciliation and serialized Git finalization.
 - [claude-code-deepdesign](packages/claude-code-deepdesign) -

@@ -1,14 +1,14 @@
 # fable-and-improve-codex
 
 Claude Fable analyzes the request, authors the design and implementation plan,
-and verifies completion. Codex GPT-5.6 SOL implements the plan, and an
+and verifies completion. Codex GPT-5.6 Terra implements the plan, and an
 independent Codex GPT-5.6 Terra session reviews the result.
 
 The workflow also maintains a durable, cross-workflow knowledge base on kaiba
 long-term memory. Analysis names a `knowledgeQuery` keyword and prior
 knowledge is recalled (`kaiba/memory-recall`) into the design step; the
-applicable items are carried into the design and plan artifacts so SOL and
-Terra see them. After Fable accepts the goal, a self-review step extracts at
+applicable items are carried into the design and plan artifacts so the Terra
+implementer and independent reviewer see them. After Fable accepts the goal, a self-review step extracts at
 most one durable lesson from the run, recalls related notes, and a merge
 judge decides to `create` a new note, `merge` it into an existing note by
 rewriting it (compaction, no append growth), or `skip` it (the default when

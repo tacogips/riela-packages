@@ -156,7 +156,7 @@
         "Exact-text verification passed."
       ],
       "reviewEvidence": [
-        "SOL review accepted the result."
+        "Terra review accepted the result."
       ],
       "residualRisks": [],
       "operatorNotes": []
@@ -230,7 +230,7 @@
         "Terra implementation completed."
       ],
       "reviewEvidence": [
-        "SOL review accepted."
+        "Terra review accepted."
       ],
       "verificationEvidence": [
         "Exact-text verification passed."

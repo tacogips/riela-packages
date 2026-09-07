@@ -11,8 +11,8 @@ manually emulating its orchestration.
 ## Responsibility split
 
 - Codex `gpt-6-astra`: design, implementation-plan authoring, final combined design/implementation consistency review
-- Codex `gpt-5.6-sol`: implementation, revisions, design/plan review and all other coordination
-- Codex `gpt-5.6-terra`: implementation, integrity and adversarial reviews
+- Codex `gpt-5.6-sol`: design/plan review and all other coordination
+- Codex `gpt-5.6-terra`: implementation, revisions, overwrite repair, and independent implementation, integrity and adversarial reviews
 
 Design and planning each use one author node. Commit accepted plans before native same-branch implementation/review fanout. The join aggregates runtime-owned change evidence; serial repair and independent combined review are mandatory before final commit, push and base integration. No worktrees. Failed branches remain pending; accepted IDs feed native dependency scheduling. Requires the matching Riela fanout.dependencies/changeTracking support.
 

@@ -1,6 +1,6 @@
 ---
 name: fable-and-improve-codex
-description: Run the fable-and-improve-codex Riela workflow when Claude Fable should analyze, design, and author the implementation plan, Codex SOL should implement, Codex Terra should independently review, and Fable should verify completion.
+description: Run the fable-and-improve-codex Riela workflow when Claude Fable should analyze, design, and author the implementation plan, Codex Terra should implement, Codex Terra should independently review, and Fable should verify completion.
 ---
 
 # Fable And Improve Codex
@@ -10,7 +10,7 @@ Run the installed workflow instead of manually emulating its orchestration.
 ## Responsibility split
 
 - Fable `claude-fable-5`: analysis, design, implementation plan, replanning, final acceptance, knowledge-base self-review
-- Codex `gpt-5.6-sol`: implementation, tests, verification, and improvements
+- Codex `gpt-5.6-terra`: implementation, tests, verification, and improvements
 - Codex `gpt-5.6-terra`: independent read-only implementation review
 
 ## Knowledge base

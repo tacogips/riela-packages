@@ -1,13 +1,13 @@
 {
   "name": "codex-refactoring-divide-and-conquer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "codex-refactoring-divide-and-conquer",
   "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "51caf27a6ac8090dfcc9d25348ab48fe",
+  "checksum": "76a83d043f7343a6508beec9eefbff3b",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-refactoring-divide-and-conquer",
   "dependencies": [
@@ -26,7 +26,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "b35ad63bfef19b0adc7fde0171af71ad9ef6b561c4924a6b1f36963ef1b05e14"
+    "digest": "d1ca052983c56b15f8a44a40c109d5761cd7de1d27fe5867a7c84c95713c3700"
   },
   "backends": [
     "codex-agent"

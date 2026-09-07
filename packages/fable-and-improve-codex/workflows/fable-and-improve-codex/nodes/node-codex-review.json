@@ -1,6 +1,6 @@
 {
   "id": "codex-review",
-  "description": "An independent Codex GPT-5.6 Terra session reviews the implementation and routes blocking findings back to SOL.",
+  "description": "An independent Codex GPT-5.6 Terra session reviews the implementation and routes blocking findings back to Terra.",
   "executionBackend": "codex-agent",
   "model": "gpt-5.6-terra",
   "modelFreeze": true,

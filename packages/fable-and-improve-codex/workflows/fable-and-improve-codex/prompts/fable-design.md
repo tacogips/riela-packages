@@ -33,9 +33,9 @@ Rules:
 - Author or update the repository's implementation-plan artifact when conventions require it.
 - Do not implement production code, stage, commit, push, or revert files.
 - Name concrete files or components, ordered tasks, dependencies, tests, documentation, verification commands, and completion criteria.
-- Make the plan precise enough for Codex SOL to implement without guessing scope.
+- Make the plan precise enough for Codex Terra to implement without guessing scope.
 - When knowledge-base recall surfaced applicable prior knowledge, include an
-  "Applicable prior knowledge" section in the plan so SOL and Terra apply it.
+  "Applicable prior knowledge" section in the plan so the Terra implementer and independent reviewer apply it.
 
 Return JSON with `planMarkdown`, `implPlanPaths`, `orderedTasks`, `dependencies`,
 `parallelizableTasks`, `verificationPlan`, `completionCriteria`, `risks`, and a

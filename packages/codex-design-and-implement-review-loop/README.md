@@ -2,7 +2,7 @@
 
 Codex design/implementation workflow with native shared-branch fanout and overwrite reconciliation.
 
-Design and implementation-plan authoring and the combined design/implementation check use GPT-6 Astra. Implementation and other coordination steps use GPT-5.6 SOL. Implementation, test-integrity and adversarial reviews use GPT-5.6 Terra. Independent design and plan review remain separate SOL steps.
+Design and implementation-plan authoring and the combined design/implementation check use GPT-6 Astra. Implementation and overwrite repair use GPT-5.6 Terra; other coordination steps use GPT-5.6 SOL. Implementation, test-integrity and adversarial reviews use GPT-5.6 Terra. Independent design and plan review remain separate SOL steps.
 
 - Package id: `codex-design-and-implement-review-loop`
 - Backends: `codex-agent`
