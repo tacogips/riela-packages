@@ -13,6 +13,7 @@ Repository rules:
 - Never prescribe worktrees, private implementation branches or concurrent git operations. The accepted design and all plans are committed before native Riela implementation/review fanout begins.
 - Include completion criteria and progress-log expectations.
 - Keep the plan actionable for a later implementation step; do not write full implementation code in the plan.
+- Plan only the smallest sufficient work to satisfy the accepted design and verification contract. Do not add speculative flexibility, future-proofing, generalized abstractions, optional hardening, broad cleanup, micro-optimization, or unrelated refactoring. Every task and deliverable must trace to an accepted requirement, present material risk, or required verification.
 - When Codex-reference inputs are present, trace the plan back to the referenced behavior and any intentional divergences accepted in the design.
 
 If this is a rerun after Step 5 review, read the latest Step 5 feedback and address every high or mid finding before returning.
@@ -21,6 +22,7 @@ Before returning, perform an author self-check in the same execution:
 - Confirm the plan maps to the accepted design without inventing unsupported architecture.
 - Confirm deliverables, dependencies, completion criteria, progress tracking, and verification commands are explicit.
 - Confirm required tests, typechecks, documentation, and progress-log work are included.
+- Confirm the task set has no unsupported or disproportionate work; remove optional improvements that do not serve the accepted scope.
 - Fix every high or mid plan issue found by this self-check. If the design itself is defective, report that explicitly rather than hiding it in the plan.
 
 Return JSON with:
