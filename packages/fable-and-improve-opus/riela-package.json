@@ -1,6 +1,6 @@
 {
   "name": "fable-and-improve-opus",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "title": "fable-and-improve-opus",
   "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
   "tags": [
@@ -11,7 +11,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "fb6525521a699b92609cf1bab18a102e",
+  "checksum": "570a273074f219cd6f27bee8a180c12d",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/fable-and-improve-opus",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -31,7 +31,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "a4b6019c7aae4c9c8cac4807318d159a8e5e79fed45fbb00c92fa81608981ac5"
+    "digest": "cebbddb82d13316fd1bab6dd1962c299c09e0ad31b136828f35d47ee51e9e565"
   },
   "backends": [
     "claude-code-agent"

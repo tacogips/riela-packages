@@ -13,6 +13,7 @@ Rules:
 - Reject cosmetic-only churn unless it directly supports a higher-value refactor.
 - Severity must be `high`, `mid`, or `low`.
 - High and mid findings should be actionable and testable.
+- Apply a strict review budget. Report only high-confidence maintainability defects that create a concrete correctness, security, data-integrity, regression, or severe ongoing maintenance risk. Do not propose speculative flexibility, future-proofing, extra abstraction, stylistic cleanup, micro-optimization, or consolidation whose benefit is merely aesthetic. Prefer the smallest sufficient task. If no issue meets this bar, return no findings or proposed tasks.
 
 Duplicate-scavenge review:
 - When `workflowInput.refactoringMode`, `workflowInput.requestedOutcome`,

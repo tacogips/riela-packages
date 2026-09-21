@@ -1,6 +1,6 @@
 {
   "workflowId": "fable-and-improve-codex",
-  "description": "Claude Fable analyzes the request, recalls prior knowledge from the kaiba knowledge base, authors the design and implementation plan, Codex implements with GPT-5.6 Terra and independently reviews with GPT-5.6 Terra, Fable verifies completion, and a self-review step feeds durable lessons back into the knowledge base before the final output. Accepted plans are committed before same-branch parallel implementation/review, overwrite reconciliation and serialized Git finalization.",
+  "description": "Claude Fable analyzes the request, recalls prior knowledge from the kaiba knowledge base, and authors the design and implementation plan. Codex GPT-5.6 SOL low effort implements, Codex SOL medium effort independently reviews only material risks, Fable verifies completion, and a self-review step feeds durable lessons back into the knowledge base before final output. Accepted plans are committed before same-branch parallel implementation/review, overwrite reconciliation and serialized Git finalization.",
   "defaults": {
     "maxLoopIterations": 30,
     "nodeTimeoutMs": 3600000,
@@ -219,7 +219,7 @@
     {
       "id": "codex-implementation",
       "nodeId": "codex-implementation",
-      "description": "Use Codex GPT-5.6 Terra to implement or improve the current Fable-authored plan and verify the result.",
+      "description": "Use Codex GPT-5.6 SOL low effort to implement or improve the current Fable-authored plan and verify the result.",
       "role": "worker",
       "transitions": [
         {
@@ -230,7 +230,7 @@
     {
       "id": "codex-review",
       "nodeId": "codex-review",
-      "description": "Use an independent Codex GPT-5.6 Terra session to review the implementation and request concrete fixes.",
+      "description": "Use an independent Codex GPT-5.6 SOL medium-effort session to review the implementation and request only material fixes.",
       "role": "worker",
       "transitions": [
         {
@@ -528,7 +528,7 @@
   "metadata": {
     "rielaPackage": {
       "title": "fable-and-improve-codex",
-      "description": "Claude Fable analyzes the request, recalls prior knowledge from the kaiba knowledge base, authors the design and implementation plan, Codex implements with GPT-5.6 Terra and independently reviews with GPT-5.6 Terra, Fable verifies completion, and a self-review step feeds durable lessons back into the knowledge base before the final output. Accepted plans are committed before same-branch parallel implementation/review, overwrite reconciliation and serialized Git finalization.",
+      "description": "Claude Fable analyzes the request, recalls prior knowledge from the kaiba knowledge base, and authors the design and implementation plan. Codex GPT-5.6 SOL low effort implements, Codex SOL medium effort independently reviews only material risks, Fable verifies completion, and a self-review step feeds durable lessons back into the knowledge base before final output. Accepted plans are committed before same-branch parallel implementation/review, overwrite reconciliation and serialized Git finalization.",
       "tags": [
         "workflow",
         "claude-code",

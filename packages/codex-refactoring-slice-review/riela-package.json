@@ -1,13 +1,13 @@
 {
   "name": "codex-refactoring-slice-review",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "codex-refactoring-slice-review",
   "description": "Read-only review workflow for one codebase slice produced by codex-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "f0de569d246f16c6513de2c7ee9f27cd",
+  "checksum": "324f5c32244848b7d2d821b7857e3c25",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-refactoring-slice-review",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "fe2f4153652cd9953e4112205442060534e2ea45558c10b71f47814bb0b5ef26"
+    "digest": "7158e01eb42274fc0c0ce59184fdb2ef7b93ceef1b82082fdbb89c1f9bb209e0"
   },
   "backends": [
     "codex-agent"

@@ -9,5 +9,5 @@
   "output": {
     "description": "Return JSON containing slice id, reviewed paths, findings, duplicate-scavenge candidates, proposed tasks, conflict notes, verification suggestions, and residual risks."
   },
-  "effort": "high"
+  "effort": "medium"
 }

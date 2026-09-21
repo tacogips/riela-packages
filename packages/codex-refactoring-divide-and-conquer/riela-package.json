@@ -1,13 +1,13 @@
 {
   "name": "codex-refactoring-divide-and-conquer",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "title": "codex-refactoring-divide-and-conquer",
   "description": "Divide the codebase into slices, review concurrently, build a dependency-aware refactoring task DAG, implement ready disjoint tasks in shared-workspace waves, reconcile and review each wave, and repeat until complete.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "fb5e838a0a0d4e6a59a161ae64a68edf",
+  "checksum": "91e7e5d64508beb2970f7b28b412fe3b",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-refactoring-divide-and-conquer",
   "dependencies": [
@@ -26,7 +26,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "42b400573e37ff099b6ab087e1091d3925d489c04ea3a221735f74d165279101"
+    "digest": "3db752b44a4f49c13285f76a51dda58ed84d88d827876b023c748d4272922d6b"
   },
   "backends": [
     "codex-agent"

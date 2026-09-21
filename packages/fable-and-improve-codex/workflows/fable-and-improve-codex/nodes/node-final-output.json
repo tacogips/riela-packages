@@ -1,6 +1,6 @@
 {
   "id": "final-output",
-  "description": "Publish the final result after Fable accepts the Terra implementation and Terra review.",
+  "description": "Publish the final result after Fable accepts the SOL implementation and SOL review.",
   "executionBackend": "claude-code-agent",
   "model": "claude-fable-5",
   "modelFreeze": true,

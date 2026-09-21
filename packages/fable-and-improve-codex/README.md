@@ -1,13 +1,13 @@
 # fable-and-improve-codex
 
 Claude Fable analyzes the request, authors the design and implementation plan,
-and verifies completion. Codex GPT-5.6 Terra implements the plan, and an
-independent Codex GPT-5.6 Terra session reviews the result.
+and verifies completion. Codex GPT-5.6 SOL low effort implements the plan, and
+an independent Codex GPT-5.6 SOL medium-effort session reviews the result.
 
 The workflow also maintains a durable, cross-workflow knowledge base on kaiba
 long-term memory. Analysis names a `knowledgeQuery` keyword and prior
 knowledge is recalled (`kaiba/memory-recall`) into the design step; the
-applicable items are carried into the design and plan artifacts so the Terra
+applicable items are carried into the design and plan artifacts so the SOL
 implementer and independent reviewer see them. After Fable accepts the goal, a self-review step extracts at
 most one durable lesson from the run, recalls related notes, and a merge
 judge decides to `create` a new note, `merge` it into an existing note by
@@ -21,7 +21,7 @@ variable to select a different base.
 
 - Package id: `fable-and-improve-codex`
 - Backends: `claude-code-agent`, `codex-agent`
-- Models: `claude-fable-5`, `gpt-5.6-terra`, `gpt-5.6-sol`
+- Models: `claude-fable-5`, `gpt-5.6-sol`
 - Workflow: `fable-and-improve-codex`
 - Skills: Claude Code
 
@@ -33,6 +33,8 @@ riela package install fable-and-improve-codex \
 ```
 
 The compact graph has 14 steps: design and implementation planning share one Fable execution, with both artifacts and their consistency evidence retained. Independent implementation review, goal acceptance, and knowledge-base operations remain separate.
+
+Codex review feedback is limited to concrete security, functionality, data-integrity, regression, acceptance, lost-work, or severe code-quality risks. Speculative optimization, optional abstraction, and other overengineering are excluded.
 
 Add `--scope user` for a user-scope install.
 

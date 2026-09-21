@@ -118,6 +118,15 @@
     },
     "payload": {
       "reviewStatus": "accepted",
+      "reviewBasis": {
+        "userOutcome": "Add the requested documentation note.",
+        "acceptanceCriteria": ["The note exists exactly once in the requested location."],
+        "nonGoals": ["Unrelated documentation restructuring."],
+        "constraints": ["Preserve existing documentation."],
+        "designDecisions": ["Use a focused documentation edit."],
+        "intentionalTradeoffs": ["Use exact-text verification for the narrow change."],
+        "sourcePaths": ["impl-plans/active/a.md"]
+      },
       "findings": [],
       "verificationAssessment": [
         "Exact-text verification passed."
@@ -294,13 +303,34 @@
           "acceptanceCriteria": [
             "a behavior retained"
           ],
+          "verification": ["mock combined check"],
+          "reviewContext": {
+            "issueReference": "mock-fable-opus",
+            "userProblem": "The requested behavior must be implemented and independently reviewed.",
+            "requiredOutcomes": ["Retain the accepted plan behavior."],
+            "nonGoals": ["Unrelated refactoring."],
+            "constraints": ["Preserve existing repository behavior."],
+            "designDecisionsAndRationale": ["Use the Fable-authored design and plan as the contract."],
+            "intentionalTradeoffs": ["Prefer a focused implementation."],
+            "supportedEdgeCases": ["Shared-file reconciliation."],
+            "outOfScopeEdgeCases": ["Cross-repository execution."],
+            "sourcePaths": ["impl-plans/active/a.md"]
+          },
           "trackedPaths": [
             "a.txt",
             "shared.txt"
-          ]
+          ],
+          "manifestPath": "impl-plans/active/mock-dispatch.json",
+          "checkpointCommit": "1111111111111111111111111111111111111111",
+          "implementationBranch": "main",
+          "baseBranch": "main",
+          "remote": "origin",
+          "evidenceRoot": "tmp/mock"
         }
       ],
-      "acceptedPlanIds": []
+      "acceptedPlanIds": [],
+      "manifestPath": "impl-plans/active/mock-dispatch.json",
+      "checkpointCommit": "1111111111111111111111111111111111111111"
     }
   },
   "branch-evidence": {
@@ -328,7 +358,15 @@
       "always": true
     },
     "payload": {
+      "reviewBasis": {
+        "requiredOutcomes": ["Retain the accepted plan behavior."],
+        "nonGoals": ["Unrelated refactoring."],
+        "constraints": ["Preserve existing repository behavior."],
+        "sourcePaths": ["impl-plans/active/a.md"]
+      },
       "repairs": [],
+      "addressedFeedback": [],
+      "deferredFeedback": [],
       "unresolvedFindings": [],
       "verification": [
         "mock combined check"
@@ -344,6 +382,15 @@
     },
     "payload": {
       "accepted": true,
+      "reviewBasis": {
+        "requiredOutcomes": ["Retain the accepted plan behavior."],
+        "acceptanceCriteria": ["All dispatched behavior survives on the combined tree."],
+        "nonGoals": ["Unrelated refactoring."],
+        "constraints": ["Preserve existing repository behavior."],
+        "designRationale": ["Use the Fable-authored design and plan as the contract."],
+        "intentionalTradeoffs": ["Prefer focused implementation and verification."],
+        "sourcePaths": ["impl-plans/active/a.md"]
+      },
       "findings": [],
       "needs_revision": false,
       "plans_remaining": false

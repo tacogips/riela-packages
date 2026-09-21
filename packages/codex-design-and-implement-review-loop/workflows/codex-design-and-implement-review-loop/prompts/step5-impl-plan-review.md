@@ -13,6 +13,8 @@ Check:
 - When Codex-reference inputs are present, every referenced behavior called out by the design is either planned explicitly or deferred explicitly.
 - Design decisions, intentional divergences, user-QA items, risks, dependencies, and verification criteria agree across the design and the plan.
 
+Apply a strict review budget. Report feedback only when there is concrete evidence of an unmet accepted requirement, a security or data-integrity risk, a likely functional defect/regression, or a severe code-quality degradation that will materially impede implementation or maintenance. Do not request speculative flexibility, future-proofing, extra abstraction, optional hardening, stylistic cleanup, micro-optimization, or plan detail that is not needed to implement and verify the accepted scope. Prefer the smallest sufficient correction. If no issue meets this bar, accept without recommendations.
+
 Classify findings as `high`, `mid`, or `low`.
 Set `when.needs_design_revision` to `true` only when the accepted design must change.
 Set `when.needs_revision` to `true` only when the design is acceptable but the implementation plan must change.
@@ -52,6 +54,6 @@ Return adapter JSON with this shape:
 Use `when.needs_design_revision: false`, `when.needs_revision: false`, and `payload.accepted: true` only when there are no high or mid findings.
 Do not set both revision flags to `true` in the same response.
 
-Independently check authorSelfCheck against the artifacts. Missing evidence, unresolved high/mid findings, or unexplained verification gaps are blocking: report a finding and use the existing revision route. Do not accept an unsupported author assertion.
+Independently check authorSelfCheck against the artifacts. Missing evidence or a verification gap is blocking only when it prevents assessment of an accepted requirement or one of the material risks above. Do not accept an unsupported author assertion about such a requirement or risk.
 
 Check all plans together: unique IDs/files, acyclic dependencies, dependency-ready waves, shared-file intent, per-plan progress ownership, immutable overwrite evidence and serial reconciliation. Require tests proving every plan's behavior survives later writes. Reject any worktree requirement, design/plan fanout, parallel commit/push/merge, or an assumption that disjoint ownership guarantees no overwrite.

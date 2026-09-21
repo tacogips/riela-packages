@@ -291,8 +291,9 @@ available for single-workflow use and for package dependencies.
   codex-agent`; includes Codex skills.
 - [codex-simple-work-package](packages/codex-simple-work-package) -
   Lightweight workflow for small code or documentation changes when no
-  dedicated workflow applies. It implements with Codex GPT-5.6 Terra high effort,
-  reviews the diff, and loops back only for high or middle findings.
+  dedicated workflow applies. It implements with Codex GPT-5.6 SOL low effort,
+  reviews with SOL medium effort, and loops back only for material high or
+  middle findings.
   `backend: codex-agent`.
 - [codex-task-watchdog](packages/codex-task-watchdog) -
   Runs a background task watcher for `./tasks/list.jsonl`, repeatedly polling

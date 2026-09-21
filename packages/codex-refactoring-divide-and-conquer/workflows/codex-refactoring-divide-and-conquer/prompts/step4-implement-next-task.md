@@ -50,6 +50,8 @@ Before returning, perform this author self-check inside the implementation execu
 
 Integrated author self-check:
 
+Keep this check bounded to the assigned task, changed hunks, completion criteria, and required verification. Do not search for unrelated improvements, redesign, generalize, create extra abstraction layers, or optimize speculatively. Record a finding only for a concrete correctness, security, data-integrity, required-functionality, scope, or severe code-quality risk.
+
 Review against:
 - the selected plan task
 - the actual repository diff

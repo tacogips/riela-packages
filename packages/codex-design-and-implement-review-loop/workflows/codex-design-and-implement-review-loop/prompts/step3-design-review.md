@@ -11,6 +11,8 @@ Check:
 - When Codex-reference inputs are present, the design identifies concrete reference paths, commands, data flows, or modules from the reference repository.
 - When Codex-reference inputs are present, intentional divergences and Cursor adapter boundaries are explicit and justified.
 
+Apply a strict review budget. Report feedback only when there is concrete evidence of an unmet accepted requirement, a security or data-integrity risk, a likely functional defect/regression, or a severe code-quality degradation that will materially impede implementation or maintenance. Do not request speculative flexibility, future-proofing, extra abstraction, optional hardening, stylistic cleanup, micro-optimization, or documentation beyond what the accepted scope requires. Prefer the smallest sufficient correction. If no issue meets this bar, accept without recommendations.
+
 Classify findings as `high`, `mid`, or `low`.
 Set `when.needs_revision` to `true` only when any `high` or `mid` finding exists.
 Also mirror that decision in `payload.needs_revision`.
@@ -42,4 +44,4 @@ Return adapter JSON with this shape:
 
 Use `when.needs_revision: false`, `payload.needs_revision: false`, and `payload.accepted: true` only when there are no high or mid findings.
 
-Independently check authorSelfCheck against the artifacts. Missing evidence, unresolved high/mid findings, or unexplained verification gaps are blocking: report a finding and use the existing revision route. Do not accept an unsupported author assertion.
+Independently check authorSelfCheck against the artifacts. Missing evidence or a verification gap is blocking only when it prevents assessment of an accepted requirement or one of the material risks above. Do not accept an unsupported author assertion about such a requirement or risk.

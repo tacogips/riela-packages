@@ -2,8 +2,19 @@
   "id": "reconcile-implementations",
   "description": "You are the sole writer after the native fanout join. All workers in the wave have stopped. On revision, read the latest integration-review feedback.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.6-terra",
+  "model": "gpt-5.6-sol",
   "promptTemplateFile": "prompts/reconcile-implementations.md",
   "variables": {},
-  "effort": "high"
+  "effort": "low",
+  "output": {
+    "description": "Return intent-grounded repairs and explicit addressed or deferred feedback decisions.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "reviewBasis": { "type": "object", "properties": { "requiredOutcomes": { "type": "array", "items": { "type": "string" }, "minItems": 1 }, "nonGoals": { "type": "array", "items": { "type": "string" } }, "constraints": { "type": "array", "items": { "type": "string" } }, "sourcePaths": { "type": "array", "items": { "type": "string" }, "minItems": 1 } }, "required": ["requiredOutcomes", "nonGoals", "constraints", "sourcePaths"], "additionalProperties": false },
+        "repairs": { "type": "array", "items": {} }, "addressedFeedback": { "type": "array", "items": {} }, "deferredFeedback": { "type": "array", "items": {} }, "unresolvedFindings": { "type": "array", "items": {} }
+      },
+      "required": ["reviewBasis", "repairs", "addressedFeedback", "deferredFeedback", "unresolvedFindings"], "additionalProperties": true
+    }
+  }
 }

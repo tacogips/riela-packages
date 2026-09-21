@@ -116,7 +116,7 @@
   "step3-design-review": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-5.6-sol",
       "when": {
         "needs_revision": true,
         "requires_adversarial_review": false
@@ -140,7 +140,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-5.6-sol",
       "when": {
         "needs_revision": false
       },
@@ -238,7 +238,7 @@
   "step5-impl-plan-review": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-5.6-sol",
       "when": {
         "needs_design_revision": false,
         "needs_revision": true,
@@ -265,7 +265,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-5.6-sol",
       "when": {
         "needs_design_revision": false,
         "needs_revision": false,
@@ -284,7 +284,7 @@
   "step6-implement": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-5.6-terra",
+      "model": "gpt-5.6-sol",
       "when": {
         "always": true
       },
@@ -313,7 +313,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-5.6-terra",
+      "model": "gpt-5.6-sol",
       "when": {
         "always": true
       },
@@ -352,6 +352,12 @@
     "payload": {
       "needs_revision": false,
       "accepted": true,
+      "reviewBasis": {
+        "requiredBehaviors": ["Persist and replay review findings across reruns."],
+        "supportedEdgeCases": ["Rerun after a prior review finding."],
+        "nonGoals": ["Unrelated workflow refactoring."],
+        "sourcePaths": ["impl-plans/active/workflow-review-findings.md"]
+      },
       "findings": [],
       "reviewedFiles": [
         "packages/riela/src/workflow/review-findings.ts",
@@ -380,12 +386,24 @@
       "payload": {
         "needs_revision": true,
         "requires_adversarial_review": false,
+        "reviewBasis": {
+          "userOutcome": "Persist and replay review findings across reruns.",
+          "acceptanceCriteria": ["Implementation and plan progress are complete and verified."],
+          "nonGoals": ["Unrelated workflow refactoring."],
+          "constraints": ["Preserve existing rerun behavior."],
+          "designDecisions": ["Persist review findings with workflow execution metadata."],
+          "intentionalTradeoffs": ["Use the existing persistence boundary."],
+          "sourcePaths": ["impl-plans/active/workflow-review-findings.md"]
+        },
         "findings": [
           {
             "severity": "mid",
             "file": "impl-plans/active/workflow-review-findings.md",
             "line": 1,
-            "message": "The implementation updated code and tests but did not update the implementation-plan progress log or rerun typecheck."
+            "message": "The implementation updated code and tests but did not update the implementation-plan progress log or rerun typecheck.",
+            "intentReference": "The accepted plan requires current progress evidence and typecheck verification.",
+            "materialImpact": "Completion cannot be verified against the accepted plan.",
+            "fixCostBenefit": "Updating the log and rerunning typecheck is low cost and closes the evidence gap."
           }
         ],
         "feedback": [
@@ -404,6 +422,15 @@
       "payload": {
         "needs_revision": false,
         "requires_adversarial_review": true,
+        "reviewBasis": {
+          "userOutcome": "Persist and replay review findings across reruns.",
+          "acceptanceCriteria": ["Prior findings remain available during rerun implementation."],
+          "nonGoals": ["Unrelated workflow refactoring."],
+          "constraints": ["Preserve existing workflow execution behavior."],
+          "designDecisions": ["Persist findings with workflow execution metadata."],
+          "intentionalTradeoffs": ["Reuse the existing persistence layer."],
+          "sourcePaths": ["impl-plans/active/workflow-review-findings.md"]
+        },
         "findings": [],
         "feedback": [],
         "accepted": true,
@@ -419,6 +446,13 @@
     },
     "payload": {
       "needs_revision": false,
+      "reviewBasis": {
+        "protectedOutcomes": ["Rerun findings are retained without corrupting workflow state."],
+        "trustBoundaries": ["Persisted workflow execution metadata."],
+        "nonGoals": ["General storage hardening outside this workflow."],
+        "intentionalTradeoffs": ["Reuse the existing persistence layer."],
+        "sourcePaths": ["impl-plans/active/workflow-review-findings.md"]
+      },
       "findings": [],
       "feedback": [],
       "accepted": true,
@@ -660,13 +694,36 @@
           "acceptanceCriteria": [
             "a behavior retained"
           ],
+          "verification": [
+            "mock combined check"
+          ],
+          "reviewContext": {
+            "issueReference": "mock-review-findings",
+            "userProblem": "Review findings must survive reruns.",
+            "requiredOutcomes": ["Persist and replay review findings."],
+            "nonGoals": ["Unrelated workflow refactoring."],
+            "constraints": ["Preserve existing workflow behavior."],
+            "designDecisionsAndRationale": ["Store findings with execution metadata for rerun access."],
+            "intentionalTradeoffs": ["Reuse the existing persistence boundary."],
+            "supportedEdgeCases": ["Rerun after review feedback."],
+            "outOfScopeEdgeCases": ["Cross-repository persistence."],
+            "sourcePaths": ["impl-plans/active/a.md"]
+          },
           "trackedPaths": [
             "a.txt",
             "shared.txt"
-          ]
+          ],
+          "manifestPath": "impl-plans/active/mock-dispatch.json",
+          "checkpointCommit": "1111111111111111111111111111111111111111",
+          "implementationBranch": "main",
+          "baseBranch": "main",
+          "remote": "origin",
+          "evidenceRoot": "tmp/mock"
         }
       ],
-      "acceptedPlanIds": []
+      "acceptedPlanIds": [],
+      "manifestPath": "impl-plans/active/mock-dispatch.json",
+      "checkpointCommit": "1111111111111111111111111111111111111111"
     }
   },
   "branch-evidence": {
@@ -694,7 +751,15 @@
       "always": true
     },
     "payload": {
+      "reviewBasis": {
+        "requiredOutcomes": ["Persist and replay review findings."],
+        "nonGoals": ["Unrelated workflow refactoring."],
+        "constraints": ["Preserve existing workflow behavior."],
+        "sourcePaths": ["impl-plans/active/a.md"]
+      },
       "repairs": [],
+      "addressedFeedback": [],
+      "deferredFeedback": [],
       "unresolvedFindings": [],
       "verification": [
         "mock combined check"
@@ -710,6 +775,15 @@
     },
     "payload": {
       "accepted": true,
+      "reviewBasis": {
+        "userOutcomes": ["Persist and replay review findings."],
+        "acceptanceCriteria": ["All dispatched behavior survives on the combined tree."],
+        "nonGoals": ["Unrelated workflow refactoring."],
+        "constraints": ["Preserve existing workflow behavior."],
+        "designDecisions": ["Store findings with execution metadata."],
+        "intentionalTradeoffs": ["Reuse the existing persistence boundary."],
+        "sourcePaths": ["impl-plans/active/a.md"]
+      },
       "findings": [],
       "needs_revision": false,
       "plans_remaining": false

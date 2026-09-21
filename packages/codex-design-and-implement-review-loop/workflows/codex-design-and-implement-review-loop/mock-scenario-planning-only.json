@@ -120,7 +120,7 @@
   "step3-design-review": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-5.6-sol",
       "when": {
         "needs_revision": true
       },
@@ -142,7 +142,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-5.6-sol",
       "when": {
         "needs_revision": false
       },
@@ -245,7 +245,7 @@
   "step5-impl-plan-review": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-5.6-sol",
       "when": {
         "needs_design_revision": false,
         "needs_revision": true,
@@ -272,7 +272,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-5.6-sol",
       "when": {
         "needs_design_revision": false,
         "needs_revision": false,
@@ -430,13 +430,34 @@
           "acceptanceCriteria": [
             "a behavior retained"
           ],
+          "verification": ["mock combined check"],
+          "reviewContext": {
+            "issueReference": "mock-planning",
+            "userProblem": "Produce an accepted design and implementation plan.",
+            "requiredOutcomes": ["Provide an actionable accepted plan."],
+            "nonGoals": ["Implementation during planning-only mode."],
+            "constraints": ["Do not modify implementation files."],
+            "designDecisionsAndRationale": ["Stop after planning and git finalization."],
+            "intentionalTradeoffs": ["Defer runtime verification to implementation."],
+            "supportedEdgeCases": ["Planning-only execution."],
+            "outOfScopeEdgeCases": ["Implementation fanout."],
+            "sourcePaths": ["impl-plans/active/a.md"]
+          },
           "trackedPaths": [
             "a.txt",
             "shared.txt"
-          ]
+          ],
+          "manifestPath": "impl-plans/active/mock-dispatch.json",
+          "checkpointCommit": "1111111111111111111111111111111111111111",
+          "implementationBranch": "main",
+          "baseBranch": "main",
+          "remote": "origin",
+          "evidenceRoot": "tmp/mock"
         }
       ],
-      "acceptedPlanIds": []
+      "acceptedPlanIds": [],
+      "manifestPath": "impl-plans/active/mock-dispatch.json",
+      "checkpointCommit": "1111111111111111111111111111111111111111"
     }
   },
   "branch-evidence": {
@@ -464,7 +485,15 @@
       "always": true
     },
     "payload": {
+      "reviewBasis": {
+        "requiredOutcomes": ["Provide an actionable accepted plan."],
+        "nonGoals": ["Implementation during planning-only mode."],
+        "constraints": ["Do not modify implementation files."],
+        "sourcePaths": ["impl-plans/active/a.md"]
+      },
       "repairs": [],
+      "addressedFeedback": [],
+      "deferredFeedback": [],
       "unresolvedFindings": [],
       "verification": [
         "mock combined check"
@@ -480,6 +509,15 @@
     },
     "payload": {
       "accepted": true,
+      "reviewBasis": {
+        "userOutcomes": ["Provide an actionable accepted plan."],
+        "acceptanceCriteria": ["The accepted plan remains internally consistent."],
+        "nonGoals": ["Implementation during planning-only mode."],
+        "constraints": ["Do not modify implementation files."],
+        "designDecisions": ["Stop after planning and git finalization."],
+        "intentionalTradeoffs": ["Defer runtime verification to implementation."],
+        "sourcePaths": ["impl-plans/active/a.md"]
+      },
       "findings": [],
       "needs_revision": false,
       "plans_remaining": false

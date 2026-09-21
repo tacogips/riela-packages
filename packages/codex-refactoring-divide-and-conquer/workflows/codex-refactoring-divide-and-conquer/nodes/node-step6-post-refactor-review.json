@@ -9,5 +9,5 @@
   "output": {
     "description": "Return adapter JSON with wave coverage, accepted task/dispatch ids, repairTasks, routing flags, findings, verification evidence, and residual risks."
   },
-  "effort": "high"
+  "effort": "medium"
 }

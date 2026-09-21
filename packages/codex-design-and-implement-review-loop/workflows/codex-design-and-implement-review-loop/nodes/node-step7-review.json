@@ -2,12 +2,55 @@
   "id": "step7-review",
   "description": "Review the implementation against the repository diff and route back when any high or mid finding exists.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.6-terra",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
-  "effort": "high",
+  "effort": "medium",
   "promptTemplateFile": "prompts/step7-review.md",
   "variables": {},
   "output": {
-    "description": "Return adapter JSON with when.needs_revision true only when high or mid findings exist, and when.requires_adversarial_review true only for accepted high-risk implementations that need the adversarial gate."
+    "description": "Return an auditable review basis and only route high or mid findings that are tied to accepted intent, material impact, and proportionate fix value.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "needs_revision": { "type": "boolean" },
+        "requires_adversarial_review": { "type": "boolean" },
+        "accepted": { "type": "boolean" },
+        "reviewBasis": {
+          "type": "object",
+          "properties": {
+            "userOutcome": { "type": "string", "minLength": 1 },
+            "acceptanceCriteria": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+            "nonGoals": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "constraints": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "designDecisions": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "intentionalTradeoffs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "sourcePaths": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 }
+          },
+          "required": ["userOutcome", "acceptanceCriteria", "nonGoals", "constraints", "designDecisions", "intentionalTradeoffs", "sourcePaths"],
+          "additionalProperties": false
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "severity": { "type": "string", "enum": ["high", "mid", "low"] },
+              "file": { "type": "string", "minLength": 1 },
+              "line": { "type": "number", "minimum": 1 },
+              "message": { "type": "string", "minLength": 1 },
+              "intentReference": { "type": "string", "minLength": 1 },
+              "materialImpact": { "type": "string", "minLength": 1 },
+              "fixCostBenefit": { "type": "string", "minLength": 1 }
+            },
+            "required": ["severity", "file", "message", "intentReference", "materialImpact", "fixCostBenefit"],
+            "additionalProperties": false
+          }
+        },
+        "feedback": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "adversarialReviewReason": { "type": "string" }
+      },
+      "required": ["needs_revision", "requires_adversarial_review", "accepted", "reviewBasis", "findings", "feedback"],
+      "additionalProperties": false
+    }
   }
 }

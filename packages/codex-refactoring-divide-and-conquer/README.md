@@ -37,4 +37,4 @@ riela workflow run codex-refactoring-divide-and-conquer --output jsonl
 See the [registry README](../../README.md) for the full package index
 and the recommended install flow.
 
-The compact graph has 6 steps. Each implementation task includes its author self-check; the independent post-refactor review still routes blocking findings to implementation.
+The compact graph has 6 steps. Implementation uses GPT-5.6 SOL low effort and includes a bounded author self-check. The independent post-refactor review uses SOL medium effort and routes only material security, functionality, data-integrity, regression, scope, or severe code-quality findings back to implementation; speculative optimization and overengineering are excluded.

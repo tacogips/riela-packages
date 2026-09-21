@@ -2,12 +2,57 @@
   "id": "step6-test-integrity-check",
   "description": "Check test and verification integrity after implementation before independent review.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.6-terra",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
-  "effort": "high",
+  "effort": "medium",
   "promptTemplateFile": "prompts/step6-test-integrity-check.md",
   "variables": {},
   "output": {
-    "description": "Return adapter JSON with when.needs_revision true only when test deletion, weakened assertions, test-only hacks, skipped coverage, or verification integrity issues require Step 6 revision."
+    "description": "Return an auditable intent-grounded test review and only route materially relevant, proportionate verification findings.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "needs_revision": { "type": "boolean" },
+        "accepted": { "type": "boolean" },
+        "reviewBasis": {
+          "type": "object",
+          "properties": {
+            "requiredBehaviors": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+            "supportedEdgeCases": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "nonGoals": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "sourcePaths": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 }
+          },
+          "required": ["requiredBehaviors", "supportedEdgeCases", "nonGoals", "sourcePaths"],
+          "additionalProperties": false
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "severity": { "type": "string", "enum": ["high", "mid", "low"] },
+              "file": { "type": "string", "minLength": 1 },
+              "line": { "type": "number", "minimum": 1 },
+              "message": { "type": "string", "minLength": 1 },
+              "intentReference": { "type": "string", "minLength": 1 },
+              "materialImpact": { "type": "string", "minLength": 1 },
+              "fixCostBenefit": { "type": "string", "minLength": 1 }
+            },
+            "required": ["severity", "file", "message", "intentReference", "materialImpact", "fixCostBenefit"],
+            "additionalProperties": false
+          }
+        },
+        "reviewedFiles": { "type": "array", "items": { "type": "string" } },
+        "testFilesChanged": { "type": "array", "items": { "type": "string" } },
+        "removedOrWeakenedTests": { "type": "array", "items": { "type": "string" } },
+        "suspectedTestOnlyHacks": { "type": "array", "items": { "type": "string" } },
+        "verificationGaps": { "type": "array", "items": { "type": "string" } },
+        "feedback": { "type": "array", "items": { "type": "string" } },
+        "residualRisks": { "type": "array", "items": { "type": "string" } },
+        "testIntegritySummary": { "type": "string" }
+      },
+      "required": ["needs_revision", "accepted", "reviewBasis", "findings", "reviewedFiles", "testFilesChanged", "removedOrWeakenedTests", "suspectedTestOnlyHacks", "verificationGaps", "feedback", "residualRisks"],
+      "additionalProperties": false
+    }
   }
 }

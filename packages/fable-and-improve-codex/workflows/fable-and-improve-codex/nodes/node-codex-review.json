@@ -1,13 +1,45 @@
 {
   "id": "codex-review",
-  "description": "An independent Codex GPT-5.6 Terra session reviews the implementation and routes blocking findings back to Terra.",
+  "description": "An independent Codex GPT-5.6 SOL medium-effort session reviews the implementation and routes only material blocking findings back to implementation.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.6-terra",
+  "model": "gpt-5.6-sol",
   "modelFreeze": true,
-  "effort": "high",
+  "effort": "medium",
   "promptTemplateFile": "prompts/codex-review.md",
   "variables": {},
   "output": {
-    "description": "Return when.needs_revision plus findings, verification assessment, accepted risks, and concrete revision instructions."
+    "description": "Return an auditable intent-grounded review and only route materially justified, proportionate findings.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "reviewStatus": { "type": "string", "minLength": 1 },
+        "reviewBasis": {
+          "type": "object",
+          "properties": {
+            "userOutcome": { "type": "string", "minLength": 1 },
+            "acceptanceCriteria": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+            "nonGoals": { "type": "array", "items": { "type": "string" } }, "constraints": { "type": "array", "items": { "type": "string" } },
+            "designDecisions": { "type": "array", "items": { "type": "string" } }, "intentionalTradeoffs": { "type": "array", "items": { "type": "string" } },
+            "sourcePaths": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 }
+          },
+          "required": ["userOutcome", "acceptanceCriteria", "nonGoals", "constraints", "designDecisions", "intentionalTradeoffs", "sourcePaths"], "additionalProperties": false
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "severity": { "type": "string", "enum": ["high", "mid", "medium", "low"] }, "file": { "type": "string", "minLength": 1 },
+              "line": { "type": "number", "minimum": 1 }, "message": { "type": "string", "minLength": 1 },
+              "intentReference": { "type": "string", "minLength": 1 }, "materialImpact": { "type": "string", "minLength": 1 }, "fixCostBenefit": { "type": "string", "minLength": 1 }
+            },
+            "required": ["severity", "file", "message", "intentReference", "materialImpact", "fixCostBenefit"], "additionalProperties": false
+          }
+        },
+        "verificationAssessment": { "type": "array", "items": {} }, "acceptanceCriteriaAssessment": { "type": "array", "items": {} },
+        "revisionInstructions": { "type": "array", "items": {} }, "acceptedResidualRisks": { "type": "array", "items": {} }, "reviewEvidence": { "type": "array", "items": {} }
+      },
+      "required": ["reviewStatus", "reviewBasis", "findings", "verificationAssessment", "acceptanceCriteriaAssessment", "revisionInstructions", "acceptedResidualRisks", "reviewEvidence"], "additionalProperties": false
+    }
   }
 }

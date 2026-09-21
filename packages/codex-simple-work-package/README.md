@@ -1,6 +1,6 @@
 # codex-simple-work-package
 
-Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.6 Terra high effort, reviews the diff, and loops back only for high or middle findings.
+Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.6 SOL low effort and reviews with SOL medium effort. Review feedback is limited to concrete security, functionality, data-integrity, regression, acceptance, or severe code-quality risks; speculative optimization and overengineering are excluded.
 
 - Package id: `codex-simple-work-package`
 - Backends: `codex-agent`

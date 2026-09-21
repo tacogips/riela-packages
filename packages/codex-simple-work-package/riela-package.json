@@ -1,19 +1,19 @@
 {
   "name": "codex-simple-work-package",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "title": "codex-simple-work-package",
-  "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.6 Terra high effort, reviews the diff, and loops back only for high or middle findings.",
+  "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.6 SOL low effort, reviews with SOL medium effort, and loops back only for material high or middle findings.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "accc0586a51a007baa590a72b4037886",
+  "checksum": "c1333798367538a3d500f34fc60d8731",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-simple-work-package",
   "repository": "https://github.com/tacogips/riela-packages",
   "workflow": {
     "title": "codex-simple-work-package",
-    "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.6 Terra high effort, reviews the diff, and loops back only for high or middle findings.",
+    "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.6 SOL low effort, reviews with SOL medium effort, and loops back only for material high or middle findings.",
     "tags": [
       "workflow"
     ],
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "51a1e2e94acae63c32c99b653afd70aac20d5274eb3588d1c8dd1c56e43cc3e9"
+    "digest": "f47dc1ea073a11f73c434eb90fe0bce49b964931628504463b2ab8dd8b02f984"
   },
   "backends": [
     "codex-agent"

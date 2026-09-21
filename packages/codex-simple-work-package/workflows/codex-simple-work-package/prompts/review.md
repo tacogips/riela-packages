@@ -10,6 +10,8 @@ Prioritize:
 - work that should have been routed to a more specialized workflow instead of this simple package
 - missing focused verification for changed code
 
+Apply a strict review budget. Report feedback only for a high-confidence issue with material impact: a security or data-integrity risk, incorrect or missing required behavior, a likely regression, a clear acceptance-criteria violation, or severe code-quality degradation with a concrete maintenance or operational cost. Do not request speculative flexibility, future-proofing, extra abstraction, optional hardening, stylistic cleanup, micro-optimization, additional documentation/tests without a material risk, or unrelated refactoring. Prefer the smallest sufficient fix. If no issue meets this bar, accept without recommendations.
+
 Classify findings as `high`, `middle`, or `low`.
 Set `when.needs_revision` to `true` only when any `high` or `middle` finding exists.
 Also mirror that decision in `payload.needs_revision`.

@@ -111,10 +111,6 @@ trap 'rm -rf "$workflow_tmp"' EXIT
 for workflow_dir in packages/*/workflows/*; do
   [ -d "$workflow_dir" ] || continue
   workflow=$(basename "$workflow_dir")
-  if bun -e 'const workflow = JSON.parse(await Bun.file(process.argv[1]).text()); process.exit(workflow.extends ? 0 : 1);' "$workflow_dir/workflow.json"; then
-    echo "${workflow} extends skip"
-    continue
-  fi
   cp -R "$workflow_dir" "$workflow_tmp/$(basename "$workflow_dir")"
 done
 

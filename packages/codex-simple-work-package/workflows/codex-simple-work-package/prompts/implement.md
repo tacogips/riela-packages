@@ -10,6 +10,7 @@ Rules:
 - If this is a rerun after review, read the latest review output and address every `high` or `middle` finding before returning.
 - Do not rerun for low findings unless fixing them is trivial and clearly within the requested scope.
 - Run the smallest useful verification command for the change when feasible.
+- Keep any final self-check bounded to the requested change, changed hunks, acceptance criteria, and required verification. Do not search for unrelated improvements, redesign, generalize, add abstraction layers, or optimize speculatively.
 
 Return JSON with:
 - `changedFiles`

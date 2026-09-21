@@ -4,7 +4,7 @@
   "executionBackend": "codex-agent",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
-  "effort": "high",
+  "effort": "medium",
   "promptTemplateFile": "prompts/step5-impl-plan-review.md",
   "variables": {},
   "output": {

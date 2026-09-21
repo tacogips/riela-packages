@@ -1296,7 +1296,7 @@
     {
       "name": "codex-design-and-implement-review-loop",
       "directory": "packages/codex-design-and-implement-review-loop",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "kind": "workflow",
       "title": "codex-design-and-implement-review-loop",
       "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
@@ -1326,11 +1326,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "4c7efb819c8cd454cb956898ea864cd8"
+        "value": "ae4284bc5af693b44f31655b7e1a7644"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "51e9ad7d6c1e35d3c02069dc3e9f045cf076d87ddfd57f0cb8f95b5c109e04cb"
+        "digest": "f2552f5803705f7a1fc4be3607f2bf04ef781343bafc6ae0aec2dc03c37210a2"
       }
     },
     {
@@ -1517,7 +1517,7 @@
     {
       "name": "codex-refactoring-divide-and-conquer",
       "directory": "packages/codex-refactoring-divide-and-conquer",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "kind": "workflow",
       "title": "codex-refactoring-divide-and-conquer",
       "description": "Divide the codebase into slices, review concurrently, build a dependency-aware refactoring task DAG, implement ready disjoint tasks in shared-workspace waves, reconcile and review each wave, and repeat until complete.",
@@ -1551,17 +1551,17 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "fb5e838a0a0d4e6a59a161ae64a68edf"
+        "value": "91e7e5d64508beb2970f7b28b412fe3b"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "42b400573e37ff099b6ab087e1091d3925d489c04ea3a221735f74d165279101"
+        "digest": "3db752b44a4f49c13285f76a51dda58ed84d88d827876b023c748d4272922d6b"
       }
     },
     {
       "name": "codex-refactoring-slice-review",
       "directory": "packages/codex-refactoring-slice-review",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "codex-refactoring-slice-review",
       "description": "Read-only review workflow for one codebase slice produced by codex-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
@@ -1590,20 +1590,20 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "f0de569d246f16c6513de2c7ee9f27cd"
+        "value": "324f5c32244848b7d2d821b7857e3c25"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "fe2f4153652cd9953e4112205442060534e2ea45558c10b71f47814bb0b5ef26"
+        "digest": "7158e01eb42274fc0c0ce59184fdb2ef7b93ceef1b82082fdbb89c1f9bb209e0"
       }
     },
     {
       "name": "codex-simple-work-package",
       "directory": "packages/codex-simple-work-package",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "kind": "workflow",
       "title": "codex-simple-work-package",
-      "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.6 Terra high effort, reviews the diff, and loops back only for high or middle findings.",
+      "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.6 SOL low effort, reviews with SOL medium effort, and loops back only for material high or middle findings.",
       "tags": [
         "workflow"
       ],
@@ -1612,7 +1612,7 @@
       "workflow": {
         "directory": "workflows/codex-simple-work-package",
         "title": "codex-simple-work-package",
-        "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.6 Terra high effort, reviews the diff, and loops back only for high or middle findings.",
+        "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.6 SOL low effort, reviews with SOL medium effort, and loops back only for material high or middle findings.",
         "tags": [
           "workflow"
         ],
@@ -1630,11 +1630,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "accc0586a51a007baa590a72b4037886"
+        "value": "c1333798367538a3d500f34fc60d8731"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "51a1e2e94acae63c32c99b653afd70aac20d5274eb3588d1c8dd1c56e43cc3e9"
+        "digest": "f47dc1ea073a11f73c434eb90fe0bce49b964931628504463b2ab8dd8b02f984"
       }
     },
     {
@@ -2654,7 +2654,7 @@
     {
       "name": "fable-and-improve-codex",
       "directory": "packages/fable-and-improve-codex",
-      "version": "0.5.1",
+      "version": "0.5.2",
       "kind": "workflow",
       "title": "fable-and-improve-codex",
       "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
@@ -2694,17 +2694,17 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "952e3c0fc51a8a411782478ca49228e6"
+        "value": "74770ad1723b5de435a4b01cfcbcd5b8"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "6e4c11281ebdebdad6ff02e1498933b3aeaacd86886f05edd8391cdb3020b937"
+        "digest": "ba5071966cfdc651a5adc95c1f1160b02cbc5aa8c6c141b5506ece2dec50377f"
       }
     },
     {
       "name": "fable-and-improve-opus",
       "directory": "packages/fable-and-improve-opus",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "kind": "workflow",
       "title": "fable-and-improve-opus",
       "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
@@ -2742,11 +2742,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "fb6525521a699b92609cf1bab18a102e"
+        "value": "570a273074f219cd6f27bee8a180c12d"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "a4b6019c7aae4c9c8cac4807318d159a8e5e79fed45fbb00c92fa81608981ac5"
+        "digest": "cebbddb82d13316fd1bab6dd1962c299c09e0ad31b136828f35d47ee51e9e565"
       }
     },
     {

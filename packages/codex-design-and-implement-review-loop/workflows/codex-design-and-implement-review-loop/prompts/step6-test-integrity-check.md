@@ -7,6 +7,10 @@ plan progress updates, and verification evidence.
 This gate focuses only on whether the implementation preserved honest test and
 verification coverage.
 
+Before assessing coverage, read `runtimeVariables.implementation.reviewContext` and its sourcePaths, then verify the plan's acceptance criteria, non-goals, intentional trade-offs, and supported edge cases. Use that intent to distinguish missing evidence for required behavior from optional coverage expansion. If the supplied context is missing or contradicts the accepted artifacts, report the context gap instead of inventing requirements.
+
+Apply a strict review budget. Block only on concrete evidence that required behavior is unverified, verification is misleading, or a test change can conceal a meaningful correctness, security, data-integrity, or regression risk. Do not demand broader coverage, extra test layers, optional edge cases, refactoring, or test cleanup without such a risk. Prefer the smallest sufficient correction. If no issue meets this bar, accept without recommendations.
+
 Required checks:
 
 - Identify deleted tests, skipped tests, narrowed test discovery, disabled
@@ -38,6 +42,12 @@ Return adapter JSON with this shape:
   "payload": {
     "needs_revision": false,
     "accepted": true,
+    "reviewBasis": {
+      "requiredBehaviors": [],
+      "supportedEdgeCases": [],
+      "nonGoals": [],
+      "sourcePaths": []
+    },
     "findings": [],
     "reviewedFiles": [],
     "testFilesChanged": [],
@@ -54,6 +64,8 @@ Use `when.needs_revision: false`, `payload.needs_revision: false`, and
 `payload.accepted: true` only when there are no high or mid test-integrity
 findings.
 
-Independently check authorSelfCheck against the artifacts. Missing evidence, unresolved high/mid findings, or unexplained verification gaps are blocking: report a finding and use the existing revision route. Do not accept an unsupported author assertion.
+Always return `reviewBasis`, including on acceptance. Every high or mid finding must identify the affected required behavior or supported risk, its material impact, and why the requested verification is proportionate.
+
+Independently check authorSelfCheck against the artifacts. Missing evidence or a verification gap is blocking only when it prevents assessment of required behavior or one of the material risks above. Do not accept an unsupported author assertion about such behavior or risk.
 
 In native fanout, review only runtimeVariables.implementation's assigned plan and its interaction with the shared tree. Read per-edit intent and snapshots, detect changes lost since implementation, and record evidence for the serial integration reviewer. Do not modify files or run git mutations. A moving tree invalidates stale review evidence: re-read affected files and report drift. Preserve planId and repair requests in your payload; branch acceptance does not replace final combined-tree review.

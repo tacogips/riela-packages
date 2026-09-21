@@ -19,7 +19,7 @@ for (const id of readdirSync(join(root, 'packages'))) {
 }
 const codex = 'codex-design-and-implement-review-loop';
 const refactor = 'codex-refactoring-divide-and-conquer';
-// Implementation and lost-work repair use Terra; coordination retains its model.
+// Implementation and lost-work repair use SOL low effort.
 for (const [id, nodes] of [
   [codex, ['step6-implement', 'reconcile-implementations']],
   ['fable-and-improve-codex', ['codex-implementation', 'reconcile-implementations']],
@@ -29,7 +29,24 @@ for (const [id, nodes] of [
   for (const node of nodes) {
     const payload = read(join(bundle(id), 'nodes', `node-${node}.json`));
     assert.equal(payload.executionBackend, 'codex-agent');
-    assert.equal(payload.model, 'gpt-5.6-terra', `${id}/${node}: implementation model`);
+    assert.equal(payload.model, 'gpt-5.6-sol', `${id}/${node}: implementation model`);
+    assert.equal(payload.effort, 'low', `${id}/${node}: implementation effort`);
+  }
+}
+// Independent reviews use SOL medium effort and do not spend high-effort passes
+// generating optional improvements.
+for (const [id, nodes] of [
+  [codex, ['step3-design-review', 'step5-impl-plan-review', 'step6-test-integrity-check', 'step7-review', 'step7-adversarial-review', 'integration-review']],
+  ['fable-and-improve-codex', ['codex-review', 'integration-review']],
+  ['codex-simple-work-package', ['review']],
+  [refactor, ['step6-post-refactor-review']],
+  ['codex-refactoring-slice-review', ['slice-review']],
+] as const) {
+  for (const node of nodes) {
+    const payload = read(join(bundle(id), 'nodes', `node-${node}.json`));
+    assert.equal(payload.executionBackend, 'codex-agent');
+    assert.equal(payload.model, 'gpt-5.6-sol', `${id}/${node}: review model`);
+    assert.equal(payload.effort, 'medium', `${id}/${node}: review effort`);
   }
 }
 assert.equal(read(join(bundle(codex), 'nodes/node-step2-design-doc-update.json')).model, 'gpt-6-astra');
@@ -125,7 +142,21 @@ run(codex, 'two-branch-native-fanout', () => {}, steps => {
   assert(!steps.includes('feature-local-plan'));
 }, 'mock-scenario-fanout.json');
 run(codex, 'integration-overwrite-repair', m => {
-  m['integration-review'] = [output({ accepted: false, needs_revision: true, plans_remaining: false, findings: [{ severity: 'mid', message: 'Restore overwritten behavior.' }] }, { needs_revision: true, plans_remaining: false } as any), m['integration-review']];
+  const accepted = m['integration-review'];
+  m['integration-review'] = [output({
+    accepted: false,
+    needs_revision: true,
+    plans_remaining: false,
+    reviewBasis: accepted.payload.reviewBasis,
+    findings: [{
+      severity: 'mid',
+      file: 'shared.txt',
+      message: 'Restore overwritten behavior.',
+      intentReference: 'The accepted plan requires the shared behavior to survive reconciliation.',
+      materialImpact: 'The combined tree loses required behavior.',
+      fixCostBenefit: 'A focused restoration is low cost and restores an accepted outcome.',
+    }],
+  }, { needs_revision: true, plans_remaining: false } as any), accepted];
 }, steps => {
   const i = steps.indexOf('integration-review');
   assert.deepEqual(steps.slice(i, i + 3), ['integration-review', 'reconcile-implementations', 'integration-review']);
@@ -134,8 +165,13 @@ run(codex, 'integration-overwrite-repair', m => {
 run(codex, 'dependency-waves', m => {
   const prototype = m['dispatch-plans'].payload.implementationItems[0];
   const items = ['a', 'b', 'c'].map(planId => ({ ...prototype, planId, planPath: `impl-plans/active/${planId}.md`, dependsOn: planId === 'c' ? ['a', 'b'] : [], trackedPaths: [`${planId}.txt`, 'shared.txt'] }));
-  m['dispatch-plans'] = [output({ implementationItems: items, acceptedPlanIds: [] }), output({ implementationItems: items, acceptedPlanIds: ['a', 'b'] })];
-  m['integration-review'] = [output({ accepted: true, needs_revision: false, plans_remaining: true, acceptedPlanIds: ['a', 'b'] }, { needs_revision: false, plans_remaining: true } as any), m['integration-review']];
+  const dispatch = m['dispatch-plans'].payload;
+  m['dispatch-plans'] = [
+    output({ ...dispatch, implementationItems: items, acceptedPlanIds: [] }),
+    output({ ...dispatch, implementationItems: items, acceptedPlanIds: ['a', 'b'] }),
+  ];
+  const acceptedReview = m['integration-review'];
+  m['integration-review'] = [output({ ...acceptedReview.payload, plans_remaining: true, acceptedPlanIds: ['a', 'b'] }, { needs_revision: false, plans_remaining: true } as any), acceptedReview];
 }, steps => {
   assert.equal(steps.filter(s => s === 'dispatch-plans').length, 2);
   assert.equal(steps.filter(s => s === 'reconcile-implementations').length, 2);
@@ -148,12 +184,36 @@ for (const flavor of ['codex', 'opus']) run(`fable-and-improve-${flavor}`, `fabl
 }, 'mock-scenario.json', 'fable-design');
 run(codex, 'test-integrity-revision', m => {
   const accepted = m['step6-test-integrity-check'];
-  m['step6-test-integrity-check'] = [output({ needs_revision: true, findings: [{ severity: 'mid', message: 'Restore weakened assertion.' }] }, { needs_revision: true } as any), accepted];
+  m['step6-test-integrity-check'] = [output({
+    ...accepted.payload,
+    needs_revision: true,
+    accepted: false,
+    findings: [{
+      severity: 'mid',
+      file: 'packages/riela/src/workflow/review-findings.test.ts',
+      message: 'Restore weakened assertion.',
+      intentReference: 'The accepted plan requires regression coverage for review replay.',
+      materialImpact: 'The weakened assertion can conceal loss of required rerun behavior.',
+      fixCostBenefit: 'Restoring the focused assertion is low cost and verifies the required outcome.',
+    }],
+  }, { needs_revision: true } as any), accepted];
 }, steps => { const i = steps.indexOf('step6-test-integrity-check'); assert.equal(steps[i + 1], 'step6-implement'); }, 'mock-scenario.json', 'step6-implement');
 for (const flavor of ['codex', 'opus']) run(`fable-and-improve-${flavor}`, `fable-${flavor}-revision`, m => {
   assert(m['fable-design'].payload.designMarkdown); assert(m['fable-design'].payload.planMarkdown);
   const review = `${flavor}-review`;
-  m[review] = [output({ findings: [{ severity: 'mid', message: 'Missing acceptance criterion.' }] }, { needs_revision: true } as any), m[review]];
+  const accepted = m[review];
+  m[review] = [output({
+    ...accepted.payload,
+    reviewStatus: 'needs-revision',
+    findings: [{
+      severity: 'mid',
+      file: 'impl-plans/active/a.md',
+      message: 'Missing acceptance criterion.',
+      intentReference: 'The Fable-authored plan must cover the required user outcome.',
+      materialImpact: 'The implementation cannot be verified against an omitted criterion.',
+      fixCostBenefit: 'Adding the missing criterion is low cost and makes acceptance auditable.',
+    }],
+  }, { needs_revision: true } as any), accepted];
 }, steps => { const i = steps.indexOf(`${flavor}-review`); assert.equal(steps[i + 1], `${flavor}-implementation`); assert(!steps.includes('fable-impl-plan')); }, 'mock-scenario.json', `${flavor}-implementation`);
 run(refactor, 'refactoring-revision', m => {
   const plan = m['step3-merge-review-plan'];

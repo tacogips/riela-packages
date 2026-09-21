@@ -1,10 +1,10 @@
 {
   "id": "implement",
-  "description": "Implement a small code or documentation change with Codex GPT-5.6 Terra high effort, or revise the change using high and middle review feedback.",
+  "description": "Implement a small code or documentation change with Codex GPT-5.6 SOL low effort, or revise the change using high and middle review feedback.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.6-terra",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
-  "effort": "high",
+  "effort": "low",
   "sessionPolicy": {
     "mode": "reuse"
   },

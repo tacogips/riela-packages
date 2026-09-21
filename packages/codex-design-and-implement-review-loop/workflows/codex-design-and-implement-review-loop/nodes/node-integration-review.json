@@ -2,8 +2,56 @@
   "id": "integration-review",
   "description": "Independently review the stable shared-branch result after all workers stopped and reconciliation finished.",
   "executionBackend": "codex-agent",
-  "model": "gpt-6-astra",
+  "model": "gpt-5.6-sol",
   "promptTemplateFile": "prompts/integration-review.md",
   "variables": {},
-  "effort": "high"
+  "effort": "medium",
+  "output": {
+    "description": "Return an auditable combined-tree review basis and intent-linked, materially justified findings.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "needs_revision": { "type": "boolean" },
+        "plans_remaining": { "type": "boolean" },
+        "accepted": { "type": "boolean" },
+        "reviewBasis": {
+          "type": "object",
+          "properties": {
+            "userOutcomes": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+            "acceptanceCriteria": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+            "nonGoals": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "constraints": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "designDecisions": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "intentionalTradeoffs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "sourcePaths": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 }
+          },
+          "required": ["userOutcomes", "acceptanceCriteria", "nonGoals", "constraints", "designDecisions", "intentionalTradeoffs", "sourcePaths"],
+          "additionalProperties": false
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "severity": { "type": "string", "enum": ["high", "mid", "low"] },
+              "file": { "type": "string", "minLength": 1 },
+              "line": { "type": "number", "minimum": 1 },
+              "message": { "type": "string", "minLength": 1 },
+              "intentReference": { "type": "string", "minLength": 1 },
+              "materialImpact": { "type": "string", "minLength": 1 },
+              "fixCostBenefit": { "type": "string", "minLength": 1 }
+            },
+            "required": ["severity", "file", "message", "intentReference", "materialImpact", "fixCostBenefit"],
+            "additionalProperties": false
+          }
+        },
+        "acceptedPlanIds": { "type": "array", "items": { "type": "string" } },
+        "pendingPlanIds": { "type": "array", "items": { "type": "string" } },
+        "manifestPath": { "type": "string" },
+        "evidencePaths": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["needs_revision", "plans_remaining", "accepted", "reviewBasis", "findings"],
+      "additionalProperties": true
+    }
+  }
 }

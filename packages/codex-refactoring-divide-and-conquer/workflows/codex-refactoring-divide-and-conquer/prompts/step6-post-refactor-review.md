@@ -11,6 +11,8 @@ Review against:
   behavior to preserve, known differences not to collapse, consolidation target,
   conflicts, and verification commands.
 
+Apply a strict review budget. Report feedback only for a high-confidence issue with material impact: a security or data-integrity risk, incorrect or missing required behavior, a likely regression, a clear task/completion-criteria violation, lost concurrent work, or severe code-quality degradation with a concrete maintenance or operational cost. Do not request speculative flexibility, future-proofing, extra abstraction, optional hardening, stylistic cleanup, micro-optimization, or unrelated refactoring. Prefer the smallest sufficient repair. If no issue meets this bar, accept without recommendations.
+
 Decisions:
 - Re-read and verify the combined workspace tree after all branches finish; branch-local success alone is insufficient.
 - Confirm every scheduled task has exactly one terminal branch result and reconcile partial failures, overlapping changes, and integration conflicts.
@@ -53,4 +55,4 @@ Return adapter JSON:
 }
 ```
 
-Independently verify every implementation authorSelfCheck against the actual combined diff. Missing branches, missing check evidence, write-scope collisions, partial failures, integration failures, or unresolved high/mid findings must take the existing `needs_revision` route. When routing either `needs_revision` or `plan_remaining`, provide enough accepted-task, accepted-dispatch, and complete task data for Step 3 to dispatch the next safe dependency wave.
+Independently verify every implementation authorSelfCheck against the actual combined diff. Missing branches, partial failures, and integration failures remain blocking. Missing check evidence, write-scope collisions, or other gaps require revision only when they prevent assessment of required behavior or one of the material risks above. When routing either `needs_revision` or `plan_remaining`, provide enough accepted-task, accepted-dispatch, and complete task data for Step 3 to dispatch the next safe dependency wave.

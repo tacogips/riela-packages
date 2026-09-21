@@ -2,12 +2,12 @@
   "id": "step4-implement-next-task",
   "description": "Implement exactly one assigned dependency-ready task in the shared workspace.",
   "executionBackend": "codex-agent",
-  "model": "gpt-5.6-terra",
+  "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step4-implement-next-task.md",
   "variables": {},
   "output": {
     "description": "Return branch JSON with task id, changed files, plan updates, verification and author self-check evidence, blockers, and residual risks."
   },
-  "effort": "high"
+  "effort": "low"
 }

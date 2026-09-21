@@ -41,12 +41,16 @@ Rules:
 - Update the active implementation plan progress log and completion criteria to reflect the work performed.
 - If this is a rerun after test-integrity, implementation, or adversarial review, read the latest blocking review feedback and address every high or mid finding before returning.
 
+When implementing review feedback, read `runtimeVariables.implementation.reviewContext`, its sourcePaths, the accepted Fable design/plan rationale, constraints, and the relevant finding. Treat feedback as a proposal to reconcile with accepted intent, not an automatic requirement. Fix high-confidence issues with material impact, using the smallest safe change. If feedback misunderstands the design or is optional, speculative, or disproportionate to its benefit, preserve the existing design, leave the code unchanged, and explain the deferral in addressedFeedback or risks. Do not add generalized hardening, future-proofing, stylistic cleanup, or unrelated refactoring merely to exhaust possible concerns.
+
 Before returning, perform an author self-check in the same execution:
+- Keep this check bounded to the assigned plan, changed hunks, acceptance criteria, and required verification. Do not search for unrelated improvements.
 - Review your changes against the assigned plan; preserve concurrent changes and report uncertain ownership for reconciliation.
 - Confirm code, workflow, documentation, and test changes follow repository rules.
 - Confirm required verification ran, or report each blocked command with a concrete reason.
 - Confirm implementation-plan progress and completion criteria are current.
 - Fix every high or mid issue found by this self-check before handing off to the independent integrity and implementation reviews.
+- Do not redesign, generalize, add abstraction layers, optimize speculatively, or request optional cleanup during self-check. Record issues only for concrete correctness, security, data-integrity, required-functionality, or severe present maintenance risks.
 
 Return JSON with:
 - `issueReference`
