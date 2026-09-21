@@ -2,6 +2,7 @@
   "id": "integration-review",
   "description": "Independently review the stable shared-branch result after all workers stopped and reconciliation finished.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "promptTemplateFile": "prompts/integration-review.md",
   "variables": {},

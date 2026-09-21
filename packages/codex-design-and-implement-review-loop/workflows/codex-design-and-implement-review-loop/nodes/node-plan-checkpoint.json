@@ -2,8 +2,21 @@
   "id": "plan-checkpoint",
   "description": "Prepare a checkpoint ONLY after the single design and plan authors and independent reviewers accept all plans. Do not implement here.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "workspace-write",
   "model": "gpt-5.6-sol",
   "promptTemplateFile": "prompts/plan-checkpoint.md",
   "variables": {},
-  "effort": "high"
+  "effort": "high",
+  "output": {
+    "description": "Return the accepted plan checkpoint commit evidence and dispatch manifest path.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "commitMessage": { "type": "string" },
+        "committedFiles": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["commitMessage", "committedFiles"],
+      "additionalProperties": true
+    }
+  }
 }
