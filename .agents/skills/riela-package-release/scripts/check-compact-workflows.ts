@@ -99,6 +99,9 @@ for (const id of readdirSync(catalog)) {
 const graph = read(join(bundle(codex), 'workflow.json'));
 assert.equal(graph.loop.gates.length, 6);
 assert.equal(graph.loop.gates.find((g: any) => g.id === 'implementation-plan-completion-check').stepId, 'step9-commit-message');
+const integrationTransitions = graph.steps.find((step: any) => step.id === 'integration-review').transitions;
+assert.equal(integrationTransitions.find((transition: any) => transition.label === 'needs_revision && redispatch_required')?.toStepId, 'dispatch-plans');
+assert.equal(integrationTransitions.find((transition: any) => transition.label === 'needs_revision && !(redispatch_required)')?.toStepId, 'reconcile-implementations');
 const output = (payload: any, when = { always: true }) => ({ provider: 'scenario-mock', model: 'gpt-5.6-sol', when, payload });
 let total = 0;
 function run(id: string, name: string, mutate: (m: any) => void, verify: (steps: string[]) => void, fixture = 'mock-scenario.json', branchEntry?: string) {
@@ -146,6 +149,7 @@ run(codex, 'integration-overwrite-repair', m => {
   m['integration-review'] = [output({
     accepted: false,
     needs_revision: true,
+    redispatch_required: false,
     plans_remaining: false,
     reviewBasis: accepted.payload.reviewBasis,
     findings: [{
@@ -161,6 +165,49 @@ run(codex, 'integration-overwrite-repair', m => {
   const i = steps.indexOf('integration-review');
   assert.deepEqual(steps.slice(i, i + 3), ['integration-review', 'reconcile-implementations', 'integration-review']);
   assert(steps.indexOf('step10-git-commit') > i + 2);
+});
+run(codex, 'integration-selective-redispatch', m => {
+  const firstDispatch = m['dispatch-plans'];
+  const firstItem = firstDispatch.payload.implementationItems[0];
+  const retryItem = {
+    ...firstItem,
+    planId: 'retry-plan',
+    planPath: 'impl-plans/active/retry-plan.md',
+    dependsOn: [],
+    trackedPaths: ['retry.txt'],
+  };
+  m['dispatch-plans'] = [
+    firstDispatch,
+    output({
+      ...firstDispatch.payload,
+      implementationItems: [firstItem, retryItem],
+      acceptedPlanIds: [firstItem.planId],
+    }),
+  ];
+  const accepted = m['integration-review'];
+  m['integration-review'] = [output({
+    ...accepted.payload,
+    accepted: false,
+    needs_revision: true,
+    redispatch_required: true,
+    plans_remaining: true,
+    acceptedPlanIds: [firstItem.planId],
+    pendingPlanIds: ['retry-plan'],
+    findings: [{
+      severity: 'mid',
+      file: 'impl-plans/progress/retry-plan.md',
+      message: 'The pending plan lacks worker-owned evidence.',
+      intentReference: 'Pending plans require successful native worker evidence.',
+      materialImpact: 'The plan cannot be accepted or unlock downstream work.',
+      fixCostBenefit: 'A selective native redispatch provides the required evidence without rewriting accepted work.',
+    }],
+  }, { needs_revision: true, redispatch_required: true, plans_remaining: true } as any), accepted];
+}, steps => {
+  const review = steps.indexOf('integration-review');
+  assert.equal(steps[review + 1], 'dispatch-plans');
+  assert.equal(steps.filter(step => step === 'dispatch-plans').length, 2);
+  assert.equal(steps.filter(step => step === 'reconcile-implementations').length, 2);
+  assert(steps.indexOf('step10-git-commit') > steps.lastIndexOf('integration-review'));
 });
 run(codex, 'dependency-waves', m => {
   const prototype = m['dispatch-plans'].payload.implementationItems[0];

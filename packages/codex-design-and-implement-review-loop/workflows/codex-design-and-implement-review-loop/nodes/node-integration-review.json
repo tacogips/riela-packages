@@ -13,6 +13,7 @@
       "type": "object",
       "properties": {
         "needs_revision": { "type": "boolean" },
+        "redispatch_required": { "type": "boolean" },
         "plans_remaining": { "type": "boolean" },
         "accepted": { "type": "boolean" },
         "reviewBasis": {
@@ -51,7 +52,7 @@
         "manifestPath": { "type": "string" },
         "evidencePaths": { "type": "array", "items": { "type": "string" } }
       },
-      "required": ["needs_revision", "plans_remaining", "accepted", "reviewBasis", "findings"],
+      "required": ["needs_revision", "redispatch_required", "plans_remaining", "accepted", "reviewBasis", "findings"],
       "additionalProperties": true
     }
   }

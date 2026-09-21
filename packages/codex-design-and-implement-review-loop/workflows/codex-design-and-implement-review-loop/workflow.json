@@ -647,8 +647,12 @@
       "role": "worker",
       "transitions": [
         {
+          "toStepId": "dispatch-plans",
+          "label": "needs_revision && redispatch_required"
+        },
+        {
           "toStepId": "reconcile-implementations",
-          "label": "needs_revision"
+          "label": "needs_revision && !(redispatch_required)"
         },
         {
           "toStepId": "dispatch-plans",

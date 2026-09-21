@@ -505,6 +505,7 @@
     "model": "gpt-5.6-sol",
     "when": {
       "needs_revision": false,
+      "redispatch_required": false,
       "plans_remaining": false
     },
     "payload": {
@@ -520,6 +521,7 @@
       },
       "findings": [],
       "needs_revision": false,
+      "redispatch_required": false,
       "plans_remaining": false
     }
   },
