@@ -99,6 +99,13 @@ for (const id of readdirSync(catalog)) {
   for (const node of Object.keys(w.extends.nodePatch ?? {})) assert(nodes.has(node), `${id}: stale override ${node}`);
 }
 const graph = read(join(bundle(codex), 'workflow.json'));
+const manager = read(join(bundle(codex), 'nodes/node-riela-manager.json'));
+const managerPrompt = readFileSync(join(bundle(codex), 'prompts/riela-manager.md'), 'utf8');
+assert.equal(manager.agentSandbox, 'read-only');
+assert.match(manager.output.description, /does not author, inspect, review, write files, run tests, commit, push, or declare completion/i);
+assert.match(managerPrompt, /immediately return concise business JSON exactly shaped/i);
+assert.match(managerPrompt, /dispatch.*step1-issue-intake/i);
+assert.match(managerPrompt, /do not perform any repository work yourself/i);
 assert.equal(graph.loop.gates.length, 6);
 assert(!graph.nodes.some((node: any) => node.id === 'step7-review'));
 assert(!graph.steps.some((step: any) => step.id === 'step7-review'));
