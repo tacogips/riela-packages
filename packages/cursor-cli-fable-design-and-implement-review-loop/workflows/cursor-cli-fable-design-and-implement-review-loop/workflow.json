@@ -35,9 +35,6 @@
       "step6-implement": {
         "model": "composer-2.5"
       },
-      "step7-review": {
-        "model": "claude-fable-5"
-      },
       "step6-test-integrity-check": {
         "model": "claude-fable-5"
       },

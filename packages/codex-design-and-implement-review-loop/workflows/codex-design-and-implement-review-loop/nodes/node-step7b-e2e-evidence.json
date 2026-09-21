@@ -1,6 +1,6 @@
 {
   "id": "step7b-e2e-evidence",
-  "description": "Run headless browser end-to-end verification as non-blocking evidence after implementation-review acceptance and before documentation refresh.",
+  "description": "Run headless browser end-to-end verification as non-blocking evidence after adversarial-review acceptance and before documentation refresh.",
   "executionBackend": "codex-agent",
   "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",

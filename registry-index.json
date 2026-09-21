@@ -1296,7 +1296,7 @@
     {
       "name": "codex-design-and-implement-review-loop",
       "directory": "packages/codex-design-and-implement-review-loop",
-      "version": "0.3.3",
+      "version": "0.3.4",
       "kind": "workflow",
       "title": "codex-design-and-implement-review-loop",
       "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
@@ -1326,11 +1326,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "f161eb2943392734a935d49b34287e05"
+        "value": "5d70049599e86be406c21075baa19b32"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "1c9e8d0cee5e942d6819c6cc475ebdb51170ed16fb5a2fe271983ef174fdc61f"
+        "digest": "07ca95bd5b41872faed4ce30b59acba9e5a42b3addefab19acf2d9f13275140f"
       }
     },
     {
@@ -2057,11 +2057,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "809c03e0c36dc28f04e69ef17415779a"
+        "value": "fa3b2ab1fc8e7bc683d0f7e9b3528ba8"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "4c21b16071930e711e7ae7823a23a14ec480213b77666c03d8ac1c5e95e7b7f7"
+        "digest": "691ea66b0cbeb3a88f65080931a86b741a64eb708517e286bfab998f2a9ef7da"
       }
     },
     {
@@ -2153,11 +2153,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "d2a32f253b74d48c8df3beddb0c1b733"
+        "value": "eba749edc607b8ef032936a9f7c3930f"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "dc829e98eda80db8f7e7f57529b11f90ad89f38fe242dbfcc4a0d6bcaef30f92"
+        "digest": "442a1a25e626fca6b67f85293e64420ab5912135c65db6ad2e0a6945f1bae386"
       }
     },
     {

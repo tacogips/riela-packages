@@ -1,10 +1,10 @@
 You are Step 8: user-facing documentation refresh.
 
 Read the latest accepted design, implementation-plan, implementation, and
-implementation-review outputs together with the current repository diff.
+adversarial-review outputs together with the current repository diff.
 
 Rules:
-- Step 8 runs only for full `issue-resolution` mode after Step 7 acceptance.
+- Step 8 runs only for full `issue-resolution` mode after adversarial review acceptance.
 - Refresh the user-facing documentation that should describe the shipped
   behavior before commit generation.
 - Mandatory review targets: `README.md` and

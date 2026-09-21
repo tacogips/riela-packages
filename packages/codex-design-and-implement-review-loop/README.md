@@ -2,7 +2,7 @@
 
 Codex design/implementation workflow with native shared-branch fanout and overwrite reconciliation.
 
-Design and implementation-plan authoring use GPT-6 Astra. Implementation and overwrite repair use GPT-5.6 SOL at low effort. Design, plan, test-integrity, implementation, adversarial, and combined-tree reviews use GPT-5.6 SOL at medium effort. Reviews emit feedback only for concrete security, functionality, data-integrity, regression, acceptance, or severe code-quality risks; speculative optimization and overengineering are explicitly excluded.
+Design documentation, implementation-plan authoring, and combined-tree integration review use GPT-6 Astra. Implementation and overwrite repair use GPT-5.6 Terra at low effort. Intake, design/plan/test-integrity gates, the single adversarial implementation gate, documentation, commit, and manager coordination use GPT-5.6 Sol. The adversarial gate emits feedback only for material spec violations, correctness/data-loss/security risks, likely regressions, or missing material verification; style nits, naming-only comments, speculative refactors, and overengineering are forbidden.
 
 - Package id: `codex-design-and-implement-review-loop`
 - Backends: `codex-agent`
@@ -39,7 +39,11 @@ Design and all implementation plans are authored by a single author node per pha
 
 The runtime calls each parallel execution a **fanout branch**, its input an **item**, and the aggregation a **join**. This is separate from a Git branch. Built-in fanout.dependencies selects ready branches from stable IDs and accepted dependencies. Built-in fanout.changeTracking captures immutable file content, hashes and modes at node boundaries, and reports drift candidates at join. No workflow-local evidence script is needed.
 
-After all branches stop, serial reconciliation repairs missing/overwritten behavior and independent integration review checks the combined tree against every plan and the design. A combined-tree defect routes back through reconciliation, while failed branches or missing worker-owned evidence route through plan dispatch for a fresh native worker attempt. Failed branches stay pending; already accepted branch IDs are skipped on subsequent dispatch. Preserve original evidence and existing user changes. Node-boundary snapshots cannot detect every transient overwrite inside an agent call, so per-edit intention records and behavior tests remain required.
+After all branches stop, Terra serial reconciliation repairs missing/overwritten behavior and Astra integration review checks the combined tree against every plan and the design. Each implementation branch uses only one adversarial material-issue review gate after test-integrity; there is no duplicate ordinary implementation-review pass. A combined-tree defect routes back through reconciliation, while failed branches or missing worker-owned evidence route through plan dispatch for a fresh native worker attempt. Failed branches stay pending; already accepted branch IDs are skipped on subsequent dispatch. Preserve original evidence and existing user changes. Node-boundary snapshots cannot detect every transient overwrite inside an agent call, so per-edit intention records and behavior tests remain required.
+
+Integration review is fail-closed for convergence: only an explicit `repair_in_place: true` routes to serial reconciliation. Missing or ambiguous routing evidence, failed workers, and missing native provenance route to a fresh bounded redispatch, preventing repeated reconcile/review loops over unchanged evidence.
+
+Implementation plans are deliberately detailed enough for Terra to execute without guessing: they must include intent/context, non-goals, exact file-level changes, invariants, acceptance criteria, and verification commands with required evidence. The Terra implementation and Sol test-integrity nodes maximize safely independent delegated investigation and verification, while retaining one owner and prohibiting overlapping writes.
 
 Git operations are serialized: planning checkpoint, final implementation commit/push, and base-branch integration. workflowInput.baseBranch defaults to the current branch; an explicit different base is merged only after combined verification. No force push or automatic discard of unrelated edits. A blocked merge/push prevents completion.
 

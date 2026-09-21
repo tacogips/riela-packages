@@ -28,7 +28,7 @@ Return JSON with:
 
 Also perform the completion gate inside Step 9:
 
-Read the accepted implementation, implementation review, documentation refresh,
+Read the accepted implementation, adversarial review, documentation refresh,
 and current repository diff before commit-message creation.
 
 Rules:

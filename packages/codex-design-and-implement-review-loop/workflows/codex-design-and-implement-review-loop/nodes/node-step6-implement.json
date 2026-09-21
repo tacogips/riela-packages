@@ -1,9 +1,9 @@
 {
   "id": "step6-implement",
-  "description": "Implement the accepted plan for the issue, run verification, and update the active implementation plan progress.",
+  "description": "Implement the accepted plan with safely independent delegated investigation and verification, then update active implementation-plan progress.",
   "executionBackend": "codex-agent",
   "agentSandbox": "workspace-write",
-  "model": "gpt-5.6-sol",
+  "model": "gpt-5.6-terra",
   "modelFreeze": false,
   "effort": "low",
   "sessionPolicy": {

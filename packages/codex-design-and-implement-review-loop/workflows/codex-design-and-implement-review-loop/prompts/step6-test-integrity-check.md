@@ -4,6 +4,8 @@ Review the latest Step 6 implementation output and integrated author self-check,
 current repository diff, accepted issue scope, design, implementation plan,
 plan progress updates, and verification evidence.
 
+Maximize safely independent subagent use for repository exploration, test/coverage inspection, and verification-command analysis. Keep this node's owner responsible for the final evidence synthesis. Delegate read-only investigations only; never delegate source edits, Git operations, mutable test/build output work, or overlapping tasks that could corrupt shared evidence. Do not start nested Riela/Codex CLI processes; use the runtime's provided delegation mechanism when available, otherwise perform the same bounded checks yourself.
+
 This gate focuses only on whether the implementation preserved honest test and
 verification coverage.
 

@@ -19,7 +19,7 @@ for (const id of readdirSync(join(root, 'packages'))) {
 }
 const codex = 'codex-design-and-implement-review-loop';
 const refactor = 'codex-refactoring-divide-and-conquer';
-// Implementation and lost-work repair use SOL low effort.
+// Codex implementation and lost-work repair use Terra low effort.
 for (const [id, nodes] of [
   [codex, ['step6-implement', 'reconcile-implementations']],
   ['fable-and-improve-codex', ['codex-implementation', 'reconcile-implementations']],
@@ -29,14 +29,14 @@ for (const [id, nodes] of [
   for (const node of nodes) {
     const payload = read(join(bundle(id), 'nodes', `node-${node}.json`));
     assert.equal(payload.executionBackend, 'codex-agent');
-    assert.equal(payload.model, 'gpt-5.6-sol', `${id}/${node}: implementation model`);
+    assert.equal(payload.model, id === codex ? 'gpt-5.6-terra' : 'gpt-5.6-sol', `${id}/${node}: implementation model`);
     assert.equal(payload.effort, 'low', `${id}/${node}: implementation effort`);
   }
 }
-// Independent reviews use SOL medium effort and do not spend high-effort passes
+// Sol review gates use medium effort and do not spend high-effort passes
 // generating optional improvements.
 for (const [id, nodes] of [
-  [codex, ['step3-design-review', 'step5-impl-plan-review', 'step6-test-integrity-check', 'step7-review', 'step7-adversarial-review', 'integration-review']],
+  [codex, ['step3-design-review', 'step5-impl-plan-review', 'step6-test-integrity-check', 'step7-adversarial-review']],
   ['fable-and-improve-codex', ['codex-review', 'integration-review']],
   ['codex-simple-work-package', ['review']],
   [refactor, ['step6-post-refactor-review']],
@@ -50,8 +50,10 @@ for (const [id, nodes] of [
   }
 }
 assert.equal(read(join(bundle(codex), 'nodes/node-step2-design-doc-update.json')).model, 'gpt-6-astra');
+assert.equal(read(join(bundle(codex), 'nodes/node-step4-impl-plan-create.json')).model, 'gpt-6-astra');
+assert.equal(read(join(bundle(codex), 'nodes/node-integration-review.json')).model, 'gpt-6-astra');
 assert.equal(read(join(bundle(codex), 'nodes/node-dispatch-plans.json')).model, 'gpt-5.6-sol');
-const expected = new Map([[codex, 23], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 24]]);
+const expected = new Map([[codex, 22], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 24]]);
 for (const [id, count] of expected) {
   const w = read(join(bundle(id), 'workflow.json'));
   assert.equal(w.steps.length, count);
@@ -98,11 +100,28 @@ for (const id of readdirSync(catalog)) {
 }
 const graph = read(join(bundle(codex), 'workflow.json'));
 assert.equal(graph.loop.gates.length, 6);
+assert(!graph.nodes.some((node: any) => node.id === 'step7-review'));
+assert(!graph.steps.some((step: any) => step.id === 'step7-review'));
+assert.equal(graph.steps.find((step: any) => step.id === 'step6-test-integrity-check').transitions.find((transition: any) => transition.label === '!(needs_revision)')?.toStepId, 'step7-adversarial-review');
 assert.equal(graph.loop.gates.find((g: any) => g.id === 'implementation-plan-completion-check').stepId, 'step9-commit-message');
+assert.equal(graph.loop.gates.find((g: any) => g.id === 'integration-review').stepId, 'integration-review');
 const integrationTransitions = graph.steps.find((step: any) => step.id === 'integration-review').transitions;
-assert.equal(integrationTransitions.find((transition: any) => transition.label === 'needs_revision && redispatch_required')?.toStepId, 'dispatch-plans');
-assert.equal(integrationTransitions.find((transition: any) => transition.label === 'needs_revision && !(redispatch_required)')?.toStepId, 'reconcile-implementations');
+assert.equal(integrationTransitions.find((transition: any) => transition.label === 'needs_revision && repair_in_place')?.toStepId, 'reconcile-implementations');
+assert.equal(integrationTransitions.find((transition: any) => transition.label === 'needs_revision && !(repair_in_place)')?.toStepId, 'dispatch-plans');
 const output = (payload: any, when = { always: true }) => ({ provider: 'scenario-mock', model: 'gpt-5.6-sol', when, payload });
+const integrationLoopGate = (findings: any[], accepted = false) => ({
+  gateId: 'integration-review',
+  decision: accepted ? 'accepted' : 'needs-work',
+  severityCounts: {
+    high: findings.filter(finding => finding.severity === 'high').length,
+    medium: findings.filter(finding => finding.severity === 'mid' || finding.severity === 'medium').length,
+    low: findings.filter(finding => finding.severity === 'low').length,
+    informational: 0,
+  },
+  blockingFindings: findings
+    .filter(finding => finding.severity === 'high' || finding.severity === 'mid' || finding.severity === 'medium')
+    .map(finding => ({ id: `${finding.file}:${finding.line ?? 0}:${finding.message}`, severity: finding.severity === 'mid' ? 'medium' : finding.severity, filePath: finding.file, line: finding.line, message: finding.message })),
+});
 let total = 0;
 function run(id: string, name: string, mutate: (m: any) => void, verify: (steps: string[]) => void, fixture = 'mock-scenario.json', branchEntry?: string) {
   const m = read(join(bundle(id), fixture));
@@ -126,6 +145,17 @@ function run(id: string, name: string, mutate: (m: any) => void, verify: (steps:
   const steps = result.session.executions.map((e: any) => e.stepId);
   verify(steps); total++; console.log(`${name}: passed (${steps.length} executions)`);
 }
+function runExpectFailure(id: string, name: string, mutate: (m: any) => void, expectedError: RegExp, fixture = 'mock-scenario.json') {
+  const m = read(join(bundle(id), fixture));
+  mutate(m);
+  const dir = join(scratch, name); mkdirSync(dir);
+  const mock = join(dir, 'mock.json'); writeFileSync(mock, JSON.stringify(m));
+  const args = ['workflow', 'run', id, '--workflow-definition-dir', catalog, '--mock-scenario', mock, '--session-store', join(dir, 'sessions'), '--artifact-root', join(dir, 'artifacts'), '--variables', JSON.stringify({ memoryRoot: join(dir, 'memory'), noteRoot: join(dir, 'notes') }), '--output', 'json'];
+  const r = spawnSync(process.env.RIELA_BIN ?? 'riela', args, { encoding: 'utf8' });
+  assert.notEqual(r.status, 0, `${name}: expected convergence failure`);
+  assert.match(`${r.stdout}\n${r.stderr}`, expectedError, `${name}: expected convergence diagnostic`);
+  total++; console.log(`${name}: passed (terminated with convergence diagnostic)`);
+}
 run(codex, 'completion-revision', m => {
   const accepted = m['step9-commit-message'];
   m['step9-commit-message'] = [output({ decision: 'needs-revision', needs_revision: true, findings: [{ severity: 'mid', message: 'Documentation index needs reconciliation.' }] }, { needs_revision: true } as any), accepted];
@@ -146,10 +176,11 @@ run(codex, 'two-branch-native-fanout', () => {}, steps => {
 }, 'mock-scenario-fanout.json');
 run(codex, 'integration-overwrite-repair', m => {
   const accepted = m['integration-review'];
-  m['integration-review'] = [output({
+  const revision = output({
     accepted: false,
     needs_revision: true,
     redispatch_required: false,
+    repair_in_place: true,
     plans_remaining: false,
     reviewBasis: accepted.payload.reviewBasis,
     findings: [{
@@ -160,7 +191,9 @@ run(codex, 'integration-overwrite-repair', m => {
       materialImpact: 'The combined tree loses required behavior.',
       fixCostBenefit: 'A focused restoration is low cost and restores an accepted outcome.',
     }],
-  }, { needs_revision: true, plans_remaining: false } as any), accepted];
+  }, { needs_revision: true, redispatch_required: false, repair_in_place: true, plans_remaining: false } as any);
+  revision.payload.loopGate = integrationLoopGate(revision.payload.findings);
+  m['integration-review'] = [revision, accepted];
 }, steps => {
   const i = steps.indexOf('integration-review');
   assert.deepEqual(steps.slice(i, i + 3), ['integration-review', 'reconcile-implementations', 'integration-review']);
@@ -185,7 +218,7 @@ run(codex, 'integration-selective-redispatch', m => {
     }),
   ];
   const accepted = m['integration-review'];
-  m['integration-review'] = [output({
+  const revision = output({
     ...accepted.payload,
     accepted: false,
     needs_revision: true,
@@ -201,7 +234,10 @@ run(codex, 'integration-selective-redispatch', m => {
       materialImpact: 'The plan cannot be accepted or unlock downstream work.',
       fixCostBenefit: 'A selective native redispatch provides the required evidence without rewriting accepted work.',
     }],
-  }, { needs_revision: true, redispatch_required: true, plans_remaining: true } as any), accepted];
+    repair_in_place: false,
+  }, { needs_revision: true, redispatch_required: true, repair_in_place: false, plans_remaining: true } as any);
+  revision.payload.loopGate = integrationLoopGate(revision.payload.findings);
+  m['integration-review'] = [revision, accepted];
 }, steps => {
   const review = steps.indexOf('integration-review');
   assert.equal(steps[review + 1], 'dispatch-plans');
@@ -209,6 +245,53 @@ run(codex, 'integration-selective-redispatch', m => {
   assert.equal(steps.filter(step => step === 'reconcile-implementations').length, 2);
   assert(steps.indexOf('step10-git-commit') > steps.lastIndexOf('integration-review'));
 });
+run(codex, 'integration-missing-when-discriminator-redispatches', m => {
+  const accepted = m['integration-review'];
+  const revision = output({
+    ...accepted.payload,
+    accepted: false,
+    needs_revision: true,
+    redispatch_required: true,
+    repair_in_place: false,
+    plans_remaining: true,
+    findings: [{
+      severity: 'mid',
+      file: 'impl-plans/active/a.md',
+      message: 'The failed branch has no native worker provenance.',
+      intentReference: 'A plan requires successful worker-owned evidence before acceptance.',
+      materialImpact: 'The combined tree cannot prove required behavior for the plan.',
+      fixCostBenefit: 'Redispatching the bounded failed plan produces the missing evidence without speculative repair.',
+    }],
+  }, { needs_revision: true, plans_remaining: true } as any);
+  revision.payload.loopGate = integrationLoopGate(revision.payload.findings);
+  m['integration-review'] = [revision, accepted];
+}, steps => {
+  const firstReview = steps.indexOf('integration-review');
+  assert.equal(steps[firstReview + 1], 'dispatch-plans');
+  assert.equal(steps.filter(step => step === 'integration-review').length, 2);
+  assert(steps.indexOf('step10-git-commit') > steps.lastIndexOf('integration-review'));
+});
+runExpectFailure(codex, 'integration-identical-in-place-state-converges', m => {
+  const accepted = m['integration-review'];
+  const unchanged = output({
+    ...accepted.payload,
+    accepted: false,
+    needs_revision: true,
+    redispatch_required: false,
+    repair_in_place: true,
+    plans_remaining: true,
+    findings: [{
+      severity: 'mid',
+      file: 'shared.txt',
+      message: 'The same combined-tree behavior remains missing.',
+      intentReference: 'The accepted plan requires the shared behavior to survive reconciliation.',
+      materialImpact: 'The combined tree still loses required behavior.',
+      fixCostBenefit: 'A repair must change the retained behavior before another review.',
+    }],
+  }, { needs_revision: true, redispatch_required: false, repair_in_place: true, plans_remaining: true } as any);
+  unchanged.payload.loopGate = integrationLoopGate(unchanged.payload.findings);
+  m['integration-review'] = [unchanged, structuredClone(unchanged), structuredClone(unchanged), structuredClone(unchanged)];
+}, /maxRepeatedFindingRounds|maxGateVisits|convergence/i);
 run(codex, 'dependency-waves', m => {
   const prototype = m['dispatch-plans'].payload.implementationItems[0];
   const items = ['a', 'b', 'c'].map(planId => ({ ...prototype, planId, planPath: `impl-plans/active/${planId}.md`, dependsOn: planId === 'c' ? ['a', 'b'] : [], trackedPaths: [`${planId}.txt`, 'shared.txt'] }));

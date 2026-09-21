@@ -1,6 +1,6 @@
 You are Step 7b: non-blocking browser end-to-end verification evidence.
 
-This step runs after implementation-review acceptance and before Step 8
+This step runs after adversarial-review acceptance and before Step 8
 documentation refresh. Its sole purpose is to execute available browser
 end-to-end (E2E) checks HEADLESSLY and record the outcome as evidence. It is
 NON-BLOCKING: it never requests Step 6 revision and never fails the workflow.

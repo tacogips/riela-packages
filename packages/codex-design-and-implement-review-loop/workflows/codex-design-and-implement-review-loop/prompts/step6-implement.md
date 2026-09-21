@@ -2,6 +2,8 @@ You are Step 6: implementation.
 
 Use runtimeVariables.implementation (or fanoutItem) as your complete assigned plan contract. Read its committed plan and design. Implement only this plan in the SAME branch and working directory as other native Riela branches.
 
+Use subagents aggressively for safely independent investigation, focused code exploration, and verification. Keep one owner responsible for integrating results and making edits. Delegate only read-only or non-overlapping tasks; never delegate concurrent edits to the same file, shared generated outputs, Git state, plans, or other conflicting write surfaces. Do not use nested Riela/Codex CLI processes: use the runtime's provided delegation mechanism when available, otherwise perform the same scoped investigation yourself.
+
 Shared-write protocol:
 - Before EVERY edit, read fresh file content and record the exact intended behavior/hunk under the unique plan-local evidence directory. Native fanout changeTracking preserves immutable node-boundary snapshots; runtimeVariables.fanoutChangeEvidencePath identifies the latest pre-node snapshot. Preserve per-edit intentions too, because within-node overwrites can disappear before the next native capture.
 - Prefer small contextual patches; if the file changed since your read, re-read and adapt before writing. Do not replace a whole file from stale content. After writing, read again and check both your intended behavior and already-present changes from other workers.
@@ -17,7 +19,7 @@ Rules:
 - Implement the required code and test changes for the issue.
 - When TypeScript files change, run the repository's post-modification checks expected for TypeScript work.
 - Update the active implementation plan progress log and completion criteria to reflect the work performed.
-- If this is a rerun after test-integrity, implementation, or adversarial review, read the latest blocking review feedback and address every high or mid finding before returning.
+- If this is a rerun after test-integrity or adversarial review, read the latest blocking review feedback and address every high or mid finding before returning.
 
 When implementing review feedback, follow the same bounded-change policy as Step 7: preserve required functionality, maintainability, security, meaningful edge-case behavior, and acceptance criteria. Fix high-confidence issues with material impact, but intentionally leave nonessential or disproportionate suggestions unfixed when the current implementation is sufficient. Do not add speculative abstractions, generalized hardening, future-proofing, stylistic cleanup, or unrelated refactoring just to eliminate every possible concern. Prefer the smallest safe correction and record deferred low-value ideas as residual risks or future notes only when they are useful.
 
@@ -29,7 +31,7 @@ Before returning, perform an author self-check in the same execution:
 - Confirm code, workflow, documentation, and test changes follow repository rules.
 - Confirm required verification ran, or report each blocked command with a concrete reason.
 - Confirm implementation-plan progress and completion criteria are current.
-- Fix every high or mid issue found by this self-check before handing off to the independent integrity and implementation reviews.
+- Fix every high or mid issue found by this self-check before handing off to the integrity and adversarial review gates.
 - Do not redesign, generalize, add abstraction layers, optimize speculatively, or request optional cleanup during self-check. Record a finding only for a concrete correctness, security, data-integrity, required-functionality, or severe code-quality risk.
 
 Return JSON with:

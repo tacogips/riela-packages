@@ -3,7 +3,7 @@
   "description": "Independently review the stable shared-branch result after all workers stopped and reconciliation finished.",
   "executionBackend": "codex-agent",
   "agentSandbox": "read-only",
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-astra",
   "promptTemplateFile": "prompts/integration-review.md",
   "variables": {},
   "effort": "medium",
@@ -14,8 +14,44 @@
       "properties": {
         "needs_revision": { "type": "boolean" },
         "redispatch_required": { "type": "boolean" },
+        "repair_in_place": { "type": "boolean" },
         "plans_remaining": { "type": "boolean" },
         "accepted": { "type": "boolean" },
+        "loopGate": {
+          "type": "object",
+          "properties": {
+            "gateId": { "type": "string", "enum": ["integration-review"] },
+            "decision": { "type": "string", "enum": ["accepted", "needs-work", "rejected"] },
+            "severityCounts": {
+              "type": "object",
+              "properties": {
+                "high": { "type": "number", "minimum": 0 },
+                "medium": { "type": "number", "minimum": 0 },
+                "low": { "type": "number", "minimum": 0 },
+                "informational": { "type": "number", "minimum": 0 }
+              },
+              "required": ["high", "medium", "low", "informational"],
+              "additionalProperties": false
+            },
+            "blockingFindings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "minLength": 1 },
+                  "severity": { "type": "string", "enum": ["high", "medium", "mid"] },
+                  "filePath": { "type": "string", "minLength": 1 },
+                  "line": { "type": "number", "minimum": 1 },
+                  "message": { "type": "string", "minLength": 1 }
+                },
+                "required": ["id", "severity", "message"],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": ["gateId", "decision", "severityCounts", "blockingFindings"],
+          "additionalProperties": false
+        },
         "reviewBasis": {
           "type": "object",
           "properties": {
@@ -52,7 +88,7 @@
         "manifestPath": { "type": "string" },
         "evidencePaths": { "type": "array", "items": { "type": "string" } }
       },
-      "required": ["needs_revision", "redispatch_required", "plans_remaining", "accepted", "reviewBasis", "findings"],
+      "required": ["needs_revision", "redispatch_required", "repair_in_place", "plans_remaining", "accepted", "loopGate", "reviewBasis", "findings"],
       "additionalProperties": true
     }
   }

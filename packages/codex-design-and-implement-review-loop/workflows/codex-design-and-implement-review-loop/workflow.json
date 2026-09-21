@@ -9,7 +9,7 @@
   "loop": {
     "kind": "design-implement-review",
     "required": false,
-    "description": "First-party Codex design, implementation-plan, implementation, review, documentation, and commit workflow loop metadata.",
+    "description": "First-party Codex design, implementation-plan, implementation, adversarial review, documentation, and commit workflow loop metadata.",
     "convergence": {
       "maxGateVisits": 4,
       "maxRepeatedFindingRounds": 2,
@@ -92,8 +92,8 @@
         }
       },
       {
-        "id": "implementation-review",
-        "stepId": "step7-review",
+        "id": "adversarial-implementation-review",
+        "stepId": "step7-adversarial-review",
         "required": false,
         "acceptWhen": {
           "decision": "accepted",
@@ -102,8 +102,8 @@
         }
       },
       {
-        "id": "adversarial-implementation-review",
-        "stepId": "step7-adversarial-review",
+        "id": "integration-review",
+        "stepId": "integration-review",
         "required": false,
         "acceptWhen": {
           "decision": "accepted",
@@ -129,7 +129,7 @@
     }
   },
   "prompts": {
-    "rielaPromptTemplate": "Coordinate {{workflowId}} through its authored graph. Always use the single design author and single plan author, with independent review gates. Planning-only uses Step 9 and final git steps without implementation. Issue-resolution checkpoints accepted designs and all plans before dispatching dependency-ready implementation plans with bounded Riela fanout on the SAME branch and working directory. Each branch executes implementation, integrity review, independent review and required adversarial review, then records immutable evidence. Wait for every branch to terminate before shared-change reconciliation and independent integration review. Repair overwritten or missing work and repeat integration review until accepted; dispatch later dependency waves only after acceptance. After every plan is integrated, run E2E evidence, docs, completion, one final commit, push and serialized merge to the recorded base branch. Never use worktrees or branch-local git mutations. Never finish with missing plan behavior, unexamined drift, incomplete plans or failed git operations.",
+    "rielaPromptTemplate": "Coordinate {{workflowId}} through its authored graph. Always use the single design author and single plan author, with bounded review gates. Planning-only uses Step 9 and final git steps without implementation. Issue-resolution checkpoints accepted designs and all plans before dispatching dependency-ready implementation plans with bounded Riela fanout on the SAME branch and working directory. Each branch executes implementation, integrity review, and one adversarial material-issue review, then records immutable evidence. Wait for every branch to terminate before shared-change reconciliation and Astra integration review. Repair overwritten or missing work and repeat integration review until accepted; dispatch later dependency waves only after acceptance. After every plan is integrated, run E2E evidence, docs, completion, one final commit, push and serialized merge to the recorded base branch. Never use worktrees or branch-local git mutations. Never finish with missing plan behavior, unexamined drift, incomplete plans or failed git operations.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Keep workflow mode, issue references, codex-agent references, file paths, findings, review decisions, and verification commands explicit."
   },
   "managerStepId": "riela-manager",
@@ -162,10 +162,6 @@
     {
       "id": "step6-implement",
       "nodeFile": "nodes/node-step6-implement.json"
-    },
-    {
-      "id": "step7-review",
-      "nodeFile": "nodes/node-step7-review.json"
     },
     {
       "id": "step6-test-integrity-check",
@@ -413,44 +409,15 @@
           "label": "needs_revision"
         },
         {
-          "toStepId": "step7-review",
-          "label": "!(needs_revision)"
-        }
-      ]
-    },
-    {
-      "id": "step7-review",
-      "nodeId": "step7-review",
-      "description": "Review the implementation diff and return to Step 6 when any high or mid finding exists.",
-      "role": "worker",
-      "loop": {
-        "role": "gate",
-        "gateId": "implementation-review",
-        "evidenceTags": [
-          "implementation-review",
-          "blocking-findings"
-        ],
-        "recordsVerification": true
-      },
-      "transitions": [
-        {
-          "toStepId": "step6-implement",
-          "label": "needs_revision"
-        },
-        {
           "toStepId": "step7-adversarial-review",
-          "label": "!(needs_revision) && requires_adversarial_review"
-        },
-        {
-          "toStepId": "branch-evidence",
-          "label": "!(needs_revision || requires_adversarial_review)"
+          "label": "!(needs_revision)"
         }
       ]
     },
     {
       "id": "step7-adversarial-review",
       "nodeId": "step7-adversarial-review",
-      "description": "Adversarially review high-risk accepted implementation changes for failure modes, misuse paths, misleading success states, and verification loopholes.",
+      "description": "Perform the single material-issue adversarial review of implementation changes for failure modes, misuse paths, misleading success states, and verification loopholes.",
       "role": "worker",
       "loop": {
         "role": "gate",
@@ -645,14 +612,24 @@
       "nodeId": "integration-review",
       "description": "Independently verify retained plan behavior and repairs before another wave or finalization.",
       "role": "worker",
+      "loop": {
+        "role": "gate",
+        "gateId": "integration-review",
+        "evidenceTags": [
+          "integration-review",
+          "blocking-findings",
+          "verification"
+        ],
+        "recordsVerification": true
+      },
       "transitions": [
         {
-          "toStepId": "dispatch-plans",
-          "label": "needs_revision && redispatch_required"
+          "toStepId": "reconcile-implementations",
+          "label": "needs_revision && repair_in_place"
         },
         {
-          "toStepId": "reconcile-implementations",
-          "label": "needs_revision && !(redispatch_required)"
+          "toStepId": "dispatch-plans",
+          "label": "needs_revision && !(repair_in_place)"
         },
         {
           "toStepId": "dispatch-plans",

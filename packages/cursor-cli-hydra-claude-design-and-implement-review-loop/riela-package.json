@@ -8,7 +8,7 @@
     "hydra"
   ],
   "registry": "default",
-  "checksum": "d2a32f253b74d48c8df3beddb0c1b733",
+  "checksum": "eba749edc607b8ef032936a9f7c3930f",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-hydra-claude-design-and-implement-review-loop",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -26,7 +26,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "dc829e98eda80db8f7e7f57529b11f90ad89f38fe242dbfcc4a0d6bcaef30f92"
+    "digest": "442a1a25e626fca6b67f85293e64420ab5912135c65db6ad2e0a6945f1bae386"
   },
   "backends": [
     "claude-code-agent",
