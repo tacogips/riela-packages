@@ -1,0 +1,13 @@
+{
+  "id": "implementation-progress-check",
+  "description": "Mechanically fail closed when a branch-local implementation attempt is blocked, unchanged, materially unverified, or repeats its prior evidence.",
+  "nodeType": "command",
+  "modelFreeze": false,
+  "variables": {},
+  "command": {
+    "scriptPath": "scripts/implementation-progress-check.py"
+  },
+  "output": {
+    "description": "Return a code-owned implementation_blocked discriminator, normalized evidence fingerprint, actionable blockers, and resume criteria."
+  }
+}

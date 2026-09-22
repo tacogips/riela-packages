@@ -43,7 +43,7 @@ Return JSON with:
 - `implementationSummary`
 - `implPlanPaths`
 - `implPlanUpdates`
-- `verification`
+- `verification` as structured records. Every record must include the exact non-empty `command` and a concrete observed `outcome`, `exitStatus`, `exitCode`, or `status`; a command name or prose claim alone is not verification evidence.
 - `addressedFeedback`
 - `risks`
 - `authorSelfCheck`

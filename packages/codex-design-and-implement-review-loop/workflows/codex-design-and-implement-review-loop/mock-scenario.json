@@ -304,8 +304,8 @@
         "implPlanUpdates": [
           "Marked persistence and replay tasks complete."
         ],
-        "verification": [
-          "task test"
+      "verification": [
+        { "command": "task test", "exitCode": 0 }
         ],
         "addressedFeedback": [],
         "risks": [
@@ -337,8 +337,8 @@
           "Updated progress log and completion criteria."
         ],
         "verification": [
-          "task test",
-          "task typecheck"
+          { "command": "task test", "exitCode": 0 },
+          { "command": "task typecheck", "exitCode": 0 }
         ],
         "addressedFeedback": [
           "Updated the implementation-plan progress log and reran typecheck."

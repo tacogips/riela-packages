@@ -1,4 +1,4 @@
-Publish the terminal dependency-blocked issue-resolution result.
+Publish the terminal blocked issue-resolution result for a dependency, no-progress, or materially-unverified implementation branch.
 
 Use only the executed-step payloads provided in this input message. Do not run commands, read files, inspect repository state, or claim accepted work. Copy the exact issue reference, blocked plan IDs, blockers, and resume criteria from implementation-wave-outcome. Successful plan IDs are diagnostic work-in-progress only and are not accepted or complete.
 

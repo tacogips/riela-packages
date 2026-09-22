@@ -102,7 +102,7 @@ const reconcilePrompt = readFileSync(join(bundle(codex), 'prompts/reconcile-impl
 assert.match(reconcilePrompt, /already-resolved dependency checkout and normal build products/i);
 assert.match(reconcilePrompt, /do not select a new isolated scratch build that must fetch dependencies/i);
 assert.match(reconcilePrompt, /direct `verification` and `evidencePaths` output/i);
-const expected = new Map([[codex, 24], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 24]]);
+const expected = new Map([[codex, 25], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 24]]);
 for (const [id, count] of expected) {
   const w = read(join(bundle(id), 'workflow.json'));
   assert.equal(w.steps.length, count);
@@ -161,8 +161,37 @@ assert.equal(graph.loop.gates.length, 6);
 assert(!graph.nodes.some((node: any) => node.id === 'step7-review'));
 assert(!graph.steps.some((step: any) => step.id === 'step7-review'));
 const implementationTransitions = graph.steps.find((step: any) => step.id === 'step6-implement').transitions;
-assert.equal(implementationTransitions.find((transition: any) => transition.label === 'implementation_blocked')?.toStepId, 'implementation-wave-outcome');
-assert.equal(implementationTransitions.find((transition: any) => transition.label === '!(implementation_blocked)')?.toStepId, 'step6-test-integrity-check');
+assert.deepEqual(implementationTransitions, [{ toStepId: 'implementation-progress-check' }]);
+const progressNode = read(join(bundle(codex), 'nodes/node-implementation-progress-check.json'));
+assert.equal(progressNode.nodeType, 'command');
+assert.equal(progressNode.command.scriptPath, 'scripts/implementation-progress-check.py');
+assert.equal(progressNode.executionBackend, undefined);
+const progressScript = join(bundle(codex), progressNode.command.scriptPath);
+const invokeProgressGate = (payloads: any[]) => {
+  const messages = payloads.map((payload, index) => ({
+    fromStepId: 'step6-implement',
+    createdOrder: index + 1,
+    payload,
+  }));
+  const invocation = { input: { _rielaInput: { messages } } };
+  const result = spawnSync(progressScript, [], { input: `${JSON.stringify(invocation)}\n`, encoding: 'utf8' });
+  assert.equal(result.status, 0, result.stderr);
+  return JSON.parse(result.stdout);
+};
+const noProgressEvidence = { implementation_blocked: false, blockers: [], changedFiles: [], verification: [], implPlanUpdates: [] };
+assert.equal(invokeProgressGate([noProgressEvidence, noProgressEvidence]).payload.blockerType, 'implementation-no-progress');
+const firstProgress = { implementation_blocked: false, blockers: [], changedFiles: ['Sources/A.swift'], verification: [{ command: 'swift test', exitCode: 0 }], implPlanUpdates: [] };
+const revisedProgress = { implementation_blocked: false, blockers: [], changedFiles: ['Sources/A.swift'], verification: [{ command: 'swift test', exitCode: 0 }, { command: 'swiftlint', status: 'passed' }], implPlanUpdates: ['Completed lint acceptance criterion.'] };
+assert.equal(invokeProgressGate([firstProgress, revisedProgress]).payload.implementation_blocked, false);
+assert.equal(invokeProgressGate([firstProgress, firstProgress]).payload.blockerType, 'implementation-no-progress');
+const reorderedProgress = { ...revisedProgress, verification: [...revisedProgress.verification].reverse(), implPlanUpdates: [...revisedProgress.implPlanUpdates].reverse() };
+assert.equal(invokeProgressGate([revisedProgress, reorderedProgress]).payload.blockerType, 'implementation-no-progress');
+const removedEvidence = { ...revisedProgress, verification: [revisedProgress.verification[0]], implPlanUpdates: [] };
+assert.equal(invokeProgressGate([revisedProgress, removedEvidence]).payload.blockerType, 'implementation-no-progress');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: ['swift test'] }]).payload.blockerType, 'implementation-materially-unverified');
+const progressTransitions = graph.steps.find((step: any) => step.id === 'implementation-progress-check').transitions;
+assert.equal(progressTransitions.find((transition: any) => transition.label === 'implementation_blocked')?.toStepId, 'implementation-wave-outcome');
+assert.equal(progressTransitions.find((transition: any) => transition.label === '!(implementation_blocked)')?.toStepId, 'step6-test-integrity-check');
 const implementationFanout = graph.steps.find((step: any) => step.id === 'dispatch-plans').transitions[0].fanout;
 assert.equal(implementationFanout.joinStepId, 'implementation-wave-outcome');
 assert.equal(graph.steps.find((step: any) => step.id === 'branch-evidence').transitions[0].toStepId, 'implementation-wave-outcome');
@@ -289,11 +318,81 @@ run(codex, 'implementation-dependency-blocked', m => {
     residualRisks: [],
   });
 }, steps => {
-  assert.deepEqual(steps, ['step6-implement', 'implementation-wave-outcome', 'implementation-blocked-output']);
+  assert.deepEqual(steps, ['step6-implement', 'implementation-progress-check', 'implementation-wave-outcome', 'implementation-blocked-output']);
   assert(!steps.includes('step6-test-integrity-check'));
   assert(!steps.includes('step7-adversarial-review'));
   assert(!steps.includes('reconcile-implementations'));
   assert(!steps.includes('integration-review'));
+}, 'mock-scenario.json', 'step6-implement');
+run(codex, 'implementation-no-progress-terminal', m => {
+  const unchanged = {
+    ...output({
+      implementation_blocked: false,
+      blockers: [],
+      planId: 'a',
+      changedFiles: [],
+      implementationSummary: 'No additional implementation was necessary.',
+      implPlanPaths: ['impl-plans/active/a.md'],
+      implPlanUpdates: [],
+      verification: [],
+      addressedFeedback: [],
+      risks: ['An accepted requirement remains unresolved.'],
+    }),
+    model: 'gpt-5.6-terra',
+  };
+  // Queue two identical no-change attempts. The deterministic gate must stop
+  // after the first, leaving the second attempt unconsumed.
+  m['step6-implement'] = [unchanged, structuredClone(unchanged)];
+  m['implementation-wave-outcome'] = output({
+    implementation_blocked: true,
+    blockedPlanIds: ['a'],
+    successfulPlanIds: [],
+    blockers: [{ type: 'implementation-no-progress' }],
+    resumeCriteria: ['Make a concrete source/test/plan change and report verification evidence.'],
+  }, { implementation_blocked: true } as any);
+  m['implementation-blocked-output'] = output({
+    implementation_blocked: true,
+    status: 'blocked',
+    workflowMode: 'issue-resolution',
+    issueReference: 'tacogips/cursor-agent#123',
+    blockedPlanIds: ['a'],
+    successfulPlanIds: [],
+    blockers: [{ type: 'implementation-no-progress' }],
+    resumeCriteria: ['Make a concrete source/test/plan change and report verification evidence.'],
+    nextStep: 'Implement concrete progress and rerun this plan.',
+    residualRisks: [],
+  });
+}, steps => {
+  assert.deepEqual(steps, ['step6-implement', 'implementation-progress-check', 'implementation-wave-outcome', 'implementation-blocked-output']);
+  assert.equal(steps.filter(step => step === 'step6-implement').length, 1);
+  assert(!steps.includes('step6-test-integrity-check'));
+  assert(!steps.includes('step7-adversarial-review'));
+  assert(!steps.includes('reconcile-implementations'));
+}, 'mock-scenario.json', 'step6-implement');
+run(codex, 'productive-implementation-revision', m => {
+  const accepted = m['step6-test-integrity-check'];
+  const revision = structuredClone(accepted);
+  revision.when = { needs_revision: true };
+  revision.payload.needs_revision = true;
+  revision.payload.accepted = false;
+  revision.payload.findings = [{
+    severity: 'mid',
+    file: 'packages/riela/src/workflow/review-findings.test.ts',
+    message: 'Complete the planned typecheck evidence.',
+    intentReference: 'The accepted plan requires typecheck evidence.',
+    materialImpact: 'The implementation is not yet verified against the required static check.',
+    fixCostBenefit: 'Running the planned check is bounded and directly verifies acceptance.',
+  }];
+  revision.payload.feedback = ['Run and report the planned typecheck.'];
+  m['step6-test-integrity-check'] = [revision, accepted];
+}, steps => {
+  const first = steps.indexOf('step6-implement');
+  assert.deepEqual(steps.slice(first, first + 7), [
+    'step6-implement', 'implementation-progress-check', 'step6-test-integrity-check',
+    'step6-implement', 'implementation-progress-check', 'step6-test-integrity-check',
+    'step7-adversarial-review',
+  ]);
+  assert.equal(steps.filter(step => step === 'implementation-progress-check').length, 2);
 }, 'mock-scenario.json', 'step6-implement');
 run(codex, 'native-fanout-dependency-blocked', m => {
   const blocked = {

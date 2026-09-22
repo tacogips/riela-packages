@@ -44,7 +44,8 @@
         "nestedRiela": "deny",
         "nestedCodex": "deny",
         "allowedBackends": [
-          "codex-agent"
+          "codex-agent",
+          "command"
         ]
       },
       "network": {
@@ -162,6 +163,10 @@
     {
       "id": "step6-implement",
       "nodeFile": "nodes/node-step6-implement.json"
+    },
+    {
+      "id": "implementation-progress-check",
+      "nodeFile": "nodes/node-implementation-progress-check.json"
     },
     {
       "id": "step6-test-integrity-check",
@@ -393,6 +398,17 @@
       },
       "transitions": [
         {
+          "toStepId": "implementation-progress-check"
+        }
+      ]
+    },
+    {
+      "id": "implementation-progress-check",
+      "nodeId": "implementation-progress-check",
+      "description": "Mechanically classify the latest branch-local Step 6 evidence before any integrity or adversarial review.",
+      "role": "worker",
+      "transitions": [
+        {
           "toStepId": "implementation-wave-outcome",
           "label": "implementation_blocked"
         },
@@ -613,7 +629,7 @@
     {
       "id": "implementation-wave-outcome",
       "nodeId": "implementation-wave-outcome",
-      "description": "Classify the completed native implementation wave before any serial reconciliation; dependency-blocked branches terminate with an actionable handoff.",
+      "description": "Aggregate preclassified native implementation branch outcomes before serial reconciliation; blocked branches terminate with an actionable handoff.",
       "role": "worker",
       "transitions": [
         {

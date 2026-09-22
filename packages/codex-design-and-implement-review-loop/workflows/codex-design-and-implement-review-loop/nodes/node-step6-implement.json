@@ -12,14 +12,37 @@
   "promptTemplateFile": "prompts/step6-implement.md",
   "variables": {},
   "output": {
-    "description": "Return JSON with an explicit implementation_blocked discriminator, dependency blockers, changed files, implementation summary, plan progress updates, verification commands, and addressed review feedback.",
+    "description": "Return JSON with an implementation_blocked self-report, dependency blockers, changed files, implementation summary, plan progress updates, verification commands, and addressed review feedback. A deterministic command gate owns the routing decision.",
     "jsonSchema": {
       "type": "object",
       "properties": {
         "implementation_blocked": { "type": "boolean" },
-        "blockers": { "type": "array", "items": {} }
+        "blockers": { "type": "array", "items": {} },
+        "changedFiles": { "type": "array", "items": {} },
+        "verification": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "command": { "type": "string", "minLength": 1 },
+              "outcome": {},
+              "exitStatus": {},
+              "exitCode": {},
+              "status": {}
+            },
+            "required": ["command"],
+            "anyOf": [
+              { "required": ["outcome"] },
+              { "required": ["exitStatus"] },
+              { "required": ["exitCode"] },
+              { "required": ["status"] }
+            ],
+            "additionalProperties": true
+          }
+        },
+        "implPlanUpdates": { "type": "array", "items": {} }
       },
-      "required": ["implementation_blocked", "blockers"],
+      "required": ["implementation_blocked", "blockers", "changedFiles", "verification", "implPlanUpdates"],
       "additionalProperties": true
     }
   }

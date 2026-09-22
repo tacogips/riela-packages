@@ -1,6 +1,6 @@
 {
   "id": "implementation-wave-outcome",
-  "description": "Classify native implementation branch outcomes before reconciliation and stop on explicit dependency blockers.",
+  "description": "Aggregate branch outcomes already classified by the branch-local progress gate and stop before reconciliation when any branch is blocked.",
   "executionBackend": "codex-agent",
   "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
@@ -9,7 +9,7 @@
   "promptTemplateFile": "prompts/implementation-wave-outcome.md",
   "variables": {},
   "output": {
-    "description": "Return whether implementation is dependency-blocked, the affected plans, concrete blockers and resume criteria.",
+    "description": "Return whether any preclassified implementation branch is blocked, the affected plans, concrete blockers and resume criteria.",
     "jsonSchema": {
       "type": "object",
       "properties": {
