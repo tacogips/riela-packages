@@ -227,6 +227,18 @@ const failedBehavioral = { ...firstProgress, verification: [
 assert.equal(invokeProgressGate([failedBehavioral]).payload.blockerType, 'implementation-materially-unverified');
 assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ command: 'swift test', exitStatus: 0, testCount: 0 }] }]).payload.blockerType, 'implementation-materially-unverified');
 assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ command: 'swift build', exitStatus: 0 }] }]).payload.blockerType, 'implementation-materially-unverified');
+const selectedTestOutcome = { command: 'swift test --filter CapabilityTests', exitCode: 0, outcome: 'Passed 33 selected tests, 0 failures; current tree verified.' };
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [selectedTestOutcome] }]).payload.implementation_blocked, false);
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...selectedTestOutcome, outcome: 'Passed 0 selected tests, 0 failures; no tests selected.' }] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...selectedTestOutcome, outcome: 'Passed selected tests, 0 failures; count unavailable.' }] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...selectedTestOutcome, outcome: 'Not passed 33 selected tests, 0 failures.' }] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...selectedTestOutcome, exitCode: 1 }] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...selectedTestOutcome, outcome: 'Passed 33 selected tests, 1 failure.' }] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...selectedTestOutcome, environmentBlocked: true }] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...selectedTestOutcome, status: 'blocked' }] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...selectedTestOutcome, testCount: 0 }] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...selectedTestOutcome, testCount: 0, testsPassed: 33 }] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...selectedTestOutcome, command: 'swift build' }] }]).payload.blockerType, 'implementation-materially-unverified');
 const priorBehavioral = { ...firstProgress, verification: [{ command: 'swift test --filter CapabilityTests', exitStatus: 0, testCount: 12, sourceHash: 'tree-123' }] };
 const matchingEnvironmentBlock = { ...revisedProgress, verification: [{ command: 'swift test --filter CapabilityTests', exitStatus: 1, environmentBlocked: true, sourceHash: 'tree-123' }, { command: 'swiftlint', exitStatus: 0 }] };
 assert.equal(invokeProgressGate([priorBehavioral, matchingEnvironmentBlock]).payload.implementation_blocked, false);

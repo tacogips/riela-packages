@@ -37,6 +37,19 @@ def concrete_verification(value: Any) -> list[dict[str, Any]]:
 
 
 def verification_succeeded(record: dict[str, Any]) -> bool:
+    if record.get("environmentBlocked") is True or record.get("environment_blocked") is True:
+        return False
+    for key in ("status", "outcome"):
+        value = record.get(key)
+        if not isinstance(value, str):
+            continue
+        normalized = value.strip().lower()
+        if normalized in {
+            "blocked", "cancelled", "canceled", "failed", "failure", "not run", "skipped",
+        } or re.match(r"^(?:blocked|cancelled|canceled|failed|failure|not run|skipped)\b", normalized):
+            return False
+        if re.search(r"\b[1-9]\d*\s+(?:(?:tests?|checks?)\s+)?(?:failed|failures?)\b", normalized):
+            return False
     saw_exit_status = False
     for key in ("exitStatus", "exitCode"):
         if key in record and record.get(key) not in (None, ""):
@@ -66,23 +79,34 @@ def behavioral_kind(record: dict[str, Any]) -> str | None:
 
 def positive_test_count(record: dict[str, Any]) -> bool:
     count_keys = {"testCount", "testsRun", "testsPassed", "positiveTestCount", "passedTestCount"}
+    structured_counts: list[float] = []
 
-    def visit(value: Any) -> bool:
+    def collect(value: Any) -> None:
         if isinstance(value, dict):
             for key, nested in value.items():
                 if key in count_keys:
                     try:
-                        if float(nested) > 0:
-                            return True
+                        structured_counts.append(float(nested))
                     except (TypeError, ValueError):
                         pass
-                if visit(nested):
-                    return True
+                collect(nested)
         elif isinstance(value, list):
-            return any(visit(item) for item in value)
-        return False
+            for item in value:
+                collect(item)
 
-    return visit(record)
+    collect(record)
+    if structured_counts:
+        return all(count > 0 for count in structured_counts)
+
+    outcome = record.get("outcome")
+    if not isinstance(outcome, str):
+        return False
+    match = re.search(
+        r"^\s*passed\s+([1-9]\d*)\s+selected\s+tests?\s*,\s*0\s+failures?\b",
+        outcome,
+        flags=re.IGNORECASE,
+    )
+    return match is not None
 
 
 def successful_behavioral_verification(record: dict[str, Any]) -> bool:
