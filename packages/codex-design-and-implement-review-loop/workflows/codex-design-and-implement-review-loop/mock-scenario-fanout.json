@@ -289,6 +289,8 @@
         "always": true
       },
       "payload": {
+        "implementation_blocked": false,
+        "blockers": [],
         "issueReference": "tacogips/cursor-agent#123",
         "changedFiles": [
           "packages/riela/src/workflow/review-findings.ts",
@@ -318,6 +320,8 @@
         "always": true
       },
       "payload": {
+        "implementation_blocked": false,
+        "blockers": [],
         "issueReference": "tacogips/cursor-agent#123",
         "changedFiles": [
           "packages/riela/src/workflow/review-findings.ts",
@@ -750,6 +754,23 @@
       "acceptedPlanIds": [],
       "manifestPath": "impl-plans/active/mock-dispatch.json",
       "checkpointCommit": "1111111111111111111111111111111111111111"
+    }
+  },
+  "implementation-wave-outcome": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "implementation_blocked": false
+    },
+    "payload": {
+      "implementation_blocked": false,
+      "blockedPlanIds": [],
+      "successfulPlanIds": [
+        "a",
+        "b"
+      ],
+      "blockers": [],
+      "resumeCriteria": []
     }
   },
   "branch-evidence": {

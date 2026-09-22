@@ -16,6 +16,7 @@ Shared-write protocol:
 Rules:
 - Step 6 runs only for full `issue-resolution` mode. Do not treat planning-only acceptance as permission to implement.
 - Confirm the selected plan is aligned with the accepted design before making non-trivial changes.
+- Before editing, verify that every external dependency and readiness condition required by the assigned plan has concrete accepted evidence. If implementation cannot start because a prerequisite is absent or unverified, do not edit or run success-shaped verification. Return `implementation_blocked: true`, `changedFiles: []`, and concrete `blockers` containing the missing dependency, evidence checked, impact, and resume criterion. This is an actionable terminal outcome for this run, not a review finding or a reason to enter an implementation/review loop.
 - Implement the required code and test changes for the issue.
 - When TypeScript files change, run the repository's post-modification checks expected for TypeScript work.
 - Update the active implementation plan progress log and completion criteria to reflect the work performed.
@@ -35,6 +36,8 @@ Before returning, perform an author self-check in the same execution:
 - Do not redesign, generalize, add abstraction layers, optimize speculatively, or request optional cleanup during self-check. Record a finding only for a concrete correctness, security, data-integrity, required-functionality, or severe code-quality risk.
 
 Return JSON with:
+- `implementation_blocked` (`false` after an implementation attempt; `true` only for an external dependency/readiness blocker that prevents implementation from starting)
+- `blockers` (empty when `implementation_blocked` is false)
 - `issueReference`
 - `changedFiles`
 - `implementationSummary`

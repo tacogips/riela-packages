@@ -8,6 +8,8 @@ Use the paired Riela source build and workflow validate/inspect with --workflow-
 
 Native join returns branchId/status/sessionId/output, dispatchedBranchIds, pendingBranchIds, completedBranchIds and changeEvidence. Drift is a candidate requiring semantic review. Combined-tree repair findings return to reconciliation; failed branches and missing worker-owned evidence return to dispatch-plans for selective native redispatch. Failed branches remain pending and block final completion. Ignore timestamps, generated IDs and artifact paths.
 
-Maintainer regressions: RIELA_BIN=<paired-build>/riela bun .agents/skills/riela-package-release/scripts/check-compact-workflows.ts. Includes completion and integrity revision, integration repair, selective redispatch, planning-only and Fable implementation review loops. Engine tests cover concurrency/failure policies, dependency waves and native change evidence.
+An explicit Step 6 dependency/readiness blocker with no implementation changes bypasses test-integrity and adversarial review. The wave outcome publishes an actionable blocked result before reconciliation, with blocked plan IDs, blockers and resume criteria; it never enters the review/reconcile loop as a successful implementation.
+
+Maintainer regressions: RIELA_BIN=<paired-build>/riela bun .agents/skills/riela-package-release/scripts/check-compact-workflows.ts. Includes dependency-blocked implementation termination, completion and integrity revision, integration repair, selective redispatch, planning-only and Fable implementation review loops. Engine tests cover concurrency/failure policies, dependency waves and native change evidence.
 
 The compact regression also verifies that an integration result missing its `when.repair_in_place` discriminator conservatively redispatches, and that repeated identical in-place integration findings terminate through the integration gate's configured convergence bounds instead of cycling until `maxStepsExceeded`.

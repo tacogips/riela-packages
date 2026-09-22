@@ -53,7 +53,9 @@ assert.equal(read(join(bundle(codex), 'nodes/node-step2-design-doc-update.json')
 assert.equal(read(join(bundle(codex), 'nodes/node-step4-impl-plan-create.json')).model, 'gpt-6-astra');
 assert.equal(read(join(bundle(codex), 'nodes/node-integration-review.json')).model, 'gpt-6-astra');
 assert.equal(read(join(bundle(codex), 'nodes/node-dispatch-plans.json')).model, 'gpt-5.6-sol');
-const expected = new Map([[codex, 22], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 24]]);
+assert.equal(read(join(bundle(codex), 'nodes/node-implementation-wave-outcome.json')).model, 'gpt-5.6-sol');
+assert.equal(read(join(bundle(codex), 'nodes/node-implementation-blocked-output.json')).model, 'gpt-5.6-sol');
+const expected = new Map([[codex, 24], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 24]]);
 for (const [id, count] of expected) {
   const w = read(join(bundle(id), 'workflow.json'));
   assert.equal(w.steps.length, count);
@@ -109,6 +111,17 @@ assert.match(managerPrompt, /do not perform any repository work yourself/i);
 assert.equal(graph.loop.gates.length, 6);
 assert(!graph.nodes.some((node: any) => node.id === 'step7-review'));
 assert(!graph.steps.some((step: any) => step.id === 'step7-review'));
+const implementationTransitions = graph.steps.find((step: any) => step.id === 'step6-implement').transitions;
+assert.equal(implementationTransitions.find((transition: any) => transition.label === 'implementation_blocked')?.toStepId, 'implementation-wave-outcome');
+assert.equal(implementationTransitions.find((transition: any) => transition.label === '!(implementation_blocked)')?.toStepId, 'step6-test-integrity-check');
+const implementationFanout = graph.steps.find((step: any) => step.id === 'dispatch-plans').transitions[0].fanout;
+assert.equal(implementationFanout.joinStepId, 'implementation-wave-outcome');
+assert.equal(graph.steps.find((step: any) => step.id === 'branch-evidence').transitions[0].toStepId, 'implementation-wave-outcome');
+const outcomeTransitions = graph.steps.find((step: any) => step.id === 'implementation-wave-outcome').transitions;
+assert.equal(outcomeTransitions.find((transition: any) => transition.label === 'implementation_blocked')?.toStepId, 'implementation-blocked-output');
+assert.equal(outcomeTransitions.find((transition: any) => transition.label === '!(implementation_blocked)')?.toStepId, 'reconcile-implementations');
+assert.match(readFileSync(join(bundle(codex), 'prompts/implementation-wave-outcome.md'), 'utf8'), /fanoutJoin\.branches\[\].*implementation_blocked.*status: \"blocked\"/i);
+assert.match(readFileSync(join(bundle(codex), 'prompts/implementation-blocked-output.md'), 'utf8'), /implementation_blocked:true,status:\"blocked\"/i);
 assert.equal(graph.steps.find((step: any) => step.id === 'step6-test-integrity-check').transitions.find((transition: any) => transition.label === '!(needs_revision)')?.toStepId, 'step7-adversarial-review');
 assert.equal(graph.loop.gates.find((g: any) => g.id === 'implementation-plan-completion-check').stepId, 'step9-commit-message');
 assert.equal(graph.loop.gates.find((g: any) => g.id === 'integration-review').stepId, 'integration-review');
@@ -130,7 +143,7 @@ const integrationLoopGate = (findings: any[], accepted = false) => ({
     .map(finding => ({ id: `${finding.file}:${finding.line ?? 0}:${finding.message}`, severity: finding.severity === 'mid' ? 'medium' : finding.severity, filePath: finding.file, line: finding.line, message: finding.message })),
 });
 let total = 0;
-function run(id: string, name: string, mutate: (m: any) => void, verify: (steps: string[]) => void, fixture = 'mock-scenario.json', branchEntry?: string) {
+function run(id: string, name: string, mutate: (m: any) => void, verify: (steps: string[], result: any) => void, fixture = 'mock-scenario.json', branchEntry?: string) {
   const m = read(join(bundle(id), fixture));
   mutate(m);
   const dir = join(scratch, name); mkdirSync(dir);
@@ -150,7 +163,7 @@ function run(id: string, name: string, mutate: (m: any) => void, verify: (steps:
   assert.equal(r.status, 0, `${name}: ${r.stdout}\n${r.stderr}`);
   const result = JSON.parse(r.stdout); assert.equal(result.status, 'completed');
   const steps = result.session.executions.map((e: any) => e.stepId);
-  verify(steps); total++; console.log(`${name}: passed (${steps.length} executions)`);
+  verify(steps, result); total++; console.log(`${name}: passed (${steps.length} executions)`);
 }
 function runExpectFailure(id: string, name: string, mutate: (m: any) => void, expectedError: RegExp, fixture = 'mock-scenario.json') {
   const m = read(join(bundle(id), fixture));
@@ -174,6 +187,106 @@ run(codex, 'completion-revision', m => {
 run(codex, 'planning-only', () => {}, steps => {
   assert(!steps.includes('step6-implement')); assert(!steps.includes('step8-docs-refresh'));
 }, 'mock-scenario-planning-only.json');
+run(codex, 'implementation-dependency-blocked', m => {
+  m['step6-implement'] = { ...output({
+    implementation_blocked: true,
+    blockers: [{
+      dependency: 'impl-plans/active/prerequisite.md',
+      evidenceChecked: 'No accepted implementation evidence exists.',
+      impact: 'The assigned implementation cannot start safely.',
+      resumeCriterion: 'Complete and verify the prerequisite plan.',
+    }],
+    issueReference: 'tacogips/cursor-agent#123',
+    changedFiles: [],
+    implementationSummary: 'Implementation did not start because an external prerequisite is not ready.',
+    implPlanPaths: ['impl-plans/active/workflow-review-findings.md'],
+    implPlanUpdates: [],
+    verification: [],
+    addressedFeedback: [],
+    risks: ['External prerequisite remains incomplete.'],
+  }, { implementation_blocked: true } as any), model: 'gpt-5.6-terra' };
+  m['implementation-wave-outcome'] = output({
+    implementation_blocked: true,
+    blockedPlanIds: ['a'],
+    successfulPlanIds: [],
+    blockers: [{ dependency: 'impl-plans/active/prerequisite.md' }],
+    resumeCriteria: ['Complete and verify the prerequisite plan.'],
+  }, { implementation_blocked: true } as any);
+  m['implementation-blocked-output'] = output({
+    implementation_blocked: true,
+    status: 'blocked',
+    workflowMode: 'issue-resolution',
+    issueReference: 'tacogips/cursor-agent#123',
+    blockedPlanIds: ['a'],
+    successfulPlanIds: [],
+    blockers: [{ dependency: 'impl-plans/active/prerequisite.md' }],
+    resumeCriteria: ['Complete and verify the prerequisite plan.'],
+    nextStep: 'Implement the prerequisite, then rerun this plan.',
+    residualRisks: [],
+  });
+}, steps => {
+  assert.deepEqual(steps, ['step6-implement', 'implementation-wave-outcome', 'implementation-blocked-output']);
+  assert(!steps.includes('step6-test-integrity-check'));
+  assert(!steps.includes('step7-adversarial-review'));
+  assert(!steps.includes('reconcile-implementations'));
+  assert(!steps.includes('integration-review'));
+}, 'mock-scenario.json', 'step6-implement');
+run(codex, 'native-fanout-dependency-blocked', m => {
+  const blocked = {
+    ...output({
+      implementation_blocked: true,
+      blockers: [{
+        dependency: 'impl-plans/active/prerequisite.md',
+        evidenceChecked: 'No accepted implementation evidence exists.',
+        impact: 'The assigned implementation cannot start safely.',
+        resumeCriterion: 'Complete and verify the prerequisite plan.',
+      }],
+      issueReference: 'tacogips/cursor-agent#123',
+      changedFiles: [],
+      implementationSummary: 'Implementation did not start because an external prerequisite is not ready.',
+      implPlanPaths: ['impl-plans/active/workflow-review-findings.md'],
+      implPlanUpdates: [],
+      verification: [],
+      addressedFeedback: [],
+      risks: ['External prerequisite remains incomplete.'],
+    }, { implementation_blocked: true } as any),
+    model: 'gpt-5.6-terra',
+  };
+  m['step6-implement'] = [blocked, structuredClone(blocked)];
+  m['implementation-wave-outcome'] = output({
+    implementation_blocked: true,
+    blockedPlanIds: ['a', 'b'],
+    successfulPlanIds: [],
+    blockers: [{ dependency: 'impl-plans/active/prerequisite.md' }],
+    resumeCriteria: ['Complete and verify the prerequisite plan.'],
+  }, { implementation_blocked: true } as any);
+  m['implementation-blocked-output'] = output({
+    implementation_blocked: true,
+    status: 'blocked',
+    workflowMode: 'issue-resolution',
+    issueReference: 'tacogips/cursor-agent#123',
+    blockedPlanIds: ['a', 'b'],
+    successfulPlanIds: [],
+    blockers: [{ dependency: 'impl-plans/active/prerequisite.md' }],
+    resumeCriteria: ['Complete and verify the prerequisite plan.'],
+    nextStep: 'Implement the prerequisite, then rerun this plan.',
+    residualRisks: [],
+  });
+}, (steps, result) => {
+  const outcome = steps.indexOf('implementation-wave-outcome');
+  assert(outcome > steps.indexOf('dispatch-plans'));
+  assert.equal(steps[outcome + 1], 'implementation-blocked-output');
+  const outcomeExecution = result.session.executions.find((execution: any) => execution.stepId === 'implementation-wave-outcome');
+  const joinedBranches = outcomeExecution?.inputSnapshot?.mergedVariables?.runtimeVariables?.fanoutJoin?.branches;
+  assert.equal(joinedBranches?.length, 2, 'blocked native fanout must expose both terminal branch outputs at the parent join');
+  assert(joinedBranches.every((branch: any) => branch.status === 'completed' && branch.output?.implementation_blocked === true));
+  assert(joinedBranches.every((branch: any) => Array.isArray(branch.output?.changedFiles) && branch.output.changedFiles.length === 0));
+  assert.equal(steps.filter(step => step === 'dispatch-plans').length, 1);
+  assert(!steps.includes('reconcile-implementations'));
+  assert(!steps.includes('integration-review'));
+  assert(!steps.includes('step7b-e2e-evidence'));
+  assert(!steps.includes('step10-git-commit'));
+}, 'mock-scenario-fanout.json');
 run(codex, 'two-branch-native-fanout', () => {}, steps => {
   assert(steps.indexOf('plan-git-commit') < steps.indexOf('dispatch-plans'));
   assert(steps.indexOf('dispatch-plans') < steps.indexOf('reconcile-implementations'));

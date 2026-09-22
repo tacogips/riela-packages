@@ -1,0 +1,31 @@
+{
+  "id": "implementation-blocked-output",
+  "description": "Publish an actionable dependency-blocked terminal result without claiming implementation or review acceptance.",
+  "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
+  "model": "gpt-5.6-sol",
+  "modelFreeze": false,
+  "effort": "low",
+  "promptTemplateFile": "prompts/implementation-blocked-output.md",
+  "variables": {},
+  "output": {
+    "description": "Return a blocked issue-resolution handoff with affected plans, blockers and resume criteria.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "implementation_blocked": { "type": "boolean", "const": true },
+        "status": { "type": "string", "enum": ["blocked"] },
+        "workflowMode": { "type": "string", "enum": ["issue-resolution"] },
+        "issueReference": { "type": "string", "minLength": 1 },
+        "blockedPlanIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+        "successfulPlanIds": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "blockers": { "type": "array", "items": {}, "minItems": 1 },
+        "resumeCriteria": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+        "nextStep": { "type": "string", "minLength": 1 },
+        "residualRisks": { "type": "array", "items": {} }
+      },
+      "required": ["implementation_blocked", "status", "workflowMode", "issueReference", "blockedPlanIds", "successfulPlanIds", "blockers", "resumeCriteria", "nextStep", "residualRisks"],
+      "additionalProperties": true
+    }
+  }
+}

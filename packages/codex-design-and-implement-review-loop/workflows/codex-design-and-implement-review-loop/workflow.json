@@ -236,6 +236,14 @@
       "nodeFile": "nodes/node-branch-evidence.json"
     },
     {
+      "id": "implementation-wave-outcome",
+      "nodeFile": "nodes/node-implementation-wave-outcome.json"
+    },
+    {
+      "id": "implementation-blocked-output",
+      "nodeFile": "nodes/node-implementation-blocked-output.json"
+    },
+    {
       "id": "reconcile-implementations",
       "nodeFile": "nodes/node-reconcile-implementations.json"
     },
@@ -385,7 +393,12 @@
       },
       "transitions": [
         {
-          "toStepId": "step6-test-integrity-check"
+          "toStepId": "implementation-wave-outcome",
+          "label": "implementation_blocked"
+        },
+        {
+          "toStepId": "step6-test-integrity-check",
+          "label": "!(implementation_blocked)"
         }
       ]
     },
@@ -567,7 +580,7 @@
             "itemsFrom": "/implementationItems",
             "itemVariable": "implementation",
             "concurrency": 4,
-            "joinStepId": "reconcile-implementations",
+            "joinStepId": "implementation-wave-outcome",
             "failurePolicy": "collect-partial",
             "resultOrder": "input",
             "dependencies": {
@@ -592,9 +605,31 @@
       "role": "worker",
       "transitions": [
         {
-          "toStepId": "reconcile-implementations"
+          "toStepId": "implementation-wave-outcome"
         }
       ]
+    },
+    {
+      "id": "implementation-wave-outcome",
+      "nodeId": "implementation-wave-outcome",
+      "description": "Classify the completed native implementation wave before any serial reconciliation; dependency-blocked branches terminate with an actionable handoff.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "implementation-blocked-output",
+          "label": "implementation_blocked"
+        },
+        {
+          "toStepId": "reconcile-implementations",
+          "label": "!(implementation_blocked)"
+        }
+      ]
+    },
+    {
+      "id": "implementation-blocked-output",
+      "nodeId": "implementation-blocked-output",
+      "description": "Publish an actionable terminal dependency-blocked handoff without entering accepted git finalization.",
+      "role": "worker"
     },
     {
       "id": "reconcile-implementations",
