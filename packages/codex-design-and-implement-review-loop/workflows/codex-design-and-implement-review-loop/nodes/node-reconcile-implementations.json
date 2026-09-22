@@ -6,7 +6,7 @@
   "model": "gpt-5.6-terra",
   "promptTemplateFile": "prompts/reconcile-implementations.md",
   "variables": {},
-  "effort": "low",
+  "effort": "medium",
   "output": {
     "description": "Return intent-grounded repairs and explicit decisions for addressed or deferred integration feedback.",
     "jsonSchema": {

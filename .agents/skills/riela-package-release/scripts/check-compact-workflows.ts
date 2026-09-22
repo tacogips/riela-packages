@@ -19,7 +19,8 @@ for (const id of readdirSync(join(root, 'packages'))) {
 }
 const codex = 'codex-design-and-implement-review-loop';
 const refactor = 'codex-refactoring-divide-and-conquer';
-// Codex implementation and lost-work repair use Terra low effort.
+// Codex implementation and lost-work repair use Terra medium effort. Other
+// compact workflows retain their deliberately cheaper implementation setting.
 for (const [id, nodes] of [
   [codex, ['step6-implement', 'reconcile-implementations']],
   ['fable-and-improve-codex', ['codex-implementation', 'reconcile-implementations']],
@@ -30,7 +31,7 @@ for (const [id, nodes] of [
     const payload = read(join(bundle(id), 'nodes', `node-${node}.json`));
     assert.equal(payload.executionBackend, 'codex-agent');
     assert.equal(payload.model, id === codex ? 'gpt-5.6-terra' : 'gpt-5.6-sol', `${id}/${node}: implementation model`);
-    assert.equal(payload.effort, 'low', `${id}/${node}: implementation effort`);
+    assert.equal(payload.effort, id === codex ? 'medium' : 'low', `${id}/${node}: implementation effort`);
   }
 }
 // Sol review gates use medium effort and do not spend high-effort passes
@@ -59,13 +60,7 @@ const codexGraph = read(join(bundle(codex), 'workflow.json'));
 for (const entry of codexGraph.nodes.filter((node: any) => node.nodeFile)) {
   const payload = read(join(bundle(codex), entry.nodeFile));
   if (payload.executionBackend !== 'codex-agent') continue;
-  assert(
-    payload.effort === 'low' || payload.effort === 'medium',
-    `${codex}/${entry.id}: effort must stay low or medium`,
-  );
-  if (payload.model === 'gpt-6-astra') {
-    assert.equal(payload.effort, 'medium', `${codex}/${entry.id}: Astra effort ceiling`);
-  }
+  assert.equal(payload.effort, 'medium', `${codex}/${entry.id}: all agent effort`);
 }
 const dispatchPrompt = readFileSync(join(bundle(codex), 'prompts/dispatch-plans.md'), 'utf8');
 assert.match(dispatchPrompt, /bounded projection step/i);
