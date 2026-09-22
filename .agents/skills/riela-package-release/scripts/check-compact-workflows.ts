@@ -79,6 +79,13 @@ assert.match(integrationReviewPrompt, /return the immutable wave acceptance reco
 assert.match(integrationReviewPrompt, /runtime persists this read-only node output/i);
 assert.match(integrationReviewPrompt, /do not write or modify repository or evidenceRoot files/i);
 assert.doesNotMatch(integrationReviewPrompt, /persist an immutable wave acceptance record under the run evidenceRoot/i);
+assert.match(integrationReviewPrompt, /immediately preceding serial reconciliation output's `verification` and `evidencePaths`/i);
+assert.match(integrationReviewPrompt, /current-tree aggregate command as qualifying evidence/i);
+assert.match(integrationReviewPrompt, /do not require this read-only review to recreate writable caches or an isolated dependency checkout/i);
+const reconcilePrompt = readFileSync(join(bundle(codex), 'prompts/reconcile-implementations.md'), 'utf8');
+assert.match(reconcilePrompt, /already-resolved dependency checkout and normal build products/i);
+assert.match(reconcilePrompt, /do not select a new isolated scratch build that must fetch dependencies/i);
+assert.match(reconcilePrompt, /direct `verification` and `evidencePaths` output/i);
 const expected = new Map([[codex, 24], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 24]]);
 for (const [id, count] of expected) {
   const w = read(join(bundle(id), 'workflow.json'));
