@@ -21,6 +21,7 @@
               "planId": { "type": "string", "minLength": 1 },
               "planPath": { "type": "string", "minLength": 1 },
               "dependsOn": { "type": "array", "items": { "type": "string" } },
+              "acceptedPlanIds": { "type": "array", "items": { "type": "string" } },
               "writePaths": { "type": "array", "items": { "type": "string", "minLength": 1 } },
               "sharedPaths": { "type": "array", "items": { "type": "string", "minLength": 1 } },
               "trackedPaths": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
@@ -50,7 +51,7 @@
               "remote": { "type": "string", "minLength": 1 },
               "evidenceRoot": { "type": "string", "minLength": 1 }
             },
-            "required": ["planId", "planPath", "dependsOn", "writePaths", "sharedPaths", "trackedPaths", "acceptanceCriteria", "verification", "reviewContext", "manifestPath", "checkpointCommit", "implementationBranch", "baseBranch", "remote", "evidenceRoot"],
+            "required": ["planId", "planPath", "dependsOn", "acceptedPlanIds", "writePaths", "sharedPaths", "trackedPaths", "acceptanceCriteria", "verification", "reviewContext", "manifestPath", "checkpointCommit", "implementationBranch", "baseBranch", "remote", "evidenceRoot"],
             "additionalProperties": false
           }
         },

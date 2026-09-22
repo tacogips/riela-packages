@@ -66,6 +66,14 @@ const dispatchPrompt = readFileSync(join(bundle(codex), 'prompts/dispatch-plans.
 assert.match(dispatchPrompt, /bounded projection step/i);
 assert.match(dispatchPrompt, /do not search the repository/i);
 assert.match(dispatchPrompt, /fanout\.dependencies validates/i);
+assert.match(dispatchPrompt, /copy the exact complete runtime-owned `acceptedPlanIds` set.*into every item/i);
+const dispatchNode = read(join(bundle(codex), 'nodes/node-dispatch-plans.json'));
+const implementationItemSchema = dispatchNode.output.jsonSchema.properties.implementationItems.items;
+assert(implementationItemSchema.required.includes('acceptedPlanIds'));
+assert.deepEqual(implementationItemSchema.properties.acceptedPlanIds, { type: 'array', items: { type: 'string' } });
+const implementationPrompt = readFileSync(join(bundle(codex), 'prompts/step6-implement.md'), 'utf8');
+assert.match(implementationPrompt, /membership in the fanout item's runtime-owned `acceptedPlanIds` is the authoritative accepted integration decision/i);
+assert.match(implementationPrompt, /do not override or downgrade that decision.*stale progress files.*old evidence artifacts/i);
 const integrationReviewPrompt = readFileSync(join(bundle(codex), 'prompts/integration-review.md'), 'utf8');
 assert.match(integrationReviewPrompt, /return the immutable wave acceptance record in the node payload/i);
 assert.match(integrationReviewPrompt, /runtime persists this read-only node output/i);
@@ -430,11 +438,12 @@ runExpectFailure(codex, 'integration-identical-in-place-state-converges', m => {
 }, /maxRepeatedFindingRounds|maxGateVisits|convergence/i);
 run(codex, 'dependency-waves', m => {
   const prototype = m['dispatch-plans'].payload.implementationItems[0];
-  const items = ['a', 'b', 'c'].map(planId => ({ ...prototype, planId, planPath: `impl-plans/active/${planId}.md`, dependsOn: planId === 'c' ? ['a', 'b'] : [], trackedPaths: [`${planId}.txt`, 'shared.txt'] }));
+  const firstWaveItems = ['a', 'b', 'c'].map(planId => ({ ...prototype, planId, planPath: `impl-plans/active/${planId}.md`, dependsOn: planId === 'c' ? ['a', 'b'] : [], acceptedPlanIds: [], trackedPaths: [`${planId}.txt`, 'shared.txt'] }));
+  const secondWaveItems = firstWaveItems.map(item => ({ ...item, acceptedPlanIds: ['a', 'b'] }));
   const dispatch = m['dispatch-plans'].payload;
   m['dispatch-plans'] = [
-    output({ ...dispatch, implementationItems: items, acceptedPlanIds: [] }),
-    output({ ...dispatch, implementationItems: items, acceptedPlanIds: ['a', 'b'] }),
+    output({ ...dispatch, implementationItems: firstWaveItems, acceptedPlanIds: [] }),
+    output({ ...dispatch, implementationItems: secondWaveItems, acceptedPlanIds: ['a', 'b'] }),
   ];
   const acceptedReview = m['integration-review'];
   m['integration-review'] = [output({ ...acceptedReview.payload, plans_remaining: true, acceptedPlanIds: ['a', 'b'] }, { needs_revision: false, plans_remaining: true } as any), acceptedReview];

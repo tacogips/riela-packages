@@ -8,6 +8,8 @@ Use the paired Riela source build and workflow validate/inspect with --workflow-
 
 Native join returns branchId/status/sessionId/output, dispatchedBranchIds, pendingBranchIds, completedBranchIds and changeEvidence. Drift is a candidate requiring semantic review. Combined-tree repair findings return to reconciliation; failed branches and missing worker-owned evidence return to dispatch-plans for selective native redispatch. Failed branches remain pending and block final completion. Ignore timestamps, generated IDs and artifact paths.
 
+Every dispatched implementation item carries the complete runtime-owned `acceptedPlanIds` set. A worker treats membership in that set as the authoritative predecessor integration decision and must not self-block by reinterpreting older progress or evidence artifacts.
+
 Every agent node has low or medium effort. Astra design, plan, and integration-review nodes are medium effort; no node may declare high, xhigh, or extra-high effort. `dispatch-plans` performs only a bounded projection from the direct inbox and exact committed manifest; it does not explore the repository or recompute native dependency scheduling.
 
 Integration review stays read-only and returns its immutable wave-acceptance record in the node payload. Runtime session communication persists that accepted output for dependency dispatch; the reviewer is never required to write repository or evidence-root files.

@@ -644,6 +644,7 @@
           "planId": "a",
           "planPath": "impl-plans/active/a.md",
           "dependsOn": [],
+          "acceptedPlanIds": [],
           "writePaths": [
             "a.txt"
           ],
@@ -699,6 +700,7 @@
           "planId": "b",
           "planPath": "impl-plans/active/b.md",
           "dependsOn": [],
+          "acceptedPlanIds": [],
           "writePaths": [
             "b.txt"
           ],
