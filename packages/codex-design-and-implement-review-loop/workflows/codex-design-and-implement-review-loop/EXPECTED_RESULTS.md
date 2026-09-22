@@ -12,6 +12,8 @@ The checkpoint manifest retains all accepted plan references, but plan-checkpoin
 
 Every dispatched implementation item carries the complete runtime-owned `acceptedPlanIds` set. A worker treats membership in that set as the authoritative predecessor integration decision and must not self-block by reinterpreting older progress or evidence artifacts.
 
+Every implementation and review gate scopes completeness to the current manifest plan. Work explicitly owned by a pending downstream dependent plan does not block, create a finding against, or force speculative repair into its predecessor. Integration review accepts a verified predecessor with `plans_remaining: true`, keeps downstream work pending, and returns the expanded `acceptedPlanIds` that unlock the next native dependency wave. Ambiguous ownership remains a real blocker, and final acceptance still requires every plan and combined behavior.
+
 Planning nodes treat the runner-resolved workflow provenance and effective workflow input as authoritative. They do not rediscover the active workflow through sandbox-local user/project registry commands. Missing sandbox visibility into a user-scope registry or immutable package source is expected isolation and never becomes an intake blocker, design constraint, risk, or plan task. A real provenance, resolution, validation, or package-integrity failure stops the runner before these nodes execute.
 
 Every agent node has low or medium effort. Astra design, plan, and integration-review nodes are medium effort; no node may declare high, xhigh, or extra-high effort. `dispatch-plans` performs only a bounded projection from the direct inbox and exact committed manifest; it does not explore the repository or recompute native dependency scheduling.

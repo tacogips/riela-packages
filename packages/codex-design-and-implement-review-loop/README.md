@@ -45,6 +45,8 @@ After all branches stop, Terra serial reconciliation repairs missing/overwritten
 
 If Terra cannot start a plan because required external dependency evidence is absent, it returns an explicit dependency-blocked outcome without editing. The branch skips test-integrity and adversarial review, and the wave terminates before reconciliation with blocked plan IDs, evidence-backed blockers, and resume criteria. This prevents no-change work from entering a success-shaped review/reconcile cycle.
 
+Completeness is plan-scoped. The accepted manifest DAG and plan text decide ownership, so a predecessor is not blocked because wiring or another task is explicitly assigned to a pending downstream dependent plan. Review accepts the verified predecessor, carries the downstream plan as pending, and unlocks it through `acceptedPlanIds`; ambiguous ownership and real predecessor defects still fail closed.
+
 Integration review is fail-closed for convergence: only an explicit `repair_in_place: true` routes to serial reconciliation. Missing or ambiguous routing evidence, failed workers, and missing native provenance route to a fresh bounded redispatch, preventing repeated reconcile/review loops over unchanged evidence.
 
 Implementation plans are deliberately detailed enough for Terra to execute without guessing: they must include intent/context, non-goals, exact file-level changes, invariants, acceptance criteria, and verification commands with required evidence. The Terra implementation and Sol test-integrity nodes maximize safely independent delegated investigation and verification, while retaining one owner and prohibiting overlapping writes.

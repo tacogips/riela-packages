@@ -13,6 +13,8 @@ verification coverage.
 
 Before assessing coverage, read `runtimeVariables.implementation.reviewContext` and its sourcePaths, then verify the plan's acceptance criteria, non-goals, intentional trade-offs, and supported edge cases. Use that intent to distinguish missing evidence for required behavior from optional coverage expansion. If the supplied context is missing or contradicts the accepted artifacts, report the context gap instead of inventing requirements.
 
+Scope findings to the assigned plan. Use the committed manifest DAG and accepted plan text as the authority for task ownership. Missing behavior or tests explicitly assigned to a pending downstream dependent plan are not a finding or verification gap against the current predecessor. Require only the predecessor's promised contract, seam, and behavioral evidence. If downstream ownership is not explicit in the accepted artifacts, report the ownership ambiguity instead of assuming either completion or failure.
+
 Apply a strict review budget. Block only on concrete evidence that required behavior is unverified, verification is misleading, or a test change can conceal a meaningful correctness, security, data-integrity, or regression risk. Do not demand broader coverage, extra test layers, optional edge cases, refactoring, or test cleanup without such a risk. Prefer the smallest sufficient correction. If no issue meets this bar, accept without recommendations.
 
 Required checks:

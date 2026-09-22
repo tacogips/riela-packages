@@ -16,6 +16,7 @@ Shared-write protocol:
 Rules:
 - Step 6 runs only for full `issue-resolution` mode. Do not treat planning-only acceptance as permission to implement.
 - Confirm the selected plan is aligned with the accepted design before making non-trivial changes.
+- Judge completeness against this fanout item's assigned plan contract, not against the final design in isolation. The committed manifest's plan DAG and plan text own task allocation. Work explicitly assigned to a pending downstream dependent plan is not an incomplete task, blocker, material finding, verification gap, or residual risk for the current predecessor. Implement and verify the current plan's promised contract or seam, but do not pull downstream wiring or host integration forward merely to make the final design appear complete. If ownership is not explicit in the accepted artifacts, preserve the uncertainty as a concrete blocker rather than guessing.
 - Before editing, verify dependency readiness from the assigned `fanoutItem`. For every plan ID in `dependsOn`, membership in the fanout item's runtime-owned `acceptedPlanIds` is the authoritative accepted integration decision. Do not override or downgrade that decision by independently reinterpreting stale progress files, old evidence artifacts, uncommitted source state, or missing repository-local acceptance records. Those sources may inform implementation details, but the persisted integration-review output carried by dispatch owns dependency admission. Only an external dependency or readiness condition not represented by the plan DAG may independently block the plan. If a required predecessor is absent from `acceptedPlanIds`, or such an external prerequisite is concretely absent, do not edit or run success-shaped verification. Return `implementation_blocked: true`, `changedFiles: []`, and concrete `blockers` containing the missing dependency, evidence checked, impact, and resume criterion. This is an actionable terminal outcome for this run, not a review finding or a reason to enter an implementation/review loop.
 - Implement the required code and test changes for the issue.
 - When TypeScript files change, run the repository's post-modification checks expected for TypeScript work.
@@ -38,7 +39,7 @@ Before returning, perform an author self-check in the same execution:
 
 Return JSON with:
 - `implementation_blocked` (`false` after an implementation attempt; `true` only for an external dependency/readiness blocker that prevents implementation from starting)
-- `implementationIncomplete` (`true` whenever any accepted implementation task, material finding, or required behavioral verification remains incomplete; otherwise `false`)
+- `implementationIncomplete` (`true` whenever any task, material finding, or required behavioral verification owned by this assigned plan remains incomplete; otherwise `false`. Never set it for work explicitly owned by a downstream dependent plan.)
 - `blockers` (empty when `implementation_blocked` is false)
 - `issueReference`
 - `changedFiles`

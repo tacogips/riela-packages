@@ -90,9 +90,14 @@ assert.deepEqual(implementationItemSchema.properties.acceptedPlanIds, { type: 'a
 const implementationPrompt = readFileSync(join(bundle(codex), 'prompts/step6-implement.md'), 'utf8');
 assert.match(implementationPrompt, /membership in the fanout item's runtime-owned `acceptedPlanIds` is the authoritative accepted integration decision/i);
 assert.match(implementationPrompt, /do not override or downgrade that decision.*stale progress files.*old evidence artifacts/i);
+assert.match(implementationPrompt, /work explicitly assigned to a pending downstream dependent plan is not an incomplete task, blocker, material finding, verification gap, or residual risk for the current predecessor/i);
+assert.match(implementationPrompt, /never set it for work explicitly owned by a downstream dependent plan/i);
 assert.match(implementationPrompt, /fresh `--scratch-path`.*resolved checkout.*`CLANG_MODULE_CACHE_PATH`.*`SWIFTPM_MODULECACHE_OVERRIDE`.*`--disable-sandbox --skip-update`/is);
 const testIntegrityPrompt = readFileSync(join(bundle(codex), 'prompts/step6-test-integrity-check.md'), 'utf8');
 assert.match(testIntegrityPrompt, /same selected suites.*existing resolved checkout.*positive test count/is);
+assert.match(testIntegrityPrompt, /missing behavior or tests explicitly assigned to a pending downstream dependent plan are not a finding or verification gap against the current predecessor/i);
+const adversarialPrompt = readFileSync(join(bundle(codex), 'prompts/step7-adversarial-review.md'), 'utf8');
+assert.match(adversarialPrompt, /do not reject a predecessor because final wiring, host injection, or another behavior is explicitly assigned to a pending downstream dependent plan/i);
 const provenanceSystemPromptPath = 'prompts/runtime-provenance-system.md';
 const provenanceSystemPrompt = readFileSync(join(bundle(codex), provenanceSystemPromptPath), 'utf8');
 for (const node of ['step1-issue-intake', 'step2-design-doc-update', 'step3-design-review', 'step4-impl-plan-create', 'step5-impl-plan-review']) {
@@ -115,10 +120,15 @@ assert.doesNotMatch(integrationReviewPrompt, /persist an immutable wave acceptan
 assert.match(integrationReviewPrompt, /immediately preceding serial reconciliation output's `verification` and `evidencePaths`/i);
 assert.match(integrationReviewPrompt, /current-tree aggregate command as qualifying evidence/i);
 assert.match(integrationReviewPrompt, /do not require this read-only review to recreate writable caches or an isolated dependency checkout/i);
+assert.match(integrationReviewPrompt, /predecessor is eligible for wave acceptance.*pending downstream dependent plan/is);
+assert.match(integrationReviewPrompt, /retain the downstream plan in `pendingPlanIds`.*expanded `acceptedPlanIds`.*unlock it/is);
 const reconcilePrompt = readFileSync(join(bundle(codex), 'prompts/reconcile-implementations.md'), 'utf8');
 assert.match(reconcilePrompt, /already-resolved dependency checkout and normal build products/i);
 assert.match(reconcilePrompt, /do not select a new isolated scratch build that must fetch dependencies/i);
 assert.match(reconcilePrompt, /direct `verification` and `evidencePaths` output/i);
+assert.match(reconcilePrompt, /do not mark a predecessor candidate incomplete or repair downstream wiring into it.*pending dependent plan/is);
+const waveOutcomePrompt = readFileSync(join(bundle(codex), 'prompts/implementation-wave-outcome.md'), 'utf8');
+assert.match(waveOutcomePrompt, /never add a wave blocker merely because a downstream-owned plan remains pending/i);
 const expected = new Map([[codex, 25], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 24]]);
 for (const [id, count] of expected) {
   const w = read(join(bundle(id), 'workflow.json'));
@@ -671,6 +681,11 @@ run(codex, 'dependency-waves', m => {
 }, steps => {
   assert.equal(steps.filter(s => s === 'dispatch-plans').length, 2);
   assert.equal(steps.filter(s => s === 'reconcile-implementations').length, 2);
+  assert.equal(steps.filter(s => s === 'implementation-blocked-output').length, 0);
+  const firstDispatch = steps.indexOf('dispatch-plans');
+  const firstReview = steps.indexOf('integration-review', firstDispatch);
+  const secondDispatch = steps.indexOf('dispatch-plans', firstDispatch + 1);
+  assert(firstDispatch < firstReview && firstReview < secondDispatch, 'accepted predecessor must unlock its downstream dependency wave');
   assert(steps.indexOf('step10-git-commit') > steps.lastIndexOf('integration-review'));
 });
 for (const flavor of ['codex', 'opus']) run(`fable-and-improve-${flavor}`, `fable-${flavor}-native-fanout`, () => {}, steps => {

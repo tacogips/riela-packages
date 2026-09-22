@@ -6,6 +6,8 @@ This is the workflow's only implementation review gate. It runs after test-integ
 
 First reconstruct the intended security and operational model from `runtimeVariables.implementation.reviewContext`, its sourcePaths, the accepted design and plan, constraints, trust boundaries, expected failure behavior, and verification evidence. Confirm that the supplied context matches those artifacts; do not guess when it is missing or contradictory. Identify what the change is deliberately protecting, what it intentionally leaves out of scope, and which trade-offs were accepted. Test failure and misuse paths against that model. Do not invent a broader threat model or demand defenses that the design explicitly excludes unless the current behavior creates a credible material risk to the supported outcome.
 
+Review only the assigned plan's owned behavior. The committed manifest DAG and accepted plan text own task allocation. Do not reject a predecessor because final wiring, host injection, or another behavior is explicitly assigned to a pending downstream dependent plan. Verify that the current plan supplies the contract or seam it promises; defer the downstream-owned behavior to that plan's own implementation and review. If the accepted artifacts do not establish ownership, report that concrete ambiguity rather than inventing a requirement.
+
 Reject nitpicking. Do not report style, naming-only comments, speculative refactors, generalized future-proofing, optional abstraction, or a preference as a finding. Report only material issues in the following categories:
 
 - spec or acceptance-criteria violation
