@@ -387,12 +387,15 @@
       "always": true
     },
     "payload": {
+      "checkpoint_blocked": false,
+      "status": "ready",
       "commitMessage": "docs: checkpoint shared-branch implementation plans",
       "committedFiles": [
-        "impl-plans/active/a.md",
-        "impl-plans/active/b.md"
+        "impl-plans/active/mock-dispatch.json",
+        "impl-plans/active/a.md"
       ],
-      "manifestPath": "impl-plans/active/mock-dispatch.json"
+      "manifestPath": "impl-plans/active/mock-dispatch.json",
+      "blockers": []
     }
   },
   "plan-git-commit": {
@@ -406,7 +409,11 @@
         "status": "committed",
         "commitHash": "1111111111111111111111111111111111111111",
         "operation": "commit"
-      }
+      },
+      "committedFiles": [
+        "impl-plans/active/mock-dispatch.json",
+        "impl-plans/active/a.md"
+      ]
     }
   },
   "dispatch-plans": {

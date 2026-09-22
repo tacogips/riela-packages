@@ -67,6 +67,22 @@ assert.match(dispatchPrompt, /bounded projection step/i);
 assert.match(dispatchPrompt, /do not search the repository/i);
 assert.match(dispatchPrompt, /fanout\.dependencies validates/i);
 assert.match(dispatchPrompt, /copy the exact complete runtime-owned `acceptedPlanIds` set.*into every item/i);
+const checkpointPrompt = readFileSync(join(bundle(codex), 'prompts/plan-checkpoint.md'), 'utf8');
+assert.match(checkpointPrompt, /manifest must reference every accepted design document and every accepted plan.*unchanged from HEAD/i);
+assert.match(checkpointPrompt, /committedFiles.*exactly the new or modified dispatch manifest plus only those accepted design\/plan files with actual changes/i);
+assert.match(checkpointPrompt, /unchanged paths.*cause `riela\/git-commit` to reject the prepared staged set as a mismatch/i);
+assert.match(checkpointPrompt, /`committedFiles` would be empty.*`checkpoint_blocked: true`/i);
+const fanoutScenario = read(join(bundle(codex), 'mock-scenario-fanout.json'));
+assert.deepEqual(fanoutScenario['plan-checkpoint'].payload.committedFiles, [
+  'impl-plans/active/mock-dispatch.json',
+  'impl-plans/active/a.md',
+]);
+assert.deepEqual(
+  fanoutScenario['plan-git-commit'].payload.committedFiles,
+  fanoutScenario['plan-checkpoint'].payload.committedFiles,
+);
+assert(fanoutScenario['dispatch-plans'].payload.implementationItems.some((item: any) => item.planPath === 'impl-plans/active/b.md'));
+assert(!fanoutScenario['plan-checkpoint'].payload.committedFiles.includes('impl-plans/active/b.md'));
 const dispatchNode = read(join(bundle(codex), 'nodes/node-dispatch-plans.json'));
 const implementationItemSchema = dispatchNode.output.jsonSchema.properties.implementationItems.items;
 assert(implementationItemSchema.required.includes('acceptedPlanIds'));
@@ -139,6 +155,8 @@ assert.match(manager.output.description, /does not author, inspect, review, writ
 assert.match(managerPrompt, /immediately return concise business JSON exactly shaped/i);
 assert.match(managerPrompt, /dispatch.*step1-issue-intake/i);
 assert.match(managerPrompt, /do not perform any repository work yourself/i);
+const checkpointTransitions = graph.steps.find((step: any) => step.id === 'plan-checkpoint').transitions;
+assert.deepEqual(checkpointTransitions, [{ toStepId: 'plan-git-commit', label: '!(checkpoint_blocked)' }]);
 assert.equal(graph.loop.gates.length, 6);
 assert(!graph.nodes.some((node: any) => node.id === 'step7-review'));
 assert(!graph.steps.some((step: any) => step.id === 'step7-review'));
@@ -218,6 +236,21 @@ run(codex, 'completion-revision', m => {
 run(codex, 'planning-only', () => {}, steps => {
   assert(!steps.includes('step6-implement')); assert(!steps.includes('step8-docs-refresh'));
 }, 'mock-scenario-planning-only.json');
+run(codex, 'checkpoint-no-op-blocked', m => {
+  m['plan-checkpoint'] = output({
+    checkpoint_blocked: true,
+    status: 'blocked',
+    commitMessage: '',
+    committedFiles: [],
+    manifestPath: 'impl-plans/active/mock-dispatch.json',
+    evidenceRoot: 'tmp/mock',
+    blockers: [{ message: 'No accepted checkpoint path differs from HEAD.' }],
+  }, { checkpoint_blocked: true } as any);
+}, steps => {
+  assert.deepEqual(steps, ['plan-checkpoint']);
+  assert(!steps.includes('plan-git-commit'));
+  assert(!steps.includes('dispatch-plans'));
+}, 'mock-scenario.json', 'plan-checkpoint');
 run(codex, 'implementation-dependency-blocked', m => {
   m['step6-implement'] = { ...output({
     implementation_blocked: true,

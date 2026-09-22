@@ -8,14 +8,17 @@
   "variables": {},
   "effort": "medium",
   "output": {
-    "description": "Return the accepted plan checkpoint commit evidence and dispatch manifest path.",
+    "description": "Return the exact changed-file checkpoint commit set or an explicit blocked no-op outcome, while the manifest retains every accepted design and plan reference.",
     "jsonSchema": {
       "type": "object",
       "properties": {
+        "checkpoint_blocked": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["ready", "blocked"] },
         "commitMessage": { "type": "string" },
-        "committedFiles": { "type": "array", "items": { "type": "string" } }
+        "committedFiles": { "type": "array", "items": { "type": "string" } },
+        "blockers": { "type": "array", "items": {} }
       },
-      "required": ["commitMessage", "committedFiles"],
+      "required": ["checkpoint_blocked", "status", "commitMessage", "committedFiles", "blockers"],
       "additionalProperties": true
     }
   }

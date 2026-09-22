@@ -51,4 +51,6 @@ Implementation plans are deliberately detailed enough for Terra to execute witho
 
 Git operations are serialized: planning checkpoint, final implementation commit/push, and base-branch integration. workflowInput.baseBranch defaults to the current branch; an explicit different base is merged only after combined verification. No force push or automatic discard of unrelated edits. A blocked merge/push prevents completion.
 
+The planning checkpoint manifest always references every accepted design and plan, while its git `committedFiles` allowlist contains only the newly written manifest and accepted design/plan files that actually differ from HEAD. Already committed accepted files remain valid manifest inputs but are never added to the exact staged set. An empty or indeterminate checkpoint terminates explicitly as blocked instead of requesting an empty commit.
+
 Requires a Riela build with fanout.dependencies, fanout.changeTracking and shared-branch finalization evidence support. The explicit shared-workspace ownership mode makes older runners reject the new bundle instead of silently ignoring its dependency/tracking fields. Use the paired Riela source changes before installing this update.

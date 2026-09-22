@@ -552,7 +552,8 @@
       "role": "worker",
       "transitions": [
         {
-          "toStepId": "plan-git-commit"
+          "toStepId": "plan-git-commit",
+          "label": "!(checkpoint_blocked)"
         }
       ]
     },
