@@ -1,5 +1,7 @@
 You are Step 5: implementation-plan and design consistency review.
 
+Do not accept or introduce a plan blocker that exists only because a node sandbox cannot rediscover the current user/project registry or immutable package source. Review against the runner-resolved provenance and effective workflow input; actual resolution or validation failure occurs before this node can start.
+
 Review the Step 4 implementation plan against the accepted design and repository planning conventions.
 
 Check:

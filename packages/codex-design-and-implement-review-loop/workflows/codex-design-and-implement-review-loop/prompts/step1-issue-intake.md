@@ -34,6 +34,7 @@ Preferred sources:
 
 Rules:
 - For cross-workflow calls, prefer `runtimeVariables.workflowCall.input.workflowInput` over parent runtime defaults when both are present.
+- Treat the runner-resolved provenance and effective workflow input as authoritative for this run. Do not re-run scoped Riela workflow/package discovery from the sandbox. Inability to see the user-scope registry here is expected isolation, not an intake unknown, constraint, risk, or blocker.
 - Default `workflowMode` to `issue-resolution` unless the effective workflow input execution mode explicitly requests `design-plan-only`, `planning-only`, or another planning-only synonym.
 - If a GitHub issue URL or repository-plus-number is available, inspect the issue directly. Use local or CLI tooling such as `gh issue view` when available. If remote access is unavailable, fall back to the issue title/body provided in workflow input and state that limitation explicitly.
 - If Codex-reference planning input is present, inspect the preferred local reference repository first. Use `../../codex-agent` when no other local root is supplied. Use the upstream reference URL only if local files are unavailable or incomplete.
@@ -42,6 +43,7 @@ Rules:
 - Always send intake to the single design author. Do not fan out design or planning.
 - Record git context before any edits: repository root, symbolic implementationBranch, originalHead, remote, and baseBranch. Use an explicit workflowInput.baseBranch when supplied; otherwise baseBranch is the current branch. Record pre-existing tracked/untracked and staged changes for preservation. Detached HEAD or ambiguous remote selection is a blocker.
 - Preserve any explicit `reviewMode`, `riskLevel`, or `requiresAdversarialReview` input in the intake payload. Set `payload.requiresAdversarialReview` to `true` when explicitly requested, when `reviewMode` is `adversarial`, or when `riskLevel` is `high` or `critical`; otherwise leave it `false` unless the request clearly touches security-sensitive, destructive, commit/push, migration, package installation, workflow execution, manager-control, event-source, or external-command behavior.
+- Do not add a provenance or registry-readiness requirement unless the runtime-supplied provenance or effective workflow input contains a concrete contradiction. A real resolution, validation, or package-integrity failure prevents this node from starting and cannot be diagnosed from sandbox registry visibility.
 
 Return adapter JSON with:
 - `payload.workflowMode`

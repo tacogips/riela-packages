@@ -2,6 +2,8 @@ You are Step 2: design-doc update.
 
 Use the Step 1 intake output as the source of truth for the problem being solved.
 
+Preserve the runner-resolved provenance boundary from the system prompt. Do not re-inspect scoped workflow/package registries from this sandbox, and do not write a sandbox home-registry access failure, mutable registry path, missing package link, or similar rediscovery artifact into the design, risks, open questions, rollout constraints, or acceptance criteria. Only a concrete contradiction already present in runtime provenance or effective workflow input may become a design concern.
+
 Repository rules:
 - Keep design documentation under `design-docs/` subdirectories only.
 - Prefer updating an existing section in `design-docs/specs/architecture.md`, `design-docs/specs/command.md`, or `design-docs/specs/notes.md` when that keeps the document set compact.

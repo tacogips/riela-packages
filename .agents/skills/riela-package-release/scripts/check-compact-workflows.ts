@@ -90,6 +90,20 @@ assert.deepEqual(implementationItemSchema.properties.acceptedPlanIds, { type: 'a
 const implementationPrompt = readFileSync(join(bundle(codex), 'prompts/step6-implement.md'), 'utf8');
 assert.match(implementationPrompt, /membership in the fanout item's runtime-owned `acceptedPlanIds` is the authoritative accepted integration decision/i);
 assert.match(implementationPrompt, /do not override or downgrade that decision.*stale progress files.*old evidence artifacts/i);
+const provenanceSystemPromptPath = 'prompts/runtime-provenance-system.md';
+const provenanceSystemPrompt = readFileSync(join(bundle(codex), provenanceSystemPromptPath), 'utf8');
+for (const node of ['step1-issue-intake', 'step2-design-doc-update', 'step3-design-review', 'step4-impl-plan-create', 'step5-impl-plan-review']) {
+  assert.equal(read(join(bundle(codex), 'nodes', `node-${node}.json`)).systemPromptTemplateFile, provenanceSystemPromptPath);
+}
+assert.match(provenanceSystemPrompt, /runner has already resolved and validated this workflow package/i);
+assert.match(provenanceSystemPrompt, /runtime-resolved workflow provenance.*effective `workflowInput`.*authoritative/is);
+assert.match(provenanceSystemPrompt, /do not run `riela workflow inspect`.*`riela workflow list`.*`riela workflow validate`/is);
+assert.match(provenanceSystemPrompt, /cannot access a user-scope registry.*expected isolation boundary.*not a workflow readiness blocker/is);
+assert.match(provenanceSystemPrompt, /runner fails before this node starts/i);
+const intakePrompt = readFileSync(join(bundle(codex), 'prompts/step1-issue-intake.md'), 'utf8');
+const designPrompt = readFileSync(join(bundle(codex), 'prompts/step2-design-doc-update.md'), 'utf8');
+assert.match(intakePrompt, /do not re-run scoped Riela workflow\/package discovery from the sandbox/i);
+assert.match(designPrompt, /do not write a sandbox home-registry access failure.*into the design/is);
 const integrationReviewPrompt = readFileSync(join(bundle(codex), 'prompts/integration-review.md'), 'utf8');
 assert.match(integrationReviewPrompt, /return the immutable wave acceptance record in the node payload/i);
 assert.match(integrationReviewPrompt, /runtime persists this read-only node output/i);

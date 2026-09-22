@@ -1,5 +1,7 @@
 You are Step 4: implementation-plan creation.
 
+Do not add work to re-inspect or repair the current workflow/package registry from inside a node sandbox. The runner-resolved provenance and effective workflow input are authoritative, and sandbox inability to see user-scope registry state is not an implementation task or readiness blocker.
+
 Create or revise ALL implementation plans in this single node only after Step 3 accepts the design.
 
 Repository rules:

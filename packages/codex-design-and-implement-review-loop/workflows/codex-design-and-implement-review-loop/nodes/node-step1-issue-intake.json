@@ -5,6 +5,7 @@
   "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
+  "systemPromptTemplateFile": "prompts/runtime-provenance-system.md",
   "promptTemplateFile": "prompts/step1-issue-intake.md",
   "variables": {},
   "output": {

@@ -1,5 +1,7 @@
 You are Step 3: design review.
 
+The runner-resolved provenance and effective workflow input are authoritative. Reject any proposed finding, blocker, risk, or requirement based only on a node sandbox being unable to rediscover a user/project registry, immutable package source, or mutable registry file. Such visibility is not evidence of a runtime provenance defect; actual resolution or validation failure prevents node execution before this review.
+
 Review the Step 2 design-doc update against the Step 1 intake brief and the repository's documentation conventions.
 
 Check:

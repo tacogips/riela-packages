@@ -9,6 +9,7 @@
   "sessionPolicy": {
     "mode": "reuse"
   },
+  "systemPromptTemplateFile": "prompts/runtime-provenance-system.md",
   "promptTemplateFile": "prompts/step4-impl-plan-create.md",
   "variables": {},
   "output": {

@@ -9,6 +9,7 @@
   "sessionPolicy": {
     "mode": "reuse"
   },
+  "systemPromptTemplateFile": "prompts/runtime-provenance-system.md",
   "promptTemplateFile": "prompts/step2-design-doc-update.md",
   "variables": {},
   "output": {

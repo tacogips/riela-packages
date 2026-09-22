@@ -6,6 +6,7 @@
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "medium",
+  "systemPromptTemplateFile": "prompts/runtime-provenance-system.md",
   "promptTemplateFile": "prompts/step3-design-review.md",
   "variables": {},
   "output": {
