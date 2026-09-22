@@ -1296,7 +1296,7 @@
     {
       "name": "codex-design-and-implement-review-loop",
       "directory": "packages/codex-design-and-implement-review-loop",
-      "version": "0.3.17",
+      "version": "0.3.18",
       "kind": "workflow",
       "title": "codex-design-and-implement-review-loop",
       "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
@@ -1328,11 +1328,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "748a683ff27adbf387733c7cc71eaf90"
+        "value": "a4df2a5e99de98fedd21e3ea7ad0d01e"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "b744e541abf9ce296fb4f3de97a9a0beb66ea6c444c5ae03f8fb07c72c26973d"
+        "digest": "bd897ffb906743ff59d7a5ff96379ed7021e487ebd25f5d5dc5213dfccb0ef99"
       }
     },
     {

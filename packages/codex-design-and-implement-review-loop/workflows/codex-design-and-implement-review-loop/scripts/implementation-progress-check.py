@@ -102,7 +102,8 @@ def positive_test_count(record: dict[str, Any]) -> bool:
     if not isinstance(outcome, str):
         return False
     match = re.search(
-        r"^\s*passed\s+([1-9]\d*)\s+selected\s+tests?\s*,\s*0\s+failures?\b",
+        r"^\s*(?:passed\s+[1-9]\d*\s+selected\s+tests?|"
+        r"[1-9]\d*\s+selected\s+tests?\s+passed)(?:\s+with\s+|,\s*)0\s+failures?\b",
         outcome,
         flags=re.IGNORECASE,
     )
