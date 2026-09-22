@@ -10,5 +10,5 @@
   "output": {
     "description": "Return JSON with workflow mode, issue or reference context, problem summary, acceptance signals, impacted areas, codex-agent references, and open unknowns."
   },
-  "effort": "high"
+  "effort": "medium"
 }

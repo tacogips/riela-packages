@@ -6,5 +6,5 @@
   "model": "gpt-5.6-sol",
   "promptTemplateFile": "prompts/base-branch-integrate.md",
   "variables": {},
-  "effort": "high"
+  "effort": "medium"
 }

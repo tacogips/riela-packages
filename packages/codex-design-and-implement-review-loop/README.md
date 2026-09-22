@@ -2,7 +2,7 @@
 
 Codex design/implementation workflow with native shared-branch fanout and overwrite reconciliation.
 
-Design documentation, implementation-plan authoring, and combined-tree integration review use GPT-6 Astra. Implementation and overwrite repair use GPT-5.6 Terra at low effort. Intake, design/plan/test-integrity gates, the single adversarial implementation gate, documentation, commit, and manager coordination use GPT-5.6 Sol. The adversarial gate emits feedback only for material spec violations, correctness/data-loss/security risks, likely regressions, or missing material verification; style nits, naming-only comments, speculative refactors, and overengineering are forbidden.
+Design documentation, implementation-plan authoring, and combined-tree integration review use GPT-6 Astra at medium effort. Implementation and overwrite repair use GPT-5.6 Terra at low effort. Intake, design/plan/test-integrity gates, the single adversarial implementation gate, documentation, commit, and manager coordination use GPT-5.6 Sol at low or medium effort. No workflow node uses high, xhigh, or extra-high effort. The adversarial gate emits feedback only for material spec violations, correctness/data-loss/security risks, likely regressions, or missing material verification; style nits, naming-only comments, speculative refactors, and overengineering are forbidden.
 
 - Package id: `codex-design-and-implement-review-loop`
 - Backends: `codex-agent`
@@ -38,6 +38,8 @@ and the recommended install flow.
 Design and all implementation plans are authored by a single author node per phase. Accepted designs/plans are committed before implementation. Native Riela fanout runs dependency-ready implementation/review branches in the same working directory and Git branch (default concurrency 4; --max-concurrency can lower it). No worktrees are created.
 
 The runtime calls each parallel execution a **fanout branch**, its input an **item**, and the aggregation a **join**. This is separate from a Git branch. Built-in fanout.dependencies selects ready branches from stable IDs and accepted dependencies. Built-in fanout.changeTracking captures immutable file content, hashes and modes at node boundaries, and reports drift candidates at join. No workflow-local evidence script is needed.
+
+The dispatch coordinator is a bounded manifest-projection step. It may read only the direct inbox, checkpoint commit, exact committed manifest, and accepted plan IDs; repository exploration, example discovery, skill rereads, tests, and dependency-wave reasoning are forbidden there. Native fanout owns dependency validation and ready-wave selection.
 
 After all branches stop, Terra serial reconciliation repairs missing/overwritten behavior and Astra integration review checks the combined tree against every plan and the design. Each implementation branch uses only one adversarial material-issue review gate after test-integrity; there is no duplicate ordinary implementation-review pass. A combined-tree defect routes back through reconciliation, while failed branches or missing worker-owned evidence route through plan dispatch for a fresh native worker attempt. Failed branches stay pending; already accepted branch IDs are skipped on subsequent dispatch. Preserve original evidence and existing user changes. Node-boundary snapshots cannot detect every transient overwrite inside an agent call, so per-edit intention records and behavior tests remain required.
 

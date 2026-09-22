@@ -55,6 +55,22 @@ assert.equal(read(join(bundle(codex), 'nodes/node-integration-review.json')).mod
 assert.equal(read(join(bundle(codex), 'nodes/node-dispatch-plans.json')).model, 'gpt-5.6-sol');
 assert.equal(read(join(bundle(codex), 'nodes/node-implementation-wave-outcome.json')).model, 'gpt-5.6-sol');
 assert.equal(read(join(bundle(codex), 'nodes/node-implementation-blocked-output.json')).model, 'gpt-5.6-sol');
+const codexGraph = read(join(bundle(codex), 'workflow.json'));
+for (const entry of codexGraph.nodes.filter((node: any) => node.nodeFile)) {
+  const payload = read(join(bundle(codex), entry.nodeFile));
+  if (payload.executionBackend !== 'codex-agent') continue;
+  assert(
+    payload.effort === 'low' || payload.effort === 'medium',
+    `${codex}/${entry.id}: effort must stay low or medium`,
+  );
+  if (payload.model === 'gpt-6-astra') {
+    assert.equal(payload.effort, 'medium', `${codex}/${entry.id}: Astra effort ceiling`);
+  }
+}
+const dispatchPrompt = readFileSync(join(bundle(codex), 'prompts/dispatch-plans.md'), 'utf8');
+assert.match(dispatchPrompt, /bounded projection step/i);
+assert.match(dispatchPrompt, /do not search the repository/i);
+assert.match(dispatchPrompt, /fanout\.dependencies validates/i);
 const expected = new Map([[codex, 24], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 24]]);
 for (const [id, count] of expected) {
   const w = read(join(bundle(id), 'workflow.json'));

@@ -6,7 +6,7 @@
   "model": "gpt-5.6-sol",
   "promptTemplateFile": "prompts/dispatch-plans.md",
   "variables": {},
-  "effort": "high",
+  "effort": "medium",
   "output": {
     "description": "Return every implementation item with the complete accepted review context required by isolated fanout branches.",
     "jsonSchema": {

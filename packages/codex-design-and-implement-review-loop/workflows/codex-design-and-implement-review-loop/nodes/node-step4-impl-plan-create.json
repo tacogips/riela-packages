@@ -5,7 +5,7 @@
   "agentSandbox": "workspace-write",
   "model": "gpt-6-astra",
   "modelFreeze": false,
-  "effort": "high",
+  "effort": "medium",
   "sessionPolicy": {
     "mode": "reuse"
   },
