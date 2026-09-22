@@ -29,7 +29,15 @@
               "outcome": {},
               "exitStatus": {},
               "exitCode": {},
-              "status": {}
+              "status": {},
+              "testCount": { "type": "integer", "minimum": 0 },
+              "testsRun": { "type": "integer", "minimum": 0 },
+              "testsPassed": { "type": "integer", "minimum": 0 },
+              "positiveTestCount": { "type": "integer", "minimum": 0 },
+              "passedTestCount": { "type": "integer", "minimum": 0 },
+              "failureCount": { "type": "integer", "minimum": 0 },
+              "failedTestCount": { "type": "integer", "minimum": 0 },
+              "testsFailed": { "type": "integer", "minimum": 0 }
             },
             "required": ["command"],
             "anyOf": [

@@ -46,7 +46,7 @@ Return JSON with:
 - `implementationSummary`
 - `implPlanPaths`
 - `implPlanUpdates`
-- `verification` as structured records. Every record must include the exact non-empty `command` and a concrete observed `outcome`, `exitStatus`, `exitCode`, or `status`; a command name or prose claim alone is not verification evidence.
+- `verification` as structured records. Every record must include the exact non-empty `command` and a concrete observed `outcome`, `exitStatus`, `exitCode`, or `status`; a command name or prose claim alone is not verification evidence. For a behavioral test command, whenever the runner reports counts, include structured nonnegative integer `testsRun` or `testCount`, `testsPassed` when available, and `failureCount` (or `failedTestCount`/`testsFailed`). Successful behavioral evidence must report a positive run/pass count and zero failures. Do not invent unavailable counts. Canonical prose parsing exists only as a legacy fallback and is not the preferred output contract.
 - `addressedFeedback`
 - `risks`
 - `authorSelfCheck`

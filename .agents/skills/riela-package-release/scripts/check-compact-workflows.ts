@@ -92,7 +92,14 @@ assert.match(implementationPrompt, /membership in the fanout item's runtime-owne
 assert.match(implementationPrompt, /do not override or downgrade that decision.*stale progress files.*old evidence artifacts/i);
 assert.match(implementationPrompt, /work explicitly assigned to a pending downstream dependent plan is not an incomplete task, blocker, material finding, verification gap, or residual risk for the current predecessor/i);
 assert.match(implementationPrompt, /never set it for work explicitly owned by a downstream dependent plan/i);
+assert.match(implementationPrompt, /behavioral test command.*structured nonnegative integer `testsRun` or `testCount`.*`failureCount`/is);
+assert.match(implementationPrompt, /canonical prose parsing exists only as a legacy fallback/i);
 assert.match(implementationPrompt, /fresh `--scratch-path`.*resolved checkout.*`CLANG_MODULE_CACHE_PATH`.*`SWIFTPM_MODULECACHE_OVERRIDE`.*`--disable-sandbox --skip-update`/is);
+const implementationNode = read(join(bundle(codex), 'nodes/node-step6-implement.json'));
+const verificationProperties = implementationNode.output.jsonSchema.properties.verification.items.properties;
+for (const property of ['testCount', 'testsRun', 'testsPassed', 'positiveTestCount', 'passedTestCount', 'failureCount', 'failedTestCount', 'testsFailed']) {
+  assert.deepEqual(verificationProperties[property], { type: 'integer', minimum: 0 }, `step6 verification.${property}`);
+}
 const testIntegrityPrompt = readFileSync(join(bundle(codex), 'prompts/step6-test-integrity-check.md'), 'utf8');
 assert.match(testIntegrityPrompt, /same selected suites.*existing resolved checkout.*positive test count/is);
 assert.match(testIntegrityPrompt, /missing behavior or tests explicitly assigned to a pending downstream dependent plan are not a finding or verification gap against the current predecessor/i);
@@ -232,6 +239,20 @@ assert.equal(invokeProgressGate([{ ...firstProgress, verification: [selectedTest
 const reorderedSelectedTestOutcome = { ...selectedTestOutcome, outcome: '55 selected tests passed with 0 failures; current tree verified.' };
 assert.equal(invokeProgressGate([{ ...firstProgress, verification: [reorderedSelectedTestOutcome] }]).payload.implementation_blocked, false);
 assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...reorderedSelectedTestOutcome, outcome: '33 selected tests passed with 0 failures; current tree verified.' }] }]).payload.implementation_blocked, false);
+const countFirstSelectedTestOutcome = { ...selectedTestOutcome, outcome: '58 selected tests, 0 failures; current tree verified.' };
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [countFirstSelectedTestOutcome] }]).payload.implementation_blocked, false);
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...countFirstSelectedTestOutcome, outcome: '23 selected tests, 0 failures; current tree verified.' }] }]).payload.implementation_blocked, false);
+const colonSelectedTestOutcome = { ...selectedTestOutcome, outcome: 'Passed: 35 tests, 0 failures; current tree verified.' };
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [colonSelectedTestOutcome] }]).payload.implementation_blocked, false);
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...countFirstSelectedTestOutcome, outcome: '0 selected tests, 0 failures.' }] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...countFirstSelectedTestOutcome, outcome: '58 selected tests, 1 failure.' }] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...countFirstSelectedTestOutcome, outcome: 'Reported 58 selected tests, 0 failures.' }] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...countFirstSelectedTestOutcome, exitCode: 1 }] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...countFirstSelectedTestOutcome, environmentBlocked: true }] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...countFirstSelectedTestOutcome, testCount: 0, testsPassed: 58 }] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ command: 'swift test --filter CapabilityTests', exitCode: 0, testsRun: 35, testsPassed: 35, failureCount: 0 }] }]).payload.implementation_blocked, false);
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ command: 'swift test --filter CapabilityTests', exitCode: 0, testsRun: 35, testsPassed: 35, failureCount: 1 }] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ command: 'swift test --filter CapabilityTests', exitCode: 0, testsRun: 35, testsPassed: 35, failureCount: '0' }] }]).payload.blockerType, 'implementation-materially-unverified');
 assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...reorderedSelectedTestOutcome, outcome: '0 selected tests passed with 0 failures.' }] }]).payload.blockerType, 'implementation-materially-unverified');
 assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...reorderedSelectedTestOutcome, outcome: '55 selected tests passed with 1 failure.' }] }]).payload.blockerType, 'implementation-materially-unverified');
 assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ ...reorderedSelectedTestOutcome, outcome: 'Reported 55 selected tests passed with 0 failures.' }] }]).payload.blockerType, 'implementation-materially-unverified');

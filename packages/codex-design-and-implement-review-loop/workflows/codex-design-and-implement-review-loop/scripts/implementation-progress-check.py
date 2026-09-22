@@ -39,6 +39,26 @@ def concrete_verification(value: Any) -> list[dict[str, Any]]:
 def verification_succeeded(record: dict[str, Any]) -> bool:
     if record.get("environmentBlocked") is True or record.get("environment_blocked") is True:
         return False
+    failure_count_keys = {"failureCount", "failedTestCount", "testsFailed"}
+
+    def has_nonzero_or_invalid_failure_count(value: Any) -> bool:
+        if isinstance(value, dict):
+            for key, nested in value.items():
+                if key in failure_count_keys:
+                    if (
+                        isinstance(nested, bool)
+                        or not isinstance(nested, (int, float))
+                        or nested != 0
+                    ):
+                        return True
+                if has_nonzero_or_invalid_failure_count(nested):
+                    return True
+        elif isinstance(value, list):
+            return any(has_nonzero_or_invalid_failure_count(item) for item in value)
+        return False
+
+    if has_nonzero_or_invalid_failure_count(record):
+        return False
     for key in ("status", "outcome"):
         value = record.get(key)
         if not isinstance(value, str):
@@ -103,7 +123,9 @@ def positive_test_count(record: dict[str, Any]) -> bool:
         return False
     match = re.search(
         r"^\s*(?:passed\s+[1-9]\d*\s+selected\s+tests?|"
-        r"[1-9]\d*\s+selected\s+tests?\s+passed)(?:\s+with\s+|,\s*)0\s+failures?\b",
+        r"[1-9]\d*\s+selected\s+tests?\s+passed|"
+        r"[1-9]\d*\s+selected\s+tests?|"
+        r"passed:\s*[1-9]\d*\s+tests?)(?:\s+with\s+|,\s*)0\s+failures?\b",
         outcome,
         flags=re.IGNORECASE,
     )
