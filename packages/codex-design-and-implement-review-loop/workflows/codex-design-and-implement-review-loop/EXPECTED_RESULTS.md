@@ -10,6 +10,8 @@ Native join returns branchId/status/sessionId/output, dispatchedBranchIds, pendi
 
 Every agent node has low or medium effort. Astra design, plan, and integration-review nodes are medium effort; no node may declare high, xhigh, or extra-high effort. `dispatch-plans` performs only a bounded projection from the direct inbox and exact committed manifest; it does not explore the repository or recompute native dependency scheduling.
 
+Integration review stays read-only and returns its immutable wave-acceptance record in the node payload. Runtime session communication persists that accepted output for dependency dispatch; the reviewer is never required to write repository or evidence-root files.
+
 An explicit Step 6 dependency/readiness blocker with no implementation changes bypasses test-integrity and adversarial review. The wave outcome publishes an actionable blocked result before reconciliation, with blocked plan IDs, blockers and resume criteria; it never enters the review/reconcile loop as a successful implementation.
 
 Maintainer regressions: RIELA_BIN=<paired-build>/riela bun .agents/skills/riela-package-release/scripts/check-compact-workflows.ts. Includes dependency-blocked implementation termination, completion and integrity revision, integration repair, selective redispatch, planning-only and Fable implementation review loops. Engine tests cover concurrency/failure policies, dependency waves and native change evidence.

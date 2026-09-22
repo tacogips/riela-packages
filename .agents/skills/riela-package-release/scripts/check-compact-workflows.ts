@@ -71,6 +71,11 @@ const dispatchPrompt = readFileSync(join(bundle(codex), 'prompts/dispatch-plans.
 assert.match(dispatchPrompt, /bounded projection step/i);
 assert.match(dispatchPrompt, /do not search the repository/i);
 assert.match(dispatchPrompt, /fanout\.dependencies validates/i);
+const integrationReviewPrompt = readFileSync(join(bundle(codex), 'prompts/integration-review.md'), 'utf8');
+assert.match(integrationReviewPrompt, /return the immutable wave acceptance record in the node payload/i);
+assert.match(integrationReviewPrompt, /runtime persists this read-only node output/i);
+assert.match(integrationReviewPrompt, /do not write or modify repository or evidenceRoot files/i);
+assert.doesNotMatch(integrationReviewPrompt, /persist an immutable wave acceptance record under the run evidenceRoot/i);
 const expected = new Map([[codex, 24], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 24]]);
 for (const [id, count] of expected) {
   const w = read(join(bundle(id), 'workflow.json'));
