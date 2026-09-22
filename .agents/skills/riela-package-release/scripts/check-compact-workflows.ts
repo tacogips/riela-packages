@@ -90,6 +90,9 @@ assert.deepEqual(implementationItemSchema.properties.acceptedPlanIds, { type: 'a
 const implementationPrompt = readFileSync(join(bundle(codex), 'prompts/step6-implement.md'), 'utf8');
 assert.match(implementationPrompt, /membership in the fanout item's runtime-owned `acceptedPlanIds` is the authoritative accepted integration decision/i);
 assert.match(implementationPrompt, /do not override or downgrade that decision.*stale progress files.*old evidence artifacts/i);
+assert.match(implementationPrompt, /fresh `--scratch-path`.*resolved checkout.*`CLANG_MODULE_CACHE_PATH`.*`SWIFTPM_MODULECACHE_OVERRIDE`.*`--disable-sandbox --skip-update`/is);
+const testIntegrityPrompt = readFileSync(join(bundle(codex), 'prompts/step6-test-integrity-check.md'), 'utf8');
+assert.match(testIntegrityPrompt, /same selected suites.*existing resolved checkout.*positive test count/is);
 const provenanceSystemPromptPath = 'prompts/runtime-provenance-system.md';
 const provenanceSystemPrompt = readFileSync(join(bundle(codex), provenanceSystemPromptPath), 'utf8');
 for (const node of ['step1-issue-intake', 'step2-design-doc-update', 'step3-design-review', 'step4-impl-plan-create', 'step5-impl-plan-review']) {
@@ -192,10 +195,10 @@ const invokeProgressGate = (payloads: any[]) => {
   assert.equal(result.status, 0, result.stderr);
   return JSON.parse(result.stdout);
 };
-const noProgressEvidence = { implementation_blocked: false, blockers: [], changedFiles: [], verification: [], implPlanUpdates: [] };
+const noProgressEvidence = { implementation_blocked: false, implementationIncomplete: false, blockers: [], changedFiles: [], verification: [], implPlanUpdates: [], risks: [], authorSelfCheck: { findings: [], verificationGaps: [], residualRisks: [] } };
 assert.equal(invokeProgressGate([noProgressEvidence, noProgressEvidence]).payload.blockerType, 'implementation-no-progress');
-const firstProgress = { implementation_blocked: false, blockers: [], changedFiles: ['Sources/A.swift'], verification: [{ command: 'swift test', exitCode: 0 }], implPlanUpdates: [] };
-const revisedProgress = { implementation_blocked: false, blockers: [], changedFiles: ['Sources/A.swift'], verification: [{ command: 'swift test', exitCode: 0 }, { command: 'swiftlint', status: 'passed' }], implPlanUpdates: ['Completed lint acceptance criterion.'] };
+const firstProgress = { ...noProgressEvidence, changedFiles: ['Sources/A.swift'], verification: [{ command: 'swift test', exitCode: 0, testCount: 12 }] };
+const revisedProgress = { ...firstProgress, verification: [{ command: 'swift test', exitCode: 0, testCount: 12 }, { command: 'swiftlint', status: 'passed' }], implPlanUpdates: ['Completed lint acceptance criterion.'] };
 assert.equal(invokeProgressGate([firstProgress, revisedProgress]).payload.implementation_blocked, false);
 assert.equal(invokeProgressGate([firstProgress, firstProgress]).payload.blockerType, 'implementation-no-progress');
 const reorderedProgress = { ...revisedProgress, verification: [...revisedProgress.verification].reverse(), implPlanUpdates: [...revisedProgress.implPlanUpdates].reverse() };
@@ -203,6 +206,21 @@ assert.equal(invokeProgressGate([revisedProgress, reorderedProgress]).payload.bl
 const removedEvidence = { ...revisedProgress, verification: [revisedProgress.verification[0]], implPlanUpdates: [] };
 assert.equal(invokeProgressGate([revisedProgress, removedEvidence]).payload.blockerType, 'implementation-no-progress');
 assert.equal(invokeProgressGate([{ ...firstProgress, verification: ['swift test'] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, implementationIncomplete: true }]).payload.blockerType, 'implementation-incomplete');
+assert.equal(invokeProgressGate([{ ...firstProgress, risks: [{ severity: 'high', message: 'Accepted behavior remains broken.' }] }]).payload.blockerType, 'implementation-material-finding');
+assert.equal(invokeProgressGate([{ ...firstProgress, authorSelfCheck: { findings: [{ severity: 'mid', message: 'Required branch is untested.' }], verificationGaps: [], residualRisks: [] } }]).payload.blockerType, 'implementation-material-finding');
+const failedBehavioral = { ...firstProgress, verification: [
+  { command: 'swift test --filter CapabilityTests', exitStatus: 1, testCount: 0 },
+  { command: 'swiftlint', exitStatus: 0 },
+  { command: 'git diff --check', exitStatus: 0 },
+] };
+assert.equal(invokeProgressGate([failedBehavioral]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ command: 'swift test', exitStatus: 0, testCount: 0 }] }]).payload.blockerType, 'implementation-materially-unverified');
+assert.equal(invokeProgressGate([{ ...firstProgress, verification: [{ command: 'swift build', exitStatus: 0 }] }]).payload.blockerType, 'implementation-materially-unverified');
+const priorBehavioral = { ...firstProgress, verification: [{ command: 'swift test --filter CapabilityTests', exitStatus: 0, testCount: 12, sourceHash: 'tree-123' }] };
+const matchingEnvironmentBlock = { ...revisedProgress, verification: [{ command: 'swift test --filter CapabilityTests', exitStatus: 1, environmentBlocked: true, sourceHash: 'tree-123' }, { command: 'swiftlint', exitStatus: 0 }] };
+assert.equal(invokeProgressGate([priorBehavioral, matchingEnvironmentBlock]).payload.implementation_blocked, false);
+assert.equal(invokeProgressGate([priorBehavioral, { ...matchingEnvironmentBlock, verification: [{ command: 'swift test --filter CapabilityTests', exitStatus: 1, environmentBlocked: true, sourceHash: 'tree-other' }] }]).payload.blockerType, 'implementation-materially-unverified');
 const progressTransitions = graph.steps.find((step: any) => step.id === 'implementation-progress-check').transitions;
 assert.equal(progressTransitions.find((transition: any) => transition.label === 'implementation_blocked')?.toStepId, 'implementation-wave-outcome');
 assert.equal(progressTransitions.find((transition: any) => transition.label === '!(implementation_blocked)')?.toStepId, 'step6-test-integrity-check');
@@ -297,6 +315,7 @@ run(codex, 'checkpoint-no-op-blocked', m => {
 run(codex, 'implementation-dependency-blocked', m => {
   m['step6-implement'] = { ...output({
     implementation_blocked: true,
+    implementationIncomplete: true,
     blockers: [{
       dependency: 'impl-plans/active/prerequisite.md',
       evidenceChecked: 'No accepted implementation evidence exists.',
@@ -342,6 +361,7 @@ run(codex, 'implementation-no-progress-terminal', m => {
   const unchanged = {
     ...output({
       implementation_blocked: false,
+      implementationIncomplete: false,
       blockers: [],
       planId: 'a',
       changedFiles: [],
@@ -383,6 +403,53 @@ run(codex, 'implementation-no-progress-terminal', m => {
   assert(!steps.includes('step7-adversarial-review'));
   assert(!steps.includes('reconcile-implementations'));
 }, 'mock-scenario.json', 'step6-implement');
+run(codex, 'implementation-materially-unverified-terminal', m => {
+  m['step6-implement'] = {
+    ...output({
+      implementation_blocked: false,
+      implementationIncomplete: false,
+      blockers: [],
+      planId: 'a',
+      changedFiles: ['Sources/Capability.swift'],
+      implementationSummary: 'Capability code changed but behavioral suites did not execute.',
+      implPlanPaths: ['impl-plans/active/a.md'],
+      implPlanUpdates: ['Recorded the attempted verification.'],
+      verification: [
+        { command: 'swift test --filter CapabilityTests', exitStatus: 1, testCount: 0 },
+        { command: 'swiftlint', exitStatus: 0 },
+        { command: 'git diff --check', exitStatus: 0 },
+      ],
+      addressedFeedback: [],
+      risks: [],
+      authorSelfCheck: { findings: [], verificationGaps: [], residualRisks: [] },
+    }),
+    model: 'gpt-5.6-terra',
+  };
+  m['implementation-wave-outcome'] = output({
+    implementation_blocked: true,
+    blockedPlanIds: ['a'],
+    successfulPlanIds: [],
+    blockers: [{ type: 'implementation-materially-unverified' }],
+    resumeCriteria: ['Run behavioral verification with a positive test count.'],
+  }, { implementation_blocked: true } as any);
+  m['implementation-blocked-output'] = output({
+    implementation_blocked: true,
+    status: 'blocked',
+    workflowMode: 'issue-resolution',
+    issueReference: 'tacogips/cursor-agent#123',
+    blockedPlanIds: ['a'],
+    successfulPlanIds: [],
+    blockers: [{ type: 'implementation-materially-unverified' }],
+    resumeCriteria: ['Run behavioral verification with a positive test count.'],
+    nextStep: 'Run the selected behavioral suites, then rerun the plan.',
+    residualRisks: [],
+  });
+}, steps => {
+  assert.deepEqual(steps, ['step6-implement', 'implementation-progress-check', 'implementation-wave-outcome', 'implementation-blocked-output']);
+  assert(!steps.includes('step6-test-integrity-check'));
+  assert(!steps.includes('step7-adversarial-review'));
+  assert(!steps.includes('reconcile-implementations'));
+}, 'mock-scenario.json', 'step6-implement');
 run(codex, 'productive-implementation-revision', m => {
   const accepted = m['step6-test-integrity-check'];
   const revision = structuredClone(accepted);
@@ -412,6 +479,7 @@ run(codex, 'native-fanout-dependency-blocked', m => {
   const blocked = {
     ...output({
       implementation_blocked: true,
+      implementationIncomplete: true,
       blockers: [{
         dependency: 'impl-plans/active/prerequisite.md',
         evidenceChecked: 'No accepted implementation evidence exists.',

@@ -31,12 +31,14 @@ Before returning, perform an author self-check in the same execution:
 - Review your changes against the assigned plan; preserve concurrent changes and report uncertain ownership for reconciliation.
 - Confirm code, workflow, documentation, and test changes follow repository rules.
 - Confirm required verification ran, or report each blocked command with a concrete reason.
+- When an accepted plan's exact fresh `--scratch-path` build/test fails before compilation because DNS, dependency fetch, or module-cache isolation is unavailable, do not stop if the current tree already has its resolved checkout or `.build` dependencies. Retry the same selected build/test suites on the current tree with plan-local writable `CLANG_MODULE_CACHE_PATH` and `SWIFTPM_MODULECACHE_OVERRIDE`, plus `--disable-sandbox --skip-update` where supported. Do not create another isolated scratch path that needlessly fetches dependencies. Preserve the exact current source identity or tree hash, complete logs for both attempts, exit status, and positive test count. Only reuse earlier behavioral evidence when its recorded source identity exactly matches the current tree.
 - Confirm implementation-plan progress and completion criteria are current.
 - Fix every high or mid issue found by this self-check before handing off to the integrity and adversarial review gates.
 - Do not redesign, generalize, add abstraction layers, optimize speculatively, or request optional cleanup during self-check. Record a finding only for a concrete correctness, security, data-integrity, required-functionality, or severe code-quality risk.
 
 Return JSON with:
 - `implementation_blocked` (`false` after an implementation attempt; `true` only for an external dependency/readiness blocker that prevents implementation from starting)
+- `implementationIncomplete` (`true` whenever any accepted implementation task, material finding, or required behavioral verification remains incomplete; otherwise `false`)
 - `blockers` (empty when `implementation_blocked` is false)
 - `issueReference`
 - `changedFiles`

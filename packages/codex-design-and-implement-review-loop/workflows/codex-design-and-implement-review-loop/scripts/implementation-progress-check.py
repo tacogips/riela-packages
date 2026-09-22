@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import sys
 from typing import Any
 
@@ -32,6 +33,138 @@ def concrete_verification(value: Any) -> list[dict[str, Any]]:
         and isinstance(record.get("command"), str)
         and bool(record["command"].strip())
         and any(record.get(key) not in (None, "") for key in ("outcome", "exitStatus", "exitCode", "status"))
+    ]
+
+
+def verification_succeeded(record: dict[str, Any]) -> bool:
+    saw_exit_status = False
+    for key in ("exitStatus", "exitCode"):
+        if key in record and record.get(key) not in (None, ""):
+            saw_exit_status = True
+            if record.get(key) != 0 and record.get(key) != "0":
+                return False
+    if saw_exit_status:
+        return True
+    for key in ("status", "outcome"):
+        value = record.get(key)
+        if isinstance(value, str) and value.strip().lower() in {"pass", "passed", "success", "succeeded", "ok"}:
+            return True
+    return False
+
+
+def behavioral_kind(record: dict[str, Any]) -> str | None:
+    command = record.get("command", "").lower()
+    test_patterns = (
+        r"\bswift\s+test\b", r"\bcargo\s+test\b", r"\bgo\s+test\b", r"\bpytest\b",
+        r"\bctest\b", r"\bbun\s+test\b", r"\b(?:npm|pnpm|yarn)\s+(?:run\s+)?test\b",
+        r"\b(?:task|mise\s+run|make)\s+test\b", r"\bxcodebuild\b.*\btest\b",
+    )
+    if any(re.search(pattern, command) for pattern in test_patterns):
+        return "test"
+    return None
+
+
+def positive_test_count(record: dict[str, Any]) -> bool:
+    count_keys = {"testCount", "testsRun", "testsPassed", "positiveTestCount", "passedTestCount"}
+
+    def visit(value: Any) -> bool:
+        if isinstance(value, dict):
+            for key, nested in value.items():
+                if key in count_keys:
+                    try:
+                        if float(nested) > 0:
+                            return True
+                    except (TypeError, ValueError):
+                        pass
+                if visit(nested):
+                    return True
+        elif isinstance(value, list):
+            return any(visit(item) for item in value)
+        return False
+
+    return visit(record)
+
+
+def successful_behavioral_verification(record: dict[str, Any]) -> bool:
+    return bool(behavioral_kind(record) and verification_succeeded(record) and positive_test_count(record))
+
+
+def source_identity(record: dict[str, Any]) -> str | None:
+    identity_keys = {"sourceHash", "treeHash", "revision", "commitHash", "sourceIdentity"}
+
+    def find(value: Any) -> str | None:
+        if isinstance(value, dict):
+            for key, nested in value.items():
+                if key in identity_keys and isinstance(nested, str) and nested.strip():
+                    return nested.strip()
+            for nested in value.values():
+                found = find(nested)
+                if found:
+                    return found
+        elif isinstance(value, list):
+            for nested in value:
+                found = find(nested)
+                if found:
+                    return found
+        return None
+
+    return find(record)
+
+
+def environment_blocked(record: dict[str, Any]) -> bool:
+    if record.get("environmentBlocked") is True or record.get("environment_blocked") is True:
+        return True
+    blocker_type = record.get("blockerType")
+    status = record.get("status")
+    return (
+        isinstance(blocker_type, str) and blocker_type.lower() in {"environment", "environmental"}
+    ) or (isinstance(status, str) and status.lower() in {"environment-blocked", "blocked-environment"})
+
+
+def inherited_behavioral_evidence(
+    current: list[dict[str, Any]],
+    previous: list[dict[str, Any]],
+    current_identity: str | None = None,
+    previous_identity: str | None = None,
+) -> bool:
+    prior_by_identity = {
+        source_identity(record) or previous_identity
+        for record in previous
+        if successful_behavioral_verification(record) and (source_identity(record) or previous_identity)
+    }
+    return bool(prior_by_identity) and any(
+        behavioral_kind(record)
+        and environment_blocked(record)
+        and (source_identity(record) or current_identity) in prior_by_identity
+        for record in current
+    )
+
+
+def has_behavioral_evidence(
+    current: list[dict[str, Any]],
+    previous: list[dict[str, Any]],
+    current_identity: str | None = None,
+    previous_identity: str | None = None,
+) -> bool:
+    return any(successful_behavioral_verification(record) for record in current) or inherited_behavioral_evidence(
+        current, previous, current_identity, previous_identity
+    )
+
+
+def material_findings(payload: dict[str, Any]) -> list[dict[str, Any]]:
+    self_check = payload.get("authorSelfCheck")
+    self_check = self_check if isinstance(self_check, dict) else {}
+    candidates = (
+        normalized_list(payload.get("risks"))
+        + normalized_list(self_check.get("findings"))
+        + normalized_list(self_check.get("residualRisks"))
+    )
+    return [
+        finding
+        for finding in candidates
+        if isinstance(finding, dict)
+        and isinstance(finding.get("severity"), str)
+        and finding["severity"].lower() in {"critical", "high", "mid", "medium"}
     ]
 
 
@@ -78,6 +211,8 @@ def blocked_result(
     }
     resume = {
         "implementation-dependency": "Resolve the reported dependency and rerun the blocked plan.",
+        "implementation-incomplete": "Complete the accepted implementation work and clear the explicit incomplete state before review.",
+        "implementation-material-finding": "Resolve every high or medium implementation finding before review.",
         "implementation-no-progress": "Make a concrete source/test/plan change and report the changed paths plus new verification evidence.",
         "implementation-materially-unverified": "Run and report verification that exercises the changed implementation before review.",
         "implementation-invalid-evidence": "Return the required Step 6 evidence arrays in the implementation output.",
@@ -111,12 +246,28 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
     changed_files = current_evidence["changedFiles"]
     verification = current_evidence["verification"]
     plan_updates = current_evidence["implPlanUpdates"]
+    previous_evidence = normalized_evidence(messages[-2]["payload"]) if len(messages) > 1 else None
 
     if current.get("implementation_blocked") is True or normalized_list(current.get("blockers")):
         return blocked_result(
             current,
             "implementation-dependency",
             "Step 6 reported an unresolved implementation blocker.",
+            fingerprint,
+        )
+    if current.get("implementationIncomplete") is True or current.get("implementation_incomplete") is True:
+        return blocked_result(
+            current,
+            "implementation-incomplete",
+            "Step 6 explicitly reported that the accepted implementation remains incomplete.",
+            fingerprint,
+        )
+    findings = material_findings(current)
+    if findings:
+        return blocked_result(
+            current,
+            "implementation-material-finding",
+            "Step 6 reported unresolved high or medium implementation findings or risks.",
             fingerprint,
         )
     required = ("changedFiles", "verification", "implPlanUpdates")
@@ -141,8 +292,30 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
             "Step 6 reported material changes without verification evidence.",
             fingerprint,
         )
+    prior_verification = previous_evidence["verification"] if previous_evidence else []
+    previous_payload = messages[-2]["payload"] if len(messages) > 1 else {}
+    current_identity = source_identity(current)
+    previous_identity = source_identity(previous_payload)
+    if not has_behavioral_evidence(verification, prior_verification, current_identity, previous_identity):
+        return blocked_result(
+            current,
+            "implementation-materially-unverified",
+            "Step 6 reported no successful behavioral test evidence with a positive test count.",
+            fingerprint,
+        )
 
-    previous_evidence = normalized_evidence(messages[-2]["payload"]) if len(messages) > 1 else None
+    self_check = current.get("authorSelfCheck")
+    verification_gaps = normalized_list(self_check.get("verificationGaps")) if isinstance(self_check, dict) else []
+    if verification_gaps and not inherited_behavioral_evidence(
+        verification, prior_verification, current_identity, previous_identity
+    ):
+        return blocked_result(
+            current,
+            "implementation-materially-unverified",
+            "Step 6 author self-check reported unresolved verification gaps.",
+            fingerprint,
+        )
+
     has_new_item = previous_evidence is None or any(
         set(json.dumps(item, sort_keys=True, separators=(",", ":"), ensure_ascii=False) for item in current_evidence[key])
         - set(json.dumps(item, sort_keys=True, separators=(",", ":"), ensure_ascii=False) for item in previous_evidence[key])

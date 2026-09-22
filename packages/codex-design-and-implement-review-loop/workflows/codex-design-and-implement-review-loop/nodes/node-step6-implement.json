@@ -12,11 +12,12 @@
   "promptTemplateFile": "prompts/step6-implement.md",
   "variables": {},
   "output": {
-    "description": "Return JSON with an implementation_blocked self-report, dependency blockers, changed files, implementation summary, plan progress updates, verification commands, and addressed review feedback. A deterministic command gate owns the routing decision.",
+    "description": "Return JSON with implementation blocker/incomplete state, dependency blockers, changed files, implementation summary, plan progress updates, structured verification outcomes, self-check findings, and addressed review feedback. A deterministic command gate owns the routing decision.",
     "jsonSchema": {
       "type": "object",
       "properties": {
         "implementation_blocked": { "type": "boolean" },
+        "implementationIncomplete": { "type": "boolean" },
         "blockers": { "type": "array", "items": {} },
         "changedFiles": { "type": "array", "items": {} },
         "verification": {
@@ -42,7 +43,7 @@
         },
         "implPlanUpdates": { "type": "array", "items": {} }
       },
-      "required": ["implementation_blocked", "blockers", "changedFiles", "verification", "implPlanUpdates"],
+      "required": ["implementation_blocked", "implementationIncomplete", "blockers", "changedFiles", "verification", "implPlanUpdates"],
       "additionalProperties": true
     }
   }

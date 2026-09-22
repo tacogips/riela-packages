@@ -1,6 +1,6 @@
 {
   "id": "implementation-progress-check",
-  "description": "Mechanically fail closed when a branch-local implementation attempt is blocked, unchanged, materially unverified, or repeats its prior evidence.",
+  "description": "Mechanically fail closed when a branch-local implementation attempt is blocked, incomplete, materially unverified, contains material findings, or repeats its prior evidence.",
   "nodeType": "command",
   "modelFreeze": false,
   "variables": {},

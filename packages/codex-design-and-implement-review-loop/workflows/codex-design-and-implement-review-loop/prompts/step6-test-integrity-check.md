@@ -6,6 +6,8 @@ plan progress updates, and verification evidence.
 
 Maximize safely independent subagent use for repository exploration, test/coverage inspection, and verification-command analysis. Keep this node's owner responsible for the final evidence synthesis. Delegate read-only investigations only; never delegate source edits, Git operations, mutable test/build output work, or overlapping tasks that could corrupt shared evidence. Do not start nested Riela/Codex CLI processes; use the runtime's provided delegation mechanism when available, otherwise perform the same bounded checks yourself.
 
+Verification fallback is part of the accepted implementation contract: if an exact fresh `--scratch-path` attempt failed before compilation only because DNS, dependency fetch, or module-cache isolation was unavailable, require the implementation step to retry the same selected suites against the current tree's existing resolved checkout or `.build`, using plan-local writable `CLANG_MODULE_CACHE_PATH` and `SWIFTPM_MODULECACHE_OVERRIDE` plus `--disable-sandbox --skip-update` where supported. Do not accept repeated isolated scratch fetch failures as sufficient verification when that fallback is available. Require matching current source identity, complete logs, successful exit status, and a positive test count. Earlier behavioral evidence qualifies only with an exact matching source identity.
+
 This gate focuses only on whether the implementation preserved honest test and
 verification coverage.
 

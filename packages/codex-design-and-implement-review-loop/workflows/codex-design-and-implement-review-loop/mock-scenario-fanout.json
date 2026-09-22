@@ -290,6 +290,7 @@
       },
       "payload": {
         "implementation_blocked": false,
+        "implementationIncomplete": false,
         "blockers": [],
         "issueReference": "tacogips/cursor-agent#123",
         "changedFiles": [
@@ -305,7 +306,7 @@
           "Marked persistence and replay tasks complete."
         ],
       "verification": [
-        { "command": "task test", "exitCode": 0 }
+        { "command": "task test", "exitCode": 0, "testCount": 24 }
         ],
         "addressedFeedback": [],
         "risks": [
@@ -321,6 +322,7 @@
       },
       "payload": {
         "implementation_blocked": false,
+        "implementationIncomplete": false,
         "blockers": [],
         "issueReference": "tacogips/cursor-agent#123",
         "changedFiles": [
@@ -337,7 +339,7 @@
           "Updated progress log and completion criteria."
         ],
         "verification": [
-          { "command": "task test", "exitCode": 0 },
+          { "command": "task test", "exitCode": 0, "testCount": 24 },
           { "command": "task typecheck", "exitCode": 0 }
         ],
         "addressedFeedback": [
