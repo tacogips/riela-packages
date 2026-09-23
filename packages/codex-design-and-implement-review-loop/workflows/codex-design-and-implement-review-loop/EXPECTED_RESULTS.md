@@ -10,6 +10,8 @@ Native join returns branchId/status/sessionId/output, dispatchedBranchIds, pendi
 
 The checkpoint manifest retains all accepted plan references, but plan-checkpoint `committedFiles` contains the manifest and only accepted design/plan paths changed from HEAD. Unchanged accepted paths are excluded so the built-in git commit add-on's exact staged-set check succeeds. A no-op checkpoint ends at plan-checkpoint with an explicit blocked payload and never executes plan-git-commit.
 
+New checkpoints author each plan's `verification` as an array of command strings. Dispatch also projects `verification.commands` from an already committed richer checkpoint object without changing its Git identity; malformed nested evidence requirements and unknown fields remain rejected.
+
 Every dispatched implementation item carries the complete runtime-owned `acceptedPlanIds` set. A worker treats membership in that set as the authoritative predecessor integration decision and must not self-block by reinterpreting older progress or evidence artifacts.
 
 Every implementation and review gate scopes completeness to the current manifest plan. Work explicitly owned by a pending downstream dependent plan does not block, create a finding against, or force speculative repair into its predecessor. Integration review accepts a verified predecessor with `plans_remaining: true`, keeps downstream work pending, and returns the expanded `acceptedPlanIds` that unlock the next native dependency wave. Ambiguous ownership remains a real blocker, and final acceptance still requires every plan and combined behavior.

@@ -149,7 +149,26 @@ completedEnvelope.input._rielaInput.messages[1].payload.acceptedPlanIds = ['a', 
 const completedDispatch = spawnSync('python3', [dispatchScript], { cwd: dispatchScriptRepo, input: JSON.stringify(completedEnvelope), encoding: 'utf8' });
 assert.notEqual(completedDispatch.status, 0);
 assert.match(completedDispatch.stderr, /every manifest plan was accepted/);
+const richVerificationManifest = structuredClone(dispatchManifest);
+richVerificationManifest.plans[1].verification = {
+  commands: ['test b', 'build b'], evidenceRequirements: ['record the exit code'],
+} as any;
+writeFileSync(join(dispatchScriptRepo, 'impl-plans/active/mock-dispatch.json'), JSON.stringify(richVerificationManifest));
+for (const arguments_ of [
+  ['add', 'impl-plans/active/mock-dispatch.json'],
+  ['-c', 'user.name=Riela Test', '-c', 'user.email=riela@example.invalid', 'commit', '-m', 'test: rich checkpoint verification'],
+]) {
+  const git = spawnSync('git', arguments_, { cwd: dispatchScriptRepo, encoding: 'utf8' });
+  assert.equal(git.status, 0, git.stderr);
+}
+const richCheckpoint = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: dispatchScriptRepo, encoding: 'utf8' }).stdout.trim();
+const richEnvelope = structuredClone(dispatchEnvelope);
+richEnvelope.input._rielaInput.messages[0].payload.git.commitHash = richCheckpoint;
+const richDispatch = spawnSync('python3', [dispatchScript], { cwd: dispatchScriptRepo, input: JSON.stringify(richEnvelope), encoding: 'utf8' });
+assert.equal(richDispatch.status, 0, richDispatch.stderr);
+assert.deepEqual(JSON.parse(richDispatch.stdout).payload.implementationItems[1].verification, ['test b', 'build b']);
 const checkpointPrompt = readFileSync(join(bundle(codex), 'prompts/plan-checkpoint.md'), 'utf8');
+assert.match(checkpointPrompt, /`verification` MUST be an array of non-empty command strings, not an object/);
 assert.match(checkpointPrompt, /manifest must reference every accepted design document and every accepted plan.*unchanged from HEAD/i);
 assert.match(checkpointPrompt, /committedFiles.*exactly the new or modified dispatch manifest plus only those accepted design\/plan files with actual changes/i);
 assert.match(checkpointPrompt, /unchanged paths.*cause `riela\/git-commit` to reject the prepared staged set as a mismatch/i);

@@ -70,6 +70,17 @@ def clean_string_list(value: Any, field: str, *, nonempty: bool = False) -> list
     return result
 
 
+def verification_commands(value: Any, field: str) -> list[str]:
+    # A committed checkpoint from an earlier package may carry richer
+    # verification notes. Project its commands without rewriting that commit.
+    if isinstance(value, dict):
+        if set(value) - {"commands", "evidenceRequirements"}:
+            raise ValueError(f"{field} has unsupported fields")
+        clean_string_list(value.get("evidenceRequirements", []), f"{field}.evidenceRequirements")
+        value = value.get("commands")
+    return clean_string_list(value, field)
+
+
 def safe_relative_path(value: Any, field: str, root: Path) -> str:
     path_text = clean_string(value, field)
     path = Path(path_text)
@@ -226,7 +237,7 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
                 "acceptanceCriteria": clean_string_list(
                     plan.get("acceptanceCriteria"), f"{plan_id}.acceptanceCriteria", nonempty=True
                 ),
-                "verification": clean_string_list(plan.get("verification", []), f"{plan_id}.verification"),
+                "verification": verification_commands(plan.get("verification", []), f"{plan_id}.verification"),
                 "reviewContext": context,
                 "manifestPath": relative_manifest,
                 "checkpointCommit": checkpoint,
