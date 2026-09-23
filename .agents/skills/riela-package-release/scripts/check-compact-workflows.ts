@@ -60,6 +60,15 @@ assert.deepEqual(
 assert.equal(read(join(bundle(codex), 'nodes/node-implementation-wave-outcome.json')).model, 'gpt-6-sol');
 assert.equal(read(join(bundle(codex), 'nodes/node-implementation-blocked-output.json')).model, 'gpt-6-sol');
 const codexGraph = read(join(bundle(codex), 'workflow.json'));
+const finalPrompt = readFileSync(join(bundle(codex), 'prompts/workflow-output.md'), 'utf8');
+const planningOutputContract = finalPrompt.split('If Step 5 accepted a planning-only run,')[1]?.split('If the workflow continued through Step 8,')[0];
+const issueOutputContract = finalPrompt.split('If the workflow continued through Step 8,')[1]?.split('Copy `commitMessage`')[0];
+for (const [mode, section] of [['planning-only', planningOutputContract], ['issue-resolution', issueOutputContract]] as const) {
+  assert(section, `${mode}: final output contract is missing`);
+  for (const field of ['commitMessage', 'commitHash', 'committedFiles', 'pushedRemote', 'pushedBranch', 'baseBranch', 'mergeStatus', 'basePushStatus']) {
+    assert(section.includes(`- \`${field}\``), `${mode}: final output prompt omits ${field}`);
+  }
+}
 for (const node of ['step6-implement', 'reconcile-implementations', 'step3-design-review', 'step5-impl-plan-review', 'step6-test-integrity-check', 'step7-adversarial-review', 'integration-review']) {
   assert.deepEqual(read(join(bundle(codex), 'nodes', `node-${node}.json`)).sessionPolicy, { mode: 'reuse' }, `${node}: role-local session reuse`);
 }
