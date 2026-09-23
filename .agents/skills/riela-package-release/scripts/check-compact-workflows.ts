@@ -53,7 +53,10 @@ for (const [id, nodes] of [
 assert.equal(read(join(bundle(codex), 'nodes/node-step2-design-doc-update.json')).model, 'gpt-6-astra');
 assert.equal(read(join(bundle(codex), 'nodes/node-step4-impl-plan-create.json')).model, 'gpt-6-astra');
 assert.equal(read(join(bundle(codex), 'nodes/node-integration-review.json')).model, 'gpt-6-astra');
-assert.equal(read(join(bundle(codex), 'nodes/node-dispatch-plans.json')).model, 'gpt-6-sol');
+assert.deepEqual(
+  read(join(bundle(codex), 'nodes/node-dispatch-plans.json')).command,
+  { scriptPath: 'scripts/dispatch-plans.py' },
+);
 assert.equal(read(join(bundle(codex), 'nodes/node-implementation-wave-outcome.json')).model, 'gpt-6-sol');
 assert.equal(read(join(bundle(codex), 'nodes/node-implementation-blocked-output.json')).model, 'gpt-6-sol');
 const codexGraph = read(join(bundle(codex), 'workflow.json'));
@@ -72,11 +75,64 @@ for (const entry of codexGraph.nodes.filter((node: any) => node.nodeFile)) {
   if (payload.executionBackend !== 'codex-agent') continue;
   assert.equal(payload.effort, 'medium', `${codex}/${entry.id}: all agent effort`);
 }
-const dispatchPrompt = readFileSync(join(bundle(codex), 'prompts/dispatch-plans.md'), 'utf8');
-assert.match(dispatchPrompt, /bounded projection step/i);
-assert.match(dispatchPrompt, /do not search the repository/i);
-assert.match(dispatchPrompt, /fanout\.dependencies validates/i);
-assert.match(dispatchPrompt, /copy the exact complete runtime-owned `acceptedPlanIds` set.*into every item/i);
+const dispatchNodePayload = read(join(bundle(codex), 'nodes/node-dispatch-plans.json'));
+assert.equal(dispatchNodePayload.nodeType, 'command');
+assert.equal(dispatchNodePayload.executionBackend, undefined);
+assert.equal(dispatchNodePayload.model, undefined);
+const dispatchScript = join(bundle(codex), 'scripts/dispatch-plans.py');
+const dispatchScriptRepo = join(scratch, 'dispatch-script-repo');
+mkdirSync(join(dispatchScriptRepo, 'impl-plans/active'), { recursive: true });
+const dispatchManifest = {
+  implementationBranch: 'feature/test', baseBranch: 'main', remote: 'origin', evidenceRoot: 'tmp/evidence',
+  reviewContext: {
+    issueReference: { communicationId: 'comm-1', title: 'Deterministic dispatch' },
+    userProblem: 'Dispatch accepted plans without model reinterpretation.',
+    requiredOutcomes: ['Project the exact manifest.'], nonGoals: [], constraints: [],
+    designDecisionsAndRationale: [], intentionalTradeoffs: [], supportedEdgeCases: [], outOfScopeEdgeCases: [],
+    sourcePaths: ['impl-plans/active/mock-dispatch.json'],
+  },
+  plans: [
+    { planId: 'a', planPath: 'impl-plans/active/a.md', dependsOn: [], writePaths: ['a.txt'], sharedPaths: [], acceptanceCriteria: ['a accepted'], verification: [] },
+    { planId: 'b', planPath: 'impl-plans/active/b.md', dependsOn: ['a'], writePaths: ['b.txt'], sharedPaths: ['shared.txt'], acceptanceCriteria: ['b accepted'], verification: ['test b'] },
+  ],
+};
+writeFileSync(join(dispatchScriptRepo, 'impl-plans/active/mock-dispatch.json'), JSON.stringify(dispatchManifest));
+for (const arguments_ of [
+  ['init'], ['add', 'impl-plans/active/mock-dispatch.json'],
+  ['-c', 'user.name=Riela Test', '-c', 'user.email=riela@example.invalid', 'commit', '-m', 'test: checkpoint manifest'],
+]) {
+  const git = spawnSync('git', arguments_, { cwd: dispatchScriptRepo, encoding: 'utf8' });
+  assert.equal(git.status, 0, git.stderr);
+}
+const dispatchCheckpoint = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: dispatchScriptRepo, encoding: 'utf8' }).stdout.trim();
+const dispatchEnvelope = {
+  input: { _rielaInput: { messages: [{
+    fromStepId: 'integration-review', createdOrder: 1,
+    payload: { manifestPath: 'impl-plans/active/mock-dispatch.json', acceptedPlanIds: ['a'], checkpointCommit: dispatchCheckpoint },
+  }] } },
+};
+const dispatchProjection = spawnSync('python3', [dispatchScript], { cwd: dispatchScriptRepo, input: JSON.stringify(dispatchEnvelope), encoding: 'utf8' });
+assert.equal(dispatchProjection.status, 0, dispatchProjection.stderr);
+const dispatchProjectionOutput = JSON.parse(dispatchProjection.stdout);
+assert.deepEqual(dispatchProjectionOutput.payload.implementationItems.map((item: any) => item.planId), ['a', 'b']);
+assert.deepEqual(dispatchProjectionOutput.payload.implementationItems.map((item: any) => item.acceptedPlanIds), [['a'], ['a']]);
+assert.deepEqual(dispatchProjectionOutput.payload.implementationItems[1].trackedPaths, ['b.txt', 'shared.txt']);
+assert.equal(dispatchProjectionOutput.payload.implementationItems[0].reviewContext.issueReference, 'comm-1: Deterministic dispatch');
+const staleEnvelope = structuredClone(dispatchEnvelope);
+staleEnvelope.input._rielaInput.messages[0].payload.checkpointCommit = '1'.repeat(40);
+const staleDispatch = spawnSync('python3', [dispatchScript], { cwd: dispatchScriptRepo, input: JSON.stringify(staleEnvelope), encoding: 'utf8' });
+assert.notEqual(staleDispatch.status, 0);
+assert.match(staleDispatch.stderr, /checkpointCommit must equal the current HEAD/);
+writeFileSync(join(dispatchScriptRepo, 'impl-plans/active/mock-dispatch.json'), `${JSON.stringify(dispatchManifest)}\n`);
+const modifiedDispatch = spawnSync('python3', [dispatchScript], { cwd: dispatchScriptRepo, input: JSON.stringify(dispatchEnvelope), encoding: 'utf8' });
+assert.notEqual(modifiedDispatch.status, 0);
+assert.match(modifiedDispatch.stderr, /differs from the committed checkpoint/);
+writeFileSync(join(dispatchScriptRepo, 'impl-plans/active/mock-dispatch.json'), JSON.stringify(dispatchManifest));
+const completedEnvelope = structuredClone(dispatchEnvelope);
+completedEnvelope.input._rielaInput.messages[0].payload.acceptedPlanIds = ['a', 'b'];
+const completedDispatch = spawnSync('python3', [dispatchScript], { cwd: dispatchScriptRepo, input: JSON.stringify(completedEnvelope), encoding: 'utf8' });
+assert.notEqual(completedDispatch.status, 0);
+assert.match(completedDispatch.stderr, /every manifest plan was accepted/);
 const checkpointPrompt = readFileSync(join(bundle(codex), 'prompts/plan-checkpoint.md'), 'utf8');
 assert.match(checkpointPrompt, /manifest must reference every accepted design document and every accepted plan.*unchanged from HEAD/i);
 assert.match(checkpointPrompt, /committedFiles.*exactly the new or modified dispatch manifest plus only those accepted design\/plan files with actual changes/i);

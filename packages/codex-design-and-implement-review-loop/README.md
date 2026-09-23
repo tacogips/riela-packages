@@ -4,6 +4,8 @@ Codex design/implementation workflow with native shared-branch fanout and overwr
 
 Design documentation, implementation-plan authoring, and combined-tree integration review use GPT-6 Astra at medium effort. Implementation, revisions, overwrite repair, intake, design/plan/test-integrity gates, the single adversarial implementation gate, documentation, commit, and manager coordination use GPT-6 Sol at medium effort. No workflow node uses high, xhigh, or extra-high effort. The adversarial gate emits feedback only for material spec violations, correctness/data-loss/security risks, likely regressions, or missing material verification; style nits, naming-only comments, speculative refactors, and overengineering are forbidden.
 
+Plan dispatch is not an agent judgment. A deterministic command projects the exact committed manifest and the latest runtime-owned `acceptedPlanIds` from the direct inbox into native fanout items. Riela's dependency scheduler decides the ready wave; an empty, unknown, or fully completed acceptance set fails explicitly instead of silently producing an empty dispatch.
+
 - Package id: `codex-design-and-implement-review-loop`
 - Backends: `codex-agent`
 - Workflows: `codex-design-and-implement-review-loop`

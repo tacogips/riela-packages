@@ -16,7 +16,7 @@ Every implementation and review gate scopes completeness to the current manifest
 
 Planning nodes treat the runner-resolved workflow provenance and effective workflow input as authoritative. They do not rediscover the active workflow through sandbox-local user/project registry commands. Missing sandbox visibility into a user-scope registry or immutable package source is expected isolation and never becomes an intake blocker, design constraint, risk, or plan task. A real provenance, resolution, validation, or package-integrity failure stops the runner before these nodes execute.
 
-Every agent node has low or medium effort. Astra design, plan, and integration-review nodes are medium effort; no node may declare high, xhigh, or extra-high effort. `dispatch-plans` performs only a bounded projection from the direct inbox and exact committed manifest; it does not explore the repository or recompute native dependency scheduling.
+Every agent node has low or medium effort. Astra design, plan, and integration-review nodes are medium effort; no node may declare high, xhigh, or extra-high effort. `dispatch-plans` is a deterministic command projection from the direct inbox and exact committed manifest; it does not invoke a model, explore the repository, or recompute native dependency scheduling. It rejects unknown accepted IDs and a dispatch attempt after all plans are accepted.
 
 Integration review stays read-only and returns its immutable wave-acceptance record in the node payload. Runtime session communication persists that accepted output for dependency dispatch; the reviewer is never required to write repository or evidence-root files.
 

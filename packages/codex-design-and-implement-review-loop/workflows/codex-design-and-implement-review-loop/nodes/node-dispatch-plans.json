@@ -1,12 +1,11 @@
 {
   "id": "dispatch-plans",
-  "description": "Select the next dependency-ready wave for native Riela fanout. Do not spawn agents or nested CLI processes yourself.",
-  "executionBackend": "codex-agent",
-  "agentSandbox": "read-only",
-  "model": "gpt-6-sol",
-  "promptTemplateFile": "prompts/dispatch-plans.md",
+  "description": "Deterministically project the committed plan manifest and accepted integration IDs for native Riela fanout.",
+  "nodeType": "command",
+  "command": {
+    "scriptPath": "scripts/dispatch-plans.py"
+  },
   "variables": {},
-  "effort": "medium",
   "output": {
     "description": "Return every implementation item with the complete accepted review context required by isolated fanout branches.",
     "jsonSchema": {
