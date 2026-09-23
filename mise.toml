@@ -129,6 +129,10 @@ done
 description = "Verify compact workflow revision gates and inherited node references with isolated mock runs."
 run = "bun .agents/skills/riela-package-release/scripts/check-compact-workflows.ts"
 
+[tasks."workflow:check-codex-dispatch"]
+description = "Check deterministic Codex dispatch manifest compatibility."
+run = "python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'"
+
 [tasks."check"]
 description = "Run package digest, registry index, package manifest, and workflow validation checks."
 run = '''
@@ -137,6 +141,7 @@ mise run package:check-addon-digests
 mise run package:check-index
 mise run package:check-container-images
 mise run workflow:check-compact
+mise run workflow:check-codex-dispatch
 mise run package:validate
 mise run workflow:validate
 '''

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -172,6 +173,17 @@ def normalized_review_context(value: Any, root: Path) -> dict[str, Any]:
     return result
 
 
+def manifest_evidence_root(manifest: dict[str, Any], root: Path) -> str:
+    value = manifest.get("evidenceRoot")
+    if value is None:
+        # Older committed manifests can use the documented tmp/<task-id> layout.
+        task_id = clean_string(manifest.get("taskId"), "taskId")
+        if re.fullmatch(r"[A-Za-z0-9_-]+", task_id) is None:
+            raise ValueError("taskId must be a safe path component")
+        value = f"tmp/{task_id}"
+    return safe_relative_path(value, "evidenceRoot", root)
+
+
 def project(envelope: dict[str, Any]) -> dict[str, Any]:
     root = Path.cwd().resolve()
     messages = messages_from(envelope)
@@ -209,7 +221,7 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
     implementation_branch = clean_string(manifest.get("implementationBranch"), "implementationBranch")
     base_branch = clean_string(manifest.get("baseBranch"), "baseBranch")
     remote = clean_string(manifest.get("remote"), "remote")
-    evidence_root = safe_relative_path(manifest.get("evidenceRoot"), "evidenceRoot", root)
+    evidence_root = manifest_evidence_root(manifest, root)
 
     items: list[dict[str, Any]] = []
     for plan in plans:
