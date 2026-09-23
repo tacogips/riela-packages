@@ -1,7 +1,7 @@
 {
   "riela-manager": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-sol",
     "when": {
       "always": true
     },
@@ -12,7 +12,7 @@
   },
   "step1-issue-intake": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-sol",
     "when": {
       "always": true
     },
@@ -120,7 +120,7 @@
   "step3-design-review": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-5.6-sol",
+      "model": "gpt-6-sol",
       "when": {
         "needs_revision": true
       },
@@ -142,7 +142,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-5.6-sol",
+      "model": "gpt-6-sol",
       "when": {
         "needs_revision": false
       },
@@ -245,7 +245,7 @@
   "step5-impl-plan-review": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-5.6-sol",
+      "model": "gpt-6-sol",
       "when": {
         "needs_design_revision": false,
         "needs_revision": true,
@@ -272,7 +272,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-5.6-sol",
+      "model": "gpt-6-sol",
       "when": {
         "needs_design_revision": false,
         "needs_revision": false,
@@ -290,7 +290,7 @@
   ],
   "step9-commit-message": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-sol",
     "when": {
       "needs_revision": false
     },
@@ -346,7 +346,7 @@
   },
   "workflow-output": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-sol",
     "when": {
       "always": true
     },
@@ -382,7 +382,7 @@
   },
   "plan-checkpoint": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-sol",
     "when": {
       "always": true
     },
@@ -400,7 +400,7 @@
   },
   "plan-git-commit": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-sol",
     "when": {
       "always": true
     },
@@ -418,7 +418,7 @@
   },
   "dispatch-plans": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-sol",
     "when": {
       "always": true
     },
@@ -488,7 +488,7 @@
   },
   "branch-evidence": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-sol",
     "when": {
       "always": true
     },
@@ -506,7 +506,7 @@
   },
   "reconcile-implementations": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-terra",
+    "model": "gpt-6-luna",
     "when": {
       "always": true
     },
@@ -588,7 +588,7 @@
   },
   "base-branch-integrate": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-sol",
     "when": {
       "always": true
     },

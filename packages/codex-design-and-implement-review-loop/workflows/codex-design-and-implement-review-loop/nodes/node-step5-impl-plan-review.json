@@ -3,7 +3,7 @@
   "description": "Review the implementation plan against the design, including final design-plan consistency, and route back to the right authoring step when blocking findings exist.",
   "executionBackend": "codex-agent",
   "agentSandbox": "read-only",
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-sol",
   "modelFreeze": false,
   "effort": "medium",
   "systemPromptTemplateFile": "prompts/runtime-provenance-system.md",

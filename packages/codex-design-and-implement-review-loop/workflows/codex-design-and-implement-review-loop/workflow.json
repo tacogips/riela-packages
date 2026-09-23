@@ -629,16 +629,16 @@
     {
       "id": "implementation-wave-outcome",
       "nodeId": "implementation-wave-outcome",
-      "description": "Aggregate preclassified native implementation branch outcomes before serial reconciliation; blocked branches terminate with an actionable handoff.",
+      "description": "Aggregate preclassified native implementation branch outcomes; blocked-only waves terminate, while evidence-complete successful candidates continue to independent acceptance.",
       "role": "worker",
       "transitions": [
         {
           "toStepId": "implementation-blocked-output",
-          "label": "implementation_blocked"
+          "label": "implementation_blocked && !(partial_success)"
         },
         {
           "toStepId": "reconcile-implementations",
-          "label": "!(implementation_blocked)"
+          "label": "!(implementation_blocked) || partial_success"
         }
       ]
     },

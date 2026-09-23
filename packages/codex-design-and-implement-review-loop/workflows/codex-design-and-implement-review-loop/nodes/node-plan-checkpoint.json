@@ -3,7 +3,7 @@
   "description": "Prepare a checkpoint ONLY after the single design and plan authors and independent reviewers accept all plans. Do not implement here.",
   "executionBackend": "codex-agent",
   "agentSandbox": "workspace-write",
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-sol",
   "promptTemplateFile": "prompts/plan-checkpoint.md",
   "variables": {},
   "effort": "medium",

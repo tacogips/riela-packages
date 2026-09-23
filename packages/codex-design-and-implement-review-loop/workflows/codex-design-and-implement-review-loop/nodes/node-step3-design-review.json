@@ -3,7 +3,7 @@
   "description": "Review the design-doc update and route back when any high or mid finding exists.",
   "executionBackend": "codex-agent",
   "agentSandbox": "read-only",
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-sol",
   "modelFreeze": false,
   "effort": "medium",
   "systemPromptTemplateFile": "prompts/runtime-provenance-system.md",

@@ -19,7 +19,7 @@ for (const id of readdirSync(join(root, 'packages'))) {
 }
 const codex = 'codex-design-and-implement-review-loop';
 const refactor = 'codex-refactoring-divide-and-conquer';
-// Codex implementation and lost-work repair use Terra medium effort. Other
+// Codex implementation and lost-work repair use Luna medium effort. Other
 // compact workflows retain their deliberately cheaper implementation setting.
 for (const [id, nodes] of [
   [codex, ['step6-implement', 'reconcile-implementations']],
@@ -30,7 +30,7 @@ for (const [id, nodes] of [
   for (const node of nodes) {
     const payload = read(join(bundle(id), 'nodes', `node-${node}.json`));
     assert.equal(payload.executionBackend, 'codex-agent');
-    assert.equal(payload.model, id === codex ? 'gpt-5.6-terra' : 'gpt-5.6-sol', `${id}/${node}: implementation model`);
+    assert.equal(payload.model, id === codex ? 'gpt-6-luna' : 'gpt-5.6-sol', `${id}/${node}: implementation model`);
     assert.equal(payload.effort, id === codex ? 'medium' : 'low', `${id}/${node}: implementation effort`);
   }
 }
@@ -46,16 +46,16 @@ for (const [id, nodes] of [
   for (const node of nodes) {
     const payload = read(join(bundle(id), 'nodes', `node-${node}.json`));
     assert.equal(payload.executionBackend, 'codex-agent');
-    assert.equal(payload.model, 'gpt-5.6-sol', `${id}/${node}: review model`);
+    assert.equal(payload.model, id === codex ? 'gpt-6-sol' : 'gpt-5.6-sol', `${id}/${node}: review model`);
     assert.equal(payload.effort, 'medium', `${id}/${node}: review effort`);
   }
 }
 assert.equal(read(join(bundle(codex), 'nodes/node-step2-design-doc-update.json')).model, 'gpt-6-astra');
 assert.equal(read(join(bundle(codex), 'nodes/node-step4-impl-plan-create.json')).model, 'gpt-6-astra');
 assert.equal(read(join(bundle(codex), 'nodes/node-integration-review.json')).model, 'gpt-6-astra');
-assert.equal(read(join(bundle(codex), 'nodes/node-dispatch-plans.json')).model, 'gpt-5.6-sol');
-assert.equal(read(join(bundle(codex), 'nodes/node-implementation-wave-outcome.json')).model, 'gpt-5.6-sol');
-assert.equal(read(join(bundle(codex), 'nodes/node-implementation-blocked-output.json')).model, 'gpt-5.6-sol');
+assert.equal(read(join(bundle(codex), 'nodes/node-dispatch-plans.json')).model, 'gpt-6-sol');
+assert.equal(read(join(bundle(codex), 'nodes/node-implementation-wave-outcome.json')).model, 'gpt-6-sol');
+assert.equal(read(join(bundle(codex), 'nodes/node-implementation-blocked-output.json')).model, 'gpt-6-sol');
 const codexGraph = read(join(bundle(codex), 'workflow.json'));
 for (const entry of codexGraph.nodes.filter((node: any) => node.nodeFile)) {
   const payload = read(join(bundle(codex), entry.nodeFile));
@@ -103,6 +103,9 @@ for (const property of ['testCount', 'testsRun', 'testsPassed', 'positiveTestCou
 const testIntegrityPrompt = readFileSync(join(bundle(codex), 'prompts/step6-test-integrity-check.md'), 'utf8');
 assert.match(testIntegrityPrompt, /same selected suites.*existing resolved checkout.*positive test count/is);
 assert.match(testIntegrityPrompt, /missing behavior or tests explicitly assigned to a pending downstream dependent plan are not a finding or verification gap against the current predecessor/i);
+const selectedSwiftLintContract = /if \[ -s "\$changed_swift_manifest" \]; then xargs -0 swiftlint lint --strict --quiet --no-cache < "\$changed_swift_manifest"; else.*No Swift files changed; selected-file SwiftLint not run/is;
+assert.match(implementationPrompt, selectedSwiftLintContract);
+assert.match(testIntegrityPrompt, /manifest was nonempty before `swiftlint lint --strict` ran/i);
 const adversarialPrompt = readFileSync(join(bundle(codex), 'prompts/step7-adversarial-review.md'), 'utf8');
 assert.match(adversarialPrompt, /do not reject a predecessor because final wiring, host injection, or another behavior is explicitly assigned to a pending downstream dependent plan/i);
 const provenanceSystemPromptPath = 'prompts/runtime-provenance-system.md';
@@ -134,6 +137,14 @@ assert.match(reconcilePrompt, /already-resolved dependency checkout and normal b
 assert.match(reconcilePrompt, /do not select a new isolated scratch build that must fetch dependencies/i);
 assert.match(reconcilePrompt, /direct `verification` and `evidencePaths` output/i);
 assert.match(reconcilePrompt, /do not mark a predecessor candidate incomplete or repair downstream wiring into it.*pending dependent plan/is);
+assert.match(reconcilePrompt, /only after checking `\[ -s "\$changed_swift_manifest" \]`/i);
+// BSD and GNU xargs both invoke their command once for an empty stream unless
+// explicitly guarded. The guard is the portable false-positive boundary.
+const emptySwiftManifest = join(scratch, 'empty-swift-files.nul');
+writeFileSync(emptySwiftManifest, '');
+const guardedLint = spawnSync('sh', ['-c', 'if [ -s "$1" ]; then xargs -0 printf selected < "$1"; else printf skipped; fi', 'selected-swiftlint', emptySwiftManifest], { encoding: 'utf8' });
+assert.equal(guardedLint.status, 0, guardedLint.stderr);
+assert.equal(guardedLint.stdout, 'skipped');
 const waveOutcomePrompt = readFileSync(join(bundle(codex), 'prompts/implementation-wave-outcome.md'), 'utf8');
 assert.match(waveOutcomePrompt, /never add a wave blocker merely because a downstream-owned plan remains pending/i);
 const expected = new Map([[codex, 25], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 24]]);
@@ -283,9 +294,10 @@ const implementationFanout = graph.steps.find((step: any) => step.id === 'dispat
 assert.equal(implementationFanout.joinStepId, 'implementation-wave-outcome');
 assert.equal(graph.steps.find((step: any) => step.id === 'branch-evidence').transitions[0].toStepId, 'implementation-wave-outcome');
 const outcomeTransitions = graph.steps.find((step: any) => step.id === 'implementation-wave-outcome').transitions;
-assert.equal(outcomeTransitions.find((transition: any) => transition.label === 'implementation_blocked')?.toStepId, 'implementation-blocked-output');
-assert.equal(outcomeTransitions.find((transition: any) => transition.label === '!(implementation_blocked)')?.toStepId, 'reconcile-implementations');
+assert.equal(outcomeTransitions.find((transition: any) => transition.label === 'implementation_blocked && !(partial_success)')?.toStepId, 'implementation-blocked-output');
+assert.equal(outcomeTransitions.find((transition: any) => transition.label === '!(implementation_blocked) || partial_success')?.toStepId, 'reconcile-implementations');
 assert.match(readFileSync(join(bundle(codex), 'prompts/implementation-wave-outcome.md'), 'utf8'), /fanoutJoin\.branches\[\].*implementation_blocked.*status: \"blocked\"/i);
+assert.match(readFileSync(join(bundle(codex), 'prompts/implementation-wave-outcome.md'), 'utf8'), /partial_success.*acceptedPlanIds.*blocked/i);
 assert.match(readFileSync(join(bundle(codex), 'prompts/implementation-blocked-output.md'), 'utf8'), /implementation_blocked:true,status:\"blocked\"/i);
 assert.equal(graph.steps.find((step: any) => step.id === 'step6-test-integrity-check').transitions.find((transition: any) => transition.label === '!(needs_revision)')?.toStepId, 'step7-adversarial-review');
 assert.equal(graph.loop.gates.find((g: any) => g.id === 'implementation-plan-completion-check').stepId, 'step9-commit-message');
@@ -293,7 +305,7 @@ assert.equal(graph.loop.gates.find((g: any) => g.id === 'integration-review').st
 const integrationTransitions = graph.steps.find((step: any) => step.id === 'integration-review').transitions;
 assert.equal(integrationTransitions.find((transition: any) => transition.label === 'needs_revision && repair_in_place')?.toStepId, 'reconcile-implementations');
 assert.equal(integrationTransitions.find((transition: any) => transition.label === 'needs_revision && !(repair_in_place)')?.toStepId, 'dispatch-plans');
-const output = (payload: any, when = { always: true }) => ({ provider: 'scenario-mock', model: 'gpt-5.6-sol', when, payload });
+const output = (payload: any, when = { always: true }) => ({ provider: 'scenario-mock', model: 'gpt-6-sol', when, payload });
 const integrationLoopGate = (findings: any[], accepted = false) => ({
   gateId: 'integration-review',
   decision: accepted ? 'accepted' : 'needs-work',
@@ -385,9 +397,10 @@ run(codex, 'implementation-dependency-blocked', m => {
     verification: [],
     addressedFeedback: [],
     risks: ['External prerequisite remains incomplete.'],
-  }, { implementation_blocked: true } as any), model: 'gpt-5.6-terra' };
+  }, { implementation_blocked: true } as any), model: 'gpt-6-luna' };
   m['implementation-wave-outcome'] = output({
     implementation_blocked: true,
+    partial_success: false,
     blockedPlanIds: ['a'],
     successfulPlanIds: [],
     blockers: [{ dependency: 'impl-plans/active/prerequisite.md' }],
@@ -427,13 +440,14 @@ run(codex, 'implementation-no-progress-terminal', m => {
       addressedFeedback: [],
       risks: ['An accepted requirement remains unresolved.'],
     }),
-    model: 'gpt-5.6-terra',
+    model: 'gpt-6-luna',
   };
   // Queue two identical no-change attempts. The deterministic gate must stop
   // after the first, leaving the second attempt unconsumed.
   m['step6-implement'] = [unchanged, structuredClone(unchanged)];
   m['implementation-wave-outcome'] = output({
     implementation_blocked: true,
+    partial_success: false,
     blockedPlanIds: ['a'],
     successfulPlanIds: [],
     blockers: [{ type: 'implementation-no-progress' }],
@@ -478,10 +492,11 @@ run(codex, 'implementation-materially-unverified-terminal', m => {
       risks: [],
       authorSelfCheck: { findings: [], verificationGaps: [], residualRisks: [] },
     }),
-    model: 'gpt-5.6-terra',
+    model: 'gpt-6-luna',
   };
   m['implementation-wave-outcome'] = output({
     implementation_blocked: true,
+    partial_success: false,
     blockedPlanIds: ['a'],
     successfulPlanIds: [],
     blockers: [{ type: 'implementation-materially-unverified' }],
@@ -550,11 +565,12 @@ run(codex, 'native-fanout-dependency-blocked', m => {
       addressedFeedback: [],
       risks: ['External prerequisite remains incomplete.'],
     }, { implementation_blocked: true } as any),
-    model: 'gpt-5.6-terra',
+    model: 'gpt-6-luna',
   };
   m['step6-implement'] = [blocked, structuredClone(blocked)];
   m['implementation-wave-outcome'] = output({
     implementation_blocked: true,
+    partial_success: false,
     blockedPlanIds: ['a', 'b'],
     successfulPlanIds: [],
     blockers: [{ dependency: 'impl-plans/active/prerequisite.md' }],
@@ -586,6 +602,52 @@ run(codex, 'native-fanout-dependency-blocked', m => {
   assert(!steps.includes('integration-review'));
   assert(!steps.includes('step7b-e2e-evidence'));
   assert(!steps.includes('step10-git-commit'));
+}, 'mock-scenario-fanout.json');
+run(codex, 'native-fanout-partial-success-selective-redispatch', m => {
+  const successful = structuredClone(m['step6-implement'][1]);
+  const blocked = structuredClone(successful);
+  blocked.when = { implementation_blocked: true };
+  blocked.payload.implementation_blocked = true;
+  blocked.payload.implementationIncomplete = true;
+  blocked.payload.changedFiles = [];
+  blocked.payload.verification = [];
+  blocked.payload.implPlanUpdates = [];
+  blocked.payload.blockers = [{ dependency: 'impl-plans/active/p1-capabilities.md', resumeCriterion: 'Repair the unavailable capability prerequisite.' }];
+  m['step6-implement'] = [successful, blocked, structuredClone(successful)];
+
+  const initialDispatch = structuredClone(m['dispatch-plans']);
+  const retryDispatch = structuredClone(initialDispatch);
+  retryDispatch.payload.acceptedPlanIds = ['a'];
+  retryDispatch.payload.implementationItems = retryDispatch.payload.implementationItems.map((item: any) => ({ ...item, acceptedPlanIds: ['a'] }));
+  m['dispatch-plans'] = [initialDispatch, retryDispatch];
+
+  const partialOutcome = output({
+    implementation_blocked: true,
+    partial_success: true,
+    blockedPlanIds: ['b'],
+    successfulPlanIds: ['a'],
+    blockers: [{ dependency: 'impl-plans/active/p1-capabilities.md' }],
+    resumeCriteria: ['Repair and verify p1-capabilities.'],
+  }, { implementation_blocked: true, partial_success: true } as any);
+  const completedOutcome = structuredClone(m['implementation-wave-outcome']);
+  completedOutcome.payload.partial_success = false;
+  m['implementation-wave-outcome'] = [partialOutcome, completedOutcome];
+
+  const finalReview = structuredClone(m['integration-review']);
+  const partialReview = structuredClone(finalReview);
+  partialReview.when = { needs_revision: false, redispatch_required: false, plans_remaining: true, repair_in_place: false };
+  partialReview.payload.plans_remaining = true;
+  partialReview.payload.acceptedPlanIds = ['a'];
+  partialReview.payload.pendingPlanIds = ['b'];
+  m['integration-review'] = [partialReview, finalReview];
+}, (steps, result) => {
+  assert.equal(steps.filter(step => step === 'dispatch-plans').length, 2);
+  assert.equal(steps.filter(step => step === 'implementation-blocked-output').length, 0);
+  assert.equal(steps.filter(step => step === 'integration-review').length, 2);
+  const outcomes = result.session.executions.filter((execution: any) => execution.stepId === 'implementation-wave-outcome');
+  assert.equal(outcomes.length, 2);
+  const retryJoin = outcomes[1]?.inputSnapshot?.mergedVariables?.runtimeVariables?.fanoutJoin;
+  assert.deepEqual(retryJoin?.dispatchedBranchIds, ['b'], 'accepted candidate must not be redispatched');
 }, 'mock-scenario-fanout.json');
 run(codex, 'two-branch-native-fanout', () => {}, steps => {
   assert(steps.indexOf('plan-git-commit') < steps.indexOf('dispatch-plans'));

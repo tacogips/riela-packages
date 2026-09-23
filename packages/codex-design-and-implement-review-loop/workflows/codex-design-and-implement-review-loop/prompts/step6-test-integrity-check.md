@@ -19,6 +19,8 @@ Apply a strict review budget. Block only on concrete evidence that required beha
 
 Required checks:
 
+- When Swift changed-file lint is reported, require its NUL manifest path and verify that the manifest was nonempty before `swiftlint lint --strict` ran. The command must receive the manifest entries as explicit paths and preserve the repository's normal SwiftLint configuration. An empty selected-Swift set is valid evidence that no selected-file lint ran; do not require an argument-less SwiftLint invocation, because a repository `included` list would turn unrelated baseline warnings into false strict failures. Conversely, do not accept an empty manifest as evidence that changed Swift files were linted.
+
 - Identify deleted tests, skipped tests, narrowed test discovery, disabled
   suites, removed fixtures, weakened assertions, deleted edge-case coverage, or
   lowered coverage thresholds that are not justified by the accepted plan.

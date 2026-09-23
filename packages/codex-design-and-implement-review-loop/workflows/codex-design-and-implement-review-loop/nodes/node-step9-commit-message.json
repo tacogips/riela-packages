@@ -3,7 +3,7 @@
   "description": "Verify plan completion and archive for issue-resolution, then prepare commit evidence; preserve active plans for planning-only.",
   "executionBackend": "codex-agent",
   "agentSandbox": "read-only",
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-sol",
   "effort": "medium",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step9-commit-message.md",

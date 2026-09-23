@@ -3,7 +3,7 @@
   "description": "Check test and verification integrity with safely independent delegated read-only investigation before adversarial review.",
   "executionBackend": "codex-agent",
   "agentSandbox": "read-only",
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-sol",
   "modelFreeze": false,
   "effort": "medium",
   "promptTemplateFile": "prompts/step6-test-integrity-check.md",

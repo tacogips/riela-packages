@@ -10,7 +10,7 @@ Repository rules:
 - Break work into explicit tasks, deliverables, dependencies, and verification steps.
 - Create multiple plan files when independent work exists; one author owns the whole decomposition.
 - Give each plan a stable planId, planPath, dependsOn IDs, writePaths, sharedPaths, precise intended changes, acceptance criteria and verification commands. Dependencies must form a DAG; use successive waves for coupled contracts.
-- Author the plan as an executable contract for the lower-capability Terra implementation model: state the user intent and relevant repository context, explicit non-goals, exact file-level changes, invariants that must remain true, acceptance criteria, and the exact verification commands plus the evidence each command must establish. Do not assume the implementation agent will infer omitted rationale, compatibility constraints, or test intent.
+- Author the plan as an executable contract for the lower-capability Luna implementation model: state the user intent and relevant repository context, explicit non-goals, exact file-level changes, invariants that must remain true, acceptance criteria, and the exact verification commands plus the evidence each command must establish. Do not assume the implementation agent will infer omitted rationale, compatibility constraints, or test intent.
 - Minimize file overlap, but assume overwrites remain possible on the same branch and working directory. Specify per-edit fresh reads, pre/post hashes and immutable intent snapshots, drift detection, and serial repair after joining.
 - Reserve shared indexes, lockfile generation, broad formatting and global plan archiving for serial reconciliation/finalization. Each worker edits its own progress log only.
 - Never prescribe worktrees, private implementation branches or concurrent git operations. The accepted design and all plans are committed before native Riela implementation/review fanout begins.
@@ -23,7 +23,7 @@ If this is a rerun after Step 5 review, read the latest Step 5 feedback and addr
 
 Before returning, perform an author self-check in the same execution:
 - Confirm the plan maps to the accepted design without inventing unsupported architecture.
-- Confirm deliverables, dependencies, completion criteria, progress tracking, and verification commands are explicit, and that every plan includes intent/context, non-goals, file-level changes, invariants, acceptance criteria, and evidence-producing verification commands sufficient for Terra to execute without inventing scope.
+- Confirm deliverables, dependencies, completion criteria, progress tracking, and verification commands are explicit, and that every plan includes intent/context, non-goals, file-level changes, invariants, acceptance criteria, and evidence-producing verification commands sufficient for Luna to execute without inventing scope.
 - Confirm required tests, typechecks, documentation, and progress-log work are included.
 - Confirm the task set has no unsupported or disproportionate work; remove optional improvements that do not serve the accepted scope.
 - Fix every high or mid plan issue found by this self-check. If the design itself is defective, report that explicitly rather than hiding it in the plan.

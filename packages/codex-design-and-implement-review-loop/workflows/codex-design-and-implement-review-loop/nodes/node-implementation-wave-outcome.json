@@ -3,7 +3,7 @@
   "description": "Aggregate branch outcomes already classified by the branch-local progress gate and stop before reconciliation when any branch is blocked.",
   "executionBackend": "codex-agent",
   "agentSandbox": "read-only",
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-sol",
   "modelFreeze": false,
   "effort": "medium",
   "promptTemplateFile": "prompts/implementation-wave-outcome.md",
@@ -14,12 +14,13 @@
       "type": "object",
       "properties": {
         "implementation_blocked": { "type": "boolean" },
+        "partial_success": { "type": "boolean" },
         "blockedPlanIds": { "type": "array", "items": { "type": "string", "minLength": 1 } },
         "successfulPlanIds": { "type": "array", "items": { "type": "string", "minLength": 1 } },
         "blockers": { "type": "array", "items": {} },
         "resumeCriteria": { "type": "array", "items": { "type": "string", "minLength": 1 } }
       },
-      "required": ["implementation_blocked", "blockedPlanIds", "successfulPlanIds", "blockers", "resumeCriteria"],
+      "required": ["implementation_blocked", "partial_success", "blockedPlanIds", "successfulPlanIds", "blockers", "resumeCriteria"],
       "additionalProperties": false
     }
   }
