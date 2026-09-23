@@ -899,7 +899,8 @@
       "basePushStatus": "pushed",
       "implementationCommit": "abc123def4567890abc123def4567890abc123de",
       "implementationBranch": "main",
-      "remote": "origin"
+      "remote": "origin",
+      "verification": {}
     }
   }
 }

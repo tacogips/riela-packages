@@ -2,9 +2,26 @@
   "id": "base-branch-integrate",
   "description": "All parallel workers have stopped; final commit and push have succeeded. Perform serialized integration only now.",
   "executionBackend": "codex-agent",
-  "agentSandbox": "workspace-write",
+  "agentSandbox": "danger-full-access",
   "model": "gpt-6-sol",
   "promptTemplateFile": "prompts/base-branch-integrate.md",
   "variables": {},
-  "effort": "medium"
+  "effort": "medium",
+  "output": {
+    "description": "Return only verified successful base integration evidence; a blocked or failed operation must fail this step.",
+    "jsonSchema": {
+      "type": "object",
+      "required": ["implementationBranch", "baseBranch", "remote", "implementationCommit", "mergeStatus", "basePushStatus", "verification"],
+      "properties": {
+        "implementationBranch": { "type": "string" },
+        "baseBranch": { "type": "string" },
+        "remote": { "type": "string" },
+        "implementationCommit": { "type": "string" },
+        "mergeStatus": { "type": "string", "enum": ["merged", "already-on-base", "already-merged"] },
+        "basePushStatus": { "type": "string", "enum": ["pushed", "already-pushed"] },
+        "verification": { "type": "object" }
+      },
+      "additionalProperties": true
+    }
+  }
 }

@@ -60,6 +60,13 @@ assert.deepEqual(
 assert.equal(read(join(bundle(codex), 'nodes/node-implementation-wave-outcome.json')).model, 'gpt-6-sol');
 assert.equal(read(join(bundle(codex), 'nodes/node-implementation-blocked-output.json')).model, 'gpt-6-sol');
 const codexGraph = read(join(bundle(codex), 'workflow.json'));
+const baseIntegration = read(join(bundle(codex), 'nodes/node-base-branch-integrate.json'));
+assert.equal(baseIntegration.agentSandbox, 'danger-full-access', 'base integration needs remote and shared Git worktree access');
+for (const field of ['implementationBranch', 'baseBranch', 'remote', 'implementationCommit', 'mergeStatus', 'basePushStatus', 'verification']) {
+  assert(baseIntegration.output.jsonSchema.required.includes(field), `base integration output must require ${field}`);
+}
+assert.deepEqual(baseIntegration.output.jsonSchema.properties.mergeStatus.enum, ['merged', 'already-on-base', 'already-merged']);
+assert.deepEqual(baseIntegration.output.jsonSchema.properties.basePushStatus.enum, ['pushed', 'already-pushed']);
 const finalPrompt = readFileSync(join(bundle(codex), 'prompts/workflow-output.md'), 'utf8');
 const planningOutputContract = finalPrompt.split('If Step 5 accepted a planning-only run,')[1]?.split('If the workflow continued through Step 8,')[0];
 const issueOutputContract = finalPrompt.split('If the workflow continued through Step 8,')[1]?.split('Copy `commitMessage`')[0];
@@ -474,6 +481,10 @@ run(codex, 'completion-revision', m => {
 run(codex, 'planning-only', () => {}, steps => {
   assert(!steps.includes('step6-implement')); assert(!steps.includes('step8-docs-refresh'));
 }, 'mock-scenario-planning-only.json');
+runExpectFailure(codex, 'planning-base-integration-blocked-is-not-success', m => {
+  m['base-branch-integrate'].payload.mergeStatus = 'blocked';
+  m['base-branch-integrate'].payload.basePushStatus = 'not-attempted';
+}, /invalid_output|schema|enum|base integration/i, 'mock-scenario-planning-only.json');
 run(codex, 'checkpoint-no-op-blocked', m => {
   m['plan-checkpoint'] = output({
     checkpoint_blocked: true,
