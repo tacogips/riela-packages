@@ -97,8 +97,9 @@ const dispatchManifest = {
   ],
 };
 writeFileSync(join(dispatchScriptRepo, 'impl-plans/active/mock-dispatch.json'), JSON.stringify(dispatchManifest));
+writeFileSync(join(dispatchScriptRepo, 'impl-plans/active/old-dispatch.json'), JSON.stringify({ ...dispatchManifest, plans: [{ ...dispatchManifest.plans[0], planId: 'obsolete' }] }));
 for (const arguments_ of [
-  ['init'], ['add', 'impl-plans/active/mock-dispatch.json'],
+  ['init'], ['add', 'impl-plans/active/mock-dispatch.json', 'impl-plans/active/old-dispatch.json'],
   ['-c', 'user.name=Riela Test', '-c', 'user.email=riela@example.invalid', 'commit', '-m', 'test: checkpoint manifest'],
 ]) {
   const git = spawnSync('git', arguments_, { cwd: dispatchScriptRepo, encoding: 'utf8' });
@@ -106,10 +107,13 @@ for (const arguments_ of [
 }
 const dispatchCheckpoint = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: dispatchScriptRepo, encoding: 'utf8' }).stdout.trim();
 const dispatchEnvelope = {
-  input: { _rielaInput: { messages: [{
-    fromStepId: 'integration-review', createdOrder: 1,
-    payload: { manifestPath: 'impl-plans/active/mock-dispatch.json', acceptedPlanIds: ['a'], checkpointCommit: dispatchCheckpoint },
-  }] } },
+  input: { _rielaInput: { messages: [
+    { fromStepId: 'plan-git-commit', createdOrder: 1, payload: { git: {
+      commitHash: dispatchCheckpoint, committedFiles: ['impl-plans/active/mock-dispatch.json'],
+    } } },
+    { fromStepId: 'integration-review', createdOrder: 2,
+      payload: { manifestPath: 'impl-plans/active/old-dispatch.json', acceptedPlanIds: ['a'], checkpointCommit: '2'.repeat(40) } },
+  ] } },
 };
 const dispatchProjection = spawnSync('python3', [dispatchScript], { cwd: dispatchScriptRepo, input: JSON.stringify(dispatchEnvelope), encoding: 'utf8' });
 assert.equal(dispatchProjection.status, 0, dispatchProjection.stderr);
@@ -118,8 +122,20 @@ assert.deepEqual(dispatchProjectionOutput.payload.implementationItems.map((item:
 assert.deepEqual(dispatchProjectionOutput.payload.implementationItems.map((item: any) => item.acceptedPlanIds), [['a'], ['a']]);
 assert.deepEqual(dispatchProjectionOutput.payload.implementationItems[1].trackedPaths, ['b.txt', 'shared.txt']);
 assert.equal(dispatchProjectionOutput.payload.implementationItems[0].reviewContext.issueReference, 'comm-1: Deterministic dispatch');
+assert.equal(dispatchProjectionOutput.payload.manifestPath, 'impl-plans/active/mock-dispatch.json');
+assert.equal(dispatchProjectionOutput.payload.checkpointCommit, dispatchCheckpoint);
+const missingCheckpoint = structuredClone(dispatchEnvelope);
+missingCheckpoint.input._rielaInput.messages.shift();
+const missingCheckpointDispatch = spawnSync('python3', [dispatchScript], { cwd: dispatchScriptRepo, input: JSON.stringify(missingCheckpoint), encoding: 'utf8' });
+assert.notEqual(missingCheckpointDispatch.status, 0);
+assert.match(missingCheckpointDispatch.stderr, /exactly one plan-git-commit message/);
+const ambiguousManifest = structuredClone(dispatchEnvelope);
+ambiguousManifest.input._rielaInput.messages[0].payload.git.committedFiles.push('impl-plans/active/old-dispatch.json');
+const ambiguousDispatch = spawnSync('python3', [dispatchScript], { cwd: dispatchScriptRepo, input: JSON.stringify(ambiguousManifest), encoding: 'utf8' });
+assert.notEqual(ambiguousDispatch.status, 0);
+assert.match(ambiguousDispatch.stderr, /exactly one dispatch manifest/);
 const staleEnvelope = structuredClone(dispatchEnvelope);
-staleEnvelope.input._rielaInput.messages[0].payload.checkpointCommit = '1'.repeat(40);
+staleEnvelope.input._rielaInput.messages[0].payload.git.commitHash = '1'.repeat(40);
 const staleDispatch = spawnSync('python3', [dispatchScript], { cwd: dispatchScriptRepo, input: JSON.stringify(staleEnvelope), encoding: 'utf8' });
 assert.notEqual(staleDispatch.status, 0);
 assert.match(staleDispatch.stderr, /checkpointCommit must equal the current HEAD/);
@@ -129,7 +145,7 @@ assert.notEqual(modifiedDispatch.status, 0);
 assert.match(modifiedDispatch.stderr, /differs from the committed checkpoint/);
 writeFileSync(join(dispatchScriptRepo, 'impl-plans/active/mock-dispatch.json'), JSON.stringify(dispatchManifest));
 const completedEnvelope = structuredClone(dispatchEnvelope);
-completedEnvelope.input._rielaInput.messages[0].payload.acceptedPlanIds = ['a', 'b'];
+completedEnvelope.input._rielaInput.messages[1].payload.acceptedPlanIds = ['a', 'b'];
 const completedDispatch = spawnSync('python3', [dispatchScript], { cwd: dispatchScriptRepo, input: JSON.stringify(completedEnvelope), encoding: 'utf8' });
 assert.notEqual(completedDispatch.status, 0);
 assert.match(completedDispatch.stderr, /every manifest plan was accepted/);

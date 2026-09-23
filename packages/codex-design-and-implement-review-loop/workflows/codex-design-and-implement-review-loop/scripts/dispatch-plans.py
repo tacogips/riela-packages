@@ -81,48 +81,39 @@ def safe_relative_path(value: Any, field: str, root: Path) -> str:
     return path.as_posix()
 
 
-def manifest_path_from(messages: list[dict[str, Any]], root: Path) -> str:
-    explicit = latest_value(messages, "manifestPath")
-    if explicit is not None:
-        return safe_relative_path(explicit, "manifestPath", root)
-
-    for message in reversed(messages):
-        payload = message.get("payload")
-        for candidate in nested_dicts(payload):
-            committed = candidate.get("committedFiles")
-            if not isinstance(committed, list):
-                continue
-            for value in committed:
-                try:
-                    relative = safe_relative_path(value, "committedFiles[]", root)
-                    data = json.loads((root / relative).read_text())
-                except (OSError, ValueError, json.JSONDecodeError):
-                    continue
-                if isinstance(data, dict) and isinstance(data.get("plans"), list):
-                    return relative
-    raise ValueError("direct inbox contains no dispatch manifest path")
+def checkpoint_source(messages: list[dict[str, Any]], root: Path) -> tuple[str, str]:
+    checkpoints = [message for message in messages if message.get("fromStepId") == "plan-git-commit"]
+    if len(checkpoints) != 1:
+        raise ValueError("dispatch requires exactly one plan-git-commit message")
+    payload = checkpoints[0].get("payload")
+    git_payload = payload.get("git") if isinstance(payload, dict) else None
+    if not isinstance(git_payload, dict):
+        raise ValueError("plan-git-commit payload must contain git metadata")
+    commit = clean_string(git_payload.get("commitHash"), "plan-git-commit.git.commitHash")
+    committed = git_payload.get("committedFiles")
+    if not isinstance(committed, list):
+        raise ValueError("plan-git-commit.git.committedFiles must be an array")
+    manifests: list[str] = []
+    for value in committed:
+        relative = safe_relative_path(value, "plan-git-commit.git.committedFiles[]", root)
+        path = root / relative
+        if path.suffix != ".json" or path.is_symlink() or not path.is_file():
+            continue
+        try:
+            data = json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError):
+            continue
+        if isinstance(data, dict) and isinstance(data.get("plans"), list):
+            manifests.append(relative)
+    if len(manifests) != 1:
+        raise ValueError("plan-git-commit must contain exactly one dispatch manifest")
+    return manifests[0], commit
 
 
 def git(root: Path, *arguments: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         ["git", *arguments], cwd=root, check=False, capture_output=True, text=True
     )
-
-
-def checkpoint_commit(messages: list[dict[str, Any]], root: Path, manifest_path: str) -> str:
-    explicit = latest_value(messages, "checkpointCommit")
-    if isinstance(explicit, str) and explicit.strip():
-        return explicit.strip()
-    git_payload = latest_value(messages, "git")
-    if isinstance(git_payload, dict):
-        commit = git_payload.get("commitHash")
-        if isinstance(commit, str) and commit.strip():
-            return commit.strip()
-    process = git(root, "log", "-n", "1", "--format=%H", "--", manifest_path)
-    commit = process.stdout.strip()
-    if process.returncode != 0 or not commit:
-        raise ValueError("cannot derive checkpoint commit from the committed manifest")
-    return commit
 
 
 def verify_checkpoint(root: Path, manifest_path: str, checkpoint: str) -> None:
@@ -176,7 +167,7 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
     if not messages:
         raise ValueError("dispatch-plans requires direct inbox messages")
 
-    relative_manifest = manifest_path_from(messages, root)
+    relative_manifest, checkpoint = checkpoint_source(messages, root)
     manifest_file = root / relative_manifest
     if manifest_file.is_symlink() or not manifest_file.is_file():
         raise ValueError("dispatch manifest must be a regular non-symlink file")
@@ -202,7 +193,6 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
     if not set(plan_ids) - set(accepted):
         raise ValueError("dispatch requested after every manifest plan was accepted")
 
-    checkpoint = checkpoint_commit(messages, root, relative_manifest)
     verify_checkpoint(root, relative_manifest, checkpoint)
     context = normalized_review_context(manifest.get("reviewContext"), root)
     implementation_branch = clean_string(manifest.get("implementationBranch"), "implementationBranch")
