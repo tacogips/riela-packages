@@ -267,6 +267,7 @@ def blocked_result(
     payload = {
         **current,
         "implementation_blocked": True,
+        "implementation_continue": False,
         "status": "blocked",
         "blockerType": blocker_type,
         "evidenceFingerprint": fingerprint,
@@ -274,6 +275,30 @@ def blocked_result(
         "resumeCriteria": normalized_list(current.get("resumeCriteria")) + [resume],
     }
     return {"when": {"implementation_blocked": True}, "payload": payload}
+
+
+def continuation_result(current: dict[str, Any], fingerprint: str, attempt: int) -> dict[str, Any]:
+    payload = {
+        **current,
+        "implementation_blocked": False,
+        "implementation_continue": True,
+        "status": "implementation-in-progress",
+        "evidenceFingerprint": fingerprint,
+        "continuationAttempt": attempt,
+        "blockers": [],
+        "resumeCriteria": [],
+    }
+    return {"when": {"implementation_continue": True}, "payload": payload}
+
+
+def incomplete_streak(messages: list[dict[str, Any]]) -> int:
+    count = 0
+    for message in reversed(messages):
+        payload = message["payload"]
+        if payload.get("implementationIncomplete") is not True and payload.get("implementation_incomplete") is not True:
+            break
+        count += 1
+    return count
 
 
 def classify(envelope: dict[str, Any]) -> dict[str, Any]:
@@ -302,21 +327,7 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
             "Step 6 reported an unresolved implementation blocker.",
             fingerprint,
         )
-    if current.get("implementationIncomplete") is True or current.get("implementation_incomplete") is True:
-        return blocked_result(
-            current,
-            "implementation-incomplete",
-            "Step 6 explicitly reported that the accepted implementation remains incomplete.",
-            fingerprint,
-        )
-    findings = material_findings(current)
-    if findings:
-        return blocked_result(
-            current,
-            "implementation-material-finding",
-            "Step 6 reported unresolved high or medium implementation findings or risks.",
-            fingerprint,
-        )
+    incomplete = current.get("implementationIncomplete") is True or current.get("implementation_incomplete") is True
     required = ("changedFiles", "verification", "implPlanUpdates")
     if not all(key in current and isinstance(current[key], list) for key in required):
         return blocked_result(
@@ -351,18 +362,6 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
             fingerprint,
         )
 
-    self_check = current.get("authorSelfCheck")
-    verification_gaps = normalized_list(self_check.get("verificationGaps")) if isinstance(self_check, dict) else []
-    if verification_gaps and not inherited_behavioral_evidence(
-        verification, prior_verification, current_identity, previous_identity
-    ):
-        return blocked_result(
-            current,
-            "implementation-materially-unverified",
-            "Step 6 author self-check reported unresolved verification gaps.",
-            fingerprint,
-        )
-
     has_new_item = previous_evidence is None or any(
         set(json.dumps(item, sort_keys=True, separators=(",", ":"), ensure_ascii=False) for item in current_evidence[key])
         - set(json.dumps(item, sort_keys=True, separators=(",", ":"), ensure_ascii=False) for item in previous_evidence[key])
@@ -376,9 +375,42 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
             fingerprint,
         )
 
+    if incomplete:
+        streak = incomplete_streak(messages)
+        if changed_files and plan_updates and streak < 3:
+            return continuation_result(current, fingerprint, streak)
+        return blocked_result(
+            current,
+            "implementation-incomplete",
+            "Step 6 remains incomplete after the bounded continuation attempts or lacks changed-file/plan-progress evidence.",
+            fingerprint,
+        )
+
+    findings = material_findings(current)
+    if findings:
+        return blocked_result(
+            current,
+            "implementation-material-finding",
+            "Step 6 reported unresolved high or medium implementation findings or risks.",
+            fingerprint,
+        )
+
+    self_check = current.get("authorSelfCheck")
+    verification_gaps = normalized_list(self_check.get("verificationGaps")) if isinstance(self_check, dict) else []
+    if verification_gaps and not inherited_behavioral_evidence(
+        verification, prior_verification, current_identity, previous_identity
+    ):
+        return blocked_result(
+            current,
+            "implementation-materially-unverified",
+            "Step 6 author self-check reported unresolved verification gaps.",
+            fingerprint,
+        )
+
     payload = {
         **current,
         "implementation_blocked": False,
+        "implementation_continue": False,
         "status": "ready-for-test-integrity",
         "blockerType": None,
         "evidenceFingerprint": fingerprint,

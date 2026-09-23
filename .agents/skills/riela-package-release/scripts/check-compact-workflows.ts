@@ -352,6 +352,10 @@ const removedEvidence = { ...revisedProgress, verification: [revisedProgress.ver
 assert.equal(invokeProgressGate([revisedProgress, removedEvidence]).payload.blockerType, 'implementation-no-progress');
 assert.equal(invokeProgressGate([{ ...firstProgress, verification: ['swift test'] }]).payload.blockerType, 'implementation-materially-unverified');
 assert.equal(invokeProgressGate([{ ...firstProgress, implementationIncomplete: true }]).payload.blockerType, 'implementation-incomplete');
+const productivePartial = { ...revisedProgress, implementationIncomplete: true };
+assert.equal(invokeProgressGate([productivePartial]).payload.implementation_continue, true);
+assert.equal(invokeProgressGate([productivePartial, { ...productivePartial, implPlanUpdates: ['Completed a second seam.'] }]).payload.continuationAttempt, 2);
+assert.equal(invokeProgressGate([productivePartial, { ...productivePartial, implPlanUpdates: ['Completed a second seam.'] }, { ...productivePartial, implPlanUpdates: ['Completed a third seam.'] }]).payload.blockerType, 'implementation-incomplete');
 assert.equal(invokeProgressGate([{ ...firstProgress, risks: [{ severity: 'high', message: 'Accepted behavior remains broken.' }] }]).payload.blockerType, 'implementation-material-finding');
 assert.equal(invokeProgressGate([{ ...firstProgress, authorSelfCheck: { findings: [{ severity: 'mid', message: 'Required branch is untested.' }], verificationGaps: [], residualRisks: [] } }]).payload.blockerType, 'implementation-material-finding');
 const failedBehavioral = { ...firstProgress, verification: [
@@ -405,8 +409,9 @@ const matchingEnvironmentBlock = { ...revisedProgress, verification: [{ command:
 assert.equal(invokeProgressGate([priorBehavioral, matchingEnvironmentBlock]).payload.implementation_blocked, false);
 assert.equal(invokeProgressGate([priorBehavioral, { ...matchingEnvironmentBlock, verification: [{ command: 'swift test --filter CapabilityTests', exitStatus: 1, environmentBlocked: true, sourceHash: 'tree-other' }] }]).payload.blockerType, 'implementation-materially-unverified');
 const progressTransitions = graph.steps.find((step: any) => step.id === 'implementation-progress-check').transitions;
+assert.equal(progressTransitions.find((transition: any) => transition.label === 'implementation_continue')?.toStepId, 'step6-implement');
 assert.equal(progressTransitions.find((transition: any) => transition.label === 'implementation_blocked')?.toStepId, 'implementation-wave-outcome');
-assert.equal(progressTransitions.find((transition: any) => transition.label === '!(implementation_blocked)')?.toStepId, 'step6-test-integrity-check');
+assert.equal(progressTransitions.find((transition: any) => transition.label === '!(implementation_blocked || implementation_continue)')?.toStepId, 'step6-test-integrity-check');
 const implementationFanout = graph.steps.find((step: any) => step.id === 'dispatch-plans').transitions[0].fanout;
 assert.equal(implementationFanout.joinStepId, 'implementation-wave-outcome');
 assert.equal(graph.steps.find((step: any) => step.id === 'branch-evidence').transitions[0].toStepId, 'implementation-wave-outcome');
@@ -665,6 +670,16 @@ run(codex, 'productive-implementation-revision', m => {
     'step7-adversarial-review',
   ]);
   assert.equal(steps.filter(step => step === 'implementation-progress-check').length, 2);
+}, 'mock-scenario.json', 'step6-implement');
+run(codex, 'productive-incomplete-continuation', m => {
+  m['step6-implement'][0].payload.implementationIncomplete = true;
+}, steps => {
+  assert.deepEqual(steps.slice(0, 7), [
+    'step6-implement', 'implementation-progress-check',
+    'step6-implement', 'implementation-progress-check',
+    'step6-test-integrity-check', 'step7-adversarial-review', 'branch-evidence',
+  ]);
+  assert.equal(steps.filter(step => step === 'step6-implement').length, 2);
 }, 'mock-scenario.json', 'step6-implement');
 run(codex, 'native-fanout-dependency-blocked', m => {
   const blocked = {

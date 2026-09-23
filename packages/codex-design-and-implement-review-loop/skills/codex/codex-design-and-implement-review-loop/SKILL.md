@@ -19,6 +19,8 @@ Every agent node uses low or medium effort. Do not raise any node, especially an
 
 Design and planning each use one author node. Astra plans must state intent/context, non-goals, exact file-level changes, invariants, acceptance criteria, and evidence-producing verification commands so even a lower-capability implementation model could execute without inventing scope. Commit accepted plans before native same-branch implementation/review fanout. Sol implementation and test-integrity maximize safely independent delegated investigation and verification while retaining a single integration owner and avoiding overlapping edits. The join aggregates runtime-owned change evidence; serial repair and independent combined review are mandatory before final commit, push and base integration. No worktrees. Failed branches remain pending; accepted IDs feed native dependency scheduling. Requires the matching Riela fanout.dependencies/changeTracking support.
 
+An incomplete Step 6 attempt with concrete new change, plan-progress, and passing behavioral-test evidence may continue in the same branch at most twice without repeating design and planning. External blockers, repeated evidence, missing material verification, and a third consecutive incomplete attempt terminate with an actionable handoff; incomplete work never enters review or Git finalization.
+
 ## Run
 
 ```bash

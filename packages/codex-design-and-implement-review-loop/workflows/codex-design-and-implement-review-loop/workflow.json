@@ -409,16 +409,20 @@
     {
       "id": "implementation-progress-check",
       "nodeId": "implementation-progress-check",
-      "description": "Mechanically classify the latest branch-local Step 6 evidence before any integrity or adversarial review.",
+      "description": "Mechanically classify Step 6 evidence, allowing bounded productive continuation before review.",
       "role": "worker",
       "transitions": [
+        {
+          "toStepId": "step6-implement",
+          "label": "implementation_continue"
+        },
         {
           "toStepId": "implementation-wave-outcome",
           "label": "implementation_blocked"
         },
         {
           "toStepId": "step6-test-integrity-check",
-          "label": "!(implementation_blocked)"
+          "label": "!(implementation_blocked || implementation_continue)"
         }
       ]
     },

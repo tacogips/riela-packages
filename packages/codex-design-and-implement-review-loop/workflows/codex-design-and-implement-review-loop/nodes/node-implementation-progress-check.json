@@ -1,6 +1,6 @@
 {
   "id": "implementation-progress-check",
-  "description": "Mechanically fail closed when a branch-local implementation attempt is blocked, incomplete, materially unverified, contains material findings, or repeats its prior evidence.",
+  "description": "Mechanically continue a bounded productive incomplete implementation, or fail closed on blockers, no progress, and material verification gaps.",
   "nodeType": "command",
   "modelFreeze": false,
   "variables": {},
@@ -8,6 +8,6 @@
     "scriptPath": "scripts/implementation-progress-check.py"
   },
   "output": {
-    "description": "Return a code-owned implementation_blocked discriminator, normalized evidence fingerprint, actionable blockers, and resume criteria."
+    "description": "Return code-owned blocked/continue discriminators, normalized evidence fingerprint, actionable blockers, and resume criteria."
   }
 }
