@@ -6,6 +6,9 @@
   "model": "gpt-6-sol",
   "modelFreeze": false,
   "effort": "medium",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
   "systemPromptTemplateFile": "prompts/runtime-provenance-system.md",
   "promptTemplateFile": "prompts/step5-impl-plan-review.md",
   "variables": {},

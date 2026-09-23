@@ -284,7 +284,7 @@
   "step6-implement": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-luna",
+      "model": "gpt-6-sol",
       "when": {
         "always": true
       },
@@ -316,7 +316,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-luna",
+      "model": "gpt-6-sol",
       "when": {
         "always": true
       },
@@ -805,7 +805,7 @@
   },
   "reconcile-implementations": {
     "provider": "scenario-mock",
-    "model": "gpt-6-luna",
+    "model": "gpt-6-sol",
     "when": {
       "always": true
     },

@@ -11,13 +11,13 @@ manually emulating its orchestration.
 ## Responsibility split
 
 - Codex `gpt-6-astra` medium effort: design documentation, implementation-plan authoring, and final combined-tree integration review
-- Codex `gpt-6-luna` medium effort: implementation, revisions, and overwrite repair
-- Codex `gpt-6-sol` medium effort: design, plan, test-integrity, and the single adversarial implementation review
+- Codex `gpt-6-sol` medium effort: implementation, revisions, overwrite repair, test-integrity, and the single adversarial implementation review
+- Repeated implementation, reconciliation, and review attempts reuse their role-local backend session. Astra implementation-plan authoring and integration review inherit the Astra design session so accepted intent stays available without merging implementation and adversarial-review contexts.
 - Other coordination uses Codex `gpt-6-sol`. The adversarial gate accepts only material spec violations, correctness/data-loss/security risks, likely regressions, or missing material verification; it rejects style nits, naming-only feedback, speculative refactors, and overengineering.
 
 Every agent node uses low or medium effort. Do not raise any node, especially an Astra node, to high, xhigh, or extra-high effort.
 
-Design and planning each use one author node. Astra plans must state intent/context, non-goals, exact file-level changes, invariants, acceptance criteria, and evidence-producing verification commands so Luna can execute without inventing scope. Commit accepted plans before native same-branch implementation/review fanout. Luna implementation and Sol test-integrity maximize safely independent delegated investigation and verification while retaining a single integration owner and avoiding overlapping edits. The join aggregates runtime-owned change evidence; serial repair and independent combined review are mandatory before final commit, push and base integration. No worktrees. Failed branches remain pending; accepted IDs feed native dependency scheduling. Requires the matching Riela fanout.dependencies/changeTracking support.
+Design and planning each use one author node. Astra plans must state intent/context, non-goals, exact file-level changes, invariants, acceptance criteria, and evidence-producing verification commands so even a lower-capability implementation model could execute without inventing scope. Commit accepted plans before native same-branch implementation/review fanout. Sol implementation and test-integrity maximize safely independent delegated investigation and verification while retaining a single integration owner and avoiding overlapping edits. The join aggregates runtime-owned change evidence; serial repair and independent combined review are mandatory before final commit, push and base integration. No worktrees. Failed branches remain pending; accepted IDs feed native dependency scheduling. Requires the matching Riela fanout.dependencies/changeTracking support.
 
 ## Run
 

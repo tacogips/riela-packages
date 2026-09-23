@@ -3,7 +3,10 @@
   "description": "You are the sole writer after the native fanout join. All workers in the wave have stopped. On revision, read the latest integration-review feedback.",
   "executionBackend": "codex-agent",
   "agentSandbox": "workspace-write",
-  "model": "gpt-6-luna",
+  "model": "gpt-6-sol",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
   "promptTemplateFile": "prompts/reconcile-implementations.md",
   "variables": {},
   "effort": "medium",

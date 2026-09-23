@@ -2,7 +2,7 @@
 
 Use the paired Riela source build and workflow validate/inspect with --workflow-definition-dir pointing to the package workflows directory. Run each bundled mock scenario with an isolated --session-store and --artifact-root; no live models or Git mutations are executed.
 
-- mock-scenario.json: completed, exitCode 0. Astra authors the design and plan; Luna implements and reconciles; Sol runs the intake, design/plan/test-integrity gates and one adversarial material-issue review; Astra accepts the combined design/implementation before final Git operations. There is no duplicate ordinary Step 7 review. plan-git-commit precedes native implementation fanout, and each branch stops before reconcile-implementations.
+- mock-scenario.json: completed, exitCode 0. Astra authors the design and plan; Sol implements, reconciles, and runs the intake, design/plan/test-integrity gates and one adversarial material-issue review; Astra accepts the combined design/implementation before final Git operations. There is no duplicate ordinary Step 7 review. plan-git-commit precedes native implementation fanout, and each branch stops before reconcile-implementations.
 - mock-scenario-fanout.json: two items become two fanout branches, joined in input order. Both implementation/review subpaths run; the parent performs reconciliation and finalization once. No feature-local planning fanout.
 - mock-scenario-planning-only.json: completed, exitCode 0. No dispatch-plans, implementation or reconciliation; plans remain active, final documentation commit/push and base integration run.
 

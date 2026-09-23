@@ -4,6 +4,9 @@
   "executionBackend": "codex-agent",
   "agentSandbox": "read-only",
   "model": "gpt-6-astra",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
   "promptTemplateFile": "prompts/integration-review.md",
   "variables": {},
   "effort": "medium",

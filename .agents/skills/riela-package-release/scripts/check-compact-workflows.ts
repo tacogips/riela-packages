@@ -19,7 +19,7 @@ for (const id of readdirSync(join(root, 'packages'))) {
 }
 const codex = 'codex-design-and-implement-review-loop';
 const refactor = 'codex-refactoring-divide-and-conquer';
-// Codex implementation and lost-work repair use Luna medium effort. Other
+// Codex implementation and lost-work repair use Sol medium effort. Other
 // compact workflows retain their deliberately cheaper implementation setting.
 for (const [id, nodes] of [
   [codex, ['step6-implement', 'reconcile-implementations']],
@@ -30,7 +30,7 @@ for (const [id, nodes] of [
   for (const node of nodes) {
     const payload = read(join(bundle(id), 'nodes', `node-${node}.json`));
     assert.equal(payload.executionBackend, 'codex-agent');
-    assert.equal(payload.model, id === codex ? 'gpt-6-luna' : 'gpt-5.6-sol', `${id}/${node}: implementation model`);
+    assert.equal(payload.model, id === codex ? 'gpt-6-sol' : 'gpt-5.6-sol', `${id}/${node}: implementation model`);
     assert.equal(payload.effort, id === codex ? 'medium' : 'low', `${id}/${node}: implementation effort`);
   }
 }
@@ -57,6 +57,16 @@ assert.equal(read(join(bundle(codex), 'nodes/node-dispatch-plans.json')).model, 
 assert.equal(read(join(bundle(codex), 'nodes/node-implementation-wave-outcome.json')).model, 'gpt-6-sol');
 assert.equal(read(join(bundle(codex), 'nodes/node-implementation-blocked-output.json')).model, 'gpt-6-sol');
 const codexGraph = read(join(bundle(codex), 'workflow.json'));
+for (const node of ['step6-implement', 'reconcile-implementations', 'step3-design-review', 'step5-impl-plan-review', 'step6-test-integrity-check', 'step7-adversarial-review', 'integration-review']) {
+  assert.deepEqual(read(join(bundle(codex), 'nodes', `node-${node}.json`)).sessionPolicy, { mode: 'reuse' }, `${node}: role-local session reuse`);
+}
+for (const step of ['step4-impl-plan-create', 'integration-review']) {
+  assert.deepEqual(
+    codexGraph.steps.find((candidate: any) => candidate.id === step).sessionPolicy,
+    { mode: 'reuse', inheritFromStepId: 'step2-design-doc-update' },
+    `${step}: inherit Astra design session`,
+  );
+}
 for (const entry of codexGraph.nodes.filter((node: any) => node.nodeFile)) {
   const payload = read(join(bundle(codex), entry.nodeFile));
   if (payload.executionBackend !== 'codex-agent') continue;
@@ -397,7 +407,7 @@ run(codex, 'implementation-dependency-blocked', m => {
     verification: [],
     addressedFeedback: [],
     risks: ['External prerequisite remains incomplete.'],
-  }, { implementation_blocked: true } as any), model: 'gpt-6-luna' };
+  }, { implementation_blocked: true } as any), model: 'gpt-6-sol' };
   m['implementation-wave-outcome'] = output({
     implementation_blocked: true,
     partial_success: false,
@@ -440,7 +450,7 @@ run(codex, 'implementation-no-progress-terminal', m => {
       addressedFeedback: [],
       risks: ['An accepted requirement remains unresolved.'],
     }),
-    model: 'gpt-6-luna',
+    model: 'gpt-6-sol',
   };
   // Queue two identical no-change attempts. The deterministic gate must stop
   // after the first, leaving the second attempt unconsumed.
@@ -492,7 +502,7 @@ run(codex, 'implementation-materially-unverified-terminal', m => {
       risks: [],
       authorSelfCheck: { findings: [], verificationGaps: [], residualRisks: [] },
     }),
-    model: 'gpt-6-luna',
+    model: 'gpt-6-sol',
   };
   m['implementation-wave-outcome'] = output({
     implementation_blocked: true,
@@ -565,7 +575,7 @@ run(codex, 'native-fanout-dependency-blocked', m => {
       addressedFeedback: [],
       risks: ['External prerequisite remains incomplete.'],
     }, { implementation_blocked: true } as any),
-    model: 'gpt-6-luna',
+    model: 'gpt-6-sol',
   };
   m['step6-implement'] = [blocked, structuredClone(blocked)];
   m['implementation-wave-outcome'] = output({

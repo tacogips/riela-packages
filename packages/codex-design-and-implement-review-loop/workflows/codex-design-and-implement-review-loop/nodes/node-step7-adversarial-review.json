@@ -6,6 +6,9 @@
   "model": "gpt-6-sol",
   "modelFreeze": false,
   "effort": "medium",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
   "promptTemplateFile": "prompts/step7-adversarial-review.md",
   "variables": {},
   "output": {

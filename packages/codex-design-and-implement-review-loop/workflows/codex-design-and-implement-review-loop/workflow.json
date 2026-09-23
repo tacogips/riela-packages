@@ -333,6 +333,10 @@
       "nodeId": "step4-impl-plan-create",
       "description": "Create or revise the implementation plan from the accepted design.",
       "role": "worker",
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "step2-design-doc-update"
+      },
       "loop": {
         "role": "worker",
         "evidenceTags": [
@@ -664,6 +668,10 @@
       "nodeId": "integration-review",
       "description": "Independently verify retained plan behavior and repairs before another wave or finalization.",
       "role": "worker",
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "step2-design-doc-update"
+      },
       "loop": {
         "role": "gate",
         "gateId": "integration-review",
