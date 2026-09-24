@@ -56,6 +56,31 @@ def latest_value(messages: list[dict[str, Any]], key: str) -> Any:
     return None
 
 
+def latest_integration_feedback(messages: list[dict[str, Any]]) -> dict[str, Any] | None:
+    for message in reversed(messages):
+        if message.get("fromStepId") != "integration-review":
+            continue
+        for candidate in nested_dicts(message.get("payload")):
+            if candidate.get("needs_revision") is not True:
+                continue
+            findings = candidate.get("findings")
+            if not isinstance(findings, list) or any(not isinstance(item, dict) for item in findings):
+                raise ValueError("integration-review revision must provide structured findings")
+            diagnostic = candidate.get("recoveryDiagnostic")
+            if diagnostic is not None and not isinstance(diagnostic, str):
+                raise ValueError("integration-review recoveryDiagnostic must be text")
+            return {
+                "findings": findings,
+                "recoveryDiagnostic": diagnostic or "",
+            }
+        return None
+    return None
+
+
+def path_is_owned(path: str, owned_paths: list[str]) -> bool:
+    return any(path == owned or path.startswith(f"{owned}/") for owned in owned_paths)
+
+
 def clean_string(value: Any, field: str) -> str:
     if not isinstance(value, str) or not value.strip():
         raise ValueError(f"{field} must be a non-empty string")
@@ -259,8 +284,19 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
     base_branch = clean_string(manifest.get("baseBranch"), "baseBranch")
     remote = clean_string(manifest.get("remote"), "remote")
     evidence_root = manifest_evidence_root(manifest, root)
+    feedback = latest_integration_feedback(messages)
 
     items: list[dict[str, Any]] = []
+    unmatched_material_paths: set[str] = set()
+    if feedback is not None:
+        for finding in feedback["findings"]:
+            if finding.get("severity") not in {"high", "mid", "medium"}:
+                continue
+            file_path = finding.get("file") or finding.get("filePath")
+            if file_path is not None:
+                unmatched_material_paths.add(
+                    safe_relative_path(file_path, "integration-review.findings[].file", root)
+                )
     for plan in plans:
         plan_id = clean_string(plan.get("planId"), "plans[].planId")
         write_paths = [
@@ -274,6 +310,17 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
         tracked_paths = list(dict.fromkeys(write_paths + shared_paths))
         if not tracked_paths:
             raise ValueError(f"{plan_id} has no tracked write or shared paths")
+        plan_findings: list[dict[str, Any]] = []
+        if feedback is not None:
+            for finding in feedback["findings"]:
+                file_path = finding.get("file") or finding.get("filePath")
+                if file_path is None:
+                    plan_findings.append(finding)
+                    continue
+                relative = safe_relative_path(file_path, "integration-review.findings[].file", root)
+                if plan_id not in accepted and path_is_owned(relative, write_paths):
+                    plan_findings.append(finding)
+                    unmatched_material_paths.discard(relative)
         items.append(
             {
                 "planId": plan_id,
@@ -288,6 +335,10 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
                 ),
                 "verification": verification_commands(plan.get("verification", []), f"{plan_id}.verification"),
                 "reviewContext": context,
+                "reviewFeedback": {
+                    "findings": plan_findings,
+                    "recoveryDiagnostic": feedback["recoveryDiagnostic"] if feedback else "",
+                },
                 "manifestPath": relative_manifest,
                 "checkpointCommit": checkpoint,
                 "implementationBranch": implementation_branch,
@@ -295,6 +346,13 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
                 "remote": remote,
                 "evidenceRoot": evidence_root,
             }
+        )
+
+    if unmatched_material_paths:
+        paths = ", ".join(sorted(unmatched_material_paths))
+        raise ValueError(
+            "bounded checkpoint amendment required before redispatch: "
+            f"material integration-review paths outside manifest writePaths: {paths}"
         )
 
     return {

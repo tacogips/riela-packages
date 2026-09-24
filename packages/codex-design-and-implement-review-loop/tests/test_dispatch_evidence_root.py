@@ -8,6 +8,7 @@ import subprocess
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 
 SCRIPT = (
@@ -109,6 +110,69 @@ class ManifestEvidenceRootTests(unittest.TestCase):
             push["payload"]["git"].update(status="pushed", commitHash="--help")
             with self.assertRaisesRegex(ValueError, "commit hash is invalid"):
                 dispatch_plans.checkpoint_source([push], root)
+
+    def test_integration_revision_is_projected_to_owned_plan(self) -> None:
+        result = self._project_revision("Tests/owned.swift")
+        items = result["payload"]["implementationItems"]
+        self.assertEqual(len(items), 1)
+        self.assertEqual(items[0]["reviewFeedback"]["findings"][0]["file"], "Tests/owned.swift")
+
+    def test_integration_revision_outside_ownership_requires_amendment(self) -> None:
+        with self.assertRaisesRegex(ValueError, "bounded checkpoint amendment required.*Tests/catalog.swift"):
+            self._project_revision("Tests/catalog.swift")
+
+    def _project_revision(self, finding_path: str) -> dict:
+        scratch_root = self.root.parents[1] / "tmp"
+        scratch_root.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=scratch_root) as directory:
+            root = Path(directory)
+            manifest_path = "impl-plans/active/dispatch.json"
+            manifest_file = root / manifest_path
+            manifest_file.parent.mkdir(parents=True)
+            manifest_file.write_text(json.dumps({
+                "taskId": "review-retry",
+                "workflowMode": "issue-resolution",
+                "implementationBranch": "feat/retry",
+                "baseBranch": "main",
+                "remote": "origin",
+                "evidenceRoot": "tmp/review-retry",
+                "reviewContext": {
+                    "issueReference": "issue-1",
+                    "userProblem": "Repair the example catalog",
+                    "requiredOutcomes": ["Catalog validates replacement examples"],
+                    "nonGoals": [],
+                    "constraints": [],
+                    "designDecisionsAndRationale": [],
+                    "intentionalTradeoffs": [],
+                    "supportedEdgeCases": [],
+                    "outOfScopeEdgeCases": [],
+                    "sourcePaths": ["Tests/owned.swift"],
+                },
+                "plans": [{
+                    "planId": "example-tests",
+                    "planPath": "impl-plans/active/plan.md",
+                    "dependsOn": [],
+                    "writePaths": ["Tests/owned.swift"],
+                    "sharedPaths": [],
+                    "acceptanceCriteria": ["Catalog test passes"],
+                    "verification": ["swift test --filter CatalogTests"],
+                }],
+            }))
+            messages = [
+                {"fromStepId": "plan-git-push", "createdOrder": 1, "payload": {}},
+                {"fromStepId": "integration-review", "createdOrder": 2, "payload": {
+                    "needs_revision": True,
+                    "redispatch_required": True,
+                    "repair_in_place": False,
+                    "findings": [{"severity": "mid", "file": finding_path, "message": "Missing catalog coverage"}],
+                    "recoveryDiagnostic": "Repair the reviewed catalog test",
+                }},
+            ]
+            envelope = {"input": {"_rielaInput": {"messages": messages}}}
+            with mock.patch.object(dispatch_plans.Path, "cwd", return_value=root), \
+                 mock.patch.object(dispatch_plans, "checkpoint_source", return_value=(manifest_path, "a" * 40)), \
+                 mock.patch.object(dispatch_plans, "verify_checkpoint"):
+                return dispatch_plans.project(envelope)
 
 
 if __name__ == "__main__":
