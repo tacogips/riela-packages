@@ -106,6 +106,22 @@ class ImplementationContinuationTests(unittest.TestCase):
         self.assertEqual(result["when"], {"implementation_blocked": False})
         self.assertFalse(result["payload"]["implementation_continue"])
 
+    def test_post_review_finalization_is_not_step_six_incomplete(self) -> None:
+        prompt = (SCRIPT.parents[1] / "prompts/step6-implement.md").read_text()
+        self.assertIn("Separate implementation-phase completeness from workflow-finalization completeness", prompt)
+        self.assertIn("review-dependent shared documentation/index updates", prompt)
+        self.assertIn("Their pending status alone must not set `implementationIncomplete`", prompt)
+
+        completed = attempt(3, incomplete=False)
+        completed["implementationSummary"] = (
+            "D1-D4 verified; formal review and D5 documentation/publication are downstream."
+        )
+        completed["authorSelfCheck"]["verificationGaps"] = []
+        completed["risks"] = ["Historical non-slice broad failures remain open for parent P1."]
+        result = progress.classify(envelope(attempt(1), attempt(2), completed))
+        self.assertEqual(result["when"], {"implementation_blocked": False})
+        self.assertEqual(result["payload"]["status"], "ready-for-test-integrity")
+
     def test_bunx_vitest_is_behavioral_evidence(self) -> None:
         current = attempt(1)
         current["verification"][0]["command"] = (
