@@ -233,6 +233,17 @@
       }
     },
     {
+      "id": "plan-git-push",
+      "addon": {
+        "name": "riela/git-push",
+        "version": "1",
+        "config": {
+          "allowPush": true,
+          "expectedCommitHashTemplate": "{{inbox.latest.output.payload.git.commitHash}}"
+        }
+      }
+    },
+    {
       "id": "dispatch-plans",
       "nodeFile": "nodes/node-dispatch-plans.json"
     },
@@ -585,6 +596,17 @@
       "id": "plan-git-commit",
       "nodeId": "plan-git-commit",
       "description": "Commit accepted designs, plans and dispatch manifest before any implementation.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "plan-git-push"
+        }
+      ]
+    },
+    {
+      "id": "plan-git-push",
+      "nodeId": "plan-git-push",
+      "description": "Publish the exact accepted plan checkpoint before implementation so the final Git push has one unpublished commit.",
       "role": "worker",
       "transitions": [
         {

@@ -408,12 +408,27 @@
       "git": {
         "status": "committed",
         "commitHash": "1111111111111111111111111111111111111111",
+        "commitMessage": "docs: checkpoint accepted plans",
+        "committedFiles": [
+          "impl-plans/active/mock-dispatch.json",
+          "impl-plans/active/a.md"
+        ],
         "operation": "commit"
-      },
-      "committedFiles": [
-        "impl-plans/active/mock-dispatch.json",
-        "impl-plans/active/a.md"
-      ]
+      }
+    }
+  },
+  "plan-git-push": {
+    "provider": "scenario-mock",
+    "model": "riela/git-push@1",
+    "when": { "always": true },
+    "payload": {
+      "git": {
+        "status": "pushed",
+        "commitHash": "1111111111111111111111111111111111111111",
+        "pushedRemote": "origin",
+        "pushedBranch": "main",
+        "operation": "push"
+      }
     }
   },
   "dispatch-plans": {

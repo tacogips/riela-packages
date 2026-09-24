@@ -195,7 +195,7 @@ assert.deepEqual(fanoutScenario['plan-checkpoint'].payload.committedFiles, [
   'impl-plans/active/a.md',
 ]);
 assert.deepEqual(
-  fanoutScenario['plan-git-commit'].payload.committedFiles,
+  fanoutScenario['plan-git-commit'].payload.git.committedFiles,
   fanoutScenario['plan-checkpoint'].payload.committedFiles,
 );
 assert(fanoutScenario['dispatch-plans'].payload.implementationItems.some((item: any) => item.planPath === 'impl-plans/active/b.md'));
@@ -264,7 +264,7 @@ assert.equal(guardedLint.status, 0, guardedLint.stderr);
 assert.equal(guardedLint.stdout, 'skipped');
 const waveOutcomePrompt = readFileSync(join(bundle(codex), 'prompts/implementation-wave-outcome.md'), 'utf8');
 assert.match(waveOutcomePrompt, /never add a wave blocker merely because a downstream-owned plan remains pending/i);
-const expected = new Map([[codex, 25], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 24]]);
+const expected = new Map([[codex, 26], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 24]]);
 for (const [id, count] of expected) {
   const w = read(join(bundle(id), 'workflow.json'));
   assert.equal(w.steps.length, count);
@@ -319,6 +319,17 @@ assert.match(managerPrompt, /dispatch.*step1-issue-intake/i);
 assert.match(managerPrompt, /do not perform any repository work yourself/i);
 const checkpointTransitions = graph.steps.find((step: any) => step.id === 'plan-checkpoint').transitions;
 assert.deepEqual(checkpointTransitions, [{ toStepId: 'plan-git-commit', label: '!(checkpoint_blocked)' }]);
+assert.deepEqual(graph.steps.find((step: any) => step.id === 'plan-git-commit').transitions, [
+  { toStepId: 'plan-git-push' },
+]);
+assert.deepEqual(graph.steps.find((step: any) => step.id === 'plan-git-push').transitions, [
+  { toStepId: 'dispatch-plans' },
+]);
+const checkpointPush = graph.nodes.find((node: any) => node.id === 'plan-git-push')?.addon;
+assert.equal(checkpointPush?.name, 'riela/git-push');
+assert.equal(checkpointPush?.version, '1');
+assert.equal(checkpointPush?.config?.allowPush, true);
+assert.equal(checkpointPush?.config?.expectedCommitHashTemplate, '{{inbox.latest.output.payload.git.commitHash}}');
 assert.equal(graph.loop.gates.length, 6);
 assert(!graph.nodes.some((node: any) => node.id === 'step7-review'));
 assert(!graph.steps.some((step: any) => step.id === 'step7-review'));
@@ -503,6 +514,7 @@ run(codex, 'checkpoint-no-op-blocked', m => {
 }, steps => {
   assert.deepEqual(steps, ['plan-checkpoint']);
   assert(!steps.includes('plan-git-commit'));
+  assert(!steps.includes('plan-git-push'));
   assert(!steps.includes('dispatch-plans'));
 }, 'mock-scenario.json', 'plan-checkpoint');
 run(codex, 'implementation-dependency-blocked', m => {
@@ -786,7 +798,9 @@ run(codex, 'native-fanout-partial-success-selective-redispatch', m => {
   assert.deepEqual(retryJoin?.dispatchedBranchIds, ['b'], 'accepted candidate must not be redispatched');
 }, 'mock-scenario-fanout.json');
 run(codex, 'two-branch-native-fanout', () => {}, steps => {
-  assert(steps.indexOf('plan-git-commit') < steps.indexOf('dispatch-plans'));
+  assert(steps.indexOf('plan-git-commit') < steps.indexOf('plan-git-push'));
+  assert(steps.indexOf('plan-git-push') < steps.indexOf('dispatch-plans'));
+  assert.equal(steps.filter(step => step === 'plan-git-push').length, 1);
   assert(steps.indexOf('dispatch-plans') < steps.indexOf('reconcile-implementations'));
   assert(steps.indexOf('integration-review') < steps.indexOf('step10-git-commit'));
   assert.equal(steps.filter(s => s === 'step10-git-commit').length, 1);

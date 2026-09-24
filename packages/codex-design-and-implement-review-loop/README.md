@@ -55,7 +55,7 @@ Implementation plans are deliberately detailed enough for even a lower-capabilit
 
 For Swift changes, selected-file strict SwiftLint uses only a nonempty NUL-delimited changed-file manifest. It retains the target repository's rules and never starts argument-less SwiftLint, which would apply `.swiftlint.yml` `included` paths to unrelated baseline files.
 
-Git operations are serialized: planning checkpoint, final implementation commit/push, and base-branch integration. workflowInput.baseBranch defaults to the current branch; an explicit different base is merged only after combined verification. No force push or automatic discard of unrelated edits. A blocked merge/push prevents completion.
+Git operations are serialized: the accepted plan checkpoint is committed and non-force pushed before implementation, then the final implementation commit is non-force pushed before base-branch integration. This keeps each built-in push limited to one unpublished commit. workflowInput.baseBranch defaults to the current branch; an explicit different base is merged only after combined verification. No force push or automatic discard of unrelated edits. A blocked checkpoint or final push prevents completion.
 
 The planning checkpoint manifest always references every accepted design and plan, while its git `committedFiles` allowlist contains only the newly written manifest and accepted design/plan files that actually differ from HEAD. Already committed accepted files remain valid manifest inputs but are never added to the exact staged set. An empty or indeterminate checkpoint terminates explicitly as blocked instead of requesting an empty commit.
 
