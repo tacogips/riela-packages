@@ -44,6 +44,35 @@ class ManifestEvidenceRootTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "taskId must be a safe path component"):
             dispatch_plans.manifest_evidence_root({"taskId": "../other"}, self.root)
 
+    def test_chat_request_uses_recorded_intake_id(self) -> None:
+        context = {
+            "issueReference": None,
+            "intakeCommunicationId": "comm-001883",
+            "userProblem": "Show readable links",
+            "requiredOutcomes": ["Readable links are listed"],
+            "nonGoals": [],
+            "constraints": [],
+            "designDecisionsAndRationale": [
+                {"decision": "Use cursor pages", "rationale": "Bounds response size"}
+            ],
+            "intentionalTradeoffs": [],
+            "supportedEdgeCases": [],
+            "outOfScopeEdgeCases": [],
+            "sourcePaths": ["workflows/codex-design-and-implement-review-loop/workflow.json"],
+        }
+        result = dispatch_plans.normalized_review_context(context, self.root)
+        self.assertEqual(result["issueReference"], "comm-001883")
+        self.assertEqual(
+            result["designDecisionsAndRationale"],
+            ["Use cursor pages Rationale: Bounds response size"],
+        )
+
+    def test_chat_request_without_recorded_intake_id_is_rejected(self) -> None:
+        with self.assertRaisesRegex(ValueError, "issueReference must identify"):
+            dispatch_plans.normalized_review_context(
+                {"issueReference": None, "intakeCommunicationId": None}, self.root
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

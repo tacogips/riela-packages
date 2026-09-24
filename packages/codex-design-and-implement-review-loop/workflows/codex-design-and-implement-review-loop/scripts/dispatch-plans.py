@@ -82,6 +82,20 @@ def verification_commands(value: Any, field: str) -> list[str]:
     return clean_string_list(value, field)
 
 
+def design_decisions(value: Any) -> list[str]:
+    if not isinstance(value, list):
+        raise ValueError("reviewContext.designDecisionsAndRationale must be an array")
+    normalized: list[str] = []
+    for item in value:
+        if isinstance(item, dict) and set(item) == {"decision", "rationale"}:
+            decision = clean_string(item["decision"], "reviewContext.designDecisionsAndRationale[].decision")
+            rationale = clean_string(item["rationale"], "reviewContext.designDecisionsAndRationale[].rationale")
+            normalized.append(f"{decision} Rationale: {rationale}")
+        else:
+            normalized.append(clean_string(item, "reviewContext.designDecisionsAndRationale[]"))
+    return list(dict.fromkeys(normalized))
+
+
 def safe_relative_path(value: Any, field: str, root: Path) -> str:
     path_text = clean_string(value, field)
     path = Path(path_text)
@@ -158,13 +172,20 @@ def issue_reference(value: Any) -> str:
 def normalized_review_context(value: Any, root: Path) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise ValueError("reviewContext must be an object")
-    result: dict[str, Any] = {"issueReference": issue_reference(value.get("issueReference"))}
+    reference = value.get("issueReference")
+    if reference is None:
+        reference = {"communicationId": value.get("intakeCommunicationId")}
+    result: dict[str, Any] = {"issueReference": issue_reference(reference)}
     result["userProblem"] = clean_string(value.get("userProblem"), "reviewContext.userProblem")
     for key in REVIEW_CONTEXT_KEYS[2:]:
-        result[key] = clean_string_list(
-            value.get(key),
-            f"reviewContext.{key}",
-            nonempty=key in {"requiredOutcomes", "sourcePaths"},
+        result[key] = (
+            design_decisions(value.get(key))
+            if key == "designDecisionsAndRationale"
+            else clean_string_list(
+                value.get(key),
+                f"reviewContext.{key}",
+                nonempty=key in {"requiredOutcomes", "sourcePaths"},
+            )
         )
     result["sourcePaths"] = [
         safe_relative_path(path, "reviewContext.sourcePaths[]", root)
