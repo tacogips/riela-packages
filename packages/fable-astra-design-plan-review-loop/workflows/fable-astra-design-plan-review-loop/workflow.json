@@ -1,0 +1,102 @@
+{
+  "workflowId": "fable-astra-design-plan-review-loop",
+  "description": "Fable 5 authors design and implementation plans; GPT-6 Astra adversarially reviews both and drives bounded revision rounds.",
+  "defaults": {
+    "maxLoopIterations": 8,
+    "nodeTimeoutMs": 3600000
+  },
+  "entryStepId": "fable-author",
+  "prompts": {
+    "workerSystemPromptTemplate": "Return adapter JSON with when and payload. Preserve workflowInput, artifact revision, findings and discussion history. Planning documents only; do not implement, commit or push."
+  },
+  "nodes": [
+    {
+      "id": "fable-author",
+      "nodeFile": "nodes/node-fable-author.json"
+    },
+    {
+      "id": "astra-review",
+      "nodeFile": "nodes/node-astra-review.json"
+    },
+    {
+      "id": "workflow-output",
+      "nodeFile": "nodes/node-workflow-output.json",
+      "kind": "output"
+    }
+  ],
+  "steps": [
+    {
+      "id": "fable-author",
+      "nodeId": "fable-author",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "astra-review"
+        }
+      ]
+    },
+    {
+      "id": "astra-review",
+      "nodeId": "astra-review",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "workflow-output",
+          "label": "accepted"
+        },
+        {
+          "toStepId": "fable-author",
+          "label": "!(accepted)"
+        }
+      ],
+      "loop": {
+        "role": "gate",
+        "gateId": "planning-review"
+      }
+    },
+    {
+      "id": "workflow-output",
+      "nodeId": "workflow-output",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielaPackage": {
+      "title": "fable-astra-design-plan-review-loop",
+      "description": "Fable 5 authors design and implementation plans; GPT-6 Astra adversarially reviews both and drives bounded revision rounds.",
+      "tags": [
+        "workflow",
+        "design",
+        "impl-plan",
+        "fable",
+        "astra",
+        "adversarial-review"
+      ],
+      "backends": [
+        "claude-code-agent",
+        "codex-agent"
+      ]
+    }
+  },
+  "loop": {
+    "kind": "design-plan-review",
+    "required": false,
+    "convergence": {
+      "maxGateVisits": 8,
+      "maxRepeatedFindingRounds": 2,
+      "onStall": "fail"
+    },
+    "gates": [
+      {
+        "id": "planning-review",
+        "stepId": "astra-review",
+        "required": false,
+        "acceptWhen": {
+          "decision": "accepted",
+          "maxHighFindings": 0,
+          "maxMediumFindings": 0
+        }
+      }
+    ]
+  }
+}

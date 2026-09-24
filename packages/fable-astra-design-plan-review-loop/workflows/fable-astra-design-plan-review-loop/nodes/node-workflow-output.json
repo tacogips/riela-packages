@@ -1,0 +1,14 @@
+{
+  "id": "workflow-output",
+  "description": "Report the reviewed artifact revision and remaining risks without editing it.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-6-astra",
+  "modelFreeze": true,
+  "effort": "medium",
+  "agentSandbox": "read-only",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "variables": {},
+  "promptTemplateFile": "prompts/workflow-output.md"
+}

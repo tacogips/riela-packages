@@ -321,6 +321,8 @@ available for single-workflow use and for package dependencies.
 
 These packages use `claude-code-agent`. The Codex-derived variants inherit the matching Codex workflow with `workflow.json` `extends`, then patch agent nodes to Claude Code Opus 5.5 and rewrite same-family workflow calls.
 
+- [fable-astra-design-plan-review-loop](packages/fable-astra-design-plan-review-loop) -
+  Fable 5 design and implementation planning with GPT-6 Astra adversarial review and revision.
 - [fable-and-improve-codex](packages/fable-and-improve-codex) -
   Fable authors design/plans; Codex Terra implements, Terra reviews, and Astra checks combined consistency. Native shared-branch fanout, overwrite reconciliation and serialized Git finalization.
 - [fable-and-improve-opus](packages/fable-and-improve-opus) -
@@ -484,6 +486,7 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 | [claude-code-task-watchdog](packages/claude-code-task-watchdog) | workflow | `claude-code-agent` | Claude |
 | [claude-code-website-builder](packages/claude-code-website-builder) | workflow | `claude-code-agent` | - |
 | [claude-code-worker-only-single-step](packages/claude-code-worker-only-single-step) | workflow | `claude-code-agent` | - |
+| [fable-astra-design-plan-review-loop](packages/fable-astra-design-plan-review-loop) | workflow | `claude-code-agent`, `codex-agent` | Claude, Codex |
 | [fable-and-improve-codex](packages/fable-and-improve-codex) | workflow | `claude-code-agent`, `codex-agent` | Claude, Codex |
 | [fable-and-improve-opus](packages/fable-and-improve-opus) | workflow | `claude-code-agent` | Claude |
 | [cursor-cli-adversarial-implementation-review-loop](packages/cursor-cli-adversarial-implementation-review-loop) | workflow | `cursor-cli-agent` | - |

@@ -1,0 +1,14 @@
+{
+  "id": "fable-author",
+  "description": "Create or revise both planning artifacts and respond to each Astra finding.",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-fable-5",
+  "modelFreeze": true,
+  "effort": "medium",
+  "agentSandbox": "workspace-write",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "variables": {},
+  "promptTemplateFile": "prompts/fable-author.md"
+}

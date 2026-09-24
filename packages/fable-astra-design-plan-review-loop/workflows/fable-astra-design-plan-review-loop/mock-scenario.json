@@ -1,0 +1,130 @@
+{
+  "fable-author": [
+    {
+      "provider": "scenario-mock",
+      "model": "claude-fable-5",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "workflowInput": {
+          "requestedOutcome": "Plan retry-safe writes"
+        },
+        "designDocPaths": [
+          "design-docs/retry.md"
+        ],
+        "implPlanPaths": [
+          "impl-plans/retry.md"
+        ],
+        "revision": 1,
+        "authorResponses": []
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "claude-fable-5",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "workflowInput": {
+          "requestedOutcome": "Plan retry-safe writes"
+        },
+        "designDocPaths": [
+          "design-docs/retry.md"
+        ],
+        "implPlanPaths": [
+          "impl-plans/retry.md"
+        ],
+        "revision": 2,
+        "authorResponses": [
+          {
+            "findingId": "A1",
+            "status": "fixed",
+            "evidence": "Added idempotency key and duplicate delivery test"
+          }
+        ]
+      }
+    }
+  ],
+  "astra-review": [
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-6-astra",
+      "when": {
+        "accepted": false
+      },
+      "payload": {
+        "workflowInput": {
+          "requestedOutcome": "Plan retry-safe writes"
+        },
+        "designDocPaths": [
+          "design-docs/retry.md"
+        ],
+        "implPlanPaths": [
+          "impl-plans/retry.md"
+        ],
+        "revision": 1,
+        "accepted": false,
+        "findings": [
+          {
+            "id": "A1",
+            "severity": "high",
+            "message": "Retry can duplicate writes"
+          }
+        ],
+        "decision": "rejected"
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-6-astra",
+      "when": {
+        "accepted": true
+      },
+      "payload": {
+        "workflowInput": {
+          "requestedOutcome": "Plan retry-safe writes"
+        },
+        "designDocPaths": [
+          "design-docs/retry.md"
+        ],
+        "implPlanPaths": [
+          "impl-plans/retry.md"
+        ],
+        "revision": 2,
+        "reviewedRevision": 2,
+        "accepted": true,
+        "findings": [],
+        "findingDispositions": [
+          {
+            "id": "A1",
+            "status": "fixed"
+          }
+        ],
+        "decision": "accepted"
+      }
+    }
+  ],
+  "workflow-output": {
+    "provider": "scenario-mock",
+    "model": "gpt-6-astra",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "workflowInput": {
+        "requestedOutcome": "Plan retry-safe writes"
+      },
+      "designDocPaths": [
+        "design-docs/retry.md"
+      ],
+      "implPlanPaths": [
+        "impl-plans/retry.md"
+      ],
+      "revision": 2,
+      "status": "accepted",
+      "accepted": true
+    }
+  }
+}
