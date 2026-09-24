@@ -108,20 +108,36 @@ def safe_relative_path(value: Any, field: str, root: Path) -> str:
 
 
 def checkpoint_source(messages: list[dict[str, Any]], root: Path) -> tuple[str, str]:
-    checkpoints = [message for message in messages if message.get("fromStepId") == "plan-git-commit"]
-    if len(checkpoints) != 1:
-        raise ValueError("dispatch requires exactly one plan-git-commit message")
-    payload = checkpoints[0].get("payload")
-    git_payload = payload.get("git") if isinstance(payload, dict) else None
-    if not isinstance(git_payload, dict):
-        raise ValueError("plan-git-commit payload must contain git metadata")
-    commit = clean_string(git_payload.get("commitHash"), "plan-git-commit.git.commitHash")
-    committed = git_payload.get("committedFiles")
+    pushes = [message for message in messages if message.get("fromStepId") == "plan-git-push"]
+    commits = [message for message in messages if message.get("fromStepId") == "plan-git-commit"]
+    if pushes:
+        if len(pushes) != 1:
+            raise ValueError("dispatch requires exactly one plan-git-push message")
+        payload = pushes[0].get("payload")
+        git_payload = payload.get("git") if isinstance(payload, dict) else None
+        if not isinstance(git_payload, dict) or git_payload.get("operation") != "push" or git_payload.get("status") not in {"pushed", "already-pushed"}:
+            raise ValueError("plan-git-push must attest a successful push")
+        commit = clean_string(git_payload.get("commitHash"), "plan-git-push.git.commitHash")
+        if re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", commit) is None:
+            raise ValueError("plan-git-push commit hash is invalid")
+        changed = git(root, "diff-tree", "--root", "--no-commit-id", "--name-only", "-r", commit)
+        if changed.returncode != 0:
+            raise ValueError("cannot read checkpoint committed files")
+        committed = changed.stdout.splitlines()
+    else:
+        if len(commits) != 1:
+            raise ValueError("dispatch requires exactly one checkpoint commit or push message")
+        payload = commits[0].get("payload")
+        git_payload = payload.get("git") if isinstance(payload, dict) else None
+        if not isinstance(git_payload, dict) or git_payload.get("operation") != "commit":
+            raise ValueError("plan-git-commit payload must contain commit metadata")
+        commit = clean_string(git_payload.get("commitHash"), "plan-git-commit.git.commitHash")
+        committed = git_payload.get("committedFiles")
     if not isinstance(committed, list):
-        raise ValueError("plan-git-commit.git.committedFiles must be an array")
+        raise ValueError("checkpoint committed files must be an array")
     manifests: list[str] = []
     for value in committed:
-        relative = safe_relative_path(value, "plan-git-commit.git.committedFiles[]", root)
+        relative = safe_relative_path(value, "checkpoint.committedFiles[]", root)
         path = root / relative
         if path.suffix != ".json" or path.is_symlink() or not path.is_file():
             continue
@@ -132,7 +148,7 @@ def checkpoint_source(messages: list[dict[str, Any]], root: Path) -> tuple[str, 
         if isinstance(data, dict) and isinstance(data.get("plans"), list):
             manifests.append(relative)
     if len(manifests) != 1:
-        raise ValueError("plan-git-commit must contain exactly one dispatch manifest")
+        raise ValueError("checkpoint must contain exactly one dispatch manifest")
     return manifests[0], commit
 
 

@@ -3,6 +3,9 @@
 from __future__ import annotations
 
 import importlib.util
+import json
+import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -72,6 +75,40 @@ class ManifestEvidenceRootTests(unittest.TestCase):
             dispatch_plans.normalized_review_context(
                 {"issueReference": None, "intakeCommunicationId": None}, self.root
             )
+
+    def test_dispatch_uses_successful_push_receipt_and_committed_manifest(self) -> None:
+        scratch_root = self.root.parents[1] / "tmp"
+        scratch_root.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=scratch_root) as directory:
+            root = Path(directory)
+            def run(*arguments: str) -> str:
+                return subprocess.run(
+                    ["git", *arguments], cwd=root, check=True, text=True,
+                    capture_output=True,
+                ).stdout.strip()
+
+            run("init", "-q")
+            run("config", "user.name", "Riela Test")
+            run("config", "user.email", "riela-test@example.invalid")
+            manifest = root / "impl-plans/active/dispatch.json"
+            manifest.parent.mkdir(parents=True)
+            manifest.write_text(json.dumps({"plans": []}))
+            run("add", "impl-plans/active/dispatch.json")
+            run("commit", "-qm", "checkpoint")
+            commit = run("rev-parse", "HEAD")
+            push = {"fromStepId": "plan-git-push", "payload": {
+                "git": {"operation": "push", "status": "already-pushed", "commitHash": commit}
+            }}
+            self.assertEqual(
+                dispatch_plans.checkpoint_source([push], root),
+                ("impl-plans/active/dispatch.json", commit),
+            )
+            push["payload"]["git"]["status"] = "failed"
+            with self.assertRaisesRegex(ValueError, "successful push"):
+                dispatch_plans.checkpoint_source([push], root)
+            push["payload"]["git"].update(status="pushed", commitHash="--help")
+            with self.assertRaisesRegex(ValueError, "commit hash is invalid"):
+                dispatch_plans.checkpoint_source([push], root)
 
 
 if __name__ == "__main__":
