@@ -125,7 +125,7 @@ const dispatchCheckpoint = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: dispat
 const dispatchEnvelope = {
   input: { _rielaInput: { messages: [
     { fromStepId: 'plan-git-commit', createdOrder: 1, payload: { git: {
-      commitHash: dispatchCheckpoint, committedFiles: ['impl-plans/active/mock-dispatch.json'],
+      operation: 'commit', commitHash: dispatchCheckpoint, committedFiles: ['impl-plans/active/mock-dispatch.json'],
     } } },
     { fromStepId: 'integration-review', createdOrder: 2,
       payload: { manifestPath: 'impl-plans/active/old-dispatch.json', acceptedPlanIds: ['a'], checkpointCommit: '2'.repeat(40) } },
@@ -144,7 +144,7 @@ const missingCheckpoint = structuredClone(dispatchEnvelope);
 missingCheckpoint.input._rielaInput.messages.shift();
 const missingCheckpointDispatch = spawnSync('python3', [dispatchScript], { cwd: dispatchScriptRepo, input: JSON.stringify(missingCheckpoint), encoding: 'utf8' });
 assert.notEqual(missingCheckpointDispatch.status, 0);
-assert.match(missingCheckpointDispatch.stderr, /exactly one plan-git-commit message/);
+assert.match(missingCheckpointDispatch.stderr, /exactly one checkpoint commit or push message/);
 const ambiguousManifest = structuredClone(dispatchEnvelope);
 ambiguousManifest.input._rielaInput.messages[0].payload.git.committedFiles.push('impl-plans/active/old-dispatch.json');
 const ambiguousDispatch = spawnSync('python3', [dispatchScript], { cwd: dispatchScriptRepo, input: JSON.stringify(ambiguousManifest), encoding: 'utf8' });
@@ -208,7 +208,7 @@ const implementationPrompt = readFileSync(join(bundle(codex), 'prompts/step6-imp
 assert.match(implementationPrompt, /membership in the fanout item's runtime-owned `acceptedPlanIds` is the authoritative accepted integration decision/i);
 assert.match(implementationPrompt, /do not override or downgrade that decision.*stale progress files.*old evidence artifacts/i);
 assert.match(implementationPrompt, /work explicitly assigned to a pending downstream dependent plan is not an incomplete task, blocker, material finding, verification gap, or residual risk for the current predecessor/i);
-assert.match(implementationPrompt, /never set it for work explicitly owned by a downstream dependent plan/i);
+assert.match(implementationPrompt, /Do not set it for downstream dependent plans/i);
 assert.match(implementationPrompt, /behavioral test command.*structured nonnegative integer `testsRun` or `testCount`.*`failureCount`/is);
 assert.match(implementationPrompt, /canonical prose parsing exists only as a legacy fallback/i);
 assert.match(implementationPrompt, /fresh `--scratch-path`.*resolved checkout.*`CLANG_MODULE_CACHE_PATH`.*`SWIFTPM_MODULECACHE_OVERRIDE`.*`--disable-sandbox --skip-update`/is);
@@ -562,6 +562,36 @@ run(codex, 'implementation-dependency-blocked', m => {
   assert(!steps.includes('step7-adversarial-review'));
   assert(!steps.includes('reconcile-implementations'));
   assert(!steps.includes('integration-review'));
+}, 'mock-scenario.json', 'step6-implement');
+run(codex, 'implementation-failed-required-gate-terminal', m => {
+  m['step6-implement'] = [output({
+    implementation_blocked: false,
+    implementationIncomplete: true,
+    blockers: [],
+    changedFiles: ['Tests/RielaCLITests/TaskDispatcherIntegrationTests.swift'],
+    implementationSummary: 'Required before-removal V1 failed; the deletion barrier remains closed.',
+    implPlanPaths: ['impl-plans/active/a.md'],
+    implPlanUpdates: ['Recorded the failed barrier and exact ownership gap.'],
+    verification: [
+      { command: 'swift test --filter ReplayTests', exitCode: 0, testsRun: 1, failureCount: 0 },
+      { command: 'swift test --filter RequiredBeforeRemovalSuite', exitCode: 1, testsRun: 60, failureCount: 4 },
+    ],
+    authorSelfCheck: { findings: ['High: canonical failure kind is missing'], verificationGaps: [] },
+  }), output({ implementation_blocked: false, implementationIncomplete: false })];
+  m['implementation-wave-outcome'] = output({
+    implementation_blocked: true, partial_success: false, blockedPlanIds: ['a'],
+    successfulPlanIds: [], blockers: [{ type: 'implementation-material-finding' }],
+    resumeCriteria: ['Review the additional canonical persistence owner.'],
+  }, { implementation_blocked: true } as any);
+  m['implementation-blocked-output'] = output({
+    implementation_blocked: true, status: 'blocked', workflowMode: 'issue-resolution',
+    issueReference: 'comm-1', blockedPlanIds: ['a'], successfulPlanIds: [],
+    blockers: [{ type: 'implementation-material-finding' }],
+    resumeCriteria: ['Review the additional canonical persistence owner.'],
+    nextStep: 'Amend the exact write paths and rerun.', residualRisks: [],
+  });
+}, steps => {
+  assert.deepEqual(steps, ['step6-implement', 'implementation-progress-check', 'implementation-wave-outcome', 'implementation-blocked-output']);
 }, 'mock-scenario.json', 'step6-implement');
 run(codex, 'implementation-no-progress-terminal', m => {
   const unchanged = {

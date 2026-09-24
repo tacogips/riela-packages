@@ -713,6 +713,10 @@
             "a.txt",
             "shared.txt"
           ],
+          "reviewFeedback": {
+            "findings": [],
+            "recoveryDiagnostic": ""
+          },
           "manifestPath": "impl-plans/active/mock-dispatch.json",
           "checkpointCommit": "1111111111111111111111111111111111111111",
           "implementationBranch": "main",
@@ -769,6 +773,10 @@
             "b.txt",
             "shared.txt"
           ],
+          "reviewFeedback": {
+            "findings": [],
+            "recoveryDiagnostic": ""
+          },
           "manifestPath": "impl-plans/active/mock-dispatch.json",
           "checkpointCommit": "1111111111111111111111111111111111111111",
           "implementationBranch": "main",

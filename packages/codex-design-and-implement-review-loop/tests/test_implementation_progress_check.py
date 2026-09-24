@@ -101,6 +101,40 @@ class ImplementationContinuationTests(unittest.TestCase):
         result = progress.classify(envelope(failed))
         self.assertEqual(result["payload"]["blockerType"], "implementation-materially-unverified")
 
+    def test_failed_required_gate_stops_despite_other_passing_tests(self) -> None:
+        failed = attempt(1)
+        failed["verification"].append({
+            "command": "swift test --filter RequiredBeforeRemovalSuite",
+            "exitCode": 1,
+            "testsRun": 60,
+            "testsFailed": 2,
+            "failureCount": 4,
+        })
+        result = progress.classify(envelope(failed))
+        self.assertEqual(result["payload"]["blockerType"], "implementation-materially-unverified")
+        self.assertEqual(result["when"], {"implementation_blocked": True})
+
+    def test_incomplete_attempt_with_high_finding_stops_before_continuation(self) -> None:
+        finding = attempt(1)
+        finding["authorSelfCheck"]["findings"] = [
+            "High: canonical adapter failure kind is not persisted"
+        ]
+        result = progress.classify(envelope(finding))
+        self.assertEqual(result["payload"]["blockerType"], "implementation-material-finding")
+        self.assertEqual(result["when"], {"implementation_blocked": True})
+
+    def test_incomplete_attempt_with_structured_material_risk_stops(self) -> None:
+        finding = attempt(1)
+        finding["risks"] = [{"severity": "high", "message": "missing approved write path"}]
+        result = progress.classify(envelope(finding))
+        self.assertEqual(result["payload"]["blockerType"], "implementation-material-finding")
+
+    def test_incomplete_attempt_with_top_level_high_finding_stops(self) -> None:
+        finding = attempt(1)
+        finding["findings"] = ["High: terminal persistence loses adapter failureKind"]
+        result = progress.classify(envelope(finding))
+        self.assertEqual(result["payload"]["blockerType"], "implementation-material-finding")
+
     def test_completed_attempt_enters_review(self) -> None:
         result = progress.classify(envelope(attempt(1), attempt(2, incomplete=False)))
         self.assertEqual(result["when"], {"implementation_blocked": False})

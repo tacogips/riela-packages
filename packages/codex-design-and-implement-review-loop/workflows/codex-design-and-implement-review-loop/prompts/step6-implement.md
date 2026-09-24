@@ -25,6 +25,7 @@ Rules:
 - Update the active implementation plan progress log and completion criteria to reflect the work performed.
 - If this is a rerun after test-integrity or adversarial review, read the latest blocking review feedback and address every high or mid finding before returning.
 - On a redispatch after integration review, read `runtimeVariables.implementation.reviewFeedback` before assessing completion. Address every material finding assigned to this plan and report the concrete change and renewed evidence in `addressedFeedback`. Do not reuse an earlier accepted Step 6 summary or unchanged test logs as proof that an unresolved integration finding was fixed. If a required repair needs a path outside the committed `writePaths`, report the ownership mismatch instead of editing outside the plan.
+- If implementation discovers that a required repair or verification needs an unapproved write path, an external receiving service, or another missing readiness dependency, stop at the safe boundary. Set `implementation_blocked: true`, list the exact dependency and resume criterion in `blockers`, and preserve all already changed files and failed verification evidence. An incomplete plan with a failed required gate is not a productive continuation merely because another focused test passed. Do not work around missing canonical evidence through a narrower projection or delete prerequisites before the required gate passes.
 - If the mechanical progress gate returns `implementation_continue: true`, continue the same assigned plan from the preserved working tree and prior Step 6 output. Start with the outstanding acceptance criteria and implement them; do not repeat design/plan authoring or restart a broad read-only audit. The gate allows at most two productive continuations before an incomplete plan receives a terminal handoff. Report the new changes and verification separately from prior attempts, and never claim completion to bypass that bound.
 
 When implementing review feedback, follow the same bounded-change policy as Step 7: preserve required functionality, maintainability, security, meaningful edge-case behavior, and acceptance criteria. Fix high-confidence issues with material impact, but intentionally leave nonessential or disproportionate suggestions unfixed when the current implementation is sufficient. Do not add speculative abstractions, generalized hardening, future-proofing, stylistic cleanup, or unrelated refactoring just to eliminate every possible concern. Prefer the smallest safe correction and record deferred low-value ideas as residual risks or future notes only when they are useful.
@@ -42,15 +43,16 @@ Before returning, perform an author self-check in the same execution:
 - Do not redesign, generalize, add abstraction layers, optimize speculatively, or request optional cleanup during self-check. Record a finding only for a concrete correctness, security, data-integrity, required-functionality, or severe code-quality risk.
 
 Return JSON with:
-- `implementation_blocked` (`false` after an implementation attempt; `true` only for an external dependency/readiness blocker that prevents implementation from starting)
+- `implementation_blocked` (`true` for an unresolved dependency or approved-write-path gap discovered before or during implementation; otherwise `false`)
 - `implementationIncomplete` (`true` whenever any implementation-phase task, material finding, or required behavioral verification owned by this assigned plan remains incomplete; otherwise `false`. Do not set it for downstream dependent plans or for formal review, review-dependent documentation, commit, or push owned by later workflow steps.)
-- `blockers` (empty when `implementation_blocked` is false)
+- `blockers` (concrete dependency, evidence and resume criterion when `implementation_blocked` is true; otherwise empty)
 - `issueReference`
 - `changedFiles`
 - `implementationSummary`
 - `implPlanPaths`
 - `implPlanUpdates`
 - `verification` as structured records. Every record must include the exact non-empty `command` and a concrete observed `outcome`, `exitStatus`, `exitCode`, or `status`; a command name or prose claim alone is not verification evidence. For a behavioral test command, whenever the runner reports counts, include structured nonnegative integer `testsRun` or `testCount`, `testsPassed` when available, and `failureCount` (or `failedTestCount`/`testsFailed`). Successful behavioral evidence must report a positive run/pass count and zero failures. Do not invent unavailable counts. Canonical prose parsing exists only as a legacy fallback and is not the preferred output contract.
+- Report final-source required gates in `verification`. Keep earlier failed attempts and their complete logs in `priorVerification` or the progress record when a later source-matched rerun has genuinely resolved them; never omit an unresolved failed gate or present an old failure as a current-source pass.
 - `addressedFeedback`
 - `risks`
 - `authorSelfCheck`

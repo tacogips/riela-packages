@@ -199,20 +199,41 @@ def has_behavioral_evidence(
     )
 
 
-def material_findings(payload: dict[str, Any]) -> list[dict[str, Any]]:
+def has_failed_behavioral_evidence(
+    current: list[dict[str, Any]],
+    previous: list[dict[str, Any]],
+    current_identity: str | None = None,
+    previous_identity: str | None = None,
+) -> bool:
+    inherited = inherited_behavioral_evidence(current, previous, current_identity, previous_identity)
+    return any(
+        behavioral_kind(record)
+        and not successful_behavioral_verification(record)
+        and not (environment_blocked(record) and inherited)
+        for record in current
+    )
+
+
+def material_findings(payload: dict[str, Any]) -> list[Any]:
     self_check = payload.get("authorSelfCheck")
     self_check = self_check if isinstance(self_check, dict) else {}
     candidates = (
         normalized_list(payload.get("risks"))
+        + normalized_list(payload.get("findings"))
         + normalized_list(self_check.get("findings"))
         + normalized_list(self_check.get("residualRisks"))
     )
     return [
         finding
         for finding in candidates
-        if isinstance(finding, dict)
-        and isinstance(finding.get("severity"), str)
-        and finding["severity"].lower() in {"critical", "high", "mid", "medium"}
+        if (
+            isinstance(finding, dict)
+            and isinstance(finding.get("severity"), str)
+            and finding["severity"].lower() in {"critical", "high", "mid", "medium"}
+        ) or (
+            isinstance(finding, str)
+            and re.match(r"^\s*(?:critical|high|mid|medium)\s*[:\-]\s*\S", finding, re.IGNORECASE)
+        )
     ]
 
 
@@ -351,10 +372,25 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
             "Step 6 reported material changes without verification evidence.",
             fingerprint,
         )
+    findings = material_findings(current)
+    if findings:
+        return blocked_result(
+            current,
+            "implementation-material-finding",
+            "Step 6 reported unresolved high or medium implementation findings or risks.",
+            fingerprint,
+        )
     prior_verification = previous_evidence["verification"] if previous_evidence else []
     previous_payload = messages[-2]["payload"] if len(messages) > 1 else {}
     current_identity = source_identity(current)
     previous_identity = source_identity(previous_payload)
+    if has_failed_behavioral_evidence(verification, prior_verification, current_identity, previous_identity):
+        return blocked_result(
+            current,
+            "implementation-materially-unverified",
+            "Step 6 reported a failed, blocked, skipped, or zero-count behavioral test command.",
+            fingerprint,
+        )
     if not has_behavioral_evidence(verification, prior_verification, current_identity, previous_identity):
         return blocked_result(
             current,
@@ -384,15 +420,6 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
             current,
             "implementation-incomplete",
             "Step 6 remains incomplete after the bounded continuation attempts or lacks changed-file/plan-progress evidence.",
-            fingerprint,
-        )
-
-    findings = material_findings(current)
-    if findings:
-        return blocked_result(
-            current,
-            "implementation-material-finding",
-            "Step 6 reported unresolved high or medium implementation findings or risks.",
             fingerprint,
         )
 
