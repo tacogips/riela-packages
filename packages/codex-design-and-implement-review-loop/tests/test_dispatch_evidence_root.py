@@ -111,6 +111,50 @@ class ManifestEvidenceRootTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "commit hash is invalid"):
                 dispatch_plans.checkpoint_source([push], root)
 
+    def test_dispatch_selects_unique_new_manifest_when_checkpoint_also_updates_old_manifest(self) -> None:
+        scratch_root = self.root.parents[1] / "tmp"
+        scratch_root.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=scratch_root) as directory:
+            root = Path(directory)
+
+            def run(*arguments: str) -> str:
+                return subprocess.run(
+                    ["git", *arguments], cwd=root, check=True, text=True,
+                    capture_output=True,
+                ).stdout.strip()
+
+            run("init", "-q")
+            run("config", "user.name", "Riela Test")
+            run("config", "user.email", "riela-test@example.invalid")
+            active = root / "impl-plans/active"
+            active.mkdir(parents=True)
+            old_manifest = active / "prior-dispatch.json"
+            old_manifest.write_text(json.dumps({"plans": [{"planId": "prior"}]}))
+            run("add", ".")
+            run("commit", "-qm", "prior checkpoint")
+
+            old_manifest.write_text(json.dumps({"plans": [{"planId": "prior"}], "status": "historical"}))
+            new_manifest = active / "resume-dispatch.json"
+            new_manifest.write_text(json.dumps({"plans": [{"planId": "resume"}]}))
+            run("add", ".")
+            run("commit", "-qm", "resume checkpoint")
+            commit = run("rev-parse", "HEAD")
+            push = {"fromStepId": "plan-git-push", "payload": {
+                "git": {"operation": "push", "status": "pushed", "commitHash": commit}
+            }}
+            self.assertEqual(
+                dispatch_plans.checkpoint_source([push], root),
+                ("impl-plans/active/resume-dispatch.json", commit),
+            )
+
+            (active / "another-dispatch.json").write_text(json.dumps({"plans": []}))
+            (active / "third-dispatch.json").write_text(json.dumps({"plans": []}))
+            run("add", ".")
+            run("commit", "-qm", "ambiguous checkpoint")
+            push["payload"]["git"]["commitHash"] = run("rev-parse", "HEAD")
+            with self.assertRaisesRegex(ValueError, "exactly one dispatch manifest"):
+                dispatch_plans.checkpoint_source([push], root)
+
     def test_integration_revision_is_projected_to_owned_plan(self) -> None:
         result = self._project_revision("Tests/owned.swift")
         items = result["payload"]["implementationItems"]

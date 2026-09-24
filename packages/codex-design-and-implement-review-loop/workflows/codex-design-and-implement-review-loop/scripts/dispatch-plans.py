@@ -172,9 +172,19 @@ def checkpoint_source(messages: list[dict[str, Any]], root: Path) -> tuple[str, 
             continue
         if isinstance(data, dict) and isinstance(data.get("plans"), list):
             manifests.append(relative)
-    if len(manifests) != 1:
-        raise ValueError("checkpoint must contain exactly one dispatch manifest")
-    return manifests[0], commit
+    if len(manifests) == 1:
+        return manifests[0], commit
+    if len(manifests) > 1:
+        added = git(
+            root, "diff-tree", "--root", "--no-commit-id", "--name-only", "-r",
+            "--diff-filter=A", commit,
+        )
+        if added.returncode != 0:
+            raise ValueError("cannot read newly added checkpoint files")
+        new_manifests = set(added.stdout.splitlines()).intersection(manifests)
+        if len(new_manifests) == 1:
+            return new_manifests.pop(), commit
+    raise ValueError("checkpoint must contain exactly one dispatch manifest")
 
 
 def git(root: Path, *arguments: str) -> subprocess.CompletedProcess[str]:
