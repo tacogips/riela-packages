@@ -517,11 +517,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "395ca9243a5d80f9b350e8aada9a45be"
+        "value": "d1a1be549206bd0be6937e8dcae7445b"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "3ba117cf079c45d4017210a5ca5ed9f83a5341bcf1387a4023fd69eee540ff19"
+        "digest": "f4084d156fd1923940d8ffe32ef14f8baecce521ebe146bf6535f95a34009ba5"
       }
     },
     {
@@ -565,11 +565,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "e22a55736ffe2a1f163fc0ee124caff0"
+        "value": "bec47e2f3052e8f32d23e4977eb41a4c"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "85ac1f7059789531afe52302597f15a84a2e4328261d706ece3faf534a4f885e"
+        "digest": "418631a0d46f9e12c0d1ab0ba9e343571769bb604e968285e14f5a732679c510"
       }
     },
     {
@@ -609,11 +609,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "ca192325f544aa987ae1c071432ec59c"
+        "value": "5870d3d4ddca581f6052412eb48e776a"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "68d460a0e4e4aa0d961e4e28cde4c082d975c67257766ceb8204c7e7e81648b4"
+        "digest": "8a53a0541951e95afae610908fb095a0b595627ce9362acdfacc775441ed8689"
       }
     },
     {
@@ -622,7 +622,7 @@
       "version": "0.1.0",
       "kind": "workflow",
       "title": "claude-code-goal",
-      "description": "Generic Claude Code Opus 4.8 workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+      "description": "Generic Claude Code Opus 5.5 workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
       "tags": [
         "claude-code",
         "generic",
@@ -633,7 +633,7 @@
       "workflow": {
         "directory": "workflows/claude-code-goal",
         "title": "claude-code-goal",
-        "description": "Generic Claude Code Opus 4.8 workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+        "description": "Generic Claude Code Opus 5.5 workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
         "tags": [
           "workflow",
           "claude-code",
@@ -657,11 +657,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "bab2d9df1bf4ef14137acdc5b09e4093"
+        "value": "66b5cac42be591a70e00d679cc72a17d"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "393c66ec01eb43b23119803871185ffca7ca2c297603762d0497d68e7f9a2646"
+        "digest": "a9e578e2c5d063f8a92ba6bb66881d665f5a95f2cd466e3090876c54948ba295"
       }
     },
     {
@@ -703,11 +703,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "19724c34cb623435ab9f4838773694a7"
+        "value": "cd818a8a556532f46670485842a9e81e"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "848649431a7a7d43b7c2c396ffcb8ba12207987692f8b49ce16fa2677215aecc"
+        "digest": "2801c26318d6526429014f3e73d9956748e9cc223a6de97e31ff79ead8fa088a"
       }
     },
     {
@@ -756,11 +756,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "f8f6a9edc702c424cd173b8a4810a94d"
+        "value": "71d7a78fd0e664ee6a3ccbe29a4ec943"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "1b9e3e46deacdda6d6cd5839f0cf7a6686dd96ccf97be6893aadbafd8f2882a2"
+        "digest": "c7e3b625db6ee181bcd568bb9fdba212c2533ad1b01e880a0cfdcafddbff9ba6"
       }
     },
     {
@@ -802,11 +802,11 @@
       "skills": [],
       "checksum": {
         "algorithm": "md5",
-        "value": "5a715d0673fa6739032de01cfcba734f"
+        "value": "0a0a501ba66d7a6f0ca3bca2a37b9101"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "8b19d2563068828fa72563ee742718313478ea3dbbf8689ffb6c1463a49f08a9"
+        "digest": "f727ed4f219882ad22298fbecafdee0fcfcd3255303a7c0c74c8d2a88a7136a7"
       }
     },
     {
@@ -1046,11 +1046,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "c516a363acdb296f3710a30e680a777f"
+        "value": "3ab102bb0b20436a4d5c2f0c4ef571a6"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "b95cd536cafac04a2847adc79debbe325e86f79f56cfe58e426984beb29223d0"
+        "digest": "64b1554c7765a11f769e2ef14f5ab046f8594410dde694f6bffa97e769a20a46"
       }
     },
     {
@@ -1328,11 +1328,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "e6c4ea0b9595ced5b14bdd3eb272ff88"
+        "value": "baf3ccda4b3d21baae36801434f29854"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "62305ad4631274e335ef9cc7a72b42fadccc0d9c22914bf4efecc95c4c8a7822"
+        "digest": "f2cd701659f05b325a4fb780d4731906b88a7de73f1486490d841a5437e01a04"
       }
     },
     {
@@ -2059,11 +2059,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "fa3b2ab1fc8e7bc683d0f7e9b3528ba8"
+        "value": "aebaf1ac2f2557d01519290a4116eb4e"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "691ea66b0cbeb3a88f65080931a86b741a64eb708517e286bfab998f2a9ef7da"
+        "digest": "61b5495bfe010344626b766f4a8e5f5dfe1d86075b92c6b2247562c0a119b48c"
       }
     },
     {
@@ -2155,11 +2155,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "eba749edc607b8ef032936a9f7c3930f"
+        "value": "a8b908c1494a0b1dc97d6154c29d3a6e"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "442a1a25e626fca6b67f85293e64420ab5912135c65db6ad2e0a6945f1bae386"
+        "digest": "61ae05ed8b8914c4a7f39e4a286a11163b693eac33fc7addd285bd11c48a90b1"
       }
     },
     {
@@ -2744,11 +2744,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "570a273074f219cd6f27bee8a180c12d"
+        "value": "ae8a6bc7e168ef9b0c0d20e50e89d338"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "cebbddb82d13316fd1bab6dd1962c299c09e0ad31b136828f35d47ee51e9e565"
+        "digest": "2d477ef08da5287b166e00ea37c898a68b003e43baa7d24c49376de459acfa3e"
       }
     },
     {
@@ -3086,11 +3086,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "4c7d8cf74309e6191626e7ff3f2660c5"
+        "value": "acf296a8482bb95c6b638d085bb341cf"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "ad634dd2d86fe391ef6da61d39d8724087052f27cdcd9698e4c65c0a80c285a9"
+        "digest": "05f7e2e31308702b2e27940661b4e0208b0c415c7b8e5ab0d300dc163df1fae7"
       }
     },
     {

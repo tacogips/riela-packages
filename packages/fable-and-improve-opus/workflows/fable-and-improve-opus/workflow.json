@@ -1,6 +1,6 @@
 {
   "workflowId": "fable-and-improve-opus",
-  "description": "Claude Fable analyzes the request, recalls prior knowledge from the kaiba knowledge base, authors the design and implementation plan, Claude Opus 5 implements and independently reviews, Fable verifies completion, and a self-review step feeds durable lessons back into the knowledge base before the final output. Accepted plans are committed before same-branch parallel implementation/review, overwrite reconciliation and serialized Git finalization.",
+  "description": "Claude Fable analyzes the request, recalls prior knowledge from the kaiba knowledge base, authors the design and implementation plan, Claude Opus 5.5 implements and independently reviews, Fable verifies completion, and a self-review step feeds durable lessons back into the knowledge base before the final output. Accepted plans are committed before same-branch parallel implementation/review, overwrite reconciliation and serialized Git finalization.",
   "defaults": {
     "maxLoopIterations": 30,
     "nodeTimeoutMs": 3600000,
@@ -219,7 +219,7 @@
     {
       "id": "opus-implementation",
       "nodeId": "opus-implementation",
-      "description": "Use Claude Opus 5 to implement or improve the current Fable-authored plan and verify the result.",
+      "description": "Use Claude Opus 5.5 to implement or improve the current Fable-authored plan and verify the result.",
       "role": "worker",
       "transitions": [
         {
@@ -230,7 +230,7 @@
     {
       "id": "opus-review",
       "nodeId": "opus-review",
-      "description": "Use an independent Claude Opus 5 session to review the implementation and request concrete fixes.",
+      "description": "Use an independent Claude Opus 5.5 session to review the implementation and request concrete fixes.",
       "role": "worker",
       "transitions": [
         {
@@ -528,7 +528,7 @@
   "metadata": {
     "rielaPackage": {
       "title": "fable-and-improve-opus",
-      "description": "Claude Fable analyzes the request, recalls prior knowledge from the kaiba knowledge base, authors the design and implementation plan, Claude Opus 5 implements and independently reviews, Fable verifies completion, and a self-review step feeds durable lessons back into the knowledge base before the final output. Accepted plans are committed before same-branch parallel implementation/review, overwrite reconciliation and serialized Git finalization.",
+      "description": "Claude Fable analyzes the request, recalls prior knowledge from the kaiba knowledge base, authors the design and implementation plan, Claude Opus 5.5 implements and independently reviews, Fable verifies completion, and a self-review step feeds durable lessons back into the knowledge base before the final output. Accepted plans are committed before same-branch parallel implementation/review, overwrite reconciliation and serialized Git finalization.",
       "tags": [
         "workflow",
         "claude-code",

@@ -1,8 +1,8 @@
 # fable-and-improve-opus
 
 Claude Fable analyzes the request, authors the design and implementation plan,
-and verifies completion. Claude Opus 5 implements the plan, and a separate
-Opus 5 session independently reviews the result.
+and verifies completion. Claude Opus 5.5 implements the plan, and a separate
+Opus 5.5 session independently reviews the result.
 
 The workflow also maintains a durable, cross-workflow knowledge base on kaiba
 long-term memory. Analysis names a `knowledgeQuery` keyword and prior
@@ -21,7 +21,7 @@ set the `noteRoot` runtime variable to select a different base.
 
 - Package id: `fable-and-improve-opus`
 - Backend: `claude-code-agent`
-- Models: `claude-fable-5`, `claude-opus-5`
+- Models: `claude-fable-5`, `claude-opus-5-5`
 - Workflow: `fable-and-improve-opus`
 - Skill: Claude Code
 

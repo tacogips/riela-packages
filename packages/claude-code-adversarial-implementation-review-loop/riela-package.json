@@ -9,7 +9,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "395ca9243a5d80f9b350e8aada9a45be",
+  "checksum": "d1a1be549206bd0be6937e8dcae7445b",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-adversarial-implementation-review-loop",
   "dependencies": [
@@ -31,7 +31,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "3ba117cf079c45d4017210a5ca5ed9f83a5341bcf1387a4023fd69eee540ff19"
+    "digest": "f4084d156fd1923940d8ffe32ef14f8baecce521ebe146bf6535f95a34009ba5"
   },
   "backends": [
     "claude-code-agent"

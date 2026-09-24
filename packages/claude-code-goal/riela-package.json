@@ -2,20 +2,20 @@
   "name": "claude-code-goal",
   "version": "0.1.0",
   "title": "claude-code-goal",
-  "description": "Generic Claude Code Opus 4.8 workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+  "description": "Generic Claude Code Opus 5.5 workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
   "tags": [
     "workflow",
     "claude-code",
     "generic"
   ],
   "registry": "default",
-  "checksum": "bab2d9df1bf4ef14137acdc5b09e4093",
+  "checksum": "66b5cac42be591a70e00d679cc72a17d",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-goal",
   "repository": "https://github.com/tacogips/riela-packages",
   "workflow": {
     "title": "claude-code-goal",
-    "description": "Generic Claude Code Opus 4.8 workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+    "description": "Generic Claude Code Opus 5.5 workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
     "tags": [
       "workflow",
       "claude-code",
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "393c66ec01eb43b23119803871185ffca7ca2c297603762d0497d68e7f9a2646"
+    "digest": "a9e578e2c5d063f8a92ba6bb66881d665f5a95f2cd466e3090876c54948ba295"
   },
   "backends": [
     "claude-code-agent"

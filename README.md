@@ -319,7 +319,7 @@ available for single-workflow use and for package dependencies.
 
 ### Claude Code Agent Workflows
 
-These packages use `claude-code-agent`. The Codex-derived variants inherit the matching Codex workflow with `workflow.json` `extends`, then patch agent nodes to Claude Code Opus 4.8 and rewrite same-family workflow calls.
+These packages use `claude-code-agent`. The Codex-derived variants inherit the matching Codex workflow with `workflow.json` `extends`, then patch agent nodes to Claude Code Opus 5.5 and rewrite same-family workflow calls.
 
 - [fable-and-improve-codex](packages/fable-and-improve-codex) -
   Fable authors design/plans; Codex Terra implements, Terra reviews, and Astra checks combined consistency. Native shared-branch fanout, overwrite reconciliation and serialized Git finalization.
@@ -332,7 +332,7 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
 - [claude-code-design-and-implement-review-loop](packages/claude-code-design-and-implement-review-loop) -
   Single-author design/planning, native shared-branch implementation/review fanout, overwrite reconciliation and serialized commit/push/base integration.
 - [claude-code-goal](packages/claude-code-goal) -
-  Generic Claude Code Opus 4.8 workflow that actively investigates available
+  Generic Claude Code Opus 5.5 workflow that actively investigates available
   Riela workflows at each step, creates and reviews a testable goal, creates
   and reviews an in-session plan without writing plan files, performs the work,
   may delegate to a more specific workflow when appropriate, and reviews whether
@@ -343,7 +343,7 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
 - [claude-code-impl-plan-completion-review-loop](packages/claude-code-impl-plan-completion-review-loop) -
   Runs `claude-code-impl-plan-completion-loop` first, then runs
   `claude-code-recent-change-quality-loop` so completed implementation work is
-  reviewed and improved before final output. Uses Claude Code Opus 4.8.
+  reviewed and improved before final output. Uses Claude Code Opus 5.5.
   `backend: claude-code-agent`.
 - [claude-code-recent-change-quality-loop](packages/claude-code-recent-change-quality-loop) -
   Inventory recent committed and uncommitted changes, review independent slices concurrently with bounded read-only fanout, reduce findings, and delegate blocking fixes until no high or mid findings remain. `backend: claude-code-agent`.

@@ -2,7 +2,7 @@
   "id": "dispatch-plans",
   "description": "Select the next dependency-ready wave for native Riela fanout. Do not spawn agents or nested CLI processes yourself.",
   "executionBackend": "claude-code-agent",
-  "model": "claude-opus-5",
+  "model": "claude-opus-5-5",
   "promptTemplateFile": "prompts/dispatch-plans.md",
   "variables": {},
   "effort": "high",

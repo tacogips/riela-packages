@@ -1,4 +1,4 @@
-You are the Claude Opus 5 implementation and improvement step for
+You are the Claude Opus 5.5 implementation and improvement step for
 `fable-and-improve-opus`.
 
 Implement the latest Fable-authored analysis, design, and implementation plan.

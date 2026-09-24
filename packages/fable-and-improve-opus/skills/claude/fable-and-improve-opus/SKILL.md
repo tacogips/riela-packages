@@ -1,6 +1,6 @@
 ---
 name: fable-and-improve-opus
-description: Run the fable-and-improve-opus Riela workflow when Claude Fable should analyze, design, and author the implementation plan, Claude Opus 5 should implement and independently review, and Fable should verify completion.
+description: Run the fable-and-improve-opus Riela workflow when Claude Fable should analyze, design, and author the implementation plan, Claude Opus 5.5 should implement and independently review, and Fable should verify completion.
 ---
 
 # Fable And Improve Opus
@@ -10,8 +10,8 @@ Run the installed workflow instead of manually emulating its orchestration.
 ## Responsibility split
 
 - Fable `claude-fable-5`: analysis, design, implementation plan, replanning, final acceptance, knowledge-base self-review
-- Opus `claude-opus-5`: implementation, tests, verification, and improvements
-- Independent Opus `claude-opus-5`: read-only implementation review
+- Opus `claude-opus-5-5`: implementation, tests, verification, and improvements
+- Independent Opus `claude-opus-5-5`: read-only implementation review
 
 Review findings loop back to the implementation session. Fable sends invalid
 analysis, design, or plans back through its authoring sequence and sends

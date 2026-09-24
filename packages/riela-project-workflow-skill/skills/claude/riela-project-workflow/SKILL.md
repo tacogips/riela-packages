@@ -60,7 +60,7 @@ workflow-first process.
   `project-task-<short-topic>`.
 - Prefer `promptTemplateFile` for prompts longer than a few lines.
 - Use `executionBackend: "claude-code-agent"` and
-  `model: "claude-opus-4-8"` for Claude Code agent nodes.
+  `model: "claude-opus-5-5"` for Claude Code agent nodes.
 - Include at least these steps for non-trivial work:
   `intake-or-plan`, `work`, `review`, and `workflow-output`.
 - Add dedicated verification, security, migration, release, or documentation
@@ -78,7 +78,7 @@ Minimal Claude Code worker node:
   "id": "work",
   "description": "Perform the requested project work.",
   "executionBackend": "claude-code-agent",
-  "model": "claude-opus-4-8",
+  "model": "claude-opus-5-5",
   "promptTemplateFile": "prompts/work.md",
   "variables": {}
 }

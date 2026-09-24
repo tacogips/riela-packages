@@ -2,7 +2,7 @@
   "id": "base-branch-integrate",
   "description": "All parallel workers have stopped; final commit and push have succeeded. Perform serialized integration only now.",
   "executionBackend": "claude-code-agent",
-  "model": "claude-opus-5",
+  "model": "claude-opus-5-5",
   "promptTemplateFile": "prompts/base-branch-integrate.md",
   "variables": {},
   "effort": "high"

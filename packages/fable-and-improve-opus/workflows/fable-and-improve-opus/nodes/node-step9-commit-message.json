@@ -2,7 +2,7 @@
   "id": "step9-commit-message",
   "description": "Verify plan completion and archive for issue-resolution, then prepare commit evidence; preserve active plans for planning-only.",
   "executionBackend": "claude-code-agent",
-  "model": "claude-opus-5",
+  "model": "claude-opus-5-5",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step9-commit-message.md",
   "variables": {},

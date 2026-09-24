@@ -78,7 +78,7 @@
   },
   "opus-implementation": {
     "provider": "scenario-mock",
-    "model": "claude-opus-5",
+    "model": "claude-opus-5-5",
     "when": {
       "always": true
     },
@@ -112,7 +112,7 @@
   },
   "opus-review": {
     "provider": "scenario-mock",
-    "model": "claude-opus-5",
+    "model": "claude-opus-5-5",
     "when": {
       "needs_revision": false
     },

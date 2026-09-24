@@ -2,7 +2,7 @@
   "id": "reconcile-implementations",
   "description": "You are the sole writer after the native fanout join. All workers in the wave have stopped. On revision, read the latest integration-review feedback.",
   "executionBackend": "claude-code-agent",
-  "model": "claude-opus-5",
+  "model": "claude-opus-5-5",
   "promptTemplateFile": "prompts/reconcile-implementations.md",
   "variables": {},
   "effort": "high",
