@@ -106,6 +106,14 @@ class ImplementationContinuationTests(unittest.TestCase):
         self.assertEqual(result["when"], {"implementation_blocked": False})
         self.assertFalse(result["payload"]["implementation_continue"])
 
+    def test_bunx_vitest_is_behavioral_evidence(self) -> None:
+        current = attempt(1)
+        current["verification"][0]["command"] = (
+            "mise exec -- bunx --no-install vitest run packages/adapter/test/usecases/knowledge-links.test.ts"
+        )
+        result = progress.classify(envelope(current))
+        self.assertEqual(result["when"], {"implementation_continue": True})
+
 
 if __name__ == "__main__":
     unittest.main()

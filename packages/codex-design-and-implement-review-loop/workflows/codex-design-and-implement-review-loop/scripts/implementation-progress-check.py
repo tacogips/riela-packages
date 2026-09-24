@@ -89,7 +89,8 @@ def behavioral_kind(record: dict[str, Any]) -> str | None:
     command = record.get("command", "").lower()
     test_patterns = (
         r"\bswift\s+test\b", r"\bcargo\s+test\b", r"\bgo\s+test\b", r"\bpytest\b",
-        r"\bctest\b", r"\bbun\s+test\b", r"\b(?:npm|pnpm|yarn)\s+(?:run\s+)?test\b",
+        r"\bctest\b", r"\bbun\s+test\b", r"\bvitest\s+run\b",
+        r"\b(?:npm|pnpm|yarn)\s+(?:run\s+)?test\b",
         r"\b(?:task|mise\s+run|make)\s+test\b", r"\bxcodebuild\b.*\btest\b",
     )
     if any(re.search(pattern, command) for pattern in test_patterns):
