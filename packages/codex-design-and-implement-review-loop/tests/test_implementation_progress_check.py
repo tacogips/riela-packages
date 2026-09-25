@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 SCRIPT = (
@@ -50,6 +52,32 @@ def envelope(*outputs: dict) -> dict:
 
 
 class ImplementationContinuationTests(unittest.TestCase):
+    def baseline_case(self, *, identical: bool = True, failures: int = 11, extra_failure: bool = False):
+        scratch_root = Path(__file__).resolve().parents[3] / "tmp"
+        scratch_root.mkdir(exist_ok=True)
+        temporary = tempfile.TemporaryDirectory(dir=scratch_root)
+        root = Path(temporary.name)
+        evidence = root / "tmp"
+        evidence.mkdir()
+        (evidence / "aggregate.log").write_text("11 failing assertions; retained failed aggregate\n")
+        (evidence / "comparison.json").write_text(json.dumps({
+            "identical": identical,
+            "aggregateAssertionCount": failures,
+            "baselineAssertionCount": 11,
+            "aggregateOnly": ["new regression"] if extra_failure else [],
+            "baselineOnly": [],
+        }))
+        completed = attempt(1, incomplete=False)
+        completed["verification"].append({
+            "command": "swift test --filter 'RielaGraphQLTests|RielaAppSupportTests'",
+            "exitCode": 1,
+            "testsRun": 1469,
+            "failureCount": 11,
+            "comparison": "tmp/comparison.json",
+            "log": "tmp/aggregate.log",
+        })
+        return temporary, root, completed
+
     def test_workflow_routes_continuation_before_reviews(self) -> None:
         workflow_path = SCRIPT.parents[1] / "workflow.json"
         workflow = json.loads(workflow_path.read_text())
@@ -113,6 +141,55 @@ class ImplementationContinuationTests(unittest.TestCase):
         result = progress.classify(envelope(failed))
         self.assertEqual(result["payload"]["blockerType"], "implementation-materially-unverified")
         self.assertEqual(result["when"], {"implementation_blocked": True})
+
+    def test_matching_baseline_failure_reaches_independent_review_not_pass(self) -> None:
+        temporary, root, completed = self.baseline_case()
+        with temporary, patch.object(progress.Path, "cwd", return_value=root):
+            result = progress.classify(envelope(completed))
+        self.assertEqual(result["when"], {"implementation_blocked": False})
+        self.assertEqual(result["payload"]["status"], "ready-for-test-integrity")
+        self.assertEqual(result["payload"]["baselineReviewPending"][0]["decision"], "pending-independent-review")
+        self.assertEqual(result["payload"]["verification"][-1]["exitCode"], 1)
+
+    def test_baseline_candidate_never_masks_new_or_unproven_failure(self) -> None:
+        for overrides in ({"identical": False}, {"failures": 12}, {"extra_failure": True}):
+            with self.subTest(overrides=overrides):
+                temporary, root, completed = self.baseline_case(**overrides)
+                with temporary, patch.object(progress.Path, "cwd", return_value=root):
+                    result = progress.classify(envelope(completed))
+                self.assertEqual(result["payload"]["blockerType"], "implementation-materially-unverified")
+
+    def test_baseline_candidate_requires_log_comparison_and_passing_focused_test(self) -> None:
+        temporary, root, completed = self.baseline_case()
+        with temporary, patch.object(progress.Path, "cwd", return_value=root):
+            (root / "tmp/comparison.json").unlink()
+            result = progress.classify(envelope(completed))
+            self.assertEqual(result["payload"]["blockerType"], "implementation-materially-unverified")
+
+            (root / "tmp/comparison.json").write_text(json.dumps({
+                "identical": True, "aggregateAssertionCount": 11, "baselineAssertionCount": 11,
+                "aggregateOnly": [], "baselineOnly": [],
+            }))
+            completed["verification"][0]["exitCode"] = 1
+            result = progress.classify(envelope(completed))
+            self.assertEqual(result["payload"]["blockerType"], "implementation-materially-unverified")
+
+    def test_incomplete_implementation_cannot_defer_failed_gate_to_review(self) -> None:
+        temporary, root, completed = self.baseline_case()
+        completed["implementationIncomplete"] = True
+        with temporary, patch.object(progress.Path, "cwd", return_value=root):
+            result = progress.classify(envelope(completed))
+        self.assertEqual(result["payload"]["blockerType"], "implementation-materially-unverified")
+
+    def test_every_independent_gate_retains_baseline_review_responsibility(self) -> None:
+        for name in (
+            "step6-test-integrity-check.md", "step7-adversarial-review.md",
+            "branch-evidence.md", "reconcile-implementations.md", "integration-review.md",
+        ):
+            with self.subTest(prompt=name):
+                prompt = (SCRIPT.parents[1] / "prompts" / name).read_text()
+                self.assertIn("baselineReviewPending", prompt)
+                self.assertIn("nonzero", prompt)
 
     def test_swift_discovery_does_not_fail_passing_behavioral_run(self) -> None:
         completed = attempt(1, incomplete=False)

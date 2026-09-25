@@ -248,7 +248,8 @@ assert.match(integrationReviewPrompt, /runtime persists this read-only node outp
 assert.match(integrationReviewPrompt, /do not write or modify repository or evidenceRoot files/i);
 assert.doesNotMatch(integrationReviewPrompt, /persist an immutable wave acceptance record under the run evidenceRoot/i);
 assert.match(integrationReviewPrompt, /immediately preceding serial reconciliation output's `verification` and `evidencePaths`/i);
-assert.match(integrationReviewPrompt, /current-tree aggregate command as qualifying evidence/i);
+assert.match(integrationReviewPrompt, /current-tree aggregate command as qualifying passing evidence/i);
+assert.match(integrationReviewPrompt, /nonzero aggregate is never green.*baselineReviewPending/is);
 assert.match(integrationReviewPrompt, /do not require this read-only review to recreate writable caches or an isolated dependency checkout/i);
 assert.match(integrationReviewPrompt, /predecessor is eligible for wave acceptance.*pending downstream dependent plan/is);
 assert.match(integrationReviewPrompt, /retain the downstream plan in `pendingPlanIds`.*expanded `acceptedPlanIds`.*unlock it/is);
