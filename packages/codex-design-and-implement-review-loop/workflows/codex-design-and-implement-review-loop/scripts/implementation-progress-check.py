@@ -97,6 +97,10 @@ def behavioral_kind(record: dict[str, Any]) -> str | None:
     test_patterns = (
         r"\bswift\s+test\b", r"\bcargo\s+test\b", r"\bgo\s+test\b", r"\bpytest\b",
         r"\bctest\b", r"\bbun\s+test\b", r"\bvitest\s+run\b",
+        # Some packages run a deterministic Bun regression runner directly.
+        # Require a test-directory runner name; the positive count is checked
+        # separately before it can satisfy the behavioral gate.
+        r"\bbun\s+(?:\S*/)?tests?/(?:check|test|verify)[\w.-]*\.(?:[cm]?[jt]s|[jt]sx)\b",
         r"\b(?:npm|pnpm|yarn)\s+(?:run\s+)?test\b",
         r"\b(?:task|mise\s+run|make)\s+test\b", r"\bxcodebuild\b.*\btest\b",
     )

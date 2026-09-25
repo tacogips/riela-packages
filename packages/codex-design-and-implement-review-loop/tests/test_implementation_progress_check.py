@@ -132,6 +132,37 @@ class ImplementationContinuationTests(unittest.TestCase):
         result = progress.classify(envelope(failed))
         self.assertEqual(result["payload"]["blockerType"], "implementation-materially-unverified")
 
+    def test_bun_test_directory_runner_with_positive_count_reaches_review(self) -> None:
+        completed = attempt(1, incomplete=False)
+        completed["verification"] = [{
+            "command": "bun packages/example/tests/check-output-contract.ts --evidence-root tmp/evidence",
+            "exitCode": 0,
+            "testsRun": 10,
+            "testsPassed": 10,
+            "failureCount": 0,
+        }]
+        result = progress.classify(envelope(completed))
+        self.assertEqual(result["payload"]["status"], "ready-for-test-integrity")
+        self.assertEqual(result["when"], {"implementation_blocked": False})
+
+    def test_bun_custom_runner_does_not_hide_missing_or_failed_tests(self) -> None:
+        for command, count, exit_code in (
+            ("bun packages/example/tests/check-output-contract.ts", 0, 0),
+            ("bun packages/example/tests/check-output-contract.ts", 10, 1),
+            ("bun packages/example/tests/fixture.ts", 10, 0),
+            ("bun build packages/example/tests/check-output-contract.ts", 10, 0),
+        ):
+            with self.subTest(command=command, count=count, exit_code=exit_code):
+                completed = attempt(1, incomplete=False)
+                completed["verification"] = [{
+                    "command": command,
+                    "exitCode": exit_code,
+                    "testsRun": count,
+                    "failureCount": 0 if exit_code == 0 else 1,
+                }]
+                result = progress.classify(envelope(completed))
+                self.assertEqual(result["payload"]["blockerType"], "implementation-materially-unverified")
+
     def test_failed_required_gate_stops_despite_other_passing_tests(self) -> None:
         failed = attempt(1)
         failed["verification"].append({
