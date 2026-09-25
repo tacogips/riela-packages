@@ -211,9 +211,18 @@ def issue_reference(value: Any) -> str:
     if isinstance(value, str) and value.strip():
         return value.strip()
     if isinstance(value, dict):
-        identifier = value.get("communicationId") or value.get("number")
+        identifier = value.get("communicationId") or value.get("intakeCommunication") or value.get("number")
         title = value.get("title")
         url = value.get("url")
+        repository = value.get("repository")
+        issue_number = value.get("issueNumber")
+        draft_pr = value.get("draftPR")
+        if isinstance(repository, str) and repository.strip():
+            if type(issue_number) is int and issue_number > 0:
+                return f"{repository.strip()}#{issue_number}"
+            if type(draft_pr) is int and draft_pr > 0:
+                suffix = f": {identifier}" if isinstance(identifier, str) and identifier.strip() else ""
+                return f"{repository.strip()} Draft PR #{draft_pr}{suffix}"
         parts = [str(part).strip() for part in (identifier, title, url) if part not in (None, "")]
         if parts:
             return ": ".join(parts)
