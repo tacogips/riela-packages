@@ -221,6 +221,17 @@ def has_failed_behavioral_evidence(
     )
 
 
+def task_local_evidence_file(value: Any) -> Path | None:
+    if not isinstance(value, str):
+        return None
+    relative = Path(value)
+    if relative.is_absolute() or not relative.parts or relative.parts[0] != "tmp":
+        return None
+    root = (Path.cwd() / "tmp").resolve()
+    resolved = (Path.cwd() / relative).resolve()
+    return resolved if resolved.is_relative_to(root) and resolved.is_file() else None
+
+
 def baseline_review_candidate(record: dict[str, Any]) -> dict[str, Any] | None:
     """Forward a proven matching failure set for review, never as a passing test."""
     if not behavioral_kind(record) or verification_succeeded(record):
@@ -235,38 +246,58 @@ def baseline_review_candidate(record: dict[str, Any]) -> dict[str, Any] | None:
     if isinstance(exit_code, bool) or not isinstance(exit_code, int) or exit_code == 0:
         return None
 
-    root = (Path.cwd() / "tmp").resolve()
-    evidence_paths: dict[str, Path] = {}
-    for key in ("comparison", "log"):
-        value = record.get(key)
-        if not isinstance(value, str):
-            return None
-        relative = Path(value)
-        if relative.is_absolute() or not relative.parts or relative.parts[0] != "tmp":
-            return None
-        resolved = (Path.cwd() / relative).resolve()
-        if not resolved.is_relative_to(root) or not resolved.is_file():
-            return None
-        evidence_paths[key] = resolved
+    reference = record.get("comparison")
+    comparison_path = reference.get("path") if isinstance(reference, dict) else reference
+    comparison_file = task_local_evidence_file(comparison_path)
+    if comparison_file is None or task_local_evidence_file(record.get("log")) is None:
+        return None
     try:
-        comparison = json.loads(evidence_paths["comparison"].read_text())
+        comparison = json.loads(comparison_file.read_text())
     except (OSError, ValueError):
         return None
     if not isinstance(comparison, dict) or comparison.get("identical") is not True:
+        return None
+    if isinstance(reference, dict) and any(
+        reference.get(key) != comparison.get(key)
+        for key in ("identical", "aggregateAssertionCount", "baselineAssertionCount", "aggregateOnly", "baselineOnly")
+    ):
         return None
     counts = (comparison.get("aggregateAssertionCount"), comparison.get("baselineAssertionCount"))
     if any(isinstance(value, bool) or not isinstance(value, int) or value != count for value in counts):
         return None
     if comparison.get("aggregateOnly") != [] or comparison.get("baselineOnly") != []:
         return None
+    aggregate_log = comparison.get("aggregateLog")
+    if aggregate_log is not None and aggregate_log != record["log"]:
+        return None
+    baseline_log = comparison.get("baselineLog")
+    if baseline_log is not None and task_local_evidence_file(baseline_log) is None:
+        return None
     return {
         "command": record["command"],
         "exitCode": record["exitCode"],
         "failureCount": count,
-        "comparison": record["comparison"],
+        "comparison": comparison_path,
         "log": record["log"],
+        "baselineLog": baseline_log,
         "decision": "pending-independent-review",
     }
+
+
+def matched_baseline_record(record: dict[str, Any], candidates: list[dict[str, Any]]) -> bool:
+    """A failed baseline command supports a candidate; it is not a current-source gate."""
+    return bool(behavioral_kind(record)) and any(
+        candidate["baselineLog"] == record.get("log")
+        and record.get("failureCount") == candidate["failureCount"]
+        and isinstance(record.get("testsRun"), int)
+        and not isinstance(record["testsRun"], bool)
+        and record["testsRun"] > candidate["failureCount"]
+        and isinstance(record.get("exitCode"), int)
+        and not isinstance(record["exitCode"], bool)
+        and record["exitCode"] != 0
+        for candidate in candidates
+        if candidate["baselineLog"] is not None
+    )
 
 
 def material_findings(payload: dict[str, Any]) -> list[Any]:
@@ -447,6 +478,7 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
     unreviewable_verification = [
         record for record in verification
         if not any(record is item for item, _ in reviewable_records)
+        and not matched_baseline_record(record, baseline_candidates)
     ]
     if has_failed_behavioral_evidence(
         unreviewable_verification, prior_verification, current_identity, previous_identity

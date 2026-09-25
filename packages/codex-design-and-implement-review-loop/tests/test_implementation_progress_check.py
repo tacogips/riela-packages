@@ -60,12 +60,15 @@ class ImplementationContinuationTests(unittest.TestCase):
         evidence = root / "tmp"
         evidence.mkdir()
         (evidence / "aggregate.log").write_text("11 failing assertions; retained failed aggregate\n")
+        (evidence / "baseline.log").write_text("11 matching checkpoint assertions\n")
         (evidence / "comparison.json").write_text(json.dumps({
             "identical": identical,
             "aggregateAssertionCount": failures,
             "baselineAssertionCount": 11,
             "aggregateOnly": ["new regression"] if extra_failure else [],
             "baselineOnly": [],
+            "aggregateLog": "tmp/aggregate.log",
+            "baselineLog": "tmp/baseline.log",
         }))
         completed = attempt(1, incomplete=False)
         completed["verification"].append({
@@ -150,6 +153,69 @@ class ImplementationContinuationTests(unittest.TestCase):
         self.assertEqual(result["payload"]["status"], "ready-for-test-integrity")
         self.assertEqual(result["payload"]["baselineReviewPending"][0]["decision"], "pending-independent-review")
         self.assertEqual(result["payload"]["verification"][-1]["exitCode"], 1)
+
+    def test_structured_comparison_and_matching_baseline_record_reach_review(self) -> None:
+        temporary, root, completed = self.baseline_case()
+        completed["verification"][-1]["comparison"] = {
+            "path": "tmp/comparison.json",
+            "identical": True,
+            "aggregateAssertionCount": 11,
+            "baselineAssertionCount": 11,
+            "aggregateOnly": [],
+            "baselineOnly": [],
+        }
+        completed["verification"].append({
+            "command": "swift test --package-path tmp/checkpoint --filter BroadTests",
+            "exitCode": 1,
+            "testsRun": 1475,
+            "failureCount": 11,
+            "log": "tmp/baseline.log",
+        })
+        with temporary, patch.object(progress.Path, "cwd", return_value=root):
+            result = progress.classify(envelope(completed))
+        self.assertEqual(result["payload"]["status"], "ready-for-test-integrity")
+        self.assertEqual(len(result["payload"]["baselineReviewPending"]), 1)
+        self.assertEqual(result["payload"]["baselineReviewPending"][0]["baselineLog"], "tmp/baseline.log")
+        self.assertEqual(result["payload"]["verification"][-1]["exitCode"], 1)
+
+    def test_structured_baseline_does_not_hide_unlinked_or_mismatched_failure(self) -> None:
+        for mismatch in (
+            "comparison", "aggregate-log", "baseline-file-missing",
+            "baseline-count", "baseline-log", "extra-failure",
+        ):
+            with self.subTest(mismatch=mismatch):
+                temporary, root, completed = self.baseline_case()
+                completed["verification"][-1]["comparison"] = {
+                    "path": "tmp/comparison.json", "identical": True,
+                    "aggregateAssertionCount": 11, "baselineAssertionCount": 11,
+                    "aggregateOnly": [], "baselineOnly": [],
+                }
+                baseline = {
+                    "command": "swift test --package-path tmp/checkpoint --filter BroadTests",
+                    "exitCode": 1, "testsRun": 1475, "failureCount": 11,
+                    "log": "tmp/baseline.log",
+                }
+                completed["verification"].append(baseline)
+                if mismatch == "comparison":
+                    completed["verification"][1]["comparison"]["baselineAssertionCount"] = 10
+                elif mismatch == "aggregate-log":
+                    comparison = json.loads((root / "tmp/comparison.json").read_text())
+                    comparison["aggregateLog"] = "tmp/another-aggregate.log"
+                    (root / "tmp/comparison.json").write_text(json.dumps(comparison))
+                elif mismatch == "baseline-file-missing":
+                    (root / "tmp/baseline.log").unlink()
+                elif mismatch == "baseline-count":
+                    baseline["failureCount"] = 10
+                elif mismatch == "baseline-log":
+                    baseline["log"] = "tmp/unlinked.log"
+                else:
+                    completed["verification"].append({
+                        "command": "swift test --filter NewRegression", "exitCode": 1,
+                        "testsRun": 3, "failureCount": 1,
+                    })
+                with temporary, patch.object(progress.Path, "cwd", return_value=root):
+                    result = progress.classify(envelope(completed))
+                self.assertEqual(result["payload"]["blockerType"], "implementation-materially-unverified")
 
     def test_baseline_candidate_never_masks_new_or_unproven_failure(self) -> None:
         for overrides in ({"identical": False}, {"failures": 12}, {"extra_failure": True}):
