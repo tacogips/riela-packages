@@ -1,22 +1,24 @@
 # D4: Fable workflow agent output contracts
 
 Status: proposed for independent adversarial design review. Workflow mode: `issue-resolution`.
-Issue: `tacogips/riela-packages`, “Migrate fable-and-improve bundles to the agent-node output contract”; supplied title/body, no issue number or URL. No codex-agent reference repository or Cursor CLI behavior mapping is applicable.
+Issue: `tacogips/riela-packages`, “Finish D4 fable output-contract bundle migration”; supplied title/body, no issue number or URL. No codex-agent reference repository or Cursor CLI behavior mapping is applicable.
 
 ## Scope and evidence
 
 The accepted Step 1 intake and effective workflowInput govern this migration. The runner-resolved workflow provenance is authoritative. This work changes package declarations, not Riela runtime behavior.
 
-Source roots present at intake HEAD `36ddde7880f1e6bcbd9667ec802f4f4920e8b450`:
+Continue from published checkpoint `ae1b501028a81a076007017957d320cdb476d6e1` on `feat/output-contract-d4`. Preserve the 31 pre-existing tracked edits, including both active bundle plans, node declarations and corrected mock scenarios. Do not reset, stash, overwrite or reimplement completed changes. The only target bundles are:
 
 - `packages/fable-and-improve-opus/workflows/fable-and-improve-opus`
 - `packages/fable-and-improve-codex/workflows/fable-and-improve-codex`
 
-Each has 16 agent nodes. Opus has 5 explicit sandbox declarations and Codex has 3; the missing counts are 11 and 13. Both already have 8 schemas, including implementation review, dispatch and integration review. Historical upstream counts must not replace these current observations.
+The effective input explicitly excludes the absent plain `fable-and-improve` package. The previous third-package question is resolved in `design-docs/user-qa/fable-output-contract-d4.md`; no third-package acceptance gap remains. No Riela core changes, dirty main-checkout edits, unrelated rewrites or macOS release are authorized. No codex-agent reference input or Cursor behavior mapping applies.
 
-The requested `packages/fable-and-improve/workflows/fable-and-improve` source is absent, including from `git ls-tree -d HEAD packages/fable-and-improve`. Do not create a substitute or modify another package. Track the third-package acceptance gap in `design-docs/user-qa/fable-output-contract-d4.md`; implementation of the two present bundles can proceed, but claiming all three migrated requires resolution.
+The intake reports passing installed-Riela validations and corrected full mock runs. The existing ScenarioWorkflowAddonResolver consumes add-on responses from `mock-scenario.json`; missing Kaiba responses caused the earlier attempts to fall through to a real client. The fixture correction resolves that cause without a runtime change or new adapter. Preserve deterministic responses for every reached add-on, including knowledge operations in branch fixtures.
 
-Read-only upstream references: `../../riela/design-docs/specs/design-agent-node-output-contract.md` §2/§6 and `../../riela/impl-plans/active/agent-node-output-contract.md`, “Excluded (riela-packages — separate follow-up work package, D4)”. The requested completed-plan path was not found locally; the available active document records the D4 exclusion. Its historical runtime implementation status does not override the supplied statement that core is already implemented. No Riela source changes are authorized.
+`tmp/d4-mock-retry-opus.jsonl` and `tmp/d4-mock-retry-codex.jsonl` each contain a completed root session with exit 0 and 18 node executions, plus a nested completed session with 3 executions. These are completion observations, not proof of all branch assertions or final source identity. Downstream verification must correlate root/nested session IDs, run context, captured source membership/content and consumed add-on outputs with the intended bundle and fixture. Reuse source-matched validation and mock receipts; renew only receipts whose inputs changed or whose source match cannot be established. Do not infer source identity from an exit code, filename or current fixture alone.
+
+The contract sections below retain accepted behavior as invariants for the existing edits, not instructions to redo completed implementation. The remaining work is each bundle's regression matrix and EXPECTED_RESULTS, followed by serial digest/repository checks, independent reviews and exact-file publication.
 
 ## Sandbox behavior
 
@@ -48,9 +50,9 @@ The git-push template consumes `git.commitHash` after git-commit. The backward w
 
 ## Verification and delivery
 
-Implementation must save complete command output, final exit, scenario name, assertion/test counts and session outcomes under worktree `tmp/output-contract-d4/`. Commands run in the foreground and are polled to exit. A mock CLI exit alone is insufficient: assert completed status, intended branch traces and payloads. Mock verification exercises contracts and routing, not real model sandbox enforcement or real Git/knowledge side effects.
+Implementation must save complete command output, final exit, scenario name, assertion/test counts and session outcomes under this worktree’s `tmp/` (including the existing retry receipts). Commands run in the foreground and are polled to exit. A mock CLI exit alone is insufficient: assert completed status, intended branch traces and payloads. Mock verification exercises contracts and routing, not real model sandbox enforcement or real Git/knowledge side effects.
 
-For each present changed package `P`, from `packages/P/workflows/P`, using absolute worktree-local evidence paths:
+Only when source changes or missing source-match evidence require renewal, for each target package `P`, from `packages/P/workflows/P`, using absolute worktree-local evidence paths:
 
 ```sh
 riela workflow validate P --workflow-definition-dir .. --output json
@@ -58,6 +60,17 @@ riela workflow run P --workflow-definition-dir .. --mock-scenario ./mock-scenari
 ```
 
 Replace P and EVIDENCE explicitly in recorded commands. Validation here concerns target bundles, never rediscovery of the running orchestration workflow. Use installed Riela. Isolate scenario stores and artifacts. Preserve happy-path fixtures, then cover Step 9 revision without commit fields, acceptance with a valid message, rejected missing/empty commit messages, and knowledge create/merge/archive/skip paths touched by schema changes. Verify unchanged transitions, models and fanout definitions against the baseline. Do not assert mock retry coverage unless the installed mock mechanism actually passes the malformed output through validation.
+
+Each package's `tests/check-output-contract.ts` and workflow `EXPECTED_RESULTS.md` must reflect these existing plan-backed cases: `happy`, `completion-revision`, `planning-only`, `checkpoint-empty-message`, `commit-missing-message`, `commit-empty-message`, `knowledge-create`, `knowledge-merge-archive`, `knowledge-merge-no-archive`, and `knowledge-skip`. Revision must return through goal review and subsequently commit exactly once; planning-only bypasses archive cleanup. Negative cases must prove rejection at the intended producer before its consumer. Knowledge branches must verify selected add-ons in order and bypassed write add-ons. Assert observed outputs and execution records, not just fixture intent. Keep the production graph unchanged; focused fixture/probe copies belong under tmp. If mocks bypass output validation, use an existing installed-runtime validation entry point and state its coverage limits; structural checks alone do not prove runtime rejection.
+
+Run the two package-owned regressions separately, recording expanded worktree-local evidence roots, complete logs, counts and final exits:
+
+```sh
+bun packages/fable-and-improve-opus/tests/check-output-contract.ts --evidence-root "$EVIDENCE/opus"
+bun packages/fable-and-improve-codex/tests/check-output-contract.ts --evidence-root "$EVIDENCE/codex"
+```
+
+These runners remain downstream deliverables; this design step does not claim they exist or pass. Preserve bundle ownership during implementation. Reconcile only after both writers finish, compare retained edits and evidence, and perform shared metadata updates serially. Update the existing active plans in the planning step to supersede obsolete Kaiba-client blockers and third-package questions without erasing attempt history. Independent branch and combined-tree review decisions must identify their exact source basis; material changes invalidate affected review/check receipts.
 
 Refresh only changed manifests:
 
@@ -70,8 +83,8 @@ git diff --check
 
 The repository uses `mise.toml`, not Taskfile. `mise run check` includes Swift source-based checks; it complements, never replaces, installed-Riela target validation. Keep its scratch/build evidence under this worktree's tmp, using supported overrides or equivalent explicitly recorded commands if needed to respect the no-other-worktree-write constraint. Report unrelated baseline failures without expanding scope. Check generated registry-index consistency; change derived metadata only if required by changed manifests. No release archives, App Store, Homebrew or x64 release is requested.
 
-Update prompts and EXPECTED_RESULTS only where necessary to state these existing payload contracts and reproducible verification accurately. Refresh digests after final payload edits. Independent adversarial review must have no unresolved material findings; commit only reviewed paths and push non-force to `feat/output-contract-d4`, then prepare a PR. Do not touch the dirty main checkout, other worktrees or unrelated packages.
+Update prompts and EXPECTED_RESULTS only where necessary to state these existing payload contracts and reproducible verification accurately. Refresh digests after final payload edits. Independent adversarial review must have no unresolved material findings; commit only reviewed paths and push non-force to `feat/output-contract-d4`, then prepare a PR handoff and confirm the worktree is clean. Include the exact reviewed file list, resulting commit, non-force push outcome, verification logs and review decisions; do not fabricate an issue link. Do not touch the dirty main checkout, other worktrees or unrelated packages.
 
 ## Author self-check
 
-The design maps the sandbox requirement, producer selection, D4 checkpoint/commit contract, deterministic verification, digest checks and reviewed delivery directly to intake. It introduces no runtime layer or adapter. Branch-specific schemas preserve legitimate revision outputs. Current source discrepancies are explicit in user-QA, not treated as orchestration provenance defects. Independent review and implementation verification remain later gates; this document does not claim they passed.
+The design maps the sandbox requirement, producer selection, D4 checkpoint/commit contract, deterministic verification, digest checks and reviewed delivery directly to intake. It introduces no runtime layer or adapter. Branch-specific schemas preserve legitimate revision outputs. The effective input resolves the prior third-package question in user-QA. No unresolved user decision or runtime-input contradiction was identified. Existing implementation edits remain intact; source-match verification, regression execution, digest checks and independent acceptance are explicit downstream gates. Independent review and implementation verification remain later gates; this document does not claim they passed.
