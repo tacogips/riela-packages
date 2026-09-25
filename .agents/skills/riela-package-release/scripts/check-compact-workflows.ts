@@ -226,6 +226,8 @@ assert.match(testIntegrityPrompt, /missing behavior or tests explicitly assigned
 const selectedSwiftLintContract = /if \[ -s "\$changed_swift_manifest" \]; then xargs -0 swiftlint lint --strict --quiet --no-cache < "\$changed_swift_manifest"; else.*No Swift files changed; selected-file SwiftLint not run/is;
 assert.match(implementationPrompt, selectedSwiftLintContract);
 assert.match(testIntegrityPrompt, /manifest was nonempty before `swiftlint lint --strict` ran/i);
+assert.match(implementationPrompt, /accepted plan separately requires repository-wide lint inventory.*distinct gate.*diagnostic-level comparison/is);
+assert.match(testIntegrityPrompt, /accepted plan separately requires repository-wide lint inventory.*distinct gate/is);
 const adversarialPrompt = readFileSync(join(bundle(codex), 'prompts/step7-adversarial-review.md'), 'utf8');
 assert.match(adversarialPrompt, /do not reject a predecessor because final wiring, host injection, or another behavior is explicitly assigned to a pending downstream dependent plan/i);
 const provenanceSystemPromptPath = 'prompts/runtime-provenance-system.md';
@@ -254,6 +256,7 @@ assert.match(integrationReviewPrompt, /do not require this read-only review to r
 assert.match(integrationReviewPrompt, /predecessor is eligible for wave acceptance.*pending downstream dependent plan/is);
 assert.match(integrationReviewPrompt, /retain the downstream plan in `pendingPlanIds`.*expanded `acceptedPlanIds`.*unlock it/is);
 const reconcilePrompt = readFileSync(join(bundle(codex), 'prompts/reconcile-implementations.md'), 'utf8');
+assert.match(reconcilePrompt, /separately required repository-wide lint inventory.*distinct plan gate/is);
 assert.match(reconcilePrompt, /already-resolved dependency checkout and normal build products/i);
 assert.match(reconcilePrompt, /do not select a new isolated scratch build that must fetch dependencies/i);
 assert.match(reconcilePrompt, /direct `verification` and `evidencePaths` output/i);
