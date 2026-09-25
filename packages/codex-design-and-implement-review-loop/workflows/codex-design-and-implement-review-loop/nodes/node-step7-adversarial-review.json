@@ -50,10 +50,21 @@
           }
         },
         "feedback": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "testIntegrityDecision": {
+          "type": "object",
+          "properties": {
+            "accepted": { "type": "boolean" },
+            "summary": { "type": "string", "minLength": 1 },
+            "feedback": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "residualRisks": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+          },
+          "required": ["accepted", "summary", "feedback", "residualRisks"],
+          "additionalProperties": false
+        },
         "adversarialReviewSummary": { "type": "string", "minLength": 1 },
         "residualLowRisks": { "type": "array", "items": { "type": "string", "minLength": 1 } }
       },
-      "required": ["needs_revision", "accepted", "reviewBasis", "findings", "feedback", "adversarialReviewSummary", "residualLowRisks"],
+      "required": ["needs_revision", "accepted", "reviewBasis", "findings", "feedback", "testIntegrityDecision", "adversarialReviewSummary", "residualLowRisks"],
       "additionalProperties": false
     }
   }

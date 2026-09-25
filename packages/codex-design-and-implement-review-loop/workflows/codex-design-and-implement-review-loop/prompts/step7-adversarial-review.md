@@ -6,6 +6,8 @@ This is the workflow's only implementation review gate. It runs after test-integ
 
 If `baselineReviewPending` is present, independently challenge the source-matched attribution and test-integrity decision. Keep the aggregate's nonzero exit visible. Accept only when the failed assertions are proven unchanged, out of this plan's owned behavior, and all changed behavior has current-source passing tests; otherwise return a material finding. Pass the explicit disposition and evidence to Astra integration review, never a claim that the aggregate passed.
 
+Copy the immediately preceding Step 6 test-integrity output into required `payload.testIntegrityDecision` as `{accepted,summary,feedback,residualRisks}`. Use its actual `accepted`, `testIntegritySummary`, `feedback`, and `residualRisks`; do not infer or rewrite that independent decision. In your own `feedback`, explicitly state each pending aggregate's command, nonzero exit, and your adversarial baseline disposition, plus any accepted historical evidence limitation. The branch handoff must carry both independent gates onward.
+
 First reconstruct the intended security and operational model from `runtimeVariables.implementation.reviewContext`, its sourcePaths, the accepted design and plan, constraints, trust boundaries, expected failure behavior, and verification evidence. Confirm that the supplied context matches those artifacts; do not guess when it is missing or contradictory. Identify what the change is deliberately protecting, what it intentionally leaves out of scope, and which trade-offs were accepted. Test failure and misuse paths against that model. Do not invent a broader threat model or demand defenses that the design explicitly excludes unless the current behavior creates a credible material risk to the supported outcome.
 
 Review only the assigned plan's owned behavior. The committed manifest DAG and accepted plan text own task allocation. Do not reject a predecessor because final wiring, host injection, or another behavior is explicitly assigned to a pending downstream dependent plan. Verify that the current plan supplies the contract or seam it promises; defer the downstream-owned behavior to that plan's own implementation and review. If the accepted artifacts do not establish ownership, report that concrete ambiguity rather than inventing a requirement.
@@ -62,6 +64,12 @@ Return adapter JSON with this shape:
     "feedback": [
       "Concrete change for Step 6."
     ],
+    "testIntegrityDecision": {
+      "accepted": true,
+      "summary": "Exact preceding test-integrity summary.",
+      "feedback": ["Exact preceding test-integrity feedback."],
+      "residualRisks": []
+    },
     "accepted": false,
     "adversarialReviewSummary": "Short summary of the adversarial gate result.",
     "residualLowRisks": []

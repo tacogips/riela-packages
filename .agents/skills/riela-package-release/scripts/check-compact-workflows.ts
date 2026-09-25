@@ -230,6 +230,12 @@ assert.match(implementationPrompt, /accepted plan separately requires repository
 assert.match(testIntegrityPrompt, /accepted plan separately requires repository-wide lint inventory.*distinct gate/is);
 const adversarialPrompt = readFileSync(join(bundle(codex), 'prompts/step7-adversarial-review.md'), 'utf8');
 assert.match(adversarialPrompt, /do not reject a predecessor because final wiring, host injection, or another behavior is explicitly assigned to a pending downstream dependent plan/i);
+assert.match(adversarialPrompt, /Copy the immediately preceding Step 6 test-integrity output into required `payload.testIntegrityDecision`/i);
+const adversarialNode = read(join(bundle(codex), 'nodes/node-step7-adversarial-review.json'));
+assert(adversarialNode.output.jsonSchema.required.includes('testIntegrityDecision'));
+assert.deepEqual(adversarialNode.output.jsonSchema.properties.testIntegrityDecision.required, ['accepted', 'summary', 'feedback', 'residualRisks']);
+const branchEvidencePrompt = readFileSync(join(bundle(codex), 'prompts/branch-evidence.md'), 'utf8');
+assert.match(branchEvidencePrompt, /separate `reviewDecisions` entries.*checkpointProvenance/is);
 const provenanceSystemPromptPath = 'prompts/runtime-provenance-system.md';
 const provenanceSystemPrompt = readFileSync(join(bundle(codex), provenanceSystemPromptPath), 'utf8');
 for (const node of ['step1-issue-intake', 'step2-design-doc-update', 'step3-design-review', 'step4-impl-plan-create', 'step5-impl-plan-review']) {
@@ -249,13 +255,18 @@ assert.match(integrationReviewPrompt, /return the immutable wave acceptance reco
 assert.match(integrationReviewPrompt, /runtime persists this read-only node output/i);
 assert.match(integrationReviewPrompt, /do not write or modify repository or evidenceRoot files/i);
 assert.doesNotMatch(integrationReviewPrompt, /persist an immutable wave acceptance record under the run evidenceRoot/i);
-assert.match(integrationReviewPrompt, /immediately preceding serial reconciliation output's `verification` and `evidencePaths`/i);
+assert.match(integrationReviewPrompt, /immediately preceding serial reconciliation output's `verification`, `evidencePaths`, and separate `reviewDecisions`/i);
+assert.match(integrationReviewPrompt, /verified dispatch projection is present/i);
+assert.match(integrationReviewPrompt, /evidence-only worker redispatch.*worker-owned evidence\/progress file already in that plan's `writePaths`/is);
 assert.match(integrationReviewPrompt, /current-tree aggregate command as qualifying passing evidence/i);
 assert.match(integrationReviewPrompt, /nonzero aggregate is never green.*baselineReviewPending/is);
 assert.match(integrationReviewPrompt, /do not require this read-only review to recreate writable caches or an isolated dependency checkout/i);
 assert.match(integrationReviewPrompt, /predecessor is eligible for wave acceptance.*pending downstream dependent plan/is);
 assert.match(integrationReviewPrompt, /retain the downstream plan in `pendingPlanIds`.*expanded `acceptedPlanIds`.*unlock it/is);
 const reconcilePrompt = readFileSync(join(bundle(codex), 'prompts/reconcile-implementations.md'), 'utf8');
+assert.match(reconcilePrompt, /preserve this verified `checkpointProvenance` in your output for integration review/i);
+assert.match(reconcilePrompt, /each successful native fanout branch's `checkpointProvenance`.*Require the branches to agree/is);
+assert.match(reconcilePrompt, /separate typed test-integrity decision and adversarial decision.*in `reviewDecisions`/is);
 assert.match(reconcilePrompt, /separately required repository-wide lint inventory.*distinct plan gate/is);
 assert.match(reconcilePrompt, /already-resolved dependency checkout and normal build products/i);
 assert.match(reconcilePrompt, /do not select a new isolated scratch build that must fetch dependencies/i);
