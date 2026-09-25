@@ -77,6 +77,22 @@ class ManifestEvidenceRootTests(unittest.TestCase):
                 {"issueReference": None, "intakeCommunicationId": None}, self.root
             )
 
+    def test_structured_repository_draft_pr_reference_is_accepted(self) -> None:
+        self.assertEqual(
+            dispatch_plans.issue_reference({
+                "repository": "tacogips/riela",
+                "issueNumber": None,
+                "draftPR": 109,
+                "intakeCommunication": "comm-000002",
+                "workflowExecutionId": "codex-design-and-implement-review-loop-session-1",
+            }),
+            "tacogips/riela Draft PR #109: comm-000002",
+        )
+
+    def test_structured_reference_without_identifier_is_rejected(self) -> None:
+        with self.assertRaisesRegex(ValueError, "issueReference must identify"):
+            dispatch_plans.issue_reference({"repository": "tacogips/riela", "draftPR": False})
+
     def test_dispatch_uses_successful_push_receipt_and_committed_manifest(self) -> None:
         scratch_root = self.root.parents[1] / "tmp"
         scratch_root.mkdir(exist_ok=True)
