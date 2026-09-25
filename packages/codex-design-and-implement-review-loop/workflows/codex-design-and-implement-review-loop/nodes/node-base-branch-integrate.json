@@ -1,6 +1,6 @@
 {
   "id": "base-branch-integrate",
-  "description": "All parallel workers have stopped; final commit and push have succeeded. Perform serialized integration only now.",
+  "description": "All parallel workers have stopped; final commit and push have succeeded. Verify PR handoff or perform authorized serialized base integration.",
   "executionBackend": "codex-agent",
   "agentSandbox": "danger-full-access",
   "model": "gpt-6-sol",
@@ -8,7 +8,7 @@
   "variables": {},
   "effort": "medium",
   "output": {
-    "description": "Return only verified successful base integration evidence; a blocked or failed operation must fail this step.",
+    "description": "Return only verified PR handoff or successful base integration evidence; a blocked or failed operation must fail this step.",
     "jsonSchema": {
       "type": "object",
       "required": ["implementationBranch", "baseBranch", "remote", "implementationCommit", "mergeStatus", "basePushStatus", "verification"],
@@ -17,8 +17,12 @@
         "baseBranch": { "type": "string" },
         "remote": { "type": "string" },
         "implementationCommit": { "type": "string" },
-        "mergeStatus": { "type": "string", "enum": ["merged", "already-on-base", "already-merged"] },
-        "basePushStatus": { "type": "string", "enum": ["pushed", "already-pushed"] },
+        "mergeStatus": { "type": "string", "enum": ["merged", "already-on-base", "already-merged", "pr-open"] },
+        "basePushStatus": { "type": "string", "enum": ["pushed", "already-pushed", "not-requested"] },
+        "pullRequestURL": { "type": "string" },
+        "pullRequestNumber": { "type": "integer" },
+        "pullRequestDraft": { "type": "boolean" },
+        "pullRequestBaseBranch": { "type": "string" },
         "verification": { "type": "object" }
       },
       "additionalProperties": true

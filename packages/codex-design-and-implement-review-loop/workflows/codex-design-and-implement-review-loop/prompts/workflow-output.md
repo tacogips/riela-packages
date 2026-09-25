@@ -58,5 +58,8 @@ Step 10 `git` payload. Copy `pushedRemote` and `pushedBranch` exactly from the
 accepted Step 11 `git` payload. For both modes, copy `baseBranch`, `mergeStatus`,
 and `basePushStatus` exactly from the accepted `base-branch-integrate` payload;
 include them even when the implementation branch is already the base branch.
+When `mergeStatus` is `pr-open`, also copy `pullRequestURL`, `pullRequestNumber`,
+`pullRequestDraft`, and `pullRequestBaseBranch` exactly. State that the base branch has not been merged or
+pushed by this workflow; do not turn PR handoff into a base-integration claim.
 
-For issue-resolution include checkpointCommit, all integrated plan IDs, wave/branch session evidence, overwrite detections and repairs, and combined verification. Do not claim completion if a branch failed or required behavior/evidence is missing. Planning-only has no implementation waves. Read final git integration evidence, not only the earlier implementation-branch push.
+For issue-resolution include checkpointCommit, all integrated plan IDs, wave/branch session evidence, overwrite detections and repairs, and combined verification. Do not claim completion if a branch failed or required behavior/evidence is missing. Planning-only has no implementation waves. Read final PR-handoff or git-integration evidence, not only the earlier implementation-branch push.

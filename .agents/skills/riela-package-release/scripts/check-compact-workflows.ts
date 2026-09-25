@@ -65,8 +65,11 @@ assert.equal(baseIntegration.agentSandbox, 'danger-full-access', 'base integrati
 for (const field of ['implementationBranch', 'baseBranch', 'remote', 'implementationCommit', 'mergeStatus', 'basePushStatus', 'verification']) {
   assert(baseIntegration.output.jsonSchema.required.includes(field), `base integration output must require ${field}`);
 }
-assert.deepEqual(baseIntegration.output.jsonSchema.properties.mergeStatus.enum, ['merged', 'already-on-base', 'already-merged']);
-assert.deepEqual(baseIntegration.output.jsonSchema.properties.basePushStatus.enum, ['pushed', 'already-pushed']);
+assert.deepEqual(baseIntegration.output.jsonSchema.properties.mergeStatus.enum, ['merged', 'already-on-base', 'already-merged', 'pr-open']);
+assert.deepEqual(baseIntegration.output.jsonSchema.properties.basePushStatus.enum, ['pushed', 'already-pushed', 'not-requested']);
+for (const field of ['pullRequestURL', 'pullRequestNumber', 'pullRequestDraft', 'pullRequestBaseBranch']) {
+  assert(baseIntegration.output.jsonSchema.properties[field], `PR handoff output must provide ${field}`);
+}
 const finalPrompt = readFileSync(join(bundle(codex), 'prompts/workflow-output.md'), 'utf8');
 const planningOutputContract = finalPrompt.split('If Step 5 accepted a planning-only run,')[1]?.split('If the workflow continued through Step 8,')[0];
 const issueOutputContract = finalPrompt.split('If the workflow continued through Step 8,')[1]?.split('Copy `commitMessage`')[0];
