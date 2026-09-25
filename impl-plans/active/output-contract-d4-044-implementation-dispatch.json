@@ -1,0 +1,250 @@
+{
+  "taskId": "output-contract-d4-044-implementation",
+  "workflowMode": "issue-resolution",
+  "implementationBranch": "feat/output-contract-d4",
+  "baseBranch": "feat/output-contract-d4",
+  "remote": "origin",
+  "originalHead": "b5cf79770a8c5c218057d470b0b1a68d16c52901",
+  "designDocPaths": [
+    "design-docs/specs/design-fable-output-contract-d4.md",
+    "design-docs/user-qa/fable-output-contract-d4.md"
+  ],
+  "evidenceRoot": "tmp/output-contract-d4-044-implementation",
+  "reviewContext": {
+    "issueReference": {
+      "repository": "tacogips/riela-packages",
+      "title": "Finish D4 output-contract migration after progress-gate repair",
+      "intakeCommunication": "comm-000002",
+      "number": null,
+      "url": null,
+      "checkpoint": "b5cf79770a8c5c218057d470b0b1a68d16c52901"
+    },
+    "userProblem": "Preserve completed D4 Opus/Codex edits and positive behavioral receipts; source-check and join native branch outputs, then complete test-integrity, Sol adversarial, Astra integration review, serial digest checks and reviewed publication.",
+    "requiredOutcomes": [
+      "Explicit valid sandboxes on all sandbox-consuming agents in changed bundles.",
+      "Compatible schemas and validation budgets on required producers, including nonempty commitMessage contracts.",
+      "Installed Riela validation, deterministic mock regression evidence, digest verification, independent material review, exact scoped commit and non-force push."
+    ],
+    "nonGoals": [
+      "Riela core changes",
+      "Unrelated packages or release publication",
+      "Creating the absent third package"
+    ],
+    "constraints": [
+      "Use this dedicated worktree; do not edit the dirty main checkout or other worktrees.",
+      "Keep scratch and evidence under this worktree tmp/.",
+      "Preserve workflow graph, routing, models, fanout and Git add-on behavior.",
+      "No force push.",
+      "Preserve all current dirty edits; no reset, stash or reimplementation of completed changes.",
+      "Reuse source-matched validation and mock receipts; renew only affected or unmatched evidence.",
+      "Runner-resolved package 0.3.44 accepts successful direct Bun behavioral runners with positive counts. No provenance rediscovery or orchestration repair."
+    ],
+    "designDecisionsAndRationale": [
+      "Apply schemas only to producers reached by payload references or conditional labels; context-only references do not justify schema additions.",
+      "Preserve existing sandbox declarations and add read-only or workspace-write according to actual agent behavior.",
+      "Use branch-aware Step 9 schema so revision outputs need no commit fields while accepted outputs require nonempty commitMessage.",
+      "Run the two package plans independently, then reconcile shared derived metadata and combined verification serially."
+    ],
+    "intentionalTradeoffs": [
+      "Only Opus and Codex are in scope; the effective input explicitly excludes the absent third package.",
+      "Repository check components replace literal mise run check to avoid Swift build writes outside this worktree; report actual coverage and failures."
+    ],
+    "supportedEdgeCases": [
+      "Step 9 revision without commit fields",
+      "Accepted Step 9 with nonempty commitMessage",
+      "Knowledge create, merge, archive and skip paths",
+      "Conditional labels retained in the when envelope"
+    ],
+    "outOfScopeEdgeCases": [
+      "Creating the absent packages/fable-and-improve package."
+    ],
+    "sourcePaths": [
+      "packages/fable-and-improve-opus/workflows/fable-and-improve-opus",
+      "packages/fable-and-improve-codex/workflows/fable-and-improve-codex",
+      "design-docs/specs/design-fable-output-contract-d4.md",
+      "design-docs/user-qa/fable-output-contract-d4.md"
+    ],
+    "reviewDecisions": {
+      "design": "Step 3 continuation accepted with no findings (comm-000004).",
+      "plans": "Step 5 independent review accepted the revised plans without findings (comm-000008); reconciliation starts after source-matched branch outputs join, with independent acceptance required before publication."
+    },
+    "codexAgentReferences": []
+  },
+  "plans": [
+    {
+      "planId": "d4-opus-contracts",
+      "planPath": "impl-plans/active/d4-opus-contracts.md",
+      "dependsOn": [],
+      "writePaths": [
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-fable-analysis.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-fable-design.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-opus-implementation.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-opus-review.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-fable-goal-review.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-kb-self-review.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-kb-merge-judge.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-kb-archive-brief.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-final-output.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-plan-checkpoint.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-dispatch-plans.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-branch-evidence.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-reconcile-implementations.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-integration-review.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-step9-commit-message.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-base-branch-integrate.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/fable-goal-review.md",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/plan-checkpoint.md",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/step9-commit-message.md",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/kb-merge-judge.md",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/kb-archive-brief.md",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/mock-scenario.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/EXPECTED_RESULTS.md",
+        "packages/fable-and-improve-opus/tests/check-output-contract.ts",
+        "impl-plans/active/d4-opus-contracts.md"
+      ],
+      "sharedPaths": [],
+      "progressFile": "tmp/output-contract-d4-044-implementation/d4-opus-contracts/progress.json",
+      "verification": [
+        "riela workflow validate fable-and-improve-opus --workflow-definition-dir packages/fable-and-improve-opus/workflows --output json",
+        "bun packages/fable-and-improve-opus/tests/check-output-contract.ts --evidence-root \"$PWD/tmp/output-contract-d4-044-implementation/d4-opus-contracts/attempt-1\"",
+        "git diff --check"
+      ],
+      "acceptanceCriteria": [
+        "All assigned changes match the accepted design and preserve existing routing and outputs.",
+        "Assigned validation and deterministic regression commands finish with complete logs, final exits, and assertion counts.",
+        "Existing opus implementation and EXPECTED_RESULTS preserved; ten-case prior evidence at tmp/output-contract-d4-session-1/d4-opus-contracts/attempt-2/regressions-8/summary.json source-matched or affected checks renewed."
+      ],
+      "verificationPolicy": "Reuse existing source-matched complete receipts first, including positive direct Bun behavioral counts and final exit 0. Renew affected or unmatched checks only; never use --happy-receipt. Use fresh attempt directories, exact argv, complete logs, final exits and assertion counts. Do not overwrite previous evidence."
+    },
+    {
+      "planId": "d4-codex-contracts",
+      "planPath": "impl-plans/active/d4-codex-contracts.md",
+      "dependsOn": [],
+      "writePaths": [
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-fable-analysis.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-fable-design.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-codex-implementation.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-codex-review.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-fable-goal-review.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-kb-self-review.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-kb-merge-judge.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-kb-archive-brief.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-final-output.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-plan-checkpoint.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-dispatch-plans.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-branch-evidence.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-reconcile-implementations.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-integration-review.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-step9-commit-message.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-base-branch-integrate.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/fable-goal-review.md",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/plan-checkpoint.md",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/step9-commit-message.md",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/kb-merge-judge.md",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/kb-archive-brief.md",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/mock-scenario.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/EXPECTED_RESULTS.md",
+        "packages/fable-and-improve-codex/tests/check-output-contract.ts",
+        "impl-plans/active/d4-codex-contracts.md"
+      ],
+      "sharedPaths": [],
+      "progressFile": "tmp/output-contract-d4-044-implementation/d4-codex-contracts/progress.json",
+      "verification": [
+        "riela workflow validate fable-and-improve-codex --workflow-definition-dir packages/fable-and-improve-codex/workflows --output json",
+        "bun packages/fable-and-improve-codex/tests/check-output-contract.ts --evidence-root \"$PWD/tmp/output-contract-d4-044-implementation/d4-codex-contracts/attempt-1\"",
+        "git diff --check"
+      ],
+      "acceptanceCriteria": [
+        "All assigned changes match the accepted design and preserve existing routing and outputs.",
+        "Assigned validation and deterministic regression commands finish with complete logs, final exits, and assertion counts.",
+        "Existing codex implementation and EXPECTED_RESULTS preserved; ten-case prior evidence at tmp/output-contract-d4-session-1/d4-codex-contracts/attempt-2/regressions-final/summary.json source-matched or affected checks renewed."
+      ],
+      "verificationPolicy": "Reuse existing source-matched complete receipts first, including positive direct Bun behavioral counts and final exit 0. Renew affected or unmatched checks only; never use --happy-receipt. Use fresh attempt directories, exact argv, complete logs, final exits and assertion counts. Do not overwrite previous evidence."
+    },
+    {
+      "planId": "d4-reconcile-verify",
+      "planPath": "impl-plans/active/d4-reconcile-verify.md",
+      "dependsOn": [
+        "d4-opus-contracts",
+        "d4-codex-contracts"
+      ],
+      "writePaths": [
+        "packages/fable-and-improve-opus/riela-package.json",
+        "packages/fable-and-improve-codex/riela-package.json",
+        "registry-index.json",
+        "impl-plans/active/d4-reconcile-verify.md"
+      ],
+      "sharedPaths": [
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-fable-analysis.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-fable-design.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-opus-implementation.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-opus-review.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-fable-goal-review.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-kb-self-review.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-kb-merge-judge.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-kb-archive-brief.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-final-output.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-plan-checkpoint.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-dispatch-plans.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-branch-evidence.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-reconcile-implementations.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-integration-review.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-step9-commit-message.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-base-branch-integrate.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/fable-goal-review.md",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/plan-checkpoint.md",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/step9-commit-message.md",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/kb-merge-judge.md",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/kb-archive-brief.md",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/mock-scenario.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/EXPECTED_RESULTS.md",
+        "packages/fable-and-improve-opus/tests/check-output-contract.ts",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-fable-analysis.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-fable-design.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-codex-implementation.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-codex-review.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-fable-goal-review.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-kb-self-review.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-kb-merge-judge.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-kb-archive-brief.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-final-output.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-plan-checkpoint.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-dispatch-plans.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-branch-evidence.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-reconcile-implementations.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-integration-review.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-step9-commit-message.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-base-branch-integrate.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/fable-goal-review.md",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/plan-checkpoint.md",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/step9-commit-message.md",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/kb-merge-judge.md",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/kb-archive-brief.md",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/mock-scenario.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/EXPECTED_RESULTS.md",
+        "packages/fable-and-improve-codex/tests/check-output-contract.ts"
+      ],
+      "progressFile": "tmp/output-contract-d4-044-implementation/d4-reconcile-verify/progress.json",
+      "verification": [
+        "riela workflow validate fable-and-improve-opus --workflow-definition-dir packages/fable-and-improve-opus/workflows --output json",
+        "riela workflow validate fable-and-improve-codex --workflow-definition-dir packages/fable-and-improve-codex/workflows --output json",
+        "bun packages/fable-and-improve-opus/tests/check-output-contract.ts --evidence-root \"$PWD/tmp/output-contract-d4-044-implementation/d4-reconcile-verify/attempt-1/opus\"",
+        "bun packages/fable-and-improve-codex/tests/check-output-contract.ts --evidence-root \"$PWD/tmp/output-contract-d4-044-implementation/d4-reconcile-verify/attempt-1/codex\"",
+        "bun .agents/skills/riela-package-release/scripts/update-package-digests.ts fable-and-improve-opus fable-and-improve-codex --dry-run",
+        "bun .agents/skills/riela-package-release/scripts/generate-registry-index.ts --check",
+        "bun .agents/skills/riela-package-release/scripts/update-package-digests.ts --all --dry-run",
+        "bun .agents/skills/riela-package-release/scripts/update-addon-content-digests.ts --all --check",
+        "bun .agents/skills/riela-package-release/scripts/container-image-matrix.ts --check",
+        "bun .agents/skills/riela-package-release/scripts/check-compact-workflows.ts",
+        "python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'",
+        "git diff --check"
+      ],
+      "acceptanceCriteria": [
+        "Both packages retain every intended change and pass combined validation and deterministic regression checks.",
+        "Changed manifest digests and derived index verify; repository component checks have recorded outcomes.",
+        "Only Opus/Codex are in scope; report actual repository failures for review without unrelated repairs."
+      ],
+      "verificationPolicy": "Reuse existing source-matched complete receipts first, including positive direct Bun behavioral counts and final exit 0. Renew affected or unmatched checks only; never use --happy-receipt. Use fresh attempt directories, exact argv, complete logs, final exits and assertion counts. Do not overwrite previous evidence."
+    }
+  ]
+}

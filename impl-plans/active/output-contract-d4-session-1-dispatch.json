@@ -4,21 +4,22 @@
   "implementationBranch": "feat/output-contract-d4",
   "baseBranch": "feat/output-contract-d4",
   "remote": "origin",
-  "originalHead": "ae1b501028a81a076007017957d320cdb476d6e1",
+  "originalHead": "b5cf79770a8c5c218057d470b0b1a68d16c52901",
   "designDocPaths": [
     "design-docs/specs/design-fable-output-contract-d4.md",
     "design-docs/user-qa/fable-output-contract-d4.md"
   ],
-  "evidenceRoot": "tmp/output-contract-d4-session-1",
+  "evidenceRoot": "tmp/output-contract-d4-044-implementation",
   "reviewContext": {
     "issueReference": {
       "repository": "tacogips/riela-packages",
-      "title": "Finish D4 fable output-contract bundle migration",
+      "title": "Finish D4 output-contract migration after progress-gate repair",
       "intakeCommunication": "comm-000002",
       "number": null,
-      "url": null
+      "url": null,
+      "checkpoint": "b5cf79770a8c5c218057d470b0b1a68d16c52901"
     },
-    "userProblem": "Preserve existing D4 Opus/Codex edits; verify corrected mock receipts, finish branch regressions and EXPECTED_RESULTS, then serial digest checks, independent review and exact-file publication.",
+    "userProblem": "Preserve completed D4 Opus/Codex edits and positive behavioral receipts; source-check and join native branch outputs, then complete test-integrity, Sol adversarial, Astra integration review, serial digest checks and reviewed publication.",
     "requiredOutcomes": [
       "Explicit valid sandboxes on all sandbox-consuming agents in changed bundles.",
       "Compatible schemas and validation budgets on required producers, including nonempty commitMessage contracts.",
@@ -35,7 +36,8 @@
       "Preserve workflow graph, routing, models, fanout and Git add-on behavior.",
       "No force push.",
       "Preserve all current dirty edits; no reset, stash or reimplementation of completed changes.",
-      "Reuse source-matched validation and mock receipts; renew only affected or unmatched evidence."
+      "Reuse source-matched validation and mock receipts; renew only affected or unmatched evidence.",
+      "Runner-resolved package 0.3.44 accepts successful direct Bun behavioral runners with positive counts. No provenance rediscovery or orchestration repair."
     ],
     "designDecisionsAndRationale": [
       "Apply schemas only to producers reached by payload references or conditional labels; context-only references do not justify schema additions.",
@@ -64,7 +66,7 @@
     ],
     "reviewDecisions": {
       "design": "Step 3 continuation accepted with no findings (comm-000004).",
-      "plans": "Step 5 accepted all three revised continuation plans without findings (comm-000006)."
+      "plans": "Current revision pending Step 5 review; historical acceptance does not cover this revision."
     },
     "codexAgentReferences": []
   },
@@ -101,17 +103,18 @@
         "impl-plans/active/d4-opus-contracts.md"
       ],
       "sharedPaths": [],
-      "progressFile": "tmp/output-contract-d4-session-1/d4-opus-contracts/progress.json",
+      "progressFile": "tmp/output-contract-d4-044-implementation/d4-opus-contracts/progress.json",
       "verification": [
         "riela workflow validate fable-and-improve-opus --workflow-definition-dir packages/fable-and-improve-opus/workflows --output json",
-        "bun packages/fable-and-improve-opus/tests/check-output-contract.ts --evidence-root \"$PWD/tmp/output-contract-d4-session-1/d4-opus-contracts/attempt-2\"",
+        "bun packages/fable-and-improve-opus/tests/check-output-contract.ts --evidence-root \"$PWD/tmp/output-contract-d4-044-implementation/d4-opus-contracts/attempt-1\"",
         "git diff --check"
       ],
       "acceptanceCriteria": [
         "All assigned changes match the accepted design and preserve existing routing and outputs.",
-        "Assigned validation and deterministic regression commands finish with complete logs, final exits, and assertion counts."
+        "Assigned validation and deterministic regression commands finish with complete logs, final exits, and assertion counts.",
+        "Existing opus implementation and EXPECTED_RESULTS preserved; ten-case prior evidence at tmp/output-contract-d4-session-1/d4-opus-contracts/attempt-2/regressions-8/summary.json source-matched or affected checks renewed."
       ],
-      "verificationPolicy": "Validation and happy/full mock renewal is conditional on changed inputs or missing source-match evidence; reuse verified receipts. Expand evidence paths and record exact argv, complete log, final exit and assertion counts."
+      "verificationPolicy": "Reuse existing source-matched complete receipts first, including positive direct Bun behavioral counts and final exit 0. Renew affected or unmatched checks only; never use --happy-receipt. Use fresh attempt directories, exact argv, complete logs, final exits and assertion counts. Do not overwrite previous evidence."
     },
     {
       "planId": "d4-codex-contracts",
@@ -145,17 +148,18 @@
         "impl-plans/active/d4-codex-contracts.md"
       ],
       "sharedPaths": [],
-      "progressFile": "tmp/output-contract-d4-session-1/d4-codex-contracts/progress.json",
+      "progressFile": "tmp/output-contract-d4-044-implementation/d4-codex-contracts/progress.json",
       "verification": [
         "riela workflow validate fable-and-improve-codex --workflow-definition-dir packages/fable-and-improve-codex/workflows --output json",
-        "bun packages/fable-and-improve-codex/tests/check-output-contract.ts --evidence-root \"$PWD/tmp/output-contract-d4-session-1/d4-codex-contracts/attempt-2\"",
+        "bun packages/fable-and-improve-codex/tests/check-output-contract.ts --evidence-root \"$PWD/tmp/output-contract-d4-044-implementation/d4-codex-contracts/attempt-1\"",
         "git diff --check"
       ],
       "acceptanceCriteria": [
         "All assigned changes match the accepted design and preserve existing routing and outputs.",
-        "Assigned validation and deterministic regression commands finish with complete logs, final exits, and assertion counts."
+        "Assigned validation and deterministic regression commands finish with complete logs, final exits, and assertion counts.",
+        "Existing codex implementation and EXPECTED_RESULTS preserved; ten-case prior evidence at tmp/output-contract-d4-session-1/d4-codex-contracts/attempt-2/regressions-final/summary.json source-matched or affected checks renewed."
       ],
-      "verificationPolicy": "Validation and happy/full mock renewal is conditional on changed inputs or missing source-match evidence; reuse verified receipts. Expand evidence paths and record exact argv, complete log, final exit and assertion counts."
+      "verificationPolicy": "Reuse existing source-matched complete receipts first, including positive direct Bun behavioral counts and final exit 0. Renew affected or unmatched checks only; never use --happy-receipt. Use fresh attempt directories, exact argv, complete logs, final exits and assertion counts. Do not overwrite previous evidence."
     },
     {
       "planId": "d4-reconcile-verify",
@@ -220,12 +224,12 @@
         "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/EXPECTED_RESULTS.md",
         "packages/fable-and-improve-codex/tests/check-output-contract.ts"
       ],
-      "progressFile": "tmp/output-contract-d4-session-1/d4-reconcile-verify/progress.json",
+      "progressFile": "tmp/output-contract-d4-044-implementation/d4-reconcile-verify/progress.json",
       "verification": [
         "riela workflow validate fable-and-improve-opus --workflow-definition-dir packages/fable-and-improve-opus/workflows --output json",
         "riela workflow validate fable-and-improve-codex --workflow-definition-dir packages/fable-and-improve-codex/workflows --output json",
-        "bun packages/fable-and-improve-opus/tests/check-output-contract.ts --evidence-root \"$PWD/tmp/output-contract-d4-session-1/d4-reconcile-verify/attempt-2/opus\"",
-        "bun packages/fable-and-improve-codex/tests/check-output-contract.ts --evidence-root \"$PWD/tmp/output-contract-d4-session-1/d4-reconcile-verify/attempt-2/codex\"",
+        "bun packages/fable-and-improve-opus/tests/check-output-contract.ts --evidence-root \"$PWD/tmp/output-contract-d4-044-implementation/d4-reconcile-verify/attempt-1/opus\"",
+        "bun packages/fable-and-improve-codex/tests/check-output-contract.ts --evidence-root \"$PWD/tmp/output-contract-d4-044-implementation/d4-reconcile-verify/attempt-1/codex\"",
         "bun .agents/skills/riela-package-release/scripts/update-package-digests.ts fable-and-improve-opus fable-and-improve-codex --dry-run",
         "bun .agents/skills/riela-package-release/scripts/generate-registry-index.ts --check",
         "bun .agents/skills/riela-package-release/scripts/update-package-digests.ts --all --dry-run",
@@ -240,7 +244,7 @@
         "Changed manifest digests and derived index verify; repository component checks have recorded outcomes.",
         "Only Opus/Codex are in scope; report actual repository failures for review without unrelated repairs."
       ],
-      "verificationPolicy": "Validation and happy/full mock renewal is conditional on changed inputs or missing source-match evidence; reuse verified receipts. Expand evidence paths and record exact argv, complete log, final exit and assertion counts."
+      "verificationPolicy": "Reuse existing source-matched complete receipts first, including positive direct Bun behavioral counts and final exit 0. Renew affected or unmatched checks only; never use --happy-receipt. Use fresh attempt directories, exact argv, complete logs, final exits and assertion counts. Do not overwrite previous evidence."
     }
   ]
 }
