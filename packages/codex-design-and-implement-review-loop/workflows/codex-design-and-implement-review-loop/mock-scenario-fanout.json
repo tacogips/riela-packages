@@ -418,6 +418,12 @@
       "feedback": [],
       "accepted": true,
       "adversarialReviewSummary": "Adversarial review accepted the rerun persistence behavior with no high or mid findings.",
+      "testIntegrityDecision": {
+        "accepted": true,
+        "summary": "Test integrity accepted the source-matched behavior.",
+        "feedback": [],
+        "residualRisks": []
+      },
       "residualLowRisks": []
     }
   },
