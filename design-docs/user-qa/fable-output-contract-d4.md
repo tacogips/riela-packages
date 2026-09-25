@@ -1,7 +1,9 @@
-# D4 source-scope question
+# D4 completion scope decisions
 
-The effective input names `packages/fable-and-improve/workflows/fable-and-improve`, but `packages/fable-and-improve` is absent from this worktree and HEAD `36ddde7880f1e6bcbd9667ec802f4f4920e8b450` (`git ls-tree -d HEAD packages/fable-and-improve`, exit 0, empty output).
+Resolved by the effective continuation workflowInput: “Finish D4 fable output-contract bundle migration”, repository `tacogips/riela-packages`, workflow mode `issue-resolution`.
 
-Unresolved decision: provide the intended source path/revision, or confirm that the two present Opus/Codex packages exhaust this migration. Continue scoped work on those two; do not create a third package or claim the three-package criterion complete. This is a repository source-scope discrepancy, unrelated to the runner-resolved workflow provenance.
+Only `packages/fable-and-improve-opus` and `packages/fable-and-improve-codex` are in scope. The input explicitly forbids creating the absent plain `fable-and-improve` package. This supersedes the earlier three-package question; no source delivery or further user approval is needed for that exclusion.
 
-The supplied issue has no number/URL. Use its title and repository as the issue reference; no remote issue lookup is required. No codex-agent reference or Cursor behavior mapping was supplied or is needed.
+The corrected deterministic Kaiba add-on fixture responses supersede the earlier real-client blocker. Preserve attempt history in the active plans while updating their remaining tasks; no Riela core change or new mock adapter is required.
+
+No unresolved user decisions remain. Source matching, branch assertions, digest checks and independent reviews are verification tasks, not user scope questions. The supplied issue has no number/URL; use its title and repository. No codex-agent reference or Cursor behavior mapping was supplied or is needed.
