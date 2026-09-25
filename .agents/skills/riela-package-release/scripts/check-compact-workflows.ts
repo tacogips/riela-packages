@@ -438,6 +438,16 @@ assert.match(readFileSync(join(bundle(codex), 'prompts/implementation-wave-outco
 assert.match(readFileSync(join(bundle(codex), 'prompts/implementation-blocked-output.md'), 'utf8'), /implementation_blocked:true,status:\"blocked\"/i);
 assert.equal(graph.steps.find((step: any) => step.id === 'step6-test-integrity-check').transitions.find((transition: any) => transition.label === '!(needs_revision)')?.toStepId, 'step7-adversarial-review');
 assert.equal(graph.loop.gates.find((g: any) => g.id === 'implementation-plan-completion-check').stepId, 'step9-commit-message');
+const docsNode = JSON.parse(readFileSync(join(bundle(codex), 'nodes/node-step8-docs-refresh.json'), 'utf8'));
+const completionNode = JSON.parse(readFileSync(join(bundle(codex), 'nodes/node-step9-commit-message.json'), 'utf8'));
+const docsPrompt = readFileSync(join(bundle(codex), 'prompts/step8-docs-refresh.md'), 'utf8');
+const completionPrompt = readFileSync(join(bundle(codex), 'prompts/step9-commit-message.md'), 'utf8');
+assert.equal(docsNode.agentSandbox, 'workspace-write');
+assert.equal(completionNode.agentSandbox, 'read-only');
+assert.match(docsPrompt, /Own the writable completion-state cleanup.*Move only plans/is);
+assert.match(docsPrompt, /update `impl-plans\/README\.md`/i);
+assert.match(completionPrompt, /This node is read-only.*Verify that Step 8 moved/is);
+assert.match(completionPrompt, /Never\s+attempt the move or index edit from this node/i);
 assert.equal(graph.loop.gates.find((g: any) => g.id === 'integration-review').stepId, 'integration-review');
 const integrationTransitions = graph.steps.find((step: any) => step.id === 'integration-review').transitions;
 assert.equal(integrationTransitions.find((transition: any) => transition.label === 'needs_revision && repair_in_place')?.toStepId, 'reconcile-implementations');
