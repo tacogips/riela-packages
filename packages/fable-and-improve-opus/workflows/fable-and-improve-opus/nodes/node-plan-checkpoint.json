@@ -5,5 +5,41 @@
   "model": "claude-opus-5-5",
   "promptTemplateFile": "prompts/plan-checkpoint.md",
   "variables": {},
-  "effort": "high"
+  "effort": "high",
+  "agentSandbox": "workspace-write",
+  "output": {
+    "description": "Return checkpoint commit message, committed paths and dispatch evidence paths.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "commitMessage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "committedFiles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "manifestPath": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidenceRoot": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "commitMessage",
+        "committedFiles",
+        "manifestPath",
+        "evidenceRoot"
+      ],
+      "additionalProperties": true
+    },
+    "maxValidationAttempts": 2
+  }
 }

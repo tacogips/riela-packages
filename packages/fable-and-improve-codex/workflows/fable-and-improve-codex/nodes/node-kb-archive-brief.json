@@ -14,9 +14,7 @@
     "jsonSchema": {
       "type": "object",
       "required": [
-        "archive_note",
-        "archiveNoteId",
-        "archivedPointerBody"
+        "archive_note"
       ],
       "properties": {
         "archive_note": {
@@ -29,8 +27,41 @@
           "type": "string"
         }
       },
-      "additionalProperties": true
+      "additionalProperties": true,
+      "anyOf": [
+        {
+          "properties": {
+            "archive_note": {
+              "const": true
+            },
+            "archiveNoteId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "archivedPointerBody": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "archive_note",
+            "archiveNoteId",
+            "archivedPointerBody"
+          ]
+        },
+        {
+          "properties": {
+            "archive_note": {
+              "const": false
+            }
+          },
+          "required": [
+            "archive_note"
+          ]
+        }
+      ]
     },
     "maxValidationAttempts": 2
-  }
+  },
+  "agentSandbox": "read-only"
 }
