@@ -87,6 +87,12 @@ def verification_succeeded(record: dict[str, Any]) -> bool:
 
 def behavioral_kind(record: dict[str, Any]) -> str | None:
     command = record.get("command", "").lower()
+    # Discovery proves test registration, not behavioral execution. It may
+    # accompany a later positive-count test run without failing that run.
+    if re.search(r"\bswift\s+test\b", command) and re.search(
+        r"(?:\slist(?:\s|$)|--list-tests\b)", command
+    ):
+        return None
     test_patterns = (
         r"\bswift\s+test\b", r"\bcargo\s+test\b", r"\bgo\s+test\b", r"\bpytest\b",
         r"\bctest\b", r"\bbun\s+test\b", r"\bvitest\s+run\b",

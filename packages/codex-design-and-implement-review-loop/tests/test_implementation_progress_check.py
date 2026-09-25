@@ -114,6 +114,27 @@ class ImplementationContinuationTests(unittest.TestCase):
         self.assertEqual(result["payload"]["blockerType"], "implementation-materially-unverified")
         self.assertEqual(result["when"], {"implementation_blocked": True})
 
+    def test_swift_discovery_does_not_fail_passing_behavioral_run(self) -> None:
+        completed = attempt(1, incomplete=False)
+        completed["verification"].insert(0, {
+            "command": "/Applications/Xcode.app/usr/bin/swift test --scratch-path tmp/build list",
+            "exitCode": 0,
+            "outcome": "Seven moved tests discovered once.",
+        })
+        result = progress.classify(envelope(completed))
+        self.assertEqual(result["when"], {"implementation_blocked": False})
+        self.assertEqual(result["payload"]["status"], "ready-for-test-integrity")
+
+    def test_discovery_alone_is_not_behavioral_evidence(self) -> None:
+        completed = attempt(1, incomplete=False)
+        completed["verification"] = [{
+            "command": "swift test --list-tests",
+            "exitCode": 0,
+            "outcome": "Tests discovered.",
+        }]
+        result = progress.classify(envelope(completed))
+        self.assertEqual(result["payload"]["blockerType"], "implementation-materially-unverified")
+
     def test_incomplete_attempt_with_high_finding_stops_before_continuation(self) -> None:
         finding = attempt(1)
         finding["authorSelfCheck"]["findings"] = [
