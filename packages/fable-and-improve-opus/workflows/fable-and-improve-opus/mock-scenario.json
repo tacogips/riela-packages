@@ -28,6 +28,42 @@
       "knowledgeQuery": "documentation"
     }
   },
+  "kb-recall-prior": {
+    "payload": {
+      "query": "documentation",
+      "results": [],
+      "resultCount": 0,
+      "noteIds": [],
+      "recallText": ""
+    }
+  },
+  "kb-recall-related": {
+    "payload": {
+      "query": "documentation",
+      "results": [],
+      "resultCount": 0,
+      "noteIds": [],
+      "recallText": "",
+      "knowledgeQuery": "documentation",
+      "candidateContent": "Exact-text verification is a reliable low-cost acceptance check for small documentation changes; skipping it lets duplicate or misplaced notes slip through.",
+      "candidateTags": ["kb", "documentation"]
+    }
+  },
+  "kb-create": {
+    "payload": {
+      "noteIds": ["mock-knowledge-note"],
+      "notes": [],
+      "entriesWritten": 1,
+      "idempotentReplay": false,
+      "associations": []
+    }
+  },
+  "kb-merge": {
+    "payload": {"noteId": "mock-knowledge-note"}
+  },
+  "kb-archive": {
+    "payload": {"noteId": "mock-knowledge-note"}
+  },
   "fable-design": {
     "provider": "scenario-mock",
     "model": "claude-fable-5",
@@ -120,12 +156,24 @@
       "reviewStatus": "accepted",
       "reviewBasis": {
         "userOutcome": "Add the requested documentation note.",
-        "acceptanceCriteria": ["The note exists exactly once in the requested location."],
-        "nonGoals": ["Unrelated documentation restructuring."],
-        "constraints": ["Preserve existing documentation."],
-        "designDecisions": ["Use a focused documentation edit."],
-        "intentionalTradeoffs": ["Use exact-text verification for the narrow change."],
-        "sourcePaths": ["impl-plans/active/a.md"]
+        "acceptanceCriteria": [
+          "The note exists exactly once in the requested location."
+        ],
+        "nonGoals": [
+          "Unrelated documentation restructuring."
+        ],
+        "constraints": [
+          "Preserve existing documentation."
+        ],
+        "designDecisions": [
+          "Use a focused documentation edit."
+        ],
+        "intentionalTradeoffs": [
+          "Use exact-text verification for the narrow change."
+        ],
+        "sourcePaths": [
+          "impl-plans/active/a.md"
+        ]
       },
       "findings": [],
       "verificationAssessment": [
@@ -265,7 +313,8 @@
         "impl-plans/active/a.md",
         "impl-plans/active/b.md"
       ],
-      "manifestPath": "impl-plans/active/mock-dispatch.json"
+      "manifestPath": "impl-plans/active/mock-dispatch.json",
+      "evidenceRoot": "tmp/mock"
     }
   },
   "plan-git-commit": {
@@ -303,18 +352,36 @@
           "acceptanceCriteria": [
             "a behavior retained"
           ],
-          "verification": ["mock combined check"],
+          "verification": [
+            "mock combined check"
+          ],
           "reviewContext": {
             "issueReference": "mock-fable-opus",
             "userProblem": "The requested behavior must be implemented and independently reviewed.",
-            "requiredOutcomes": ["Retain the accepted plan behavior."],
-            "nonGoals": ["Unrelated refactoring."],
-            "constraints": ["Preserve existing repository behavior."],
-            "designDecisionsAndRationale": ["Use the Fable-authored design and plan as the contract."],
-            "intentionalTradeoffs": ["Prefer a focused implementation."],
-            "supportedEdgeCases": ["Shared-file reconciliation."],
-            "outOfScopeEdgeCases": ["Cross-repository execution."],
-            "sourcePaths": ["impl-plans/active/a.md"]
+            "requiredOutcomes": [
+              "Retain the accepted plan behavior."
+            ],
+            "nonGoals": [
+              "Unrelated refactoring."
+            ],
+            "constraints": [
+              "Preserve existing repository behavior."
+            ],
+            "designDecisionsAndRationale": [
+              "Use the Fable-authored design and plan as the contract."
+            ],
+            "intentionalTradeoffs": [
+              "Prefer a focused implementation."
+            ],
+            "supportedEdgeCases": [
+              "Shared-file reconciliation."
+            ],
+            "outOfScopeEdgeCases": [
+              "Cross-repository execution."
+            ],
+            "sourcePaths": [
+              "impl-plans/active/a.md"
+            ]
           },
           "trackedPaths": [
             "a.txt",
@@ -359,10 +426,18 @@
     },
     "payload": {
       "reviewBasis": {
-        "requiredOutcomes": ["Retain the accepted plan behavior."],
-        "nonGoals": ["Unrelated refactoring."],
-        "constraints": ["Preserve existing repository behavior."],
-        "sourcePaths": ["impl-plans/active/a.md"]
+        "requiredOutcomes": [
+          "Retain the accepted plan behavior."
+        ],
+        "nonGoals": [
+          "Unrelated refactoring."
+        ],
+        "constraints": [
+          "Preserve existing repository behavior."
+        ],
+        "sourcePaths": [
+          "impl-plans/active/a.md"
+        ]
       },
       "repairs": [],
       "addressedFeedback": [],
@@ -383,13 +458,27 @@
     "payload": {
       "accepted": true,
       "reviewBasis": {
-        "requiredOutcomes": ["Retain the accepted plan behavior."],
-        "acceptanceCriteria": ["All dispatched behavior survives on the combined tree."],
-        "nonGoals": ["Unrelated refactoring."],
-        "constraints": ["Preserve existing repository behavior."],
-        "designRationale": ["Use the Fable-authored design and plan as the contract."],
-        "intentionalTradeoffs": ["Prefer focused implementation and verification."],
-        "sourcePaths": ["impl-plans/active/a.md"]
+        "requiredOutcomes": [
+          "Retain the accepted plan behavior."
+        ],
+        "acceptanceCriteria": [
+          "All dispatched behavior survives on the combined tree."
+        ],
+        "nonGoals": [
+          "Unrelated refactoring."
+        ],
+        "constraints": [
+          "Preserve existing repository behavior."
+        ],
+        "designRationale": [
+          "Use the Fable-authored design and plan as the contract."
+        ],
+        "intentionalTradeoffs": [
+          "Prefer focused implementation and verification."
+        ],
+        "sourcePaths": [
+          "impl-plans/active/a.md"
+        ]
       },
       "findings": [],
       "needs_revision": false,
@@ -422,7 +511,24 @@
       "commitMessage": "feat: complete shared implementation",
       "committedFiles": [
         "shared.txt"
-      ]
+      ],
+      "workflowMode": "issue-resolution",
+      "decision": "accepted",
+      "needs_revision": false,
+      "findings": [],
+      "checkedImplPlanPaths": [
+        "impl-plans/active/a.md"
+      ],
+      "activeImplPlanFindings": [],
+      "archivedImplPlanPaths": [
+        "impl-plans/completed/a.md"
+      ],
+      "updatedIndexFiles": [
+        "impl-plans/README.md"
+      ],
+      "completionSummary": "Accepted completion and archived the plan.",
+      "residualRisks": [],
+      "changeSummary": "Completed shared implementation."
     }
   },
   "step10-git-commit": {

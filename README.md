@@ -324,9 +324,9 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
 - [fable-astra-design-plan-review-loop](packages/fable-astra-design-plan-review-loop) -
   Fable 5 design and implementation planning with GPT-6 Astra adversarial review and revision.
 - [fable-and-improve-codex](packages/fable-and-improve-codex) -
-  Fable authors design/plans; Codex Terra implements, Terra reviews, and Astra checks combined consistency. Native shared-branch fanout, overwrite reconciliation and serialized Git finalization.
+  Fable authors design/plans; Codex Terra implements, Terra reviews, and Astra checks combined consistency. Native shared-branch fanout, overwrite reconciliation, validated agent output contracts and serialized Git finalization.
 - [fable-and-improve-opus](packages/fable-and-improve-opus) -
-  Fable authors design/plans; existing Claude models implement/review through native shared-branch fanout, overwrite reconciliation and serialized Git finalization.
+  Fable authors design/plans; existing Claude models implement/review through native shared-branch fanout, overwrite reconciliation, validated agent output contracts and serialized Git finalization.
 - [claude-code-deepdesign](packages/claude-code-deepdesign) -
   Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings, and revise until accepted. `backend: claude-code-agent`.
 - [claude-code-adversarial-implementation-review-loop](packages/claude-code-adversarial-implementation-review-loop) -

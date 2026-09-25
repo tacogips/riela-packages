@@ -2,6 +2,7 @@
   "id": "final-output",
   "description": "Publish the final result after Fable accepts the SOL implementation and SOL review.",
   "executionBackend": "claude-code-agent",
+  "agentSandbox": "read-only",
   "model": "claude-fable-5",
   "modelFreeze": true,
   "promptTemplateFile": "prompts/final-output.md",
