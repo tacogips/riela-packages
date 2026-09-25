@@ -3,7 +3,7 @@
 ```json
 {
   "planId": "d4-reconcile-verify",
-  "planPath": "impl-plans/active/d4-reconcile-verify.md",
+  "planPath": "impl-plans/completed/d4-reconcile-verify.md",
   "dependsOn": [
     "d4-opus-contracts",
     "d4-codex-contracts"
@@ -151,3 +151,11 @@ Final Git owner records `git status --short`, `git diff --check`, exact staged p
 - Package 0.3.44 continuation plan update after accepted Step 3 (`comm-000004`): preserve all prior implementation and receipts. Branch tasks now source-check completed work; native join, independent reviews, final digest/index checks and publication remain pending. Historical progress entries remain unchanged. Current Step 5 plan review is pending.
 
 - Step 5 revision (`comm-000006`): resolved the mid finding by removing independent branch-review acceptance from reconciliation start/completion conditions. Start requires completed, source-matched joined branch outputs and stopped writers; test-integrity, Sol adversarial and Astra integration acceptance remains mandatory before final publication. Revised plan awaits Step 5 re-review.
+
+- Step 6 serial reconciliation (`d4-reconcile-verify`, attempt 1): runtime `acceptedPlanIds` admitted both predecessors. The native after-branch snapshots match all 25 tracked paths per branch, the branch source-match receipts cover the bundle and runner inputs, and a bounded combined audit found 16 explicit agent sandboxes and 11 budgeted schema producers in each bundle with both workflow graphs unchanged. No lost edit or scoped repair was found. Evidence: `tmp/riela-fanout/1CA67ADB-46DA-4DD2-9B44-45D518FE9C32/{BD8AA528-4BD9-4C84-BD3D-C36515326B44,7E999CAA-32ED-4A4C-B29D-8408A0CA8FD9}.json` and `tmp/output-contract-d4-044-implementation/d4-{opus,codex}-contracts/attempt-1/source-match.json`.
+- Current joined-tree target validations exited 0. Direct Bun regressions exited 0: Opus 10/10 scenarios, 799 assertions, zero failures; Codex 10/10 cases, 684 assertions, zero failures. Negative cases exited 1 at the intended producer as expected by each runner. Complete logs, exit files, summaries and scenario records are under `tmp/output-contract-d4-044-implementation/d4-reconcile-verify/attempt-1/`.
+- Refreshed only `packages/fable-and-improve-{opus,codex}/riela-package.json` checksum/integrity fields and their four derived values in `registry-index.json`. Both target digest dry-run and index recheck exited 0. The pre-regeneration index check exited 1 because the index was stale; its log and exit remain preserved in attempt 1.
+- Repository component outcomes: all-package digest dry-run, add-on digest check, container image matrix, compact workflow fixtures, Python unit tests (38 passed), and `git diff --check` exited 0. Installed Riela dry-run validated all 65 local package manifests; the isolated combined catalog validated all 30 concrete workflows, skipped 29 extension bundles, and found zero duplicate names or failures. `mise run check` was replaced by these explicit components to keep Swift build writes out of other worktrees. See `catalog-results.json` and per-command complete logs under attempt 1.
+- Assigned implementation and verification are complete for Step 6. Test-integrity, Sol adversarial and Astra integration review decisions, plan archiving, exact-file Git commit, non-force push and PR handoff remain with the downstream owning workflow steps. No review acceptance or publication is claimed here.
+
+- Step 8 completion-state review (issue `comm-000002`, workflow mode `issue-resolution`): assigned implementation and checklist verification are complete; test-integrity, Sol adversarial and Astra integration reviews accepted all three D4 plans without findings. Archived with the same plan ID and historical progress intact. Exact-file commit, non-force push and PR handoff remain downstream workflow publication steps.

@@ -11,6 +11,61 @@
   },
   "promptTemplateFile": "prompts/fable-goal-review.md",
   "output": {
-    "description": "Return when.needs_replan, when.needs_todo, goalAchieved, remaining TODOs, verification evidence, changed files, and residual risks."
+    "description": "Return when.needs_replan, when.needs_todo, goalAchieved, remaining TODOs, verification evidence, changed files, and residual risks.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "goalAchieved": {
+          "type": "boolean"
+        },
+        "completionDecision": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array"
+        },
+        "remainingTodos": {
+          "type": "array"
+        },
+        "replanReason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "followUpImplementationHint": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "changedFiles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "verificationEvidence": {
+          "type": "array"
+        },
+        "reviewEvidence": {
+          "type": "array"
+        },
+        "residualRisks": {
+          "type": "array"
+        },
+        "operatorNotes": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "goalAchieved",
+        "remainingTodos",
+        "verificationEvidence",
+        "changedFiles"
+      ],
+      "additionalProperties": true
+    },
+    "maxValidationAttempts": 2
   }
 }

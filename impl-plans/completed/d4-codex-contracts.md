@@ -3,7 +3,7 @@
 ```json
 {
   "planId": "d4-codex-contracts",
-  "planPath": "impl-plans/active/d4-codex-contracts.md",
+  "planPath": "impl-plans/completed/d4-codex-contracts.md",
   "dependsOn": [],
   "writePaths": [
     "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-fable-analysis.json",
@@ -125,3 +125,7 @@ Earlier entries below are immutable attempt history, not current blockers. The c
 - Assigned implementation and behavioral verification are complete. Author self-check: final installed validation, post-edit TypeScript Bun build and `git diff --check` each exited 0 (`attempt-2/validate-final.log`, `bun-build-final.log`, `diff-check-final.log`). No high or mid implementation finding remains. Independent integrity/adversarial/integration review, shared digest/index work, exact-file commit and non-force push are downstream workflow steps and are not claimed here.
 
 - Package 0.3.44 continuation plan update after accepted Step 3 (`comm-000004`): preserve all prior implementation and receipts. Branch tasks now source-check completed work; native join, independent reviews, final digest/index checks and publication remain pending. Historical progress entries remain unchanged. Current Step 5 plan review is pending.
+
+- Step 6 continuation at checkpoint `b9d3263`: confirmed all 35 current Codex bundle files and the Bun runner match the retained attempt-2 source identity; `tmp/output-contract-d4-044-implementation/d4-codex-contracts/attempt-1/source-match.json` records hashes, probe differences and zero unexpected mismatches. The bundle implementation, EXPECTED_RESULTS and ten-case runner were preserved without source edits. Renewed installed-Riela validation exited 0 (`attempt-1/validate.log`). Renewed direct Bun regression exited 0 with 10/10 cases, 684 assertions and zero failures (`attempt-1/regressions.log`, `attempt-1/regressions/summary.json` and per-case logs). The happy root had 18 executions; revision and planning-only roots had 20 and 17. Malformed checkpoint and accepted completion messages were rejected at their producers, and create/merge/archive/skip knowledge routes passed. The plan-local intent and before snapshot for this progress edit are under `attempt-1/`. Assigned implementation and behavioral verification are complete with no high or mid self-check finding; formal reviews, shared digest/index checks and publication remain downstream.
+
+- Step 8 completion-state review (issue `comm-000002`, workflow mode `issue-resolution`): assigned implementation and checklist verification are complete; test-integrity, Sol adversarial and Astra integration reviews accepted all three D4 plans without findings. Archived with the same plan ID and historical progress intact. Exact-file commit, non-force push and PR handoff remain downstream workflow publication steps.

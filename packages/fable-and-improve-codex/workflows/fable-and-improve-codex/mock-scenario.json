@@ -28,6 +28,42 @@
       "knowledgeQuery": "documentation"
     }
   },
+  "kb-recall-prior": {
+    "payload": {
+      "query": "documentation",
+      "results": [],
+      "resultCount": 0,
+      "noteIds": [],
+      "recallText": ""
+    }
+  },
+  "kb-recall-related": {
+    "payload": {
+      "query": "documentation",
+      "results": [],
+      "resultCount": 0,
+      "noteIds": [],
+      "recallText": "",
+      "knowledgeQuery": "documentation",
+      "candidateContent": "Exact-text verification is a reliable low-cost acceptance check for small documentation changes; skipping it lets duplicate or misplaced notes slip through.",
+      "candidateTags": ["kb", "documentation"]
+    }
+  },
+  "kb-create": {
+    "payload": {
+      "noteIds": ["mock-knowledge-note"],
+      "notes": [],
+      "entriesWritten": 1,
+      "idempotentReplay": false,
+      "associations": []
+    }
+  },
+  "kb-merge": {
+    "payload": {"noteId": "mock-knowledge-note"}
+  },
+  "kb-archive": {
+    "payload": {"noteId": "mock-knowledge-note"}
+  },
   "fable-design": {
     "provider": "scenario-mock",
     "model": "claude-fable-5",
@@ -265,7 +301,8 @@
         "impl-plans/active/a.md",
         "impl-plans/active/b.md"
       ],
-      "manifestPath": "impl-plans/active/mock-dispatch.json"
+      "manifestPath": "impl-plans/active/mock-dispatch.json",
+      "evidenceRoot": "tmp/mock"
     }
   },
   "plan-git-commit": {
@@ -422,7 +459,18 @@
       "commitMessage": "feat: complete shared implementation",
       "committedFiles": [
         "shared.txt"
-      ]
+      ],
+      "workflowMode": "issue-resolution",
+      "checkedImplPlanPaths": ["impl-plans/completed/fable-smoke-note.md"],
+      "activeImplPlanFindings": [],
+      "archivedImplPlanPaths": ["impl-plans/completed/fable-smoke-note.md"],
+      "updatedIndexFiles": ["impl-plans/README.md"],
+      "needs_revision": false,
+      "completionSummary": "Accepted implementation plan archived.",
+      "decision": "accepted",
+      "findings": [],
+      "changeSummary": "Completed the planned documentation update.",
+      "residualRisks": []
     }
   },
   "step10-git-commit": {

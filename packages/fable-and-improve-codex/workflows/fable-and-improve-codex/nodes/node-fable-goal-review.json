@@ -11,6 +11,58 @@
   },
   "promptTemplateFile": "prompts/fable-goal-review.md",
   "output": {
-    "description": "Return routing decisions, goal completion, remaining TODOs, verification and review evidence, changed files, and residual risks."
+    "description": "Return routing decisions, goal completion, remaining TODOs, verification and review evidence, changed files, and residual risks.",
+    "maxValidationAttempts": 2,
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "goalAchieved": {
+          "type": "boolean"
+        },
+        "completionDecision": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array"
+        },
+        "remainingTodos": {
+          "type": "array"
+        },
+        "replanReason": {},
+        "followUpImplementationHint": {},
+        "changedFiles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "verificationEvidence": {
+          "type": "array"
+        },
+        "reviewEvidence": {
+          "type": "array"
+        },
+        "residualRisks": {
+          "type": "array"
+        },
+        "operatorNotes": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "goalAchieved",
+        "completionDecision",
+        "evidence",
+        "remainingTodos",
+        "replanReason",
+        "followUpImplementationHint",
+        "changedFiles",
+        "verificationEvidence",
+        "reviewEvidence",
+        "residualRisks",
+        "operatorNotes"
+      ],
+      "additionalProperties": true
+    }
   }
 }
