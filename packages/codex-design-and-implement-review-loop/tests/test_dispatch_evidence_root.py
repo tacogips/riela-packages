@@ -165,6 +165,12 @@ class ManifestEvidenceRootTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "bounded checkpoint amendment required.*Tests/catalog.swift"):
             self._project_revision("Tests/catalog.swift")
 
+    def test_integration_evidence_log_does_not_require_write_ownership(self) -> None:
+        evidence = "tmp/review-retry/reconcile/aggregate-tests.log"
+        result = self._project_revision(evidence)
+        item = result["payload"]["implementationItems"][0]
+        self.assertEqual(item["reviewFeedback"]["findings"][0]["file"], evidence)
+
     def _project_revision(self, finding_path: str) -> dict:
         scratch_root = self.root.parents[1] / "tmp"
         scratch_root.mkdir(exist_ok=True)

@@ -304,9 +304,11 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
                 continue
             file_path = finding.get("file") or finding.get("filePath")
             if file_path is not None:
-                unmatched_material_paths.add(
-                    safe_relative_path(file_path, "integration-review.findings[].file", root)
-                )
+                relative = safe_relative_path(file_path, "integration-review.findings[].file", root)
+                # Evidence logs are read-only review inputs, not source edits
+                # requiring a new manifest write owner.
+                if not path_is_owned(relative, ["tmp", evidence_root]):
+                    unmatched_material_paths.add(relative)
     for plan in plans:
         plan_id = clean_string(plan.get("planId"), "plans[].planId")
         write_paths = [
@@ -328,7 +330,11 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
                     plan_findings.append(finding)
                     continue
                 relative = safe_relative_path(file_path, "integration-review.findings[].file", root)
-                if plan_id not in accepted and path_is_owned(relative, write_paths):
+                evidence_path = path_is_owned(relative, ["tmp", evidence_root])
+                if plan_id not in accepted and (
+                    path_is_owned(relative, write_paths)
+                    or evidence_path
+                ):
                     plan_findings.append(finding)
                     unmatched_material_paths.discard(relative)
         items.append(
