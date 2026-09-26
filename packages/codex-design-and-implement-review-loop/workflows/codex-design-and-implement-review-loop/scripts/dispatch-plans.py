@@ -67,8 +67,10 @@ def latest_integration_feedback(messages: list[dict[str, Any]]) -> dict[str, Any
             if not isinstance(findings, list) or any(not isinstance(item, dict) for item in findings):
                 raise ValueError("integration-review revision must provide structured findings")
             diagnostic = candidate.get("recoveryDiagnostic")
+            if isinstance(diagnostic, dict):
+                diagnostic = json.dumps(diagnostic, sort_keys=True, separators=(",", ":"))
             if diagnostic is not None and not isinstance(diagnostic, str):
-                raise ValueError("integration-review recoveryDiagnostic must be text")
+                raise ValueError("integration-review recoveryDiagnostic must be text or an object")
             return {
                 "findings": findings,
                 "recoveryDiagnostic": diagnostic or "",
