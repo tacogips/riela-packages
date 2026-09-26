@@ -2,12 +2,55 @@
   "id": "implementation-result",
   "description": "Summarize the accepted initial implementation result for adversarial review.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/implementation-result.md",
   "variables": {},
   "output": {
-    "description": "Return implementation status, changed files, verification, residual risks, and review input."
+    "description": "Return implementation status, changed files, verification, residual risks, and review input.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "implementationWorkflowId": {
+          "type": "string"
+        },
+        "implementationStatus": {
+          "type": "string"
+        },
+        "reviewSubject": {
+          "type": "object"
+        },
+        "targetPaths": {
+          "type": "array",
+          "items": {}
+        },
+        "changedFiles": {
+          "type": "array",
+          "items": {}
+        },
+        "implementationVerification": {
+          "type": "string"
+        },
+        "implementationResidualRisks": {
+          "type": "array",
+          "items": {}
+        },
+        "delegatedWorkflowRuns": {
+          "type": "array",
+          "items": {}
+        },
+        "handoffSummary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "implementationWorkflowId",
+        "implementationStatus"
+      ]
+    },
+    "maxValidationAttempts": 2
   },
   "effort": "medium"
 }

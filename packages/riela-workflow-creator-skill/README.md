@@ -10,7 +10,7 @@ Skill package that teaches agents how to create, modify, validate, and run riela
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install riela-workflow-creator-skill --local-path /path/to/riela-packages
+riela package install riela-workflow-creator-skill --source /path/to/riela-packages/packages/riela-workflow-creator-skill
 ```
 
 Add `--scope user` to install for the current user instead of the

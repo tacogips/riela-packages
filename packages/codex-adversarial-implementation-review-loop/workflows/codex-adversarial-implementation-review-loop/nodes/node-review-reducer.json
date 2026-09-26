@@ -2,12 +2,65 @@
   "id": "review-reducer",
   "description": "Reduce parallel implementation-review findings and route blocking fixes.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/review-reducer.md",
   "variables": {},
   "output": {
-    "description": "Return adapter JSON with merged findings, complete lens coverage, needs_fix, acceptance, and residual risks."
+    "description": "Return adapter JSON with merged findings, complete lens coverage, needs_fix, acceptance, and residual risks.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "needs_fix": {
+          "type": "boolean"
+        },
+        "accepted": {
+          "type": "boolean"
+        },
+        "findings": {
+          "type": "array",
+          "items": {}
+        },
+        "reviewSubject": {
+          "type": "string"
+        },
+        "lensCoverage": {
+          "type": "array",
+          "items": {}
+        },
+        "blockingFindings": {
+          "type": "array",
+          "items": {}
+        },
+        "verificationGaps": {
+          "type": "array",
+          "items": {}
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {}
+        },
+        "changedFiles": {
+          "type": "array",
+          "items": {}
+        },
+        "verification": {
+          "type": "array",
+          "items": {}
+        },
+        "reviewSummary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "needs_fix",
+        "accepted",
+        "findings"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

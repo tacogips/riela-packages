@@ -2,12 +2,51 @@
   "id": "step1-review",
   "description": "Inventory recent committed and uncommitted changes and create complete independent review slices.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step1-review.md",
   "variables": {},
   "output": {
-    "description": "Return the exact change inventory, 1-6 stable complete reviewSlices, coverage mapping, and verification suggestions."
+    "description": "Return the exact change inventory, 1-6 stable complete reviewSlices, coverage mapping, and verification suggestions.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "hours": {
+          "type": "integer"
+        },
+        "historyBase": {
+          "type": "string"
+        },
+        "reviewedCommands": {
+          "type": "array",
+          "items": {}
+        },
+        "reviewedCommittedRange": {
+          "type": "string"
+        },
+        "reviewedUncommitted": {
+          "type": "boolean"
+        },
+        "reviewSlices": {
+          "type": "array",
+          "items": {}
+        },
+        "coverage": {
+          "type": "string"
+        },
+        "verificationSuggestions": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "hours",
+        "historyBase"
+      ]
+    },
+    "maxValidationAttempts": 2
   },
   "effort": "high"
 }

@@ -2,12 +2,51 @@
   "id": "parallel-review",
   "description": "Review one recent-change slice in a bounded read-only fanout branch.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/parallel-review.md",
   "variables": {},
   "output": {
-    "description": "Return reviewId, reviewed paths and commands, severity-ranked findings, verification gaps, and residual risks."
+    "description": "Return reviewId, reviewed paths and commands, severity-ranked findings, verification gaps, and residual risks.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "reviewId": {
+          "type": "string"
+        },
+        "findings": {
+          "type": "array",
+          "items": {}
+        },
+        "reviewedPaths": {
+          "type": "array",
+          "items": {}
+        },
+        "reviewedCommands": {
+          "type": "array",
+          "items": {}
+        },
+        "verificationGaps": {
+          "type": "array",
+          "items": {}
+        },
+        "recommendedFixPlan": {
+          "type": "array",
+          "items": {}
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "reviewId",
+        "findings"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

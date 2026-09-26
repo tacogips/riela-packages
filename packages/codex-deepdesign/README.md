@@ -11,7 +11,7 @@ Create design-doc specifications, review deep, broad, and adversarial lenses con
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install codex-deepdesign --local-path /path/to/riela-packages
+riela package install codex-deepdesign --source /path/to/riela-packages/packages/codex-deepdesign
 ```
 
 Add `--scope user` to install for the current user instead of the

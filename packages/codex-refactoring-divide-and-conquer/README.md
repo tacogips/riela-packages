@@ -11,7 +11,7 @@ Divide the codebase into slices, review concurrently, build a dependency-aware r
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install codex-refactoring-divide-and-conquer --local-path /path/to/riela-packages
+riela package install codex-refactoring-divide-and-conquer --source /path/to/riela-packages/packages/codex-refactoring-divide-and-conquer
 ```
 
 Add `--scope user` to install for the current user instead of the
@@ -21,7 +21,7 @@ This package does not install its dependencies automatically.
 Install each dependency package as well:
 
 ```bash
-riela package install codex-refactoring-slice-review --local-path /path/to/riela-packages
+riela package install codex-refactoring-slice-review --source /path/to/riela-packages/packages/codex-refactoring-slice-review
 ```
 
 ## Run

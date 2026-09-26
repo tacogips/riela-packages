@@ -12,6 +12,66 @@
   "promptTemplateFile": "prompts/codex-implementation.md",
   "variables": {},
   "output": {
-    "description": "Return implementation status, changed files, verification evidence, documentation updates, addressed findings, and residual risks."
+    "description": "Return implementation progress, changed paths and verification evidence.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "implementationStatus": {
+          "type": "string",
+          "minLength": 1
+        },
+        "implementationSummary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "changedFiles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "verification": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "testsAddedOrUpdated": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "documentationUpdated": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "implementationPlanUpdates": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "implementationSummary",
+        "changedFiles"
+      ],
+      "additionalProperties": true
+    },
+    "maxValidationAttempts": 2
   }
 }

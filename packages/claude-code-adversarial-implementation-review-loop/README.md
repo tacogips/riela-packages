@@ -11,7 +11,7 @@ Run a scoped implementation request, review correctness, integration, and advers
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install claude-code-adversarial-implementation-review-loop --local-path /path/to/riela-packages
+riela package install claude-code-adversarial-implementation-review-loop --source /path/to/riela-packages/packages/claude-code-adversarial-implementation-review-loop
 ```
 
 Add `--scope user` to install for the current user instead of the
@@ -21,8 +21,8 @@ This package does not install its dependencies automatically.
 Install each dependency package as well:
 
 ```bash
-riela package install codex-adversarial-implementation-review-loop --local-path /path/to/riela-packages
-riela package install claude-code-design-and-implement-review-loop --local-path /path/to/riela-packages
+riela package install codex-adversarial-implementation-review-loop --source /path/to/riela-packages/packages/codex-adversarial-implementation-review-loop
+riela package install claude-code-design-and-implement-review-loop --source /path/to/riela-packages/packages/claude-code-design-and-implement-review-loop
 ```
 
 ## Run

@@ -2,12 +2,51 @@
   "id": "deepdesign-result",
   "description": "Summarize the accepted codex-deepdesign result.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/deepdesign-result.md",
   "variables": {},
   "output": {
-    "description": "Return accepted design docs, summaries, constraints, and implementation-plan hints."
+    "description": "Return accepted design docs, summaries, constraints, and implementation-plan hints.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "deepdesignWorkflowId": {
+          "type": "string"
+        },
+        "deepdesignStatus": {
+          "type": "string"
+        },
+        "designDocs": {
+          "type": "array",
+          "items": {}
+        },
+        "designSummary": {
+          "type": "string"
+        },
+        "reviewSummaries": {
+          "type": "object"
+        },
+        "implementationHints": {
+          "type": "array",
+          "items": {}
+        },
+        "constraints": {
+          "type": "array",
+          "items": {}
+        },
+        "handoffSummary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "deepdesignWorkflowId",
+        "deepdesignStatus"
+      ]
+    },
+    "maxValidationAttempts": 2
   },
   "effort": "medium"
 }

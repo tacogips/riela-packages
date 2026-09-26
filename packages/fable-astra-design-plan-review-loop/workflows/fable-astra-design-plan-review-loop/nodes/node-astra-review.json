@@ -10,5 +10,118 @@
     "mode": "reuse"
   },
   "variables": {},
-  "promptTemplateFile": "prompts/astra-review.md"
+  "promptTemplateFile": "prompts/astra-review.md",
+  "output": {
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "accepted": {
+          "type": "boolean"
+        },
+        "decision": {
+          "type": "string",
+          "enum": [
+            "accepted",
+            "rejected"
+          ]
+        },
+        "workflowInput": {
+          "type": "object"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "reviewedRevision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "designDocPaths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "implPlanPaths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "artifactDigests": {
+          "type": "object"
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "findingDispositions": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "authorResponses": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "discussionHistory": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "reviewEvidence": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "acceptanceCoverage": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "residualLowRisks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "unresolvedQuestions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "accepted",
+        "decision",
+        "revision",
+        "reviewedRevision",
+        "designDocPaths",
+        "implPlanPaths",
+        "artifactDigests",
+        "findings",
+        "reviewEvidence"
+      ],
+      "additionalProperties": true
+    },
+    "maxValidationAttempts": 2,
+    "description": "Return the independent planning decision and evidence for the accepted routing branch."
+  }
 }

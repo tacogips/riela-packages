@@ -8,7 +8,40 @@
   "promptTemplateFile": "prompts/step8-docs-refresh.md",
   "variables": {},
   "output": {
-    "description": "Return JSON with the refreshed documentation files, the user-facing surfaces covered, a short documentation summary, and any residual risks."
+    "description": "Return JSON with the refreshed documentation files, the user-facing surfaces covered, a short documentation summary, and any residual risks.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "workflowMode": {
+          "type": "string"
+        },
+        "documentationFiles": {
+          "type": "array",
+          "items": {}
+        },
+        "userFacingSurfaces": {
+          "type": "array",
+          "items": {}
+        },
+        "documentationSummary": {
+          "type": "string"
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {}
+        },
+        "archivedImplPlanPaths": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "workflowMode",
+        "documentationFiles"
+      ]
+    },
+    "maxValidationAttempts": 2
   },
   "effort": "medium"
 }

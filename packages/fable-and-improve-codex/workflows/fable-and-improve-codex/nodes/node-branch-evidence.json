@@ -6,5 +6,78 @@
   "model": "gpt-5.6-sol",
   "promptTemplateFile": "prompts/branch-evidence.md",
   "variables": {},
-  "effort": "high"
+  "effort": "high",
+  "output": {
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "planId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "planPath": {
+          "type": "string",
+          "minLength": 1
+        },
+        "changedFiles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "intendedChanges": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "acceptanceCriteria": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "verification": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "overwriteObservations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "repairRequests": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "reviewDecisions": {
+          "type": "object"
+        },
+        "evidencePaths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "changedFiles",
+        "evidencePaths"
+      ],
+      "additionalProperties": true
+    },
+    "maxValidationAttempts": 2,
+    "description": "Return branch change evidence and exact plan handoff paths."
+  }
 }

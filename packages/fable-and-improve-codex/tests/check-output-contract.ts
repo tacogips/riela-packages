@@ -38,8 +38,10 @@ for (const id of ['fable-analysis', 'kb-self-review', 'kb-merge-judge', 'kb-arch
   check(!!output(id)?.jsonSchema, `${id} required schema`);
   eq(output(id).maxValidationAttempts, 2, `${id} retry budget`);
 }
-check(!output('codex-implementation')?.jsonSchema, 'implementation remains schema free');
-check(!output('fable-design')?.jsonSchema, 'design remains schema free');
+for (const id of ['codex-implementation', 'fable-design', 'branch-evidence', 'base-branch-integrate']) {
+  check(!!output(id)?.jsonSchema, `${id} required schema`);
+  eq(output(id).maxValidationAttempts, 2, `${id} retry budget`);
+}
 eq(workflow.entryStepId, 'fable-analysis', 'production entry');
 const checkpoint = spawnSync('git', ['show', `b5cf797:packages/${packageName}/workflows/${packageName}/workflow.json`],
   { cwd: process.cwd(), encoding: 'utf8' });

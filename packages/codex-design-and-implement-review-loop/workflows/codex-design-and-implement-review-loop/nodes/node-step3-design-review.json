@@ -19,6 +19,7 @@
       "properties": { "needs_revision": { "type": "boolean" } },
       "required": ["needs_revision"],
       "additionalProperties": true
-    }
+    },
+    "maxValidationAttempts": 2
   }
 }

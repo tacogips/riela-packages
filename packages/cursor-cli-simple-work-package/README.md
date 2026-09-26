@@ -11,7 +11,7 @@ Lightweight Cursor CLI workflow for small code or documentation changes when no 
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install cursor-cli-simple-work-package --local-path /path/to/riela-packages
+riela package install cursor-cli-simple-work-package --source /path/to/riela-packages/packages/cursor-cli-simple-work-package
 ```
 
 Add `--scope user` to install for the current user instead of the
@@ -21,7 +21,7 @@ This package does not install its dependencies automatically.
 Install each dependency package as well:
 
 ```bash
-riela package install codex-simple-work-package --local-path /path/to/riela-packages
+riela package install codex-simple-work-package --source /path/to/riela-packages/packages/codex-simple-work-package
 ```
 
 ## Run

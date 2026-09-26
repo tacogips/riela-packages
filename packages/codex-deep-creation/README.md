@@ -11,7 +11,7 @@ Run deep design, adversarial implementation-plan completion, and source security
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install codex-deep-creation --local-path /path/to/riela-packages
+riela package install codex-deep-creation --source /path/to/riela-packages/packages/codex-deep-creation
 ```
 
 Add `--scope user` to install for the current user instead of the
@@ -21,9 +21,9 @@ This package does not install its dependencies automatically.
 Install each dependency package as well:
 
 ```bash
-riela package install codex-deepdesign --local-path /path/to/riela-packages
-riela package install codex-impl-plan-completion-loop --local-path /path/to/riela-packages
-riela package install codex-source-security-check-loop --local-path /path/to/riela-packages
+riela package install codex-deepdesign --source /path/to/riela-packages/packages/codex-deepdesign
+riela package install codex-impl-plan-completion-loop --source /path/to/riela-packages/packages/codex-impl-plan-completion-loop
+riela package install codex-source-security-check-loop --source /path/to/riela-packages/packages/codex-source-security-check-loop
 ```
 
 ## Run

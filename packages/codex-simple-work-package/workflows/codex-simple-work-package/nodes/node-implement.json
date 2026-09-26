@@ -2,6 +2,7 @@
   "id": "implement",
   "description": "Implement a small code or documentation change with Codex GPT-5.6 SOL low effort, or revise the change using high and middle review feedback.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "workspace-write",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "low",
@@ -14,6 +15,37 @@
     "description": "Provide the small code or documentation change request. Preferred fields are targetDirectory, requestedChange, constraints, acceptanceCriteria, and verificationHint."
   },
   "output": {
-    "description": "Return JSON with changed files, implementation summary, verification commands, and addressed review feedback."
+    "description": "Return JSON with changed files, implementation summary, verification commands, and addressed review feedback.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "changedFiles": {
+          "type": "array",
+          "items": {}
+        },
+        "implementationSummary": {
+          "type": "string"
+        },
+        "verification": {
+          "type": "array",
+          "items": {}
+        },
+        "addressedFeedback": {
+          "type": "array",
+          "items": {}
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "changedFiles",
+        "implementationSummary",
+        "verification"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

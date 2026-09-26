@@ -22,6 +22,7 @@
       },
       "required": ["implementation_blocked", "partial_success", "blockedPlanIds", "successfulPlanIds", "blockers", "resumeCriteria"],
       "additionalProperties": false
-    }
+    },
+    "maxValidationAttempts": 2
   }
 }

@@ -12,7 +12,7 @@ Long-running Cursor CLI task watcher backed by ./tasks/list.jsonl, with cron/eve
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install cursor-cli-task-watchdog --local-path /path/to/riela-packages
+riela package install cursor-cli-task-watchdog --source /path/to/riela-packages/packages/cursor-cli-task-watchdog
 ```
 
 Add `--scope user` to install for the current user instead of the
@@ -22,10 +22,10 @@ This package does not install its dependencies automatically.
 Install each dependency package as well:
 
 ```bash
-riela package install codex-task-watchdog --local-path /path/to/riela-packages
-riela package install cursor-cli-design-and-implement-review-loop --local-path /path/to/riela-packages
-riela package install cursor-cli-deepdesign --local-path /path/to/riela-packages
-riela package install cursor-cli-recent-change-quality-loop --local-path /path/to/riela-packages
+riela package install codex-task-watchdog --source /path/to/riela-packages/packages/codex-task-watchdog
+riela package install cursor-cli-design-and-implement-review-loop --source /path/to/riela-packages/packages/cursor-cli-design-and-implement-review-loop
+riela package install cursor-cli-deepdesign --source /path/to/riela-packages/packages/cursor-cli-deepdesign
+riela package install cursor-cli-recent-change-quality-loop --source /path/to/riela-packages/packages/cursor-cli-recent-change-quality-loop
 ```
 
 ## Run
