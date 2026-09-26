@@ -4,19 +4,20 @@
   "implementationBranch": "fix/registry-contract-migration",
   "baseBranch": "main",
   "remote": "origin",
-  "originalHead": "b212240228ca02d9532d442bcf454b320e4affe3",
+  "originalHead": "35d1e6acf3399d31fafc886bbed441b20530afaa",
   "designDocPaths": [
     "design-docs/specs/design-riela-021-package-compat.md"
   ],
   "evidenceRoot": "tmp/registry-contract-migration",
   "reviewContext": {
     "issueReference": "https://github.com/tacogips/riela-packages/issues/14",
-    "userProblem": "Continue checkpoint b212240: preserve first-wave work and five plans; fix all 50 reported validation-command failures across 65 packages, 59 workflows and all examples.",
+    "userProblem": "Continue 35d1e6a: preserve prior WIP, accepted design, five plans and source-matched supporting review; finish first-wave review, 48 wrapper commands and serial reconciliation.",
     "requiredOutcomes": [
       "Recheck 14 Codex and four supporting mock workflows and two new fixtures; validate/inspect 12 fixtureless supporting workflows without scenarios.",
-      "Repair inherited wrappers and YouTube dependency locks; verify every package/workflow and deterministic example using the supplied #117 source executable.",
+      "Preserve integrated e9b5869 and YouTube install/validate/inspect closure; repair remaining wrapper failures and verify all 65 packages, 59 workflows, deterministic packaged examples and 75 core examples.",
       "Refresh digests/index serially and pass all helper modes, focused checks and mise run check with complete logs and final exits.",
-      "Resolve high/mid findings through adversarial review; commit/non-force push only fix/registry-contract-migration for Draft PR #15."
+      "Resolve high/mid findings through adversarial review; commit/non-force push only fix/registry-contract-migration for Draft PR #15.",
+      "Record each package-local behavioral command separately with actual exitCode, positive passing test count and complete logPath; update Draft PR #15 after branch-only publication."
     ],
     "nonGoals": [
       "Riela core or sibling modifications",
@@ -25,7 +26,7 @@
       "Unrelated refactoring"
     ],
     "constraints": [
-      "Preserve checkpoint b212240 and existing work; all scratch under repository tmp/registry-contract-migration.",
+      "Preserve checkpoint 35d1e6a and existing work; all scratch under repository tmp/registry-contract-migration.",
       "Shared branch; no worker Git mutations or overlapping concurrent ownership.",
       "Use /Users/taco/gits/tacogips/riela-worktrees/remaining-impl-plans/.build/debug/riela for package checks; #118 runner remains separate.",
       "No live providers, release or merge to main; no running-workflow registry rediscovery.",
@@ -56,20 +57,22 @@
       "impl-plans/active/compat-agent-contracts-supporting.md"
     ],
     "reviewDecisions": [
-      "Step 3 comm-000004 accepted the continuation design with no findings.",
-      "Step 5 comm-000006 accepted all five plans with no findings; independent review retained distinct ownership, dependency-ready waves, serial reconciliation and final verification after later writes."
+      "Step 3 independent design review accepted the current continuation design with no outstanding high/mid findings, as recorded in the accepted plans.",
+      "Step 5 comm-000006 accepted all five current plans with no findings; the review covers separate ownership, dependency waves, serial reconciliation, overwrite evidence, and final combined verification."
     ],
     "codexAgentReferences": [],
     "planReviewEvidence": [
       {
-        "command": "python3 tmp/registry-contract-migration/verification/step4-plans-b212240/check-plans.py",
+        "command": "python3 tmp/registry-contract-migration/verification/step4-plans-35d1e6a/check-plans.py",
         "exitCode": 0,
-        "completeLogPath": "tmp/registry-contract-migration/verification/step4-plans-b212240/07.log"
+        "completeLogPath": "tmp/registry-contract-migration/verification/step4-plans-35d1e6a/plan-check.log",
+        "provenance": "Step 4 author receipt; log and matching plan hashes inspected by Step 5 reviewer"
       },
       {
         "command": "git diff --check",
         "exitCode": 0,
-        "completeLogPath": "tmp/registry-contract-migration/verification/step4-plans-b212240/08.log"
+        "completeLogPath": "tmp/registry-contract-migration/verification/step4-plans-35d1e6a/diff-check.log",
+        "provenance": "Step 4 author receipt; complete empty log inspected by Step 5 reviewer"
       }
     ]
   },
@@ -109,20 +112,35 @@
         "packages/codex-website-builder/tests"
       ],
       "sharedPaths": [],
-      "progressFile": "tmp/registry-contract-migration/verification/compat-agent-contracts/continuation-b212240/attempt-1/progress.json",
+      "progressFile": "tmp/registry-contract-migration/verification/compat-agent-contracts/continuation-35d1e6a/attempt-1/progress.json",
       "verification": [
         "\"$RIELA_COMPAT_CLI\" --version",
         "shasum -a 256 \"$RIELA_COMPAT_CLI\"",
         "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root \"$COMPAT_ATTEMPT/validation\"",
         "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --workflow-list \"$COMPAT_ATTEMPT/workflows.json\" --evidence-root \"$COMPAT_ATTEMPT/scenarios\"",
         "mise run workflow:check-codex-dispatch",
+        "bun packages/codex-adversarial-implementation-review-loop/tests/check-compat.ts",
+        "bun packages/codex-deep-creation/tests/check-compat.ts",
+        "bun packages/codex-deepdesign/tests/check-compat.ts",
+        "bun packages/codex-design-and-implement-review-loop/tests/check-compat.ts",
+        "bun packages/codex-goal/tests/check-compat.ts",
+        "bun packages/codex-impl-plan-completion-loop/tests/check-compat.ts",
+        "bun packages/codex-impl-plan-completion-review-loop/tests/check-compat.ts",
+        "bun packages/codex-recent-change-quality-loop/tests/check-compat.ts",
+        "bun packages/codex-refactoring-divide-and-conquer/tests/check-compat.ts",
+        "bun packages/codex-refactoring-slice-review/tests/check-compat.ts",
+        "bun packages/codex-simple-work-package/tests/check-compat.ts",
+        "bun packages/codex-source-security-check-loop/tests/check-compat.ts",
+        "bun packages/codex-task-watchdog/tests/check-compat.ts",
+        "bun packages/codex-website-builder/tests/check-compat.ts",
         "git diff --check"
       ],
       "acceptanceCriteria": [
         "Every concrete agent has required authority and meaningful consumer-compatible output contracts.",
         "Every changed base has observed positive/negative behavioral coverage; no graph/model/session regression.",
         "Whole-catalog failures outside this owner are listed for wrapper/asset/finalization owners rather than hidden.",
-        "Owned source verification passes; later-wave failures retain exact evidence and assigned repair owners. Final reconciliation permits no historical #117 waiver or unresolved required check."
+        "Owned source verification passes; later-wave failures retain exact evidence and assigned repair owners. Final reconciliation permits no historical #117 waiver or unresolved required check.",
+        "Each applicable package-local behavioral command has its own actual exitCode, positive passing test count and complete logPath; no combined prose/semicolon evidence."
       ]
     },
     {
@@ -164,7 +182,7 @@
         "packages/youtube-shorts-to-text-container/tests"
       ],
       "sharedPaths": [],
-      "progressFile": "tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/continuation-b212240/attempt-1/progress.json",
+      "progressFile": "tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/continuation-35d1e6a/attempt-1/progress.json",
       "verification": [
         "\"$RIELA_COMPAT_CLI\" --version",
         "shasum -a 256 \"$RIELA_COMPAT_CLI\"",
@@ -172,13 +190,16 @@
         "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --workflow-list \"$COMPAT_ATTEMPT/workflows.json\" --evidence-root \"$COMPAT_ATTEMPT/scenarios\"",
         "bun packages/fable-and-improve-opus/tests/check-output-contract.ts --evidence-root \"$COMPAT_ATTEMPT/opus\"",
         "bun packages/fable-and-improve-codex/tests/check-output-contract.ts --evidence-root \"$COMPAT_ATTEMPT/codex\"",
+        "bun packages/claude-code-worker-only-single-step/tests/check-compat.ts",
+        "bun packages/fable-astra-design-plan-review-loop/tests/check-compat.ts",
         "git diff --check"
       ],
       "acceptanceCriteria": [
         "Every concrete agent has required authority and meaningful consumer-compatible output contracts.",
         "Every changed base has observed positive/negative behavioral coverage; no graph/model/session regression.",
         "Whole-catalog failures outside this owner are listed for wrapper/asset/finalization owners rather than hidden.",
-        "Owned source verification passes; later-wave failures retain exact evidence and assigned repair owners. Final reconciliation permits no historical #117 waiver or unresolved required check."
+        "Owned source verification passes; later-wave failures retain exact evidence and assigned repair owners. Final reconciliation permits no historical #117 waiver or unresolved required check.",
+        "Each applicable package-local behavioral command has its own actual exitCode, positive passing test count and complete logPath; no combined prose/semicolon evidence."
       ]
     },
     {
@@ -280,7 +301,7 @@
         "packages/youtube-shorts-to-text-container/README.md"
       ],
       "sharedPaths": [],
-      "progressFile": "tmp/registry-contract-migration/verification/compat-assets/continuation-b212240/attempt-1/progress.json",
+      "progressFile": "tmp/registry-contract-migration/verification/compat-assets/continuation-35d1e6a/attempt-1/progress.json",
       "verification": [
         "\"$RIELA_COMPAT_CLI\" --version",
         "shasum -a 256 \"$RIELA_COMPAT_CLI\"",
@@ -293,7 +314,8 @@
         "All add-ons, skills and examples have a recorded disposition and existing relevant package tests/typechecks are executed.",
         "YouTube resolved-install evidence is explicit; no live network service tests or widened grants.",
         "Manifest/digest intents are delivered to the serial owner.",
-        "Owned source verification passes; later-wave failures retain exact evidence and assigned repair owners. Final reconciliation permits no historical #117 waiver or unresolved required check."
+        "Owned source verification passes; later-wave failures retain exact evidence and assigned repair owners. Final reconciliation permits no historical #117 waiver or unresolved required check.",
+        "Each applicable package-local behavioral command has its own actual exitCode, positive passing test count and complete logPath; no combined prose/semicolon evidence."
       ]
     },
     {
@@ -336,7 +358,7 @@
         "packages/cursor-cli-website-builder/workflows/cursor-cli-website-builder"
       ],
       "sharedPaths": [],
-      "progressFile": "tmp/registry-contract-migration/verification/compat-inheritance/continuation-b212240/attempt-1/progress.json",
+      "progressFile": "tmp/registry-contract-migration/verification/compat-inheritance/continuation-35d1e6a/attempt-1/progress.json",
       "verification": [
         "\"$RIELA_COMPAT_CLI\" --version",
         "shasum -a 256 \"$RIELA_COMPAT_CLI\"",
@@ -349,7 +371,8 @@
         "Every inherited workflow validates after base migration and has effective contract/authority/backend evidence.",
         "No inheritance flattening or duplicate base edits; wrapper release impact is reported.",
         "Any outstanding base defect is explicitly handed to serial reconciliation.",
-        "Owned source verification passes; later-wave failures retain exact evidence and assigned repair owners. Final reconciliation permits no historical #117 waiver or unresolved required check."
+        "Owned source verification passes; later-wave failures retain exact evidence and assigned repair owners. Final reconciliation permits no historical #117 waiver or unresolved required check.",
+        "Each applicable package-local behavioral command has its own actual exitCode, positive passing test count and complete logPath; no combined prose/semicolon evidence."
       ]
     },
     {
@@ -618,7 +641,7 @@
         "packages/cursor-cli-task-watchdog/workflows/cursor-cli-task-watchdog",
         "packages/cursor-cli-website-builder/workflows/cursor-cli-website-builder"
       ],
-      "progressFile": "tmp/registry-contract-migration/verification/compat-reconcile/continuation-b212240/attempt-1/progress.json",
+      "progressFile": "tmp/registry-contract-migration/verification/compat-reconcile/continuation-35d1e6a/attempt-1/progress.json",
       "verification": [
         "\"$RIELA_COMPAT_CLI\" --version",
         "shasum -a 256 \"$RIELA_COMPAT_CLI\"",
@@ -638,14 +661,17 @@
         "mise run package:validate",
         "mise run workflow:validate",
         "mise run workflow:check-compact",
-        "mise run workflow:check-codex-dispatch"
+        "mise run workflow:check-codex-dispatch",
+        "\"$RIELA_COMPAT_CLI\" workflow validate <each of the 75 listed workflow IDs> --workflow-definition-dir \"$COMPAT_ATTEMPT/core-examples/catalog\" --output json"
       ],
       "acceptanceCriteria": [
         "All 65 package manifests and 59 effective workflows pass supplied #117 CLI validation/inspection with resolved dependencies; all required final checks pass.",
         "Relevant behavioral/package tests pass; no required residual check failure is permitted at final acceptance.",
         "Combined hashes preserve all worker intent; versions/digests/index are consistent.",
         "Review-ready exact file set and release evidence are complete; final commit/push remain explicit later gates.",
-        "Owned source verification passes; later-wave failures retain exact evidence and assigned repair owners. Final reconciliation permits no historical #117 waiver or unresolved required check."
+        "Owned source verification passes; later-wave failures retain exact evidence and assigned repair owners. Final reconciliation permits no historical #117 waiver or unresolved required check.",
+        "Each applicable package-local behavioral command has its own actual exitCode, positive passing test count and complete logPath; no combined prose/semicolon evidence.",
+        "All 75 listed core examples have individual passing validation receipts; deterministic packaged examples retain outcome assertions."
       ]
     }
   ]

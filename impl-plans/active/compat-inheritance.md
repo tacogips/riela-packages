@@ -43,7 +43,7 @@ Status: proposed for Step 5 review.
     "packages/cursor-cli-website-builder/workflows/cursor-cli-website-builder"
   ],
   "sharedPaths": [],
-  "progressFile": "tmp/registry-contract-migration/verification/compat-inheritance/continuation-b212240/attempt-1/progress.json",
+  "progressFile": "tmp/registry-contract-migration/verification/compat-inheritance/continuation-35d1e6a/attempt-1/progress.json",
   "verification": [
     "\"$RIELA_COMPAT_CLI\" --version",
     "shasum -a 256 \"$RIELA_COMPAT_CLI\"",
@@ -56,14 +56,15 @@ Status: proposed for Step 5 review.
     "Every inherited workflow validates after base migration and has effective contract/authority/backend evidence.",
     "No inheritance flattening or duplicate base edits; wrapper release impact is reported.",
     "Any outstanding base defect is explicitly handed to serial reconciliation.",
-    "Owned source verification passes; later-wave failures retain exact evidence and assigned repair owners. Final reconciliation permits no historical #117 waiver or unresolved required check."
+    "Owned source verification passes; later-wave failures retain exact evidence and assigned repair owners. Final reconciliation permits no historical #117 waiver or unresolved required check.",
+    "Each applicable package-local behavioral command has its own actual exitCode, positive passing test count and complete logPath; no combined prose/semicolon evidence."
   ]
 }
 ```
 
 ## Intent, context and non-goals
 
-Continue https://github.com/tacogips/riela-packages/issues/14 from `b212240228ca02d9532d442bcf454b320e4affe3` on `fix/registry-contract-migration` for Draft PR #15 in `issue-resolution` mode. Step 3 comm-000004 accepted `design-docs/specs/design-riela-021-package-compat.md` with no findings. Preserve all five plans and checkpointed source work. Scope remains 65 packages, 59 workflows and all examples. Intake reports 14 Codex/four supporting mocks, two new fixtures and asset audit passing with #117; recheck affected inputs and final integration. The 50 reported validation-command failures (mainly 24 inherited wrappers and YouTube) are actual failures, not passing baseline checks or 50 unique workflows.
+Continue https://github.com/tacogips/riela-packages/issues/14 from `35d1e6acf3399d31fafc886bbed441b20530afaa` on `fix/registry-contract-migration` for Draft PR #15 in `issue-resolution` mode. Step 3 comm-000004 accepted `design-docs/specs/design-riela-021-package-compat.md` with no findings. Preserve all five plans and checkpointed source work. Scope remains 65 packages, 59 workflows, deterministic packaged examples and validation evidence for all 75 Riela core examples. Intake reports 14 Codex/four supporting mocks, two new fixtures and asset audit passing with #117; recheck affected inputs and final integration. The installed-owner helper fix `e9b5869` is integrated: YouTube install/validate/inspect pass per effective input. Preserve their source-matched closure receipts. The remaining 48 failed commands belong to 24 Claude/Cursor wrappers; keep actual nonzero outcomes until repaired. The historical 50-command cohort remains evidence, not 50 current failures or distinct workflows.
 
 `codexAgentReferences: []`. Preserve Cursor/Claude adaptations in existing extends patches/replacement maps, including backend/model overrides. No reference checkout or new adapters. No graph/model/session redesign, broad formatting, new frameworks, unrelated cleanup, live providers, release or merge to main. Do not change sibling repositories or rediscover the running workflow's registry/provenance. Runtime input is authoritative. Do not create worktrees/private branches or perform concurrent Git operations. Read applicable subtree AGENTS.md before editing. Preserve unrelated D4 records.
 
@@ -80,7 +81,7 @@ export RIELA_BIN="$RIELA_COMPAT_CLI"
 shasum -a 256 "$RIELA_COMPAT_CLI"
 ```
 
-Set `COMPAT_ATTEMPT` to the absolute repository root plus `tmp/registry-contract-migration/verification/compat-inheritance/continuation-b212240/attempt-1`; if it already exists use the next unused attempt number and record the effective progressFile. Preserve the prior canonical progress log as historical evidence. Create `bin/riela` there as a symlink to `$RIELA_COMPAT_CLI`, prepend that bin directory to PATH and record `command -v riela` plus its resolved target so subprocesses use #117 too. Do not overwrite previous attempts, change HOME, build core or silently substitute a binary. Missing executables block dependent checks only. Canonical command paths below must be expanded consistently to the new attempt path and recorded in `commands.json`.
+Set `COMPAT_ATTEMPT` to the absolute repository root plus `tmp/registry-contract-migration/verification/compat-inheritance/continuation-35d1e6a/attempt-1`; if it already exists use the next unused attempt number and record the effective progressFile. Preserve the prior canonical progress log as historical evidence. Create `bin/riela` there as a symlink to `$RIELA_COMPAT_CLI`, prepend that bin directory to PATH and record `command -v riela` plus its resolved target so subprocesses use #117 too. Do not overwrite previous attempts, change HOME, build core or silently substitute a binary. Missing executables block dependent checks only. Canonical command paths below must be expanded consistently to the new attempt path and recorded in `commands.json`.
 
 ## Continuation and failure accounting
 
@@ -88,9 +89,13 @@ Riela https://github.com/tacogips/riela/issues/117 is the related fix reference,
 
 An earlier wave may finish its owned source tasks while documented later-wave repairs remain pending: assign each pending wrapper defect to compat-inheritance and each manifest/dependency-lock defect to compat-reconcile, with exact paths and field-level intent. An owned contract failure or missing owned material verification blocks that owner. Full-catalog aggregate failures remain failed even when an owner's individual checks pass. The final reconciliation gate requires all requested checks passing; a historical failure or baseline reproduction grants no exception. This permits dependency-ready progress without claiming compatibility completion early.
 
-Reuse receipts only after matching audited file hashes, CLI hash/version, dependencies, effective arguments, final exit and complete logs; record comparisons and original receipt paths. If mismatch or incomplete, rerun affected checks. Baseline copies, if needed, use checkpoint b212240 under repository tmp; no extra worktrees. Preserve the two checkpointed fixtures and all existing route assertions. The 12 fixtureless supporting workflows require validate/inspect receipts, never a manufactured scenario requirement. All examples require a recorded deterministic check or static invocation/asset verification where live execution is excluded, with the limit stated.
+Reuse receipts only after matching audited file hashes, CLI hash/version, dependencies, effective arguments, final exit and complete logs; record comparisons and original receipt paths. If mismatch or incomplete, rerun affected checks. Baseline copies, if needed, use checkpoint 35d1e6a under repository tmp; no extra worktrees. Preserve the two checkpointed fixtures and all existing route assertions. The 12 fixtureless supporting workflows require validate/inspect receipts, never a manufactured scenario requirement. All packaged examples require deterministic checks or explicit static invocation/asset coverage where live execution is excluded. Serial reconciliation additionally records validation for each of the 75 core examples; static audits cannot replace those validation results.
 
 Formal independent reviews, checkpoint/publication and final commit/push are later Riela gates. Step 6 completion covers assigned source tasks and their verification, not those later gates. Report source status and final-verification status separately. No unresolved high/mid owned finding is complete; no final acceptance while required checks fail or are blocked.
+
+The previous Step 6 stop was an evidence-format blocker, not a test failure. For EVERY package-local behavioral command, write a separate `verification` record containing the exact command/cwd, actual numeric `exitCode`, positive `testsRun` or `testCount` for a passing behavioral check, complete `logPath`, and source/CLI hashes. Copy only source-matched complete receipts or rerun the command. Do not use a prose summary, semicolon-combined command, assumed zero exit, or aggregate test count. Preserve nonzero results until a separately recorded rerun passes. Keep whole-catalog failures as separate nonzero records assigned to downstream owners; structural checks report actual coverage, not invented test counts.
+
+Preserve the source-matched supporting-plan review supplied by effective input. Retain its original receipt and audited hashes in the continuation handoff; changed plan instructions require Step 5 review but do not erase an unchanged-source implementation review. Complete outstanding first-wave review through Riela's existing review gates before accepting those handoffs; do not rerun accepted source work solely because plan status text was stale.
 
 ## Execution, drift and progress contract
 
@@ -150,4 +155,4 @@ Complete your progress log and handoff only after each owned task has evidence o
 
 ## Author review handoff
 
-Step 3 accepted the design in comm-000004 with no findings. Step 5 review of this continuation is pending; prior plan acceptance is historical. Current author checks and ownership enumeration are recorded in `tmp/registry-contract-migration/verification/step4-plans-b212240/commands.json`. Package implementation/verification remains downstream; the author does not claim those commands have passed.
+Step 3 accepted the design in comm-000004 with no findings. Step 5 review of these revised plan instructions is pending. Preserve prior plan receipts and the source-matched supporting implementation review; reuse only evidence whose audited inputs still match. Current author checks and ownership enumeration are recorded in `tmp/registry-contract-migration/verification/step4-plans-35d1e6a/commands.json`. Package implementation/verification remains downstream; the author does not claim those commands have passed.

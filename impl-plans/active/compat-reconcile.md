@@ -269,7 +269,7 @@ Status: proposed for Step 5 review.
     "packages/cursor-cli-task-watchdog/workflows/cursor-cli-task-watchdog",
     "packages/cursor-cli-website-builder/workflows/cursor-cli-website-builder"
   ],
-  "progressFile": "tmp/registry-contract-migration/verification/compat-reconcile/continuation-b212240/attempt-1/progress.json",
+  "progressFile": "tmp/registry-contract-migration/verification/compat-reconcile/continuation-35d1e6a/attempt-1/progress.json",
   "verification": [
     "\"$RIELA_COMPAT_CLI\" --version",
     "shasum -a 256 \"$RIELA_COMPAT_CLI\"",
@@ -289,21 +289,24 @@ Status: proposed for Step 5 review.
     "mise run package:validate",
     "mise run workflow:validate",
     "mise run workflow:check-compact",
-    "mise run workflow:check-codex-dispatch"
+    "mise run workflow:check-codex-dispatch",
+    "\"$RIELA_COMPAT_CLI\" workflow validate <each of the 75 listed workflow IDs> --workflow-definition-dir \"$COMPAT_ATTEMPT/core-examples/catalog\" --output json"
   ],
   "acceptanceCriteria": [
     "All 65 package manifests and 59 effective workflows pass supplied #117 CLI validation/inspection with resolved dependencies; all required final checks pass.",
     "Relevant behavioral/package tests pass; no required residual check failure is permitted at final acceptance.",
     "Combined hashes preserve all worker intent; versions/digests/index are consistent.",
     "Review-ready exact file set and release evidence are complete; final commit/push remain explicit later gates.",
-    "Owned source verification passes; later-wave failures retain exact evidence and assigned repair owners. Final reconciliation permits no historical #117 waiver or unresolved required check."
+    "Owned source verification passes; later-wave failures retain exact evidence and assigned repair owners. Final reconciliation permits no historical #117 waiver or unresolved required check.",
+    "Each applicable package-local behavioral command has its own actual exitCode, positive passing test count and complete logPath; no combined prose/semicolon evidence.",
+    "All 75 listed core examples have individual passing validation receipts; deterministic packaged examples retain outcome assertions."
   ]
 }
 ```
 
 ## Intent, context and non-goals
 
-Continue https://github.com/tacogips/riela-packages/issues/14 from `b212240228ca02d9532d442bcf454b320e4affe3` on `fix/registry-contract-migration` for Draft PR #15 in `issue-resolution` mode. Step 3 comm-000004 accepted `design-docs/specs/design-riela-021-package-compat.md` with no findings. Preserve all five plans and checkpointed source work. Scope remains 65 packages, 59 workflows and all examples. Intake reports 14 Codex/four supporting mocks, two new fixtures and asset audit passing with #117; recheck affected inputs and final integration. The 50 reported validation-command failures (mainly 24 inherited wrappers and YouTube) are actual failures, not passing baseline checks or 50 unique workflows.
+Continue https://github.com/tacogips/riela-packages/issues/14 from `35d1e6acf3399d31fafc886bbed441b20530afaa` on `fix/registry-contract-migration` for Draft PR #15 in `issue-resolution` mode. Step 3 comm-000004 accepted `design-docs/specs/design-riela-021-package-compat.md` with no findings. Preserve all five plans and checkpointed source work. Scope remains 65 packages, 59 workflows, deterministic packaged examples and validation evidence for all 75 Riela core examples. Intake reports 14 Codex/four supporting mocks, two new fixtures and asset audit passing with #117; recheck affected inputs and final integration. The installed-owner helper fix `e9b5869` is integrated: YouTube install/validate/inspect pass per effective input. Preserve their source-matched closure receipts. The remaining 48 failed commands belong to 24 Claude/Cursor wrappers; keep actual nonzero outcomes until repaired. The historical 50-command cohort remains evidence, not 50 current failures or distinct workflows.
 
 `codexAgentReferences: []`. Preserve Cursor/Claude adaptations in existing extends patches/replacement maps, including backend/model overrides. No reference checkout or new adapters. No graph/model/session redesign, broad formatting, new frameworks, unrelated cleanup, live providers, release or merge to main. Do not change sibling repositories or rediscover the running workflow's registry/provenance. Runtime input is authoritative. Do not create worktrees/private branches or perform concurrent Git operations. Read applicable subtree AGENTS.md before editing. Preserve unrelated D4 records.
 
@@ -320,7 +323,7 @@ export RIELA_BIN="$RIELA_COMPAT_CLI"
 shasum -a 256 "$RIELA_COMPAT_CLI"
 ```
 
-Set `COMPAT_ATTEMPT` to the absolute repository root plus `tmp/registry-contract-migration/verification/compat-reconcile/continuation-b212240/attempt-1`; if it already exists use the next unused attempt number and record the effective progressFile. Preserve the prior canonical progress log as historical evidence. Create `bin/riela` there as a symlink to `$RIELA_COMPAT_CLI`, prepend that bin directory to PATH and record `command -v riela` plus its resolved target so subprocesses use #117 too. Do not overwrite previous attempts, change HOME, build core or silently substitute a binary. Missing executables block dependent checks only. Canonical command paths below must be expanded consistently to the new attempt path and recorded in `commands.json`.
+Set `COMPAT_ATTEMPT` to the absolute repository root plus `tmp/registry-contract-migration/verification/compat-reconcile/continuation-35d1e6a/attempt-1`; if it already exists use the next unused attempt number and record the effective progressFile. Preserve the prior canonical progress log as historical evidence. Create `bin/riela` there as a symlink to `$RIELA_COMPAT_CLI`, prepend that bin directory to PATH and record `command -v riela` plus its resolved target so subprocesses use #117 too. Do not overwrite previous attempts, change HOME, build core or silently substitute a binary. Missing executables block dependent checks only. Canonical command paths below must be expanded consistently to the new attempt path and recorded in `commands.json`.
 
 ## Continuation and failure accounting
 
@@ -328,9 +331,13 @@ Riela https://github.com/tacogips/riela/issues/117 is the related fix reference,
 
 An earlier wave may finish its owned source tasks while documented later-wave repairs remain pending: assign each pending wrapper defect to compat-inheritance and each manifest/dependency-lock defect to compat-reconcile, with exact paths and field-level intent. An owned contract failure or missing owned material verification blocks that owner. Full-catalog aggregate failures remain failed even when an owner's individual checks pass. The final reconciliation gate requires all requested checks passing; a historical failure or baseline reproduction grants no exception. This permits dependency-ready progress without claiming compatibility completion early.
 
-Reuse receipts only after matching audited file hashes, CLI hash/version, dependencies, effective arguments, final exit and complete logs; record comparisons and original receipt paths. If mismatch or incomplete, rerun affected checks. Baseline copies, if needed, use checkpoint b212240 under repository tmp; no extra worktrees. Preserve the two checkpointed fixtures and all existing route assertions. The 12 fixtureless supporting workflows require validate/inspect receipts, never a manufactured scenario requirement. All examples require a recorded deterministic check or static invocation/asset verification where live execution is excluded, with the limit stated.
+Reuse receipts only after matching audited file hashes, CLI hash/version, dependencies, effective arguments, final exit and complete logs; record comparisons and original receipt paths. If mismatch or incomplete, rerun affected checks. Baseline copies, if needed, use checkpoint 35d1e6a under repository tmp; no extra worktrees. Preserve the two checkpointed fixtures and all existing route assertions. The 12 fixtureless supporting workflows require validate/inspect receipts, never a manufactured scenario requirement. All packaged examples require deterministic checks or explicit static invocation/asset coverage where live execution is excluded. Serial reconciliation additionally records validation for each of the 75 core examples; static audits cannot replace those validation results.
 
 Formal independent reviews, checkpoint/publication and final commit/push are later Riela gates. Step 6 completion covers assigned source tasks and their verification, not those later gates. Report source status and final-verification status separately. No unresolved high/mid owned finding is complete; no final acceptance while required checks fail or are blocked.
+
+The previous Step 6 stop was an evidence-format blocker, not a test failure. For EVERY package-local behavioral command, write a separate `verification` record containing the exact command/cwd, actual numeric `exitCode`, positive `testsRun` or `testCount` for a passing behavioral check, complete `logPath`, and source/CLI hashes. Copy only source-matched complete receipts or rerun the command. Do not use a prose summary, semicolon-combined command, assumed zero exit, or aggregate test count. Preserve nonzero results until a separately recorded rerun passes. Keep whole-catalog failures as separate nonzero records assigned to downstream owners; structural checks report actual coverage, not invented test counts.
+
+Preserve the source-matched supporting-plan review supplied by effective input. Retain its original receipt and audited hashes in the continuation handoff; changed plan instructions require Step 5 review but do not erase an unchanged-source implementation review. Complete outstanding first-wave review through Riela's existing review gates before accepting those handoffs; do not rerun accepted source work solely because plan status text was stale.
 
 ## Execution, drift and progress contract
 
@@ -355,11 +362,11 @@ The original contract owner is now `compat-agent-contracts` plus `compat-agent-c
 ## Ordered tasks and deliverables
 
 1. Join every handoff and compare current file hashes to worker post-hashes and immutable intent snapshots. Repair any overwritten requirement serially with fresh reads; document each drift and its chosen resolution. Review complete combined diff and rerun every affected check. Shared writePaths are repair authority only, not permission for optional refactoring. Reconcile package/producer coverage matrices so no package or changed producer lacks an owner/result. Reconcile expected-routes.json only after joining downstream route intents against the completed verification checkpoint: retain effective workflow/fixture identities, graph/fixture/document derivation evidence and mandatory route checks. Rerun all 17 accepted harness regressions after any repair. Final scenarios mode without --workflow-list must exercise mandatory routes for every default-selected fixture; explicitly selected inherited cases must also retain effective-wrapper route assertions.
-2. Apply concrete manifest corrections requested by workers. Using the supplied #117 executable, migrate the old local-command dependency locks in `packages/youtube-mp4-to-text-workflow/riela-package.json` against its three actual add-on descriptors and the fixed CLI contract. Preserve canonical IDs/capabilities/content digests; update dependent manifest metadata where required. Record before/after lock fields and validate the isolated installed dependency closure. Any remaining lock or installed-validation failure blocks final acceptance; retain exact fresh evidence and repair before completion. Bump changed package versions according to existing version policy; review effective wrapper impact and update necessary version/dependency pins. For each source-changed add-on run `bun .agents/skills/riela-package-release/scripts/update-addon-content-digests.ts <package-directory-id>` with the recorded exact ID, recomputing its content digest and synchronized dependency locks FIRST, then package checksum/integrity for all affected packages, then registry-index.json. Use --all digest refresh only after recording the affected set and review every unexpected change. Update root/package README metadata only where displayed information changes; preserve package inventory.
+2. Apply concrete manifest corrections requested by workers. Using the supplied #117 executable, repair any demonstrated remaining mismatch in the local-command dependency locks in `packages/youtube-mp4-to-text-workflow/riela-package.json` against its three actual add-on descriptors and the fixed CLI contract. Preserve canonical IDs/capabilities/content digests; update dependent manifest metadata where required. Record before/after lock fields and validate the isolated installed dependency closure. Any remaining lock or installed-validation failure blocks final acceptance; retain exact fresh evidence and repair before completion. Bump changed package versions according to existing version policy; review effective wrapper impact and update necessary version/dependency pins. For each source-changed add-on run `bun .agents/skills/riela-package-release/scripts/update-addon-content-digests.ts <package-directory-id>` with the recorded exact ID, recomputing its content digest and synchronized dependency locks FIRST, then package checksum/integrity for all affected packages, then registry-index.json. Use --all digest refresh only after recording the affected set and review every unexpected change. Update root/package README metadata only where displayed information changes; preserve package inventory.
 3. Run the compatibility helper in manifests, workflows, scenarios and assets modes, then full `mise run check` and focused suites on final source. All requested checks must pass. Historical baseline failures and #117 attribution do not waive in-scope repairs. Retain any remaining failure or tool gap as blocking, with exact command/log/exit and assigned next action. If a tracked residual issue must be created, hand the concrete report to the authorized workflow publication/control step; do not fabricate a URL.
 4. Run structural/typechecking required by changed TS/Python/add-on code using its existing configured checks; Bun tests alone are not a claimed static typecheck. Do not introduce a TypeScript project solely for this migration. Repeat package-specific behavioral regressions and all relevant scenario cases after repairs/metadata updates as needed; report unchanged input evidence reuse explicitly.
-5. Write `release-evidence.json` containing every package disposition, changed versions/digests, validation results, all exact logs/exits/counts, baseline comparisons, unresolved findings and review source hashes. Prepare exact intended commit paths and a safety-reviewed diff. Record `sourceDelivery` and `finalVerification` separately, with exact command/exit/log evidence for every result, including closure of the 50 reported failures. Update impl-plans/README.md to list this migration's actual source and final-verification status; global plan archiving remains a later completion-step operation, not a payload-worker action.
-6. Hand off for independent test-integrity/adversarial/integration review. Only when no high/mid findings remain, Riela later completion/publication steps archive these plans if appropriate, commit the reviewed design/plans/payloads/metadata and non-force push `origin fix/registry-contract-migration`. They must report resulting commit and push result, retain any unresolved failure in active tracking, and not archive or describe the migration as fully complete while final verification is blocked. This worker does not run Git mutations, release, merge, or claim publication is already complete.
+5. Write `release-evidence.json` containing every package disposition, changed versions/digests, validation results, all exact logs/exits/counts, baseline comparisons, unresolved findings and review source hashes. Prepare exact intended commit paths and a safety-reviewed diff. Record `sourceDelivery` and `finalVerification` separately, with exact command/exit/log evidence for every result, including historical YouTube closure and final passing receipts for the 48 remaining wrapper commands. Update impl-plans/README.md to list this migration's actual source and final-verification status; global plan archiving remains a later completion-step operation, not a payload-worker action.
+6. Hand off for independent test-integrity/adversarial/integration review. Only when no high/mid findings remain, Riela later completion/publication steps archive these plans if appropriate, commit the reviewed design/plans/payloads/metadata and non-force push `origin fix/registry-contract-migration`, then update Draft PR #15 with the final review and verification evidence. They must report resulting commit and push result, retain any unresolved failure in active tracking, and not archive or describe the migration as fully complete while final verification is blocked. This worker does not run Git mutations, release, merge, or claim publication is already complete.
 
 ## Verification result interpretation
 
@@ -401,10 +408,99 @@ git diff --check
 
 Run final checks now with the supplied #117 executable, not as deferred post-fix work. In addition to the commands above, run `mise run package:validate`, `mise run workflow:validate`, `mise run workflow:check-compact`, `mise run workflow:check-codex-dispatch`, and both Fable `tests/check-output-contract.ts` commands from the supporting handoff in fresh evidence paths. Reuse other complete receipts only when all audited inputs still match. Include explicit installed YouTube dependency closure validation/inspection and deterministic handoff evidence; it has no checkpointed workflow fixture, so do not require a missing mock-scenario file. Use existing add-on tests/static handoff checks without live providers. Never interpret this verification as release authorization.
 
+## Core-example validation under task 3
+
+The following 75 source files are read-only inputs under `/Users/taco/gits/tacogips/riela-worktrees/remaining-impl-plans/examples`. Record their hashes and the sibling source revision. Copy the complete examples tree, retaining supporting assets and callees, to `$COMPAT_ATTEMPT/core-examples/catalog`; record copy/source hashes. Do not run these examples against live providers or write to the sibling checkout. For each table row, run the command below separately, substituting that row's exact workflow ID, from repository root:
+
+```sh
+"$RIELA_COMPAT_CLI" workflow validate <workflow-id> --workflow-definition-dir "$COMPAT_ATTEMPT/core-examples/catalog" --output json
+```
+
+Write `core-examples/commands.json` with 75 individual expanded commands, source paths/hashes, actual final exits and complete stdout/stderr log paths, plus `core-examples/coverage.json` mapping every row to its receipt. These are validation checks, not 75 behavioral tests: record validation coverage without invented positive test counts. Require all 75 exits to be zero. Preserve and report any genuine failure without modifying core or deleting an example; a required failure blocks final verification. Keep deterministic packaged-example execution receipts separate. If external fixture/tool prerequisites fail, record the concrete failed check and next action; do not relabel missing validation as a static pass.
+
+| Source path relative to examples/ | Workflow ID |
+| --- | --- |
+| `apple-calendar-fetch/workflow.json` | `apple-calendar-fetch` |
+| `apple-clock-alarms-list/workflow.json` | `apple-clock-alarms-list` |
+| `apple-gateway-admin/workflow.json` | `apple-gateway-admin` |
+| `apple-gateway-packaging-plan/workflow.json` | `apple-gateway-packaging-plan` |
+| `apple-mail-list/workflow.json` | `apple-mail-list` |
+| `apple-note-create/workflow.json` | `apple-note-create` |
+| `apple-note-read/workflow.json` | `apple-note-read` |
+| `apple-notes-list/workflow.json` | `apple-notes-list` |
+| `apple-notifications/workflow.json` | `apple-notifications` |
+| `apple-reminders-list/workflow.json` | `apple-reminders-list` |
+| `chat-event-attachment-judgement/workflow.json` | `chat-event-attachment-judgement` |
+| `chat-reply-webhook/workflow.json` | `chat-reply-webhook` |
+| `chat-supervisor-collaboration/workflow.json` | `chat-supervisor-collaboration` |
+| `claude-riela-claude-worker/workflow.json` | `claude-riela-claude-worker` |
+| `claude-riela-codex-coding/workflow.json` | `claude-riela-codex-coding` |
+| `codex-codex-topic-debate/workflow.json` | `codex-codex-topic-debate` |
+| `design-and-implement-review-loop/workflow.json` | `design-and-implement-review-loop` |
+| `design-and-implement-review-loop-feature-plan/workflow.json` | `design-and-implement-review-loop-feature-plan` |
+| `discord-agent-trio-chat/workflow.json` | `discord-agent-trio-chat` |
+| `discord-codex-chat/workflow.json` | `discord-codex-chat` |
+| `discord-persona-chat/workflow.json` | `discord-persona-chat` |
+| `dispatcher-llm-resolver-stub/workflow.json` | `dispatcher-llm-resolver-stub` |
+| `enterprise-matrix-agent-personas/workflow.json` | `enterprise-matrix-agent-personas` |
+| `enterprise-matrix-customer-escalation/workflow.json` | `enterprise-matrix-customer-escalation` |
+| `enterprise-matrix-security-incident/workflow.json` | `enterprise-matrix-security-incident` |
+| `enterprise-matrix-vendor-onboarding/workflow.json` | `enterprise-matrix-vendor-onboarding` |
+| `file-markdown-convert/workflow.json` | `file-markdown-convert` |
+| `first-four-arithmetic-pipeline/workflow.json` | `first-four-arithmetic-pipeline` |
+| `gemini-ocr-worker/workflow.json` | `gemini-ocr-worker` |
+| `gemini-sdk-worker/workflow.json` | `gemini-sdk-worker` |
+| `gmail-latest-mail-digest-telegram/workflow.json` | `gmail-latest-mail-digest-telegram` |
+| `kaiba-document-intake/workflow.json` | `kaiba-document-intake` |
+| `loop-baseline-regression-ops/workflow.json` | `loop-baseline-regression-ops` |
+| `loop-budget-guard/workflow.json` | `loop-budget-guard` |
+| `loop-ci-gate-check/workflow.json` | `loop-ci-gate-check` |
+| `loop-concurrency-lease/workflow.json` | `loop-concurrency-lease` |
+| `loop-engineer-quality-loop/workflow.json` | `loop-engineer-quality-loop` |
+| `loop-outcome-notifications/workflow.json` | `loop-outcome-notifications` |
+| `loop-stall-guard/workflow.json` | `loop-stall-guard` |
+| `matrix-agent-trio-chat/workflow.json` | `matrix-agent-trio-chat` |
+| `matrix-chat-reply/workflow.json` | `matrix-chat-reply` |
+| `memory-consolidation/workflow.json` | `memory-consolidation` |
+| `monja-agent-collaboration/workflow.json` | `monja-agent-collaboration` |
+| `monja-typescript-sdk/workflow.json` | `monja-typescript-sdk` |
+| `node-combinations-showcase/workflow.json` | `node-combinations-showcase` |
+| `note-agent/workflow.json` | `note-agent` |
+| `note-link-extract/workflow.json` | `note-link-extract` |
+| `note-rag-retrieval-fusion/workflow.json` | `note-rag-retrieval-fusion` |
+| `open-model-provider-codex/workflow.json` | `open-model-provider-codex` |
+| `recent-change-quality-loop/workflow.json` | `recent-change-quality-loop` |
+| `required-loop-gate-failure/workflow.json` | `required-loop-gate-failure` |
+| `riela-default-workflow-supervisor/workflow.json` | `riela-default-workflow-supervisor` |
+| `routine-chat-manager/workflow.json` | `routine-chat-manager` |
+| `routine-task-runner/workflow.json` | `routine-task-runner` |
+| `same-node-session-echo/workflow.json` | `same-node-session-echo` |
+| `scheduled-sleep/workflow.json` | `scheduled-sleep` |
+| `seatbelt-sandboxed-worker/workflow.json` | `seatbelt-sandboxed-worker` |
+| `shared-agent-trio-personas/workflow.json` | `shared-agent-trio-personas` |
+| `slack-agent-trio-chat/workflow.json` | `slack-agent-trio-chat` |
+| `slack-codex-chat/workflow.json` | `slack-codex-chat` |
+| `subworkflow-chained-simple/workflow.json` | `subworkflow-chained-simple` |
+| `task-agent-director/workflow.json` | `task-agent-director` |
+| `task-repair-loop/workflow.json` | `task-repair-loop` |
+| `telegram-agent-trio-chat/workflow.json` | `telegram-agent-trio-chat` |
+| `telegram-agent-trio-time-signal/workflow.json` | `telegram-agent-trio-time-signal` |
+| `telegram-sdk-trio-chat/workflow.json` | `telegram-sdk-trio-chat` |
+| `worker-only-single-step/workflow.json` | `worker-only-single-step` |
+| `workflow-call-live-echo/workflow.json` | `workflow-call-live-echo` |
+| `workflow-call-live-echo-callee/workflow.json` | `workflow-call-live-echo-callee` |
+| `workflow-call-review-target/workflow.json` | `workflow-call-review-target` |
+| `workflow-call-simple/workflow.json` | `workflow-call-simple` |
+| `workflow-knowledge-base/workflow.json` | `workflow-knowledge-base` |
+| `wrike-project-kanban-agent/workflow.json` | `wrike-project-kanban-agent` |
+| `x-follower-ai-business-digest/workflow.json` | `x-follower-ai-business-digest` |
+| `x-incremental-posts-kv/workflow.json` | `x-incremental-posts-kv` |
+
 ## Completion criteria
 
 - Owned source verification passes; later-wave failures retain exact evidence and assigned repair owners. Final reconciliation permits no historical #117 waiver or unresolved required check.
 - All 65 package manifests and 59 effective workflows pass supplied #117 CLI validation/inspection with resolved dependencies; all required final checks pass.
+- All 75 core-example rows have passing individual validation receipts and every deterministic packaged example has asserted evidence.
 - Relevant behavioral/package tests pass; no required residual check failure is permitted at final acceptance.
 - Combined hashes preserve all worker intent; versions/digests/index are consistent.
 - Review-ready exact file set and release evidence are complete; final commit/push remain explicit later gates.
@@ -415,4 +511,4 @@ Complete your progress log and handoff only after each owned task has evidence o
 
 ## Author review handoff
 
-Step 3 accepted the design in comm-000004 with no findings. Step 5 review of this continuation is pending; prior plan acceptance is historical. Current author checks and ownership enumeration are recorded in `tmp/registry-contract-migration/verification/step4-plans-b212240/commands.json`. Package implementation/verification remains downstream; the author does not claim those commands have passed.
+Step 3 accepted the design in comm-000004 with no findings. Step 5 review of these revised plan instructions is pending. Preserve prior plan receipts and the source-matched supporting implementation review; reuse only evidence whose audited inputs still match. Current author checks and ownership enumeration are recorded in `tmp/registry-contract-migration/verification/step4-plans-35d1e6a/commands.json`. Package implementation/verification remains downstream; the author does not claim those commands have passed.
