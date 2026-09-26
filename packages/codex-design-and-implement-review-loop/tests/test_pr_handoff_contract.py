@@ -16,6 +16,7 @@ class PullRequestHandoffContractTests(unittest.TestCase):
         properties = node["output"]["jsonSchema"]["properties"]
 
         self.assertIn("pr-open", properties["mergeStatus"]["enum"])
+        self.assertIn("branch-only", properties["mergeStatus"]["enum"])
         self.assertIn("not-requested", properties["basePushStatus"]["enum"])
         self.assertTrue({"pullRequestURL", "pullRequestNumber", "pullRequestDraft", "pullRequestBaseBranch"} <= set(properties))
         self.assertIn("merged", properties["mergeStatus"]["enum"])
@@ -37,6 +38,22 @@ class PullRequestHandoffContractTests(unittest.TestCase):
             self.assertIn(required, handoff)
         self.assertIn("base branch has not been merged", output)
         self.assertIn("pullRequestURL", output)
+
+    def test_explicit_no_merge_allows_branch_only_without_pr(self) -> None:
+        handoff = (WORKFLOW / "prompts/base-branch-integrate.md").read_text()
+        output = (WORKFLOW / "prompts/workflow-output.md").read_text()
+
+        for required in (
+            "explicit no-merge/no-base-push instruction is authoritative",
+            "even if PR lookup fails or no PR exists",
+            'mergeStatus:"branch-only"',
+            'basePushStatus:"not-requested"',
+            "do not checkout, merge, commit, or push the base",
+            "never call that a compliant handoff",
+        ):
+            self.assertIn(required, handoff)
+        self.assertIn("When `mergeStatus` is `branch-only`", output)
+        self.assertIn("Do not imply a PR exists", output)
 
 
 if __name__ == "__main__":

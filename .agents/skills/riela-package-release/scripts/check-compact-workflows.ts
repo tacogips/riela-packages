@@ -65,7 +65,7 @@ assert.equal(baseIntegration.agentSandbox, 'danger-full-access', 'base integrati
 for (const field of ['implementationBranch', 'baseBranch', 'remote', 'implementationCommit', 'mergeStatus', 'basePushStatus', 'verification']) {
   assert(baseIntegration.output.jsonSchema.required.includes(field), `base integration output must require ${field}`);
 }
-assert.deepEqual(baseIntegration.output.jsonSchema.properties.mergeStatus.enum, ['merged', 'already-on-base', 'already-merged', 'pr-open']);
+assert.deepEqual(baseIntegration.output.jsonSchema.properties.mergeStatus.enum, ['merged', 'already-on-base', 'already-merged', 'pr-open', 'branch-only']);
 assert.deepEqual(baseIntegration.output.jsonSchema.properties.basePushStatus.enum, ['pushed', 'already-pushed', 'not-requested']);
 for (const field of ['pullRequestURL', 'pullRequestNumber', 'pullRequestDraft', 'pullRequestBaseBranch']) {
   assert(baseIntegration.output.jsonSchema.properties[field], `PR handoff output must provide ${field}`);
@@ -524,6 +524,18 @@ run(codex, 'completion-revision', m => {
 });
 run(codex, 'planning-only', () => {}, steps => {
   assert(!steps.includes('step6-implement')); assert(!steps.includes('step8-docs-refresh'));
+}, 'mock-scenario-planning-only.json');
+run(codex, 'planning-branch-only-handoff', m => {
+  m['base-branch-integrate'].payload.mergeStatus = 'branch-only';
+  m['base-branch-integrate'].payload.basePushStatus = 'not-requested';
+  m['base-branch-integrate'].payload.implementationBranch = 'fix/no-merge-handoff';
+  m['step11-git-push'].payload.git.pushedBranch = 'fix/no-merge-handoff';
+  m['workflow-output'].payload.mergeStatus = 'branch-only';
+  m['workflow-output'].payload.basePushStatus = 'not-requested';
+  m['workflow-output'].payload.pushedBranch = 'fix/no-merge-handoff';
+}, (steps, result) => {
+  assert(steps.includes('base-branch-integrate'));
+  assert.equal(result.session.executions.find((execution: any) => execution.stepId === 'base-branch-integrate').acceptedOutput.payload.mergeStatus, 'branch-only');
 }, 'mock-scenario-planning-only.json');
 runExpectFailure(codex, 'planning-base-integration-blocked-is-not-success', m => {
   m['base-branch-integrate'].payload.mergeStatus = 'blocked';

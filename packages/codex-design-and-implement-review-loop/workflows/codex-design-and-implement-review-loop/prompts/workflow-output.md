@@ -58,7 +58,7 @@ Step 10 `git` payload. Copy `pushedRemote` and `pushedBranch` exactly from the
 accepted Step 11 `git` payload. For both modes, copy `baseBranch`, `mergeStatus`,
 and `basePushStatus` exactly from the accepted `base-branch-integrate` payload;
 include them even when the implementation branch is already the base branch.
-When `mergeStatus` is `pr-open`, also copy `pullRequestURL`, `pullRequestNumber`,
+When `mergeStatus` is `branch-only`, state that only the implementation branch was pushed and the base branch was not merged or pushed by this workflow. Do not imply a PR exists. When `mergeStatus` is `pr-open`, also copy `pullRequestURL`, `pullRequestNumber`,
 `pullRequestDraft`, and `pullRequestBaseBranch` exactly. State that the base branch has not been merged or
 pushed by this workflow; do not turn PR handoff into a base-integration claim.
 
