@@ -169,8 +169,17 @@ try {
   } else if (mode === 'workflows') {
     const { install, catalog, installed } = installCatalog();
     for (const workflow of workflows) {
-      command(`validate-${workflow.id}`, ['workflow', 'validate', workflow.id, '--workflow-definition-dir', catalog, '--scope', 'project', '--output', 'json'], install);
-      command(`inspect-${workflow.id}`, ['workflow', 'inspect', workflow.id, '--workflow-definition-dir', catalog, '--scope', 'project', '--output', 'json'], install);
+      const owner = byPackage.get(workflow.owner)!;
+      const needsInstalledOwner = (owner.manifest.dependencies ?? []).some((dependency: any) => dependency.kind === 'node-addon');
+      if (needsInstalledOwner) {
+        // A direct workflow catalog has no package lock/owner identity for
+        // resolving add-on executables. Install the owner after its local
+        // add-on dependencies, without fetching their remote registry copies.
+        command(`install-workflow-owner-${workflow.id}`, ['package', 'install', owner.dir, '--scope', 'project', '--no-dependencies', '--output', 'json'], install);
+      }
+      const definition = needsInstalledOwner ? [] : ['--workflow-definition-dir', catalog];
+      command(`validate-${workflow.id}`, ['workflow', 'validate', workflow.id, ...definition, '--scope', 'project', '--output', 'json'], install);
+      command(`inspect-${workflow.id}`, ['workflow', 'inspect', workflow.id, ...definition, '--scope', 'project', '--output', 'json'], install);
     }
     writeFileSync(join(evidence, 'installed-dependencies.json'), JSON.stringify({ installed, install, catalog }, null, 2) + '\n');
   } else if (mode === 'scenarios') {

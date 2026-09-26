@@ -83,6 +83,23 @@ describe('compatibility harness', () => {
     expect(records.some((record: any) => record.label === 'validate-beta')).toBe(true);
     expect(records.some((record: any) => record.label === 'inspect-beta')).toBe(true);
   });
+  test('add-on dependent workflow is validated from its installed owner', () => {
+    const f = fixture();
+    writeFileSync(join(f.source, 'packages/alpha/riela-package.json'), JSON.stringify({
+      name: 'alpha', kind: 'workflow', dependencies: [{ packageId: 'beta', kind: 'node-addon' }],
+    }));
+    writeFileSync(join(f.source, 'packages/beta/riela-package.json'), JSON.stringify({ name: 'beta', kind: 'node-addon' }));
+    expect(f.run('workflows').status).toBe(0);
+    const records = JSON.parse(readFileSync(join(f.evidence, 'commands.json'), 'utf8')).records;
+    const install = records.find((record: any) => record.label === 'install-workflow-owner-alpha');
+    const validate = records.find((record: any) => record.label === 'validate-alpha');
+    expect(records.some((record: any) => record.label === 'install-beta' && record.exitCode === 0)).toBe(true);
+    expect(install.command).toContain('--no-dependencies');
+    expect(validate.command).not.toContain('--workflow-definition-dir');
+    expect(records.find((record: any) => record.label === 'validate-beta').command).toContain('--workflow-definition-dir');
+    writeFileSync(f.cli, '#!/bin/sh\ncase "$*" in *"package install"*"packages/alpha"*) exit 7;; *) echo \'{"valid":true}\';; esac\n');
+    expect(f.run('workflows').status).not.toBe(0);
+  });
   test('CLI nonzero exit propagates', () => {
     const f = fixture();
     writeFileSync(f.cli, '#!/bin/sh\necho rejected >&2\nexit 7\n');
