@@ -115,6 +115,24 @@ describe('compatibility harness', () => {
     const matching = f.run('scenarios', ['--workflow-list', list]);
     expect(matching.status).toBe(0);
   });
+  test('repeated steps compare each mock response in sequence and reuse the final response', () => {
+    const f = fixture();
+    writeFileSync(join(f.source, 'packages/alpha/workflows/alpha/mock-scenario.json'), JSON.stringify({
+      alpha: [{ payload: { value: 1 } }, { payload: { value: 2 } }],
+    }));
+    f.saveRoutes([{ workflowId: 'alpha', fixture: 'packages/alpha/workflows/alpha/mock-scenario.json', route: ['alpha', 'alpha', 'alpha'], sources: [] }]);
+    const list = join(f.root, 'list.json'); writeFileSync(list, '["alpha"]');
+    const completed = { status: 'completed', session: { executions: [
+      { stepId: 'alpha', nodeId: 'alpha', attempt: 1, acceptedOutput: { payload: { value: 1 } } },
+      { stepId: 'alpha', nodeId: 'alpha', attempt: 2, acceptedOutput: { payload: { value: 2 } } },
+      { stepId: 'alpha', nodeId: 'alpha', attempt: 1, acceptedOutput: { payload: { value: 2 } } },
+    ] } };
+    writeFileSync(f.cli, `#!/bin/sh\necho '${JSON.stringify(completed)}'\n`);
+    expect(f.run('scenarios', ['--workflow-list', list]).status).toBe(0);
+    completed.session.executions[1].acceptedOutput.payload.value = 1;
+    writeFileSync(f.cli, `#!/bin/sh\necho '${JSON.stringify(completed)}'\n`);
+    expect(f.run('scenarios', ['--workflow-list', list]).status).not.toBe(0);
+  });
   test('default selection requires its mapped route and matching payload', () => {
     const f = fixture();
     writeFileSync(join(f.source, 'packages/alpha/workflows/alpha/mock-scenario.json'), JSON.stringify({ steps: { alpha: { output: { payload: { value: 1 } } }, beta: { output: { payload: { value: 1 } } } } }));
@@ -203,5 +221,12 @@ describe('compatibility harness', () => {
     const result = spawnSync('riela', ['package', 'validate', join(repo, 'packages/greeting-shell'), '--output', 'json'], { cwd: repo, encoding: 'utf8' });
     expect(result.status).toBe(0);
     expect(JSON.parse(result.stdout).packages[0].valid).toBe(true);
+  });
+  test('declarative add-on descriptor may omit execution', () => {
+    const f = fixture();
+    const directory = join(f.source, 'packages/alpha/addons/demo/1');
+    mkdirSync(directory, { recursive: true });
+    writeFileSync(join(directory, 'addon.json'), JSON.stringify({ name: 'demo', version: '1', inputSchema: { type: 'object' } }));
+    expect(f.run('assets').status).toBe(0);
   });
 });
