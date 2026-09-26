@@ -18,10 +18,12 @@ Status: proposed for Step 5 review.
     "riela --version",
     "riela package install --help",
     "riela workflow run --help",
-    "bun test .agents/skills/riela-package-release/scripts/check-package-compat.test.ts",
+    "bun test ./.agents/skills/riela-package-release/scripts/check-package-compat.test.ts",
     "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode manifests --source-root tmp/registry-contract-migration/verification/compat-verification/baseline --evidence-root tmp/registry-contract-migration/verification/compat-verification/baseline-manifests",
-    "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --source-root tmp/registry-contract-migration/verification/compat-verification/baseline --evidence-root tmp/registry-contract-migration/verification/compat-verification/baseline-workflows",
     "git diff --check"
+  ],
+  "baselineDiagnostics": [
+    "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --source-root tmp/registry-contract-migration/verification/compat-verification/baseline --evidence-root tmp/registry-contract-migration/verification/compat-verification/baseline-workflows"
   ],
   "acceptanceCriteria": [
     "Inventory includes every repository package; baseline failures are preserved with source identity.",
@@ -43,6 +45,8 @@ Use installed Riela 0.2.1 on `fix/registry-contract-migration`. Do not inspect t
 Continue from `cc2cc15f329393b24d055551ff424e5d027d0f23`, covering 65 packages / 59 workflows. Reuse the checkpointed harness and source-matched receipts; repair concrete gaps only. Riela core https://github.com/tacogips/riela/issues/117 tracks installed YouTube `unresolvedAddonExecutable`. Its repair is not a prerequisite for source edits, acceptance of usable verification infrastructure, or dependency-ready source-plan dispatch. Do not modify sibling repositories or installed user-scope packages; make no live model/provider calls.
 
 Keep command exit status separate from plan readiness: record the exact failing command, complete log, source/tool identity, affected workflow and #117 attribution. Never convert a nonzero result to a pass, skip the affected inventory entry, weaken validation or classify unrelated failures as #117. Owned changed-package tests and deterministic mock assertions must pass; record the specifically blocked installed YouTube check separately. Missing material source verification or unresolved high/mid source defects still block source acceptance. Core #117 alone does not block independent review, accepted source commit or non-force push; full all-green compatibility and release remain blocked.
+
+The Step 6 implementation output's `verification` array is for changed-source checks expected to pass. Put the untouched pre-migration workflow baseline, whose failures are the defects being repaired, in `baselineDiagnostics` with exact nonzero exit, count, source identity, and complete log; put the installed YouTube #117 case in `externalBlockers`. Do not report either as a passed check or as a failed changed-source verification. This distinction is required by the workflow's mechanical implementation-progress gate.
 
 Each progress/handoff records source-task status separately from final-verification status, including `externalBlockers` with issue URL, command/exit/log evidence and follow-up. Formal downstream review, commit and push remain later workflow gates, not missing worker implementation tasks. After the core fix, serial finalization records the fixed CLI identity and reruns installed YouTube validation/scenarios and the full suite; preserve this pending obligation in plan status until it passes.
 
@@ -79,11 +83,12 @@ Run from repository root unless an explicit cwd is stated. The commands below ar
 riela --version
 riela package install --help
 riela workflow run --help
-bun test .agents/skills/riela-package-release/scripts/check-package-compat.test.ts
+bun test ./.agents/skills/riela-package-release/scripts/check-package-compat.test.ts
 bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode manifests --source-root tmp/registry-contract-migration/verification/compat-verification/baseline --evidence-root tmp/registry-contract-migration/verification/compat-verification/baseline-manifests
-bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --source-root tmp/registry-contract-migration/verification/compat-verification/baseline --evidence-root tmp/registry-contract-migration/verification/compat-verification/baseline-workflows
 git diff --check
 ```
+
+Also run the `baselineDiagnostics` workflow command above. Preserve its nonzero result and complete log in diagnostic evidence, not in the Step 6 `verification` array.
 
 ## Completion criteria
 
