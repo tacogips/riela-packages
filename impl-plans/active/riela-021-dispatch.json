@@ -4,15 +4,16 @@
   "implementationBranch": "fix/registry-contract-migration",
   "baseBranch": "fix/registry-contract-migration",
   "remote": "origin",
-  "originalHead": "75f371f80d30ee69c17193121111972fc65a68db",
+  "originalHead": "78445b4919ce337cae550855431ec6bc21577265",
   "designDocPaths": [
     "design-docs/specs/design-riela-021-package-compat.md"
   ],
   "evidenceRoot": "tmp/registry-contract-migration",
   "reviewContext": {
     "issueReference": "https://github.com/tacogips/riela-packages/issues/14",
-    "userProblem": "Continue issue #14 at 75f371f: preserve completed compat-verification and implement four remaining plans across 65 packages and 59 workflows.",
+    "userProblem": "Continue issue #14 at 78445b4: split the original 60-path contract plan into two disjoint groups with at most 400 expanded entries each; preserve completed compat-verification; execute five remaining plans across 65 packages and 59 workflows.",
     "requiredOutcomes": [
+      "Exact original 60-path union and all original tasks/criteria retained; both contract plans at most 400 expanded entries before checkpoint.",
       "All 65 manifests and 59 effective workflows accounted for; preserve any explicitly evidenced core #117 installed YouTube blocker separately from passing source checks.",
       "Meaningful contracts and role-appropriate authority.",
       "Relevant tests pass; residual failures proven pre-existing and tracked.",
@@ -55,12 +56,15 @@
     "sourcePaths": [
       "design-docs/specs/design-riela-021-package-compat.md",
       "impl-plans/active/riela-021-inventory.json",
-      "mise.toml"
+      "mise.toml",
+      "impl-plans/active/compat-agent-contracts-supporting.md"
     ],
-    "reviewDecisions": {
-      "design": "Accepted by Step 3 comm-000004 with no findings",
-      "plans": "Accepted by independent Step 5 implementation-plan review comm-000006: all four plans; unique plan and progress paths, acyclic dependency waves, disjoint parallel write ownership, immutable intent evidence, serial reconciliation, and final behavioral verification after later writes."
-    },
+    "reviewDecisions": [
+      "Step 3 comm-000004 accepted the bounded contract-plan split with no findings.",
+      "Step 5 comm-000006 independently accepted all five implementation plans with no findings or revision requests; accepted for implementation.",
+      "The recorded Step 4 receipt at tmp/registry-contract-migration/verification/step4-plans-78445b4/09.log confirms the exact 60-path split, disjoint ownership, dependency order, and expanded counts of 362 and 209 including reserved tests.",
+      "Installed YouTube verification remains pending on Riela core #117; it is not a passing check."
+    ],
     "codexAgentReferences": []
   },
   "plans": [
@@ -69,7 +73,6 @@
       "planPath": "impl-plans/active/compat-agent-contracts.md",
       "dependsOn": [],
       "writePaths": [
-        "packages/claude-code-worker-only-single-step/workflows/claude-code-worker-only-single-step",
         "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop",
         "packages/codex-deep-creation/workflows/codex-deep-creation",
         "packages/codex-deepdesign/workflows/codex-deepdesign",
@@ -84,6 +87,44 @@
         "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop",
         "packages/codex-task-watchdog/workflows/codex-task-watchdog",
         "packages/codex-website-builder/workflows/codex-website-builder",
+        "packages/codex-adversarial-implementation-review-loop/tests",
+        "packages/codex-deep-creation/tests",
+        "packages/codex-deepdesign/tests",
+        "packages/codex-design-and-implement-review-loop/tests",
+        "packages/codex-goal/tests",
+        "packages/codex-impl-plan-completion-loop/tests",
+        "packages/codex-impl-plan-completion-review-loop/tests",
+        "packages/codex-recent-change-quality-loop/tests",
+        "packages/codex-refactoring-divide-and-conquer/tests",
+        "packages/codex-refactoring-slice-review/tests",
+        "packages/codex-simple-work-package/tests",
+        "packages/codex-source-security-check-loop/tests",
+        "packages/codex-task-watchdog/tests",
+        "packages/codex-website-builder/tests"
+      ],
+      "sharedPaths": [],
+      "progressFile": "tmp/registry-contract-migration/verification/compat-agent-contracts/progress.json",
+      "verification": [
+        "\"$RIELA_COMPAT_CLI\" --version",
+        "shasum -a 256 \"$RIELA_COMPAT_CLI\"",
+        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts/validation",
+        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --workflow-list tmp/registry-contract-migration/verification/compat-agent-contracts/workflows.json --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts/scenarios",
+        "mise run workflow:check-codex-dispatch",
+        "git diff --check"
+      ],
+      "acceptanceCriteria": [
+        "Every concrete agent has required authority and meaningful consumer-compatible output contracts.",
+        "Every changed base has observed positive/negative behavioral coverage; no graph/model/session regression.",
+        "Whole-catalog failures outside this owner are listed for wrapper/asset/finalization owners rather than hidden.",
+        "Source work may be accepted with an explicitly evidenced core #117 final installed YouTube blocker; raw failures remain failures and all-green completion/release stays blocked."
+      ]
+    },
+    {
+      "planId": "compat-agent-contracts-supporting",
+      "planPath": "impl-plans/active/compat-agent-contracts-supporting.md",
+      "dependsOn": [],
+      "writePaths": [
+        "packages/claude-code-worker-only-single-step/workflows/claude-code-worker-only-single-step",
         "packages/cursor-cli-developer-workflows/workflows/cursor-cli-developer-workflows",
         "packages/fable-and-improve-codex/workflows/fable-and-improve-codex",
         "packages/fable-and-improve-opus/workflows/fable-and-improve-opus",
@@ -100,20 +141,6 @@
         "packages/youtube-mp4-to-text-workflow/workflows/youtube-mp4-to-text",
         "packages/youtube-shorts-to-text-container/workflows/youtube-shorts-to-text-container",
         "packages/claude-code-worker-only-single-step/tests",
-        "packages/codex-adversarial-implementation-review-loop/tests",
-        "packages/codex-deep-creation/tests",
-        "packages/codex-deepdesign/tests",
-        "packages/codex-design-and-implement-review-loop/tests",
-        "packages/codex-goal/tests",
-        "packages/codex-impl-plan-completion-loop/tests",
-        "packages/codex-impl-plan-completion-review-loop/tests",
-        "packages/codex-recent-change-quality-loop/tests",
-        "packages/codex-refactoring-divide-and-conquer/tests",
-        "packages/codex-refactoring-slice-review/tests",
-        "packages/codex-simple-work-package/tests",
-        "packages/codex-source-security-check-loop/tests",
-        "packages/codex-task-watchdog/tests",
-        "packages/codex-website-builder/tests",
         "packages/cursor-cli-developer-workflows/tests",
         "packages/fable-and-improve-codex/tests",
         "packages/fable-and-improve-opus/tests",
@@ -131,15 +158,14 @@
         "packages/youtube-shorts-to-text-container/tests"
       ],
       "sharedPaths": [],
-      "progressFile": "tmp/registry-contract-migration/compat-agent-contracts/attempt-1/progress.json",
+      "progressFile": "tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/progress.json",
       "verification": [
         "\"$RIELA_COMPAT_CLI\" --version",
         "shasum -a 256 \"$RIELA_COMPAT_CLI\"",
-        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/compat-agent-contracts/attempt-1/validation",
-        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --workflow-list tmp/registry-contract-migration/compat-agent-contracts/attempt-1/workflows.json --evidence-root tmp/registry-contract-migration/compat-agent-contracts/attempt-1/scenarios",
-        "bun packages/fable-and-improve-opus/tests/check-output-contract.ts --evidence-root tmp/registry-contract-migration/compat-agent-contracts/attempt-1/opus",
-        "bun packages/fable-and-improve-codex/tests/check-output-contract.ts --evidence-root tmp/registry-contract-migration/compat-agent-contracts/attempt-1/codex",
-        "mise run workflow:check-codex-dispatch",
+        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/validation",
+        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --workflow-list tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/workflows.json --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/scenarios",
+        "bun packages/fable-and-improve-opus/tests/check-output-contract.ts --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/opus",
+        "bun packages/fable-and-improve-codex/tests/check-output-contract.ts --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/codex",
         "git diff --check"
       ],
       "acceptanceCriteria": [
@@ -248,12 +274,12 @@
         "packages/youtube-shorts-to-text-container/README.md"
       ],
       "sharedPaths": [],
-      "progressFile": "tmp/registry-contract-migration/compat-assets/attempt-1/progress.json",
+      "progressFile": "tmp/registry-contract-migration/verification/compat-assets/progress.json",
       "verification": [
         "\"$RIELA_COMPAT_CLI\" --version",
         "shasum -a 256 \"$RIELA_COMPAT_CLI\"",
-        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode assets --evidence-root tmp/registry-contract-migration/compat-assets/attempt-1/audit",
-        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/compat-assets/attempt-1/installed-workflows",
+        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode assets --evidence-root tmp/registry-contract-migration/verification/compat-assets/audit",
+        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/verification/compat-assets/installed-workflows",
         "mise run package:check-container-images",
         "git diff --check"
       ],
@@ -269,6 +295,7 @@
       "planPath": "impl-plans/active/compat-inheritance.md",
       "dependsOn": [
         "compat-agent-contracts",
+        "compat-agent-contracts-supporting",
         "compat-assets"
       ],
       "writePaths": [
@@ -303,12 +330,12 @@
         "packages/cursor-cli-website-builder/workflows/cursor-cli-website-builder"
       ],
       "sharedPaths": [],
-      "progressFile": "tmp/registry-contract-migration/compat-inheritance/attempt-1/progress.json",
+      "progressFile": "tmp/registry-contract-migration/verification/compat-inheritance/progress.json",
       "verification": [
         "\"$RIELA_COMPAT_CLI\" --version",
         "shasum -a 256 \"$RIELA_COMPAT_CLI\"",
-        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/compat-inheritance/attempt-1/validation",
-        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --workflow-list tmp/registry-contract-migration/compat-inheritance/attempt-1/workflows.json --evidence-root tmp/registry-contract-migration/compat-inheritance/attempt-1/scenarios",
+        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/verification/compat-inheritance/validation",
+        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --workflow-list tmp/registry-contract-migration/verification/compat-inheritance/workflows.json --evidence-root tmp/registry-contract-migration/verification/compat-inheritance/scenarios",
         "mise run workflow:check-compact",
         "git diff --check"
       ],
@@ -324,6 +351,7 @@
       "planPath": "impl-plans/active/compat-reconcile.md",
       "dependsOn": [
         "compat-agent-contracts",
+        "compat-agent-contracts-supporting",
         "compat-assets",
         "compat-inheritance"
       ],
@@ -584,7 +612,7 @@
         "packages/cursor-cli-task-watchdog/workflows/cursor-cli-task-watchdog",
         "packages/cursor-cli-website-builder/workflows/cursor-cli-website-builder"
       ],
-      "progressFile": "tmp/registry-contract-migration/compat-reconcile/attempt-1/progress.json",
+      "progressFile": "tmp/registry-contract-migration/verification/compat-reconcile/progress.json",
       "verification": [
         "\"$RIELA_COMPAT_CLI\" --version",
         "shasum -a 256 \"$RIELA_COMPAT_CLI\"",
@@ -595,10 +623,10 @@
         "mise run package:check-addon-digests",
         "mise run package:check-index",
         "bun test ./.agents/skills/riela-package-release/scripts/check-package-compat.test.ts",
-        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode manifests --evidence-root tmp/registry-contract-migration/compat-reconcile/attempt-1/manifests",
-        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/compat-reconcile/attempt-1/workflows",
-        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --evidence-root tmp/registry-contract-migration/compat-reconcile/attempt-1/scenarios",
-        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode assets --evidence-root tmp/registry-contract-migration/compat-reconcile/attempt-1/assets",
+        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode manifests --evidence-root tmp/registry-contract-migration/verification/compat-reconcile/manifests",
+        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/verification/compat-reconcile/workflows",
+        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --evidence-root tmp/registry-contract-migration/verification/compat-reconcile/scenarios",
+        "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode assets --evidence-root tmp/registry-contract-migration/verification/compat-reconcile/assets",
         "mise run check",
         "git diff --check"
       ],

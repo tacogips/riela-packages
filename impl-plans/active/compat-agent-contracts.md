@@ -8,7 +8,6 @@ Status: proposed for Step 5 review.
   "planPath": "impl-plans/active/compat-agent-contracts.md",
   "dependsOn": [],
   "writePaths": [
-    "packages/claude-code-worker-only-single-step/workflows/claude-code-worker-only-single-step",
     "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop",
     "packages/codex-deep-creation/workflows/codex-deep-creation",
     "packages/codex-deepdesign/workflows/codex-deepdesign",
@@ -23,22 +22,6 @@ Status: proposed for Step 5 review.
     "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop",
     "packages/codex-task-watchdog/workflows/codex-task-watchdog",
     "packages/codex-website-builder/workflows/codex-website-builder",
-    "packages/cursor-cli-developer-workflows/workflows/cursor-cli-developer-workflows",
-    "packages/fable-and-improve-codex/workflows/fable-and-improve-codex",
-    "packages/fable-and-improve-opus/workflows/fable-and-improve-opus",
-    "packages/fable-astra-design-plan-review-loop/workflows/fable-astra-design-plan-review-loop",
-    "packages/greeting-container/workflows/greeting-container",
-    "packages/greeting-shell/workflows/greeting-shell",
-    "packages/riela-package-installer-skill/workflows/riela-package-installer-skill",
-    "packages/riela-package-manager-skill/workflows/riela-package-manager-skill",
-    "packages/riela-package-release-skill/workflows/riela-package-release-skill",
-    "packages/riela-project-workflow-skill/workflows/riela-project-workflow-skill",
-    "packages/riela-temporary-workflow-skill/workflows/riela-temporary-workflow-skill",
-    "packages/riela-workflow-creator-skill/workflows/riela-workflow-creator-skill",
-    "packages/riela-workflow-skill-creator-skill/workflows/riela-workflow-skill-creator-skill",
-    "packages/youtube-mp4-to-text-workflow/workflows/youtube-mp4-to-text",
-    "packages/youtube-shorts-to-text-container/workflows/youtube-shorts-to-text-container",
-    "packages/claude-code-worker-only-single-step/tests",
     "packages/codex-adversarial-implementation-review-loop/tests",
     "packages/codex-deep-creation/tests",
     "packages/codex-deepdesign/tests",
@@ -52,22 +35,7 @@ Status: proposed for Step 5 review.
     "packages/codex-simple-work-package/tests",
     "packages/codex-source-security-check-loop/tests",
     "packages/codex-task-watchdog/tests",
-    "packages/codex-website-builder/tests",
-    "packages/cursor-cli-developer-workflows/tests",
-    "packages/fable-and-improve-codex/tests",
-    "packages/fable-and-improve-opus/tests",
-    "packages/fable-astra-design-plan-review-loop/tests",
-    "packages/greeting-container/tests",
-    "packages/greeting-shell/tests",
-    "packages/riela-package-installer-skill/tests",
-    "packages/riela-package-manager-skill/tests",
-    "packages/riela-package-release-skill/tests",
-    "packages/riela-project-workflow-skill/tests",
-    "packages/riela-temporary-workflow-skill/tests",
-    "packages/riela-workflow-creator-skill/tests",
-    "packages/riela-workflow-skill-creator-skill/tests",
-    "packages/youtube-mp4-to-text-workflow/tests",
-    "packages/youtube-shorts-to-text-container/tests"
+    "packages/codex-website-builder/tests"
   ],
   "sharedPaths": [],
   "progressFile": "tmp/registry-contract-migration/verification/compat-agent-contracts/progress.json",
@@ -76,8 +44,6 @@ Status: proposed for Step 5 review.
     "shasum -a 256 \"$RIELA_COMPAT_CLI\"",
     "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts/validation",
     "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --workflow-list tmp/registry-contract-migration/verification/compat-agent-contracts/workflows.json --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts/scenarios",
-    "bun packages/fable-and-improve-opus/tests/check-output-contract.ts --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts/opus",
-    "bun packages/fable-and-improve-codex/tests/check-output-contract.ts --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts/codex",
     "mise run workflow:check-codex-dispatch",
     "git diff --check"
   ],
@@ -92,19 +58,21 @@ Status: proposed for Step 5 review.
 
 ## Intent, context and non-goals
 
-Resolve https://github.com/tacogips/riela-packages/issues/14 in `issue-resolution` mode using accepted `design-docs/specs/design-riela-021-package-compat.md` (continuation update accepted by Step 3, comm-000004, no findings). All packages are in scope; the intake's 39 failures are a diagnostic cohort, not an inventory limit. `codexAgentReferences: []`; preserve existing Cursor/Claude wrapper adaptations rather than introducing adapters. Issue title/body were unavailable; do not infer #114 from scratch directory names.
+Resolve https://github.com/tacogips/riela-packages/issues/14 in `issue-resolution` mode using accepted `design-docs/specs/design-riela-021-package-compat.md` (bounded contract-plan split accepted by Step 3, comm-000004, no findings). All packages are in scope; the intake's 39 failures are a diagnostic cohort, not an inventory limit. `codexAgentReferences: []`; preserve existing Cursor/Claude wrapper adaptations rather than introducing adapters. Issue title/body were unavailable; do not infer #114 from scratch directory names.
 
 Use the runner-supplied source Riela binary containing core #118 on `fix/registry-contract-migration`. Do not inspect the running workflow's registry/provenance, change sibling repositories, create worktrees/private branches, run concurrent Git mutations, release or merge. No graph/model/session redesign, broad formatting, vacuous schemas, permission escalation for review-only agents or unrelated cleanup. Review existing subtree AGENTS.md before editing. Do not modify unrelated D4 records.
 
 ## Completed prerequisite and CLI setup
 
-The accepted design and Step 3 comm-000004 authorize exactly these four remaining plans. `compat-verification` is completed at `75f371f80d30ee69c17193121111972fc65a68db`, with 17/17 tests and integration review accepted by intake. It is not dispatched again. Source-matched evidence is reusable after comparing audited source, CLI, dependency inputs, final exits and complete logs. Final integration reruns remain required. The source inventory is 65 packages / 59 workflows; repair the reported 39 legacy agent-contract and 47 asset/README failures without treating these diagnostic counts as coverage limits.
+The accepted design and Step 3 comm-000004 authorize exactly these five remaining plans after splitting only the original contract plan. `compat-verification` is completed at `75f371f80d30ee69c17193121111972fc65a68db`, with 17/17 tests and integration review accepted by intake. It is not dispatched again. The current continuation checkpoint is `78445b4919ce337cae550855431ec6bc21577265`; the older hash records completed prerequisite evidence only. Source-matched evidence is reusable after comparing audited source, CLI, dependency inputs, final exits and complete logs. Final integration reruns remain required. The source inventory is 65 packages / 59 workflows; repair the reported 39 legacy agent-contract and 47 asset/README failures without treating these diagnostic counts as coverage limits.
 
 Before the commands below, bind `RIELA_COMPAT_CLI` and `RIELA_BIN` to the same absolute, runner-supplied source executable containing core #118. Record the expanded executable path, `"$RIELA_COMPAT_CLI" --version` and `shasum -a 256 "$RIELA_COMPAT_CLI"` with final exit and complete logs. For tests that spawn literal `riela`, prepend a directory under the worker's fresh `tmp/` attempt containing a `riela` symlink to that executable to PATH; verify `command -v riela` resolves there. Do not change HOME, build core, or infer #117 support from #118. Do not substitute a different installed binary silently. No executable location is invented by this plan; absence of the supplied executable blocks its dependent checks only.
 
+Step 4 identified the repaired source executable at `/Users/taco/gits/tacogips/riela-worktrees/fanout-directory-change-tracking/.build/debug/riela`: version `0.2.1`, source HEAD `b83887ac08c9585641008fc8ebf128eaa1d8aa9c`, executable SHA-256 `1c56cdd80ed47cbb7a739e6bc521cf1cf7268b2a817761821a534aced61e2ab5`. The source checkout was clean. Identity receipts are `tmp/registry-contract-migration/verification/step4-plans-78445b4/commands.json` (commands 2–5, all exit 0). Set both CLI variables to this absolute executable for this checkout and re-record identity in each attempt; if the runner explicitly supplies a newer repaired source binary, record that replacement and invalidate affected receipts. This identity does not establish #117 availability. Do not use `/opt/homebrew/bin/riela` as an implicit fallback.
+
 ## Continuation and #117 boundary
 
-Continue from `75f371f80d30ee69c17193121111972fc65a68db`, covering 65 packages / 59 workflows. Reuse the checkpointed harness and source-matched receipts; repair concrete gaps only. Riela core https://github.com/tacogips/riela/issues/117 tracks installed YouTube `unresolvedAddonExecutable`. Its repair is not a prerequisite for source edits, acceptance of usable verification infrastructure, or dependency-ready source-plan dispatch. Do not modify sibling repositories or installed user-scope packages; make no live model/provider calls.
+Continue from `78445b4919ce337cae550855431ec6bc21577265`, covering 65 packages / 59 workflows. Reuse the checkpointed harness and source-matched receipts; repair concrete gaps only. Riela core https://github.com/tacogips/riela/issues/117 tracks installed YouTube `unresolvedAddonExecutable`. Its repair is not a prerequisite for source edits, acceptance of usable verification infrastructure, or dependency-ready source-plan dispatch. Do not modify sibling repositories or installed user-scope packages; make no live model/provider calls.
 
 Keep command exit status separate from plan readiness: record the exact failing command, complete log, source/tool identity, affected workflow and #117 attribution. Never convert a nonzero result to a pass, skip the affected inventory entry, weaken validation or classify unrelated failures as #117. Owned changed-package tests and deterministic mock assertions must pass; record the specifically blocked installed YouTube check separately. Missing material source verification or unresolved high/mid source defects still block source acceptance. Core #117 alone does not block independent review, accepted source commit or non-force push; full all-green compatibility and release remain blocked.
 
@@ -130,6 +98,26 @@ Preserve agent output envelope routing (`when`) separately from business `payloa
 
 All evidence, catalogs, installations, session stores and artifacts stay under repository-root `tmp/registry-contract-migration/verification/`. Record tool versions and source identity. Assert mock terminal state, observed payloads and branch traces, not fixture intent or CLI exit alone. Mocks do not prove actual sandbox enforcement. If mocks bypass schema rejection, use a supported installed validation entry point and state coverage limits. Missing dependencies/network and incomplete logs are blocked checks, not passes. Core #117 is already accepted by intake as an external final-verification blocker; preserve reproduction evidence without requiring its repair for source delivery. Other residual failures require independent baseline reproduction and a separately tracked issue; unexplained failures are blocking.
 
+## Split ownership and retained task mapping
+
+Step 4 source-backed sizing passed: 348 current expanded entries, 362 including reserved new test files, and 150 entries remaining below 512 after reservations. Full enumeration and original-task comparisons are in `tmp/registry-contract-migration/verification/step4-plans-78445b4/ownership.json`; sizing command exited 0 with complete `06.log`. The current unsplit tree enumerates 541 entries; retain the intake's 514 as historical evidence, not a fresh count. Both splits meet 400 without dropping any original path.
+
+The original contract is `impl-plans/active/compat-agent-contracts.md` at `78445b4919ce337cae550855431ec6bc21577265`. This plan owns exactly the 28 original paths listed above (Codex workflow families). Its peer is `compat-agent-contracts-supporting`. The two plans have no dependency on each other and share no writes; both reuse completed `compat-verification`. Scope every task below to owned paths. Named examples for an unowned workflow are contract guidance and read-only consumer references, never edit authorization.
+
+| Original task | Retained obligation | Execution/evidence owner |
+| --- | --- | --- |
+| 1 | Producer/consumer inventory and authority rationale | Both plans for their own producers; `<planId>:1` |
+| 2 | Concrete node schemas, budgets and role-correct sandbox | Both plans for their own nodes; `<planId>:2` |
+| 3 | Affected prompts, mocks and expected results | Both plans within their workflow roots; `<planId>:3` |
+| 4 | Positive/negative package-local behavioral coverage | Both plans within their test roots; `<planId>:4` |
+| 5 | Workflow selection, source-backed routes and handoff | Both plans with separate evidence roots; `<planId>:5` |
+
+All four original JSON acceptance criteria and completion bullets remain verbatim in both plans. All original invariants and ordered-task text remain below. Both own CLI identity checks, whole-catalog diagnostics, selected scenarios and diff checks. The supporting plan owns the two Fable output-contract commands; the Codex plan owns `mise run workflow:check-codex-dispatch`. Whole-catalog diagnostics remain visible without treating a peer's pending work as this branch's completed result. Reconciliation joins both selections and every contract receipt to retain complete coverage.
+
+Keep existing cross-group call signatures and graph semantics fixed. Read external consumers freshly; record each cross-group handoff field and expected schema in `contracts.json`. Do not depend on an unaccepted peer edit. Missing peer-independent behavioral verification blocks branch acceptance; send an exact repair intent for serial integration without marking an unverified contract complete. Existing callee/base ordering within each owned family remains task 1's responsibility.
+
+Before Step 5 acceptance and the checkpoint, run `python3 tmp/registry-contract-migration/verification/step4-plans-78445b4/check-plans.py` and retain its `ownership.json`, complete log and final exit. This source-backed sizing checker enumerates declared roots (including missing roots), every directory and descendant, deduplicates entries, rejects symlinks/special entries and enforces file/aggregate byte limits using core #118 `WorkflowFanoutChangeEvidence.swift:94-163`. It compares the original 60-path union, tasks, criteria, concurrent ancestor overlaps, manifest/header equality and DAG. Each split must remain at most 400 expanded entries, including known new-file reservations. It reserves one new `tests/check-compat.ts` per owned workflow when absent; additional planned files require a refreshed count before checkpoint. Never discard original paths or tests to reduce size. Recheck after input changes and before dispatch. After checkpoint, do not exceed the 512-entry runtime ceiling as tests are added. Only the plan author may rebalance whole workflow/test pairs before renewed plan review if the 400 bound fails.
+
 ## Ordered tasks and deliverables
 
 1. Order concrete changes by existing callee/base dependencies; keep a single owner for coupled producer/consumer contracts. Use the inventory's exact `agentNodes` nodePath/promptPath/conditionalConsumers as the starting file list. Re-read every concrete graph and producer prompt, including already migrated Fable/Codex orchestration nodes; do not assume existing contracts are wrong. Record in `contracts.json` each producer path, prompt path, downstream step/template reference, payload fields/types/required conditions, current/proposed authority and reason, plus affected fixtures. Include a compatible-unchanged disposition. Trace add-on forwarding and cross-workflow consumers beyond local conditional edges before choosing fields.
@@ -145,8 +133,6 @@ Run from repository root unless an explicit cwd is stated. The commands below ar
 ```sh
 bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts/validation
 bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --workflow-list tmp/registry-contract-migration/verification/compat-agent-contracts/workflows.json --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts/scenarios
-bun packages/fable-and-improve-opus/tests/check-output-contract.ts --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts/opus
-bun packages/fable-and-improve-codex/tests/check-output-contract.ts --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts/codex
 mise run workflow:check-codex-dispatch
 git diff --check
 ```

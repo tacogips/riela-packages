@@ -1,120 +1,61 @@
-# compat-assets
+# compat-agent-contracts-supporting
 
 Status: proposed for Step 5 review.
 
 ```json
 {
-  "planId": "compat-assets",
-  "planPath": "impl-plans/active/compat-assets.md",
+  "planId": "compat-agent-contracts-supporting",
+  "planPath": "impl-plans/active/compat-agent-contracts-supporting.md",
   "dependsOn": [],
   "writePaths": [
-    "packages/claude-code-adversarial-implementation-review-loop/README.md",
-    "packages/claude-code-deepdesign/README.md",
-    "packages/claude-code-design-and-implement-review-loop/README.md",
-    "packages/claude-code-design-and-implement-review-loop/skills",
-    "packages/claude-code-goal/README.md",
-    "packages/claude-code-impl-plan-completion-loop/README.md",
-    "packages/claude-code-impl-plan-completion-review-loop/README.md",
-    "packages/claude-code-recent-change-quality-loop/README.md",
-    "packages/claude-code-refactoring-divide-and-conquer/README.md",
-    "packages/claude-code-refactoring-slice-review/README.md",
-    "packages/claude-code-simple-work-package/README.md",
-    "packages/claude-code-source-security-check-loop/README.md",
-    "packages/claude-code-source-security-check-loop/skills",
-    "packages/claude-code-task-watchdog/README.md",
-    "packages/claude-code-task-watchdog/skills",
-    "packages/claude-code-website-builder/README.md",
-    "packages/claude-code-worker-only-single-step/README.md",
-    "packages/codex-adversarial-implementation-review-loop/README.md",
-    "packages/codex-deep-creation/README.md",
-    "packages/codex-deepdesign/README.md",
-    "packages/codex-design-and-implement-review-loop/README.md",
-    "packages/codex-design-and-implement-review-loop/skills",
-    "packages/codex-goal/README.md",
-    "packages/codex-impl-plan-completion-loop/README.md",
-    "packages/codex-impl-plan-completion-review-loop/README.md",
-    "packages/codex-recent-change-quality-loop/README.md",
-    "packages/codex-refactoring-divide-and-conquer/README.md",
-    "packages/codex-refactoring-slice-review/README.md",
-    "packages/codex-simple-work-package/README.md",
-    "packages/codex-source-security-check-loop/README.md",
-    "packages/codex-source-security-check-loop/skills",
-    "packages/codex-task-watchdog/README.md",
-    "packages/codex-task-watchdog/skills",
-    "packages/codex-website-builder/README.md",
-    "packages/cursor-cli-adversarial-implementation-review-loop/README.md",
-    "packages/cursor-cli-deepdesign/README.md",
-    "packages/cursor-cli-design-and-implement-review-loop/README.md",
-    "packages/cursor-cli-design-and-implement-review-loop/skills",
-    "packages/cursor-cli-developer-workflows/README.md",
-    "packages/cursor-cli-developer-workflows/skills",
-    "packages/cursor-cli-fable-design-and-implement-review-loop/README.md",
-    "packages/cursor-cli-goal/README.md",
-    "packages/cursor-cli-hydra-claude-design-and-implement-review-loop/README.md",
-    "packages/cursor-cli-hydra-codex-design-and-implement-review-loop/README.md",
-    "packages/cursor-cli-impl-plan-completion-loop/README.md",
-    "packages/cursor-cli-impl-plan-completion-review-loop/README.md",
-    "packages/cursor-cli-recent-change-quality-loop/README.md",
-    "packages/cursor-cli-refactoring-divide-and-conquer/README.md",
-    "packages/cursor-cli-refactoring-slice-review/README.md",
-    "packages/cursor-cli-simple-work-package/README.md",
-    "packages/cursor-cli-source-security-check-loop/README.md",
-    "packages/cursor-cli-source-security-check-loop/skills",
-    "packages/cursor-cli-task-watchdog/README.md",
-    "packages/cursor-cli-task-watchdog/skills",
-    "packages/cursor-cli-website-builder/README.md",
-    "packages/fable-and-improve-codex/README.md",
-    "packages/fable-and-improve-codex/skills",
-    "packages/fable-and-improve-opus/README.md",
-    "packages/fable-and-improve-opus/skills",
-    "packages/fable-astra-design-plan-review-loop/README.md",
-    "packages/fable-astra-design-plan-review-loop/skills",
-    "packages/google-speech-to-text-addon/README.md",
-    "packages/google-speech-to-text-addon/addons",
-    "packages/google-speech-to-text-addon/skills",
-    "packages/greeting-container/README.md",
-    "packages/greeting-node-addon/README.md",
-    "packages/greeting-node-addon/addons",
-    "packages/greeting-shell/README.md",
-    "packages/mp4-audio-extract-addon/README.md",
-    "packages/mp4-audio-extract-addon/addons",
-    "packages/pdf-to-images-addon/README.md",
-    "packages/pdf-to-images-addon/addons",
-    "packages/release-note-node-addon/README.md",
-    "packages/release-note-node-addon/addons",
-    "packages/riela-package-installer-skill/README.md",
-    "packages/riela-package-installer-skill/skills",
-    "packages/riela-package-manager-skill/README.md",
-    "packages/riela-package-manager-skill/skills",
-    "packages/riela-package-release-skill/README.md",
-    "packages/riela-package-release-skill/skills",
-    "packages/riela-project-workflow-skill/README.md",
-    "packages/riela-project-workflow-skill/skills",
-    "packages/riela-temporary-workflow-skill/README.md",
-    "packages/riela-temporary-workflow-skill/skills",
-    "packages/riela-workflow-creator-skill/README.md",
-    "packages/riela-workflow-creator-skill/skills",
-    "packages/riela-workflow-skill-creator-skill/README.md",
-    "packages/riela-workflow-skill-creator-skill/skills",
-    "packages/youtube-mp4-download-addon/README.md",
-    "packages/youtube-mp4-download-addon/addons",
-    "packages/youtube-mp4-to-text-workflow/README.md",
-    "packages/youtube-shorts-to-text-container/README.md"
+    "packages/claude-code-worker-only-single-step/workflows/claude-code-worker-only-single-step",
+    "packages/cursor-cli-developer-workflows/workflows/cursor-cli-developer-workflows",
+    "packages/fable-and-improve-codex/workflows/fable-and-improve-codex",
+    "packages/fable-and-improve-opus/workflows/fable-and-improve-opus",
+    "packages/fable-astra-design-plan-review-loop/workflows/fable-astra-design-plan-review-loop",
+    "packages/greeting-container/workflows/greeting-container",
+    "packages/greeting-shell/workflows/greeting-shell",
+    "packages/riela-package-installer-skill/workflows/riela-package-installer-skill",
+    "packages/riela-package-manager-skill/workflows/riela-package-manager-skill",
+    "packages/riela-package-release-skill/workflows/riela-package-release-skill",
+    "packages/riela-project-workflow-skill/workflows/riela-project-workflow-skill",
+    "packages/riela-temporary-workflow-skill/workflows/riela-temporary-workflow-skill",
+    "packages/riela-workflow-creator-skill/workflows/riela-workflow-creator-skill",
+    "packages/riela-workflow-skill-creator-skill/workflows/riela-workflow-skill-creator-skill",
+    "packages/youtube-mp4-to-text-workflow/workflows/youtube-mp4-to-text",
+    "packages/youtube-shorts-to-text-container/workflows/youtube-shorts-to-text-container",
+    "packages/claude-code-worker-only-single-step/tests",
+    "packages/cursor-cli-developer-workflows/tests",
+    "packages/fable-and-improve-codex/tests",
+    "packages/fable-and-improve-opus/tests",
+    "packages/fable-astra-design-plan-review-loop/tests",
+    "packages/greeting-container/tests",
+    "packages/greeting-shell/tests",
+    "packages/riela-package-installer-skill/tests",
+    "packages/riela-package-manager-skill/tests",
+    "packages/riela-package-release-skill/tests",
+    "packages/riela-project-workflow-skill/tests",
+    "packages/riela-temporary-workflow-skill/tests",
+    "packages/riela-workflow-creator-skill/tests",
+    "packages/riela-workflow-skill-creator-skill/tests",
+    "packages/youtube-mp4-to-text-workflow/tests",
+    "packages/youtube-shorts-to-text-container/tests"
   ],
   "sharedPaths": [],
-  "progressFile": "tmp/registry-contract-migration/verification/compat-assets/progress.json",
+  "progressFile": "tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/progress.json",
   "verification": [
     "\"$RIELA_COMPAT_CLI\" --version",
     "shasum -a 256 \"$RIELA_COMPAT_CLI\"",
-    "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode assets --evidence-root tmp/registry-contract-migration/verification/compat-assets/audit",
-    "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/verification/compat-assets/installed-workflows",
-    "mise run package:check-container-images",
+    "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/validation",
+    "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --workflow-list tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/workflows.json --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/scenarios",
+    "bun packages/fable-and-improve-opus/tests/check-output-contract.ts --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/opus",
+    "bun packages/fable-and-improve-codex/tests/check-output-contract.ts --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/codex",
     "git diff --check"
   ],
   "acceptanceCriteria": [
-    "All add-ons, skills and examples have a recorded disposition and existing relevant package tests/typechecks are executed.",
-    "YouTube resolved-install evidence is explicit; no live network service tests or widened grants.",
-    "Manifest/digest intents are delivered to the serial owner.",
+    "Every concrete agent has required authority and meaningful consumer-compatible output contracts.",
+    "Every changed base has observed positive/negative behavioral coverage; no graph/model/session regression.",
+    "Whole-catalog failures outside this owner are listed for wrapper/asset/finalization owners rather than hidden.",
     "Source work may be accepted with an explicitly evidenced core #117 final installed YouTube blocker; raw failures remain failures and all-green completion/release stays blocked."
   ]
 }
@@ -162,35 +103,52 @@ Preserve agent output envelope routing (`when`) separately from business `payloa
 
 All evidence, catalogs, installations, session stores and artifacts stay under repository-root `tmp/registry-contract-migration/verification/`. Record tool versions and source identity. Assert mock terminal state, observed payloads and branch traces, not fixture intent or CLI exit alone. Mocks do not prove actual sandbox enforcement. If mocks bypass schema rejection, use a supported installed validation entry point and state coverage limits. Missing dependencies/network and incomplete logs are blocked checks, not passes. Core #117 is already accepted by intake as an external final-verification blocker; preserve reproduction evidence without requiring its repair for source delivery. Other residual failures require independent baseline reproduction and a separately tracked issue; unexplained failures are blocking.
 
-## Split continuation
+## Split ownership and retained task mapping
 
-The original contract owner is now `compat-agent-contracts` plus `compat-agent-contracts-supporting`. Preserve this plan's original tasks, acceptance criteria and write/shared ownership. This plan runs alongside both disjoint contract owners. The completed `compat-verification` result is reused, never dispatched. Serial reconciliation joins both contract selections and rechecks all 65 packages / 59 workflows; no worker edits another worker's progress.
+Step 4 source-backed sizing passed: 193 current expanded entries, 209 including reserved new test files, and 303 entries remaining below 512 after reservations. Full enumeration and original-task comparisons are in `tmp/registry-contract-migration/verification/step4-plans-78445b4/ownership.json`; sizing command exited 0 with complete `06.log`. The current unsplit tree enumerates 541 entries; retain the intake's 514 as historical evidence, not a fresh count. Both splits meet 400 without dropping any original path.
+
+The original contract is `impl-plans/active/compat-agent-contracts.md` at `78445b4919ce337cae550855431ec6bc21577265`. This plan owns exactly the 32 original paths listed above (all non-Codex workflow families, including Fable, Claude worker, Cursor developer, skills, greeting and YouTube). Its peer is `compat-agent-contracts`. The two plans have no dependency on each other and share no writes; both reuse completed `compat-verification`. Scope every task below to owned paths. Named examples for an unowned workflow are contract guidance and read-only consumer references, never edit authorization.
+
+| Original task | Retained obligation | Execution/evidence owner |
+| --- | --- | --- |
+| 1 | Producer/consumer inventory and authority rationale | Both plans for their own producers; `<planId>:1` |
+| 2 | Concrete node schemas, budgets and role-correct sandbox | Both plans for their own nodes; `<planId>:2` |
+| 3 | Affected prompts, mocks and expected results | Both plans within their workflow roots; `<planId>:3` |
+| 4 | Positive/negative package-local behavioral coverage | Both plans within their test roots; `<planId>:4` |
+| 5 | Workflow selection, source-backed routes and handoff | Both plans with separate evidence roots; `<planId>:5` |
+
+All four original JSON acceptance criteria and completion bullets remain verbatim in both plans. All original invariants and ordered-task text remain below. Both own CLI identity checks, whole-catalog diagnostics, selected scenarios and diff checks. The supporting plan owns the two Fable output-contract commands; the Codex plan owns `mise run workflow:check-codex-dispatch`. Whole-catalog diagnostics remain visible without treating a peer's pending work as this branch's completed result. Reconciliation joins both selections and every contract receipt to retain complete coverage.
+
+Keep existing cross-group call signatures and graph semantics fixed. Read external consumers freshly; record each cross-group handoff field and expected schema in `contracts.json`. Do not depend on an unaccepted peer edit. Missing peer-independent behavioral verification blocks branch acceptance; send an exact repair intent for serial integration without marking an unverified contract complete. Existing callee/base ordering within each owned family remains task 1's responsibility.
+
+Before Step 5 acceptance and the checkpoint, run `python3 tmp/registry-contract-migration/verification/step4-plans-78445b4/check-plans.py` and retain its `ownership.json`, complete log and final exit. This source-backed sizing checker enumerates declared roots (including missing roots), every directory and descendant, deduplicates entries, rejects symlinks/special entries and enforces file/aggregate byte limits using core #118 `WorkflowFanoutChangeEvidence.swift:94-163`. It compares the original 60-path union, tasks, criteria, concurrent ancestor overlaps, manifest/header equality and DAG. Each split must remain at most 400 expanded entries, including known new-file reservations. It reserves one new `tests/check-compat.ts` per owned workflow when absent; additional planned files require a refreshed count before checkpoint. Never discard original paths or tests to reduce size. Recheck after input changes and before dispatch. After checkpoint, do not exceed the 512-entry runtime ceiling as tests are added. Only the plan author may rebalance whole workflow/test pairs before renewed plan review if the 400 bound fails.
 
 ## Ordered tasks and deliverables
 
-1. Audit every assigned non-workflow payload path and associated read-only manifests: add-on source/descriptors, capability grants, environment mappings, packaged skill frontmatter/vendor placement/referenced files, README commands and examples. Record exact files and compatible/changed/failing dispositions in `assets.json`. Inspect source to determine required package-focused commands; run declared test commands where present, recording exact argv, positive counts and typecheck/build requirements from their own configuration. Do not install unrelated toolchains or refactor working assets.
-2. Fix only confirmed 0.2.1 incompatibilities in owned paths. Keep add-on inputs/outputs/capability scope stable. For skill changes preserve backend identifiers and appropriate vendor directories; align concrete obsolete invocations with supported installed CLI help. Read nested packaged AGENTS.md before editing. Manifest incompatibilities and dependency-lock changes are handed to serial reconciliation as exact proposed field patches, not edited here.
-3. Verify the three YouTube dependency add-ons from local payloads through isolated installed-package resolution using the helper. Record resolved executable availability, download-to-audio-to-transcription handoff contracts and deterministic responses; no live service credentials/calls. If a workflow fixture correction is needed, send exact intent to its workflow owner or serial reconciliation; do not overwrite that workflow. Distinguish a raw catalog omission from the installed host-resolution defect tracked by #117. Preserve the installed failure and finish the source/add-on audit and runnable deterministic tests; do not repair core or wait for its fix.
-4. For `packages/youtube-mp4-to-text-workflow/riela-package.json`, compare the three old local-command dependency locks with `packages/youtube-mp4-download-addon/riela-package.json`, `packages/mp4-audio-extract-addon/riela-package.json`, `packages/google-speech-to-text-addon/riela-package.json` and their add-on descriptors. Deliver exact field-level lock migration intent to compat-reconcile; do not write manifests. Confirm replacement fields against core #117 support when available; otherwise record the pending contract confirmation, not guessed values. Preserve canonical IDs, capability grants and source content locks.
-5. Deliver `assets.json`, proposed manifest patches and source-changed add-on IDs needing content digest updates. If no asset incompatibility exists, retain sources unchanged and deliver audit/test evidence rather than cosmetic edits.
+1. Order concrete changes by existing callee/base dependencies; keep a single owner for coupled producer/consumer contracts. Use the inventory's exact `agentNodes` nodePath/promptPath/conditionalConsumers as the starting file list. Re-read every concrete graph and producer prompt, including already migrated Fable/Codex orchestration nodes; do not assume existing contracts are wrong. Record in `contracts.json` each producer path, prompt path, downstream step/template reference, payload fields/types/required conditions, current/proposed authority and reason, plus affected fixtures. Include a compatible-unchanged disposition. Trace add-on forwarding and cross-workflow consumers beyond local conditional edges before choosing fields.
+2. In the assigned workflow directories edit only `nodes/*.json` (and nested node files if present) for missing/incorrect agentSandbox and concrete output.jsonSchema/required validation budget. Keep unconditional terminal nodes schema-free unless a real consumer requires a contract. Use existing supported authored sandbox spellings. Preserve valid schemas; do not replace them with generic object contracts. The simple-work reviewer must describe needs_revision, findings severity/file/line/message, feedback strings and accepted; its when routing stays outside the payload schema. Check branch-specific commit requirements and existing relay fields.
+3. Adjust only affected `prompts/*.md`, `mock-scenario.json` and `EXPECTED_RESULTS.md` where needed to align with existing intended contracts. Preserve concrete non-agent workflows unless a verified contract issue affects them. If graph changes appear necessary, surface the contradiction for review rather than inventing architecture. Do not change models/backends/session reuse.
+4. Extend package-local `tests/` (existing runners first) for each materially changed base family: accepted and revision routes, missing/malformed consumed fields, conditional commit fields and cross-workflow output handoffs. Add package-local `tests/check-compat.ts` only where no appropriate runner exists; invoke each with `bun packages/<package>/tests/check-compat.ts` and record expanded command. Use the installed helper scenarios mode for existing mocks and runtime assertions. Reuse Fable output-contract tests unchanged if their contract already passes. Preserve negative-test integrity: malformed output must reach the actual validating producer.
+5. Write `workflows.json` as the exact JSON array of owned concrete workflow IDs (or selection objects with explicit `expectedRoute` when needed) and `contracts.json` with cases mapped to each changed producer. Deliver file hashes, acceptance traces, rejection evidence and unchanged graph/model comparisons against baseline. For every selected fixture, derive the route from the graph, fixture and available expected-results documentation; use the accepted map/fixture route or an explicit selection route, never an observed-only oracle. Hand any required map correction to serial reconciliation; do not write the completed verification map. Missing external dependency resolution is handled through the helper, never by deleting an add-on.
 
 ## Verification commands and required evidence
 
 Run from repository root unless an explicit cwd is stated. The commands below are mandatory when their affected inputs exist; record unsupported CLI behavior as a blocked check, never silently skip it.
 
 ```sh
-bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode assets --evidence-root tmp/registry-contract-migration/verification/compat-assets/audit
-bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/verification/compat-assets/installed-workflows
-mise run package:check-container-images
+bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/validation
+bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --workflow-list tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/workflows.json --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/scenarios
+bun packages/fable-and-improve-opus/tests/check-output-contract.ts --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/opus
+bun packages/fable-and-improve-codex/tests/check-output-contract.ts --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts-supporting/codex
 git diff --check
 ```
 
 ## Completion criteria
 
 - Source work may be accepted with an explicitly evidenced core #117 final installed YouTube blocker; raw failures remain failures and all-green completion/release stays blocked.
-- All add-ons, skills and examples have a recorded disposition and existing relevant package tests/typechecks are executed.
-- YouTube resolved-install evidence is explicit; no live network service tests or widened grants.
-- Manifest/digest intents are delivered to the serial owner.
+- Every concrete agent has required authority and meaningful consumer-compatible output contracts.
+- Every changed base has observed positive/negative behavioral coverage; no graph/model/session regression.
+- Whole-catalog failures outside this owner are listed for wrapper/asset/finalization owners rather than hidden.
 
 Run any existing configured typecheck/build for changed code and record its exact command/result; if none is configured, state that limit without inventing a project. Update affected documentation/EXPECTED_RESULTS.md only for changed behavior.
 
