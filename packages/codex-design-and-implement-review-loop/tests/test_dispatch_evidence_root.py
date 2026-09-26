@@ -25,6 +25,20 @@ class ManifestEvidenceRootTests(unittest.TestCase):
     def setUp(self) -> None:
         self.root = Path(__file__).resolve().parents[1]
 
+    def test_structured_recovery_diagnostic_is_preserved_as_text(self) -> None:
+        feedback = dispatch_plans.latest_integration_feedback([{
+            "fromStepId": "integration-review",
+            "payload": {
+                "needs_revision": True,
+                "findings": [],
+                "recoveryDiagnostic": {"resumeCriterion": "Fix local base resolution", "planId": "inheritance"},
+            },
+        }])
+        self.assertEqual(feedback, {
+            "findings": [],
+            "recoveryDiagnostic": '{"planId":"inheritance","resumeCriterion":"Fix local base resolution"}',
+        })
+
     def test_explicit_root_is_preserved(self) -> None:
         manifest = {"taskId": "p1-6c", "evidenceRoot": "tmp/custom-evidence"}
         self.assertEqual(
