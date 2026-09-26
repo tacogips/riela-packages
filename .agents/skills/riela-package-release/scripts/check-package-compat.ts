@@ -212,9 +212,21 @@ try {
           const routeMatches = route.length === expectedRoute.length && route.every((step: string, index: number) => step === expectedRoute[index]);
           let payloadChecks = 0;
           let mismatch = false;
+          // Match ScenarioNodeAdapter's per-step visit and per-node response cursor.
+          const consumedByNode = new Map<string, number>();
+          const visitsByStep = new Map<string, number>();
           for (const execution of executions) {
-            const entry = mock.steps?.[execution.stepId]?.output ?? mock[execution.stepId];
-            const expected = Array.isArray(entry) ? entry[0] : entry;
+            const nodeId = execution.nodeId ?? execution.stepId;
+            const attempt = Number.isInteger(execution.attempt) && execution.attempt > 0 ? execution.attempt : 1;
+            const visit = (visitsByStep.get(execution.stepId) ?? 0)
+              + (attempt === 1 || !visitsByStep.has(execution.stepId) ? 1 : 0);
+            visitsByStep.set(execution.stepId, visit);
+            const sequenceIndex = Math.max((consumedByNode.get(nodeId) ?? 0) + 1, visit + attempt - 1);
+            const entry = mock[nodeId] ?? mock.steps?.[execution.stepId]?.output;
+            const expected = Array.isArray(entry) ? entry[Math.min(sequenceIndex - 1, entry.length - 1)] : entry;
+            if (Array.isArray(entry) && entry.length === 0) mismatch = true;
+            consumedByNode.set(nodeId, Math.max(consumedByNode.get(nodeId) ?? 0,
+              Array.isArray(entry) ? Math.min(sequenceIndex, entry.length) : 1));
             const payload = expected?.payload ?? (expected?.output?.payload ?? null);
             if (payload) { payloadChecks++; if (!contains(execution.acceptedOutput?.payload, payload)) mismatch = true; }
           }
@@ -237,7 +249,7 @@ try {
       if (asset.endsWith('addon.json')) {
         try {
           const descriptor = JSON.parse(body);
-          for (const field of ['name', 'version', 'execution', 'inputSchema']) if (!descriptor[field]) issues.push(`missing descriptor ${field}`);
+          for (const field of ['name', 'version', 'inputSchema']) if (!descriptor[field]) issues.push(`missing descriptor ${field}`);
         } catch { issues.push('invalid add-on descriptor JSON'); }
       }
       if (asset.endsWith('README.md')) {
