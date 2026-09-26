@@ -2,15 +2,17 @@
 
 ## Active
 
-Riela 0.2.1 compatibility migration for [issue #14](https://github.com/tacogips/riela-packages/issues/14); design accepted, plans pending Step 5 review:
+Riela 0.2.1 compatibility migration for [issue #14](https://github.com/tacogips/riela-packages/issues/14); design and remaining plans accepted, implementation pending:
 
-- [compat-verification](active/compat-verification.md): baseline and isolated installed-CLI checks.
+Completed prerequisite retained in place: [compat-verification](active/compat-verification.md), accepted at 75f371f with 17/17 tests and integration review. Its historical task/status text is not a new dispatch instruction.
+
+Four remaining plans:
 - [compat-agent-contracts](active/compat-agent-contracts.md): concrete workflow authority and payload contracts.
 - [compat-assets](active/compat-assets.md): add-ons, packaged skills and examples.
 - [compat-inheritance](active/compat-inheritance.md): effective Claude/Cursor wrappers after base migration.
 - [compat-reconcile](active/compat-reconcile.md): serial repair, metadata and combined verification.
 
-Dispatch: [riela-021-dispatch.json](active/riela-021-dispatch.json). Static source inventory: [riela-021-inventory.json](active/riela-021-inventory.json). Checkpoint the accepted design, all five plans, both JSON files and this index together after plan acceptance and before native fanout. Workers do not mutate Git or archive plans.
+Dispatch: [riela-021-dispatch.json](active/riela-021-dispatch.json). Static source inventory: [riela-021-inventory.json](active/riela-021-inventory.json). Checkpoint the accepted design, all four remaining plans, both JSON files and this index together after plan acceptance and before native fanout. Workers do not mutate Git or archive plans. Dispatch order: contracts/assets, then inheritance, then reconciliation. Core #117 installed YouTube verification and dependent lock migration remain explicit until fixed support is tested; accepted source delivery does not imply all-green completion.
 
 The two D4 dispatch JSON files in `active/` are retained as historical checkpoint records; they are not current implementation plans.
 
