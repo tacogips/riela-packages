@@ -85,44 +85,15 @@ bun .agents/skills/riela-package-release/scripts/check-release-publication.ts
 '''
 
 [tasks."package:validate"]
-description = "Validate every package manifest with the local Swift Riela CLI."
+description = "Validate every package manifest with installed Riela."
 run = '''
-set -e
-for manifest in packages/*/riela-package.json; do
-  package_dir=$(dirname "$manifest")
-  package_id=$(basename "$package_dir")
-  swift run --package-path "${RIELA_ROOT:-../riela}" riela package install "$package_id" \
-    --source "$package_dir" \
-    --dry-run \
-    --no-dependencies \
-    --output json >/dev/null
-  echo "${package_id} package ok"
-done
-
+bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode manifests
 '''
 
 [tasks."workflow:validate"]
-description = "Validate concrete packaged workflows with cross-workflow callees visible."
+description = "Validate concrete and inherited packaged workflows with isolated dependencies."
 run = '''
-set -e
-workflow_tmp=$(mktemp -d)
-trap 'rm -rf "$workflow_tmp"' EXIT
-
-for workflow_dir in packages/*/workflows/*; do
-  [ -d "$workflow_dir" ] || continue
-  workflow=$(basename "$workflow_dir")
-  cp -R "$workflow_dir" "$workflow_tmp/$(basename "$workflow_dir")"
-done
-
-for workflow_dir in "$workflow_tmp"/*; do
-  [ -d "$workflow_dir" ] || continue
-  workflow=$(basename "$workflow_dir")
-  swift run --package-path "${RIELA_ROOT:-../riela}" riela workflow validate "$workflow" \
-    --workflow-definition-dir "$workflow_tmp" \
-    --output json >/dev/null
-  echo "${workflow} ok"
-done
-
+bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows
 '''
 
 [tasks."workflow:check-compact"]
