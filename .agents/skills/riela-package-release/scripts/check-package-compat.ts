@@ -73,6 +73,59 @@ for (const workflow of workflows) {
   if (byWorkflow.has(workflow.id)) throw Error(`duplicate workflow ID: ${workflow.id}`);
   byWorkflow.set(workflow.id, workflow);
 }
+function effectiveSteps(workflow: Workflow, seen = new Set<string>()): Set<string> {
+  if (seen.has(workflow.id)) throw Error(`inheritance cycle: ${workflow.id}`);
+  const next = new Set(seen).add(workflow.id);
+  const baseId = workflow.definition.extends?.workflowId;
+  if (!baseId) return new Set((workflow.definition.steps ?? []).map((step: any) => step.id));
+  const base = byWorkflow.get(baseId);
+  if (!base) throw Error(`unresolved inherited base: ${workflow.id} -> ${baseId}`);
+  const replacements = workflow.definition.extends?.stringReplacements ?? {};
+  const inherited = [...effectiveSteps(base, next)].map(id => {
+    let result = id;
+    for (const [from, to] of Object.entries(replacements)) result = result.replaceAll(from, String(to));
+    return result;
+  });
+  return new Set([...inherited, ...(workflow.definition.steps ?? []).map((step: any) => step.id)]);
+}
+type RouteEntry = { workflowId: string; fixture: string; route: string[]; sources: string[] };
+const routeMapPath = resolve(option('--expected-routes') ?? join(repo, '.agents/skills/riela-package-release/fixtures/expected-routes.json'));
+const routeEntries: RouteEntry[] = JSON.parse(readFileSync(routeMapPath, 'utf8')).routes;
+if (!Array.isArray(routeEntries)) throw Error(`invalid expected-routes map: ${routeMapPath}`);
+function selectedRoute(selection: any, mock: any, workflow: Workflow, fixture: string) {
+  const fixturePath = relative(source, fixture);
+  const key = `${workflow.id} / ${fixturePath}`;
+  const entry = routeEntries.find(item => item.workflowId === workflow.id && item.fixture === fixturePath);
+  let origin: string;
+  let value: unknown;
+  if (selection && typeof selection === 'object' && Object.hasOwn(selection, 'expectedRoute')) {
+    origin = 'selection'; value = selection.expectedRoute;
+  } else if (Object.hasOwn(mock, 'expectedRoute')) {
+    origin = 'fixture'; value = mock.expectedRoute;
+  } else if (entry) {
+    origin = 'map'; value = entry.route;
+  } else {
+    throw Error(`missing expected route for ${key}`);
+  }
+  if (!Array.isArray(value) || !value.length || !value.every(step => typeof step === 'string' && step.trim().length > 0))
+    throw Error(`invalid expected route from ${origin} for ${key}`);
+  const validSteps = effectiveSteps(workflow);
+  const absent = value.filter(step => !validSteps.has(step));
+  if (absent.length) throw Error(`expected route from ${origin} has steps absent from effective graph for ${key}: ${absent.join(', ')}`);
+  // Reuse fixture metadata through inheritance only when wrappers retain the
+  // base step graph. A changed graph needs an effective-workflow route.
+  if (workflow.fixture !== fixture && origin === 'fixture') {
+    let current = workflow;
+    while (current.fixture !== fixture) {
+      const inherited = current.definition.extends;
+      const graphOverride = current.definition.steps?.length || current.definition.entryStepId ||
+        Object.keys(inherited ?? {}).some(field => !['workflowId', 'stringReplacements', 'agentNodePatch', 'nodePatch'].includes(field));
+      if (graphOverride) throw Error(`incompatible inherited fixture route for ${key}; use an effective-workflow route`);
+      current = byWorkflow.get(inherited.workflowId)!;
+    }
+  }
+  return { route: value as string[], origin, fixturePath };
+}
 for (const pkg of packages) for (const dependency of pkg.dependencies) if (!byPackage.has(dependency)) throw Error(`unresolved local dependency: ${pkg.id} -> ${dependency}`);
 for (const workflow of workflows) {
   const base = workflow.definition.extends?.workflowId;
@@ -124,7 +177,7 @@ try {
     const { install, catalog } = installCatalog();
     const selected = option('--workflow-list') ? JSON.parse(readFileSync(resolve(option('--workflow-list')!), 'utf8')) : workflows.filter(w => w.fixture).map(w => w.id);
     if (!Array.isArray(selected)) throw Error('--workflow-list must contain a JSON array');
-    for (const selection of selected) {
+    for (const [selectionIndex, selection] of selected.entries()) {
       const id = typeof selection === 'string' ? selection : selection?.workflowId;
       const workflow = byWorkflow.get(id);
       if (!workflow) throw Error(`unknown workflow: ${id}`);
@@ -138,16 +191,25 @@ try {
         fixture = base.fixture;
       }
       if (!fixture) throw Error(`no scenario fixture for ${id}`);
-      const run = command(`scenario-${id}`, ['workflow', 'run', id, '--workflow-definition-dir', catalog, '--scope', 'project', '--working-dir', source, '--mock-scenario', fixture, '--session-store', join(evidence, 'sessions', id), '--artifact-root', join(evidence, 'artifacts', id), '--output', 'json'], install);
+      let routeSpec: ReturnType<typeof selectedRoute>;
+      try {
+        const mock = JSON.parse(readFileSync(fixture, 'utf8'));
+        routeSpec = selectedRoute(selection, mock, workflow, fixture);
+      } catch (error) {
+        failures++;
+        records.push({ label: `scenario-assert-${id}`, exitCode: 1, fixture: relative(source, fixture), error: String(error) });
+        continue;
+      }
+      const caseId = `${id}-${selectionIndex}`;
+      const run = command(`scenario-${id}`, ['workflow', 'run', id, '--workflow-definition-dir', catalog, '--scope', 'project', '--working-dir', source, '--mock-scenario', fixture, '--session-store', join(evidence, 'sessions', caseId), '--artifact-root', join(evidence, 'artifacts', caseId), '--output', 'json'], install);
       if (run.exitCode === 0) {
         try {
           const parsed = JSON.parse(run.output);
           const executions = parsed.session?.executions ?? [];
           const route = executions.map((item: any) => item.stepId);
           const mock = JSON.parse(readFileSync(fixture, 'utf8'));
-          const expectedRoute = typeof selection === 'string' ? mock.expectedRoute : selection.expectedRoute ?? mock.expectedRoute;
-          if (expectedRoute !== undefined && (!Array.isArray(expectedRoute) || !expectedRoute.every((step: any) => typeof step === 'string'))) throw Error(`invalid expected route for ${id}`);
-          const routeMatches = expectedRoute === undefined || route.length === expectedRoute.length && route.every((step: string, index: number) => step === expectedRoute[index]);
+          const expectedRoute = routeSpec.route;
+          const routeMatches = route.length === expectedRoute.length && route.every((step: string, index: number) => step === expectedRoute[index]);
           let payloadChecks = 0;
           let mismatch = false;
           for (const execution of executions) {
@@ -158,8 +220,10 @@ try {
           }
           const passed = parsed.status === 'completed' && route.length > 0 && routeMatches && payloadChecks > 0 && !mismatch;
           if (!passed) failures++;
-          records.push({ label: `scenario-assert-${id}`, exitCode: passed ? 0 : 1, expected: 'completed with fixture-backed payloads and selected route', observed: parsed.status, route, expectedRoute: expectedRoute ?? null, routeMatches, payloadChecks, payloadMismatch: mismatch });
-        } catch { failures++; records.push({ label: `scenario-assert-${id}`, exitCode: 1, error: 'invalid JSON result' }); }
+          records.push({ label: `scenario-assert-${id}`, exitCode: passed ? 0 : 1, fixture: routeSpec.fixturePath, routeOrigin: routeSpec.origin, expected: 'completed with fixture-backed payloads and selected route', observed: parsed.status, route, expectedRoute, routeMatches, payloadChecks, payloadMismatch: mismatch });
+        } catch (error) { failures++; records.push({ label: `scenario-assert-${id}`, exitCode: 1, error: String(error) }); }
+      } else {
+        records.push({ label: `scenario-assert-${id}`, exitCode: 1, fixture: routeSpec.fixturePath, routeOrigin: routeSpec.origin, expectedRoute: routeSpec.route, observed: 'CLI exit nonzero', commandExitCode: run.exitCode });
       }
     }
   } else {
