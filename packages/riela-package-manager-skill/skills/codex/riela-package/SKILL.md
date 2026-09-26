@@ -126,7 +126,7 @@ entries are managed-only and do not create root `AGENTS.md`.
 - Update an installed package after explicit approval:
 
 ```bash
-riela package update <workflow-name-or-package-id> --yes --output json
+riela package update <workflow-name-or-package-id> --output json
 ```
 
 - Remove an installed package by package id:

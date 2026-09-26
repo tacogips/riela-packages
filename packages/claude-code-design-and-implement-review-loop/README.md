@@ -12,7 +12,7 @@ Single-author design and planning followed by native shared-branch implementatio
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install claude-code-design-and-implement-review-loop --local-path /path/to/riela-packages
+riela package install claude-code-design-and-implement-review-loop --source /path/to/riela-packages/packages/claude-code-design-and-implement-review-loop
 ```
 
 Add `--scope user` to install for the current user instead of the
@@ -22,7 +22,7 @@ This package does not install its dependencies automatically.
 Install each dependency package as well:
 
 ```bash
-riela package install codex-design-and-implement-review-loop --local-path /path/to/riela-packages
+riela package install codex-design-and-implement-review-loop --source /path/to/riela-packages/packages/codex-design-and-implement-review-loop
 ```
 
 ## Run

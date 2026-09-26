@@ -2,11 +2,60 @@
   "id": "security-triage",
   "description": "Reduce parallel source-review evidence and deterministic scanner output.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/security-triage.md",
   "variables": {},
   "output": {
-    "description": "Return complete fanout coverage plus deduplicated high, medium, and low findings with fixes and verification."
+    "description": "Return complete fanout coverage plus deduplicated high, medium, and low findings with fixes and verification.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "scanSummary": {
+          "type": "object"
+        },
+        "toolCoverage": {
+          "type": "array",
+          "items": {}
+        },
+        "focusAreaCoverage": {
+          "type": "array",
+          "items": {}
+        },
+        "findings": {
+          "type": "array",
+          "items": {}
+        },
+        "blockingFindings": {
+          "type": "array",
+          "items": {}
+        },
+        "needs_fix": {
+          "type": "boolean"
+        },
+        "reviewedFiles": {
+          "type": "array",
+          "items": {}
+        },
+        "coverageGaps": {
+          "type": "array",
+          "items": {}
+        },
+        "notes": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "scanSummary",
+        "toolCoverage",
+        "focusAreaCoverage",
+        "blockingFindings",
+        "needs_fix"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

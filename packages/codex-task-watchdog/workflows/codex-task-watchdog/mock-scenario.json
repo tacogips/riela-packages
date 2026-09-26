@@ -1,0 +1,59 @@
+{
+  "riela-manager": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "taskListPath": "./tasks/list.jsonl",
+      "event": "scenario-mock",
+      "nextStep": "claim-next-task"
+    }
+  },
+  "workflow-output": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "skipped",
+      "taskId": null,
+      "kind": null,
+      "reason": "task-list-empty-or-missing",
+      "summary": "No task queue exists for this polling pass.",
+      "skillChanges": [],
+      "skillReview": null,
+      "commitHash": null,
+      "nextAction": "Wait for the next event tick."
+    }
+  },
+  "claim-next-task": {
+    "provider": "scenario-mock",
+    "model": "scenario-command",
+    "payload": {
+      "when": {
+        "skip": true
+      },
+      "payload": {
+        "action": "skip",
+        "reason": "task-list-empty-or-missing",
+        "taskListPath": "./tasks/list.jsonl",
+        "taskCount": 0
+      }
+    }
+  },
+  "steps": {
+    "claim-next-task": {
+      "output": {
+        "payload": {
+          "action": "skip",
+          "reason": "task-list-empty-or-missing",
+          "taskListPath": "./tasks/list.jsonl",
+          "taskCount": 0
+        }
+      }
+    }
+  }
+}

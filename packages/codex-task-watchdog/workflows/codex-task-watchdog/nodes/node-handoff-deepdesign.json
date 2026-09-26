@@ -2,11 +2,32 @@
   "id": "handoff-deepdesign",
   "description": "Prepare a codex-deepdesign call for the claimed task.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/handoff-deepdesign.md",
   "variables": {},
   "output": {
-    "description": "Return workflowInput, task, and handoffSummary for codex-deepdesign."
+    "description": "Return workflowInput, task, and handoffSummary for codex-deepdesign.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "workflowInput": {
+          "type": "object"
+        },
+        "task": {
+          "type": "string"
+        },
+        "handoffSummary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "workflowInput",
+        "task"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

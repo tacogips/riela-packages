@@ -2,12 +2,30 @@
   "id": "deepdesign-handoff",
   "description": "Build the codex-deepdesign workflow input.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/deepdesign-handoff.md",
   "variables": {},
   "output": {
-    "description": "Return adapter JSON whose payload contains workflowInput for codex-deepdesign."
+    "description": "Return adapter JSON whose payload contains workflowInput for codex-deepdesign.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "workflowInput": {
+          "type": "object"
+        },
+        "handoffSummary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "workflowInput",
+        "handoffSummary"
+      ]
+    },
+    "maxValidationAttempts": 2
   },
   "effort": "high"
 }

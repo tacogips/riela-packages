@@ -11,7 +11,7 @@ Lightweight Codex workflow for small code or documentation changes when no dedic
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install codex-simple-work-package --local-path /path/to/riela-packages
+riela package install codex-simple-work-package --source /path/to/riela-packages/packages/codex-simple-work-package
 ```
 
 Add `--scope user` to install for the current user instead of the

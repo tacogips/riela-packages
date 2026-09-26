@@ -12,7 +12,7 @@ Run deterministic security checks, partition the attack surface, review focus ar
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install claude-code-source-security-check-loop --local-path /path/to/riela-packages
+riela package install claude-code-source-security-check-loop --source /path/to/riela-packages/packages/claude-code-source-security-check-loop
 ```
 
 Add `--scope user` to install for the current user instead of the
@@ -22,8 +22,8 @@ This package does not install its dependencies automatically.
 Install each dependency package as well:
 
 ```bash
-riela package install codex-source-security-check-loop --local-path /path/to/riela-packages
-riela package install claude-code-design-and-implement-review-loop --local-path /path/to/riela-packages
+riela package install codex-source-security-check-loop --source /path/to/riela-packages/packages/codex-source-security-check-loop
+riela package install claude-code-design-and-implement-review-loop --source /path/to/riela-packages/packages/claude-code-design-and-implement-review-loop
 ```
 
 ## Run

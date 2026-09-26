@@ -2,12 +2,50 @@
   "id": "parallel-design-review",
   "description": "Review one assigned design lens from a bounded read-only fanout branch.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/parallel-design-review.md",
   "variables": {},
   "output": {
-    "description": "Return the assigned reviewId, acceptance, severity-ranked findings, feedback, evidence, and residual risks. Never modify files."
+    "description": "Return the assigned reviewId, acceptance, severity-ranked findings, feedback, evidence, and residual risks. Never modify files.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "reviewId": {
+          "type": "string"
+        },
+        "accepted": {
+          "type": "boolean"
+        },
+        "findings": {
+          "type": "array",
+          "items": {}
+        },
+        "feedback": {
+          "type": "array",
+          "items": {}
+        },
+        "evidence": {
+          "type": "object"
+        },
+        "reviewedDesignDocPaths": {
+          "type": "array",
+          "items": {}
+        },
+        "residualLowRisks": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "reviewId",
+        "accepted",
+        "findings"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

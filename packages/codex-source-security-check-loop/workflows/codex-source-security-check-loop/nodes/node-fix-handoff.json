@@ -2,11 +2,52 @@
   "id": "fix-handoff",
   "description": "Prepare a delegated security-fix request for codex-design-and-implement-review-loop.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/fix-handoff.md",
   "variables": {},
   "output": {
-    "description": "Return workflowInput and reviewContext for the delegated fix workflow."
+    "description": "Return workflowInput and reviewContext for the delegated fix workflow.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "workflowInput": {
+          "type": "object"
+        },
+        "reviewContext": {
+          "type": "object"
+        },
+        "handoffSummary": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "requestedBehavior": {
+          "type": "string"
+        },
+        "targetDirectory": {
+          "type": "string"
+        },
+        "constraints": {
+          "type": "array",
+          "items": {}
+        },
+        "acceptanceCriteria": {
+          "type": "array",
+          "items": {}
+        },
+        "verificationHint": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "workflowInput",
+        "reviewContext"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

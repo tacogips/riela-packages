@@ -26,6 +26,7 @@
       },
       "required": ["implementation_blocked", "status", "workflowMode", "issueReference", "blockedPlanIds", "successfulPlanIds", "blockers", "resumeCriteria", "nextStep", "residualRisks"],
       "additionalProperties": true
-    }
+    },
+    "maxValidationAttempts": 2
   }
 }

@@ -10,7 +10,7 @@ Skill package that teaches agents to turn work into a project-scope Riela workfl
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install riela-project-workflow-skill --local-path /path/to/riela-packages
+riela package install riela-project-workflow-skill --source /path/to/riela-packages/packages/riela-project-workflow-skill
 ```
 
 Add `--scope user` to install for the current user instead of the

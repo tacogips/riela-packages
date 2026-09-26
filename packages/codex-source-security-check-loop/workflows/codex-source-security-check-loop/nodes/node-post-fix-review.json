@@ -2,11 +2,52 @@
   "id": "post-fix-review",
   "description": "Capture the delegated security-fix workflow result before rescanning.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/post-fix-review.md",
   "variables": {},
   "output": {
-    "description": "Return delegated workflow result details and the plan for the next deterministic scan."
+    "description": "Return delegated workflow result details and the plan for the next deterministic scan.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "delegatedWorkflowId": {
+          "type": "string"
+        },
+        "delegatedWorkflowMode": {
+          "type": "string"
+        },
+        "delegatedStatus": {
+          "type": "string"
+        },
+        "delegatedIssueReference": {
+          "type": "string"
+        },
+        "delegatedChangedFiles": {
+          "type": "array",
+          "items": {}
+        },
+        "delegatedVerification": {
+          "type": "string"
+        },
+        "delegatedCommitHash": {
+          "type": "string"
+        },
+        "rescanPlan": {
+          "type": "string"
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "delegatedWorkflowId",
+        "delegatedWorkflowMode"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

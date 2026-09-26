@@ -2,7 +2,7 @@
   "id": "fable-goal-review",
   "description": "Claude Fable verifies whether the accepted Opus implementation and review satisfy the analysis, design, plan, and goal.",
   "executionBackend": "claude-code-agent",
-  "agentSandbox": "danger-full-access",
+  "agentSandbox": "read-only",
   "model": "claude-fable-5",
   "modelFreeze": true,
   "effort": "high",

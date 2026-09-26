@@ -16,7 +16,7 @@ Plan dispatch is not an agent judgment. A deterministic command projects the exa
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install codex-design-and-implement-review-loop --local-path /path/to/riela-packages
+riela package install codex-design-and-implement-review-loop --source /path/to/riela-packages/packages/codex-design-and-implement-review-loop
 ```
 
 Add `--scope user` to install for the current user instead of the

@@ -2,6 +2,7 @@
   "id": "site-design",
   "description": "Create or revise the site design brief and pinned dependency allowlist with Codex GPT-5.6 SOL high effort.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "workspace-write",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
@@ -11,6 +12,73 @@
   "promptTemplateFile": "prompts/site-design.md",
   "variables": {},
   "output": {
-    "description": "Return design brief paths, page inventory, pinned CSS framework/library allowlist, interaction requirements, asset requirements, and implementation guidance."
+    "description": "Return design brief paths, page inventory, pinned CSS framework/library allowlist, interaction requirements, asset requirements, and implementation guidance.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "projectName": {
+          "type": "string"
+        },
+        "targetDirectory": {
+          "type": "string"
+        },
+        "designBriefPaths": {
+          "type": "array",
+          "items": {}
+        },
+        "cssFramework": {
+          "type": "string"
+        },
+        "dependencyAllowlist": {
+          "type": "array",
+          "items": {}
+        },
+        "dependencyPolicy": {
+          "type": "string"
+        },
+        "siteConcept": {
+          "type": "string"
+        },
+        "routePlan": {
+          "type": "string"
+        },
+        "componentPlan": {
+          "type": "string"
+        },
+        "interactionPlan": {
+          "type": "string"
+        },
+        "responsivePlan": {
+          "type": "string"
+        },
+        "accessibilityPlan": {
+          "type": "string"
+        },
+        "assetRequirements": {
+          "type": "string"
+        },
+        "implementationGuidance": {
+          "type": "array",
+          "items": {}
+        },
+        "addressedFeedback": {
+          "type": "array",
+          "items": {}
+        },
+        "assumptions": {
+          "type": "string"
+        },
+        "residualDesignRisks": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "projectName",
+        "targetDirectory"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

@@ -66,6 +66,7 @@
       },
       "required": ["needs_revision", "accepted", "reviewBasis", "findings", "feedback", "testIntegrityDecision", "adversarialReviewSummary", "residualLowRisks"],
       "additionalProperties": false
-    }
+    },
+    "maxValidationAttempts": 2
   }
 }

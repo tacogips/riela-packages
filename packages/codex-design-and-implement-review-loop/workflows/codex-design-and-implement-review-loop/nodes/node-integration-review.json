@@ -93,6 +93,7 @@
       },
       "required": ["needs_revision", "redispatch_required", "repair_in_place", "plans_remaining", "accepted", "loopGate", "reviewBasis", "findings"],
       "additionalProperties": true
-    }
+    },
+    "maxValidationAttempts": 2
   }
 }

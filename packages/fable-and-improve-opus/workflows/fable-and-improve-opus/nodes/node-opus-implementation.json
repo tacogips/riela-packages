@@ -2,7 +2,7 @@
   "id": "opus-implementation",
   "description": "Claude Opus 5.5 implements the Fable-authored design and plan, addresses review findings or follow-up TODOs, and verifies the result.",
   "executionBackend": "claude-code-agent",
-  "agentSandbox": "danger-full-access",
+  "agentSandbox": "workspace-write",
   "model": "claude-opus-5-5",
   "modelFreeze": true,
   "effort": "high",
@@ -11,6 +11,66 @@
   },
   "promptTemplateFile": "prompts/opus-implementation.md",
   "output": {
-    "description": "Return implementation status, changed files, verification evidence, documentation and plan updates, addressed findings, and residual risks."
+    "description": "Return implementation progress, changed paths and verification evidence.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "implementationStatus": {
+          "type": "string",
+          "minLength": 1
+        },
+        "implementationSummary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "changedFiles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "verification": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "testsAddedOrUpdated": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "documentationUpdated": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "implementationPlanUpdates": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "implementationSummary",
+        "changedFiles"
+      ],
+      "additionalProperties": true
+    },
+    "maxValidationAttempts": 2
   }
 }

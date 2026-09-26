@@ -2,12 +2,62 @@
   "id": "review-dispatch",
   "description": "Prepare complete stable website-review assignments for bounded fanout.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "medium",
   "promptTemplateFile": "prompts/review-dispatch.md",
   "variables": {},
   "output": {
-    "description": "Return exactly three complete reviewItems for UX/design, assets/media, and implementation/runtime."
+    "description": "Return exactly three complete reviewItems for UX/design, assets/media, and implementation/runtime.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "reviewItems": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "properties": {
+              "reviewId": {
+                "type": "string"
+              },
+              "reviewUrl": {
+                "type": "string"
+              },
+              "targetDirectory": {
+                "type": "string"
+              },
+              "assetPaths": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "changedFiles": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "reviewId",
+              "reviewUrl",
+              "targetDirectory",
+              "assetPaths",
+              "changedFiles"
+            ],
+            "additionalProperties": true
+          }
+        }
+      },
+      "required": [
+        "reviewItems"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

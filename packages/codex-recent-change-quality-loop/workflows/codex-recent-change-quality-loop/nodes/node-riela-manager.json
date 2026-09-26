@@ -2,6 +2,7 @@
   "id": "riela-manager",
   "description": "Coordinate the recent-change quality loop.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/riela-manager.md",
@@ -29,6 +30,45 @@
     }
   },
   "output": {
-    "description": "Route to Step 1 and preserve runtime inputs such as hours for both review and delegated-handoff steps."
+    "description": "Route to Step 1 and preserve runtime inputs such as hours for both review and delegated-handoff steps.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "hours": {
+          "type": "integer"
+        },
+        "targetScope": {
+          "type": "array",
+          "items": {}
+        },
+        "notes": {
+          "type": "array",
+          "items": {}
+        },
+        "stage": {
+          "type": "string"
+        },
+        "policy": {
+          "type": "string"
+        }
+      },
+      "required": [],
+      "anyOf": [
+        {
+          "required": [
+            "hours",
+            "targetScope"
+          ]
+        },
+        {
+          "required": [
+            "stage",
+            "policy"
+          ]
+        }
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

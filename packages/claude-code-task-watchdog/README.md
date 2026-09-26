@@ -12,7 +12,7 @@ Long-running Claude Code task watcher backed by ./tasks/list.jsonl, with cron/ev
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install claude-code-task-watchdog --local-path /path/to/riela-packages
+riela package install claude-code-task-watchdog --source /path/to/riela-packages/packages/claude-code-task-watchdog
 ```
 
 Add `--scope user` to install for the current user instead of the
@@ -22,10 +22,10 @@ This package does not install its dependencies automatically.
 Install each dependency package as well:
 
 ```bash
-riela package install codex-task-watchdog --local-path /path/to/riela-packages
-riela package install claude-code-design-and-implement-review-loop --local-path /path/to/riela-packages
-riela package install claude-code-deepdesign --local-path /path/to/riela-packages
-riela package install claude-code-recent-change-quality-loop --local-path /path/to/riela-packages
+riela package install codex-task-watchdog --source /path/to/riela-packages/packages/codex-task-watchdog
+riela package install claude-code-design-and-implement-review-loop --source /path/to/riela-packages/packages/claude-code-design-and-implement-review-loop
+riela package install claude-code-deepdesign --source /path/to/riela-packages/packages/claude-code-deepdesign
+riela package install claude-code-recent-change-quality-loop --source /path/to/riela-packages/packages/claude-code-recent-change-quality-loop
 ```
 
 ## Run
