@@ -6,9 +6,7 @@ Status: proposed for Step 5 review.
 {
   "planId": "compat-assets",
   "planPath": "impl-plans/active/compat-assets.md",
-  "dependsOn": [
-    "compat-verification"
-  ],
+  "dependsOn": [],
   "writePaths": [
     "packages/claude-code-adversarial-implementation-review-loop/README.md",
     "packages/claude-code-deepdesign/README.md",
@@ -106,6 +104,8 @@ Status: proposed for Step 5 review.
   "sharedPaths": [],
   "progressFile": "tmp/registry-contract-migration/verification/compat-assets/progress.json",
   "verification": [
+    "\"$RIELA_COMPAT_CLI\" --version",
+    "shasum -a 256 \"$RIELA_COMPAT_CLI\"",
     "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode assets --evidence-root tmp/registry-contract-migration/verification/compat-assets/audit",
     "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/verification/compat-assets/installed-workflows",
     "mise run package:check-container-images",
@@ -124,11 +124,17 @@ Status: proposed for Step 5 review.
 
 Resolve https://github.com/tacogips/riela-packages/issues/14 in `issue-resolution` mode using accepted `design-docs/specs/design-riela-021-package-compat.md` (continuation update accepted by Step 3, comm-000004, no findings). All packages are in scope; the intake's 39 failures are a diagnostic cohort, not an inventory limit. `codexAgentReferences: []`; preserve existing Cursor/Claude wrapper adaptations rather than introducing adapters. Issue title/body were unavailable; do not infer #114 from scratch directory names.
 
-Use installed Riela 0.2.1 on `fix/registry-contract-migration`. Do not inspect the running workflow's registry/provenance, change sibling repositories, create worktrees/private branches, run concurrent Git mutations, release or merge. No graph/model/session redesign, broad formatting, vacuous schemas, permission escalation for review-only agents or unrelated cleanup. Review existing subtree AGENTS.md before editing. Do not modify unrelated D4 records.
+Use the runner-supplied source Riela binary containing core #118 on `fix/registry-contract-migration`. Do not inspect the running workflow's registry/provenance, change sibling repositories, create worktrees/private branches, run concurrent Git mutations, release or merge. No graph/model/session redesign, broad formatting, vacuous schemas, permission escalation for review-only agents or unrelated cleanup. Review existing subtree AGENTS.md before editing. Do not modify unrelated D4 records.
+
+## Completed prerequisite and CLI setup
+
+The accepted design and Step 3 comm-000004 authorize exactly these four remaining plans. `compat-verification` is completed at `75f371f80d30ee69c17193121111972fc65a68db`, with 17/17 tests and integration review accepted by intake. It is not dispatched again. Source-matched evidence is reusable after comparing audited source, CLI, dependency inputs, final exits and complete logs. Final integration reruns remain required. The source inventory is 65 packages / 59 workflows; repair the reported 39 legacy agent-contract and 47 asset/README failures without treating these diagnostic counts as coverage limits.
+
+Before the commands below, bind `RIELA_COMPAT_CLI` and `RIELA_BIN` to the same absolute, runner-supplied source executable containing core #118. Record the expanded executable path, `"$RIELA_COMPAT_CLI" --version` and `shasum -a 256 "$RIELA_COMPAT_CLI"` with final exit and complete logs. For tests that spawn literal `riela`, prepend a directory under the worker's fresh `tmp/` attempt containing a `riela` symlink to that executable to PATH; verify `command -v riela` resolves there. Do not change HOME, build core, or infer #117 support from #118. Do not substitute a different installed binary silently. No executable location is invented by this plan; absence of the supplied executable blocks its dependent checks only.
 
 ## Continuation and #117 boundary
 
-Continue from `ae365081721dde884ac212b9c691427272790ff1`, covering 65 packages / 59 workflows. Reuse the checkpointed harness and source-matched receipts; repair concrete gaps only. Riela core https://github.com/tacogips/riela/issues/117 tracks installed YouTube `unresolvedAddonExecutable`. Its repair is not a prerequisite for source edits, acceptance of usable verification infrastructure, or dependency-ready source-plan dispatch. Do not modify sibling repositories or installed user-scope packages; make no live model/provider calls.
+Continue from `75f371f80d30ee69c17193121111972fc65a68db`, covering 65 packages / 59 workflows. Reuse the checkpointed harness and source-matched receipts; repair concrete gaps only. Riela core https://github.com/tacogips/riela/issues/117 tracks installed YouTube `unresolvedAddonExecutable`. Its repair is not a prerequisite for source edits, acceptance of usable verification infrastructure, or dependency-ready source-plan dispatch. Do not modify sibling repositories or installed user-scope packages; make no live model/provider calls.
 
 Keep command exit status separate from plan readiness: record the exact failing command, complete log, source/tool identity, affected workflow and #117 attribution. Never convert a nonzero result to a pass, skip the affected inventory entry, weaken validation or classify unrelated failures as #117. Owned changed-package tests and deterministic mock assertions must pass; record the specifically blocked installed YouTube check separately. Missing material source verification or unresolved high/mid source defects still block source acceptance. Core #117 alone does not block independent review, accepted source commit or non-force push; full all-green compatibility and release remain blocked.
 
@@ -146,7 +152,7 @@ Before each edit, freshly read the file and consumers. Save its bytes and SHA-25
 
 Use a new attempt directory; preserve old receipts. Command examples below name canonical evidence paths: expand each to a fresh attempt path consistently (including workflow-list/baseline inputs) before execution and record the exact argv. Never overwrite an earlier attempt. Maintain your own `progress.json` with task IDs, pending/running/passed/blocked status, source hashes, changed paths, exact argv/cwd, final exit, complete log path, case/assertion counts, findings and next action. Also write `handoff.json` with requirements-to-files/tests mapping, remaining failures, review decision and post-hashes. Run commands foreground; poll yielded processes until exit. Capture stdout/stderr without losing the command exit. `git diff --check` supplements behavioral checks, never substitutes for them.
 
-Do not regenerate manifests, versions, dependency locks or registry-index.json in a parallel payload worker. Do not archive plans or run git add/commit/push in any worker. Serial finalization prepares an exact file list for Riela publication steps. Every changed input invalidates affected verification and review receipts.
+Only compat-reconcile may regenerate manifests, versions, dependency locks or registry-index.json, after all payload workers join. Do not archive plans or run git add/commit/push in any worker. Serial finalization prepares an exact file list for Riela publication steps. Every changed input invalidates affected verification and review receipts.
 
 ## Shared invariants and evidence rules
 
@@ -159,7 +165,8 @@ All evidence, catalogs, installations, session stores and artifacts stay under r
 1. Audit every assigned non-workflow payload path and associated read-only manifests: add-on source/descriptors, capability grants, environment mappings, packaged skill frontmatter/vendor placement/referenced files, README commands and examples. Record exact files and compatible/changed/failing dispositions in `assets.json`. Inspect source to determine required package-focused commands; run declared test commands where present, recording exact argv, positive counts and typecheck/build requirements from their own configuration. Do not install unrelated toolchains or refactor working assets.
 2. Fix only confirmed 0.2.1 incompatibilities in owned paths. Keep add-on inputs/outputs/capability scope stable. For skill changes preserve backend identifiers and appropriate vendor directories; align concrete obsolete invocations with supported installed CLI help. Read nested packaged AGENTS.md before editing. Manifest incompatibilities and dependency-lock changes are handed to serial reconciliation as exact proposed field patches, not edited here.
 3. Verify the three YouTube dependency add-ons from local payloads through isolated installed-package resolution using the helper. Record resolved executable availability, download-to-audio-to-transcription handoff contracts and deterministic responses; no live service credentials/calls. If a workflow fixture correction is needed, send exact intent to its workflow owner or serial reconciliation; do not overwrite that workflow. Distinguish a raw catalog omission from the installed host-resolution defect tracked by #117. Preserve the installed failure and finish the source/add-on audit and runnable deterministic tests; do not repair core or wait for its fix.
-4. Deliver `assets.json`, proposed manifest patches and source-changed add-on IDs needing content digest updates. If no asset incompatibility exists, retain sources unchanged and deliver audit/test evidence rather than cosmetic edits.
+4. For `packages/youtube-mp4-to-text-workflow/riela-package.json`, compare the three old local-command dependency locks with `packages/youtube-mp4-download-addon/riela-package.json`, `packages/mp4-audio-extract-addon/riela-package.json`, `packages/google-speech-to-text-addon/riela-package.json` and their add-on descriptors. Deliver exact field-level lock migration intent to compat-reconcile; do not write manifests. Confirm replacement fields against core #117 support when available; otherwise record the pending contract confirmation, not guessed values. Preserve canonical IDs, capability grants and source content locks.
+5. Deliver `assets.json`, proposed manifest patches and source-changed add-on IDs needing content digest updates. If no asset incompatibility exists, retain sources unchanged and deliver audit/test evidence rather than cosmetic edits.
 
 ## Verification commands and required evidence
 
@@ -178,5 +185,7 @@ git diff --check
 - All add-ons, skills and examples have a recorded disposition and existing relevant package tests/typechecks are executed.
 - YouTube resolved-install evidence is explicit; no live network service tests or widened grants.
 - Manifest/digest intents are delivered to the serial owner.
+
+Run any existing configured typecheck/build for changed code and record its exact command/result; if none is configured, state that limit without inventing a project. Update affected documentation/EXPECTED_RESULTS.md only for changed behavior.
 
 Complete your progress log and handoff only after each owned task has evidence or an explicitly blocked outcome. No unresolved high/mid finding may be marked complete. Independent implementation review remains a later gate.

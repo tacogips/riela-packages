@@ -6,9 +6,7 @@ Status: proposed for Step 5 review.
 {
   "planId": "compat-agent-contracts",
   "planPath": "impl-plans/active/compat-agent-contracts.md",
-  "dependsOn": [
-    "compat-verification"
-  ],
+  "dependsOn": [],
   "writePaths": [
     "packages/claude-code-worker-only-single-step/workflows/claude-code-worker-only-single-step",
     "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop",
@@ -74,6 +72,8 @@ Status: proposed for Step 5 review.
   "sharedPaths": [],
   "progressFile": "tmp/registry-contract-migration/verification/compat-agent-contracts/progress.json",
   "verification": [
+    "\"$RIELA_COMPAT_CLI\" --version",
+    "shasum -a 256 \"$RIELA_COMPAT_CLI\"",
     "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts/validation",
     "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --workflow-list tmp/registry-contract-migration/verification/compat-agent-contracts/workflows.json --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts/scenarios",
     "bun packages/fable-and-improve-opus/tests/check-output-contract.ts --evidence-root tmp/registry-contract-migration/verification/compat-agent-contracts/opus",
@@ -94,11 +94,17 @@ Status: proposed for Step 5 review.
 
 Resolve https://github.com/tacogips/riela-packages/issues/14 in `issue-resolution` mode using accepted `design-docs/specs/design-riela-021-package-compat.md` (continuation update accepted by Step 3, comm-000004, no findings). All packages are in scope; the intake's 39 failures are a diagnostic cohort, not an inventory limit. `codexAgentReferences: []`; preserve existing Cursor/Claude wrapper adaptations rather than introducing adapters. Issue title/body were unavailable; do not infer #114 from scratch directory names.
 
-Use installed Riela 0.2.1 on `fix/registry-contract-migration`. Do not inspect the running workflow's registry/provenance, change sibling repositories, create worktrees/private branches, run concurrent Git mutations, release or merge. No graph/model/session redesign, broad formatting, vacuous schemas, permission escalation for review-only agents or unrelated cleanup. Review existing subtree AGENTS.md before editing. Do not modify unrelated D4 records.
+Use the runner-supplied source Riela binary containing core #118 on `fix/registry-contract-migration`. Do not inspect the running workflow's registry/provenance, change sibling repositories, create worktrees/private branches, run concurrent Git mutations, release or merge. No graph/model/session redesign, broad formatting, vacuous schemas, permission escalation for review-only agents or unrelated cleanup. Review existing subtree AGENTS.md before editing. Do not modify unrelated D4 records.
+
+## Completed prerequisite and CLI setup
+
+The accepted design and Step 3 comm-000004 authorize exactly these four remaining plans. `compat-verification` is completed at `75f371f80d30ee69c17193121111972fc65a68db`, with 17/17 tests and integration review accepted by intake. It is not dispatched again. Source-matched evidence is reusable after comparing audited source, CLI, dependency inputs, final exits and complete logs. Final integration reruns remain required. The source inventory is 65 packages / 59 workflows; repair the reported 39 legacy agent-contract and 47 asset/README failures without treating these diagnostic counts as coverage limits.
+
+Before the commands below, bind `RIELA_COMPAT_CLI` and `RIELA_BIN` to the same absolute, runner-supplied source executable containing core #118. Record the expanded executable path, `"$RIELA_COMPAT_CLI" --version` and `shasum -a 256 "$RIELA_COMPAT_CLI"` with final exit and complete logs. For tests that spawn literal `riela`, prepend a directory under the worker's fresh `tmp/` attempt containing a `riela` symlink to that executable to PATH; verify `command -v riela` resolves there. Do not change HOME, build core, or infer #117 support from #118. Do not substitute a different installed binary silently. No executable location is invented by this plan; absence of the supplied executable blocks its dependent checks only.
 
 ## Continuation and #117 boundary
 
-Continue from `ae365081721dde884ac212b9c691427272790ff1`, covering 65 packages / 59 workflows. Reuse the checkpointed harness and source-matched receipts; repair concrete gaps only. Riela core https://github.com/tacogips/riela/issues/117 tracks installed YouTube `unresolvedAddonExecutable`. Its repair is not a prerequisite for source edits, acceptance of usable verification infrastructure, or dependency-ready source-plan dispatch. Do not modify sibling repositories or installed user-scope packages; make no live model/provider calls.
+Continue from `75f371f80d30ee69c17193121111972fc65a68db`, covering 65 packages / 59 workflows. Reuse the checkpointed harness and source-matched receipts; repair concrete gaps only. Riela core https://github.com/tacogips/riela/issues/117 tracks installed YouTube `unresolvedAddonExecutable`. Its repair is not a prerequisite for source edits, acceptance of usable verification infrastructure, or dependency-ready source-plan dispatch. Do not modify sibling repositories or installed user-scope packages; make no live model/provider calls.
 
 Keep command exit status separate from plan readiness: record the exact failing command, complete log, source/tool identity, affected workflow and #117 attribution. Never convert a nonzero result to a pass, skip the affected inventory entry, weaken validation or classify unrelated failures as #117. Owned changed-package tests and deterministic mock assertions must pass; record the specifically blocked installed YouTube check separately. Missing material source verification or unresolved high/mid source defects still block source acceptance. Core #117 alone does not block independent review, accepted source commit or non-force push; full all-green compatibility and release remain blocked.
 
@@ -116,7 +122,7 @@ Before each edit, freshly read the file and consumers. Save its bytes and SHA-25
 
 Use a new attempt directory; preserve old receipts. Command examples below name canonical evidence paths: expand each to a fresh attempt path consistently (including workflow-list/baseline inputs) before execution and record the exact argv. Never overwrite an earlier attempt. Maintain your own `progress.json` with task IDs, pending/running/passed/blocked status, source hashes, changed paths, exact argv/cwd, final exit, complete log path, case/assertion counts, findings and next action. Also write `handoff.json` with requirements-to-files/tests mapping, remaining failures, review decision and post-hashes. Run commands foreground; poll yielded processes until exit. Capture stdout/stderr without losing the command exit. `git diff --check` supplements behavioral checks, never substitutes for them.
 
-Do not regenerate manifests, versions, dependency locks or registry-index.json in a parallel payload worker. Do not archive plans or run git add/commit/push in any worker. Serial finalization prepares an exact file list for Riela publication steps. Every changed input invalidates affected verification and review receipts.
+Only compat-reconcile may regenerate manifests, versions, dependency locks or registry-index.json, after all payload workers join. Do not archive plans or run git add/commit/push in any worker. Serial finalization prepares an exact file list for Riela publication steps. Every changed input invalidates affected verification and review receipts.
 
 ## Shared invariants and evidence rules
 
@@ -130,7 +136,7 @@ All evidence, catalogs, installations, session stores and artifacts stay under r
 2. In the assigned workflow directories edit only `nodes/*.json` (and nested node files if present) for missing/incorrect agentSandbox and concrete output.jsonSchema/required validation budget. Keep unconditional terminal nodes schema-free unless a real consumer requires a contract. Use existing supported authored sandbox spellings. Preserve valid schemas; do not replace them with generic object contracts. The simple-work reviewer must describe needs_revision, findings severity/file/line/message, feedback strings and accepted; its when routing stays outside the payload schema. Check branch-specific commit requirements and existing relay fields.
 3. Adjust only affected `prompts/*.md`, `mock-scenario.json` and `EXPECTED_RESULTS.md` where needed to align with existing intended contracts. Preserve concrete non-agent workflows unless a verified contract issue affects them. If graph changes appear necessary, surface the contradiction for review rather than inventing architecture. Do not change models/backends/session reuse.
 4. Extend package-local `tests/` (existing runners first) for each materially changed base family: accepted and revision routes, missing/malformed consumed fields, conditional commit fields and cross-workflow output handoffs. Add package-local `tests/check-compat.ts` only where no appropriate runner exists; invoke each with `bun packages/<package>/tests/check-compat.ts` and record expanded command. Use the installed helper scenarios mode for existing mocks and runtime assertions. Reuse Fable output-contract tests unchanged if their contract already passes. Preserve negative-test integrity: malformed output must reach the actual validating producer.
-5. Write `workflows.json` as the exact JSON array of owned concrete workflow IDs (or selection objects with explicit `expectedRoute` when needed) and `contracts.json` with cases mapped to each changed producer. Deliver file hashes, acceptance traces, rejection evidence and unchanged graph/model comparisons against baseline. For every selected fixture, derive the route from the graph, fixture and available expected-results documentation; use the accepted map/fixture route or an explicit selection route, never an observed-only oracle. Hand any required map correction to serial reconciliation; do not write the verification owner's map. Missing external dependency resolution is handled through the helper, never by deleting an add-on.
+5. Write `workflows.json` as the exact JSON array of owned concrete workflow IDs (or selection objects with explicit `expectedRoute` when needed) and `contracts.json` with cases mapped to each changed producer. Deliver file hashes, acceptance traces, rejection evidence and unchanged graph/model comparisons against baseline. For every selected fixture, derive the route from the graph, fixture and available expected-results documentation; use the accepted map/fixture route or an explicit selection route, never an observed-only oracle. Hand any required map correction to serial reconciliation; do not write the completed verification map. Missing external dependency resolution is handled through the helper, never by deleting an add-on.
 
 ## Verification commands and required evidence
 
@@ -151,5 +157,7 @@ git diff --check
 - Every concrete agent has required authority and meaningful consumer-compatible output contracts.
 - Every changed base has observed positive/negative behavioral coverage; no graph/model/session regression.
 - Whole-catalog failures outside this owner are listed for wrapper/asset/finalization owners rather than hidden.
+
+Run any existing configured typecheck/build for changed code and record its exact command/result; if none is configured, state that limit without inventing a project. Update affected documentation/EXPECTED_RESULTS.md only for changed behavior.
 
 Complete your progress log and handoff only after each owned task has evidence or an explicitly blocked outcome. No unresolved high/mid finding may be marked complete. Independent implementation review remains a later gate.
