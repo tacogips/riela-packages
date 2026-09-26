@@ -8,7 +8,7 @@
   "variables": {},
   "effort": "medium",
   "output": {
-    "description": "Return only verified PR handoff or successful base integration evidence; a blocked or failed operation must fail this step.",
+    "description": "Return verified branch-only or PR handoff, or successful base integration evidence; a blocked or failed operation must fail this step.",
     "jsonSchema": {
       "type": "object",
       "required": ["implementationBranch", "baseBranch", "remote", "implementationCommit", "mergeStatus", "basePushStatus", "verification"],
@@ -17,7 +17,7 @@
         "baseBranch": { "type": "string" },
         "remote": { "type": "string" },
         "implementationCommit": { "type": "string" },
-        "mergeStatus": { "type": "string", "enum": ["merged", "already-on-base", "already-merged", "pr-open"] },
+        "mergeStatus": { "type": "string", "enum": ["merged", "already-on-base", "already-merged", "pr-open", "branch-only"] },
         "basePushStatus": { "type": "string", "enum": ["pushed", "already-pushed", "not-requested"] },
         "pullRequestURL": { "type": "string" },
         "pullRequestNumber": { "type": "integer" },
