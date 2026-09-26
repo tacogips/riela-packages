@@ -85,6 +85,7 @@ Status: proposed for Step 5 review.
     "mise.toml",
     ".agents/skills/riela-package-release/scripts/check-package-compat.ts",
     ".agents/skills/riela-package-release/scripts/check-package-compat.test.ts",
+    ".agents/skills/riela-package-release/fixtures/expected-routes.json",
     "packages/claude-code-worker-only-single-step/workflows/claude-code-worker-only-single-step",
     "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop",
     "packages/codex-deep-creation/workflows/codex-deep-creation",
@@ -275,7 +276,7 @@ Status: proposed for Step 5 review.
     "mise run package:check-digests",
     "mise run package:check-addon-digests",
     "mise run package:check-index",
-    "bun test .agents/skills/riela-package-release/scripts/check-package-compat.test.ts",
+    "bun test ./.agents/skills/riela-package-release/scripts/check-package-compat.test.ts",
     "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode manifests --evidence-root tmp/registry-contract-migration/verification/compat-reconcile/manifests",
     "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/verification/compat-reconcile/workflows",
     "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --evidence-root tmp/registry-contract-migration/verification/compat-reconcile/scenarios",
@@ -295,13 +296,13 @@ Status: proposed for Step 5 review.
 
 ## Intent, context and non-goals
 
-Resolve https://github.com/tacogips/riela-packages/issues/14 in `issue-resolution` mode using accepted `design-docs/specs/design-riela-021-package-compat.md` (Step 3 accepted, comm-000004, no findings). All packages are in scope; the intake's 39 failures are a diagnostic cohort, not an inventory limit. `codexAgentReferences: []`; preserve existing Cursor/Claude wrapper adaptations rather than introducing adapters. Issue title/body were unavailable; do not infer #114 from scratch directory names.
+Resolve https://github.com/tacogips/riela-packages/issues/14 in `issue-resolution` mode using accepted `design-docs/specs/design-riela-021-package-compat.md` (continuation update accepted by Step 3, comm-000004, no findings). All packages are in scope; the intake's 39 failures are a diagnostic cohort, not an inventory limit. `codexAgentReferences: []`; preserve existing Cursor/Claude wrapper adaptations rather than introducing adapters. Issue title/body were unavailable; do not infer #114 from scratch directory names.
 
 Use installed Riela 0.2.1 on `fix/registry-contract-migration`. Do not inspect the running workflow's registry/provenance, change sibling repositories, create worktrees/private branches, run concurrent Git mutations, release or merge. No graph/model/session redesign, broad formatting, vacuous schemas, permission escalation for review-only agents or unrelated cleanup. Review existing subtree AGENTS.md before editing. Do not modify unrelated D4 records.
 
 ## Continuation and #117 boundary
 
-Continue from `475ffde2c35210427b1b92524854de3c8ec0c69e`, covering 65 packages / 59 workflows. Reuse the checkpointed harness and source-matched receipts; repair concrete gaps only. Riela core https://github.com/tacogips/riela/issues/117 tracks installed YouTube `unresolvedAddonExecutable`. Its repair is not a prerequisite for source edits, acceptance of usable verification infrastructure, or dependency-ready source-plan dispatch. Do not modify sibling repositories or installed user-scope packages; make no live model/provider calls.
+Continue from `ae365081721dde884ac212b9c691427272790ff1`, covering 65 packages / 59 workflows. Reuse the checkpointed harness and source-matched receipts; repair concrete gaps only. Riela core https://github.com/tacogips/riela/issues/117 tracks installed YouTube `unresolvedAddonExecutable`. Its repair is not a prerequisite for source edits, acceptance of usable verification infrastructure, or dependency-ready source-plan dispatch. Do not modify sibling repositories or installed user-scope packages; make no live model/provider calls.
 
 Keep command exit status separate from plan readiness: record the exact failing command, complete log, source/tool identity, affected workflow and #117 attribution. Never convert a nonzero result to a pass, skip the affected inventory entry, weaken validation or classify unrelated failures as #117. Owned changed-package tests and deterministic mock assertions must pass; record the specifically blocked installed YouTube check separately. Missing material source verification or unresolved high/mid source defects still block source acceptance. Core #117 alone does not block independent review, accepted source commit or non-force push; full all-green compatibility and release remain blocked.
 
@@ -313,7 +314,7 @@ Each progress/handoff records source-task status separately from final-verificat
 
 ## Execution, drift and progress contract
 
-This plan and the accepted design are checkpointed with the dispatch manifest by the later Riela checkpoint step before native fanout; this authoring step does not commit. Wait for every dependsOn plan's accepted source/infrastructure output under the #117 boundary above; do not wait for final all-green verification. All workers share this branch and directory. Write only the listed paths; only the reconciliation plan may repair shared paths after all other workers join. Do not edit this plan or another worker's progress log during execution.
+This plan and the accepted design are committed and non-force pushed with the dispatch manifest by the later Riela checkpoint step before native fanout (a failed checkpoint push stops dispatch); this authoring step does not commit. Wait for every dependsOn plan's accepted source/infrastructure output under the #117 boundary above; do not wait for final all-green verification. All workers share this branch and directory. Write only the listed paths; only the reconciliation plan may repair shared paths after all other workers join. Do not edit this plan or another worker's progress log during execution.
 
 Before each edit, freshly read the file and consumers. Save its bytes and SHA-256 plus an immutable intent record naming the requirement, proposed fields and expected behavior in your own evidence directory under `attempt-N/intent/`. Recheck the hash immediately before writing; on drift, re-read and reconcile the intended patch instead of overwriting. Save post-edit bytes/hash, exact changed paths and tests tied to those hashes. Check hashes again at handoff. Record any mismatch and pause the conflicting edit for serial reconciliation; never discard another worker's change. This detects non-atomic overwrite races but does not pretend to prevent them.
 
@@ -329,7 +330,7 @@ All evidence, catalogs, installations, session stores and artifacts stay under r
 
 ## Ordered tasks and deliverables
 
-1. Join every handoff and compare current file hashes to worker post-hashes and immutable intent snapshots. Repair any overwritten requirement serially with fresh reads; document each drift and its chosen resolution. Review complete combined diff and rerun every affected check. Shared writePaths are repair authority only, not permission for optional refactoring. Reconcile package/producer coverage matrices so no package or changed producer lacks an owner/result.
+1. Join every handoff and compare current file hashes to worker post-hashes and immutable intent snapshots. Repair any overwritten requirement serially with fresh reads; document each drift and its chosen resolution. Review complete combined diff and rerun every affected check. Shared writePaths are repair authority only, not permission for optional refactoring. Reconcile package/producer coverage matrices so no package or changed producer lacks an owner/result. Reconcile expected-routes.json only after joining its owner and downstream route intents: retain effective workflow/fixture identities, graph/fixture/document derivation evidence and mandatory route checks. Rerun all 10 original harness regressions plus new default-selection/inheritance cases after any repair. Final scenarios mode without --workflow-list must exercise mandatory routes for every default-selected fixture; explicitly selected inherited cases must also retain effective-wrapper route assertions.
 2. Apply concrete manifest corrections requested by workers. Bump changed package versions according to existing version policy; review effective wrapper impact and update necessary version/dependency pins. For each source-changed add-on run `bun .agents/skills/riela-package-release/scripts/update-addon-content-digests.ts <package-directory-id>` with the recorded exact ID, recomputing its content digest and synchronized dependency locks FIRST, then package checksum/integrity for all affected packages, then registry-index.json. Use --all digest refresh only after recording the affected set and review every unexpected change. Update root/package README metadata only where displayed information changes; preserve package inventory.
 3. Run the compatibility helper in manifests, workflows, scenarios and assets modes, then full `mise run check` and focused suites on final source. Core #117 remains an explicit final-verification blocker, not a source-delivery veto. Any other residual failure is not accepted unless reproduced at intake HEAD in the isolated baseline copy with the same effective inputs/command, exact final exit/log comparison and a separately tracked issue reference. Record baseline tool gaps honestly; they do not prove pre-existence. New or unexplained failures block delivery. If a tracked residual issue must be created, hand the concrete report to the authorized workflow publication/control step; do not fabricate a URL.
 4. Run structural/typechecking required by changed TS/Python/add-on code using its existing configured checks; Bun tests alone are not a claimed static typecheck. Do not introduce a TypeScript project solely for this migration. Repeat package-specific behavioral regressions and all relevant scenario cases after repairs/metadata updates as needed; report unchanged input evidence reuse explicitly.
@@ -347,7 +348,7 @@ mise run package:generate-index
 mise run package:check-digests
 mise run package:check-addon-digests
 mise run package:check-index
-bun test .agents/skills/riela-package-release/scripts/check-package-compat.test.ts
+bun test ./.agents/skills/riela-package-release/scripts/check-package-compat.test.ts
 bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode manifests --evidence-root tmp/registry-contract-migration/verification/compat-reconcile/manifests
 bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows --evidence-root tmp/registry-contract-migration/verification/compat-reconcile/workflows
 bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --evidence-root tmp/registry-contract-migration/verification/compat-reconcile/scenarios
