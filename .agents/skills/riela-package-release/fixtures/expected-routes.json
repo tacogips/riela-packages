@@ -1,6 +1,37 @@
 {
   "routes": [
     {
+      "workflowId": "codex-source-security-check-loop",
+      "fixture": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "step1-deterministic-scan",
+        "step2-harness-recon",
+        "step3-security-triage",
+        "step4-adversarial-verification",
+        "step5-exit-gate",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/workflow.json",
+        "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/mock-scenario.json",
+        "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "codex-task-watchdog",
+      "fixture": "packages/codex-task-watchdog/workflows/codex-task-watchdog/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "claim-next-task",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/codex-task-watchdog/workflows/codex-task-watchdog/workflow.json",
+        "packages/codex-task-watchdog/workflows/codex-task-watchdog/mock-scenario.json"
+      ]
+    },
+    {
       "workflowId": "claude-code-adversarial-implementation-review-loop",
       "fixture": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/mock-scenario.json",
       "route": [

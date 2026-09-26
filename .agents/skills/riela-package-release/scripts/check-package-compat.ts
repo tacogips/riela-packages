@@ -227,7 +227,11 @@ try {
             if (Array.isArray(entry) && entry.length === 0) mismatch = true;
             consumedByNode.set(nodeId, Math.max(consumedByNode.get(nodeId) ?? 0,
               Array.isArray(entry) ? Math.min(sequenceIndex, entry.length) : 1));
-            const payload = expected?.payload ?? (expected?.output?.payload ?? null);
+            // Local-command fixtures model the command's output envelope inside
+            // the mock response; acceptedOutput stores only its inner payload.
+            const payload = expected?.model === 'scenario-command'
+              ? expected?.payload?.payload ?? null
+              : expected?.payload ?? (expected?.output?.payload ?? null);
             if (payload) { payloadChecks++; if (!contains(execution.acceptedOutput?.payload, payload)) mismatch = true; }
           }
           const passed = parsed.status === 'completed' && route.length > 0 && routeMatches && payloadChecks > 0 && !mismatch;
