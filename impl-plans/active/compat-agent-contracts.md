@@ -87,6 +87,8 @@ Reuse receipts only after matching audited file hashes, CLI hash/version, depend
 
 Formal independent reviews, checkpoint/publication and final commit/push are later Riela gates. Step 6 completion covers assigned source tasks and their verification, not those later gates. Report source status and final-verification status separately. No unresolved high/mid owned finding is complete; no final acceptance while required checks fail or are blocked.
 
+For the Step 6 progress gate, report each executed `bun packages/<owned-package>/tests/check-compat.ts` separately in the `verification` array with its actual `exitCode: 0`, a positive `testsRun` or `testCount`, and the complete log path. A combined semicolon-separated command or a prose summary is not a substitute for these command receipts. Keep the failed whole-catalog workflow check as a separate nonzero diagnostic with its downstream owner; never mark it passed.
+
 ## Execution, drift and progress contract
 
 This plan and the accepted design are committed and non-force pushed with the dispatch manifest by the later Riela checkpoint step before native fanout (a failed checkpoint push stops dispatch); this authoring step does not commit. Wait for every dependsOn plan's accepted source/infrastructure output under the ownership/failure-accounting rules above; do not wait for downstream review/publication. All workers share this branch and directory. Write only the listed paths; only the reconciliation plan may repair shared paths after all other workers join. Do not edit this plan or another worker's progress log during execution.

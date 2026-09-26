@@ -151,6 +151,8 @@ Reuse receipts only after matching audited file hashes, CLI hash/version, depend
 
 Formal independent reviews, checkpoint/publication and final commit/push are later Riela gates. Step 6 completion covers assigned source tasks and their verification, not those later gates. Report source status and final-verification status separately. No unresolved high/mid owned finding is complete; no final acceptance while required checks fail or are blocked.
 
+For the Step 6 progress gate, include the already executed package-local `bun packages/claude-code-worker-only-single-step/tests/check-compat.ts` and `bun packages/fable-astra-design-plan-review-loop/tests/check-compat.ts` as separate `verification` records with their actual `exitCode: 0`, positive `testsRun` or `testCount`, and complete log paths. Include the Fable output-contract checks separately as well. Do not substitute a prose summary for command receipts. Keep the failed whole-catalog workflow check as a separate nonzero diagnostic assigned to downstream owners; never mark it passed.
+
 ## Execution, drift and progress contract
 
 This plan and the accepted design are committed and non-force pushed with the dispatch manifest by the later Riela checkpoint step before native fanout (a failed checkpoint push stops dispatch); this authoring step does not commit. Wait for every dependsOn plan's accepted source/infrastructure output under the ownership/failure-accounting rules above; do not wait for downstream review/publication. All workers share this branch and directory. Write only the listed paths; only the reconciliation plan may repair shared paths after all other workers join. Do not edit this plan or another worker's progress log during execution.
