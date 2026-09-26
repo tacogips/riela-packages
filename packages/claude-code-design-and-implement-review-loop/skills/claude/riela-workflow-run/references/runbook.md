@@ -57,19 +57,17 @@ Basic local run:
 riela workflow run <workflow-name> --workflow-definition-dir <dir> --output json
 ```
 
-Recommended supervised run:
+Long-running run:
 
 ```bash
 riela workflow run <workflow-name> \
   --workflow-definition-dir <dir> \
-  --auto-improve \
-  --nested-supervisor \
-  --max-supervised-attempts 3 \
-  --workflow-mutation-mode execution-copy \
-  --output json
+  --output jsonl
 ```
 
-Use supervised execution as the default recommendation for real work. It keeps the target session under an audit-visible supervision policy, detects terminal failures and stalls, can retry or rerun from targeted steps, and can run a paired supervisor workflow when `--nested-supervisor` is enabled.
+Riela 0.2.0 no longer provides automatic supervision or remediation. Keep the
+session id from JSONL, inspect `session progress` and `session status`, and
+decide explicitly whether to resume or rerun a failed step.
 
 Run with a deterministic mock scenario:
 
@@ -209,43 +207,24 @@ Useful options:
 
 Step ids are the supported target. Do not use node-id aliases.
 
-## Auto-Improve
+## Failure recovery
 
-Run with engine-owned supervision:
-
-```bash
-riela workflow run <workflow-name> \
-  --workflow-definition-dir <dir> \
-  --auto-improve \
-  --max-supervised-attempts 3 \
-  --output json
-```
-
-Optional nested supervisor:
+Inspect the recorded session:
 
 ```bash
-riela workflow run <workflow-name> \
-  --workflow-definition-dir <dir> \
-  --auto-improve \
-  --nested-supervisor \
-  --output json
+riela session progress <session-id>
+riela session status <session-id> --output json
 ```
 
-Useful supervision options:
+Resume or rerun only after checking the failure:
 
-- `--monitor-interval-ms <ms>`
-- `--stall-timeout-ms <ms>`
-- `--max-supervised-attempts <n>`
-- `--max-workflow-patches <n>`
-- `--workflow-mutation-mode execution-copy|in-place`
-- `--supervisor-workflow <workflow-id>` (`--superviser-workflow` is a legacy alias)
+```bash
+riela session resume <session-id>
+riela session rerun <session-id> <step-id>
+```
 
-Recommended defaults:
-
-- Use `--auto-improve --nested-supervisor` for production-like or expensive work.
-- Use `--workflow-mutation-mode execution-copy` unless the user explicitly asks to patch the canonical workflow bundle in place.
-- Set `--max-supervised-attempts` to a small finite number, commonly `3`, to avoid unbounded remediation.
-- Use `session status` or GraphQL detail queries after the run to inspect supervision state.
+The former `--auto-improve`, `--nested-supervisor`, and related flags were
+removed in 0.2.0. There is no automatic-recovery equivalent.
 
 ## Events
 

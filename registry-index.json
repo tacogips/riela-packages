@@ -575,7 +575,7 @@
     {
       "name": "claude-code-design-and-implement-review-loop",
       "directory": "packages/claude-code-design-and-implement-review-loop",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "kind": "workflow",
       "title": "claude-code-design-and-implement-review-loop",
       "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
@@ -609,11 +609,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "5870d3d4ddca581f6052412eb48e776a"
+        "value": "563944721cc09c30262c8749c82610aa"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "8a53a0541951e95afae610908fb095a0b595627ce9362acdfacc775441ed8689"
+        "digest": "c2d5e92d789f14ae3382489754de26163b60f4a667daf8965be2f3cff127cada"
       }
     },
     {
@@ -1296,7 +1296,7 @@
     {
       "name": "codex-design-and-implement-review-loop",
       "directory": "packages/codex-design-and-implement-review-loop",
-      "version": "0.3.44",
+      "version": "0.3.45",
       "kind": "workflow",
       "title": "codex-design-and-implement-review-loop",
       "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
@@ -1328,11 +1328,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "a92ee104fbf3e3e587e2873253942919"
+        "value": "b979a38f881ccfc20c51350dd5d3e343"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "657f79b4c15c99eced6e5cbef2a019804580551864531409b0916ce55a5c4113"
+        "digest": "34215c3cd9f191d5abdbad6d9a787f937853fc0dc1f0169b174df98209eba84a"
       }
     },
     {

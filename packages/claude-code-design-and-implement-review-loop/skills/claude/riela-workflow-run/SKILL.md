@@ -16,7 +16,7 @@ Identify what the user wants:
 - Find workflows for human overview: use `workflow list` or `workflow status`.
 - Choose a workflow for AI/tool use: use `workflow usage --output json` first.
 - Check a workflow before running: use `workflow validate` and optionally `workflow inspect`.
-- Run locally: use `workflow run`; for important or long-running work, prefer supervised execution with `--auto-improve`.
+- Run locally: use `workflow run --output jsonl` for long-running work, then inspect the session explicitly.
 - Run deterministically without real agents: add `--mock-scenario`.
 - Monitor an existing run: use `session progress`, `session status`, or GraphQL detail queries.
 - Continue a run: use `session resume`.
@@ -151,20 +151,18 @@ bun run src/main.ts workflow run <workflow-name> \
   --output jsonl
 ```
 
-Recommended supervised execution:
+Long-running execution:
 
 ```bash
 bun run src/main.ts workflow run <workflow-name> \
   --workflow-definition-dir ./examples \
-  --auto-improve \
-  --nested-supervisor \
-  --max-supervised-attempts 3 \
-  --workflow-mutation-mode execution-copy \
   --output jsonl
 ```
 
-Use this recommended path when the workflow may need retries, stall detection, remediation, or a supervisor workflow to drive recovery. Use plain `workflow run` for quick local checks, deterministic mock runs, or cases where supervision is intentionally disabled.
-Use JSONL for long or supervised runs so the session id and progress events are
+Riela 0.2.0 removed the `--auto-improve` supervision flags. This command does
+not automatically retry or repair failures; inspect `session progress` and
+`session status`, then use `session resume` or `session rerun` when appropriate.
+Use JSONL for long runs so the session id and progress events are
 visible before the final result. Use `--output json` only when a caller
 strictly requires one final JSON document and does not need live progress.
 
@@ -207,7 +205,7 @@ bun run src/main.ts session continue <session-id> \
 
 - Validate before running unless the user explicitly asks to skip validation.
 - For AI-guided workflow selection, prefer `workflow usage --output json` before `workflow run`.
-- Prefer supervised execution with `--auto-improve --nested-supervisor` for real work where failure recovery matters.
+- Inspect long-running sessions and make retry or repair decisions from recorded evidence; Riela 0.2.0 has no `--auto-improve` mode.
 - Prefer `--output jsonl` for real, long-running, supervised, or agent-driven
   workflow runs because it exposes the session id and progress before
   completion. Use `--output json` for short deterministic checks or callers
