@@ -43,6 +43,15 @@ function packageInventory(): Package[] {
   const missing = expected.filter((path: string) => !actual.includes(path));
   const unexpected = actual.filter(path => !expected.includes(path));
   if (missing.length || unexpected.length) throw Error(`inventory drift: missing=${missing.join(',')} unexpected=${unexpected.join(',')}`);
+  const actualWorkflows = actual.flatMap(packagePath => {
+    const workflowRoot = join(source, packagePath, 'workflows');
+    if (!existsSync(workflowRoot)) return [];
+    return readdirSync(workflowRoot, { recursive: true }).filter((path: any) => typeof path === 'string' && basename(path) === 'workflow.json').map((path: string) => `${packagePath}/workflows/${path}`);
+  });
+  const expectedWorkflows = inventory.packages.flatMap((entry: any) => (entry.workflows ?? []).map((workflow: any) => workflow.path));
+  const missingWorkflows = expectedWorkflows.filter((path: string) => !actualWorkflows.includes(path));
+  const unexpectedWorkflows = actualWorkflows.filter(path => !expectedWorkflows.includes(path));
+  if (missingWorkflows.length || unexpectedWorkflows.length) throw Error(`workflow inventory drift: missing=${missingWorkflows.join(',')} unexpected=${unexpectedWorkflows.join(',')}`);
   return inventory.packages.map((entry: any) => {
     const dir = join(source, entry.packagePath);
     const manifest = JSON.parse(readFileSync(join(dir, 'riela-package.json'), 'utf8'));
@@ -115,7 +124,8 @@ try {
     const { install, catalog } = installCatalog();
     const selected = option('--workflow-list') ? JSON.parse(readFileSync(resolve(option('--workflow-list')!), 'utf8')) : workflows.filter(w => w.fixture).map(w => w.id);
     if (!Array.isArray(selected)) throw Error('--workflow-list must contain a JSON array');
-    for (const id of selected) {
+    for (const selection of selected) {
+      const id = typeof selection === 'string' ? selection : selection?.workflowId;
       const workflow = byWorkflow.get(id);
       if (!workflow) throw Error(`unknown workflow: ${id}`);
       let fixture = workflow.fixture;
@@ -135,6 +145,9 @@ try {
           const executions = parsed.session?.executions ?? [];
           const route = executions.map((item: any) => item.stepId);
           const mock = JSON.parse(readFileSync(fixture, 'utf8'));
+          const expectedRoute = typeof selection === 'string' ? mock.expectedRoute : selection.expectedRoute ?? mock.expectedRoute;
+          if (expectedRoute !== undefined && (!Array.isArray(expectedRoute) || !expectedRoute.every((step: any) => typeof step === 'string'))) throw Error(`invalid expected route for ${id}`);
+          const routeMatches = expectedRoute === undefined || route.length === expectedRoute.length && route.every((step: string, index: number) => step === expectedRoute[index]);
           let payloadChecks = 0;
           let mismatch = false;
           for (const execution of executions) {
@@ -143,9 +156,9 @@ try {
             const payload = expected?.payload ?? (expected?.output?.payload ?? null);
             if (payload) { payloadChecks++; if (!contains(execution.acceptedOutput?.payload, payload)) mismatch = true; }
           }
-          const passed = parsed.status === 'completed' && route.length > 0 && payloadChecks > 0 && !mismatch;
+          const passed = parsed.status === 'completed' && route.length > 0 && routeMatches && payloadChecks > 0 && !mismatch;
           if (!passed) failures++;
-          records.push({ label: `scenario-assert-${id}`, exitCode: passed ? 0 : 1, expected: 'completed with fixture-backed payloads', observed: parsed.status, route, payloadChecks, payloadMismatch: mismatch });
+          records.push({ label: `scenario-assert-${id}`, exitCode: passed ? 0 : 1, expected: 'completed with fixture-backed payloads and selected route', observed: parsed.status, route, expectedRoute: expectedRoute ?? null, routeMatches, payloadChecks, payloadMismatch: mismatch });
         } catch { failures++; records.push({ label: `scenario-assert-${id}`, exitCode: 1, error: 'invalid JSON result' }); }
       }
     }

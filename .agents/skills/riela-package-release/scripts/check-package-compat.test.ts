@@ -38,6 +38,16 @@ describe('compatibility harness', () => {
     expect(result.status).not.toBe(0);
     expect(result.stderr).toContain('inventory drift');
   });
+  test('workflow omitted within an inventoried package fails', () => {
+    const f = fixture();
+    const added = join(f.source, 'packages/alpha/workflows/added');
+    mkdirSync(added, { recursive: true });
+    writeFileSync(join(added, 'workflow.json'), JSON.stringify({ workflowId: 'added' }));
+    const result = f.run('manifests');
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toContain('workflow inventory drift');
+    expect(result.stderr).toContain('packages/alpha/workflows/added/workflow.json');
+  });
   test('duplicate workflow IDs fail', () => {
     const f = fixture(); f.pkg('gamma', 'gamma', 'alpha'); f.entries.push({ packagePath: 'packages/gamma', workflows: [{ path: 'packages/gamma/workflows/alpha/workflow.json', workflowId: 'alpha' }] }); f.save();
     const result = f.run('manifests');
@@ -83,6 +93,22 @@ describe('compatibility harness', () => {
     expect(result.status).not.toBe(0);
     const records = JSON.parse(readFileSync(join(f.evidence, 'commands.json'), 'utf8')).records;
     expect(records.some((record: any) => record.label === 'scenario-assert-beta')).toBe(true);
+  });
+  test('completed scenario on a wrong route fails despite a matching payload', () => {
+    const f = fixture();
+    writeFileSync(join(f.source, 'packages/alpha/workflows/alpha/mock-scenario.json'), JSON.stringify({ steps: { alpha: { output: { payload: { value: 1 } } } } }));
+    const list = join(f.root, 'list.json');
+    writeFileSync(list, JSON.stringify([{ workflowId: 'beta', expectedRoute: ['alpha', 'beta'] }]));
+    const completed = { status: 'completed', session: { executions: [{ stepId: 'alpha', acceptedOutput: { payload: { value: 1 } } }, { stepId: 'gamma', acceptedOutput: { payload: {} } }] } };
+    writeFileSync(f.cli, `#!/bin/sh\ncat <<'JSON'\n${JSON.stringify(completed)}\nJSON\n`);
+    const result = f.run('scenarios', ['--workflow-list', list]);
+    expect(result.status).not.toBe(0);
+    const records = JSON.parse(readFileSync(join(f.evidence, 'commands.json'), 'utf8')).records;
+    expect(records.some((record: any) => record.label === 'scenario-assert-beta' && record.routeMatches === false && record.payloadChecks === 1)).toBe(true);
+    completed.session.executions[1].stepId = 'beta';
+    writeFileSync(f.cli, `#!/bin/sh\ncat <<'JSON'\n${JSON.stringify(completed)}\nJSON\n`);
+    const matching = f.run('scenarios', ['--workflow-list', list]);
+    expect(matching.status).toBe(0);
   });
   test('installed runtime validates a real package', () => {
     const result = spawnSync('riela', ['package', 'validate', join(repo, 'packages/greeting-shell'), '--output', 'json'], { cwd: repo, encoding: 'utf8' });
