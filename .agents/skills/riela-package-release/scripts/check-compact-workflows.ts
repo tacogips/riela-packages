@@ -516,7 +516,7 @@ function runExpectFailure(id: string, name: string, mutate: (m: any) => void, ex
 }
 run(codex, 'completion-revision', m => {
   const accepted = m['step9-commit-message'];
-  m['step9-commit-message'] = [output({ decision: 'needs-revision', needs_revision: true, findings: [{ severity: 'mid', message: 'Documentation index needs reconciliation.' }] }, { needs_revision: true } as any), accepted];
+  m['step9-commit-message'] = [output({ decision: 'needs-revision', workflowMode: 'issue-resolution', needs_revision: true, findings: [{ severity: 'mid', message: 'Documentation index needs reconciliation.' }] }, { needs_revision: true } as any), accepted];
 }, steps => {
   const first = steps.indexOf('step9-commit-message');
   assert.deepEqual(steps.slice(first, first + 4), ['step9-commit-message', 'step8-docs-refresh', 'step9-commit-message', 'step10-git-commit']);
@@ -1053,7 +1053,10 @@ run(refactor, 'refactoring-revision', m => {
     output({ taskId: 'REF-001', changedFiles: [], verification: ['mock verification'], authorSelfCheck: { findings: [] } }),
     output({ taskId: 'REF-001', changedFiles: [], verification: ['mock repair verification'], authorSelfCheck: { findings: [] } }),
   ];
-  m['step6-post-refactor-review'] = [output({ findings: [{ severity: 'mid', message: 'Preserve public behavior.' }] }, { needs_revision: true, plan_remaining: false, workflow_complete: false } as any), output({ findings: [], accepted: true }, { needs_revision: false, plan_remaining: false, workflow_complete: true } as any)];
+  m['step6-post-refactor-review'] = [
+    output({ needs_revision: true, plan_remaining: 'false', workflow_complete: false, accepted: false, findings: [{ severity: 'mid', message: 'Preserve public behavior.' }] }, { needs_revision: true, plan_remaining: false, workflow_complete: false } as any),
+    output({ needs_revision: false, plan_remaining: 'false', workflow_complete: true, accepted: true, findings: [] }, { needs_revision: false, plan_remaining: false, workflow_complete: true } as any),
+  ];
 }, steps => {
   const i = steps.indexOf('step6-post-refactor-review');
   assert.deepEqual(steps.slice(i, i + 3), ['step6-post-refactor-review', 'step3-merge-review-plan', 'step6-post-refactor-review']);

@@ -805,7 +805,6 @@
         "server-node",
         "bun-container-server",
         "source-commit-message",
-        "git-commit",
         "review-dispatch",
         "review-reducer",
         "workflow-output"
@@ -826,7 +825,6 @@
         "server-node",
         "bun-container-server",
         "source-commit-message",
-        "git-commit",
         "review-dispatch",
         "review-reducer",
         "workflow-output"
@@ -848,7 +846,6 @@
         "server-node",
         "bun-container-server",
         "source-commit-message",
-        "git-commit",
         "review-dispatch",
         "review-reducer",
         "workflow-output"
