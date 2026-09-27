@@ -246,4 +246,34 @@ describe('compatibility harness', () => {
     writeFileSync(join(directory, 'addon.json'), JSON.stringify({ name: 'demo', version: '1', inputSchema: { type: 'object' } }));
     expect(f.run('assets').status).toBe(0);
   });
+  test('asset scan rejects obsolete package install flags in Cursor rules', () => {
+    const f = fixture();
+    const directory = join(f.source, 'packages/alpha/skills/cursor');
+    mkdirSync(directory, { recursive: true });
+    writeFileSync(join(directory, 'example.mdc'), 'riela package install alpha --local-path /old/registry\n');
+    expect(f.run('assets').status).not.toBe(0);
+    const records = JSON.parse(readFileSync(join(f.evidence, 'commands.json'), 'utf8')).records;
+    expect(records.some((record: any) => record.label.endsWith('example.mdc') && record.issues.some((issue: string) => issue.includes('--local-path')))).toBe(true);
+  });
+  test('inherited scenario selection includes wrappers by default when requested', () => {
+    const f = fixture();
+    f.run('scenarios', ['--include-inherited']);
+    const records = JSON.parse(readFileSync(join(f.evidence, 'commands.json'), 'utf8')).records;
+    expect(records.some((record: any) => record.label === 'scenario-assert-alpha')).toBe(true);
+    expect(records.some((record: any) => record.label === 'scenario-assert-beta')).toBe(true);
+  });
+  test('inherited scenario adapts a base output workflow ID to its wrapper', () => {
+    const f = fixture();
+    writeFileSync(join(f.source, 'packages/alpha/workflows/alpha/mock-scenario.json'), JSON.stringify({
+      steps: { alpha: { output: { payload: { value: 1 } } } },
+      'workflow-output': { payload: { workflowId: 'alpha' } },
+    }));
+    const list = join(f.root, 'list.json'); writeFileSync(list, '["beta"]');
+    f.run('scenarios', ['--workflow-list', list]);
+    const records = JSON.parse(readFileSync(join(f.evidence, 'commands.json'), 'utf8')).records;
+    const command = records.find((record: any) => record.label === 'scenario-beta');
+    const fixturePath = command.command[command.command.indexOf('--mock-scenario') + 1];
+    expect(fixturePath.startsWith(join(f.evidence, 'fixtures'))).toBe(true);
+    expect(JSON.parse(readFileSync(fixturePath, 'utf8'))['workflow-output'].payload.workflowId).toBe('beta');
+  });
 });

@@ -1,6 +1,6 @@
 {
   "name": "riela-package-release-skill",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "riela-package-release-skill",
   "description": "Maintainer skill package for updating riela package manifests, validating packaged workflows, and preparing registry releases.",
   "tags": [

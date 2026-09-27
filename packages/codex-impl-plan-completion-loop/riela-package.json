@@ -1,6 +1,6 @@
 {
   "name": "codex-impl-plan-completion-loop",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "title": "codex-impl-plan-completion-loop",
   "description": "Assess active plans as a batch, delegate dependency-aware shared-branch implementation/review, and archive completed plans using Python.",
   "tags": [

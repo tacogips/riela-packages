@@ -1,6 +1,6 @@
 {
   "name": "codex-design-and-implement-review-loop",
-  "version": "0.3.46",
+  "version": "0.3.47",
   "title": "codex-design-and-implement-review-loop",
   "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
   "tags": [

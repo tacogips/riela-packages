@@ -1,6 +1,6 @@
 {
   "name": "codex-recent-change-quality-loop",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "title": "codex-recent-change-quality-loop",
   "description": "Inventory recent committed and uncommitted changes, review independent slices concurrently with bounded read-only fanout, reduce findings, and delegate blocking fixes until no high or mid findings remain.",
   "tags": [

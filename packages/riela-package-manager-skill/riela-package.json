@@ -1,6 +1,6 @@
 {
   "name": "riela-package-manager-skill",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "riela-package-manager-skill",
   "description": "Skill package that teaches agents how to search, install, inspect, validate, and use riela packages, including RielaApp enable/disable and required environment metadata.",
   "tags": [

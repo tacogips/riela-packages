@@ -1113,7 +1113,7 @@
     {
       "name": "claude-code-worker-only-single-step",
       "directory": "packages/claude-code-worker-only-single-step",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "claude-code-worker-only-single-step",
       "description": "Minimal manager-less reference workflow that starts directly at one worker step through explicit entryStepId authoring.",
@@ -1153,7 +1153,7 @@
     {
       "name": "codex-adversarial-implementation-review-loop",
       "directory": "packages/codex-adversarial-implementation-review-loop",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "kind": "workflow",
       "title": "codex-adversarial-implementation-review-loop",
       "description": "Run a scoped implementation request, review independent correctness, integration, and adversarial lenses concurrently, reduce findings, delegate blocking fixes, and repeat until accepted.",
@@ -1201,7 +1201,7 @@
     {
       "name": "codex-deep-creation",
       "directory": "packages/codex-deep-creation",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "codex-deep-creation",
       "description": "Run deep design, adversarial implementation-plan completion, and source security checks as one Codex creation workflow.",
@@ -1255,7 +1255,7 @@
     {
       "name": "codex-deepdesign",
       "directory": "packages/codex-deepdesign",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "kind": "workflow",
       "title": "codex-deepdesign",
       "description": "Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings deterministically, and revise until no high or middle findings remain.",
@@ -1299,7 +1299,7 @@
     {
       "name": "codex-design-and-implement-review-loop",
       "directory": "packages/codex-design-and-implement-review-loop",
-      "version": "0.3.46",
+      "version": "0.3.47",
       "kind": "workflow",
       "title": "codex-design-and-implement-review-loop",
       "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
@@ -1341,7 +1341,7 @@
     {
       "name": "codex-goal",
       "directory": "packages/codex-goal",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "codex-goal",
       "description": "Generic Codex workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
@@ -1385,7 +1385,7 @@
     {
       "name": "codex-impl-plan-completion-loop",
       "directory": "packages/codex-impl-plan-completion-loop",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "kind": "workflow",
       "title": "codex-impl-plan-completion-loop",
       "description": "Assess active plans as a batch, delegate dependency-aware shared-branch implementation/review, and archive completed plans using Python.",
@@ -1428,7 +1428,7 @@
     {
       "name": "codex-impl-plan-completion-review-loop",
       "directory": "packages/codex-impl-plan-completion-review-loop",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "codex-impl-plan-completion-review-loop",
       "description": "Run the Codex implementation-plan completion loop, then run the recent-change quality review-and-improve loop against the resulting work.",
@@ -1479,7 +1479,7 @@
     {
       "name": "codex-recent-change-quality-loop",
       "directory": "packages/codex-recent-change-quality-loop",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "kind": "workflow",
       "title": "codex-recent-change-quality-loop",
       "description": "Inventory recent committed and uncommitted changes, review independent slices concurrently with bounded read-only fanout, reduce findings, and delegate blocking fixes until no high or mid findings remain.",
@@ -1522,7 +1522,7 @@
     {
       "name": "codex-refactoring-divide-and-conquer",
       "directory": "packages/codex-refactoring-divide-and-conquer",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "kind": "workflow",
       "title": "codex-refactoring-divide-and-conquer",
       "description": "Divide the codebase into slices, review concurrently, build a dependency-aware refactoring task DAG, implement ready disjoint tasks in shared-workspace waves, reconcile and review each wave, and repeat until complete.",
@@ -1566,7 +1566,7 @@
     {
       "name": "codex-refactoring-slice-review",
       "directory": "packages/codex-refactoring-slice-review",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "kind": "workflow",
       "title": "codex-refactoring-slice-review",
       "description": "Read-only review workflow for one codebase slice produced by codex-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
@@ -1605,7 +1605,7 @@
     {
       "name": "codex-simple-work-package",
       "directory": "packages/codex-simple-work-package",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "kind": "workflow",
       "title": "codex-simple-work-package",
       "description": "Lightweight Codex workflow for small code or documentation changes when no dedicated workflow applies. It implements with Codex GPT-5.6 SOL low effort, reviews with SOL medium effort, and loops back only for material high or middle findings.",
@@ -1645,7 +1645,7 @@
     {
       "name": "codex-source-security-check-loop",
       "directory": "packages/codex-source-security-check-loop",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "kind": "workflow",
       "title": "codex-source-security-check-loop",
       "description": "Run deterministic security checks, partition the attack surface, review independent focus areas concurrently, reduce and adversarially verify findings, then delegate blocking fixes until resolved.",
@@ -1695,7 +1695,7 @@
     {
       "name": "codex-task-watchdog",
       "directory": "packages/codex-task-watchdog",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "codex-task-watchdog",
       "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Codex execution, post-task skill mining, skill review, and commit.",
@@ -1751,7 +1751,7 @@
     {
       "name": "codex-website-builder",
       "directory": "packages/codex-website-builder",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "kind": "workflow",
       "title": "codex-website-builder",
       "description": "Event-ready Codex workflow that designs, assets, implements, runs Bun in Docker, then reviews UX, assets, and implementation concurrently before deterministic iteration.",
@@ -1945,7 +1945,7 @@
     {
       "name": "cursor-cli-developer-workflows",
       "directory": "packages/cursor-cli-developer-workflows",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "cursor-cli-developer-workflows",
       "description": "Meta package that pins the standard Cursor CLI developer workflow set in its dependencies and ships one Cursor dispatcher rule for choosing among them. Install the listed dependency packages together with this package.",
@@ -2018,11 +2018,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "04220418bb63e8ac45f337c653a1a631"
+        "value": "b73a2c234185b48a6e3ae5008a8b2554"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "e8dcada520ae5ad4ebee342c1bd8338a671f3fd00977537b2f5630be2b6083a5"
+        "digest": "c868013f846c9724c185f106ea982c9dbb0fef13d4c7a09270d71e360ec2e6e3"
       }
     },
     {
@@ -2659,7 +2659,7 @@
     {
       "name": "fable-and-improve-codex",
       "directory": "packages/fable-and-improve-codex",
-      "version": "0.5.2",
+      "version": "0.5.3",
       "kind": "workflow",
       "title": "fable-and-improve-codex",
       "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
@@ -2709,7 +2709,7 @@
     {
       "name": "fable-and-improve-opus",
       "directory": "packages/fable-and-improve-opus",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "kind": "workflow",
       "title": "fable-and-improve-opus",
       "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
@@ -2757,7 +2757,7 @@
     {
       "name": "fable-astra-design-plan-review-loop",
       "directory": "packages/fable-astra-design-plan-review-loop",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "fable-astra-design-plan-review-loop",
       "description": "Fable 5 authors design and implementation plans; GPT-6 Astra adversarially reviews both and drives bounded revision rounds.",
@@ -3027,7 +3027,7 @@
     {
       "name": "riela-package-manager-skill",
       "directory": "packages/riela-package-manager-skill",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "riela-package-manager-skill",
       "description": "Skill package that teaches agents how to search, install, inspect, validate, and use riela packages, including RielaApp enable/disable and required environment metadata.",
@@ -3067,7 +3067,7 @@
     {
       "name": "riela-package-release-skill",
       "directory": "packages/riela-package-release-skill",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "kind": "workflow",
       "title": "riela-package-release-skill",
       "description": "Maintainer skill package for updating riela package manifests, validating packaged workflows, and preparing registry releases.",

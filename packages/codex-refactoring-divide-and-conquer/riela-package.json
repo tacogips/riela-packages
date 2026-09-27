@@ -1,6 +1,6 @@
 {
   "name": "codex-refactoring-divide-and-conquer",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "title": "codex-refactoring-divide-and-conquer",
   "description": "Divide the codebase into slices, review concurrently, build a dependency-aware refactoring task DAG, implement ready disjoint tasks in shared-workspace waves, reconcile and review each wave, and repeat until complete.",
   "tags": [

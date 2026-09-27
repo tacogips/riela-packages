@@ -1,6 +1,6 @@
 {
   "name": "codex-task-watchdog",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "codex-task-watchdog",
   "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Codex execution, post-task skill mining, skill review, and commit.",
   "tags": [

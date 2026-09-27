@@ -1,6 +1,6 @@
 {
   "name": "codex-adversarial-implementation-review-loop",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "title": "codex-adversarial-implementation-review-loop",
   "description": "Run a scoped implementation request, review independent correctness, integration, and adversarial lenses concurrently, reduce findings, delegate blocking fixes, and repeat until accepted.",
   "tags": [

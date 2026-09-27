@@ -1,6 +1,6 @@
 {
   "name": "codex-source-security-check-loop",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "title": "codex-source-security-check-loop",
   "description": "Run deterministic security checks, partition the attack surface, review independent focus areas concurrently, reduce and adversarially verify findings, then delegate blocking fixes until resolved.",
   "tags": [

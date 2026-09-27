@@ -135,7 +135,7 @@ const coverage = {
   source, sourceIdentity: sha(packages.map(pkg => readFileSync(join(pkg.dir, 'riela-package.json'))).concat(workflows.map(w => readFileSync(join(w.dir, 'workflow.json')))).map(x => sha(x)).join('\n')),
   inventorySourceHead: inventory.sourceHead, packages: packages.map(pkg => ({ id: pkg.id, path: relative(source, pkg.dir), dependencies: pkg.dependencies, workflows: pkg.workflows.map(w => w.id) })),
   workflows: workflows.map(w => ({ id: w.id, path: relative(source, w.dir), base: w.definition.extends?.workflowId ?? null, fixture: w.fixture ? relative(source, w.fixture) : null })),
-  assets: readdirSync(join(source, 'packages'), { recursive: true }).filter((name: any) => typeof name === 'string' && /(SKILL\.md|AGENTS\.md|README\.md|EXPECTED_RESULTS\.md|addon\.json)$/i.test(name)),
+  assets: readdirSync(join(source, 'packages'), { recursive: true }).filter((name: any) => typeof name === 'string' && /(SKILL\.md|AGENTS\.md|README\.md|EXPECTED_RESULTS\.md|addon\.json|\.mdc)$/i.test(name)),
 };
 writeFileSync(join(evidence, 'coverage.json'), JSON.stringify(coverage, null, 2) + '\n');
 const cliVersion = command('version', ['--version']);
@@ -184,7 +184,17 @@ try {
     writeFileSync(join(evidence, 'installed-dependencies.json'), JSON.stringify({ installed, install, catalog }, null, 2) + '\n');
   } else if (mode === 'scenarios') {
     const { install, catalog } = installCatalog();
-    const selected = option('--workflow-list') ? JSON.parse(readFileSync(resolve(option('--workflow-list')!), 'utf8')) : workflows.filter(w => w.fixture).map(w => w.id);
+    const inherited = args.includes('--include-inherited');
+    const selected = option('--workflow-list') ? JSON.parse(readFileSync(resolve(option('--workflow-list')!), 'utf8')) : workflows.filter(w => {
+      let current = w;
+      const seen = new Set<string>();
+      while (!current.fixture && current.definition.extends?.workflowId) {
+        if (seen.has(current.id)) throw Error(`inheritance cycle: ${w.id}`);
+        seen.add(current.id);
+        current = byWorkflow.get(current.definition.extends.workflowId)!;
+      }
+      return !!current.fixture && (inherited || !!w.fixture);
+    }).map(w => w.id);
     if (!Array.isArray(selected)) throw Error('--workflow-list must contain a JSON array');
     for (const [selectionIndex, selection] of selected.entries()) {
       const id = typeof selection === 'string' ? selection : selection?.workflowId;
@@ -201,8 +211,9 @@ try {
       }
       if (!fixture) throw Error(`no scenario fixture for ${id}`);
       let routeSpec: ReturnType<typeof selectedRoute>;
+      let mock: any;
       try {
-        const mock = JSON.parse(readFileSync(fixture, 'utf8'));
+        mock = JSON.parse(readFileSync(fixture, 'utf8'));
         routeSpec = selectedRoute(selection, mock, workflow, fixture);
       } catch (error) {
         failures++;
@@ -210,13 +221,19 @@ try {
         continue;
       }
       const caseId = `${id}-${selectionIndex}`;
-      const run = command(`scenario-${id}`, ['workflow', 'run', id, '--workflow-definition-dir', catalog, '--scope', 'project', '--working-dir', source, '--mock-scenario', fixture, '--session-store', join(evidence, 'sessions', caseId), '--artifact-root', join(evidence, 'artifacts', caseId), '--output', 'json'], install);
+      let executionFixture = fixture;
+      if (workflow.id !== base.id && mock['workflow-output']?.payload?.workflowId === base.id) {
+        mock['workflow-output'].payload.workflowId = workflow.id;
+        executionFixture = join(evidence, 'fixtures', `${caseId}.json`);
+        mkdirSync(dirname(executionFixture), { recursive: true });
+        writeFileSync(executionFixture, JSON.stringify(mock, null, 2) + '\n');
+      }
+      const run = command(`scenario-${id}`, ['workflow', 'run', id, '--workflow-definition-dir', catalog, '--scope', 'project', '--working-dir', source, '--mock-scenario', executionFixture, '--session-store', join(evidence, 'sessions', caseId), '--artifact-root', join(evidence, 'artifacts', caseId), '--output', 'json'], install);
       if (run.exitCode === 0) {
         try {
           const parsed = JSON.parse(run.output);
           const executions = parsed.session?.executions ?? [];
           const route = executions.map((item: any) => item.stepId);
-          const mock = JSON.parse(readFileSync(fixture, 'utf8'));
           const expectedRoute = routeSpec.route;
           const routeMatches = route.length === expectedRoute.length && route.every((step: string, index: number) => step === expectedRoute[index]);
           let payloadChecks = 0;
@@ -265,7 +282,7 @@ try {
           for (const field of ['name', 'version', 'inputSchema']) if (!descriptor[field]) issues.push(`missing descriptor ${field}`);
         } catch { issues.push('invalid add-on descriptor JSON'); }
       }
-      if (asset.endsWith('README.md')) {
+      if (/(README\.md|SKILL\.md|AGENTS\.md|EXPECTED_RESULTS\.md|\.mdc)$/i.test(asset)) {
         for (const line of body.split('\n').filter(line => line.includes('riela package install'))) {
           for (const flag of line.match(/--[a-z][a-z-]*/g) ?? []) if (!installHelp.includes(flag)) issues.push(`undocumented install flag ${flag}`);
         }

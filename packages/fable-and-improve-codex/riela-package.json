@@ -1,6 +1,6 @@
 {
   "name": "fable-and-improve-codex",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "title": "fable-and-improve-codex",
   "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
   "tags": [

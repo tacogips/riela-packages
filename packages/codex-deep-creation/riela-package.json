@@ -1,6 +1,6 @@
 {
   "name": "codex-deep-creation",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "codex-deep-creation",
   "description": "Run deep design, adversarial implementation-plan completion, and source security checks as one Codex creation workflow.",
   "tags": [

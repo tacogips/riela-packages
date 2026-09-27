@@ -1,6 +1,6 @@
 {
   "name": "codex-impl-plan-completion-review-loop",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "codex-impl-plan-completion-review-loop",
   "description": "Run the Codex implementation-plan completion loop, then run the recent-change quality review-and-improve loop against the resulting work.",
   "tags": [

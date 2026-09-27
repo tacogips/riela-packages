@@ -1,6 +1,6 @@
 {
   "name": "fable-astra-design-plan-review-loop",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "fable-astra-design-plan-review-loop",
   "description": "Fable 5 authors design and implementation plans; GPT-6 Astra adversarially reviews both and drives bounded revision rounds.",
   "tags": [

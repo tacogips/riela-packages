@@ -20,11 +20,11 @@ The riela CLI does not install package dependencies automatically. Install the
 meta package and its dependency packages from a local registry checkout:
 
 ```bash
-riela package install cursor-cli-developer-workflows --local-path /path/to/riela-packages
+riela package install cursor-cli-developer-workflows --source /path/to/riela-packages/packages/cursor-cli-developer-workflows
 jq -r '.dependencies[]? | if type == "object" then .packageId else . end' \
   /path/to/riela-packages/packages/cursor-cli-developer-workflows/riela-package.json |
   while read -r dep; do
-    riela package install "$dep" --local-path /path/to/riela-packages
+    riela package install "$dep" --source "/path/to/riela-packages/packages/$dep"
   done
 ```
 

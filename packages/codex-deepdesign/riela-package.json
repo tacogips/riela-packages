@@ -1,6 +1,6 @@
 {
   "name": "codex-deepdesign",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "title": "codex-deepdesign",
   "description": "Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings deterministically, and revise until no high or middle findings remain.",
   "tags": [

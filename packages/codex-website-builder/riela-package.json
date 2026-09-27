@@ -1,6 +1,6 @@
 {
   "name": "codex-website-builder",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "title": "codex-website-builder",
   "description": "Event-ready Codex workflow that designs, assets, implements, runs Bun in Docker, then reviews UX, assets, and implementation concurrently before deterministic iteration.",
   "tags": [
