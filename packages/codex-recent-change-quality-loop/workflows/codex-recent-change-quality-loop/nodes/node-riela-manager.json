@@ -53,21 +53,7 @@
           "type": "string"
         }
       },
-      "required": [],
-      "anyOf": [
-        {
-          "required": [
-            "hours",
-            "targetScope"
-          ]
-        },
-        {
-          "required": [
-            "stage",
-            "policy"
-          ]
-        }
-      ]
+      "required": ["hours", "targetScope", "notes"]
     },
     "maxValidationAttempts": 2
   }

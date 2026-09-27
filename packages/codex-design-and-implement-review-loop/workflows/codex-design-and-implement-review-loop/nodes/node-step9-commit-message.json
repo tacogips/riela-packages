@@ -14,10 +14,24 @@
       "type": "object",
       "properties": {
         "needs_revision": { "type": "boolean" },
-        "commitMessage": { "type": "string" },
-        "committedFiles": { "type": "array", "items": { "type": "string" } },
+        "workflowMode": { "type": "string", "enum": ["design-plan-only", "planning-only", "issue-resolution"] },
+        "checkedImplPlanPaths": { "type": "array", "items": { "type": "string" } },
+        "activeImplPlanFindings": { "type": "array", "items": { "type": "string" } },
+        "archivedImplPlanPaths": { "type": "array", "items": { "type": "string" } },
+        "updatedIndexFiles": { "type": "array", "items": { "type": "string" } },
+        "completionSummary": { "type": "string", "minLength": 1 },
+        "residualRisks": { "type": "array" },
+        "commitMessage": { "type": "string", "minLength": 1 },
+        "committedFiles": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+        "changeSummary": { "type": "string", "minLength": 1 },
         "git": { "type": "object", "properties": { "commitHash": { "type": "string" } }, "additionalProperties": true }
       },
+      "required": ["needs_revision", "workflowMode"],
+      "anyOf": [
+        { "properties": { "needs_revision": { "enum": [true] } }, "required": ["needs_revision"] },
+        { "properties": { "needs_revision": { "enum": [false] }, "workflowMode": { "enum": ["design-plan-only", "planning-only"] } }, "required": ["needs_revision", "workflowMode", "commitMessage", "committedFiles", "changeSummary"] },
+        { "properties": { "needs_revision": { "enum": [false] }, "workflowMode": { "enum": ["issue-resolution"] } }, "required": ["needs_revision", "workflowMode", "checkedImplPlanPaths", "activeImplPlanFindings", "archivedImplPlanPaths", "updatedIndexFiles", "completionSummary", "residualRisks", "commitMessage", "committedFiles", "changeSummary"] }
+      ],
       "additionalProperties": true
     },
     "maxValidationAttempts": 2

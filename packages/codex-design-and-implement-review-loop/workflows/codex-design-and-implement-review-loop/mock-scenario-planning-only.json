@@ -18,6 +18,7 @@
     },
     "payload": {
       "workflowMode": "design-plan-only",
+      "issueReference": "",
       "problemSummary": "Plan how cursor-agent should adopt codex-agent-style session history behavior without implementing it yet.",
       "acceptanceSignals": [
         "The design maps the target codex-agent behavior to cursor-agent boundaries.",
