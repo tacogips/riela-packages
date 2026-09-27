@@ -48,7 +48,7 @@
   "step2-design-doc-update": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-6-sol",
       "when": {
         "always": true
       },
@@ -81,7 +81,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-6-sol",
       "when": {
         "always": true
       },
@@ -158,7 +158,7 @@
   "step4-impl-plan-create": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-6-sol",
       "when": {
         "always": true
       },
@@ -197,7 +197,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-6-sol",
       "when": {
         "always": true
       },
@@ -552,7 +552,7 @@
   },
   "integration-review": {
     "provider": "scenario-mock",
-    "model": "gpt-6-astra",
+    "model": "gpt-6-sol",
     "when": {
       "needs_revision": false,
       "redispatch_required": false,

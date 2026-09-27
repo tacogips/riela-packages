@@ -50,9 +50,9 @@ for (const [id, nodes] of [
     assert.equal(payload.effort, 'medium', `${id}/${node}: review effort`);
   }
 }
-assert.equal(read(join(bundle(codex), 'nodes/node-step2-design-doc-update.json')).model, 'gpt-6-astra');
-assert.equal(read(join(bundle(codex), 'nodes/node-step4-impl-plan-create.json')).model, 'gpt-6-astra');
-assert.equal(read(join(bundle(codex), 'nodes/node-integration-review.json')).model, 'gpt-6-astra');
+assert.equal(read(join(bundle(codex), 'nodes/node-step2-design-doc-update.json')).model, 'gpt-6-sol');
+assert.equal(read(join(bundle(codex), 'nodes/node-step4-impl-plan-create.json')).model, 'gpt-6-sol');
+assert.equal(read(join(bundle(codex), 'nodes/node-integration-review.json')).model, 'gpt-6-sol');
 assert.deepEqual(
   read(join(bundle(codex), 'nodes/node-dispatch-plans.json')).command,
   { scriptPath: 'scripts/dispatch-plans.py' },
@@ -86,12 +86,13 @@ for (const step of ['step4-impl-plan-create', 'integration-review']) {
   assert.deepEqual(
     codexGraph.steps.find((candidate: any) => candidate.id === step).sessionPolicy,
     { mode: 'reuse', inheritFromStepId: 'step2-design-doc-update' },
-    `${step}: inherit Astra design session`,
+    `${step}: inherit Sol design session`,
   );
 }
 for (const entry of codexGraph.nodes.filter((node: any) => node.nodeFile)) {
   const payload = read(join(bundle(codex), entry.nodeFile));
   if (payload.executionBackend !== 'codex-agent') continue;
+  assert.equal(payload.model, 'gpt-6-sol', `${codex}/${entry.id}: all agent models`);
   assert.equal(payload.effort, 'medium', `${codex}/${entry.id}: all agent effort`);
 }
 const dispatchNodePayload = read(join(bundle(codex), 'nodes/node-dispatch-plans.json'));

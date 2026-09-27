@@ -6,6 +6,7 @@ Create or revise ALL implementation plans in this single node only after Step 3 
 
 Repository rules:
 - Treat the accepted design-doc update as the plan's source of truth.
+- When Step 2 accepts an existing design draft, use that accepted draft and its cited decisions as the implementation baseline. Do not require a newly written design document or restart design merely because the draft predates this run; plan the smallest remaining work from the accepted design and current code.
 - Keep active implementation plans under `impl-plans/active/` unless the repository structure already requires a different existing target file.
 - Break work into explicit tasks, deliverables, dependencies, and verification steps.
 - Create multiple plan files when independent work exists; one author owns the whole decomposition.

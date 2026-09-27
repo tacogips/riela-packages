@@ -2,7 +2,7 @@
 
 Use the paired Riela source build and workflow validate/inspect with --workflow-definition-dir pointing to the package workflows directory. Run each bundled mock scenario with an isolated --session-store and --artifact-root; no live models or Git mutations are executed.
 
-- mock-scenario.json: completed, exitCode 0. Astra authors the design and plan; Sol implements, reconciles, and runs the intake, design/plan/test-integrity gates and one adversarial material-issue review; Astra accepts the combined design/implementation before final Git operations. There is no duplicate ordinary Step 7 review. plan-git-commit then plan-git-push precede native implementation fanout, leaving one unpublished final commit for step11-git-push; each branch stops before reconcile-implementations.
+- mock-scenario.json: completed, exitCode 0. Sol authors the design and plan, implements, reconciles, runs the intake, design/plan/test-integrity gates and one adversarial material-issue review, and accepts the combined design/implementation before final Git operations. An existing relevant design draft is the baseline; a new design is created only when none applies. There is no duplicate ordinary Step 7 review. plan-git-commit then plan-git-push precede native implementation fanout, leaving one unpublished final commit for step11-git-push; each branch stops before reconcile-implementations.
 - mock-scenario-fanout.json: two items become two fanout branches, joined in input order. Both implementation/review subpaths run; the parent performs reconciliation and finalization once. No feature-local planning fanout.
 - mock-scenario-planning-only.json: completed, exitCode 0. No dispatch-plans, implementation or reconciliation; plans remain active, final documentation commit/push and the authorized PR handoff or base integration run.
 
@@ -24,7 +24,7 @@ Every implementation and review gate scopes completeness to the current manifest
 
 Planning nodes treat the runner-resolved workflow provenance and effective workflow input as authoritative. They do not rediscover the active workflow through sandbox-local user/project registry commands. Missing sandbox visibility into a user-scope registry or immutable package source is expected isolation and never becomes an intake blocker, design constraint, risk, or plan task. A real provenance, resolution, validation, or package-integrity failure stops the runner before these nodes execute.
 
-Every agent node has low or medium effort. Astra design, plan, and integration-review nodes are medium effort; no node may declare high, xhigh, or extra-high effort. `dispatch-plans` is a deterministic command projection from the direct inbox and exact committed manifest; it does not invoke a model, explore the repository, or recompute native dependency scheduling. It rejects unknown accepted IDs and a dispatch attempt after all plans are accepted.
+Every agent node uses GPT-6 Sol with low or medium effort; no node may declare Astra, high, xhigh, or extra-high effort. `dispatch-plans` is a deterministic command projection from the direct inbox and exact committed manifest; it does not invoke a model, explore the repository, or recompute native dependency scheduling. It rejects unknown accepted IDs and a dispatch attempt after all plans are accepted.
 
 Integration review stays read-only and returns its immutable wave-acceptance record in the node payload. Runtime session communication persists that accepted output for dependency dispatch; the reviewer is never required to write repository or evidence-root files.
 
