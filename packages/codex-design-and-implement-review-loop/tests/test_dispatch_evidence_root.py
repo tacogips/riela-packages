@@ -56,6 +56,40 @@ class ManifestEvidenceRootTests(unittest.TestCase):
                         module.concrete_repository_path(value, "MOD004-00.sharedPaths[]", self.root)
                     self.assertIn(repr(value), str(error.exception))
 
+    def test_continuation_accepts_committed_external_dependencies(self) -> None:
+        for script in DISPATCH_SCRIPTS:
+            module = self._module_for(script)
+            with self.subTest(script=script):
+                result = self._project_manifest(module, ["prior-plan"])
+                payload = result["payload"]
+                self.assertEqual(payload["acceptedPlanIds"], ["prior-plan"])
+                self.assertEqual(len(payload["implementationItems"]), 1)
+                self.assertEqual(payload["implementationItems"][0]["dependsOn"], ["prior-plan"])
+                self.assertEqual(payload["implementationItems"][0]["acceptedPlanIds"], ["prior-plan"])
+
+    def test_continuation_still_rejects_unknown_accepted_plan_ids(self) -> None:
+        for script in DISPATCH_SCRIPTS:
+            module = self._module_for(script)
+            with self.subTest(script=script):
+                with self.assertRaisesRegex(ValueError, "acceptedPlanIds contain unknown plans: unrelated"):
+                    self._project_manifest(module, ["prior-plan", "unrelated"])
+
+    def test_accepted_dependency_plan_path_must_be_safe(self) -> None:
+        for script in DISPATCH_SCRIPTS:
+            module = self._module_for(script)
+            with self.subTest(script=script):
+                with self.assertRaisesRegex(ValueError, r"acceptedDependencies\[0\].planPath must be a safe"):
+                    self._project_manifest(module, ["prior-plan"], plan_path="../outside.md")
+
+    def test_accepted_dependencies_require_objects_with_nonempty_plan_ids(self) -> None:
+        for script in DISPATCH_SCRIPTS:
+            module = self._module_for(script)
+            with self.subTest(script=script):
+                with self.assertRaisesRegex(ValueError, r"acceptedDependencies\[0\] must be an object"):
+                    self._project_manifest(module, ["prior-plan"], accepted_dependencies=["prior-plan"])
+                with self.assertRaisesRegex(ValueError, r"acceptedDependencies\[0\].planId must be a non-empty string"):
+                    self._project_manifest(module, ["prior-plan"], accepted_dependencies=[{"planId": "  "}])
+
     def test_structured_recovery_diagnostic_is_preserved_as_text(self) -> None:
         feedback = dispatch_plans.latest_integration_feedback([{
             "fromStepId": "integration-review",
@@ -284,6 +318,71 @@ class ManifestEvidenceRootTests(unittest.TestCase):
                  mock.patch.object(dispatch_plans, "checkpoint_source", return_value=(manifest_path, "a" * 40)), \
                  mock.patch.object(dispatch_plans, "verify_checkpoint"):
                 return dispatch_plans.project(envelope)
+
+    def _module_for(self, script: Path):
+        spec = importlib.util.spec_from_file_location("dispatch_copy", script)
+        module = importlib.util.module_from_spec(spec)
+        assert spec is not None and spec.loader is not None
+        spec.loader.exec_module(module)
+        return module
+
+    def _project_manifest(
+        self,
+        module,
+        accepted: list[str],
+        plan_path: str = "impl-plans/active/prior.md",
+        accepted_dependencies: list | None = None,
+    ) -> dict:
+        scratch_root = self.root.parents[1] / "tmp"
+        scratch_root.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=scratch_root) as directory:
+            root = Path(directory)
+            manifest_path = "impl-plans/active/dispatch.json"
+            manifest_file = root / manifest_path
+            manifest_file.parent.mkdir(parents=True)
+            manifest_file.write_text(json.dumps({
+                "taskId": "continuation",
+                "implementationBranch": "feat/continuation",
+                "baseBranch": "main",
+                "remote": "origin",
+                "evidenceRoot": "tmp/continuation",
+                "reviewContext": {
+                    "issueReference": "issue-21",
+                    "userProblem": "Continue remaining plans",
+                    "requiredOutcomes": ["Remaining plan is dispatched"],
+                    "nonGoals": [],
+                    "constraints": [],
+                    "designDecisionsAndRationale": [],
+                    "intentionalTradeoffs": [],
+                    "supportedEdgeCases": [],
+                    "outOfScopeEdgeCases": [],
+                    "sourcePaths": ["src/remaining.py"],
+                },
+                "acceptedDependencies": accepted_dependencies if accepted_dependencies is not None else [{
+                    "planId": "prior-plan",
+                    "planPath": plan_path,
+                    "commit": "a" * 40,
+                    "provides": ["Committed prerequisite"],
+                }],
+                "plans": [{
+                    "planId": "remaining-plan",
+                    "planPath": "impl-plans/active/remaining.md",
+                    "dependsOn": ["prior-plan"],
+                    "writePaths": ["src/remaining.py"],
+                    "sharedPaths": [],
+                    "acceptanceCriteria": ["Remaining work is implemented"],
+                    "verification": ["python -m unittest"],
+                }],
+            }))
+            envelope = {"input": {"_rielaInput": {"messages": [{
+                "fromStepId": "integration-review",
+                "createdOrder": 1,
+                "payload": {"acceptedPlanIds": accepted},
+            }]}}}
+            with mock.patch.object(module.Path, "cwd", return_value=root), \
+                 mock.patch.object(module, "checkpoint_source", return_value=(manifest_path, "a" * 40)), \
+                 mock.patch.object(module, "verify_checkpoint"):
+                return module.project(envelope)
 
 
 if __name__ == "__main__":

@@ -282,6 +282,24 @@ def manifest_evidence_root(manifest: dict[str, Any], root: Path) -> str:
     return safe_relative_path(value, "evidenceRoot", root)
 
 
+def accepted_dependency_ids(manifest: dict[str, Any], root: Path) -> set[str]:
+    value = manifest.get("acceptedDependencies", [])
+    if not isinstance(value, list):
+        raise ValueError("acceptedDependencies must be an array")
+    plan_ids: set[str] = set()
+    for index, dependency in enumerate(value):
+        field = f"acceptedDependencies[{index}]"
+        if not isinstance(dependency, dict):
+            raise ValueError(f"{field} must be an object")
+        plan_id = clean_string(dependency.get("planId"), f"{field}.planId")
+        if plan_id in plan_ids:
+            raise ValueError(f"acceptedDependencies plan IDs must be unique: {plan_id}")
+        plan_ids.add(plan_id)
+        if "planPath" in dependency:
+            safe_relative_path(dependency["planPath"], f"{field}.planPath", root)
+    return plan_ids
+
+
 def project(envelope: dict[str, Any]) -> dict[str, Any]:
     root = Path.cwd().resolve()
     messages = messages_from(envelope)
@@ -308,10 +326,13 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
     plan_ids = [clean_string(plan.get("planId"), "plans[].planId") for plan in plans if isinstance(plan, dict)]
     if len(plan_ids) != len(plans) or len(set(plan_ids)) != len(plan_ids):
         raise ValueError("dispatch manifest plan IDs must be unique objects")
-    unknown_accepted = sorted(set(accepted) - set(plan_ids))
+    external_plan_ids = accepted_dependency_ids(manifest, root)
+    known_plan_ids = set(plan_ids) | external_plan_ids
+    unknown_accepted = sorted(set(accepted) - known_plan_ids)
     if unknown_accepted:
         raise ValueError(f"acceptedPlanIds contain unknown plans: {', '.join(unknown_accepted)}")
-    if not set(plan_ids) - set(accepted):
+    accepted_manifest_plan_ids = set(accepted) & set(plan_ids)
+    if not set(plan_ids) - accepted_manifest_plan_ids:
         raise ValueError("dispatch requested after every manifest plan was accepted")
 
     verify_checkpoint(root, relative_manifest, checkpoint)
@@ -324,6 +345,12 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
 
     items: list[dict[str, Any]] = []
     unmatched_material_paths: set[str] = set()
+    for plan in plans:
+        plan_id = clean_string(plan.get("planId"), "plans[].planId")
+        dependencies = clean_string_list(plan.get("dependsOn", []), f"{plan_id}.dependsOn")
+        unknown_dependencies = sorted(set(dependencies) - known_plan_ids)
+        if unknown_dependencies:
+            raise ValueError(f"{plan_id}.dependsOn contain unknown plans: {', '.join(unknown_dependencies)}")
     if feedback is not None:
         for finding in feedback["findings"]:
             if finding.get("severity") not in {"high", "mid", "medium"}:
@@ -363,7 +390,7 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
                     continue
                 relative = safe_relative_path(file_path, "integration-review.findings[].file", root)
                 evidence_path = path_is_owned(relative, ["tmp", evidence_root])
-                if plan_id not in accepted and (
+                if plan_id not in accepted_manifest_plan_ids and (
                     path_is_owned(relative, write_paths)
                     or evidence_path
                 ):
