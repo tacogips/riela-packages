@@ -332,6 +332,7 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
     if unknown_accepted:
         raise ValueError(f"acceptedPlanIds contain unknown plans: {', '.join(unknown_accepted)}")
     accepted_manifest_plan_ids = set(accepted) & set(plan_ids)
+    accepted_dispatch_ids = [plan_id for plan_id in accepted if plan_id in set(plan_ids)]
     if not set(plan_ids) - accepted_manifest_plan_ids:
         raise ValueError("dispatch requested after every manifest plan was accepted")
 
@@ -400,8 +401,8 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
             {
                 "planId": plan_id,
                 "planPath": safe_relative_path(plan.get("planPath"), f"{plan_id}.planPath", root),
-                "dependsOn": clean_string_list(plan.get("dependsOn", []), f"{plan_id}.dependsOn"),
-                "acceptedPlanIds": accepted,
+                "dependsOn": [dependency for dependency in dependencies if dependency in set(plan_ids)],
+                "acceptedPlanIds": accepted_dispatch_ids,
                 "writePaths": write_paths,
                 "sharedPaths": shared_paths,
                 "trackedPaths": tracked_paths,
@@ -434,7 +435,7 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
         "when": {"always": True},
         "payload": {
             "implementationItems": items,
-            "acceptedPlanIds": accepted,
+            "acceptedPlanIds": accepted_dispatch_ids,
             "manifestPath": relative_manifest,
             "checkpointCommit": checkpoint,
         },

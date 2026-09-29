@@ -62,10 +62,10 @@ class ManifestEvidenceRootTests(unittest.TestCase):
             with self.subTest(script=script):
                 result = self._project_manifest(module, ["prior-plan"])
                 payload = result["payload"]
-                self.assertEqual(payload["acceptedPlanIds"], ["prior-plan"])
+                self.assertEqual(payload["acceptedPlanIds"], [])
                 self.assertEqual(len(payload["implementationItems"]), 1)
-                self.assertEqual(payload["implementationItems"][0]["dependsOn"], ["prior-plan"])
-                self.assertEqual(payload["implementationItems"][0]["acceptedPlanIds"], ["prior-plan"])
+                self.assertEqual(payload["implementationItems"][0]["dependsOn"], [])
+                self.assertEqual(payload["implementationItems"][0]["acceptedPlanIds"], [])
 
     def test_continuation_still_rejects_unknown_accepted_plan_ids(self) -> None:
         for script in DISPATCH_SCRIPTS:
