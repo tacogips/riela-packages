@@ -95,7 +95,8 @@ def behavioral_kind(record: dict[str, Any]) -> str | None:
     ):
         return None
     test_patterns = (
-        r"\bswift\s+test\b", r"\bcargo\s+test\b", r"\bgo\s+test\b", r"\bpytest\b",
+        r"\bswift\s+test\b", r"\bcargo\s+test\b",
+        r"\bcargo\s+nextest\s+run\b", r"\bgo\s+test\b", r"\bpytest\b",
         r"\bctest\b", r"\bbun\s+test\b", r"\bvitest\s+run\b",
         # Some packages run a deterministic Bun regression runner directly.
         # Require a test-directory runner name; the positive count is checked
@@ -360,7 +361,16 @@ def implementation_messages(envelope: dict[str, Any]) -> list[dict[str, Any]]:
 def blocked_result(
     current: dict[str, Any], blocker_type: str, message: str, fingerprint: str
 ) -> dict[str, Any]:
-    plan_id = current.get("planId") or current.get("dispatchId") or "unknown-plan"
+    plan_id = current.get("planId") or current.get("dispatchId") or current.get("branchId")
+    if not plan_id:
+        implementation_item = current.get("implementationItem")
+        if isinstance(implementation_item, dict):
+            plan_id = implementation_item.get("planId") or implementation_item.get("dispatchId")
+    if not plan_id:
+        plan_paths = current.get("implPlanPaths")
+        if isinstance(plan_paths, list) and plan_paths and isinstance(plan_paths[0], str):
+            plan_id = Path(plan_paths[0]).stem
+    plan_id = plan_id or "unknown-plan"
     existing = normalized_list(current.get("blockers"))
     blocker = {
         "type": blocker_type,

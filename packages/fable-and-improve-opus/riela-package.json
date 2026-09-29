@@ -1,6 +1,6 @@
 {
   "name": "fable-and-improve-opus",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "title": "fable-and-improve-opus",
   "description": "Fable-authored design and planning with Opus 5.5 planning, test-integrity and adversarial reviews, dependency-aware shared-branch implementation, Fable integration and goal gates, and serialized Git finalization.",
   "tags": [
@@ -11,7 +11,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "d4d58c6ced7973d8015ae36e7b5100a3",
+  "checksum": "94e3a755802e14199bc062ff5729fc44",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/fable-and-improve-opus",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -31,7 +31,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "2f02a765df9d3736e236ae193f2373064eadc029f20dd3ae0c796ef8e4e15d9a"
+    "digest": "4c47cc76c43156ea78c872914c73741818e61acc782167f119531486bd34af85"
   },
   "backends": [
     "claude-code-agent"

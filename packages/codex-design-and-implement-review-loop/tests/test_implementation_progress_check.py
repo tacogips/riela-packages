@@ -19,6 +19,14 @@ assert SPEC is not None and SPEC.loader is not None
 progress = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(progress)
 
+PROGRESS_SCRIPTS = [
+    SCRIPT,
+    Path(__file__).resolve().parents[2]
+    / "fable-and-improve-opus/workflows/fable-and-improve-opus/scripts/implementation-progress-check.py",
+    Path(__file__).resolve().parents[2]
+    / "opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/implementation-progress-check.py",
+]
+
 
 def attempt(number: int, *, incomplete: bool = True) -> dict:
     return {
@@ -144,6 +152,56 @@ class ImplementationContinuationTests(unittest.TestCase):
         result = progress.classify(envelope(completed))
         self.assertEqual(result["payload"]["status"], "ready-for-test-integrity")
         self.assertEqual(result["when"], {"implementation_blocked": False})
+
+    def test_nextest_run_is_behavioral_and_nextest_list_is_discovery(self) -> None:
+        for command in (
+            "NEXTEST_STATUS_LEVEL=fail CARGO_TERM_QUIET=true cargo nextest run shape_contract golden",
+            "cargo nextest run --no-fail-fast",
+        ):
+            with self.subTest(command=command):
+                completed = attempt(1, incomplete=False)
+                completed["verification"] = [{
+                    "command": command,
+                    "exitStatus": 0,
+                    "failureCount": 0,
+                    "testsPassed": 1549,
+                    "testsRun": 1549,
+                }]
+                result = progress.classify(envelope(completed))
+                self.assertEqual(result["when"], {"implementation_blocked": False})
+
+        listed = attempt(1, incomplete=False)
+        listed["verification"] = [{
+            "command": "cargo nextest list",
+            "exitStatus": 0,
+            "failureCount": 0,
+            "testsRun": 1549,
+        }]
+        result = progress.classify(envelope(listed))
+        self.assertEqual(result["payload"]["blockerType"], "implementation-materially-unverified")
+
+    def test_shared_progress_gate_copies_accept_nextest_and_resolve_plan_id(self) -> None:
+        for script in PROGRESS_SCRIPTS:
+            with self.subTest(script=script):
+                spec = importlib.util.spec_from_file_location("progress_copy", script)
+                module = importlib.util.module_from_spec(spec)
+                assert spec is not None and spec.loader is not None
+                spec.loader.exec_module(module)
+                command = {
+                    "command": "CARGO_TERM_QUIET=true cargo nextest run --no-fail-fast",
+                    "exitStatus": 0,
+                    "testsRun": 4,
+                    "failureCount": 0,
+                }
+                self.assertTrue(module.successful_behavioral_verification(command))
+                self.assertFalse(module.successful_behavioral_verification({
+                    **command, "command": "cargo nextest list",
+                }))
+                blocked = module.blocked_result(
+                    {"implPlanPaths": ["impl-plans/active/MOD004-00.md"]},
+                    "implementation-materially-unverified", "missing tests", "fp",
+                )
+                self.assertEqual(blocked["payload"]["blockers"][0]["planId"], "MOD004-00")
 
     def test_bun_custom_runner_does_not_hide_missing_or_failed_tests(self) -> None:
         for command, count, exit_code in (

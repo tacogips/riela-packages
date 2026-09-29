@@ -134,6 +134,21 @@ def safe_relative_path(value: Any, field: str, root: Path) -> str:
     return path.as_posix()
 
 
+def concrete_repository_path(value: Any, field: str, root: Path) -> str:
+    if not isinstance(value, str):
+        raise ValueError(
+            f"{field} value {value!r} must be a concrete repository-relative file or directory path string "
+            "(no objects, comma lists, braces, globs, or prose)"
+        )
+    path_text = value.strip()
+    if not path_text or re.search(r"[,{}*?\[\]\s]", path_text):
+        raise ValueError(
+            f"{field} value {value!r} must be a concrete repository-relative file or directory path string "
+            "(no objects, comma lists, braces, globs, or prose)"
+        )
+    return safe_relative_path(path_text, field, root)
+
+
 def checkpoint_source(messages: list[dict[str, Any]], root: Path) -> tuple[str, str]:
     pushes = [message for message in messages if message.get("fromStepId") == "plan-git-push"]
     commits = [message for message in messages if message.get("fromStepId") == "plan-git-commit"]
@@ -322,13 +337,19 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
                     unmatched_material_paths.add(relative)
     for plan in plans:
         plan_id = clean_string(plan.get("planId"), "plans[].planId")
+        write_value = plan.get("writePaths")
+        if not isinstance(write_value, list):
+            raise ValueError(f"{plan_id}.writePaths value {write_value!r} must be an array of concrete repository-relative file or directory path strings")
         write_paths = [
-            safe_relative_path(path, f"{plan_id}.writePaths[]", root)
-            for path in clean_string_list(plan.get("writePaths"), f"{plan_id}.writePaths")
+            concrete_repository_path(path, f"{plan_id}.writePaths[]", root)
+            for path in write_value
         ]
+        shared_value = plan.get("sharedPaths", [])
+        if not isinstance(shared_value, list):
+            raise ValueError(f"{plan_id}.sharedPaths value {shared_value!r} must be an array of concrete repository-relative file or directory path strings")
         shared_paths = [
-            safe_relative_path(path, f"{plan_id}.sharedPaths[]", root)
-            for path in clean_string_list(plan.get("sharedPaths", []), f"{plan_id}.sharedPaths")
+            concrete_repository_path(path, f"{plan_id}.sharedPaths[]", root)
+            for path in shared_value
         ]
         tracked_paths = list(dict.fromkeys(write_paths + shared_paths))
         if not tracked_paths:

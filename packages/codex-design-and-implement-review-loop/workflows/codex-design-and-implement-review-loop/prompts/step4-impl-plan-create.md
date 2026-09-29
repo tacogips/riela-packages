@@ -10,7 +10,7 @@ Repository rules:
 - Keep active implementation plans under `impl-plans/active/` unless the repository structure already requires a different existing target file.
 - Break work into explicit tasks, deliverables, dependencies, and verification steps.
 - Create multiple plan files when independent work exists; one author owns the whole decomposition.
-- Give each plan a stable planId, planPath, dependsOn IDs, writePaths, sharedPaths, precise intended changes, acceptance criteria and verification commands. Dependencies must form a DAG; use successive waves for coupled contracts.
+- Give each plan a stable planId, planPath, dependsOn IDs, writePaths, sharedPaths, precise intended changes, acceptance criteria and verification commands. Every `writePaths` and `sharedPaths` entry must be one concrete repository-relative file or directory path string. Never use objects, comma-joined lists, braces, globs, or prose as paths. Put explanations in an optional `sharedPathNotes` array of `{path, intendedEdit}` objects. Dependencies must form a DAG; use successive waves for coupled contracts.
 - Author the plan as a portable executable contract that even a lower-capability implementation model could follow: state the user intent and relevant repository context, explicit non-goals, exact file-level changes, invariants that must remain true, acceptance criteria, and the exact verification commands plus the evidence each command must establish. Do not assume the implementation agent will infer omitted rationale, compatibility constraints, or test intent.
 - Minimize file overlap, but assume overwrites remain possible on the same branch and working directory. Specify per-edit fresh reads, pre/post hashes and immutable intent snapshots, drift detection, and serial repair after joining.
 - Reserve shared indexes, lockfile generation, broad formatting and global plan archiving for serial reconciliation/finalization. Each worker edits its own progress log only.
@@ -43,5 +43,6 @@ Return JSON with:
 - `addressedFeedback`
 - `risks`
 - `authorSelfCheck`
+- `plans`, containing each plan's `writePaths`, `sharedPaths`, and optional `sharedPathNotes` in the same concrete shape as the manifest.
 
 Report authorSelfCheck as {checks: [{criterion, evidence}], findings: [], verificationGaps: [], residualRisks: []}. Cite actual paths and command outcomes. Explicitly report unresolved high/mid findings and blocked checks; never claim completion when they remain.

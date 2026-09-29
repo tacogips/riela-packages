@@ -34,7 +34,11 @@
           "impl-plans",
           "examples",
           ".riela/workflows",
-          "tmp"
+          "tmp",
+          "src",
+          "tests",
+          "lib",
+          "crates"
         ],
         "scratchRoot": "tmp",
         "commit": "prompt",

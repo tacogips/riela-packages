@@ -5,6 +5,7 @@ Do not accept or introduce a plan blocker that exists only because a node sandbo
 Review the Step 4 implementation plan against the accepted design and repository planning conventions.
 
 Check:
+- Inspect each plan's declared `writePaths` and `sharedPaths`, and any dispatch manifest supplied with it. Every entry must be one concrete repository-relative file or directory path string; reject objects, comma-joined lists, braces, globs, or prose. Explanatory text belongs in `sharedPathNotes` entries shaped as `{path, intendedEdit}`. Report a high finding and do not accept the plan until the author repairs the declarations.
 - The plan addresses the scope accepted in Steps 1 to 3.
 - The plan points at the relevant design-doc section.
 - Deliverables, tasks, dependencies, and verification are concrete enough to implement.

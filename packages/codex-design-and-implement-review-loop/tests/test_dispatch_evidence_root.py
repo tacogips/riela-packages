@@ -20,10 +20,41 @@ assert SPEC is not None and SPEC.loader is not None
 dispatch_plans = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(dispatch_plans)
 
+DISPATCH_SCRIPTS = [
+    SCRIPT,
+    Path(__file__).resolve().parents[2]
+    / "fable-and-improve-opus/workflows/fable-and-improve-opus/scripts/dispatch-plans.py",
+    Path(__file__).resolve().parents[2]
+    / "opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/dispatch-plans.py",
+]
+
 
 class ManifestEvidenceRootTests(unittest.TestCase):
     def setUp(self) -> None:
         self.root = Path(__file__).resolve().parents[1]
+
+    def test_dispatchers_require_concrete_repository_paths(self) -> None:
+        invalid_values = [
+            {"path": "src/shared.rs", "intendedEdit": "edit API"},
+            "src/a.rs, src/b.rs",
+            "src/{a,b}.rs",
+            "src/*.rs",
+            "update the shared module",
+        ]
+        for script in DISPATCH_SCRIPTS:
+            spec = importlib.util.spec_from_file_location("dispatch_copy", script)
+            module = importlib.util.module_from_spec(spec)
+            assert spec is not None and spec.loader is not None
+            spec.loader.exec_module(module)
+            self.assertEqual(
+                module.concrete_repository_path("src/shared.rs", "MOD004-00.sharedPaths[]", self.root),
+                "src/shared.rs",
+            )
+            for value in invalid_values:
+                with self.subTest(script=script, value=value):
+                    with self.assertRaisesRegex(ValueError, "concrete repository-relative") as error:
+                        module.concrete_repository_path(value, "MOD004-00.sharedPaths[]", self.root)
+                    self.assertIn(repr(value), str(error.exception))
 
     def test_structured_recovery_diagnostic_is_preserved_as_text(self) -> None:
         feedback = dispatch_plans.latest_integration_feedback([{

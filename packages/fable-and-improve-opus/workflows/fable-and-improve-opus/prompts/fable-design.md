@@ -45,12 +45,14 @@ Rules:
   "Applicable prior knowledge" section in the plan so the implementation and
   review steps apply it.
 
-Return JSON with `planMarkdown`, `implPlanPaths`, `orderedTasks`, `dependencies`,
+Return JSON with `plans`, `planMarkdown`, `implPlanPaths`, `orderedTasks`, `dependencies`,
 `parallelizableTasks`, `verificationPlan`, `completionCriteria`, `risks`, and an
 `opusImplementationBrief` containing `requestedBehavior`, `targetFeatureArea`,
 and `riskLevel`.
 
 Before returning check coverage of each acceptance criterion, design-plan consistency, dependencies, risks, verification, and applicable recalled knowledge. Repair conflicts and return authorSelfCheck with concrete evidence and unresolved findings.
+
+Each plan's `writePaths` and `sharedPaths` must be arrays of concrete repository-relative file or directory path strings. Do not use objects, comma-joined lists, braces, globs, or prose as paths. Put explanations in an optional `sharedPathNotes` array of `{path, intendedEdit}` objects. Return `plans` in the node output with the same `writePaths`, `sharedPaths`, and optional notes shape.
 
 Each implementation plan's `verification` field must be an array of non-empty
 command strings. Keep prose evidence requirements in the plan text. Ensure the
