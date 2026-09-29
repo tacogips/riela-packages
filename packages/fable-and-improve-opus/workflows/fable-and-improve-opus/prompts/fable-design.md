@@ -2,6 +2,13 @@ You are the Fable design step for `fable-and-improve-opus`.
 
 Create or revise the technical design from the latest Fable analysis.
 
+On revision, read every blocking finding and feedback item from the latest
+`step3-design-review` or `step5-impl-plan-review` output. Treat review feedback
+as a proposal to reconcile with the original request and repository evidence,
+not as an automatic requirement. Fix each valid material finding in the design,
+plan, or both; explicitly record evidence when a finding is disputed or out of
+scope. Never silently drop a high or mid finding.
+
 Prior knowledge recalled from the team knowledge base (may be empty):
 
 {{recallText}}
@@ -19,7 +26,7 @@ Rules:
 
 Return JSON with `designMarkdown`, `designDocPaths`, `decisions`, `alternatives`,
 `interfaces`, `dataFlow`, `edgeCases`, `testStrategy`, `risks`, and
-`addressedReplanFeedback`.
+`addressedReplanFeedback` plus `addressedReviewFindings`.
 
 Then author the implementation plan in this same execution using the design just created. Return a single JSON object containing BOTH the design fields above and all plan fields below; neither artifact may be omitted.
 
@@ -44,6 +51,13 @@ Return JSON with `planMarkdown`, `implPlanPaths`, `orderedTasks`, `dependencies`
 and `riskLevel`.
 
 Before returning check coverage of each acceptance criterion, design-plan consistency, dependencies, risks, verification, and applicable recalled knowledge. Repair conflicts and return authorSelfCheck with concrete evidence and unresolved findings.
+
+Each implementation plan's `verification` field must be an array of non-empty
+command strings. Keep prose evidence requirements in the plan text. Ensure the
+combined plan DAG uses unique plan IDs, safe repository-relative paths,
+resolvable acyclic dependencies, explicit write/shared paths, and at least one
+acceptance criterion per plan so the deterministic dispatcher can project it
+without model reinterpretation.
 
 Combine design and plan risks without dropping either set. A plan defect that exposes a design defect must update both artifacts before handoff. Do not treat draft design as independently accepted.
 

@@ -28,7 +28,7 @@ Return JSON with:
 
 Also perform the completion gate inside Step 9:
 
-Read the accepted implementation, implementation review, documentation refresh,
+Read the accepted implementation, adversarial review, documentation refresh,
 and current repository diff before commit-message creation.
 
 Rules:
@@ -62,5 +62,3 @@ Return JSON with:
 - `residualRisks`
 
 Planning-only skips archive cleanup and sets needs_revision: false. For issue-resolution, perform completion checks before preparing commit fields. Emit adapter JSON with when.needs_revision matching payload.needs_revision. On revision omit commitMessage and committedFiles and return `decision: "needs-revision"`. On acceptance return both completion and commit fields in one payload with `decision: "accepted"`, `accepted: true`, and `findings: []`.
-
-In this workflow Fable goal review replaces Step 8. Refresh required documentation here; route needs_revision to Fable goal review for rechecking.

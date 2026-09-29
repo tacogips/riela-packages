@@ -1,8 +1,10 @@
 # fable-and-improve-opus
 
-Claude Fable analyzes the request, authors the design and implementation plan,
-and verifies completion. Claude Opus 5.5 implements the plan, and a separate
-Opus 5.5 session independently reviews the result.
+Claude Fable analyzes the request, authors the design and implementation plans,
+reviews the reconciled integration, and verifies completion. Independent Claude
+Opus 5.5 sessions review the design and plans, implement dependency-ready work,
+check test integrity, run adversarial implementation review, and repair retained
+shared-tree behavior.
 
 The workflow also maintains a durable, cross-workflow knowledge base on kaiba
 long-term memory. Analysis names a `knowledgeQuery` keyword and prior
@@ -33,7 +35,16 @@ riela package install fable-and-improve-opus \
   --scope user
 ```
 
-The compact graph has 14 steps: design and implementation planning share one Fable execution, with both artifacts and their consistency evidence retained. Independent implementation review, goal acceptance, and knowledge-base operations remain separate.
+The graph has 32 steps. Design and implementation planning share one Fable
+author session, while separate Opus design-review and implementation-plan-review
+gates must accept before checkpointing. Each implementation branch then passes
+the same bounded progress, test-integrity, and adversarial-review sequence as
+the Codex design-and-implement workflow. Blocked-only waves terminate with an
+actionable handoff; partial-success waves preserve successful evidence and
+redispatch only pending plans. Fable integration review distinguishes
+repair-in-place from redispatch, and final goal review precedes advisory E2E,
+documentation, completion, commit, push, base integration, and knowledge-base
+self-review.
 
 ## Run
 
@@ -51,7 +62,14 @@ Design and all implementation plans are authored by a single author node per pha
 
 The runtime calls each parallel execution a **fanout branch**, its input an **item**, and the aggregation a **join**. This is separate from a Git branch. Built-in fanout.dependencies selects ready branches from stable IDs and accepted dependencies. Built-in fanout.changeTracking captures immutable file content, hashes and modes at node boundaries, and reports drift candidates at join. No workflow-local evidence script is needed.
 
-After all branches stop, serial reconciliation repairs missing/overwritten behavior and independent integration review checks the combined tree against every plan and the design. Failed branches stay pending; already accepted branch IDs are skipped on subsequent dispatch. Preserve original evidence and existing user changes. Node-boundary snapshots cannot detect every transient overwrite inside an agent call, so per-edit intention records and behavior tests remain required.
+After all branches stop, a wave-outcome gate separates blocked-only waves from
+partial success. Serial reconciliation repairs missing/overwritten behavior and
+Fable integration review checks the combined tree against every plan and the
+design. Review findings route either to in-place reconciliation or selective
+redispatch. Failed branches stay pending; already accepted branch IDs are
+skipped on subsequent dispatch. Preserve original evidence and existing user
+changes. Node-boundary snapshots cannot detect every transient overwrite inside
+an agent call, so per-edit intention records and behavior tests remain required.
 
 Git operations are serialized: planning checkpoint, final implementation commit/push, and base-branch integration. workflowInput.baseBranch defaults to the current branch; an explicit different base is merged only after combined verification. No force push or automatic discard of unrelated edits. A blocked merge/push prevents completion.
 

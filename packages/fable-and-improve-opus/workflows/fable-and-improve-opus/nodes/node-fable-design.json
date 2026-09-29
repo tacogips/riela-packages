@@ -10,6 +10,7 @@
     "mode": "reuse"
   },
   "promptTemplateFile": "prompts/fable-design.md",
+  "variables": {},
   "output": {
     "description": "Return designMarkdown, designDocPaths, decisions, alternatives, interfaces, data flow, edge cases, and addressed feedback. Also return all plan fields, the implementation brief, and authorSelfCheck evidence."
   }

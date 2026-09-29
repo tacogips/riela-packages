@@ -19,6 +19,7 @@ for (const id of readdirSync(join(root, 'packages'))) {
 }
 const codex = 'codex-design-and-implement-review-loop';
 const refactor = 'codex-refactoring-divide-and-conquer';
+const fableOpus = 'fable-and-improve-opus';
 // Codex implementation and lost-work repair use Sol medium effort. Other
 // compact workflows retain their deliberately cheaper implementation setting.
 for (const [id, nodes] of [
@@ -264,7 +265,45 @@ assert.equal(guardedLint.status, 0, guardedLint.stderr);
 assert.equal(guardedLint.stdout, 'skipped');
 const waveOutcomePrompt = readFileSync(join(bundle(codex), 'prompts/implementation-wave-outcome.md'), 'utf8');
 assert.match(waveOutcomePrompt, /never add a wave blocker merely because a downstream-owned plan remains pending/i);
-const expected = new Map([[codex, 25], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 24]]);
+const fableOpusGraph = read(join(bundle(fableOpus), 'workflow.json'));
+assert.equal(fableOpusGraph.loop.gates.length, 7, 'Fable/Opus preserves planning, implementation, integration, goal, and completion gates');
+for (const gate of ['design-review', 'implementation-plan-review', 'test-integrity-review', 'adversarial-implementation-review', 'integration-review', 'fable-goal-review', 'implementation-plan-completion-check']) {
+  assert(fableOpusGraph.loop.gates.some((candidate: any) => candidate.id === gate), `${fableOpus}: missing ${gate}`);
+}
+for (const node of ['step3-design-review', 'step5-impl-plan-review', 'step6-implement', 'step6-test-integrity-check', 'step7-adversarial-review', 'implementation-wave-outcome', 'implementation-blocked-output', 'reconcile-implementations', 'step7b-e2e-evidence', 'step8-docs-refresh', 'step9-commit-message', 'base-branch-integrate']) {
+  const payload = read(join(bundle(fableOpus), 'nodes', `node-${node}.json`));
+  assert.equal(payload.executionBackend, 'claude-code-agent', `${fableOpus}/${node}: backend`);
+  assert.equal(payload.model, 'claude-opus-5-5', `${fableOpus}/${node}: model`);
+}
+assert.equal(read(join(bundle(fableOpus), 'nodes/node-integration-review.json')).model, 'claude-fable-5');
+for (const node of ['dispatch-plans', 'implementation-progress-check']) {
+  const payload = read(join(bundle(fableOpus), 'nodes', `node-${node}.json`));
+  assert.equal(payload.nodeType, 'command', `${fableOpus}/${node}: deterministic command gate`);
+  assert.equal(payload.executionBackend, undefined);
+  assert.equal(payload.model, undefined);
+}
+for (const script of ['dispatch-plans.py', 'implementation-progress-check.py']) {
+  assert.equal(
+    readFileSync(join(bundle(fableOpus), 'scripts', script), 'utf8'),
+    readFileSync(join(bundle(codex), 'scripts', script), 'utf8'),
+    `${fableOpus}/${script}: deterministic gate drifted from Codex base`,
+  );
+}
+for (const node of ['dispatch-plans', 'implementation-progress-check', 'step6-implement', 'step6-test-integrity-check', 'step7-adversarial-review', 'implementation-wave-outcome', 'implementation-blocked-output', 'branch-evidence', 'reconcile-implementations', 'integration-review', 'plan-checkpoint', 'step9-commit-message', 'base-branch-integrate']) {
+  assert.deepEqual(
+    read(join(bundle(fableOpus), 'nodes', `node-${node}.json`)).output,
+    read(join(bundle(codex), 'nodes', `node-${node}.json`)).output,
+    `${fableOpus}/${node}: output contract drifted from Codex base`,
+  );
+}
+for (const prompt of ['plan-checkpoint', 'branch-evidence', 'implementation-wave-outcome', 'implementation-blocked-output', 'step7-adversarial-review', 'reconcile-implementations', 'integration-review', 'step7b-e2e-evidence', 'step8-docs-refresh', 'step9-commit-message', 'base-branch-integrate']) {
+  assert.equal(
+    readFileSync(join(bundle(fableOpus), 'prompts', `${prompt}.md`), 'utf8'),
+    readFileSync(join(bundle(codex), 'prompts', `${prompt}.md`), 'utf8'),
+    `${fableOpus}/${prompt}: prompt drifted from Codex base`,
+  );
+}
+const expected = new Map([[codex, 25], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 32]]);
 for (const [id, count] of expected) {
   const w = read(join(bundle(id), 'workflow.json'));
   assert.equal(w.steps.length, count);
@@ -932,6 +971,11 @@ run(codex, 'dependency-waves', m => {
   assert(steps.indexOf('step10-git-commit') > steps.lastIndexOf('integration-review'));
 });
 for (const flavor of ['codex', 'opus']) run(`fable-and-improve-${flavor}`, `fable-${flavor}-native-fanout`, () => {}, steps => {
+  if (flavor === 'opus') {
+    assert(steps.indexOf('fable-design') < steps.indexOf('step3-design-review'));
+    assert(steps.indexOf('step3-design-review') < steps.indexOf('step5-impl-plan-review'));
+    assert(steps.indexOf('dispatch-plans') < steps.indexOf('implementation-wave-outcome'));
+  }
   assert(steps.indexOf('plan-git-commit') < steps.indexOf('dispatch-plans'));
   assert(steps.indexOf('integration-review') < steps.indexOf('step10-git-commit'));
   assert.equal(steps.at(-1), 'base-branch-integrate');
@@ -952,7 +996,7 @@ run(codex, 'test-integrity-revision', m => {
     }],
   }, { needs_revision: true } as any), accepted];
 }, steps => { const i = steps.indexOf('step6-test-integrity-check'); assert.equal(steps[i + 1], 'step6-implement'); }, 'mock-scenario.json', 'step6-implement');
-for (const flavor of ['codex', 'opus']) run(`fable-and-improve-${flavor}`, `fable-${flavor}-revision`, m => {
+for (const flavor of ['codex']) run(`fable-and-improve-${flavor}`, `fable-${flavor}-revision`, m => {
   assert(m['fable-design'].payload.designMarkdown); assert(m['fable-design'].payload.planMarkdown);
   const review = `${flavor}-review`;
   const accepted = m[review];
@@ -969,6 +1013,87 @@ for (const flavor of ['codex', 'opus']) run(`fable-and-improve-${flavor}`, `fabl
     }],
   }, { needs_revision: true } as any), accepted];
 }, steps => { const i = steps.indexOf(`${flavor}-review`); assert.equal(steps[i + 1], `${flavor}-implementation`); assert(!steps.includes('fable-impl-plan')); }, 'mock-scenario.json', `${flavor}-implementation`);
+run('fable-and-improve-opus', 'fable-opus-adversarial-revision', m => {
+  const accepted = m['step7-adversarial-review'];
+  m['step7-adversarial-review'] = [output({
+    ...accepted.payload,
+    needs_revision: true,
+    accepted: false,
+    findings: [{
+      severity: 'mid',
+      file: 'impl-plans/active/a.md',
+      message: 'The required behavior is not retained.',
+      attackOrFailurePath: 'A later shared-file write removes the accepted behavior.',
+      recommendedChange: 'Restore the smallest accepted behavior and its regression test.',
+      intentReference: 'The Fable-authored plan requires the behavior to survive reconciliation.',
+      materialImpact: 'The user-visible outcome can be lost.',
+      fixCostBenefit: 'The focused repair is low cost and directly restores acceptance.',
+    }],
+  }, { needs_revision: true } as any), accepted];
+}, steps => {
+  const i = steps.indexOf('step7-adversarial-review');
+  assert.equal(steps[i + 1], 'step6-implement');
+  assert.equal(steps.filter(step => step === 'implementation-progress-check').length, 2);
+}, 'mock-scenario.json', 'step6-implement');
+run(fableOpus, 'fable-opus-design-review-revision', m => {
+  const accepted = m['step3-design-review'];
+  m['step3-design-review'] = [{
+    ...structuredClone(accepted),
+    when: { needs_revision: true },
+    payload: {
+      ...accepted.payload,
+      needs_revision: true,
+      accepted: false,
+      findings: [{ severity: 'mid', file: 'design-docs/specs/fable-smoke-note.md', message: 'Clarify the required failure behavior.' }],
+      feedback: ['Document the required failure behavior before planning acceptance.'],
+    },
+  }, accepted];
+}, steps => {
+  const first = steps.indexOf('step3-design-review');
+  assert.deepEqual(steps.slice(first, first + 4), ['step3-design-review', 'fable-design', 'step3-design-review', 'step5-impl-plan-review']);
+  assert.equal(steps.filter(step => step === 'fable-design').length, 2);
+}, 'mock-scenario.json', 'fable-design');
+run(fableOpus, 'fable-opus-plan-review-revision', m => {
+  const accepted = m['step5-impl-plan-review'];
+  m['step5-impl-plan-review'] = [{
+    ...structuredClone(accepted),
+    when: { needs_design_revision: false, needs_revision: true, planning_only: false },
+    payload: {
+      ...accepted.payload,
+      needs_design_revision: false,
+      needs_revision: true,
+      planning_only: false,
+      accepted: false,
+      findings: [{ severity: 'mid', targetStep: 'fable-design', file: 'impl-plans/active/a.md', message: 'Add the missing behavioral verification command.' }],
+      feedback: ['Add the exact command and expected outcome.'],
+    },
+  }, accepted];
+}, steps => {
+  const first = steps.indexOf('step5-impl-plan-review');
+  assert.deepEqual(steps.slice(first, first + 4), ['step5-impl-plan-review', 'fable-design', 'step3-design-review', 'step5-impl-plan-review']);
+  assert.equal(steps.filter(step => step === 'fable-design').length, 2);
+}, 'mock-scenario.json', 'fable-design');
+run(fableOpus, 'fable-opus-test-integrity-revision', m => {
+  const accepted = m['step6-test-integrity-check'];
+  m['step6-test-integrity-check'] = [output({
+    ...accepted.payload,
+    needs_revision: true,
+    accepted: false,
+    findings: [{
+      severity: 'mid',
+      file: 'Tests/FableOpusTests.swift',
+      message: 'Restore the required regression assertion.',
+      intentReference: 'The accepted Fable plan requires the failure case to remain covered.',
+      materialImpact: 'The weakened assertion can hide a user-visible regression.',
+      fixCostBenefit: 'The focused assertion is low cost and directly verifies acceptance.',
+    }],
+    feedback: ['Restore the focused regression assertion.'],
+  }, { needs_revision: true } as any), accepted];
+}, steps => {
+  const first = steps.indexOf('step6-test-integrity-check');
+  assert.equal(steps[first + 1], 'step6-implement');
+  assert.equal(steps.filter(step => step === 'implementation-progress-check').length, 2);
+}, 'mock-scenario.json', 'step6-implement');
 run(refactor, 'refactoring-revision', m => {
   const plan = m['step3-merge-review-plan'];
   plan.when = { plan_only: false, no_plan_tasks: false, implementation_ready: true };

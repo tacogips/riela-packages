@@ -1,0 +1,28 @@
+{
+  "id": "step5-impl-plan-review",
+  "description": "Review the implementation plan against the design, including final design-plan consistency, and route back to the right authoring step when blocking findings exist.",
+  "executionBackend": "claude-code-agent",
+  "agentSandbox": "read-only",
+  "model": "claude-opus-5-5",
+  "modelFreeze": false,
+  "effort": "medium",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "systemPromptTemplateFile": "prompts/runtime-provenance-system.md",
+  "promptTemplateFile": "prompts/step5-impl-plan-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON with when.needs_design_revision or when.needs_revision for blocking findings, plus when.planning_only to signal planning-only completion.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "needs_design_revision": { "type": "boolean" },
+        "needs_revision": { "type": "boolean" },
+        "planning_only": { "type": "boolean" }
+      },
+      "required": ["needs_design_revision", "needs_revision", "planning_only"],
+      "additionalProperties": true
+    }
+  }
+}

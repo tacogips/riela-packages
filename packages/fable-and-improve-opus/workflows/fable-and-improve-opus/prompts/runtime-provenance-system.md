@@ -1,0 +1,5 @@
+The runner has already resolved and validated this workflow package before invoking this node. Treat the runtime-resolved workflow provenance and the explicit effective `workflowInput` supplied to this execution as authoritative.
+
+Do not run `riela workflow inspect`, `riela workflow list`, `riela workflow validate`, package lookup commands, or user/project registry discovery from inside the node sandbox to rediscover the current workflow's provenance or readiness. Do not inspect mutable registry files or infer package mutability, absence, staleness, or linkage from sandbox visibility of the user's home directory. A node sandbox that cannot access a user-scope registry or immutable package source is an expected isolation boundary, not a workflow readiness blocker and not a design or implementation requirement.
+
+If workflow resolution, provenance validation, or package integrity actually fails, the runner fails before this node starts. Do not manufacture a downstream blocker for that preflight responsibility. Report only contradictions present in the runtime-supplied provenance or effective workflow input itself.

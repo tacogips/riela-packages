@@ -76,71 +76,6 @@
       }
     }
   },
-  "opus-implementation": {
-    "provider": "scenario-mock",
-    "model": "claude-opus-5-5",
-    "when": {
-      "always": true
-    },
-    "payload": {
-      "implementationStatus": "completed",
-      "implementationSummary": "Added the planned documentation note.",
-      "changedFiles": [
-        "docs/example.md",
-        "impl-plans/completed/fable-smoke-note.md"
-      ],
-      "testsAddedOrUpdated": [],
-      "verificationEvidence": [
-        {
-          "command": "rg -n \"Fable smoke note\" docs/example.md",
-          "result": "passed"
-        }
-      ],
-      "documentationUpdated": [
-        "docs/example.md"
-      ],
-      "implementationPlanUpdates": [
-        "Archived the completed plan."
-      ],
-      "addressedReviewFindings": [],
-      "addressedFableTodos": [],
-      "commitStatus": "not-requested",
-      "pushStatus": "not-requested",
-      "residualRisks": [],
-      "operatorNotes": []
-    }
-  },
-  "opus-review": {
-    "provider": "scenario-mock",
-    "model": "claude-opus-5-5",
-    "when": {
-      "needs_revision": false
-    },
-    "payload": {
-      "reviewStatus": "accepted",
-      "reviewBasis": {
-        "userOutcome": "Add the requested documentation note.",
-        "acceptanceCriteria": ["The note exists exactly once in the requested location."],
-        "nonGoals": ["Unrelated documentation restructuring."],
-        "constraints": ["Preserve existing documentation."],
-        "designDecisions": ["Use a focused documentation edit."],
-        "intentionalTradeoffs": ["Use exact-text verification for the narrow change."],
-        "sourcePaths": ["impl-plans/active/a.md"]
-      },
-      "findings": [],
-      "verificationAssessment": [
-        "Exact-text verification passed."
-      ],
-      "acceptanceCriteriaAssessment": [
-        "All criteria met."
-      ],
-      "revisionInstructions": [],
-      "acceptedResidualRisks": [],
-      "reviewEvidence": [
-        "Reviewed docs/example.md and the verification result."
-      ]
-    }
-  },
   "fable-goal-review": {
     "provider": "scenario-mock",
     "model": "claude-fable-5",
@@ -250,14 +185,45 @@
       "operatorNotes": [],
       "baseBranch": "main",
       "mergeStatus": "already-on-base",
-      "basePushStatus": "pushed"
+      "basePushStatus": "pushed",
+      "workflowMode": "issue-resolution",
+      "designReviewSummary": "Accepted with no blocking findings.",
+      "implPlanReviewSummary": "Accepted with no blocking findings.",
+      "testIntegritySummary": "Accepted with honest behavioral evidence.",
+      "adversarialReviewSummary": "Accepted with no material findings.",
+      "integrationReviewSummary": "Accepted combined tree.",
+      "fableGoalReviewSummary": "Fable accepted the requested outcome.",
+      "documentationFiles": [
+        "docs/example.md"
+      ],
+      "documentationSummary": "Documentation matches the accepted behavior.",
+      "archivedImplPlanPaths": [
+        "impl-plans/completed/fable-smoke-note.md"
+      ],
+      "implPlanCompletionSummary": "All accepted plan criteria completed.",
+      "checkpointCommit": "1111111111111111111111111111111111111111",
+      "integratedPlanIds": [
+        "a"
+      ],
+      "evidencePaths": [
+        "tmp/mock/accepted.json"
+      ],
+      "overwriteRepairs": [],
+      "commitMessage": "feat: complete shared implementation",
+      "commitHash": "2222222222222222222222222222222222222222",
+      "committedFiles": [
+        "shared.txt"
+      ],
+      "pushedRemote": "origin",
+      "pushedBranch": "main",
+      "knowledgeBaseDecision": "create"
     }
   },
   "plan-checkpoint": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "claude-opus-5-5",
     "when": {
-      "always": true
+      "checkpoint_blocked": false
     },
     "payload": {
       "commitMessage": "docs: checkpoint shared-branch implementation plans",
@@ -265,12 +231,16 @@
         "impl-plans/active/a.md",
         "impl-plans/active/b.md"
       ],
-      "manifestPath": "impl-plans/active/mock-dispatch.json"
+      "manifestPath": "impl-plans/active/mock-dispatch.json",
+      "checkpoint_blocked": false,
+      "status": "ready",
+      "evidenceRoot": "tmp/mock",
+      "blockers": []
     }
   },
   "plan-git-commit": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "claude-opus-5-5",
     "when": {
       "always": true
     },
@@ -284,7 +254,7 @@
   },
   "dispatch-plans": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "claude-opus-5-5",
     "when": {
       "always": true
     },
@@ -303,18 +273,36 @@
           "acceptanceCriteria": [
             "a behavior retained"
           ],
-          "verification": ["mock combined check"],
+          "verification": [
+            "mock combined check"
+          ],
           "reviewContext": {
             "issueReference": "mock-fable-opus",
             "userProblem": "The requested behavior must be implemented and independently reviewed.",
-            "requiredOutcomes": ["Retain the accepted plan behavior."],
-            "nonGoals": ["Unrelated refactoring."],
-            "constraints": ["Preserve existing repository behavior."],
-            "designDecisionsAndRationale": ["Use the Fable-authored design and plan as the contract."],
-            "intentionalTradeoffs": ["Prefer a focused implementation."],
-            "supportedEdgeCases": ["Shared-file reconciliation."],
-            "outOfScopeEdgeCases": ["Cross-repository execution."],
-            "sourcePaths": ["impl-plans/active/a.md"]
+            "requiredOutcomes": [
+              "Retain the accepted plan behavior."
+            ],
+            "nonGoals": [
+              "Unrelated refactoring."
+            ],
+            "constraints": [
+              "Preserve existing repository behavior."
+            ],
+            "designDecisionsAndRationale": [
+              "Use the Fable-authored design and plan as the contract."
+            ],
+            "intentionalTradeoffs": [
+              "Prefer a focused implementation."
+            ],
+            "supportedEdgeCases": [
+              "Shared-file reconciliation."
+            ],
+            "outOfScopeEdgeCases": [
+              "Cross-repository execution."
+            ],
+            "sourcePaths": [
+              "impl-plans/active/a.md"
+            ]
           },
           "trackedPaths": [
             "a.txt",
@@ -325,7 +313,8 @@
           "implementationBranch": "main",
           "baseBranch": "main",
           "remote": "origin",
-          "evidenceRoot": "tmp/mock"
+          "evidenceRoot": "tmp/mock",
+          "acceptedPlanIds": []
         }
       ],
       "acceptedPlanIds": [],
@@ -335,7 +324,7 @@
   },
   "branch-evidence": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "claude-opus-5-5",
     "when": {
       "always": true
     },
@@ -353,16 +342,24 @@
   },
   "reconcile-implementations": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "claude-opus-5-5",
     "when": {
       "always": true
     },
     "payload": {
       "reviewBasis": {
-        "requiredOutcomes": ["Retain the accepted plan behavior."],
-        "nonGoals": ["Unrelated refactoring."],
-        "constraints": ["Preserve existing repository behavior."],
-        "sourcePaths": ["impl-plans/active/a.md"]
+        "requiredOutcomes": [
+          "Retain the accepted plan behavior."
+        ],
+        "nonGoals": [
+          "Unrelated refactoring."
+        ],
+        "constraints": [
+          "Preserve existing repository behavior."
+        ],
+        "sourcePaths": [
+          "impl-plans/active/a.md"
+        ]
       },
       "repairs": [],
       "addressedFeedback": [],
@@ -375,30 +372,59 @@
   },
   "integration-review": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "claude-fable-5",
     "when": {
       "needs_revision": false,
-      "plans_remaining": false
+      "redispatch_required": false,
+      "plans_remaining": false,
+      "repair_in_place": false
     },
     "payload": {
       "accepted": true,
       "reviewBasis": {
-        "requiredOutcomes": ["Retain the accepted plan behavior."],
-        "acceptanceCriteria": ["All dispatched behavior survives on the combined tree."],
-        "nonGoals": ["Unrelated refactoring."],
-        "constraints": ["Preserve existing repository behavior."],
-        "designRationale": ["Use the Fable-authored design and plan as the contract."],
-        "intentionalTradeoffs": ["Prefer focused implementation and verification."],
-        "sourcePaths": ["impl-plans/active/a.md"]
+        "userOutcomes": [
+          "Persist and replay review findings."
+        ],
+        "acceptanceCriteria": [
+          "All dispatched behavior survives on the combined tree."
+        ],
+        "nonGoals": [
+          "Unrelated workflow refactoring."
+        ],
+        "constraints": [
+          "Preserve existing workflow behavior."
+        ],
+        "designDecisions": [
+          "Store findings with execution metadata."
+        ],
+        "intentionalTradeoffs": [
+          "Reuse the existing persistence boundary."
+        ],
+        "sourcePaths": [
+          "impl-plans/active/a.md"
+        ]
       },
       "findings": [],
       "needs_revision": false,
-      "plans_remaining": false
+      "redispatch_required": false,
+      "plans_remaining": false,
+      "repair_in_place": false,
+      "loopGate": {
+        "gateId": "integration-review",
+        "decision": "accepted",
+        "severityCounts": {
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "informational": 0
+        },
+        "blockingFindings": []
+      }
     }
   },
   "base-branch-integrate": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "claude-opus-5-5",
     "when": {
       "always": true
     },
@@ -406,14 +432,15 @@
       "mergeStatus": "already-on-base",
       "baseBranch": "main",
       "basePushStatus": "pushed",
-      "implementationCommit": "2222222222222222222222222222222222222222",
+      "implementationCommit": "abc123def4567890abc123def4567890abc123de",
       "implementationBranch": "main",
-      "remote": "origin"
+      "remote": "origin",
+      "verification": {}
     }
   },
   "step9-commit-message": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "claude-opus-5-5",
     "when": {
       "needs_revision": false
     },
@@ -422,12 +449,13 @@
       "commitMessage": "feat: complete shared implementation",
       "committedFiles": [
         "shared.txt"
-      ]
+      ],
+      "needs_revision": false
     }
   },
   "step10-git-commit": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "claude-opus-5-5",
     "when": {
       "always": true
     },
@@ -441,7 +469,7 @@
   },
   "step11-git-push": {
     "provider": "scenario-mock",
-    "model": "gpt-5.6-sol",
+    "model": "claude-opus-5-5",
     "when": {
       "always": true
     },
@@ -451,6 +479,239 @@
         "operation": "push",
         "pushedBranch": "main"
       }
+    }
+  },
+  "step3-design-review": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "needs_revision": false
+    },
+    "payload": {
+      "needs_revision": false,
+      "findings": [],
+      "feedback": [],
+      "accepted": true
+    }
+  },
+  "step5-impl-plan-review": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "needs_design_revision": false,
+      "needs_revision": false,
+      "planning_only": false
+    },
+    "payload": {
+      "needs_design_revision": false,
+      "needs_revision": false,
+      "planning_only": false,
+      "findings": [],
+      "feedback": [],
+      "accepted": true
+    }
+  },
+  "step6-implement": [
+    {
+      "provider": "scenario-mock",
+      "model": "claude-opus-5-5",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "implementation_blocked": false,
+        "implementationIncomplete": false,
+        "blockers": [],
+        "issueReference": "tacogips/cursor-agent#123",
+        "changedFiles": [
+          "packages/riela/src/workflow/review-findings.ts",
+          "packages/riela/src/workflow/review-findings.test.ts",
+          "impl-plans/active/workflow-review-findings.md"
+        ],
+        "implementationSummary": "Implemented persisted review-finding records and rerun replay, but did not update the implementation-plan progress log yet.",
+        "implPlanPaths": [
+          "impl-plans/active/workflow-review-findings.md"
+        ],
+        "implPlanUpdates": [
+          "Marked persistence and replay tasks complete."
+        ],
+        "verification": [
+          {
+            "command": "task test",
+            "exitCode": 0,
+            "testCount": 24
+          }
+        ],
+        "addressedFeedback": [],
+        "risks": [
+          "Progress log update is still missing."
+        ]
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "claude-opus-5-5",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "implementation_blocked": false,
+        "implementationIncomplete": false,
+        "blockers": [],
+        "issueReference": "tacogips/cursor-agent#123",
+        "changedFiles": [
+          "packages/riela/src/workflow/review-findings.ts",
+          "packages/riela/src/workflow/review-findings.test.ts",
+          "impl-plans/active/workflow-review-findings.md"
+        ],
+        "implementationSummary": "Step 6 implemented the approved plan, addressed Step 7 feedback, and updated implementation-plan progress.",
+        "implPlanPaths": [
+          "impl-plans/active/workflow-review-findings.md"
+        ],
+        "implPlanUpdates": [
+          "Marked persistence, replay, migration, and regression-test tasks complete.",
+          "Updated progress log and completion criteria."
+        ],
+        "verification": [
+          {
+            "command": "task test",
+            "exitCode": 0,
+            "testCount": 24
+          },
+          {
+            "command": "task typecheck",
+            "exitCode": 0
+          }
+        ],
+        "addressedFeedback": [
+          "Updated the implementation-plan progress log and reran typecheck."
+        ],
+        "risks": []
+      }
+    }
+  ],
+  "step6-test-integrity-check": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "needs_revision": false
+    },
+    "payload": {
+      "needs_revision": false,
+      "accepted": true,
+      "reviewBasis": {
+        "requiredBehaviors": [
+          "Persist and replay review findings across reruns."
+        ],
+        "supportedEdgeCases": [
+          "Rerun after a prior review finding."
+        ],
+        "nonGoals": [
+          "Unrelated workflow refactoring."
+        ],
+        "sourcePaths": [
+          "impl-plans/active/workflow-review-findings.md"
+        ]
+      },
+      "findings": [],
+      "reviewedFiles": [
+        "packages/riela/src/workflow/review-findings.ts",
+        "packages/riela/src/workflow/review-findings.test.ts",
+        "impl-plans/active/workflow-review-findings.md"
+      ],
+      "testFilesChanged": [
+        "packages/riela/src/workflow/review-findings.test.ts"
+      ],
+      "removedOrWeakenedTests": [],
+      "suspectedTestOnlyHacks": [],
+      "verificationGaps": [],
+      "feedback": [],
+      "residualRisks": [],
+      "testIntegritySummary": "No inappropriate test deletion, weakened assertions, skipped coverage, or test-only hacks found."
+    }
+  },
+  "step7-adversarial-review": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "needs_revision": false
+    },
+    "payload": {
+      "needs_revision": false,
+      "reviewBasis": {
+        "protectedOutcomes": [
+          "Rerun findings are retained without corrupting workflow state."
+        ],
+        "trustBoundaries": [
+          "Persisted workflow execution metadata."
+        ],
+        "nonGoals": [
+          "General storage hardening outside this workflow."
+        ],
+        "intentionalTradeoffs": [
+          "Reuse the existing persistence layer."
+        ],
+        "sourcePaths": [
+          "impl-plans/active/workflow-review-findings.md"
+        ]
+      },
+      "findings": [],
+      "feedback": [],
+      "accepted": true,
+      "adversarialReviewSummary": "Adversarial review accepted the rerun persistence behavior with no high or mid findings.",
+      "residualLowRisks": []
+    }
+  },
+  "step7b-e2e-evidence": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "e2eAttempted": false,
+      "command": null,
+      "outcome": "skipped",
+      "reason": "The accepted change did not touch a browser-facing surface and the repository declares no browser E2E script, so headless browser verification was not applicable.",
+      "evidence": "No web package with a test:e2e script was detected in the repository diff.",
+      "residualRisks": []
+    }
+  },
+  "step8-docs-refresh": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "workflowMode": "issue-resolution",
+      "documentationFiles": [
+        "README.md",
+        ".agents/skills/riela-impl-workflow/SKILL.md"
+      ],
+      "userFacingSurfaces": [
+        "README.md",
+        ".agents/skills/riela-impl-workflow/SKILL.md"
+      ],
+      "documentationSummary": "Refreshed the README and the exposed workflow skill documentation so they match the accepted implementation behavior before commit generation.",
+      "residualRisks": []
+    }
+  },
+  "implementation-wave-outcome": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "implementation_blocked": false
+    },
+    "payload": {
+      "implementation_blocked": false,
+      "partial_success": false,
+      "blockedPlanIds": [],
+      "successfulPlanIds": [
+        "a"
+      ],
+      "blockers": [],
+      "resumeCriteria": []
     }
   }
 }

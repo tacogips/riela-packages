@@ -2,40 +2,97 @@
   "id": "integration-review",
   "description": "Independently review the stable shared-branch result after all workers stopped and reconciliation finished.",
   "executionBackend": "claude-code-agent",
+  "agentSandbox": "read-only",
   "model": "claude-fable-5",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
   "promptTemplateFile": "prompts/integration-review.md",
   "variables": {},
-  "effort": "high",
+  "effort": "medium",
   "output": {
-    "description": "Return an auditable combined-tree review basis and intent-linked findings.",
+    "description": "Return an auditable combined-tree review basis and intent-linked, materially justified findings.",
     "jsonSchema": {
       "type": "object",
       "properties": {
-        "needs_revision": { "type": "boolean" }, "plans_remaining": { "type": "boolean" }, "accepted": { "type": "boolean" },
+        "needs_revision": { "type": "boolean" },
+        "redispatch_required": { "type": "boolean" },
+        "repair_in_place": { "type": "boolean" },
+        "plans_remaining": { "type": "boolean" },
+        "accepted": { "type": "boolean" },
+        "loopGate": {
+          "type": "object",
+          "properties": {
+            "gateId": { "type": "string", "enum": ["integration-review"] },
+            "decision": { "type": "string", "enum": ["accepted", "needs-work", "rejected"] },
+            "severityCounts": {
+              "type": "object",
+              "properties": {
+                "high": { "type": "number", "minimum": 0 },
+                "medium": { "type": "number", "minimum": 0 },
+                "low": { "type": "number", "minimum": 0 },
+                "informational": { "type": "number", "minimum": 0 }
+              },
+              "required": ["high", "medium", "low", "informational"],
+              "additionalProperties": false
+            },
+            "blockingFindings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "minLength": 1 },
+                  "severity": { "type": "string", "enum": ["high", "medium", "mid"] },
+                  "filePath": { "type": "string", "minLength": 1 },
+                  "line": { "type": "number", "minimum": 1 },
+                  "message": { "type": "string", "minLength": 1 }
+                },
+                "required": ["id", "severity", "message"],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": ["gateId", "decision", "severityCounts", "blockingFindings"],
+          "additionalProperties": false
+        },
         "reviewBasis": {
           "type": "object",
           "properties": {
-            "requiredOutcomes": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+            "userOutcomes": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
             "acceptanceCriteria": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
-            "nonGoals": { "type": "array", "items": { "type": "string" } }, "constraints": { "type": "array", "items": { "type": "string" } },
-            "designRationale": { "type": "array", "items": { "type": "string" } }, "intentionalTradeoffs": { "type": "array", "items": { "type": "string" } },
+            "nonGoals": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "constraints": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "designDecisions": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "intentionalTradeoffs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
             "sourcePaths": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 }
           },
-          "required": ["requiredOutcomes", "acceptanceCriteria", "nonGoals", "constraints", "designRationale", "intentionalTradeoffs", "sourcePaths"], "additionalProperties": false
+          "required": ["userOutcomes", "acceptanceCriteria", "nonGoals", "constraints", "designDecisions", "intentionalTradeoffs", "sourcePaths"],
+          "additionalProperties": false
         },
         "findings": {
           "type": "array",
           "items": {
             "type": "object",
             "properties": {
-              "severity": { "type": "string", "enum": ["high", "mid", "medium", "low"] }, "file": { "type": "string", "minLength": 1 }, "line": { "type": "number", "minimum": 1 },
-              "message": { "type": "string", "minLength": 1 }, "intentReference": { "type": "string", "minLength": 1 }, "materialImpact": { "type": "string", "minLength": 1 }, "fixCostBenefit": { "type": "string", "minLength": 1 }
+              "severity": { "type": "string", "enum": ["high", "mid", "low"] },
+              "file": { "type": "string", "minLength": 1 },
+              "line": { "type": "number", "minimum": 1 },
+              "message": { "type": "string", "minLength": 1 },
+              "intentReference": { "type": "string", "minLength": 1 },
+              "materialImpact": { "type": "string", "minLength": 1 },
+              "fixCostBenefit": { "type": "string", "minLength": 1 }
             },
-            "required": ["severity", "file", "message", "intentReference", "materialImpact", "fixCostBenefit"], "additionalProperties": false
+            "required": ["severity", "file", "message", "intentReference", "materialImpact", "fixCostBenefit"],
+            "additionalProperties": false
           }
-        }
+        },
+        "acceptedPlanIds": { "type": "array", "items": { "type": "string" } },
+        "pendingPlanIds": { "type": "array", "items": { "type": "string" } },
+        "manifestPath": { "type": "string" },
+        "evidencePaths": { "type": "array", "items": { "type": "string" } }
       },
-      "required": ["needs_revision", "plans_remaining", "accepted", "reviewBasis", "findings"], "additionalProperties": true
+      "required": ["needs_revision", "redispatch_required", "repair_in_place", "plans_remaining", "accepted", "loopGate", "reviewBasis", "findings"],
+      "additionalProperties": true
     }
   }
 }

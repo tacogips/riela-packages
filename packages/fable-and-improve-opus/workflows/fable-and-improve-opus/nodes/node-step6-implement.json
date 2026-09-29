@@ -1,0 +1,58 @@
+{
+  "id": "step6-implement",
+  "description": "Implement the accepted plan with safely independent delegated investigation and verification, then update active implementation-plan progress.",
+  "executionBackend": "claude-code-agent",
+  "agentSandbox": "danger-full-access",
+  "model": "claude-opus-5-5",
+  "modelFreeze": false,
+  "effort": "medium",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "promptTemplateFile": "prompts/step6-implement.md",
+  "variables": {},
+  "output": {
+    "description": "Return JSON with implementation blocker/incomplete state, dependency blockers, changed files, implementation summary, plan progress updates, structured verification outcomes, self-check findings, and addressed review feedback. A deterministic command gate owns the routing decision.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "implementation_blocked": { "type": "boolean" },
+        "implementationIncomplete": { "type": "boolean" },
+        "blockers": { "type": "array", "items": {} },
+        "changedFiles": { "type": "array", "items": {} },
+        "verification": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "command": { "type": "string", "minLength": 1 },
+              "outcome": {},
+              "exitStatus": {},
+              "exitCode": {},
+              "status": {},
+              "testCount": { "type": "integer", "minimum": 0 },
+              "testsRun": { "type": "integer", "minimum": 0 },
+              "testsPassed": { "type": "integer", "minimum": 0 },
+              "positiveTestCount": { "type": "integer", "minimum": 0 },
+              "passedTestCount": { "type": "integer", "minimum": 0 },
+              "failureCount": { "type": "integer", "minimum": 0 },
+              "failedTestCount": { "type": "integer", "minimum": 0 },
+              "testsFailed": { "type": "integer", "minimum": 0 }
+            },
+            "required": ["command"],
+            "anyOf": [
+              { "required": ["outcome"] },
+              { "required": ["exitStatus"] },
+              { "required": ["exitCode"] },
+              { "required": ["status"] }
+            ],
+            "additionalProperties": true
+          }
+        },
+        "implPlanUpdates": { "type": "array", "items": {} }
+      },
+      "required": ["implementation_blocked", "implementationIncomplete", "blockers", "changedFiles", "verification", "implPlanUpdates"],
+      "additionalProperties": true
+    }
+  }
+}

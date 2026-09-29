@@ -4,7 +4,12 @@
   "executionBackend": "claude-code-agent",
   "model": "claude-fable-5",
   "modelFreeze": true,
+  "agentSandbox": "read-only",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
   "promptTemplateFile": "prompts/final-output.md",
+  "variables": {},
   "output": {
     "description": "Return final status, analysis, design, plan, changed files, implementation and review evidence, verification, residual risks, and operator notes."
   }

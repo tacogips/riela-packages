@@ -1,6 +1,6 @@
 ---
 name: fable-and-improve-opus
-description: Run the fable-and-improve-opus Riela workflow when Claude Fable should analyze, design, and author the implementation plan, Claude Opus 5.5 should implement and independently review, and Fable should verify completion.
+description: Run the fable-and-improve-opus Riela workflow when Fable should author design/plans and own integration and goal acceptance, while Opus 5.5 independently reviews planning, implements, and runs test-integrity and adversarial review gates.
 ---
 
 # Fable And Improve Opus
@@ -9,13 +9,18 @@ Run the installed workflow instead of manually emulating its orchestration.
 
 ## Responsibility split
 
-- Fable `claude-fable-5`: analysis, design, implementation plan, replanning, final acceptance, knowledge-base self-review
-- Opus `claude-opus-5-5`: implementation, tests, verification, and improvements
-- Independent Opus `claude-opus-5-5`: read-only implementation review
+- Fable `claude-fable-5`: analysis, design/plan authoring and revision,
+  integration review, goal acceptance, knowledge-base self-review, final output
+- Opus `claude-opus-5-5`: independent design and plan review, implementation,
+  tests, bounded continuation, reconciliation, documentation and Git finalization
+- Independent Opus `claude-opus-5-5`: read-only test-integrity and adversarial
+  implementation review
 
-Review findings loop back to the implementation session. Fable sends invalid
-analysis, design, or plans back through its authoring sequence and sends
-valid-plan TODOs directly to implementation.
+Design or plan findings loop back to the Fable author. Test-integrity and
+adversarial findings loop back to the owning Opus implementation session.
+Fable integration findings distinguish serial repair from selective redispatch.
+Blocked-only waves terminate without accepted Git finalization; productive
+partial success continues with successful plan IDs preserved.
 
 ## Knowledge base
 
@@ -41,7 +46,13 @@ riela workflow run fable-and-improve-opus \
   --output jsonl
 ```
 
-Design and implementation planning run together in fable-design. Require both artifacts and their consistency evidence; the independent implementation review and Fable goal review still gate acceptance.
+Design and implementation planning run together in `fable-design`, followed by
+independent `step3-design-review` and `step5-impl-plan-review` gates. Each
+fanout branch runs `step6-implement`, deterministic
+`implementation-progress-check`, `step6-test-integrity-check`, and
+`step7-adversarial-review` before immutable branch evidence. Integration and
+goal review, E2E evidence, documentation, completion and Git gates all remain
+mandatory before accepted final output.
 
 Use `--scope user` for a user-scope install. Report the final artifacts,
 changed files, verification, independent review evidence, residual risks, and

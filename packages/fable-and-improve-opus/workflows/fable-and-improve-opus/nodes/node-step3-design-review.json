@@ -1,0 +1,24 @@
+{
+  "id": "step3-design-review",
+  "description": "Review the design-doc update and route back when any high or mid finding exists.",
+  "executionBackend": "claude-code-agent",
+  "agentSandbox": "read-only",
+  "model": "claude-opus-5-5",
+  "modelFreeze": false,
+  "effort": "medium",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "systemPromptTemplateFile": "prompts/runtime-provenance-system.md",
+  "promptTemplateFile": "prompts/step3-design-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON with when.needs_revision true only when high or mid findings exist, plus findings and actionable feedback.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": { "needs_revision": { "type": "boolean" } },
+      "required": ["needs_revision"],
+      "additionalProperties": true
+    }
+  }
+}
