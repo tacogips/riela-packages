@@ -2,12 +2,67 @@
   "id": "review-reducer",
   "description": "Reduce parallel website reviews into one upstream revision route or acceptance.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/review-reducer.md",
   "variables": {},
   "output": {
-    "description": "Return adapter JSON with complete lens coverage, merged findings, exactly one revision boolean, acceptance, and residual risks."
+    "description": "Return adapter JSON with complete lens coverage, merged findings, exactly one revision boolean, acceptance, and residual risks.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "accepted": {
+          "type": "boolean"
+        },
+        "findings": {
+          "type": "array",
+          "items": {}
+        },
+        "lensCoverage": {
+          "type": "array",
+          "items": {}
+        },
+        "feedbackForNextNode": {
+          "type": "array",
+          "items": {}
+        },
+        "screenshots": {
+          "type": "array",
+          "items": {}
+        },
+        "consoleFindings": {
+          "type": "array",
+          "items": {}
+        },
+        "containerEvidence": {
+          "type": "array",
+          "items": {}
+        },
+        "residualLowRisks": {
+          "type": "array",
+          "items": {}
+        },
+        "needs_design_revision": {
+          "type": "boolean"
+        },
+        "needs_asset_revision": {
+          "type": "boolean"
+        },
+        "needs_implementation_revision": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "needs_design_revision",
+        "needs_asset_revision",
+        "needs_implementation_revision",
+        "accepted",
+        "findings"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

@@ -2,11 +2,29 @@
   "id": "review-loop-handoff",
   "description": "Prepare a delegated request for codex-recent-change-quality-loop.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/review-loop-handoff.md",
   "variables": {},
   "output": {
-    "description": "Return adapter JSON whose payload contains workflowInput for codex-recent-change-quality-loop plus implementation evidence."
+    "description": "Return adapter JSON whose payload contains workflowInput for codex-recent-change-quality-loop plus implementation evidence.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "workflowInput": {
+          "type": "object"
+        },
+        "handoffSummary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "workflowInput",
+        "handoffSummary"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

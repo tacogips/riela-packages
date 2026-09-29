@@ -3,7 +3,7 @@
   "description": "Update the design documentation from the shared intake brief, including Codex-reference mapping when the run is reference-driven.",
   "executionBackend": "codex-agent",
   "agentSandbox": "workspace-write",
-  "model": "gpt-6-astra",
+  "model": "gpt-6-sol",
   "modelFreeze": false,
   "effort": "medium",
   "sessionPolicy": {
@@ -13,6 +13,65 @@
   "promptTemplateFile": "prompts/step2-design-doc-update.md",
   "variables": {},
   "output": {
-    "description": "Return JSON with updated design-doc paths, issue mapping, Codex-reference mapping, key decisions, open questions, and addressed review feedback."
+    "description": "Return JSON with updated design-doc paths, issue mapping, Codex-reference mapping, key decisions, open questions, and addressed review feedback.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "workflowMode": {
+          "type": "string"
+        },
+        "designDocPaths": {
+          "type": "array",
+          "items": {}
+        },
+        "issueReference": {
+          "type": "string"
+        },
+        "codexAgentReferences": {
+          "type": "array",
+          "items": {}
+        },
+        "cursorCliBehaviorMapping": {
+          "type": "array",
+          "items": {}
+        },
+        "designSummary": {
+          "type": "string"
+        },
+        "decisions": {
+          "type": "array",
+          "items": {}
+        },
+        "openQuestions": {
+          "type": "array",
+          "items": {}
+        },
+        "issueToDesignMapping": {
+          "type": "array",
+          "items": {}
+        },
+        "intentionalDivergences": {
+          "type": "array",
+          "items": {}
+        },
+        "addressedFeedback": {
+          "type": "array",
+          "items": {}
+        },
+        "risks": {
+          "type": "array",
+          "items": {}
+        },
+        "authorSelfCheck": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "workflowMode",
+        "designDocPaths"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

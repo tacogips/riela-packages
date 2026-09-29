@@ -2,12 +2,30 @@
   "id": "impl-completion-handoff",
   "description": "Build the codex-impl-plan-completion-loop workflow input.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/impl-completion-handoff.md",
   "variables": {},
   "output": {
-    "description": "Return adapter JSON whose payload contains workflowInput for codex-impl-plan-completion-loop."
+    "description": "Return adapter JSON whose payload contains workflowInput for codex-impl-plan-completion-loop.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "workflowInput": {
+          "type": "object"
+        },
+        "handoffSummary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "workflowInput",
+        "handoffSummary"
+      ]
+    },
+    "maxValidationAttempts": 2
   },
   "effort": "high"
 }

@@ -2,12 +2,74 @@
   "id": "review-node",
   "description": "Operate the running website with Playwright for one assigned read-only review lens.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/review-node.md",
   "variables": {},
   "output": {
-    "description": "Return reviewId, Playwright evidence, findings, accepted status, recommended route, and feedback."
+    "description": "Return reviewId, Playwright evidence, findings, accepted status, recommended route, and feedback.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "reviewUrl": {
+          "type": "string"
+        },
+        "reviewId": {
+          "type": "string"
+        },
+        "playwrightCommands": {
+          "type": "array",
+          "items": {}
+        },
+        "screenshots": {
+          "type": "array",
+          "items": {}
+        },
+        "consoleFindings": {
+          "type": "array",
+          "items": {}
+        },
+        "containerEvidence": {
+          "type": "array",
+          "items": {}
+        },
+        "dependencyPolicyFindings": {
+          "type": "array",
+          "items": {}
+        },
+        "findings": {
+          "type": "array",
+          "items": {}
+        },
+        "blockingFindingCount": {
+          "type": "integer"
+        },
+        "accepted": {
+          "type": "boolean"
+        },
+        "recommendedRoute": {
+          "type": "string"
+        },
+        "feedback": {
+          "type": "array",
+          "items": {}
+        },
+        "residualLowRisks": {
+          "type": "array",
+          "items": {}
+        },
+        "replyToUser": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "reviewUrl",
+        "reviewId"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

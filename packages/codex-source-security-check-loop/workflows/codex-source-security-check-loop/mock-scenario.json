@@ -1,0 +1,520 @@
+{
+  "riela-manager": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "targetPath": "src",
+      "includePaths": [
+        "src"
+      ],
+      "excludePaths": [],
+      "runNetworkAudits": false,
+      "maxFindings": 20,
+      "constraints": [
+        "No live provider calls."
+      ],
+      "nextStep": "step1-deterministic-scan"
+    }
+  },
+  "deterministic-scan": {
+    "provider": "scenario-mock",
+    "model": "scenario-command",
+    "payload": {
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "status": "completed",
+        "targetPath": "src",
+        "configuration": {
+          "includePaths": [
+            "src"
+          ],
+          "excludePaths": [],
+          "maxFindingsPerMethod": 20,
+          "runNetworkAudits": false
+        },
+        "methods": [],
+        "commands": [],
+        "findings": [],
+        "summary": {
+          "filesScanned": 1,
+          "findingCount": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "blockingFindingCount": 0,
+          "needsFix": false
+        },
+        "coverageGaps": []
+      }
+    }
+  },
+  "harness-recon": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "harnessReference": {
+        "sourceRepository": "https://github.com/anthropics/defending-code-reference-harness",
+        "patternsApplied": [
+          "threat-model-before-triage"
+        ]
+      },
+      "targetPath": "src",
+      "sourceScope": [
+        "src"
+      ],
+      "threatModel": {
+        "assets": [
+          "source"
+        ],
+        "trustBoundaries": [
+          "repository input to process"
+        ]
+      },
+      "focusAreas": [
+        "injection"
+      ],
+      "securityReviewItems": [
+        {
+          "reviewId": "SEC-REVIEW-1",
+          "targetPaths": [
+            "src"
+          ],
+          "trustBoundary": "repository input to process",
+          "likelyVulnerabilityClasses": [
+            "injection"
+          ],
+          "reviewInstructions": [
+            "Inspect source only."
+          ],
+          "scannerEvidence": [],
+          "verifierCriteria": [
+            "Record concrete reachability."
+          ],
+          "falsePositiveRules": [
+            "Do not infer an exploit from a scanner label."
+          ],
+          "safetyConstraints": [
+            "No live execution."
+          ]
+        },
+        {
+          "reviewId": "SEC-REVIEW-2",
+          "targetPaths": [
+            "src"
+          ],
+          "trustBoundary": "repository input to process",
+          "likelyVulnerabilityClasses": [
+            "injection"
+          ],
+          "reviewInstructions": [
+            "Inspect source only."
+          ],
+          "scannerEvidence": [],
+          "verifierCriteria": [
+            "Record concrete reachability."
+          ],
+          "falsePositiveRules": [
+            "Do not infer an exploit from a scanner label."
+          ],
+          "safetyConstraints": [
+            "No live execution."
+          ]
+        },
+        {
+          "reviewId": "SEC-REVIEW-3",
+          "targetPaths": [
+            "src"
+          ],
+          "trustBoundary": "repository input to process",
+          "likelyVulnerabilityClasses": [
+            "injection"
+          ],
+          "reviewInstructions": [
+            "Inspect source only."
+          ],
+          "scannerEvidence": [],
+          "verifierCriteria": [
+            "Record concrete reachability."
+          ],
+          "falsePositiveRules": [
+            "Do not infer an exploit from a scanner label."
+          ],
+          "safetyConstraints": [
+            "No live execution."
+          ]
+        }
+      ],
+      "verifierRubric": {
+        "criteria": [
+          "reachability"
+        ]
+      },
+      "coverageGaps": [],
+      "notes": []
+    }
+  },
+  "parallel-security-review": [
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "reviewId": "SEC-REVIEW-1",
+        "reviewedPaths": [
+          "src"
+        ],
+        "reviewedSymbols": [],
+        "candidateFindings": [],
+        "dismissedSignals": [],
+        "coverageGaps": [],
+        "residualLowRisks": []
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "reviewId": "SEC-REVIEW-2",
+        "reviewedPaths": [
+          "src"
+        ],
+        "reviewedSymbols": [],
+        "candidateFindings": [],
+        "dismissedSignals": [],
+        "coverageGaps": [],
+        "residualLowRisks": []
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "reviewId": "SEC-REVIEW-3",
+        "reviewedPaths": [
+          "src"
+        ],
+        "reviewedSymbols": [],
+        "candidateFindings": [],
+        "dismissedSignals": [],
+        "coverageGaps": [],
+        "residualLowRisks": []
+      }
+    }
+  ],
+  "security-triage": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "scanSummary": {
+        "filesScanned": 1,
+        "findingCount": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "blockingFindingCount": 0,
+        "needsFix": false
+      },
+      "toolCoverage": [],
+      "focusAreaCoverage": [
+        {
+          "reviewId": "SEC-REVIEW-1",
+          "status": "completed"
+        },
+        {
+          "reviewId": "SEC-REVIEW-2",
+          "status": "completed"
+        },
+        {
+          "reviewId": "SEC-REVIEW-3",
+          "status": "completed"
+        }
+      ],
+      "findings": [],
+      "blockingFindings": [],
+      "needs_fix": false,
+      "reviewedFiles": [
+        "src"
+      ],
+      "coverageGaps": [],
+      "notes": []
+    }
+  },
+  "adversarial-verification": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "verificationSummary": {
+        "candidateCount": 0,
+        "verifiedCount": 0,
+        "needsManualTestCount": 0,
+        "falsePositiveCount": 0,
+        "duplicateCount": 0,
+        "blockingFindingCount": 0,
+        "needs_fix": false
+      },
+      "verifiedFindings": [],
+      "needsManualTest": [],
+      "dismissedFindings": [],
+      "duplicateFindings": [],
+      "blockingFindings": [],
+      "residualLowRisks": [],
+      "coverageGaps": [],
+      "needs_fix": false
+    }
+  },
+  "exit-gate": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "needs_fix": false
+    },
+    "payload": {
+      "needs_fix": false,
+      "blockingFindingIds": [],
+      "blockingFindingCount": 0,
+      "decision": "exit",
+      "routingReason": "No verified blocking findings.",
+      "acceptedLowRiskIds": [],
+      "falsePositiveFindingIds": []
+    }
+  },
+  "workflow-output": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "accepted",
+      "targetPath": "src",
+      "deterministicMethods": [],
+      "finalFindings": [],
+      "harnessRecon": {
+        "reviewItems": 3
+      },
+      "adversarialVerification": {
+        "blockingFindingCount": 0
+      },
+      "fixIterations": 0,
+      "delegatedWorkflowRuns": [],
+      "changedFiles": [],
+      "verification": [],
+      "coverageGaps": [],
+      "residualLowRisks": [],
+      "operatorNotes": []
+    }
+  },
+  "step2-harness-recon": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "harnessReference": {
+        "sourceRepository": "https://github.com/anthropics/defending-code-reference-harness",
+        "patternsApplied": [
+          "threat-model-before-triage"
+        ]
+      },
+      "targetPath": "src",
+      "sourceScope": [
+        "src"
+      ],
+      "threatModel": {
+        "assets": [
+          "source"
+        ],
+        "trustBoundaries": [
+          "repository input to process"
+        ]
+      },
+      "focusAreas": [
+        "injection"
+      ],
+      "securityReviewItems": [
+        {
+          "reviewId": "SEC-REVIEW-1",
+          "targetPaths": [
+            "src"
+          ],
+          "trustBoundary": "repository input to process",
+          "likelyVulnerabilityClasses": [
+            "injection"
+          ],
+          "reviewInstructions": [
+            "Inspect source only."
+          ],
+          "scannerEvidence": [],
+          "verifierCriteria": [
+            "Record concrete reachability."
+          ],
+          "falsePositiveRules": [
+            "Do not infer an exploit from a scanner label."
+          ],
+          "safetyConstraints": [
+            "No live execution."
+          ]
+        },
+        {
+          "reviewId": "SEC-REVIEW-2",
+          "targetPaths": [
+            "src"
+          ],
+          "trustBoundary": "repository input to process",
+          "likelyVulnerabilityClasses": [
+            "injection"
+          ],
+          "reviewInstructions": [
+            "Inspect source only."
+          ],
+          "scannerEvidence": [],
+          "verifierCriteria": [
+            "Record concrete reachability."
+          ],
+          "falsePositiveRules": [
+            "Do not infer an exploit from a scanner label."
+          ],
+          "safetyConstraints": [
+            "No live execution."
+          ]
+        },
+        {
+          "reviewId": "SEC-REVIEW-3",
+          "targetPaths": [
+            "src"
+          ],
+          "trustBoundary": "repository input to process",
+          "likelyVulnerabilityClasses": [
+            "injection"
+          ],
+          "reviewInstructions": [
+            "Inspect source only."
+          ],
+          "scannerEvidence": [],
+          "verifierCriteria": [
+            "Record concrete reachability."
+          ],
+          "falsePositiveRules": [
+            "Do not infer an exploit from a scanner label."
+          ],
+          "safetyConstraints": [
+            "No live execution."
+          ]
+        }
+      ],
+      "verifierRubric": {
+        "criteria": [
+          "reachability"
+        ]
+      },
+      "coverageGaps": [],
+      "notes": []
+    }
+  },
+  "step3-security-triage": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "scanSummary": {
+        "filesScanned": 1,
+        "findingCount": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "blockingFindingCount": 0,
+        "needsFix": false
+      },
+      "toolCoverage": [],
+      "focusAreaCoverage": [
+        {
+          "reviewId": "SEC-REVIEW-1",
+          "status": "completed"
+        },
+        {
+          "reviewId": "SEC-REVIEW-2",
+          "status": "completed"
+        },
+        {
+          "reviewId": "SEC-REVIEW-3",
+          "status": "completed"
+        }
+      ],
+      "findings": [],
+      "blockingFindings": [],
+      "needs_fix": false,
+      "reviewedFiles": [
+        "src"
+      ],
+      "coverageGaps": [],
+      "notes": []
+    }
+  },
+  "step4-adversarial-verification": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "verificationSummary": {
+        "candidateCount": 0,
+        "verifiedCount": 0,
+        "needsManualTestCount": 0,
+        "falsePositiveCount": 0,
+        "duplicateCount": 0,
+        "blockingFindingCount": 0,
+        "needs_fix": false
+      },
+      "verifiedFindings": [],
+      "needsManualTest": [],
+      "dismissedFindings": [],
+      "duplicateFindings": [],
+      "blockingFindings": [],
+      "residualLowRisks": [],
+      "coverageGaps": [],
+      "needs_fix": false
+    }
+  },
+  "step5-exit-gate": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "needs_fix": false
+    },
+    "payload": {
+      "needs_fix": false,
+      "blockingFindingIds": [],
+      "blockingFindingCount": 0,
+      "decision": "exit",
+      "routingReason": "No verified blocking findings.",
+      "acceptedLowRiskIds": [],
+      "falsePositiveFindingIds": []
+    }
+  }
+}

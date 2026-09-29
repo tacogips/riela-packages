@@ -50,7 +50,7 @@
   "step2-design-doc-update": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-6-sol",
       "when": {
         "always": true
       },
@@ -81,7 +81,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-6-sol",
       "when": {
         "always": true
       },
@@ -155,7 +155,7 @@
   "step4-impl-plan-create": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-6-sol",
       "when": {
         "always": true
       },
@@ -191,7 +191,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-6-sol",
       "when": {
         "always": true
       },
@@ -418,6 +418,12 @@
       "feedback": [],
       "accepted": true,
       "adversarialReviewSummary": "Adversarial review accepted the rerun persistence behavior with no high or mid findings.",
+      "testIntegrityDecision": {
+        "accepted": true,
+        "summary": "Test integrity accepted the source-matched behavior.",
+        "feedback": [],
+        "residualRisks": []
+      },
       "residualLowRisks": []
     }
   },
@@ -633,12 +639,27 @@
       "git": {
         "status": "committed",
         "commitHash": "1111111111111111111111111111111111111111",
+        "commitMessage": "docs: checkpoint accepted plans",
+        "committedFiles": [
+          "impl-plans/active/mock-dispatch.json",
+          "impl-plans/active/a.md"
+        ],
         "operation": "commit"
-      },
-      "committedFiles": [
-        "impl-plans/active/mock-dispatch.json",
-        "impl-plans/active/a.md"
-      ]
+      }
+    }
+  },
+  "plan-git-push": {
+    "provider": "scenario-mock",
+    "model": "riela/git-push@1",
+    "when": { "always": true },
+    "payload": {
+      "git": {
+        "status": "pushed",
+        "commitHash": "1111111111111111111111111111111111111111",
+        "pushedRemote": "origin",
+        "pushedBranch": "main",
+        "operation": "push"
+      }
     }
   },
   "dispatch-plans": {
@@ -698,6 +719,10 @@
             "a.txt",
             "shared.txt"
           ],
+          "reviewFeedback": {
+            "findings": [],
+            "recoveryDiagnostic": ""
+          },
           "manifestPath": "impl-plans/active/mock-dispatch.json",
           "checkpointCommit": "1111111111111111111111111111111111111111",
           "implementationBranch": "main",
@@ -778,7 +803,7 @@
   },
   "integration-review": {
     "provider": "scenario-mock",
-    "model": "gpt-6-astra",
+    "model": "gpt-6-sol",
     "when": {
       "needs_revision": false,
       "redispatch_required": false,

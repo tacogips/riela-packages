@@ -1,6 +1,6 @@
 {
   "name": "codex-impl-plan-completion-review-loop",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "codex-impl-plan-completion-review-loop",
   "description": "Run the Codex implementation-plan completion loop, then run the recent-change quality review-and-improve loop against the resulting work.",
   "tags": [
@@ -9,7 +9,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "ec8a9bed9b9fa9ebb2a62da7295985d1",
+  "checksum": "c3918b9fcf5bf2bf4ae3ff9becc4d47c",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-impl-plan-completion-review-loop",
   "dependencies": [
@@ -31,7 +31,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "99f7f087d8bbac79075f6b432274128186aecf578585a49f8addb55c2e92539b"
+    "digest": "e68f8be2947b58f65e19f0f26b6db1e3800bdfe5231bbf6724112b9a96a7ad0a"
   },
   "backends": [
     "codex-agent"

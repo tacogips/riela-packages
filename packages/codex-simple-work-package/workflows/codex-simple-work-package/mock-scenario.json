@@ -52,5 +52,44 @@
         "nextStep": "Done."
       }
     }
+  },
+  "implement": {
+    "payload": {
+      "changedFiles": [
+        "docs/example.md"
+      ],
+      "implementationSummary": "Clarified the requested documentation text.",
+      "verification": [
+        "Manual review"
+      ],
+      "addressedFeedback": [],
+      "residualRisks": []
+    }
+  },
+  "review": {
+    "when": {
+      "needs_revision": false
+    },
+    "payload": {
+      "needs_revision": false,
+      "findings": [],
+      "feedback": [],
+      "accepted": true
+    }
+  },
+  "workflow-output": {
+    "payload": {
+      "status": "accepted",
+      "changedFiles": [
+        "docs/example.md"
+      ],
+      "implementationSummary": "Clarified the requested documentation text.",
+      "reviewSummary": "No high or middle findings.",
+      "verification": [
+        "Manual review"
+      ],
+      "residualRisks": [],
+      "nextStep": "Done."
+    }
   }
 }

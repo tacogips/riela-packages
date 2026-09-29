@@ -2,12 +2,65 @@
   "id": "step4-implement-next-task",
   "description": "Implement exactly one assigned dependency-ready task in the shared workspace.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "workspace-write",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step4-implement-next-task.md",
   "variables": {},
   "output": {
-    "description": "Return branch JSON with task id, changed files, plan updates, verification and author self-check evidence, blockers, and residual risks."
+    "description": "Return branch JSON with task id, changed files, plan updates, verification and author self-check evidence, blockers, and residual risks.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "planPath": {
+          "type": "string"
+        },
+        "taskId": {
+          "type": "string"
+        },
+        "taskStatusAfter": {
+          "type": "string"
+        },
+        "changedFiles": {
+          "type": "array",
+          "items": {}
+        },
+        "implementationSummary": {
+          "type": "string"
+        },
+        "planUpdates": {
+          "type": "string"
+        },
+        "duplicateScavenge": {
+          "type": "string"
+        },
+        "verificationCommands": {
+          "type": "string"
+        },
+        "blocked": {
+          "type": "boolean"
+        },
+        "blockers": {
+          "type": "string"
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {}
+        },
+        "authorSelfCheck": {
+          "type": "string"
+        },
+        "dispatchId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "planPath",
+        "taskId"
+      ]
+    },
+    "maxValidationAttempts": 2
   },
   "effort": "low"
 }

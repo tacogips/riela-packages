@@ -1,10 +1,12 @@
-You are Step 2: design-doc update.
+You are Step 2: design-doc assessment and update.
 
 Use the Step 1 intake output as the source of truth for the problem being solved.
 
 Preserve the runner-resolved provenance boundary from the system prompt. Do not re-inspect scoped workflow/package registries from this sandbox, and do not write a sandbox home-registry access failure, mutable registry path, missing package link, or similar rediscovery artifact into the design, risks, open questions, rollout constraints, or acceptance criteria. Only a concrete contradiction already present in runtime provenance or effective workflow input may become a design concern.
 
 Repository rules:
+- First locate design documentation relevant to the accepted intake, including paths supplied in workflow input and existing files under `design-docs/`. Read the relevant draft and its current decisions before proposing changes. Treat a relevant existing design as the baseline for implementation, not as a reason to restart design from scratch.
+- Check that baseline against the intake and current repository behavior. Preserve sound decisions and update only missing, contradictory, or stale parts needed to implement and verify the requested scope. If it is already sufficient, keep it unchanged and return its existing path and concrete acceptance evidence. Create a new design only when no relevant design exists, or when the existing documents cannot express the required boundary without obscuring it.
 - Keep design documentation under `design-docs/` subdirectories only.
 - Prefer updating an existing section in `design-docs/specs/architecture.md`, `design-docs/specs/command.md`, or `design-docs/specs/notes.md` when that keeps the document set compact.
 - Create `design-docs/specs/design-<topic>.md` only when the issue needs dedicated design detail.
@@ -18,6 +20,7 @@ If this is a rerun after Step 3 or Step 5 review, read the latest review feedbac
 
 Before returning, perform an author self-check in the same execution:
 - Confirm the design directly addresses the intake brief, issue references, and relevant Codex-reference mapping.
+- Confirm any existing design baseline was checked before creating a new document, and explain whether it was reused unchanged, revised, or absent.
 - Confirm unresolved questions are explicitly recorded in the appropriate user-QA or design section.
 - Confirm the design is specific enough to drive implementation-plan creation without hidden architectural ambiguity.
 - Confirm every proposed component and constraint is necessary for the accepted scope; remove unsupported or disproportionate design work before returning.

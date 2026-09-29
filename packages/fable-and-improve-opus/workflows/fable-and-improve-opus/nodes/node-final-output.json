@@ -12,5 +12,6 @@
   "variables": {},
   "output": {
     "description": "Return final status, analysis, design, plan, changed files, implementation and review evidence, verification, residual risks, and operator notes."
-  }
+  },
+  "agentSandbox": "read-only"
 }

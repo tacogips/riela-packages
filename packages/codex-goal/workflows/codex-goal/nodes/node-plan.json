@@ -2,6 +2,7 @@
   "id": "plan",
   "description": "Create or revise an in-session plan without writing plan files, using Codex GPT-5.6 SOL high effort.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
@@ -11,6 +12,53 @@
   "promptTemplateFile": "prompts/plan.md",
   "variables": {},
   "output": {
-    "description": "Return JSON with the in-session plan, risk notes, verification plan, and changes from prior review feedback."
+    "description": "Return JSON with the in-session plan, risk notes, verification plan, and changes from prior review feedback.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "plan": {
+          "type": "array",
+          "items": {}
+        },
+        "workflowDispatch": {
+          "type": [
+            "null",
+            "object"
+          ]
+        },
+        "workflowDiscovery": {
+          "type": "object"
+        },
+        "verificationPlan": {
+          "type": "array",
+          "items": {}
+        },
+        "riskNotes": {
+          "type": "array",
+          "items": {}
+        },
+        "reviewFeedbackAddressed": {
+          "type": "array",
+          "items": {}
+        },
+        "planChanges": {
+          "type": "array",
+          "items": {}
+        },
+        "planQualityFeedbackAddressed": {
+          "type": "array",
+          "items": {}
+        },
+        "readyForWork": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "plan",
+        "workflowDispatch"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

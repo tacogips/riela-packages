@@ -10,7 +10,7 @@ Skill package that teaches agents how to create and run temporary riela workflow
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install riela-temporary-workflow-skill --local-path /path/to/riela-packages
+riela package install riela-temporary-workflow-skill --source /path/to/riela-packages/packages/riela-temporary-workflow-skill
 ```
 
 Add `--scope user` to install for the current user instead of the

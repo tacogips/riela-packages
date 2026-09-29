@@ -11,7 +11,7 @@ Design, build, and run a SolidJS site, then review UX, assets, and implementatio
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install claude-code-website-builder --local-path /path/to/riela-packages
+riela package install claude-code-website-builder --source /path/to/riela-packages/packages/claude-code-website-builder
 ```
 
 Add `--scope user` to install for the current user instead of the
@@ -21,7 +21,7 @@ This package does not install its dependencies automatically.
 Install each dependency package as well:
 
 ```bash
-riela package install codex-website-builder --local-path /path/to/riela-packages
+riela package install codex-website-builder --source /path/to/riela-packages/packages/codex-website-builder
 ```
 
 ## Run

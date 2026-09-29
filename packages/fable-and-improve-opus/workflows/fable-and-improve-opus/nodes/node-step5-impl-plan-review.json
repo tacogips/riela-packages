@@ -23,6 +23,7 @@
       },
       "required": ["needs_design_revision", "needs_revision", "planning_only"],
       "additionalProperties": true
-    }
+    },
+    "maxValidationAttempts": 2
   }
 }

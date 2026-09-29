@@ -2,12 +2,35 @@
   "id": "review-reducer",
   "description": "Merge all fanout design-review results and make one deterministic revision decision.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/review-reducer.md",
   "variables": {},
   "output": {
-    "description": "Return adapter JSON with when.needs_revision, merged findings and feedback, per-lens results, acceptance, and residual low risks."
+    "description": "Return adapter JSON with when.needs_revision, merged findings and feedback, per-lens results, acceptance, and residual low risks.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "needs_revision": {
+          "type": "boolean"
+        },
+        "accepted": {
+          "type": "boolean"
+        },
+        "findings": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "needs_revision",
+        "accepted",
+        "findings"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

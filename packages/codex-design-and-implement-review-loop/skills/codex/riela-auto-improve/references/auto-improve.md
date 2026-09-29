@@ -1,66 +1,15 @@
-# Riela Auto Improve Reference
+# Auto-Improve Migration (Riela 0.2.0)
 
-## Recommended Mode
+The old engine-owned supervision loop and its CLI flags were removed. Existing
+run scripts must drop the flags, and operators must handle retries explicitly.
 
-Recommended supervisor-backed execution:
+| Previous behavior | Current action |
+| --- | --- |
+| Start with `--auto-improve` | Start with `workflow run --output jsonl` and retain the session id. |
+| Automatic stall/failure recovery | Inspect `session progress` and `session status --output json`; diagnose the failing step. |
+| Targeted retry | Use `session rerun <session-id> <step-id>` only after checking side effects. |
+| Continue an interrupted run | Use `session resume <session-id>` when the saved state allows it. |
+| Paired nested supervisor | No equivalent in Riela 0.2.0. |
 
-```bash
-riela workflow run <workflow-name> \
-  --workflow-definition-dir <root> \
-  --auto-improve \
-  --nested-supervisor \
-  --max-supervised-attempts 3 \
-  --workflow-mutation-mode execution-copy \
-  --output json
-```
-
-Use this for production-like, expensive, or user-facing work. It combines the engine-owned supervision loop with a nested supervisor workflow, keeps remediation audit state on the target session, and avoids mutating the canonical workflow bundle by default.
-
-Use plain `workflow run` only for quick checks, deterministic fixture runs, or when supervision is intentionally disabled.
-
-## Options
-
-- `--auto-improve`
-- `--nested-supervisor` / `--nested-superviser` legacy alias
-- `--supervisor-workflow` / `--superviser-workflow` legacy alias
-- `--monitor-interval-ms <ms>`
-- `--stall-timeout-ms <ms>`
-- `--max-supervised-attempts <n>`
-- `--max-workflow-patches <n>`
-- `--workflow-mutation-mode execution-copy|in-place`
-- `--no-allow-targeted-rerun`
-
-## Phase 1
-
-Engine-owned supervision loop:
-
-- retries on terminal failure
-- detects stalls
-- records incidents and remediations
-- applies attempt and patch budgets
-- can use targeted step rerun when policy allows
-- persists supervision state on the target session
-
-## Phase 2 Nested Supervisor
-
-When nested supervision is enabled, riela runs the configured supervisor workflow as a paired nested session and injects runtime variables such as supervision run id, target session id, and target workflow id.
-
-Resume with nested supervision can continue or restart nested supervisor rounds depending on saved state.
-
-## Inspection
-
-Use:
-
-```bash
-riela session status <session-id> --output json
-riela graphql '<query or mutation document>'
-```
-
-Look for:
-
-- `session.supervision.status`
-- incidents
-- remediations
-- patch revisions
-- `nestedSuperviserSessionId`
-- target rerun step ids
+`--supervisor-mode` is a Codex execution setting, not the old auto-improve
+monitor or repair loop. Never substitute it silently for removed supervision.

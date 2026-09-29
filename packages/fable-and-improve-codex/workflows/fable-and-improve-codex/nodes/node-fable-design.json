@@ -2,7 +2,7 @@
   "id": "fable-design",
   "description": "Author design and actionable implementation plan with consistency self-check.",
   "executionBackend": "claude-code-agent",
-  "agentSandbox": "danger-full-access",
+  "agentSandbox": "workspace-write",
   "model": "claude-fable-5",
   "modelFreeze": true,
   "effort": "high",
@@ -11,6 +11,103 @@
   },
   "promptTemplateFile": "prompts/fable-design.md",
   "output": {
-    "description": "Return designMarkdown, designDocPaths, decisions, alternatives, interfaces, data flow, edge cases, and addressed feedback. Also return all plan fields, the implementation brief, and authorSelfCheck evidence."
+    "description": "Return the authored design and implementation plan with artifact paths and verification plan.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "designMarkdown": {
+          "type": "string",
+          "minLength": 1
+        },
+        "designDocPaths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "decisions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "alternatives": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "planMarkdown": {
+          "type": "string",
+          "minLength": 1
+        },
+        "implPlanPaths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "orderedTasks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "parallelizableTasks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "verificationPlan": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "completionCriteria": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "risks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "authorSelfCheck": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "designMarkdown",
+        "designDocPaths",
+        "planMarkdown",
+        "implPlanPaths",
+        "orderedTasks",
+        "verificationPlan",
+        "completionCriteria"
+      ],
+      "additionalProperties": true
+    },
+    "maxValidationAttempts": 2
   }
 }

@@ -28,6 +28,51 @@
       "knowledgeQuery": "documentation"
     }
   },
+  "kb-recall-prior": {
+    "payload": {
+      "query": "documentation",
+      "results": [],
+      "resultCount": 0,
+      "noteIds": [],
+      "recallText": ""
+    }
+  },
+  "kb-recall-related": {
+    "payload": {
+      "query": "documentation",
+      "results": [],
+      "resultCount": 0,
+      "noteIds": [],
+      "recallText": "",
+      "knowledgeQuery": "documentation",
+      "candidateContent": "Exact-text verification is a reliable low-cost acceptance check for small documentation changes; skipping it lets duplicate or misplaced notes slip through.",
+      "candidateTags": [
+        "kb",
+        "documentation"
+      ]
+    }
+  },
+  "kb-create": {
+    "payload": {
+      "noteIds": [
+        "mock-knowledge-note"
+      ],
+      "notes": [],
+      "entriesWritten": 1,
+      "idempotentReplay": false,
+      "associations": []
+    }
+  },
+  "kb-merge": {
+    "payload": {
+      "noteId": "mock-knowledge-note"
+    }
+  },
+  "kb-archive": {
+    "payload": {
+      "noteId": "mock-knowledge-note"
+    }
+  },
   "fable-design": {
     "provider": "scenario-mock",
     "model": "claude-fable-5",
@@ -314,7 +359,11 @@
           "baseBranch": "main",
           "remote": "origin",
           "evidenceRoot": "tmp/mock",
-          "acceptedPlanIds": []
+          "acceptedPlanIds": [],
+          "reviewFeedback": {
+            "findings": [],
+            "recoveryDiagnostic": ""
+          }
         }
       ],
       "acceptedPlanIds": [],
@@ -450,7 +499,23 @@
       "committedFiles": [
         "shared.txt"
       ],
-      "needs_revision": false
+      "workflowMode": "issue-resolution",
+      "decision": "accepted",
+      "needs_revision": false,
+      "findings": [],
+      "checkedImplPlanPaths": [
+        "impl-plans/active/a.md"
+      ],
+      "activeImplPlanFindings": [],
+      "archivedImplPlanPaths": [
+        "impl-plans/completed/a.md"
+      ],
+      "updatedIndexFiles": [
+        "impl-plans/README.md"
+      ],
+      "completionSummary": "Accepted completion and archived the plan.",
+      "residualRisks": [],
+      "changeSummary": "Completed shared implementation."
     }
   },
   "step10-git-commit": {
@@ -659,7 +724,13 @@
       "feedback": [],
       "accepted": true,
       "adversarialReviewSummary": "Adversarial review accepted the rerun persistence behavior with no high or mid findings.",
-      "residualLowRisks": []
+      "residualLowRisks": [],
+      "testIntegrityDecision": {
+        "accepted": true,
+        "summary": "Test integrity accepted the source-matched behavior.",
+        "feedback": [],
+        "residualRisks": []
+      }
     }
   },
   "step7b-e2e-evidence": {

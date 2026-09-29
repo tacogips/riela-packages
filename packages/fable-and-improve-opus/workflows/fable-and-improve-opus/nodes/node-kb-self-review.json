@@ -36,5 +36,6 @@
       "additionalProperties": true
     },
     "maxValidationAttempts": 2
-  }
+  },
+  "agentSandbox": "read-only"
 }

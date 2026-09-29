@@ -179,6 +179,21 @@
         ],
         "residualRisks": [
           "No concrete provisioning source surface was identified."
+        ],
+        "title": "Package contracts, workspace build, and tooling",
+        "ownedPaths": [
+          "package.json",
+          "Taskfile.yml",
+          "scripts",
+          "packages/riela/package.json",
+          "packages/riela/src",
+          "packages/riela-core/package.json",
+          "packages/riela-core/src",
+          "packages/riela-addons/package.json",
+          "packages/riela-addons/src"
+        ],
+        "reviewedPaths": [
+          "package.json"
         ]
       }
     },
@@ -242,6 +257,21 @@
         ],
         "residualRisks": [
           "Root src remains necessary as a compatibility layer during migration."
+        ],
+        "title": "Root src compatibility surfaces",
+        "ownedPaths": [
+          "packages/riela/src/cli",
+          "packages/riela/src/bin.ts",
+          "packages/riela/src/lib.ts",
+          "packages/riela/src/workflow",
+          "packages/riela/src/graphql",
+          "packages/riela/src/server",
+          "packages/riela/src/events",
+          "packages/riela/src/hook",
+          "packages/riela/src/shared"
+        ],
+        "reviewedPaths": [
+          "packages/riela/src/cli"
         ]
       }
     }

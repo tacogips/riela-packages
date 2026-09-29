@@ -2,11 +2,32 @@
   "id": "riela-manager",
   "description": "Coordinate one codex-task-watchdog polling pass.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/riela-manager.md",
   "variables": {},
   "output": {
-    "description": "Return the initial tick context and task list path."
+    "description": "Return the initial tick context and task list path.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "taskListPath": {
+          "type": "string"
+        },
+        "event": {
+          "type": "string"
+        },
+        "nextStep": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "taskListPath",
+        "event"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

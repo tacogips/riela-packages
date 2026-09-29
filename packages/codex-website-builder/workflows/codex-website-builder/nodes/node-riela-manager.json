@@ -2,6 +2,7 @@
   "id": "riela-manager",
   "description": "Normalize direct workflow input or chat event feedback for website creation or iteration.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
@@ -37,6 +38,57 @@
     }
   },
   "output": {
-    "description": "Return normalized website request context, event provenance, target directory, and review URL hints."
+    "description": "Return normalized website request context, event provenance, target directory, and review URL hints.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "projectName": {
+          "type": "string"
+        },
+        "targetDirectory": {
+          "type": "string"
+        },
+        "siteRequest": {
+          "type": "string"
+        },
+        "feedback": {
+          "type": "string"
+        },
+        "constraints": {
+          "type": "array",
+          "items": {}
+        },
+        "acceptanceCriteria": {
+          "type": "array",
+          "items": {}
+        },
+        "preferredReviewUrl": {
+          "type": "string"
+        },
+        "eventContext": {
+          "type": "object"
+        },
+        "chatHistorySummary": {
+          "type": "string"
+        },
+        "attachments": {
+          "type": "array",
+          "items": {}
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {}
+        },
+        "nextStep": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "projectName",
+        "targetDirectory"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

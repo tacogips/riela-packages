@@ -9,7 +9,7 @@
     "generic"
   ],
   "registry": "default",
-  "checksum": "66b5cac42be591a70e00d679cc72a17d",
+  "checksum": "ba20f6094ed01c493c509f5b7553bd70",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-goal",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -27,7 +27,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "a9e578e2c5d063f8a92ba6bb66881d665f5a95f2cd466e3090876c54948ba295"
+    "digest": "05088aed8a1c4a034e6e540e4b358e4783566f836281b01279f714a8b13c4c74"
   },
   "backends": [
     "claude-code-agent"

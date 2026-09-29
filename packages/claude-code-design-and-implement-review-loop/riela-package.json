@@ -1,13 +1,13 @@
 {
   "name": "claude-code-design-and-implement-review-loop",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "title": "claude-code-design-and-implement-review-loop",
   "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "5870d3d4ddca581f6052412eb48e776a",
+  "checksum": "fa50c1290780977ce24a8106900b0858",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/claude-code-design-and-implement-review-loop",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -23,7 +23,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "8a53a0541951e95afae610908fb095a0b595627ce9362acdfacc775441ed8689"
+    "digest": "a75af21f59f8ccf766385e8c9ebbb7ceeaa59c9ea10fd7630671a0a7880a604d"
   },
   "backends": [
     "claude-code-agent"

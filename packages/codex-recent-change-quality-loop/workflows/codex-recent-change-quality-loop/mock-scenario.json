@@ -25,6 +25,15 @@
         "always": true
       },
       "payload": {
+        "hours": 24,
+        "targetScope": [
+          "README.md",
+          ".riela/README.md",
+          ".riela/workflows/codex-recent-change-quality-loop"
+        ],
+        "notes": [
+          "Resume the recent-change quality loop."
+        ],
         "stage": "start",
         "policy": "delegated-recent-change-issue-resolution"
       }

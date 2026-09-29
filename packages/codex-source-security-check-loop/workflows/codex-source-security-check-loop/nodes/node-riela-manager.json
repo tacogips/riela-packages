@@ -2,11 +2,47 @@
   "id": "riela-manager",
   "description": "Coordinate the source security check loop.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/riela-manager.md",
   "variables": {},
   "output": {
-    "description": "Confirm scan scope, constraints, and routing context for the workflow."
+    "description": "Confirm scan scope, constraints, and routing context for the workflow.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "targetPath": {
+          "type": "string"
+        },
+        "includePaths": {
+          "type": "array",
+          "items": {}
+        },
+        "excludePaths": {
+          "type": "array",
+          "items": {}
+        },
+        "runNetworkAudits": {
+          "type": "boolean"
+        },
+        "maxFindings": {
+          "type": "integer"
+        },
+        "constraints": {
+          "type": "array",
+          "items": {}
+        },
+        "nextStep": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "targetPath",
+        "includePaths"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

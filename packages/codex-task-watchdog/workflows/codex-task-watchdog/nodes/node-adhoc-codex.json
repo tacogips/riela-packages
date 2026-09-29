@@ -2,12 +2,41 @@
   "id": "adhoc-codex",
   "description": "Run the claimed task directly as an ad hoc Codex worker.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "workspace-write",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/adhoc-codex.md",
   "variables": {},
   "output": {
-    "description": "Return the ad hoc execution summary, changed files, verification, and residual risks."
+    "description": "Return the ad hoc execution summary, changed files, verification, and residual risks.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "taskId": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "changedFiles": {
+          "type": "array",
+          "items": {}
+        },
+        "verification": {
+          "type": "string"
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "taskId",
+        "summary"
+      ]
+    },
+    "maxValidationAttempts": 2
   },
   "effort": "high"
 }

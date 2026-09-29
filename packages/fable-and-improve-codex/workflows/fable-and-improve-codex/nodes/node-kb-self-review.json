@@ -2,6 +2,7 @@
   "id": "kb-self-review",
   "description": "Claude Fable self-reviews the accepted run and extracts at most one durable knowledge candidate.",
   "executionBackend": "claude-code-agent",
+  "agentSandbox": "read-only",
   "model": "claude-fable-5",
   "modelFreeze": true,
   "effort": "medium",

@@ -2,6 +2,7 @@
   "id": "node1-design-author",
   "description": "Create or revise the design-doc specification from the request and latest review feedback.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "workspace-write",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
@@ -11,6 +12,67 @@
   "promptTemplateFile": "prompts/node1-design-author.md",
   "variables": {},
   "output": {
-    "description": "Return design-doc paths, design summary, addressed feedback, decisions, risks, and the complete stable deep/broad/adversarial reviewItems array."
+    "description": "Return design-doc paths, design summary, addressed feedback, decisions, risks, and the complete stable deep/broad/adversarial reviewItems array.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "feature": {
+          "type": "string"
+        },
+        "designDocPaths": {
+          "type": "array",
+          "items": {}
+        },
+        "designSummary": {
+          "type": "string"
+        },
+        "keyDecisions": {
+          "type": "array",
+          "items": {}
+        },
+        "stateModel": {
+          "type": "array",
+          "items": {}
+        },
+        "edgeCaseCoverage": {
+          "type": "array",
+          "items": {}
+        },
+        "crossFeatureImpacts": {
+          "type": "array",
+          "items": {}
+        },
+        "addressedFeedback": {
+          "type": "array",
+          "items": {}
+        },
+        "provisionalDecisions": {
+          "type": "array",
+          "items": {}
+        },
+        "openQuestions": {
+          "type": "array",
+          "items": {}
+        },
+        "verificationPlan": {
+          "type": "array",
+          "items": {}
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {}
+        },
+        "reviewItems": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "feature",
+        "designDocPaths"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

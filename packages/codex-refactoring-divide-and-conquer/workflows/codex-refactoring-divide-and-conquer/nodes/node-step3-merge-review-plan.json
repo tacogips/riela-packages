@@ -2,12 +2,87 @@
   "id": "step3-merge-review-plan",
   "description": "Aggregate slice reviews, maintain the task DAG, and emit complete dependency-ready implementation items.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "workspace-write",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step3-merge-review-plan.md",
   "variables": {},
   "output": {
-    "description": "Return adapter JSON with routing flags, plan data, complete implementationItems, unique dispatch ids, accepted task/dispatch ids, dependencies, tracked paths, and verification strategy."
+    "description": "Return adapter JSON with routing flags, plan data, complete implementationItems, unique dispatch ids, accepted task/dispatch ids, dependencies, tracked paths, and verification strategy.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "plan_only": {
+          "type": "boolean"
+        },
+        "no_plan_tasks": {
+          "type": "boolean"
+        },
+        "implementation_ready": {
+          "type": "boolean"
+        },
+        "has_plan_tasks": {
+          "type": "boolean"
+        },
+        "implementationItems": {
+          "type": "array",
+          "items": {}
+        },
+        "planPath": {
+          "type": "string"
+        },
+        "planOnly": {
+          "type": "boolean"
+        },
+        "hasPlanTasks": {
+          "type": "boolean"
+        },
+        "acceptedFindings": {
+          "type": "array",
+          "items": {}
+        },
+        "duplicateGroups": {
+          "type": "array",
+          "items": {}
+        },
+        "rejectedFindings": {
+          "type": "array",
+          "items": {}
+        },
+        "tasks": {
+          "type": "array",
+          "items": {}
+        },
+        "nextTaskId": {
+          "type": "string"
+        },
+        "conflicts": {
+          "type": "array",
+          "items": {}
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {}
+        },
+        "acceptedTaskIds": {
+          "type": "array",
+          "items": {}
+        },
+        "acceptedDispatchIds": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "plan_only",
+        "no_plan_tasks",
+        "implementation_ready",
+        "has_plan_tasks",
+        "implementationItems"
+      ]
+    },
+    "maxValidationAttempts": 2
   },
   "effort": "high"
 }

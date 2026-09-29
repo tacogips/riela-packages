@@ -51,9 +51,9 @@ for (const [id, nodes] of [
     assert.equal(payload.effort, 'medium', `${id}/${node}: review effort`);
   }
 }
-assert.equal(read(join(bundle(codex), 'nodes/node-step2-design-doc-update.json')).model, 'gpt-6-astra');
-assert.equal(read(join(bundle(codex), 'nodes/node-step4-impl-plan-create.json')).model, 'gpt-6-astra');
-assert.equal(read(join(bundle(codex), 'nodes/node-integration-review.json')).model, 'gpt-6-astra');
+assert.equal(read(join(bundle(codex), 'nodes/node-step2-design-doc-update.json')).model, 'gpt-6-sol');
+assert.equal(read(join(bundle(codex), 'nodes/node-step4-impl-plan-create.json')).model, 'gpt-6-sol');
+assert.equal(read(join(bundle(codex), 'nodes/node-integration-review.json')).model, 'gpt-6-sol');
 assert.deepEqual(
   read(join(bundle(codex), 'nodes/node-dispatch-plans.json')).command,
   { scriptPath: 'scripts/dispatch-plans.py' },
@@ -66,8 +66,11 @@ assert.equal(baseIntegration.agentSandbox, 'danger-full-access', 'base integrati
 for (const field of ['implementationBranch', 'baseBranch', 'remote', 'implementationCommit', 'mergeStatus', 'basePushStatus', 'verification']) {
   assert(baseIntegration.output.jsonSchema.required.includes(field), `base integration output must require ${field}`);
 }
-assert.deepEqual(baseIntegration.output.jsonSchema.properties.mergeStatus.enum, ['merged', 'already-on-base', 'already-merged']);
-assert.deepEqual(baseIntegration.output.jsonSchema.properties.basePushStatus.enum, ['pushed', 'already-pushed']);
+assert.deepEqual(baseIntegration.output.jsonSchema.properties.mergeStatus.enum, ['merged', 'already-on-base', 'already-merged', 'pr-open', 'branch-only']);
+assert.deepEqual(baseIntegration.output.jsonSchema.properties.basePushStatus.enum, ['pushed', 'already-pushed', 'not-requested']);
+for (const field of ['pullRequestURL', 'pullRequestNumber', 'pullRequestDraft', 'pullRequestBaseBranch']) {
+  assert(baseIntegration.output.jsonSchema.properties[field], `PR handoff output must provide ${field}`);
+}
 const finalPrompt = readFileSync(join(bundle(codex), 'prompts/workflow-output.md'), 'utf8');
 const planningOutputContract = finalPrompt.split('If Step 5 accepted a planning-only run,')[1]?.split('If the workflow continued through Step 8,')[0];
 const issueOutputContract = finalPrompt.split('If the workflow continued through Step 8,')[1]?.split('Copy `commitMessage`')[0];
@@ -84,12 +87,13 @@ for (const step of ['step4-impl-plan-create', 'integration-review']) {
   assert.deepEqual(
     codexGraph.steps.find((candidate: any) => candidate.id === step).sessionPolicy,
     { mode: 'reuse', inheritFromStepId: 'step2-design-doc-update' },
-    `${step}: inherit Astra design session`,
+    `${step}: inherit Sol design session`,
   );
 }
 for (const entry of codexGraph.nodes.filter((node: any) => node.nodeFile)) {
   const payload = read(join(bundle(codex), entry.nodeFile));
   if (payload.executionBackend !== 'codex-agent') continue;
+  assert.equal(payload.model, 'gpt-6-sol', `${codex}/${entry.id}: all agent models`);
   assert.equal(payload.effort, 'medium', `${codex}/${entry.id}: all agent effort`);
 }
 const dispatchNodePayload = read(join(bundle(codex), 'nodes/node-dispatch-plans.json'));
@@ -126,7 +130,7 @@ const dispatchCheckpoint = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: dispat
 const dispatchEnvelope = {
   input: { _rielaInput: { messages: [
     { fromStepId: 'plan-git-commit', createdOrder: 1, payload: { git: {
-      commitHash: dispatchCheckpoint, committedFiles: ['impl-plans/active/mock-dispatch.json'],
+      operation: 'commit', commitHash: dispatchCheckpoint, committedFiles: ['impl-plans/active/mock-dispatch.json'],
     } } },
     { fromStepId: 'integration-review', createdOrder: 2,
       payload: { manifestPath: 'impl-plans/active/old-dispatch.json', acceptedPlanIds: ['a'], checkpointCommit: '2'.repeat(40) } },
@@ -145,7 +149,7 @@ const missingCheckpoint = structuredClone(dispatchEnvelope);
 missingCheckpoint.input._rielaInput.messages.shift();
 const missingCheckpointDispatch = spawnSync('python3', [dispatchScript], { cwd: dispatchScriptRepo, input: JSON.stringify(missingCheckpoint), encoding: 'utf8' });
 assert.notEqual(missingCheckpointDispatch.status, 0);
-assert.match(missingCheckpointDispatch.stderr, /exactly one plan-git-commit message/);
+assert.match(missingCheckpointDispatch.stderr, /exactly one checkpoint commit or push message/);
 const ambiguousManifest = structuredClone(dispatchEnvelope);
 ambiguousManifest.input._rielaInput.messages[0].payload.git.committedFiles.push('impl-plans/active/old-dispatch.json');
 const ambiguousDispatch = spawnSync('python3', [dispatchScript], { cwd: dispatchScriptRepo, input: JSON.stringify(ambiguousManifest), encoding: 'utf8' });
@@ -196,7 +200,7 @@ assert.deepEqual(fanoutScenario['plan-checkpoint'].payload.committedFiles, [
   'impl-plans/active/a.md',
 ]);
 assert.deepEqual(
-  fanoutScenario['plan-git-commit'].payload.committedFiles,
+  fanoutScenario['plan-git-commit'].payload.git.committedFiles,
   fanoutScenario['plan-checkpoint'].payload.committedFiles,
 );
 assert(fanoutScenario['dispatch-plans'].payload.implementationItems.some((item: any) => item.planPath === 'impl-plans/active/b.md'));
@@ -209,7 +213,7 @@ const implementationPrompt = readFileSync(join(bundle(codex), 'prompts/step6-imp
 assert.match(implementationPrompt, /membership in the fanout item's runtime-owned `acceptedPlanIds` is the authoritative accepted integration decision/i);
 assert.match(implementationPrompt, /do not override or downgrade that decision.*stale progress files.*old evidence artifacts/i);
 assert.match(implementationPrompt, /work explicitly assigned to a pending downstream dependent plan is not an incomplete task, blocker, material finding, verification gap, or residual risk for the current predecessor/i);
-assert.match(implementationPrompt, /never set it for work explicitly owned by a downstream dependent plan/i);
+assert.match(implementationPrompt, /Do not set it for downstream dependent plans/i);
 assert.match(implementationPrompt, /behavioral test command.*structured nonnegative integer `testsRun` or `testCount`.*`failureCount`/is);
 assert.match(implementationPrompt, /canonical prose parsing exists only as a legacy fallback/i);
 assert.match(implementationPrompt, /fresh `--scratch-path`.*resolved checkout.*`CLANG_MODULE_CACHE_PATH`.*`SWIFTPM_MODULECACHE_OVERRIDE`.*`--disable-sandbox --skip-update`/is);
@@ -224,8 +228,16 @@ assert.match(testIntegrityPrompt, /missing behavior or tests explicitly assigned
 const selectedSwiftLintContract = /if \[ -s "\$changed_swift_manifest" \]; then xargs -0 swiftlint lint --strict --quiet --no-cache < "\$changed_swift_manifest"; else.*No Swift files changed; selected-file SwiftLint not run/is;
 assert.match(implementationPrompt, selectedSwiftLintContract);
 assert.match(testIntegrityPrompt, /manifest was nonempty before `swiftlint lint --strict` ran/i);
+assert.match(implementationPrompt, /accepted plan separately requires repository-wide lint inventory.*distinct gate.*diagnostic-level comparison/is);
+assert.match(testIntegrityPrompt, /accepted plan separately requires repository-wide lint inventory.*distinct gate/is);
 const adversarialPrompt = readFileSync(join(bundle(codex), 'prompts/step7-adversarial-review.md'), 'utf8');
 assert.match(adversarialPrompt, /do not reject a predecessor because final wiring, host injection, or another behavior is explicitly assigned to a pending downstream dependent plan/i);
+assert.match(adversarialPrompt, /Copy the immediately preceding Step 6 test-integrity output into required `payload.testIntegrityDecision`/i);
+const adversarialNode = read(join(bundle(codex), 'nodes/node-step7-adversarial-review.json'));
+assert(adversarialNode.output.jsonSchema.required.includes('testIntegrityDecision'));
+assert.deepEqual(adversarialNode.output.jsonSchema.properties.testIntegrityDecision.required, ['accepted', 'summary', 'feedback', 'residualRisks']);
+const branchEvidencePrompt = readFileSync(join(bundle(codex), 'prompts/branch-evidence.md'), 'utf8');
+assert.match(branchEvidencePrompt, /separate `reviewDecisions` entries.*checkpointProvenance/is);
 const provenanceSystemPromptPath = 'prompts/runtime-provenance-system.md';
 const provenanceSystemPrompt = readFileSync(join(bundle(codex), provenanceSystemPromptPath), 'utf8');
 for (const node of ['step1-issue-intake', 'step2-design-doc-update', 'step3-design-review', 'step4-impl-plan-create', 'step5-impl-plan-review']) {
@@ -245,12 +257,19 @@ assert.match(integrationReviewPrompt, /return the immutable wave acceptance reco
 assert.match(integrationReviewPrompt, /runtime persists this read-only node output/i);
 assert.match(integrationReviewPrompt, /do not write or modify repository or evidenceRoot files/i);
 assert.doesNotMatch(integrationReviewPrompt, /persist an immutable wave acceptance record under the run evidenceRoot/i);
-assert.match(integrationReviewPrompt, /immediately preceding serial reconciliation output's `verification` and `evidencePaths`/i);
-assert.match(integrationReviewPrompt, /current-tree aggregate command as qualifying evidence/i);
+assert.match(integrationReviewPrompt, /immediately preceding serial reconciliation output's `verification`, `evidencePaths`, and separate `reviewDecisions`/i);
+assert.match(integrationReviewPrompt, /verified dispatch projection is present/i);
+assert.match(integrationReviewPrompt, /evidence-only worker redispatch.*worker-owned evidence\/progress file already in that plan's `writePaths`/is);
+assert.match(integrationReviewPrompt, /current-tree aggregate command as qualifying passing evidence/i);
+assert.match(integrationReviewPrompt, /nonzero aggregate is never green.*baselineReviewPending/is);
 assert.match(integrationReviewPrompt, /do not require this read-only review to recreate writable caches or an isolated dependency checkout/i);
 assert.match(integrationReviewPrompt, /predecessor is eligible for wave acceptance.*pending downstream dependent plan/is);
 assert.match(integrationReviewPrompt, /retain the downstream plan in `pendingPlanIds`.*expanded `acceptedPlanIds`.*unlock it/is);
 const reconcilePrompt = readFileSync(join(bundle(codex), 'prompts/reconcile-implementations.md'), 'utf8');
+assert.match(reconcilePrompt, /preserve this verified `checkpointProvenance` in your output for integration review/i);
+assert.match(reconcilePrompt, /each successful native fanout branch's `checkpointProvenance`.*Require the branches to agree/is);
+assert.match(reconcilePrompt, /separate typed test-integrity decision and adversarial decision.*in `reviewDecisions`/is);
+assert.match(reconcilePrompt, /separately required repository-wide lint inventory.*distinct plan gate/is);
 assert.match(reconcilePrompt, /already-resolved dependency checkout and normal build products/i);
 assert.match(reconcilePrompt, /do not select a new isolated scratch build that must fetch dependencies/i);
 assert.match(reconcilePrompt, /direct `verification` and `evidencePaths` output/i);
@@ -303,7 +322,7 @@ for (const prompt of ['plan-checkpoint', 'branch-evidence', 'implementation-wave
     `${fableOpus}/${prompt}: prompt drifted from Codex base`,
   );
 }
-const expected = new Map([[codex, 25], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 32]]);
+const expected = new Map([[codex, 26], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 32]]);
 for (const [id, count] of expected) {
   const w = read(join(bundle(id), 'workflow.json'));
   assert.equal(w.steps.length, count);
@@ -358,6 +377,17 @@ assert.match(managerPrompt, /dispatch.*step1-issue-intake/i);
 assert.match(managerPrompt, /do not perform any repository work yourself/i);
 const checkpointTransitions = graph.steps.find((step: any) => step.id === 'plan-checkpoint').transitions;
 assert.deepEqual(checkpointTransitions, [{ toStepId: 'plan-git-commit', label: '!(checkpoint_blocked)' }]);
+assert.deepEqual(graph.steps.find((step: any) => step.id === 'plan-git-commit').transitions, [
+  { toStepId: 'plan-git-push' },
+]);
+assert.deepEqual(graph.steps.find((step: any) => step.id === 'plan-git-push').transitions, [
+  { toStepId: 'dispatch-plans' },
+]);
+const checkpointPush = graph.nodes.find((node: any) => node.id === 'plan-git-push')?.addon;
+assert.equal(checkpointPush?.name, 'riela/git-push');
+assert.equal(checkpointPush?.version, '1');
+assert.equal(checkpointPush?.config?.allowPush, true);
+assert.equal(checkpointPush?.config?.expectedCommitHashTemplate, '{{inbox.latest.output.payload.git.commitHash}}');
 assert.equal(graph.loop.gates.length, 6);
 assert(!graph.nodes.some((node: any) => node.id === 'step7-review'));
 assert(!graph.steps.some((step: any) => step.id === 'step7-review'));
@@ -462,6 +492,16 @@ assert.match(readFileSync(join(bundle(codex), 'prompts/implementation-wave-outco
 assert.match(readFileSync(join(bundle(codex), 'prompts/implementation-blocked-output.md'), 'utf8'), /implementation_blocked:true,status:\"blocked\"/i);
 assert.equal(graph.steps.find((step: any) => step.id === 'step6-test-integrity-check').transitions.find((transition: any) => transition.label === '!(needs_revision)')?.toStepId, 'step7-adversarial-review');
 assert.equal(graph.loop.gates.find((g: any) => g.id === 'implementation-plan-completion-check').stepId, 'step9-commit-message');
+const docsNode = JSON.parse(readFileSync(join(bundle(codex), 'nodes/node-step8-docs-refresh.json'), 'utf8'));
+const completionNode = JSON.parse(readFileSync(join(bundle(codex), 'nodes/node-step9-commit-message.json'), 'utf8'));
+const docsPrompt = readFileSync(join(bundle(codex), 'prompts/step8-docs-refresh.md'), 'utf8');
+const completionPrompt = readFileSync(join(bundle(codex), 'prompts/step9-commit-message.md'), 'utf8');
+assert.equal(docsNode.agentSandbox, 'workspace-write');
+assert.equal(completionNode.agentSandbox, 'read-only');
+assert.match(docsPrompt, /Own the writable completion-state cleanup.*Move only plans/is);
+assert.match(docsPrompt, /update `impl-plans\/README\.md`/i);
+assert.match(completionPrompt, /This node is read-only.*Verify that Step 8 moved/is);
+assert.match(completionPrompt, /Never\s+attempt the move or index edit from this node/i);
 assert.equal(graph.loop.gates.find((g: any) => g.id === 'integration-review').stepId, 'integration-review');
 const integrationTransitions = graph.steps.find((step: any) => step.id === 'integration-review').transitions;
 assert.equal(integrationTransitions.find((transition: any) => transition.label === 'needs_revision && repair_in_place')?.toStepId, 'reconcile-implementations');
@@ -516,7 +556,7 @@ function runExpectFailure(id: string, name: string, mutate: (m: any) => void, ex
 }
 run(codex, 'completion-revision', m => {
   const accepted = m['step9-commit-message'];
-  m['step9-commit-message'] = [output({ decision: 'needs-revision', needs_revision: true, findings: [{ severity: 'mid', message: 'Documentation index needs reconciliation.' }] }, { needs_revision: true } as any), accepted];
+  m['step9-commit-message'] = [output({ decision: 'needs-revision', workflowMode: 'issue-resolution', needs_revision: true, findings: [{ severity: 'mid', message: 'Documentation index needs reconciliation.' }] }, { needs_revision: true } as any), accepted];
 }, steps => {
   const first = steps.indexOf('step9-commit-message');
   assert.deepEqual(steps.slice(first, first + 4), ['step9-commit-message', 'step8-docs-refresh', 'step9-commit-message', 'step10-git-commit']);
@@ -524,6 +564,18 @@ run(codex, 'completion-revision', m => {
 });
 run(codex, 'planning-only', () => {}, steps => {
   assert(!steps.includes('step6-implement')); assert(!steps.includes('step8-docs-refresh'));
+}, 'mock-scenario-planning-only.json');
+run(codex, 'planning-branch-only-handoff', m => {
+  m['base-branch-integrate'].payload.mergeStatus = 'branch-only';
+  m['base-branch-integrate'].payload.basePushStatus = 'not-requested';
+  m['base-branch-integrate'].payload.implementationBranch = 'fix/no-merge-handoff';
+  m['step11-git-push'].payload.git.pushedBranch = 'fix/no-merge-handoff';
+  m['workflow-output'].payload.mergeStatus = 'branch-only';
+  m['workflow-output'].payload.basePushStatus = 'not-requested';
+  m['workflow-output'].payload.pushedBranch = 'fix/no-merge-handoff';
+}, (steps, result) => {
+  assert(steps.includes('base-branch-integrate'));
+  assert.equal(result.session.executions.find((execution: any) => execution.stepId === 'base-branch-integrate').acceptedOutput.payload.mergeStatus, 'branch-only');
 }, 'mock-scenario-planning-only.json');
 runExpectFailure(codex, 'planning-base-integration-blocked-is-not-success', m => {
   m['base-branch-integrate'].payload.mergeStatus = 'blocked';
@@ -542,6 +594,7 @@ run(codex, 'checkpoint-no-op-blocked', m => {
 }, steps => {
   assert.deepEqual(steps, ['plan-checkpoint']);
   assert(!steps.includes('plan-git-commit'));
+  assert(!steps.includes('plan-git-push'));
   assert(!steps.includes('dispatch-plans'));
 }, 'mock-scenario.json', 'plan-checkpoint');
 run(codex, 'implementation-dependency-blocked', m => {
@@ -589,6 +642,36 @@ run(codex, 'implementation-dependency-blocked', m => {
   assert(!steps.includes('step7-adversarial-review'));
   assert(!steps.includes('reconcile-implementations'));
   assert(!steps.includes('integration-review'));
+}, 'mock-scenario.json', 'step6-implement');
+run(codex, 'implementation-failed-required-gate-terminal', m => {
+  m['step6-implement'] = [output({
+    implementation_blocked: false,
+    implementationIncomplete: true,
+    blockers: [],
+    changedFiles: ['Tests/RielaCLITests/TaskDispatcherIntegrationTests.swift'],
+    implementationSummary: 'Required before-removal V1 failed; the deletion barrier remains closed.',
+    implPlanPaths: ['impl-plans/active/a.md'],
+    implPlanUpdates: ['Recorded the failed barrier and exact ownership gap.'],
+    verification: [
+      { command: 'swift test --filter ReplayTests', exitCode: 0, testsRun: 1, failureCount: 0 },
+      { command: 'swift test --filter RequiredBeforeRemovalSuite', exitCode: 1, testsRun: 60, failureCount: 4 },
+    ],
+    authorSelfCheck: { findings: ['High: canonical failure kind is missing'], verificationGaps: [] },
+  }), output({ implementation_blocked: false, implementationIncomplete: false })];
+  m['implementation-wave-outcome'] = output({
+    implementation_blocked: true, partial_success: false, blockedPlanIds: ['a'],
+    successfulPlanIds: [], blockers: [{ type: 'implementation-material-finding' }],
+    resumeCriteria: ['Review the additional canonical persistence owner.'],
+  }, { implementation_blocked: true } as any);
+  m['implementation-blocked-output'] = output({
+    implementation_blocked: true, status: 'blocked', workflowMode: 'issue-resolution',
+    issueReference: 'comm-1', blockedPlanIds: ['a'], successfulPlanIds: [],
+    blockers: [{ type: 'implementation-material-finding' }],
+    resumeCriteria: ['Review the additional canonical persistence owner.'],
+    nextStep: 'Amend the exact write paths and rerun.', residualRisks: [],
+  });
+}, steps => {
+  assert.deepEqual(steps, ['step6-implement', 'implementation-progress-check', 'implementation-wave-outcome', 'implementation-blocked-output']);
 }, 'mock-scenario.json', 'step6-implement');
 run(codex, 'implementation-no-progress-terminal', m => {
   const unchanged = {
@@ -825,7 +908,9 @@ run(codex, 'native-fanout-partial-success-selective-redispatch', m => {
   assert.deepEqual(retryJoin?.dispatchedBranchIds, ['b'], 'accepted candidate must not be redispatched');
 }, 'mock-scenario-fanout.json');
 run(codex, 'two-branch-native-fanout', () => {}, steps => {
-  assert(steps.indexOf('plan-git-commit') < steps.indexOf('dispatch-plans'));
+  assert(steps.indexOf('plan-git-commit') < steps.indexOf('plan-git-push'));
+  assert(steps.indexOf('plan-git-push') < steps.indexOf('dispatch-plans'));
+  assert.equal(steps.filter(step => step === 'plan-git-push').length, 1);
   assert(steps.indexOf('dispatch-plans') < steps.indexOf('reconcile-implementations'));
   assert(steps.indexOf('integration-review') < steps.indexOf('step10-git-commit'));
   assert.equal(steps.filter(s => s === 'step10-git-commit').length, 1);
@@ -1106,7 +1191,10 @@ run(refactor, 'refactoring-revision', m => {
     output({ taskId: 'REF-001', changedFiles: [], verification: ['mock verification'], authorSelfCheck: { findings: [] } }),
     output({ taskId: 'REF-001', changedFiles: [], verification: ['mock repair verification'], authorSelfCheck: { findings: [] } }),
   ];
-  m['step6-post-refactor-review'] = [output({ findings: [{ severity: 'mid', message: 'Preserve public behavior.' }] }, { needs_revision: true, plan_remaining: false, workflow_complete: false } as any), output({ findings: [], accepted: true }, { needs_revision: false, plan_remaining: false, workflow_complete: true } as any)];
+  m['step6-post-refactor-review'] = [
+    output({ needs_revision: true, plan_remaining: 'false', workflow_complete: false, accepted: false, findings: [{ severity: 'mid', message: 'Preserve public behavior.' }] }, { needs_revision: true, plan_remaining: false, workflow_complete: false } as any),
+    output({ needs_revision: false, plan_remaining: 'false', workflow_complete: true, accepted: true, findings: [] }, { needs_revision: false, plan_remaining: false, workflow_complete: true } as any),
+  ];
 }, steps => {
   const i = steps.indexOf('step6-post-refactor-review');
   assert.deepEqual(steps.slice(i, i + 3), ['step6-post-refactor-review', 'step3-merge-review-plan', 'step6-post-refactor-review']);

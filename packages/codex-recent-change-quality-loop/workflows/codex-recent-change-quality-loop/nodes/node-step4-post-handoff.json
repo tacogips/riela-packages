@@ -2,11 +2,53 @@
   "id": "step4-post-handoff",
   "description": "Consume the delegated design-and-implement workflow result and prepare the next review pass.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step4-post-handoff.md",
   "variables": {},
   "output": {
-    "description": "Return the accepted delegated-workflow summary, changed files, verification, and the plan for the next review pass."
+    "description": "Return the accepted delegated-workflow summary, changed files, verification, and the plan for the next review pass.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "delegatedWorkflowId": {
+          "type": "string"
+        },
+        "delegatedWorkflowMode": {
+          "type": "string"
+        },
+        "delegatedStatus": {
+          "type": "string"
+        },
+        "delegatedIssueReference": {
+          "type": "string"
+        },
+        "delegatedChangedFiles": {
+          "type": "array",
+          "items": {}
+        },
+        "delegatedVerification": {
+          "type": "array",
+          "items": {}
+        },
+        "delegatedCommitHash": {
+          "type": "string"
+        },
+        "reviewResumePlan": {
+          "type": "string"
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "delegatedWorkflowId",
+        "delegatedWorkflowMode"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

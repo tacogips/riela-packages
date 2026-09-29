@@ -33,6 +33,7 @@
       },
       "required": ["reviewBasis", "repairs", "addressedFeedback", "deferredFeedback", "unresolvedFindings"],
       "additionalProperties": true
-    }
+    },
+    "maxValidationAttempts": 2
   }
 }

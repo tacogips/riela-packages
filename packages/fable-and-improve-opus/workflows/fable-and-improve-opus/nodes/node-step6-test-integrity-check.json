@@ -57,6 +57,7 @@
       },
       "required": ["needs_revision", "accepted", "reviewBasis", "findings", "reviewedFiles", "testFilesChanged", "removedOrWeakenedTests", "suspectedTestOnlyHacks", "verificationGaps", "feedback", "residualRisks"],
       "additionalProperties": false
-    }
+    },
+    "maxValidationAttempts": 2
   }
 }

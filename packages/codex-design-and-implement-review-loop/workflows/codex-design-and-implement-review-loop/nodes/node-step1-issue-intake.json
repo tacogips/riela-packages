@@ -9,7 +9,69 @@
   "promptTemplateFile": "prompts/step1-issue-intake.md",
   "variables": {},
   "output": {
-    "description": "Return JSON with workflow mode, issue or reference context, problem summary, acceptance signals, impacted areas, codex-agent references, and open unknowns."
+    "description": "Return JSON with workflow mode, issue or reference context, problem summary, acceptance signals, impacted areas, codex-agent references, and open unknowns.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "workflowMode": {
+          "type": "string"
+        },
+        "issueReference": {
+          "type": "string"
+        },
+        "issueTitle": {
+          "type": "string"
+        },
+        "problemSummary": {
+          "type": "string"
+        },
+        "acceptanceSignals": {
+          "type": "array",
+          "items": {}
+        },
+        "impactedAreas": {
+          "type": "array",
+          "items": {}
+        },
+        "constraints": {
+          "type": "array",
+          "items": {}
+        },
+        "unknowns": {
+          "type": "array",
+          "items": {}
+        },
+        "risks": {
+          "type": "array",
+          "items": {}
+        },
+        "reviewMode": {
+          "type": "string"
+        },
+        "riskLevel": {
+          "type": "string"
+        },
+        "requiresAdversarialReview": {
+          "type": "boolean"
+        },
+        "codexAgentReferences": {
+          "type": "array",
+          "items": {}
+        },
+        "referenceRepositoryRoot": {
+          "type": "string"
+        },
+        "referenceRepositoryUrl": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "workflowMode",
+        "issueReference"
+      ]
+    },
+    "maxValidationAttempts": 2
   },
   "effort": "medium"
 }

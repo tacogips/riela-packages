@@ -2,6 +2,7 @@
   "id": "work",
   "description": "Execute the current in-session plan or address review feedback using Codex GPT-5.6 SOL high effort.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "workspace-write",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
@@ -11,6 +12,51 @@
   "promptTemplateFile": "prompts/work.md",
   "variables": {},
   "output": {
-    "description": "Return JSON with changed files, actions taken, verification evidence, addressed feedback, incomplete items, and residual risks."
+    "description": "Return JSON with changed files, actions taken, verification evidence, addressed feedback, incomplete items, and residual risks.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "changedFiles": {
+          "type": "array",
+          "items": {}
+        },
+        "actionsTaken": {
+          "type": "array",
+          "items": {}
+        },
+        "workflowDiscovery": {
+          "type": "object"
+        },
+        "delegatedWorkflows": {
+          "type": "array",
+          "items": {}
+        },
+        "verification": {
+          "type": "array",
+          "items": {}
+        },
+        "addressedFeedback": {
+          "type": "array",
+          "items": {}
+        },
+        "incompleteItems": {
+          "type": "array",
+          "items": {}
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {}
+        },
+        "blocked": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "changedFiles",
+        "actionsTaken"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

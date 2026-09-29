@@ -5,5 +5,38 @@
   "model": "gpt-5.6-sol",
   "promptTemplateFile": "prompts/plan-checkpoint.md",
   "variables": {},
-  "effort": "high"
+  "effort": "high",
+  "agentSandbox": "workspace-write",
+  "output": {
+    "maxValidationAttempts": 2,
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "commitMessage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "committedFiles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "manifestPath": {
+          "type": "string"
+        },
+        "evidenceRoot": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "commitMessage",
+        "committedFiles",
+        "manifestPath",
+        "evidenceRoot"
+      ],
+      "additionalProperties": true
+    }
+  }
 }

@@ -1,6 +1,6 @@
 {
   "name": "cursor-cli-developer-workflows",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "cursor-cli-developer-workflows",
   "description": "Meta package that pins the standard Cursor CLI developer workflow set in its dependencies and ships one Cursor dispatcher rule for choosing among them. Install the listed dependency packages together with this package.",
   "tags": [
@@ -10,7 +10,7 @@
     "meta"
   ],
   "registry": "default",
-  "checksum": "34343b394b2257b5d2125789eb7e81e3",
+  "checksum": "b73a2c234185b48a6e3ae5008a8b2554",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-developer-workflows",
   "dependencies": [
@@ -43,7 +43,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "5d42bc26277b445bb280f9f7da46c6d7c8d24743a9f7674f98069ea62a345499"
+    "digest": "c868013f846c9724c185f106ea982c9dbb0fef13d4c7a09270d71e360ec2e6e3"
   },
   "backends": [
     "cursor-cli-agent"

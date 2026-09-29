@@ -85,44 +85,15 @@ bun .agents/skills/riela-package-release/scripts/check-release-publication.ts
 '''
 
 [tasks."package:validate"]
-description = "Validate every package manifest with the local Swift Riela CLI."
+description = "Validate every package manifest with installed Riela."
 run = '''
-set -e
-for manifest in packages/*/riela-package.json; do
-  package_dir=$(dirname "$manifest")
-  package_id=$(basename "$package_dir")
-  swift run --package-path "${RIELA_ROOT:-../riela}" riela package install "$package_id" \
-    --source "$package_dir" \
-    --dry-run \
-    --no-dependencies \
-    --output json >/dev/null
-  echo "${package_id} package ok"
-done
-
+bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode manifests
 '''
 
 [tasks."workflow:validate"]
-description = "Validate concrete packaged workflows with cross-workflow callees visible."
+description = "Validate concrete and inherited packaged workflows with isolated dependencies."
 run = '''
-set -e
-workflow_tmp=$(mktemp -d)
-trap 'rm -rf "$workflow_tmp"' EXIT
-
-for workflow_dir in packages/*/workflows/*; do
-  [ -d "$workflow_dir" ] || continue
-  workflow=$(basename "$workflow_dir")
-  cp -R "$workflow_dir" "$workflow_tmp/$(basename "$workflow_dir")"
-done
-
-for workflow_dir in "$workflow_tmp"/*; do
-  [ -d "$workflow_dir" ] || continue
-  workflow=$(basename "$workflow_dir")
-  swift run --package-path "${RIELA_ROOT:-../riela}" riela workflow validate "$workflow" \
-    --workflow-definition-dir "$workflow_tmp" \
-    --output json >/dev/null
-  echo "${workflow} ok"
-done
-
+bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows
 '''
 
 [tasks."workflow:check-compact"]
@@ -133,6 +104,43 @@ run = "bun .agents/skills/riela-package-release/scripts/check-compact-workflows.
 description = "Check deterministic Codex dispatch manifest compatibility."
 run = "python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'"
 
+[tasks."package:check-compat-harness"]
+description = "Test compatibility harness route and asset assertions."
+run = "bun test ./.agents/skills/riela-package-release/scripts/check-package-compat.test.ts"
+
+[tasks."package:check-assets"]
+description = "Validate installed CLI usage and package documentation assets."
+run = "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode assets"
+
+[tasks."workflow:check-scenarios"]
+description = "Run deterministic packaged workflow scenarios and route assertions."
+run = "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --include-inherited"
+
+[tasks."package:check-local-contracts"]
+description = "Run package-local compatibility and output contract tests."
+run = '''
+set -e
+contract_root=$(mktemp -d "$PWD/tmp/package-local-contracts.XXXXXX")
+catalog="$contract_root/catalog"
+mkdir -p "$catalog" "$contract_root/isolated-project" "$contract_root/evidence"
+for workflow in packages/*/workflows/*/workflow.json; do
+  [ -f "$workflow" ] || continue
+  workflow_id=${workflow%/workflow.json}
+  workflow_id=${workflow_id##*/}
+  cp -R "${workflow%/workflow.json}" "$catalog/$workflow_id"
+done
+export RIELA_COMPAT_CATALOG="$catalog"
+export RIELA_COMPAT_EVIDENCE_ROOT="$contract_root/evidence"
+export RIELA_COMPAT_CLI="${RIELA_COMPAT_CLI:-riela}"
+export RIELA_BIN="${RIELA_BIN:-$RIELA_COMPAT_CLI}"
+for script in packages/*/tests/check-compat.ts packages/*/tests/check-output-contract.ts; do
+  [ -f "$script" ] || continue
+  package_id=${script#packages/}
+  package_id=${package_id%%/*}
+  bun "$script" --evidence-root "$contract_root/$package_id"
+done
+'''
+
 [tasks."check"]
 description = "Run package digest, registry index, package manifest, and workflow validation checks."
 run = '''
@@ -142,6 +150,10 @@ mise run package:check-index
 mise run package:check-container-images
 mise run workflow:check-compact
 mise run workflow:check-codex-dispatch
+mise run package:check-compat-harness
+mise run package:check-assets
+mise run workflow:check-scenarios
+mise run package:check-local-contracts
 mise run package:validate
 mise run workflow:validate
 '''

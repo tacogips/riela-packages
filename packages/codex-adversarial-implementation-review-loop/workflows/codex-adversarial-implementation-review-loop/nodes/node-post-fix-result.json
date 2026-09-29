@@ -2,12 +2,55 @@
   "id": "post-fix-result",
   "description": "Summarize the delegated fix result before the next adversarial review pass.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/post-fix-result.md",
   "variables": {},
   "output": {
-    "description": "Return fix status, changed files, verification, residual risks, and next review notes."
+    "description": "Return fix status, changed files, verification, residual risks, and next review notes.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "fixWorkflowId": {
+          "type": "string"
+        },
+        "fixStatus": {
+          "type": "string"
+        },
+        "reviewSubject": {
+          "type": "object"
+        },
+        "targetPaths": {
+          "type": "array",
+          "items": {}
+        },
+        "changedFiles": {
+          "type": "array",
+          "items": {}
+        },
+        "fixVerification": {
+          "type": "string"
+        },
+        "fixResidualRisks": {
+          "type": "array",
+          "items": {}
+        },
+        "delegatedWorkflowRuns": {
+          "type": "array",
+          "items": {}
+        },
+        "handoffSummary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "fixWorkflowId",
+        "fixStatus"
+      ]
+    },
+    "maxValidationAttempts": 2
   },
   "effort": "medium"
 }

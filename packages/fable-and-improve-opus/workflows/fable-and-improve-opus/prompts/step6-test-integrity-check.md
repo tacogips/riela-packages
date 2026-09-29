@@ -8,6 +8,8 @@ Maximize safely independent subagent use for repository exploration, test/covera
 
 Verification fallback is part of the accepted implementation contract: if an exact fresh `--scratch-path` attempt failed before compilation only because DNS, dependency fetch, or module-cache isolation was unavailable, require the implementation step to retry the same selected suites against the current tree's existing resolved checkout or `.build`, using plan-local writable `CLANG_MODULE_CACHE_PATH` and `SWIFTPM_MODULECACHE_OVERRIDE` plus `--disable-sandbox --skip-update` where supported. Do not accept repeated isolated scratch fetch failures as sufficient verification when that fallback is available. Require matching current source identity, complete logs, successful exit status, and a positive test count. Earlier behavioral evidence qualifies only with an exact matching source identity.
 
+If the progress gate forwards `baselineReviewPending`, independently inspect every failed aggregate log, the comparison JSON, the baseline/current source and toolchain identity, and the changed-test inventory. Confirm that every failed assertion and failed case is identical to the preimplementation baseline, no new failure is hidden, and focused current-source behavioral tests passed. A nonzero aggregate remains nonzero. Accept this gate only if the evidence honestly isolates an out-of-scope baseline failure and records the explicit pending disposition for adversarial and integration review; otherwise request the smallest material correction. Do not treat this handoff as a waiver or a green aggregate.
+
 This gate focuses only on whether the implementation preserved honest test and
 verification coverage.
 
@@ -19,7 +21,7 @@ Apply a strict review budget. Block only on concrete evidence that required beha
 
 Required checks:
 
-- When Swift changed-file lint is reported, require its NUL manifest path and verify that the manifest was nonempty before `swiftlint lint --strict` ran. The command must receive the manifest entries as explicit paths and preserve the repository's normal SwiftLint configuration. An empty selected-Swift set is valid evidence that no selected-file lint ran; do not require an argument-less SwiftLint invocation, because a repository `included` list would turn unrelated baseline warnings into false strict failures. Conversely, do not accept an empty manifest as evidence that changed Swift files were linted.
+- When Swift changed-file lint is reported, require its NUL manifest path and verify that the manifest was nonempty before `swiftlint lint --strict` ran. The command must receive the manifest entries as explicit paths and preserve the repository's normal SwiftLint configuration. An empty selected-Swift set is valid evidence that no selected-file lint ran; do not require an argument-less invocation for that gate. Conversely, do not accept an empty manifest as evidence that changed Swift files were linted. If the accepted plan separately requires repository-wide lint inventory, verify its baseline/final command, complete logs, source/configuration identity, and diagnostic-level comparison as a distinct gate; do not substitute it for strict changed-file lint or call baseline warnings newly introduced failures.
 
 - Identify deleted tests, skipped tests, narrowed test discovery, disabled
   suites, removed fixtures, weakened assertions, deleted edge-case coverage, or

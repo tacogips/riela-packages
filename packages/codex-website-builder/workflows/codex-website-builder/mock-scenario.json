@@ -11,5 +11,314 @@
       "Use a pinned CSS framework and dependency allowlist"
     ],
     "reviewUrl": "http://127.0.0.1:4173"
+  },
+  "riela-manager": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "projectName": "launch-board",
+      "targetDirectory": "apps/launch-board",
+      "siteRequest": "Build a compact planning board.",
+      "feedback": "Make review obvious.",
+      "constraints": [
+        "Use SolidJS and Bun."
+      ],
+      "acceptanceCriteria": [
+        "Dashboard renders."
+      ],
+      "preferredReviewUrl": "http://127.0.0.1:4173",
+      "eventContext": {},
+      "chatHistorySummary": "",
+      "attachments": [],
+      "assumptions": [],
+      "nextStep": "site-design"
+    }
+  },
+  "site-design": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "projectName": "launch-board",
+      "targetDirectory": "apps/launch-board",
+      "designBriefPaths": [
+        "design-docs/launch-board.md"
+      ],
+      "pageInventory": [
+        "dashboard"
+      ],
+      "dependencyAllowlist": [
+        "solid-js"
+      ],
+      "interactionRequirements": [
+        "feedback form"
+      ],
+      "implementationGuidance": [
+        "Use compact layout."
+      ]
+    }
+  },
+  "asset-generate": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "targetDirectory": "apps/launch-board",
+      "assetFiles": [],
+      "generationMethod": "none",
+      "usageMap": {},
+      "licensingNotes": [],
+      "implementationGuidance": []
+    }
+  },
+  "server-node": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "targetDirectory": "apps/launch-board",
+      "changedFiles": [],
+      "pinnedDependencies": [
+        "solid-js"
+      ],
+      "bunCommands": [
+        "bun install"
+      ],
+      "runInstructions": [
+        "bun run dev"
+      ],
+      "verification": [],
+      "reviewUrl": "http://127.0.0.1:4173",
+      "containerEvidence": []
+    }
+  },
+  "bun-container-server": {
+    "provider": "scenario-mock",
+    "model": "scenario-addon",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "completed",
+      "reviewUrl": "http://127.0.0.1:4173",
+      "commands": [],
+      "verification": []
+    }
+  },
+  "source-commit-message": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "has_source_changes": false
+    },
+    "payload": {
+      "has_source_changes": false,
+      "committedFiles": [],
+      "snapshotSummary": "No source changes in this deterministic mock.",
+      "excludedDirtyFiles": [],
+      "residualRisks": []
+    }
+  },
+  "review-dispatch": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "reviewItems": [
+        {
+          "reviewId": "ux-design",
+          "reviewUrl": "http://127.0.0.1:4173",
+          "targetDirectory": "apps/launch-board",
+          "userRequest": "Build a launch board.",
+          "designBrief": "Compact planning dashboard.",
+          "dependencyAllowlist": [
+            "solid-js"
+          ],
+          "assetPaths": [],
+          "containerEvidence": [],
+          "verification": [],
+          "changedFiles": [],
+          "viewports": [
+            "mobile",
+            "desktop"
+          ],
+          "interactionChecklist": [
+            "feedback form"
+          ],
+          "focus": "ux-design",
+          "evidenceNamespace": "ux-design"
+        },
+        {
+          "reviewId": "assets-media",
+          "reviewUrl": "http://127.0.0.1:4173",
+          "targetDirectory": "apps/launch-board",
+          "userRequest": "Build a launch board.",
+          "designBrief": "Compact planning dashboard.",
+          "dependencyAllowlist": [
+            "solid-js"
+          ],
+          "assetPaths": [],
+          "containerEvidence": [],
+          "verification": [],
+          "changedFiles": [],
+          "viewports": [
+            "mobile",
+            "desktop"
+          ],
+          "interactionChecklist": [
+            "feedback form"
+          ],
+          "focus": "assets-media",
+          "evidenceNamespace": "assets-media"
+        },
+        {
+          "reviewId": "implementation-runtime",
+          "reviewUrl": "http://127.0.0.1:4173",
+          "targetDirectory": "apps/launch-board",
+          "userRequest": "Build a launch board.",
+          "designBrief": "Compact planning dashboard.",
+          "dependencyAllowlist": [
+            "solid-js"
+          ],
+          "assetPaths": [],
+          "containerEvidence": [],
+          "verification": [],
+          "changedFiles": [],
+          "viewports": [
+            "mobile",
+            "desktop"
+          ],
+          "interactionChecklist": [
+            "feedback form"
+          ],
+          "focus": "implementation-runtime",
+          "evidenceNamespace": "implementation-runtime"
+        }
+      ]
+    }
+  },
+  "review-node": [
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "reviewUrl": "http://127.0.0.1:4173",
+        "reviewId": "ux-design",
+        "playwrightCommands": [],
+        "screenshots": [],
+        "consoleFindings": [],
+        "containerEvidence": [],
+        "dependencyPolicyFindings": [],
+        "findings": [],
+        "blockingFindingCount": 0,
+        "accepted": true,
+        "recommendedRoute": "accept",
+        "feedback": [],
+        "residualLowRisks": [],
+        "replyToUser": ""
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "reviewUrl": "http://127.0.0.1:4173",
+        "reviewId": "assets-media",
+        "playwrightCommands": [],
+        "screenshots": [],
+        "consoleFindings": [],
+        "containerEvidence": [],
+        "dependencyPolicyFindings": [],
+        "findings": [],
+        "blockingFindingCount": 0,
+        "accepted": true,
+        "recommendedRoute": "accept",
+        "feedback": [],
+        "residualLowRisks": [],
+        "replyToUser": ""
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "gpt-5.6-sol",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "reviewUrl": "http://127.0.0.1:4173",
+        "reviewId": "implementation-runtime",
+        "playwrightCommands": [],
+        "screenshots": [],
+        "consoleFindings": [],
+        "containerEvidence": [],
+        "dependencyPolicyFindings": [],
+        "findings": [],
+        "blockingFindingCount": 0,
+        "accepted": true,
+        "recommendedRoute": "accept",
+        "feedback": [],
+        "residualLowRisks": [],
+        "replyToUser": ""
+      }
+    }
+  ],
+  "review-reducer": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "needs_design_revision": false,
+      "needs_asset_revision": false,
+      "needs_implementation_revision": false
+    },
+    "payload": {
+      "needs_design_revision": false,
+      "needs_asset_revision": false,
+      "needs_implementation_revision": false,
+      "accepted": true,
+      "lensCoverage": [
+        "ux-design",
+        "assets-media",
+        "implementation-runtime"
+      ],
+      "findings": [],
+      "feedbackForNextNode": [],
+      "screenshots": [],
+      "consoleFindings": [],
+      "containerEvidence": [],
+      "residualLowRisks": []
+    }
+  },
+  "workflow-output": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.6-sol",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "accepted",
+      "siteUrl": "http://127.0.0.1:4173",
+      "targetDirectory": "apps/launch-board",
+      "commitSnapshots": [],
+      "reviewEvidence": [],
+      "residualRisks": [],
+      "eventReply": "Website mock accepted."
+    }
   }
 }

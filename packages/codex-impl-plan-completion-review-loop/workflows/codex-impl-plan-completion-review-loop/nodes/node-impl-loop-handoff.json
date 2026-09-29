@@ -2,11 +2,32 @@
   "id": "impl-loop-handoff",
   "description": "Prepare a delegated request for codex-impl-plan-completion-loop.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/impl-loop-handoff.md",
   "variables": {},
   "output": {
-    "description": "Return adapter JSON whose payload contains workflowInput for codex-impl-plan-completion-loop plus preserved wrapper context."
+    "description": "Return adapter JSON whose payload contains workflowInput for codex-impl-plan-completion-loop plus preserved wrapper context.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "workflowInput": {
+          "type": "object"
+        },
+        "wrapperContext": {
+          "type": "object"
+        },
+        "handoffSummary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "workflowInput",
+        "wrapperContext"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

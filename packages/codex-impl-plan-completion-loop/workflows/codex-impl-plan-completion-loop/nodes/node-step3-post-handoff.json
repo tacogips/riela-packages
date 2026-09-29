@@ -2,11 +2,58 @@
   "id": "step3-post-handoff",
   "description": "Record the delegated codex-adversarial-implementation-review-loop result before the next active-plan assessment.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step3-post-handoff.md",
   "variables": {},
   "output": {
-    "description": "Return JSON with delegated workflow status, selected plan path, changed files, verification evidence, commit information, and residual risks."
+    "description": "Return JSON with delegated workflow status, selected plan path, changed files, verification evidence, commit information, and residual risks.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "planPath": {
+          "type": "string"
+        },
+        "delegatedWorkflowId": {
+          "type": "string"
+        },
+        "delegatedStatus": {
+          "type": "string"
+        },
+        "delegatedSessionId": {
+          "type": "string"
+        },
+        "changedFiles": {
+          "type": "array",
+          "items": {}
+        },
+        "verificationCommands": {
+          "type": "string"
+        },
+        "commitHash": {
+          "type": "string"
+        },
+        "pushedRemote": {
+          "type": "string"
+        },
+        "pushedBranch": {
+          "type": "string"
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {}
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "planPath",
+        "delegatedWorkflowId"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

@@ -2,12 +2,45 @@
   "id": "step1-slice-codebase",
   "description": "Slice the repository into bounded package or related processing-group review units, with duplicate-scavenge search hints when requested.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step1-slice-codebase.md",
   "variables": {},
   "output": {
-    "description": "Return adapter JSON with has_review_slices, no_review_slices, and payload.reviewSlices for bounded fanout, including duplicate-scavenge review questions when requested."
+    "description": "Return adapter JSON with has_review_slices, no_review_slices, and payload.reviewSlices for bounded fanout, including duplicate-scavenge review questions when requested.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "has_review_slices": {
+          "type": "boolean"
+        },
+        "no_review_slices": {
+          "type": "boolean"
+        },
+        "reviewSlices": {
+          "type": "array",
+          "items": {}
+        },
+        "strategy": {
+          "type": "string"
+        },
+        "globalConstraints": {
+          "type": "array",
+          "items": {}
+        },
+        "maxSlicesApplied": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "has_review_slices",
+        "no_review_slices",
+        "reviewSlices"
+      ]
+    },
+    "maxValidationAttempts": 2
   },
   "effort": "high"
 }

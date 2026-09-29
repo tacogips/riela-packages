@@ -40,16 +40,17 @@ Rules:
 - If an implementation plan is now completed or its checklist/progress log says
   the accepted implementation work is complete, it must not remain under
   `impl-plans/active`.
-- Move completed implementation plans to `impl-plans/completed/<same-name>.md`
-  and update `impl-plans/README.md` active/recently-completed listings when
-  that repository uses those indexes.
+- This node is read-only. Verify that Step 8 moved completed implementation
+  plans to `impl-plans/completed/<same-name>.md` and updated
+  `impl-plans/README.md` active/recently-completed listings when used. Never
+  attempt the move or index edit from this node.
 - If a plan is intentionally still active, record the exact evidence and leave
   it in place.
-- If archive/index changes affect user-facing documentation already refreshed
-  by Step 8, return `needs_revision: true` so Step 8 can reconcile the final
-  docs before commit generation.
-- Do not reopen design or implementation scope. This step is a completion-state
-  gate and cleanup pass.
+- If a required archive/index change is missing or affects user-facing
+  documentation, return `needs_revision: true` with exact paths and evidence
+  so Step 8 can make the writable repair before commit generation.
+- Do not reopen design or implementation scope. This step is a read-only
+  completion-state gate.
 
 Return JSON with:
 - `workflowMode`

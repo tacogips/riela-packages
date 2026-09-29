@@ -2,6 +2,7 @@
   "id": "riela-manager",
   "description": "Coordinate the refactoring divide-and-conquer workflow and preserve runtime inputs, including duplicate-scavenge mode markers.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/riela-manager.md",
@@ -10,6 +11,39 @@
     "description": "Workflow arguments. Optional workflowInput fields include targetPaths, excludePaths, maxSlices, executionMode, refactoringMode, requestedOutcome, constraints, verificationPreferences, and planPath."
   },
   "output": {
-    "description": "Return JSON preserving refactoringMode, the operator request, and routing constraints."
+    "description": "Return JSON preserving refactoringMode, the operator request, and routing constraints.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "mode": {
+          "type": "string"
+        },
+        "refactoringMode": {
+          "type": "string"
+        },
+        "targetPaths": {
+          "type": "array",
+          "items": {}
+        },
+        "excludePaths": {
+          "type": "array",
+          "items": {}
+        },
+        "constraints": {
+          "type": "array",
+          "items": {}
+        },
+        "notes": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "mode",
+        "refactoringMode"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

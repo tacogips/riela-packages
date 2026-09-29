@@ -12,6 +12,23 @@
     "description": "Provide either issue reference details for full issue resolution or Codex-reference planning details for a design-plan-only run. Preferred fields are executionMode, issueUrl, issueNumber, issueRepository, issueTitle, issueBody, targetFeatureArea, requestedBehavior, codexAgentReferences, referenceRepositoryRoot, and referenceRepositoryUrl."
   },
   "output": {
-    "description": "Return a concise JSON dispatch acknowledgement with executionMode and targetFeatureArea. This node does not author, inspect, review, write files, run tests, commit, push, or declare completion."
+    "description": "Return a concise JSON dispatch acknowledgement with executionMode and targetFeatureArea. This node does not author, inspect, review, write files, run tests, commit, push, or declare completion.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "stage": {
+          "type": "string"
+        },
+        "policy": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "stage",
+        "policy"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

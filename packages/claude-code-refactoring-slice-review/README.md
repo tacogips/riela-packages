@@ -11,7 +11,7 @@ Read-only review workflow for one codebase slice produced by claude-code-refacto
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install claude-code-refactoring-slice-review --local-path /path/to/riela-packages
+riela package install claude-code-refactoring-slice-review --source /path/to/riela-packages/packages/claude-code-refactoring-slice-review
 ```
 
 Add `--scope user` to install for the current user instead of the
@@ -21,7 +21,7 @@ This package does not install its dependencies automatically.
 Install each dependency package as well:
 
 ```bash
-riela package install codex-refactoring-slice-review --local-path /path/to/riela-packages
+riela package install codex-refactoring-slice-review --source /path/to/riela-packages/packages/codex-refactoring-slice-review
 ```
 
 ## Run

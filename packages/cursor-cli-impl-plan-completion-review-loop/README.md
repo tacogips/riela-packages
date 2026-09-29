@@ -11,7 +11,7 @@ Run the Cursor CLI implementation-plan completion loop, then run the recent-chan
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install cursor-cli-impl-plan-completion-review-loop --local-path /path/to/riela-packages
+riela package install cursor-cli-impl-plan-completion-review-loop --source /path/to/riela-packages/packages/cursor-cli-impl-plan-completion-review-loop
 ```
 
 Add `--scope user` to install for the current user instead of the
@@ -21,9 +21,9 @@ This package does not install its dependencies automatically.
 Install each dependency package as well:
 
 ```bash
-riela package install codex-impl-plan-completion-review-loop --local-path /path/to/riela-packages
-riela package install cursor-cli-impl-plan-completion-loop --local-path /path/to/riela-packages
-riela package install cursor-cli-recent-change-quality-loop --local-path /path/to/riela-packages
+riela package install codex-impl-plan-completion-review-loop --source /path/to/riela-packages/packages/codex-impl-plan-completion-review-loop
+riela package install cursor-cli-impl-plan-completion-loop --source /path/to/riela-packages/packages/cursor-cli-impl-plan-completion-loop
+riela package install cursor-cli-recent-change-quality-loop --source /path/to/riela-packages/packages/cursor-cli-recent-change-quality-loop
 ```
 
 ## Run

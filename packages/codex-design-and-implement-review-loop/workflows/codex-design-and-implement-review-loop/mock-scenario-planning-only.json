@@ -18,6 +18,7 @@
     },
     "payload": {
       "workflowMode": "design-plan-only",
+      "issueReference": "",
       "problemSummary": "Plan how cursor-agent should adopt codex-agent-style session history behavior without implementing it yet.",
       "acceptanceSignals": [
         "The design maps the target codex-agent behavior to cursor-agent boundaries.",
@@ -47,7 +48,7 @@
   "step2-design-doc-update": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-6-sol",
       "when": {
         "always": true
       },
@@ -80,7 +81,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-6-sol",
       "when": {
         "always": true
       },
@@ -157,7 +158,7 @@
   "step4-impl-plan-create": [
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-6-sol",
       "when": {
         "always": true
       },
@@ -196,7 +197,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "gpt-6-astra",
+      "model": "gpt-6-sol",
       "when": {
         "always": true
       },
@@ -408,12 +409,27 @@
       "git": {
         "status": "committed",
         "commitHash": "1111111111111111111111111111111111111111",
+        "commitMessage": "docs: checkpoint accepted plans",
+        "committedFiles": [
+          "impl-plans/active/mock-dispatch.json",
+          "impl-plans/active/a.md"
+        ],
         "operation": "commit"
-      },
-      "committedFiles": [
-        "impl-plans/active/mock-dispatch.json",
-        "impl-plans/active/a.md"
-      ]
+      }
+    }
+  },
+  "plan-git-push": {
+    "provider": "scenario-mock",
+    "model": "riela/git-push@1",
+    "when": { "always": true },
+    "payload": {
+      "git": {
+        "status": "pushed",
+        "commitHash": "1111111111111111111111111111111111111111",
+        "pushedRemote": "origin",
+        "pushedBranch": "main",
+        "operation": "push"
+      }
     }
   },
   "dispatch-plans": {
@@ -536,7 +552,7 @@
   },
   "integration-review": {
     "provider": "scenario-mock",
-    "model": "gpt-6-astra",
+    "model": "gpt-6-sol",
     "when": {
       "needs_revision": false,
       "redispatch_required": false,

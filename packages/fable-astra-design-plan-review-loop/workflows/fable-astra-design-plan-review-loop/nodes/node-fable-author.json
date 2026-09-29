@@ -10,5 +10,99 @@
     "mode": "reuse"
   },
   "variables": {},
-  "promptTemplateFile": "prompts/fable-author.md"
+  "promptTemplateFile": "prompts/fable-author.md",
+  "output": {
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "workflowInput": {
+          "type": "object"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "designDocPaths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "implPlanPaths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "designMarkdown": {
+          "type": "string",
+          "minLength": 1
+        },
+        "planMarkdown": {
+          "type": "string",
+          "minLength": 1
+        },
+        "acceptanceCoverage": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "orderedTasks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "authorResponses": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "discussionHistory": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "unresolvedQuestions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "authorSelfCheck": {
+          "type": "object"
+        },
+        "artifactDigests": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "workflowInput",
+        "revision",
+        "designDocPaths",
+        "implPlanPaths",
+        "designMarkdown",
+        "planMarkdown",
+        "artifactDigests"
+      ],
+      "additionalProperties": true
+    },
+    "maxValidationAttempts": 2,
+    "description": "Return authored design and plan artifacts with revision and digest evidence."
+  }
 }

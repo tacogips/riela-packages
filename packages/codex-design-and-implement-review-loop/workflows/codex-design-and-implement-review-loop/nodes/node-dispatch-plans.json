@@ -43,6 +43,15 @@
                 "required": ["issueReference", "userProblem", "requiredOutcomes", "nonGoals", "constraints", "designDecisionsAndRationale", "intentionalTradeoffs", "supportedEdgeCases", "outOfScopeEdgeCases", "sourcePaths"],
                 "additionalProperties": false
               },
+              "reviewFeedback": {
+                "type": "object",
+                "properties": {
+                  "findings": { "type": "array", "items": { "type": "object" } },
+                  "recoveryDiagnostic": { "type": "string" }
+                },
+                "required": ["findings", "recoveryDiagnostic"],
+                "additionalProperties": false
+              },
               "manifestPath": { "type": "string", "minLength": 1 },
               "checkpointCommit": { "type": "string", "minLength": 1 },
               "implementationBranch": { "type": "string", "minLength": 1 },
@@ -50,7 +59,7 @@
               "remote": { "type": "string", "minLength": 1 },
               "evidenceRoot": { "type": "string", "minLength": 1 }
             },
-            "required": ["planId", "planPath", "dependsOn", "acceptedPlanIds", "writePaths", "sharedPaths", "trackedPaths", "acceptanceCriteria", "verification", "reviewContext", "manifestPath", "checkpointCommit", "implementationBranch", "baseBranch", "remote", "evidenceRoot"],
+            "required": ["planId", "planPath", "dependsOn", "acceptedPlanIds", "writePaths", "sharedPaths", "trackedPaths", "acceptanceCriteria", "verification", "reviewContext", "reviewFeedback", "manifestPath", "checkpointCommit", "implementationBranch", "baseBranch", "remote", "evidenceRoot"],
             "additionalProperties": false
           }
         },

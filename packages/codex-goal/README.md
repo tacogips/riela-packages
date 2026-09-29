@@ -11,7 +11,7 @@ Generic Codex workflow that actively investigates available Riela workflows at e
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install codex-goal --local-path /path/to/riela-packages
+riela package install codex-goal --source /path/to/riela-packages/packages/codex-goal
 ```
 
 Add `--scope user` to install for the current user instead of the

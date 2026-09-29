@@ -7,6 +7,7 @@ import hashlib
 import json
 import re
 import sys
+from pathlib import Path
 from typing import Any
 
 
@@ -87,9 +88,19 @@ def verification_succeeded(record: dict[str, Any]) -> bool:
 
 def behavioral_kind(record: dict[str, Any]) -> str | None:
     command = record.get("command", "").lower()
+    # Discovery proves test registration, not behavioral execution. It may
+    # accompany a later positive-count test run without failing that run.
+    if re.search(r"\bswift\s+test\b", command) and re.search(
+        r"(?:\slist(?:\s|$)|--list-tests\b)", command
+    ):
+        return None
     test_patterns = (
         r"\bswift\s+test\b", r"\bcargo\s+test\b", r"\bgo\s+test\b", r"\bpytest\b",
         r"\bctest\b", r"\bbun\s+test\b", r"\bvitest\s+run\b",
+        # Some packages run a deterministic Bun regression runner directly.
+        # Require a test-directory runner name; the positive count is checked
+        # separately before it can satisfy the behavioral gate.
+        r"\bbun\s+(?:\S*/)?tests?/(?:check|test|verify)[\w.-]*\.(?:[cm]?[jt]s|[jt]sx)\b",
         r"\b(?:npm|pnpm|yarn)\s+(?:run\s+)?test\b",
         r"\b(?:task|mise\s+run|make)\s+test\b", r"\bxcodebuild\b.*\btest\b",
     )
@@ -199,20 +210,120 @@ def has_behavioral_evidence(
     )
 
 
-def material_findings(payload: dict[str, Any]) -> list[dict[str, Any]]:
+def has_failed_behavioral_evidence(
+    current: list[dict[str, Any]],
+    previous: list[dict[str, Any]],
+    current_identity: str | None = None,
+    previous_identity: str | None = None,
+) -> bool:
+    inherited = inherited_behavioral_evidence(current, previous, current_identity, previous_identity)
+    return any(
+        behavioral_kind(record)
+        and not successful_behavioral_verification(record)
+        and not (environment_blocked(record) and inherited)
+        for record in current
+    )
+
+
+def task_local_evidence_file(value: Any) -> Path | None:
+    if not isinstance(value, str):
+        return None
+    relative = Path(value)
+    if relative.is_absolute() or not relative.parts or relative.parts[0] != "tmp":
+        return None
+    root = (Path.cwd() / "tmp").resolve()
+    resolved = (Path.cwd() / relative).resolve()
+    return resolved if resolved.is_relative_to(root) and resolved.is_file() else None
+
+
+def baseline_review_candidate(record: dict[str, Any]) -> dict[str, Any] | None:
+    """Forward a proven matching failure set for review, never as a passing test."""
+    if not behavioral_kind(record) or verification_succeeded(record):
+        return None
+    count = record.get("failureCount")
+    if isinstance(count, bool) or not isinstance(count, int) or count <= 0:
+        return None
+    tests_run = record.get("testsRun")
+    if isinstance(tests_run, bool) or not isinstance(tests_run, int) or tests_run <= count:
+        return None
+    exit_code = record.get("exitCode")
+    if isinstance(exit_code, bool) or not isinstance(exit_code, int) or exit_code == 0:
+        return None
+
+    reference = record.get("comparison")
+    comparison_path = reference.get("path") if isinstance(reference, dict) else reference
+    comparison_file = task_local_evidence_file(comparison_path)
+    if comparison_file is None or task_local_evidence_file(record.get("log")) is None:
+        return None
+    try:
+        comparison = json.loads(comparison_file.read_text())
+    except (OSError, ValueError):
+        return None
+    if not isinstance(comparison, dict) or comparison.get("identical") is not True:
+        return None
+    if isinstance(reference, dict) and any(
+        reference.get(key) != comparison.get(key)
+        for key in ("identical", "aggregateAssertionCount", "baselineAssertionCount", "aggregateOnly", "baselineOnly")
+    ):
+        return None
+    counts = (comparison.get("aggregateAssertionCount"), comparison.get("baselineAssertionCount"))
+    if any(isinstance(value, bool) or not isinstance(value, int) or value != count for value in counts):
+        return None
+    if comparison.get("aggregateOnly") != [] or comparison.get("baselineOnly") != []:
+        return None
+    aggregate_log = comparison.get("aggregateLog")
+    if aggregate_log is not None and aggregate_log != record["log"]:
+        return None
+    baseline_log = comparison.get("baselineLog")
+    if baseline_log is not None and task_local_evidence_file(baseline_log) is None:
+        return None
+    return {
+        "command": record["command"],
+        "exitCode": record["exitCode"],
+        "failureCount": count,
+        "comparison": comparison_path,
+        "log": record["log"],
+        "baselineLog": baseline_log,
+        "decision": "pending-independent-review",
+    }
+
+
+def matched_baseline_record(record: dict[str, Any], candidates: list[dict[str, Any]]) -> bool:
+    """A failed baseline command supports a candidate; it is not a current-source gate."""
+    return bool(behavioral_kind(record)) and any(
+        candidate["baselineLog"] == record.get("log")
+        and record.get("failureCount") == candidate["failureCount"]
+        and isinstance(record.get("testsRun"), int)
+        and not isinstance(record["testsRun"], bool)
+        and record["testsRun"] > candidate["failureCount"]
+        and isinstance(record.get("exitCode"), int)
+        and not isinstance(record["exitCode"], bool)
+        and record["exitCode"] != 0
+        for candidate in candidates
+        if candidate["baselineLog"] is not None
+    )
+
+
+def material_findings(payload: dict[str, Any]) -> list[Any]:
     self_check = payload.get("authorSelfCheck")
     self_check = self_check if isinstance(self_check, dict) else {}
     candidates = (
         normalized_list(payload.get("risks"))
+        + normalized_list(payload.get("findings"))
         + normalized_list(self_check.get("findings"))
         + normalized_list(self_check.get("residualRisks"))
     )
     return [
         finding
         for finding in candidates
-        if isinstance(finding, dict)
-        and isinstance(finding.get("severity"), str)
-        and finding["severity"].lower() in {"critical", "high", "mid", "medium"}
+        if (
+            isinstance(finding, dict)
+            and isinstance(finding.get("severity"), str)
+            and finding["severity"].lower() in {"critical", "high", "mid", "medium"}
+        ) or (
+            isinstance(finding, str)
+            and re.match(r"^\s*(?:critical|high|mid|medium)\s*[:\-]\s*\S", finding, re.IGNORECASE)
+        )
     ]
 
 
@@ -351,10 +462,37 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
             "Step 6 reported material changes without verification evidence.",
             fingerprint,
         )
+    findings = material_findings(current)
+    if findings:
+        return blocked_result(
+            current,
+            "implementation-material-finding",
+            "Step 6 reported unresolved high or medium implementation findings or risks.",
+            fingerprint,
+        )
     prior_verification = previous_evidence["verification"] if previous_evidence else []
     previous_payload = messages[-2]["payload"] if len(messages) > 1 else {}
     current_identity = source_identity(current)
     previous_identity = source_identity(previous_payload)
+    reviewable_records = (
+        [(record, candidate) for record in verification if (candidate := baseline_review_candidate(record))]
+        if not incomplete else []
+    )
+    baseline_candidates = [candidate for _, candidate in reviewable_records]
+    unreviewable_verification = [
+        record for record in verification
+        if not any(record is item for item, _ in reviewable_records)
+        and not matched_baseline_record(record, baseline_candidates)
+    ]
+    if has_failed_behavioral_evidence(
+        unreviewable_verification, prior_verification, current_identity, previous_identity
+    ):
+        return blocked_result(
+            current,
+            "implementation-materially-unverified",
+            "Step 6 reported a failed, blocked, skipped, or zero-count behavioral test command.",
+            fingerprint,
+        )
     if not has_behavioral_evidence(verification, prior_verification, current_identity, previous_identity):
         return blocked_result(
             current,
@@ -387,15 +525,6 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
             fingerprint,
         )
 
-    findings = material_findings(current)
-    if findings:
-        return blocked_result(
-            current,
-            "implementation-material-finding",
-            "Step 6 reported unresolved high or medium implementation findings or risks.",
-            fingerprint,
-        )
-
     self_check = current.get("authorSelfCheck")
     verification_gaps = normalized_list(self_check.get("verificationGaps")) if isinstance(self_check, dict) else []
     if verification_gaps and not inherited_behavioral_evidence(
@@ -417,6 +546,7 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
         "evidenceFingerprint": fingerprint,
         "blockers": [],
         "resumeCriteria": [],
+        "baselineReviewPending": baseline_candidates,
     }
     return {"when": {"implementation_blocked": False}, "payload": payload}
 

@@ -11,7 +11,7 @@ Generic Cursor CLI workflow that actively investigates available Riela workflows
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install cursor-cli-goal --local-path /path/to/riela-packages
+riela package install cursor-cli-goal --source /path/to/riela-packages/packages/cursor-cli-goal
 ```
 
 Add `--scope user` to install for the current user instead of the
@@ -21,7 +21,7 @@ This package does not install its dependencies automatically.
 Install each dependency package as well:
 
 ```bash
-riela package install codex-goal --local-path /path/to/riela-packages
+riela package install codex-goal --source /path/to/riela-packages/packages/codex-goal
 ```
 
 ## Run

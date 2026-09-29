@@ -3,7 +3,7 @@
   "description": "Independently review the stable shared-branch result after all workers stopped and reconciliation finished.",
   "executionBackend": "codex-agent",
   "agentSandbox": "read-only",
-  "model": "gpt-6-astra",
+  "model": "gpt-6-sol",
   "sessionPolicy": {
     "mode": "reuse"
   },
@@ -93,6 +93,7 @@
       },
       "required": ["needs_revision", "redispatch_required", "repair_in_place", "plans_remaining", "accepted", "loopGate", "reviewBasis", "findings"],
       "additionalProperties": true
-    }
+    },
+    "maxValidationAttempts": 2
   }
 }

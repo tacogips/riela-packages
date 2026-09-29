@@ -17,7 +17,25 @@
           "impl-plans/retry.md"
         ],
         "revision": 1,
-        "authorResponses": []
+        "authorResponses": [],
+        "designMarkdown": "## Design\nUse an idempotency key for writes.",
+        "planMarkdown": "## Plan\nImplement and test duplicate delivery.",
+        "artifactDigests": {
+          "design-docs/retry.md": "sha256:mock-design",
+          "impl-plans/retry.md": "sha256:mock-plan"
+        },
+        "orderedTasks": [
+          "Implement idempotency key"
+        ],
+        "acceptanceCoverage": [
+          "Duplicate delivery creates one write."
+        ],
+        "discussionHistory": [],
+        "assumptions": [],
+        "unresolvedQuestions": [],
+        "authorSelfCheck": {
+          "checks": []
+        }
       }
     },
     {
@@ -43,7 +61,25 @@
             "status": "fixed",
             "evidence": "Added idempotency key and duplicate delivery test"
           }
-        ]
+        ],
+        "designMarkdown": "## Design\nUse an idempotency key for writes.",
+        "planMarkdown": "## Plan\nImplement and test duplicate delivery.",
+        "artifactDigests": {
+          "design-docs/retry.md": "sha256:mock-design",
+          "impl-plans/retry.md": "sha256:mock-plan"
+        },
+        "orderedTasks": [
+          "Implement idempotency key"
+        ],
+        "acceptanceCoverage": [
+          "Duplicate delivery creates one write."
+        ],
+        "discussionHistory": [],
+        "assumptions": [],
+        "unresolvedQuestions": [],
+        "authorSelfCheck": {
+          "checks": []
+        }
       }
     }
   ],
@@ -73,7 +109,15 @@
             "message": "Retry can duplicate writes"
           }
         ],
-        "decision": "rejected"
+        "decision": "rejected",
+        "reviewedRevision": 1,
+        "artifactDigests": {
+          "design-docs/retry.md": "sha256:mock-design",
+          "impl-plans/retry.md": "sha256:mock-plan"
+        },
+        "reviewEvidence": [
+          "Read design and plan for revision 1"
+        ]
       }
     },
     {
@@ -102,7 +146,14 @@
             "status": "fixed"
           }
         ],
-        "decision": "accepted"
+        "decision": "accepted",
+        "artifactDigests": {
+          "design-docs/retry.md": "sha256:mock-design",
+          "impl-plans/retry.md": "sha256:mock-plan"
+        },
+        "reviewEvidence": [
+          "Read design and plan for revision 2"
+        ]
       }
     }
   ],

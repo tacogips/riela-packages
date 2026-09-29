@@ -2,12 +2,38 @@
   "id": "step6-post-refactor-review",
   "description": "Reconcile an implementation wave, verify the combined tree, and determine repair, next-wave, or completion routing.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step6-post-refactor-review.md",
   "variables": {},
   "output": {
-    "description": "Return adapter JSON with wave coverage, accepted task/dispatch ids, repairTasks, routing flags, findings, verification evidence, and residual risks."
+    "description": "Return adapter JSON with wave coverage, accepted task/dispatch ids, repairTasks, routing flags, findings, verification evidence, and residual risks.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "needs_revision": {
+          "type": "boolean"
+        },
+        "plan_remaining": {
+          "type": "string"
+        },
+        "workflow_complete": {
+          "type": "boolean"
+        },
+        "accepted": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "needs_revision",
+        "plan_remaining",
+        "workflow_complete",
+        "accepted"
+      ]
+    },
+    "maxValidationAttempts": 2
   },
   "effort": "medium"
 }

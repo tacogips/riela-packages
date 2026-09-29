@@ -2,12 +2,54 @@
   "id": "parallel-security-review",
   "description": "Review one attack-surface focus area in a bounded read-only fanout branch.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/parallel-security-review.md",
   "variables": {},
   "output": {
-    "description": "Return reviewId, source coverage, candidates with exploitability evidence, dismissed scanner signals, and coverage gaps."
+    "description": "Return reviewId, source coverage, candidates with exploitability evidence, dismissed scanner signals, and coverage gaps.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "reviewId": {
+          "type": "string"
+        },
+        "reviewedPaths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reviewedSymbols": {
+          "type": "array",
+          "items": {}
+        },
+        "candidateFindings": {
+          "type": "array",
+          "items": {}
+        },
+        "dismissedSignals": {
+          "type": "array",
+          "items": {}
+        },
+        "coverageGaps": {
+          "type": "array",
+          "items": {}
+        },
+        "residualLowRisks": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "reviewId",
+        "reviewedPaths",
+        "candidateFindings"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

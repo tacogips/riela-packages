@@ -2,12 +2,70 @@
   "id": "source-commit-message",
   "description": "Prepare a git snapshot commit message and exact generated source file list after a server-node pass.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
   "promptTemplateFile": "prompts/source-commit-message.md",
   "variables": {},
   "output": {
-    "description": "Return has_source_changes, commitMessage, committedFiles, and snapshot summary for the built-in git commit add-on."
+    "description": "Return has_source_changes, commitMessage, committedFiles, and snapshot summary for the built-in git commit add-on.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "has_source_changes": {
+          "type": "boolean"
+        },
+        "commitMessage": {
+          "type": "string"
+        },
+        "committedFiles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "snapshotSummary": {
+          "type": "string"
+        },
+        "excludedDirtyFiles": {
+          "type": "array",
+          "items": {}
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "has_source_changes",
+        "committedFiles"
+      ],
+      "anyOf": [
+        {
+          "properties": {
+            "has_source_changes": {
+              "enum": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "has_source_changes": {
+              "enum": [
+                true
+              ]
+            }
+          },
+          "required": [
+            "commitMessage"
+          ]
+        }
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

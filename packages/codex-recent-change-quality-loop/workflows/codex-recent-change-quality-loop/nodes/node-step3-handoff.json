@@ -2,11 +2,32 @@
   "id": "step3-handoff",
   "description": "Prepare a delegated issue-resolution handoff from the blocking recent-change findings.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step3-handoff.md",
   "variables": {},
   "output": {
-    "description": "Return the delegated workflow input, recent-change review context, and the handoff summary."
+    "description": "Return the delegated workflow input, recent-change review context, and the handoff summary.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "workflowInput": {
+          "type": "object"
+        },
+        "reviewContext": {
+          "type": "object"
+        },
+        "handoffSummary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "workflowInput",
+        "reviewContext"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

@@ -20,6 +20,7 @@
       },
       "required": ["checkpoint_blocked", "status", "commitMessage", "committedFiles", "blockers"],
       "additionalProperties": true
-    }
+    },
+    "maxValidationAttempts": 2
   }
 }

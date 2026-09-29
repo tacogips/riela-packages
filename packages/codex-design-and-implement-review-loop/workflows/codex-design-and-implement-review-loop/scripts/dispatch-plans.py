@@ -56,6 +56,33 @@ def latest_value(messages: list[dict[str, Any]], key: str) -> Any:
     return None
 
 
+def latest_integration_feedback(messages: list[dict[str, Any]]) -> dict[str, Any] | None:
+    for message in reversed(messages):
+        if message.get("fromStepId") != "integration-review":
+            continue
+        for candidate in nested_dicts(message.get("payload")):
+            if candidate.get("needs_revision") is not True:
+                continue
+            findings = candidate.get("findings")
+            if not isinstance(findings, list) or any(not isinstance(item, dict) for item in findings):
+                raise ValueError("integration-review revision must provide structured findings")
+            diagnostic = candidate.get("recoveryDiagnostic")
+            if isinstance(diagnostic, dict):
+                diagnostic = json.dumps(diagnostic, sort_keys=True, separators=(",", ":"))
+            if diagnostic is not None and not isinstance(diagnostic, str):
+                raise ValueError("integration-review recoveryDiagnostic must be text or an object")
+            return {
+                "findings": findings,
+                "recoveryDiagnostic": diagnostic or "",
+            }
+        return None
+    return None
+
+
+def path_is_owned(path: str, owned_paths: list[str]) -> bool:
+    return any(path == owned or path.startswith(f"{owned}/") for owned in owned_paths)
+
+
 def clean_string(value: Any, field: str) -> str:
     if not isinstance(value, str) or not value.strip():
         raise ValueError(f"{field} must be a non-empty string")
@@ -108,20 +135,36 @@ def safe_relative_path(value: Any, field: str, root: Path) -> str:
 
 
 def checkpoint_source(messages: list[dict[str, Any]], root: Path) -> tuple[str, str]:
-    checkpoints = [message for message in messages if message.get("fromStepId") == "plan-git-commit"]
-    if len(checkpoints) != 1:
-        raise ValueError("dispatch requires exactly one plan-git-commit message")
-    payload = checkpoints[0].get("payload")
-    git_payload = payload.get("git") if isinstance(payload, dict) else None
-    if not isinstance(git_payload, dict):
-        raise ValueError("plan-git-commit payload must contain git metadata")
-    commit = clean_string(git_payload.get("commitHash"), "plan-git-commit.git.commitHash")
-    committed = git_payload.get("committedFiles")
+    pushes = [message for message in messages if message.get("fromStepId") == "plan-git-push"]
+    commits = [message for message in messages if message.get("fromStepId") == "plan-git-commit"]
+    if pushes:
+        if len(pushes) != 1:
+            raise ValueError("dispatch requires exactly one plan-git-push message")
+        payload = pushes[0].get("payload")
+        git_payload = payload.get("git") if isinstance(payload, dict) else None
+        if not isinstance(git_payload, dict) or git_payload.get("operation") != "push" or git_payload.get("status") not in {"pushed", "already-pushed"}:
+            raise ValueError("plan-git-push must attest a successful push")
+        commit = clean_string(git_payload.get("commitHash"), "plan-git-push.git.commitHash")
+        if re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", commit) is None:
+            raise ValueError("plan-git-push commit hash is invalid")
+        changed = git(root, "diff-tree", "--root", "--no-commit-id", "--name-only", "-r", commit)
+        if changed.returncode != 0:
+            raise ValueError("cannot read checkpoint committed files")
+        committed = changed.stdout.splitlines()
+    else:
+        if len(commits) != 1:
+            raise ValueError("dispatch requires exactly one checkpoint commit or push message")
+        payload = commits[0].get("payload")
+        git_payload = payload.get("git") if isinstance(payload, dict) else None
+        if not isinstance(git_payload, dict) or git_payload.get("operation") != "commit":
+            raise ValueError("plan-git-commit payload must contain commit metadata")
+        commit = clean_string(git_payload.get("commitHash"), "plan-git-commit.git.commitHash")
+        committed = git_payload.get("committedFiles")
     if not isinstance(committed, list):
-        raise ValueError("plan-git-commit.git.committedFiles must be an array")
+        raise ValueError("checkpoint committed files must be an array")
     manifests: list[str] = []
     for value in committed:
-        relative = safe_relative_path(value, "plan-git-commit.git.committedFiles[]", root)
+        relative = safe_relative_path(value, "checkpoint.committedFiles[]", root)
         path = root / relative
         if path.suffix != ".json" or path.is_symlink() or not path.is_file():
             continue
@@ -131,9 +174,19 @@ def checkpoint_source(messages: list[dict[str, Any]], root: Path) -> tuple[str, 
             continue
         if isinstance(data, dict) and isinstance(data.get("plans"), list):
             manifests.append(relative)
-    if len(manifests) != 1:
-        raise ValueError("plan-git-commit must contain exactly one dispatch manifest")
-    return manifests[0], commit
+    if len(manifests) == 1:
+        return manifests[0], commit
+    if len(manifests) > 1:
+        added = git(
+            root, "diff-tree", "--root", "--no-commit-id", "--name-only", "-r",
+            "--diff-filter=A", commit,
+        )
+        if added.returncode != 0:
+            raise ValueError("cannot read newly added checkpoint files")
+        new_manifests = set(added.stdout.splitlines()).intersection(manifests)
+        if len(new_manifests) == 1:
+            return new_manifests.pop(), commit
+    raise ValueError("checkpoint must contain exactly one dispatch manifest")
 
 
 def git(root: Path, *arguments: str) -> subprocess.CompletedProcess[str]:
@@ -160,9 +213,18 @@ def issue_reference(value: Any) -> str:
     if isinstance(value, str) and value.strip():
         return value.strip()
     if isinstance(value, dict):
-        identifier = value.get("communicationId") or value.get("number")
+        identifier = value.get("communicationId") or value.get("intakeCommunication") or value.get("number")
         title = value.get("title")
         url = value.get("url")
+        repository = value.get("repository")
+        issue_number = value.get("issueNumber")
+        draft_pr = value.get("draftPR")
+        if isinstance(repository, str) and repository.strip():
+            if type(issue_number) is int and issue_number > 0:
+                return f"{repository.strip()}#{issue_number}"
+            if type(draft_pr) is int and draft_pr > 0:
+                suffix = f": {identifier}" if isinstance(identifier, str) and identifier.strip() else ""
+                return f"{repository.strip()} Draft PR #{draft_pr}{suffix}"
         parts = [str(part).strip() for part in (identifier, title, url) if part not in (None, "")]
         if parts:
             return ": ".join(parts)
@@ -243,8 +305,21 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
     base_branch = clean_string(manifest.get("baseBranch"), "baseBranch")
     remote = clean_string(manifest.get("remote"), "remote")
     evidence_root = manifest_evidence_root(manifest, root)
+    feedback = latest_integration_feedback(messages)
 
     items: list[dict[str, Any]] = []
+    unmatched_material_paths: set[str] = set()
+    if feedback is not None:
+        for finding in feedback["findings"]:
+            if finding.get("severity") not in {"high", "mid", "medium"}:
+                continue
+            file_path = finding.get("file") or finding.get("filePath")
+            if file_path is not None:
+                relative = safe_relative_path(file_path, "integration-review.findings[].file", root)
+                # Evidence logs are read-only review inputs, not source edits
+                # requiring a new manifest write owner.
+                if not path_is_owned(relative, ["tmp", evidence_root]):
+                    unmatched_material_paths.add(relative)
     for plan in plans:
         plan_id = clean_string(plan.get("planId"), "plans[].planId")
         write_paths = [
@@ -258,6 +333,21 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
         tracked_paths = list(dict.fromkeys(write_paths + shared_paths))
         if not tracked_paths:
             raise ValueError(f"{plan_id} has no tracked write or shared paths")
+        plan_findings: list[dict[str, Any]] = []
+        if feedback is not None:
+            for finding in feedback["findings"]:
+                file_path = finding.get("file") or finding.get("filePath")
+                if file_path is None:
+                    plan_findings.append(finding)
+                    continue
+                relative = safe_relative_path(file_path, "integration-review.findings[].file", root)
+                evidence_path = path_is_owned(relative, ["tmp", evidence_root])
+                if plan_id not in accepted and (
+                    path_is_owned(relative, write_paths)
+                    or evidence_path
+                ):
+                    plan_findings.append(finding)
+                    unmatched_material_paths.discard(relative)
         items.append(
             {
                 "planId": plan_id,
@@ -272,6 +362,10 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
                 ),
                 "verification": verification_commands(plan.get("verification", []), f"{plan_id}.verification"),
                 "reviewContext": context,
+                "reviewFeedback": {
+                    "findings": plan_findings,
+                    "recoveryDiagnostic": feedback["recoveryDiagnostic"] if feedback else "",
+                },
                 "manifestPath": relative_manifest,
                 "checkpointCommit": checkpoint,
                 "implementationBranch": implementation_branch,
@@ -279,6 +373,13 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
                 "remote": remote,
                 "evidenceRoot": evidence_root,
             }
+        )
+
+    if unmatched_material_paths:
+        paths = ", ".join(sorted(unmatched_material_paths))
+        raise ValueError(
+            "bounded checkpoint amendment required before redispatch: "
+            f"material integration-review paths outside manifest writePaths: {paths}"
         )
 
     return {

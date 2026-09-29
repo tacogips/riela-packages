@@ -2,6 +2,7 @@
   "id": "riela-manager",
   "description": "Coordinate the implementation-plan completion loop.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/riela-manager.md",
@@ -30,6 +31,31 @@
     }
   },
   "output": {
-    "description": "Return JSON preserving the target plan path and execution constraints for downstream steps."
+    "description": "Return JSON preserving the target plan path and execution constraints for downstream steps.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "planPath": {
+          "type": "string"
+        },
+        "targetTasks": {
+          "type": "array",
+          "items": {}
+        },
+        "constraints": {
+          "type": "array",
+          "items": {}
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "planPath",
+        "targetTasks"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

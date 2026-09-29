@@ -2,6 +2,7 @@
   "id": "goal",
   "description": "Create a clear, testable goal for the requested generic work package using Codex GPT-5.6 SOL high effort.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
@@ -14,6 +15,64 @@
     "description": "Provide the operator request. Preferred fields are requestedOutcome, targetScope, constraints, acceptanceCriteria, and verificationHint."
   },
   "output": {
-    "description": "Return JSON with the goal statement, target scope, acceptance criteria, constraints, assumptions, and verification approach."
+    "description": "Return JSON with the goal statement, target scope, acceptance criteria, constraints, assumptions, and verification approach.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "goalStatement": {
+          "type": "string"
+        },
+        "targetScope": {
+          "type": "string"
+        },
+        "acceptanceCriteria": {
+          "type": "array",
+          "items": {}
+        },
+        "constraints": {
+          "type": "array",
+          "items": {}
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {}
+        },
+        "verificationApproach": {
+          "type": "array",
+          "items": {}
+        },
+        "workflowDiscovery": {
+          "type": "object"
+        },
+        "recommendedWorkflow": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "recommendedWorkflowReason": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "recommendedWorkflowInput": {
+          "type": [
+            "null",
+            "object"
+          ]
+        },
+        "outOfScope": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "goalStatement",
+        "targetScope"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

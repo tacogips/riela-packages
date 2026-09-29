@@ -1,6 +1,6 @@
 {
   "name": "codex-task-watchdog",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "codex-task-watchdog",
   "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Codex execution, post-task skill mining, skill review, and commit.",
   "tags": [
@@ -10,7 +10,7 @@
     "cron"
   ],
   "registry": "default",
-  "checksum": "dfe0d9f0b0a731f414c793b73c19b32e",
+  "checksum": "11c46f04b49774243c9175ec6439ac34",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-task-watchdog",
   "dependencies": [
@@ -34,7 +34,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "16e522953341a6c91180dc1b3e5b2b42d1e20e017c1ffa8960a1947acdf72024"
+    "digest": "a92c9a4d912ce9f1183a0993c4ac0677f26448b51e49e547fbcfe0e519fbce07"
   },
   "backends": [
     "codex-agent"

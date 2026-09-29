@@ -10,7 +10,7 @@ Skill package that teaches agents how to search, install, inspect, validate, and
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install riela-package-manager-skill --local-path /path/to/riela-packages
+riela package install riela-package-manager-skill --source /path/to/riela-packages/packages/riela-package-manager-skill
 ```
 
 Add `--scope user` to install for the current user instead of the

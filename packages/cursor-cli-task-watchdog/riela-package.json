@@ -10,7 +10,7 @@
     "cron"
   ],
   "registry": "default",
-  "checksum": "e7d985ca9beec39cd8bc1c5ecd8e96f0",
+  "checksum": "4fb9c8ee9a9e3c496314b5185af3cd2e",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/cursor-cli-task-watchdog",
   "dependencies": [
@@ -35,7 +35,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "18265fc68e76131ce258ca013016592f3a21454f95eccc67d21fc44374fd695d"
+    "digest": "b367c384b47d9ffd65458240a3dfcf1b5a2bc11f71df3b7aa93c52553b3c9c40"
   },
   "backends": [
     "cursor-cli-agent"

@@ -2,6 +2,7 @@
   "id": "server-node",
   "description": "Implement or revise the SolidJS/Bun website source without running Bun on the host; containerized Bun execution happens in bun-container-server.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "workspace-write",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "effort": "high",
@@ -11,6 +12,55 @@
   "promptTemplateFile": "prompts/server-node.md",
   "variables": {},
   "output": {
-    "description": "Return changed source files, pinned dependency evidence, intended Bun commands for the container node, review port, and hasSourceChanges."
+    "description": "Return changed source files, pinned dependency evidence, intended Bun commands for the container node, review port, and hasSourceChanges.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "targetDirectory": {
+          "type": "string"
+        },
+        "changedFiles": {
+          "type": "array",
+          "items": {}
+        },
+        "dependencyAllowlist": {
+          "type": "string"
+        },
+        "dependencyChanges": {
+          "type": "array",
+          "items": {}
+        },
+        "containerBuildCommand": {
+          "type": "string"
+        },
+        "containerStartCommand": {
+          "type": "string"
+        },
+        "reviewPort": {
+          "type": "string"
+        },
+        "staticVerification": {
+          "type": "string"
+        },
+        "hasSourceChanges": {
+          "type": "array",
+          "items": {}
+        },
+        "addressedFeedback": {
+          "type": "array",
+          "items": {}
+        },
+        "residualImplementationRisks": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "targetDirectory",
+        "changedFiles"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

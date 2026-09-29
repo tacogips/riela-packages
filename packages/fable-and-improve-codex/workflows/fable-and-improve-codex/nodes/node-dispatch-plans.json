@@ -2,6 +2,7 @@
   "id": "dispatch-plans",
   "description": "Select the next dependency-ready wave for native Riela fanout. Do not spawn agents or nested CLI processes yourself.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "promptTemplateFile": "prompts/dispatch-plans.md",
   "variables": {},
@@ -46,6 +47,7 @@
         "acceptedPlanIds": { "type": "array", "items": { "type": "string" } }, "manifestPath": { "type": "string", "minLength": 1 }, "checkpointCommit": { "type": "string", "minLength": 1 }
       },
       "required": ["implementationItems", "acceptedPlanIds", "manifestPath", "checkpointCommit"], "additionalProperties": false
-    }
+    },
+    "maxValidationAttempts": 2
   }
 }

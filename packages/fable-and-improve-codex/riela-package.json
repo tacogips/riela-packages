@@ -1,6 +1,6 @@
 {
   "name": "fable-and-improve-codex",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "title": "fable-and-improve-codex",
   "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
   "tags": [
@@ -11,7 +11,7 @@
     "review"
   ],
   "registry": "default",
-  "checksum": "74770ad1723b5de435a4b01cfcbcd5b8",
+  "checksum": "e1e35b8300bb582e4c8c51d94cedaab8",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/fable-and-improve-codex",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -32,7 +32,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "ba5071966cfdc651a5adc95c1f1160b02cbc5aa8c6c141b5506ece2dec50377f"
+    "digest": "eef8b8a0ef3068abfa0d43d2174495501c0bf0a7584c7f92b6ff165dbfb7c446"
   },
   "backends": [
     "claude-code-agent",

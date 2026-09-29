@@ -1,13 +1,13 @@
 {
   "name": "codex-impl-plan-completion-loop",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "title": "codex-impl-plan-completion-loop",
   "description": "Assess active plans as a batch, delegate dependency-aware shared-branch implementation/review, and archive completed plans using Python.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "898386250f31d2e3e56d7cc433115c69",
+  "checksum": "91c8c65fb0c461c9332a0bd7c8bdaf8f",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-impl-plan-completion-loop",
   "dependencies": [
@@ -26,7 +26,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "6887b319dcd2f09cfd38dc85d57582d09bd6cddb6912ea4e53c7b44160b96fe3"
+    "digest": "13143a1d182e152395cfe98bd7714d7f9665f91e162a6450c5c19815fbf89efd"
   },
   "backends": [
     "codex-agent"

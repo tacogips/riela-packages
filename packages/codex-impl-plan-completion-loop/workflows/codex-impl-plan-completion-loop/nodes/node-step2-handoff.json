@@ -2,11 +2,29 @@
   "id": "step2-handoff",
   "description": "Package the next incomplete active implementation plan for delegated execution by codex-adversarial-implementation-review-loop.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/step2-handoff.md",
   "variables": {},
   "output": {
-    "description": "Return adapter JSON whose payload contains workflowInput for codex-adversarial-implementation-review-loop plus selected plan metadata and handoff notes."
+    "description": "Return adapter JSON whose payload contains workflowInput for codex-adversarial-implementation-review-loop plus selected plan metadata and handoff notes.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "workflowInput": {
+          "type": "object"
+        },
+        "planPath": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "workflowInput",
+        "planPath"
+      ]
+    },
+    "maxValidationAttempts": 2
   }
 }

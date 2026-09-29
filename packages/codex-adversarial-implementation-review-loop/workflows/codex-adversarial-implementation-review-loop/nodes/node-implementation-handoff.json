@@ -2,12 +2,30 @@
   "id": "implementation-handoff",
   "description": "Build the initial codex-design-and-implement-review-loop request.",
   "executionBackend": "codex-agent",
+  "agentSandbox": "read-only",
   "model": "gpt-5.6-sol",
   "modelFreeze": false,
   "promptTemplateFile": "prompts/implementation-handoff.md",
   "variables": {},
   "output": {
-    "description": "Return adapter JSON whose payload contains workflowInput for codex-design-and-implement-review-loop plus review context."
+    "description": "Return adapter JSON whose payload contains workflowInput for codex-design-and-implement-review-loop plus review context.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "workflowInput": {
+          "type": "object"
+        },
+        "reviewSubject": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "workflowInput",
+        "reviewSubject"
+      ]
+    },
+    "maxValidationAttempts": 2
   },
   "effort": "high"
 }

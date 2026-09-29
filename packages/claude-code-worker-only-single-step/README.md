@@ -11,7 +11,7 @@ Minimal manager-less reference workflow that starts directly at one worker step 
 From your project directory, with a local checkout of this registry:
 
 ```bash
-riela package install claude-code-worker-only-single-step --local-path /path/to/riela-packages
+riela package install claude-code-worker-only-single-step --source /path/to/riela-packages/packages/claude-code-worker-only-single-step
 ```
 
 Add `--scope user` to install for the current user instead of the
