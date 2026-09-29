@@ -1,0 +1,39 @@
+{
+  "id": "step9-commit-message",
+  "description": "Verify plan completion and archive for issue-resolution, then prepare commit evidence; preserve active plans for planning-only.",
+  "executionBackend": "claude-code-agent",
+  "agentSandbox": "read-only",
+  "model": "claude-opus-5-5",
+  "effort": "medium",
+  "modelFreeze": false,
+  "promptTemplateFile": "prompts/step9-commit-message.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON with when.needs_revision, payload.needs_revision, completion evidence and, only on acceptance, commitMessage, committedFiles, changeSummary.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "needs_revision": { "type": "boolean" },
+        "workflowMode": { "type": "string", "enum": ["design-plan-only", "planning-only", "issue-resolution"] },
+        "checkedImplPlanPaths": { "type": "array", "items": { "type": "string" } },
+        "activeImplPlanFindings": { "type": "array", "items": { "type": "string" } },
+        "archivedImplPlanPaths": { "type": "array", "items": { "type": "string" } },
+        "updatedIndexFiles": { "type": "array", "items": { "type": "string" } },
+        "completionSummary": { "type": "string", "minLength": 1 },
+        "residualRisks": { "type": "array" },
+        "commitMessage": { "type": "string", "minLength": 1 },
+        "committedFiles": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+        "changeSummary": { "type": "string", "minLength": 1 },
+        "git": { "type": "object", "properties": { "commitHash": { "type": "string" } }, "additionalProperties": true }
+      },
+      "required": ["needs_revision", "workflowMode"],
+      "anyOf": [
+        { "properties": { "needs_revision": { "enum": [true] } }, "required": ["needs_revision"] },
+        { "properties": { "needs_revision": { "enum": [false] }, "workflowMode": { "enum": ["design-plan-only", "planning-only"] } }, "required": ["needs_revision", "workflowMode", "commitMessage", "committedFiles", "changeSummary"] },
+        { "properties": { "needs_revision": { "enum": [false] }, "workflowMode": { "enum": ["issue-resolution"] } }, "required": ["needs_revision", "workflowMode", "checkedImplPlanPaths", "activeImplPlanFindings", "archivedImplPlanPaths", "updatedIndexFiles", "completionSummary", "residualRisks", "commitMessage", "committedFiles", "changeSummary"] }
+      ],
+      "additionalProperties": true
+    },
+    "maxValidationAttempts": 2
+  }
+}

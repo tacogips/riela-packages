@@ -1,0 +1,13 @@
+{
+  "id": "implementation-progress-check",
+  "description": "Mechanically continue a bounded productive incomplete implementation, or fail closed on blockers, no progress, and material verification gaps.",
+  "nodeType": "command",
+  "modelFreeze": false,
+  "variables": {},
+  "command": {
+    "scriptPath": "scripts/implementation-progress-check.py"
+  },
+  "output": {
+    "description": "Return code-owned blocked/continue discriminators, normalized evidence fingerprint, actionable blockers, and resume criteria."
+  }
+}

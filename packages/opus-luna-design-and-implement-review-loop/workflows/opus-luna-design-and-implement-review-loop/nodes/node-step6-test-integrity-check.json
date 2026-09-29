@@ -1,0 +1,210 @@
+{
+  "id": "step6-test-integrity-check",
+  "description": "Check test and verification integrity with safely independent delegated investigation before adversarial review; repair high/mid findings through Sonnet subagents and re-review before routing back.",
+  "executionBackend": "claude-code-agent",
+  "agentSandbox": "danger-full-access",
+  "model": "claude-opus-5-5",
+  "modelFreeze": false,
+  "effort": "high",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "promptTemplateFile": "prompts/step6-test-integrity-check.md",
+  "variables": {},
+  "output": {
+    "description": "Return an auditable intent-grounded test review and only route materially relevant, proportionate verification findings.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "needs_revision": {
+          "type": "boolean"
+        },
+        "accepted": {
+          "type": "boolean"
+        },
+        "reviewBasis": {
+          "type": "object",
+          "properties": {
+            "requiredBehaviors": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "supportedEdgeCases": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "nonGoals": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "sourcePaths": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "requiredBehaviors",
+            "supportedEdgeCases",
+            "nonGoals",
+            "sourcePaths"
+          ],
+          "additionalProperties": false
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "severity": {
+                "type": "string",
+                "enum": [
+                  "high",
+                  "mid",
+                  "low"
+                ]
+              },
+              "file": {
+                "type": "string",
+                "minLength": 1
+              },
+              "line": {
+                "type": "number",
+                "minimum": 1
+              },
+              "message": {
+                "type": "string",
+                "minLength": 1
+              },
+              "intentReference": {
+                "type": "string",
+                "minLength": 1
+              },
+              "materialImpact": {
+                "type": "string",
+                "minLength": 1
+              },
+              "fixCostBenefit": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "severity",
+              "file",
+              "message",
+              "intentReference",
+              "materialImpact",
+              "fixCostBenefit"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "reviewedFiles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "testFilesChanged": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "removedOrWeakenedTests": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "suspectedTestOnlyHacks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "verificationGaps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "feedback": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "testIntegritySummary": {
+          "type": "string"
+        },
+        "selfRepairs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "finding": {
+                "type": "string",
+                "minLength": 1
+              },
+              "changedFiles": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "verification": {
+                "type": "string"
+              },
+              "resolved": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "finding",
+              "changedFiles",
+              "resolved"
+            ],
+            "additionalProperties": true
+          }
+        }
+      },
+      "required": [
+        "needs_revision",
+        "accepted",
+        "reviewBasis",
+        "findings",
+        "reviewedFiles",
+        "testFilesChanged",
+        "removedOrWeakenedTests",
+        "suspectedTestOnlyHacks",
+        "verificationGaps",
+        "feedback",
+        "residualRisks"
+      ],
+      "additionalProperties": false
+    },
+    "maxValidationAttempts": 2
+  }
+}

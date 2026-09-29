@@ -1,0 +1,46 @@
+{
+  "name": "opus-luna-design-and-implement-review-loop",
+  "version": "0.1.0",
+  "title": "opus-luna-design-and-implement-review-loop",
+  "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6 Luna (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviewers repair findings through Sonnet subagents and re-review.",
+  "tags": [
+    "workflow",
+    "claude-code",
+    "codex",
+    "opus",
+    "luna",
+    "review"
+  ],
+  "registry": "default",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/opus-luna-design-and-implement-review-loop",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "opus-luna-design-and-implement-review-loop",
+    "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6 Luna (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviewers repair findings through Sonnet subagents and re-review.",
+    "tags": [
+      "workflow",
+      "claude-code",
+      "codex",
+      "opus",
+      "luna",
+      "review"
+    ],
+    "backends": [
+      "claude-code-agent",
+      "codex-agent",
+      "command"
+    ]
+  },
+  "backends": [
+    "claude-code-agent",
+    "codex-agent",
+    "command"
+  ],
+  "skillDirectory": "skills",
+  "checksum": "ce9d6931ba6ca143e0c5b31f750c6c06",
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "77f7831f3a6224cb036454df7ef1ad7b7d93fef0ea1a11535362e2396c9dfd47"
+  }
+}

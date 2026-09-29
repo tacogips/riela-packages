@@ -1,0 +1,47 @@
+{
+  "id": "step7b-e2e-evidence",
+  "description": "Run headless browser end-to-end verification as non-blocking evidence after adversarial-review acceptance and before documentation refresh.",
+  "executionBackend": "claude-code-agent",
+  "agentSandbox": "read-only",
+  "model": "claude-opus-5-5",
+  "modelFreeze": false,
+  "effort": "medium",
+  "promptTemplateFile": "prompts/step7b-e2e-evidence.md",
+  "variables": {},
+  "output": {
+    "description": "Return JSON recording the executed browser E2E command, its outcome (passed, failed, or skipped), captured evidence, and residual risks. This step is non-blocking and never requests Step 6 revision.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "e2eAttempted": {
+          "type": "boolean"
+        },
+        "command": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "outcome": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "e2eAttempted",
+        "command"
+      ]
+    },
+    "maxValidationAttempts": 2
+  }
+}

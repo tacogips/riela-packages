@@ -1,0 +1,231 @@
+{
+  "id": "step7-adversarial-review",
+  "description": "Adversarially review a high-risk accepted implementation for failure modes, misuse paths, misleading success states, and verification loopholes; repair high/mid findings through Sonnet subagents and re-review before routing back.",
+  "executionBackend": "claude-code-agent",
+  "agentSandbox": "danger-full-access",
+  "model": "claude-opus-5-5",
+  "modelFreeze": false,
+  "effort": "high",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "promptTemplateFile": "prompts/step7-adversarial-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return an auditable security review basis and only route credible, materially impactful, proportionate adversarial findings.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "needs_revision": {
+          "type": "boolean"
+        },
+        "accepted": {
+          "type": "boolean"
+        },
+        "reviewBasis": {
+          "type": "object",
+          "properties": {
+            "protectedOutcomes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "trustBoundaries": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "nonGoals": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "intentionalTradeoffs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "sourcePaths": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "protectedOutcomes",
+            "trustBoundaries",
+            "nonGoals",
+            "intentionalTradeoffs",
+            "sourcePaths"
+          ],
+          "additionalProperties": false
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "severity": {
+                "type": "string",
+                "enum": [
+                  "high",
+                  "mid",
+                  "low"
+                ]
+              },
+              "file": {
+                "type": "string",
+                "minLength": 1
+              },
+              "line": {
+                "type": "number",
+                "minimum": 1
+              },
+              "message": {
+                "type": "string",
+                "minLength": 1
+              },
+              "attackOrFailurePath": {
+                "type": "string",
+                "minLength": 1
+              },
+              "recommendedChange": {
+                "type": "string",
+                "minLength": 1
+              },
+              "intentReference": {
+                "type": "string",
+                "minLength": 1
+              },
+              "materialImpact": {
+                "type": "string",
+                "minLength": 1
+              },
+              "fixCostBenefit": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "severity",
+              "file",
+              "message",
+              "attackOrFailurePath",
+              "recommendedChange",
+              "intentReference",
+              "materialImpact",
+              "fixCostBenefit"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "feedback": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "testIntegrityDecision": {
+          "type": "object",
+          "properties": {
+            "accepted": {
+              "type": "boolean"
+            },
+            "summary": {
+              "type": "string",
+              "minLength": 1
+            },
+            "feedback": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "residualRisks": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "accepted",
+            "summary",
+            "feedback",
+            "residualRisks"
+          ],
+          "additionalProperties": false
+        },
+        "adversarialReviewSummary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "residualLowRisks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "selfRepairs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "finding": {
+                "type": "string",
+                "minLength": 1
+              },
+              "changedFiles": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "verification": {
+                "type": "string"
+              },
+              "resolved": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "finding",
+              "changedFiles",
+              "resolved"
+            ],
+            "additionalProperties": true
+          }
+        }
+      },
+      "required": [
+        "needs_revision",
+        "accepted",
+        "reviewBasis",
+        "findings",
+        "feedback",
+        "testIntegrityDecision",
+        "adversarialReviewSummary",
+        "residualLowRisks"
+      ],
+      "additionalProperties": false
+    },
+    "maxValidationAttempts": 2
+  }
+}

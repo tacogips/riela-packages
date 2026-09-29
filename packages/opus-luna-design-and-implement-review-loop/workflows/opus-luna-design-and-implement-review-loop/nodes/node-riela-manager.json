@@ -1,0 +1,34 @@
+{
+  "id": "riela-manager",
+  "description": "Read-only entry coordinator. Acknowledge the supplied workflow input and immediately hand execution to the intake step; authors and reviewers own repository inspection, writes, and review decisions.",
+  "executionBackend": "claude-code-agent",
+  "agentSandbox": "read-only",
+  "model": "claude-opus-5-5",
+  "effort": "medium",
+  "modelFreeze": false,
+  "promptTemplateFile": "prompts/riela-manager.md",
+  "variables": {},
+  "input": {
+    "description": "Provide either issue reference details for full issue resolution or Codex-reference planning details for a design-plan-only run. Preferred fields are executionMode, issueUrl, issueNumber, issueRepository, issueTitle, issueBody, targetFeatureArea, requestedBehavior, codexAgentReferences, referenceRepositoryRoot, and referenceRepositoryUrl."
+  },
+  "output": {
+    "description": "Return a concise JSON dispatch acknowledgement with executionMode and targetFeatureArea. This node does not author, inspect, review, write files, run tests, commit, push, or declare completion.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "stage": {
+          "type": "string"
+        },
+        "policy": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "stage",
+        "policy"
+      ]
+    },
+    "maxValidationAttempts": 2
+  }
+}

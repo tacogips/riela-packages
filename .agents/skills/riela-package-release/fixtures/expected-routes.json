@@ -341,6 +341,41 @@
       ]
     },
     {
+      "workflowId": "opus-luna-design-and-implement-review-loop",
+      "fixture": "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "step1-issue-intake",
+        "step2-design-doc-update",
+        "step3-design-review",
+        "step2-design-doc-update",
+        "step3-design-review",
+        "step4-impl-plan-create",
+        "step5-impl-plan-review",
+        "step4-impl-plan-create",
+        "step5-impl-plan-review",
+        "plan-checkpoint",
+        "plan-git-commit",
+        "plan-git-push",
+        "dispatch-plans",
+        "implementation-wave-outcome",
+        "reconcile-implementations",
+        "integration-review",
+        "step7b-e2e-evidence",
+        "step8-docs-refresh",
+        "step9-commit-message",
+        "step10-git-commit",
+        "step11-git-push",
+        "base-branch-integrate",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/workflow.json",
+        "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario.json",
+        "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
       "workflowId": "codex-goal",
       "fixture": "packages/codex-goal/workflows/codex-goal/mock-scenario.json",
       "route": [

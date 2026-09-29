@@ -1,0 +1,28 @@
+{
+  "id": "implementation-wave-outcome",
+  "description": "Aggregate branch outcomes already classified by the branch-local progress gate and stop before reconciliation when any branch is blocked.",
+  "executionBackend": "claude-code-agent",
+  "agentSandbox": "read-only",
+  "model": "claude-opus-5-5",
+  "modelFreeze": false,
+  "effort": "medium",
+  "promptTemplateFile": "prompts/implementation-wave-outcome.md",
+  "variables": {},
+  "output": {
+    "description": "Return whether any preclassified implementation branch is blocked, the affected plans, concrete blockers and resume criteria.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "implementation_blocked": { "type": "boolean" },
+        "partial_success": { "type": "boolean" },
+        "blockedPlanIds": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "successfulPlanIds": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "blockers": { "type": "array", "items": {} },
+        "resumeCriteria": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      },
+      "required": ["implementation_blocked", "partial_success", "blockedPlanIds", "successfulPlanIds", "blockers", "resumeCriteria"],
+      "additionalProperties": false
+    },
+    "maxValidationAttempts": 2
+  }
+}
