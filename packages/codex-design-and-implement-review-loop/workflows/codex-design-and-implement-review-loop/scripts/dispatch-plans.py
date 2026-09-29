@@ -397,6 +397,7 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
                 ):
                     plan_findings.append(finding)
                     unmatched_material_paths.discard(relative)
+        dependencies = clean_string_list(plan.get("dependsOn", []), f"{plan_id}.dependsOn")
         items.append(
             {
                 "planId": plan_id,

@@ -67,6 +67,33 @@ class ManifestEvidenceRootTests(unittest.TestCase):
                 self.assertEqual(payload["implementationItems"][0]["dependsOn"], [])
                 self.assertEqual(payload["implementationItems"][0]["acceptedPlanIds"], [])
 
+    def test_each_item_keeps_its_own_manifest_dependencies(self) -> None:
+        plans = [
+            {
+                "planId": plan_id,
+                "planPath": f"impl-plans/active/{plan_id}.md",
+                "dependsOn": depends_on,
+                "writePaths": [f"src/{plan_id}.py"],
+                "sharedPaths": [],
+                "acceptanceCriteria": [f"{plan_id} is implemented"],
+                "verification": ["python -m unittest"],
+            }
+            for plan_id, depends_on in [
+                ("base", ["prior-plan"]),
+                ("middle", ["base"]),
+                ("final", ["base", "middle"]),
+            ]
+        ]
+        for script in DISPATCH_SCRIPTS:
+            module = self._module_for(script)
+            with self.subTest(script=script):
+                result = self._project_manifest(module, ["prior-plan", "base", "middle"], plans=plans)
+                dependencies = {
+                    item["planId"]: item["dependsOn"]
+                    for item in result["payload"]["implementationItems"]
+                }
+                self.assertEqual(dependencies, {"base": [], "middle": ["base"], "final": ["base", "middle"]})
+
     def test_continuation_still_rejects_unknown_accepted_plan_ids(self) -> None:
         for script in DISPATCH_SCRIPTS:
             module = self._module_for(script)
@@ -332,6 +359,7 @@ class ManifestEvidenceRootTests(unittest.TestCase):
         accepted: list[str],
         plan_path: str = "impl-plans/active/prior.md",
         accepted_dependencies: list | None = None,
+        plans: list | None = None,
     ) -> dict:
         scratch_root = self.root.parents[1] / "tmp"
         scratch_root.mkdir(exist_ok=True)
@@ -364,7 +392,7 @@ class ManifestEvidenceRootTests(unittest.TestCase):
                     "commit": "a" * 40,
                     "provides": ["Committed prerequisite"],
                 }],
-                "plans": [{
+                "plans": plans if plans is not None else [{
                     "planId": "remaining-plan",
                     "planPath": "impl-plans/active/remaining.md",
                     "dependsOn": ["prior-plan"],
