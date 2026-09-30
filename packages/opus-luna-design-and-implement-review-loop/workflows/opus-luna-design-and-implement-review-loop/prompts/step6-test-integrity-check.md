@@ -53,10 +53,10 @@ Return adapter JSON with this shape:
     "needs_revision": false,
     "accepted": true,
     "reviewBasis": {
-      "requiredBehaviors": [],
+      "requiredBehaviors": ["<required behavior from the plan>"],
       "supportedEdgeCases": [],
       "nonGoals": [],
-      "sourcePaths": []
+      "sourcePaths": ["impl-plans/active/<assigned-plan>.md"]
     },
     "findings": [],
     "reviewedFiles": [],
