@@ -104,6 +104,10 @@ def behavioral_kind(record: dict[str, Any]) -> str | None:
         r"\bbun\s+(?:\S*/)?tests?/(?:check|test|verify)[\w.-]*\.(?:[cm]?[jt]s|[jt]sx)\b",
         r"\b(?:npm|pnpm|yarn)\s+(?:run\s+)?test\b",
         r"\b(?:task|mise\s+run|make)\s+test\b", r"\bxcodebuild\b.*\btest\b",
+        # Grammar and runtime-native runners; project tasks whose name
+        # contains "test" (for example `mise run ts-test`, `npm run test:unit`).
+        r"\btree-sitter\s+test\b", r"\bdeno\s+test\b", r"\bnode\s+--test\b",
+        r"\b(?:task|mise\s+run|make|(?:npm|pnpm|yarn|bun)\s+run)\s+[\w:.-]*test[\w:.-]*",
     )
     if any(re.search(pattern, command) for pattern in test_patterns):
         return "test"
