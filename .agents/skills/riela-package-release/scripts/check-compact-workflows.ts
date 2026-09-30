@@ -31,7 +31,7 @@ for (const [id, nodes] of [
   for (const node of nodes) {
     const payload = read(join(bundle(id), 'nodes', `node-${node}.json`));
     assert.equal(payload.executionBackend, 'codex-agent');
-    assert.equal(payload.model, id === codex ? 'gpt-6-sol' : 'gpt-5.6-sol', `${id}/${node}: implementation model`);
+    assert.equal(payload.model, id === codex ? 'gpt-6.1-sol' : 'gpt-5.6-sol', `${id}/${node}: implementation model`);
     assert.equal(payload.effort, id === codex ? 'medium' : 'low', `${id}/${node}: implementation effort`);
   }
 }
@@ -47,19 +47,19 @@ for (const [id, nodes] of [
   for (const node of nodes) {
     const payload = read(join(bundle(id), 'nodes', `node-${node}.json`));
     assert.equal(payload.executionBackend, 'codex-agent');
-    assert.equal(payload.model, id === codex ? 'gpt-6-sol' : 'gpt-5.6-sol', `${id}/${node}: review model`);
+    assert.equal(payload.model, id === codex ? 'gpt-6.1-sol' : 'gpt-5.6-sol', `${id}/${node}: review model`);
     assert.equal(payload.effort, 'medium', `${id}/${node}: review effort`);
   }
 }
-assert.equal(read(join(bundle(codex), 'nodes/node-step2-design-doc-update.json')).model, 'gpt-6-sol');
-assert.equal(read(join(bundle(codex), 'nodes/node-step4-impl-plan-create.json')).model, 'gpt-6-sol');
-assert.equal(read(join(bundle(codex), 'nodes/node-integration-review.json')).model, 'gpt-6-sol');
+assert.equal(read(join(bundle(codex), 'nodes/node-step2-design-doc-update.json')).model, 'gpt-6.1-sol');
+assert.equal(read(join(bundle(codex), 'nodes/node-step4-impl-plan-create.json')).model, 'gpt-6.1-sol');
+assert.equal(read(join(bundle(codex), 'nodes/node-integration-review.json')).model, 'gpt-6.1-sol');
 assert.deepEqual(
   read(join(bundle(codex), 'nodes/node-dispatch-plans.json')).command,
   { scriptPath: 'scripts/dispatch-plans.py' },
 );
-assert.equal(read(join(bundle(codex), 'nodes/node-implementation-wave-outcome.json')).model, 'gpt-6-sol');
-assert.equal(read(join(bundle(codex), 'nodes/node-implementation-blocked-output.json')).model, 'gpt-6-sol');
+assert.equal(read(join(bundle(codex), 'nodes/node-implementation-wave-outcome.json')).model, 'gpt-6.1-sol');
+assert.equal(read(join(bundle(codex), 'nodes/node-implementation-blocked-output.json')).model, 'gpt-6.1-sol');
 const codexGraph = read(join(bundle(codex), 'workflow.json'));
 const baseIntegration = read(join(bundle(codex), 'nodes/node-base-branch-integrate.json'));
 assert.equal(baseIntegration.agentSandbox, 'danger-full-access', 'base integration needs remote and shared Git worktree access');
@@ -93,7 +93,7 @@ for (const step of ['step4-impl-plan-create', 'integration-review']) {
 for (const entry of codexGraph.nodes.filter((node: any) => node.nodeFile)) {
   const payload = read(join(bundle(codex), entry.nodeFile));
   if (payload.executionBackend !== 'codex-agent') continue;
-  assert.equal(payload.model, 'gpt-6-sol', `${codex}/${entry.id}: all agent models`);
+  assert.equal(payload.model, 'gpt-6.1-sol', `${codex}/${entry.id}: all agent models`);
   assert.equal(payload.effort, 'medium', `${codex}/${entry.id}: all agent effort`);
 }
 const dispatchNodePayload = read(join(bundle(codex), 'nodes/node-dispatch-plans.json'));
@@ -506,7 +506,7 @@ assert.equal(graph.loop.gates.find((g: any) => g.id === 'integration-review').st
 const integrationTransitions = graph.steps.find((step: any) => step.id === 'integration-review').transitions;
 assert.equal(integrationTransitions.find((transition: any) => transition.label === 'needs_revision && repair_in_place')?.toStepId, 'reconcile-implementations');
 assert.equal(integrationTransitions.find((transition: any) => transition.label === 'needs_revision && !(repair_in_place)')?.toStepId, 'dispatch-plans');
-const output = (payload: any, when = { always: true }) => ({ provider: 'scenario-mock', model: 'gpt-6-sol', when, payload });
+const output = (payload: any, when = { always: true }) => ({ provider: 'scenario-mock', model: 'gpt-6.1-sol', when, payload });
 const integrationLoopGate = (findings: any[], accepted = false) => ({
   gateId: 'integration-review',
   decision: accepted ? 'accepted' : 'needs-work',
@@ -615,7 +615,7 @@ run(codex, 'implementation-dependency-blocked', m => {
     verification: [],
     addressedFeedback: [],
     risks: ['External prerequisite remains incomplete.'],
-  }, { implementation_blocked: true } as any), model: 'gpt-6-sol' };
+  }, { implementation_blocked: true } as any), model: 'gpt-6.1-sol' };
   m['implementation-wave-outcome'] = output({
     implementation_blocked: true,
     partial_success: false,
@@ -688,7 +688,7 @@ run(codex, 'implementation-no-progress-terminal', m => {
       addressedFeedback: [],
       risks: ['An accepted requirement remains unresolved.'],
     }),
-    model: 'gpt-6-sol',
+    model: 'gpt-6.1-sol',
   };
   // Queue two identical no-change attempts. The deterministic gate must stop
   // after the first, leaving the second attempt unconsumed.
@@ -740,7 +740,7 @@ run(codex, 'implementation-materially-unverified-terminal', m => {
       risks: [],
       authorSelfCheck: { findings: [], verificationGaps: [], residualRisks: [] },
     }),
-    model: 'gpt-6-sol',
+    model: 'gpt-6.1-sol',
   };
   m['implementation-wave-outcome'] = output({
     implementation_blocked: true,
@@ -823,7 +823,7 @@ run(codex, 'native-fanout-dependency-blocked', m => {
       addressedFeedback: [],
       risks: ['External prerequisite remains incomplete.'],
     }, { implementation_blocked: true } as any),
-    model: 'gpt-6-sol',
+    model: 'gpt-6.1-sol',
   };
   m['step6-implement'] = [blocked, structuredClone(blocked)];
   m['implementation-wave-outcome'] = output({

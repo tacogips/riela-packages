@@ -3,7 +3,7 @@
   "description": "You are the sole writer after the native fanout join. All workers in the wave have stopped. On revision, read the latest integration-review feedback.",
   "executionBackend": "codex-agent",
   "agentSandbox": "danger-full-access",
-  "model": "gpt-6-sol",
+  "model": "gpt-6.1-sol",
   "sessionPolicy": {
     "mode": "reuse"
   },

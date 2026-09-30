@@ -3,7 +3,7 @@
   "description": "Implement the accepted plan with safely independent delegated investigation and verification, then update active implementation-plan progress.",
   "executionBackend": "codex-agent",
   "agentSandbox": "danger-full-access",
-  "model": "gpt-6-sol",
+  "model": "gpt-6.1-sol",
   "modelFreeze": false,
   "effort": "medium",
   "sessionPolicy": {

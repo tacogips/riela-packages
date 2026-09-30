@@ -95,7 +95,7 @@ Agent node payload:
   "id": "worker",
   "description": "Performs the requested worker task.",
   "executionBackend": "codex-agent",
-  "model": "gpt-6-sol",
+  "model": "gpt-6.1-sol",
   "promptTemplateFile": "prompts/worker.md",
   "variables": {}
 }

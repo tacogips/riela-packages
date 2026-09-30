@@ -10,7 +10,7 @@ manually emulating its orchestration.
 
 ## Responsibility split
 
-- Codex `gpt-6-sol` medium effort: all authoring, implementation, revisions, overwrite repair, test-integrity, review, and coordination roles. No Astra node remains.
+- Codex `gpt-6.1-sol` medium effort: all authoring, implementation, revisions, overwrite repair, test-integrity, review, and coordination roles. No Astra node remains.
 - Repeated implementation, reconciliation, and review attempts reuse their role-local backend session. Implementation-plan authoring and integration review inherit the Sol design session so accepted intent stays available without merging implementation and adversarial-review contexts.
 - The adversarial gate accepts only material spec violations, correctness/data-loss/security risks, likely regressions, or missing material verification; it rejects style nits, naming-only feedback, speculative refactors, and overengineering.
 

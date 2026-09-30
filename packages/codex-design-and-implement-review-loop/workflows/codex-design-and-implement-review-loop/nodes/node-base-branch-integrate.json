@@ -3,7 +3,7 @@
   "description": "All parallel workers have stopped; final commit and push have succeeded. Verify PR handoff or perform authorized serialized base integration.",
   "executionBackend": "codex-agent",
   "agentSandbox": "danger-full-access",
-  "model": "gpt-6-sol",
+  "model": "gpt-6.1-sol",
   "promptTemplateFile": "prompts/base-branch-integrate.md",
   "variables": {},
   "effort": "medium",

@@ -37,13 +37,13 @@ class AuthoringModelPolicyTests(unittest.TestCase):
             write_roots = json.loads((workflow / "workflow.json").read_text())["loop"]["policies"]["mutation"]["allowedWriteRoots"]
             self.assertTrue({"src", "tests", "lib", "crates"}.issubset(write_roots))
 
-    def test_every_agent_node_uses_gpt6_sol_at_bounded_effort(self) -> None:
+    def test_every_agent_node_uses_gpt6_1_sol_at_bounded_effort(self) -> None:
         for path in sorted((WORKFLOW / "nodes").glob("node-*.json")):
             node = json.loads(path.read_text())
             if node.get("executionBackend") != "codex-agent":
                 continue
             with self.subTest(node=path.name):
-                self.assertEqual(node["model"], "gpt-6-sol")
+                self.assertEqual(node["model"], "gpt-6.1-sol")
                 self.assertIn(node.get("effort"), ("low", "medium"))
 
     def test_scenarios_match_authored_agent_models(self) -> None:
@@ -53,7 +53,7 @@ class AuthoringModelPolicyTests(unittest.TestCase):
                 for item in response if isinstance(response, list) else [response]:
                     if isinstance(item, dict) and item.get("model", "").startswith("gpt-"):
                         with self.subTest(scenario=path.name):
-                            self.assertEqual(item["model"], "gpt-6-sol")
+                            self.assertEqual(item["model"], "gpt-6.1-sol")
 
     def test_existing_design_is_the_first_implementation_baseline(self) -> None:
         design = (WORKFLOW / "prompts/step2-design-doc-update.md").read_text()

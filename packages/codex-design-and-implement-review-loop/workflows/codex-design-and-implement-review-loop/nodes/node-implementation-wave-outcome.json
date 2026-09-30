@@ -3,7 +3,7 @@
   "description": "Aggregate branch outcomes already classified by the branch-local progress gate and stop before reconciliation when any branch is blocked.",
   "executionBackend": "codex-agent",
   "agentSandbox": "read-only",
-  "model": "gpt-6-sol",
+  "model": "gpt-6.1-sol",
   "modelFreeze": false,
   "effort": "medium",
   "promptTemplateFile": "prompts/implementation-wave-outcome.md",
