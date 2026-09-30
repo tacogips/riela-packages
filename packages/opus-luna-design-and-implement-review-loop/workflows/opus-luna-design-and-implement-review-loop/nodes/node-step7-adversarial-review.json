@@ -16,6 +16,9 @@
     "jsonSchema": {
       "type": "object",
       "properties": {
+        "planId": {
+          "type": "string"
+        },
         "needs_revision": {
           "type": "boolean"
         },
