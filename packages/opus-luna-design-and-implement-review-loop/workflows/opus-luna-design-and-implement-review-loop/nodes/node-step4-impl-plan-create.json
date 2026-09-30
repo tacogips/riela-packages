@@ -65,7 +65,7 @@
           "items": {}
         },
         "authorSelfCheck": {
-          "type": "string"
+          "type": "object"
         },
         "plans": {
           "type": "array",
