@@ -38,9 +38,9 @@
     "command"
   ],
   "skillDirectory": "skills",
-  "checksum": "b82ad4cbfe856e0541f2b2e609a59f1b",
+  "checksum": "1a3684a3bbfa410011c258fccc2f9adf",
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "3a56f8fd4361c82063212be39a7a225868a77a6910b2f222e49ba83082f20e23"
+    "digest": "cec72e11fbe9ad43160f5cfe44ccbe78512a9945227f715b3b67a00c8ae9fada"
   }
 }

@@ -210,7 +210,7 @@
         "feedback",
         "residualRisks"
       ],
-      "additionalProperties": false
+      "additionalProperties": true
     },
     "maxValidationAttempts": 2
   }

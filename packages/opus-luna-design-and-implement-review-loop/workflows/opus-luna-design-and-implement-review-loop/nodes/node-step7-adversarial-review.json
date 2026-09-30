@@ -231,7 +231,7 @@
         "adversarialReviewSummary",
         "residualLowRisks"
       ],
-      "additionalProperties": false
+      "additionalProperties": true
     },
     "maxValidationAttempts": 2
   }
