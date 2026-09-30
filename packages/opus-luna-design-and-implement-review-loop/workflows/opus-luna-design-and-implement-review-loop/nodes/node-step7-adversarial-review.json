@@ -16,6 +16,13 @@
     "jsonSchema": {
       "type": "object",
       "properties": {
+        "planId": {
+          "type": "string"
+        },
+        "repairRequests": {
+          "type": "array",
+          "items": {}
+        },
         "needs_revision": {
           "type": "boolean"
         },
@@ -224,7 +231,7 @@
         "adversarialReviewSummary",
         "residualLowRisks"
       ],
-      "additionalProperties": false
+      "additionalProperties": true
     },
     "maxValidationAttempts": 2
   }

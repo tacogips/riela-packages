@@ -64,7 +64,7 @@
           "items": {}
         },
         "authorSelfCheck": {
-          "type": "string"
+          "type": "object"
         }
       },
       "required": [
