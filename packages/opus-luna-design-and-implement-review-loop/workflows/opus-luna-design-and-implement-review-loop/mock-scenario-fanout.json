@@ -732,6 +732,7 @@
             "a.txt",
             "shared.txt"
           ],
+          "artifactRoots": [],
           "reviewFeedback": {
             "findings": [],
             "recoveryDiagnostic": ""
@@ -792,6 +793,7 @@
             "b.txt",
             "shared.txt"
           ],
+          "artifactRoots": [],
           "reviewFeedback": {
             "findings": [],
             "recoveryDiagnostic": ""

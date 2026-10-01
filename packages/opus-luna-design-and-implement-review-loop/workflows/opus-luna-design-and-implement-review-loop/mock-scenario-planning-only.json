@@ -491,6 +491,7 @@
             "a.txt",
             "shared.txt"
           ],
+          "artifactRoots": [],
           "manifestPath": "impl-plans/active/mock-dispatch.json",
           "checkpointCommit": "1111111111111111111111111111111111111111",
           "implementationBranch": "main",

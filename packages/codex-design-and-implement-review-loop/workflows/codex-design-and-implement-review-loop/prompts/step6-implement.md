@@ -11,6 +11,7 @@ Shared-write protocol:
 - Never remove another worker's edits as unrelated scope; never git restore/reset/checkout/stash/add/commit/push/merge or create worktrees. Do not run broad formatters or shared generated-file rewrites concurrently.
 - Keep progress and evidence plan-local. Distinguish tests run on a moving shared tree from final stable verification. Use isolated build-output directories when supported; defer commands with shared output mutation to serial verification.
 - Preserve intended hunks and behavior before they can be overwritten; end-of-branch snapshots alone are insufficient. Do not overwrite old evidence when retrying.
+- Generated tool installs, download/build caches and binaries belong only under the plan's `artifactRoots` (runtimeVariables.implementation.artifactRoots), which native tracking records as bounded digest/count manifests. When you install or update a tool, record its name, version, exact install and version-check commands, exit codes and the digest of each installed binary in the plan's tracked authored audit manifest (a `writePaths` file such as `<tool-root>/toolchain.json`). Never place caches or binaries under a source `trackedPaths` entry, and never put authored source inside an artifact root unless it is itself a declared source path. If generated output must land outside the declared artifact roots, stop and report a blocker asking for a checkpoint amendment instead of letting it grow a source snapshot.
 
 
 Rules:

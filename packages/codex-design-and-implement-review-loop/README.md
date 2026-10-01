@@ -41,6 +41,24 @@ Design and all implementation plans are authored by a single author node per pha
 
 The runtime calls each parallel execution a **fanout branch**, its input an **item**, and the aggregation a **join**. This is separate from a Git branch. Built-in fanout.dependencies selects ready branches from stable IDs and accepted dependencies. Built-in fanout.changeTracking captures immutable file content, hashes and modes at node boundaries, and reports drift candidates at join. No workflow-local evidence script is needed.
 
+### Write ownership, source snapshots and generated artifacts
+
+Each manifest plan separates three responsibilities:
+
+- **Write ownership**: `writePaths` and `sharedPaths` say where the plan may edit or produce output. Conflict detection and integration-review ownership use them unchanged.
+- **Source snapshot paths**: the dispatcher projects `trackedPaths = writePaths + sharedPaths - artifactRoots`. Native change tracking snapshots their full content at every node boundary within the core limits: 512 declared paths, 512 expanded entries (directories and missing declared paths count), 8,000,000 bytes per file and 64,000,000 bytes in total, with symlinks and special files rejected.
+- **Generated artifact roots**: the optional `artifactRoots` array names tool installs, download/build caches and large binaries. Each entry must exactly equal one of the plan's `writePaths`, may not appear in `sharedPaths`, may not lie inside a remaining source path or another artifact root, and at most 64 are allowed. The runtime records them as bounded digest and count manifests, never content. An authored audit manifest such as `native-tools/toolchain.json`, which records tool versions, install commands, exit codes and digests, stays in `writePaths` as a source snapshot even though it sits inside the `native-tools` artifact root. At least one source path must remain.
+
+Manifests without `artifactRoots` keep the previous source-only behaviour.
+
+Validation happens before expensive work. After the plan checkpoint writes the manifest, the deterministic `plan-contract-validate` gate runs the same rules and preflight that dispatch uses. It reports every selected root with its current entry and byte counts, the limits, and whether the root is expected to grow. A rejection returns to the plan author with high findings, and the plan review and checkpoint gates then run again. No path is silently dropped and a rejection is never converted into acceptance. Maintainers can run the same check directly; it prints a JSON report and exits 1 on any violation:
+
+```bash
+python3 <workflow-dir>/scripts/dispatch-plans.py --validate-manifest impl-plans/active/<task-id>-dispatch.json
+```
+
+A runtime tracking rejection, such as a `policy_blocked: fanout snapshot ...` branch failure or a join whose `changeEvidence.complete` is false, is classified as an implementation blocker. It carries the structured branch, node, phase, root, path, observed and limit diagnostic and the resume criterion to amend the checkpoint. Successful sibling branches are preserved for integration review.
+
 The dispatch coordinator is a bounded manifest-projection step. It may read only the direct inbox, checkpoint commit, exact committed manifest, and accepted plan IDs; repository exploration, example discovery, skill rereads, tests, and dependency-wave reasoning are forbidden there. Native fanout owns dependency validation and ready-wave selection.
 
 After all branches stop, Sol serial reconciliation repairs missing/overwritten behavior and a read-only Sol integration review checks the combined tree against every plan and the design. The reviewer returns the immutable wave-acceptance record in its output, and the runtime persists that communication for later dependency dispatch rather than asking the reviewer to write evidence files. Each implementation branch uses only one adversarial material-issue review gate after test-integrity; there is no duplicate ordinary implementation-review pass. A combined-tree defect routes back through reconciliation, while failed branches or missing worker-owned evidence route through plan dispatch for a fresh native worker attempt. Failed branches stay pending; already accepted branch IDs are skipped on subsequent dispatch. Preserve original evidence and existing user changes. Node-boundary snapshots cannot detect every transient overwrite inside an agent call, so per-edit intention records and behavior tests remain required.
@@ -60,3 +78,5 @@ Git operations are serialized: the accepted plan checkpoint is committed and non
 The planning checkpoint manifest always references every accepted design and plan, while its git `committedFiles` allowlist contains only the newly written manifest and accepted design/plan files that actually differ from HEAD. Already committed accepted files remain valid manifest inputs but are never added to the exact staged set. An empty or indeterminate checkpoint terminates explicitly as blocked instead of requesting an empty commit.
 
 Requires a Riela build with fanout.dependencies, fanout.changeTracking and shared-branch finalization evidence support. The explicit shared-workspace ownership mode makes older runners reject the new bundle instead of silently ignoring its dependency/tracking fields. Use the paired Riela source changes before installing this update.
+
+`changeTracking.artifactRootsFrom` requires a Riela core with the issue #130 artifact-evidence support. An older core ignores the field, so artifact roots are then neither snapshotted nor recorded as manifests while source snapshot paths keep working.

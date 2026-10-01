@@ -88,6 +88,14 @@
                   "pattern": "^(?!/)(?!.*(?:\\.\\.|[{},*?\\[\\],\\s])).+$"
                 }
               },
+              "artifactRoots": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^(?!/)(?!.*(?:\\.\\.|[{},*?\\[\\],\\s])).+$"
+                }
+              },
               "sharedPathNotes": {
                 "type": "array",
                 "items": {

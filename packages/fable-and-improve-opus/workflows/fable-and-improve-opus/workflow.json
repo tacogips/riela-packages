@@ -767,7 +767,8 @@
               "completedBranchIdsFrom": "/acceptedPlanIds"
             },
             "changeTracking": {
-              "pathsFrom": "/trackedPaths"
+              "pathsFrom": "/trackedPaths",
+              "artifactRootsFrom": "/artifactRoots"
             },
             "writeOwnership": {
               "mode": "shared-workspace"

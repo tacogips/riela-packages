@@ -24,6 +24,7 @@
               "writePaths": { "type": "array", "items": { "type": "string", "minLength": 1 } },
               "sharedPaths": { "type": "array", "items": { "type": "string", "minLength": 1 } },
               "trackedPaths": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+              "artifactRoots": { "type": "array", "items": { "type": "string", "minLength": 1 } },
               "acceptanceCriteria": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
               "verification": { "type": "array", "items": { "type": "string", "minLength": 1 } },
               "reviewContext": {
@@ -59,7 +60,7 @@
               "remote": { "type": "string", "minLength": 1 },
               "evidenceRoot": { "type": "string", "minLength": 1 }
             },
-            "required": ["planId", "planPath", "dependsOn", "acceptedPlanIds", "writePaths", "sharedPaths", "trackedPaths", "acceptanceCriteria", "verification", "reviewContext", "reviewFeedback", "manifestPath", "checkpointCommit", "implementationBranch", "baseBranch", "remote", "evidenceRoot"],
+            "required": ["planId", "planPath", "dependsOn", "acceptedPlanIds", "writePaths", "sharedPaths", "trackedPaths", "artifactRoots", "acceptanceCriteria", "verification", "reviewContext", "reviewFeedback", "manifestPath", "checkpointCommit", "implementationBranch", "baseBranch", "remote", "evidenceRoot"],
             "additionalProperties": false
           }
         },

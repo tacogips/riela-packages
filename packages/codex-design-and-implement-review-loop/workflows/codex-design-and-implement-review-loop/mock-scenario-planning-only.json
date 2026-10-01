@@ -399,6 +399,39 @@
       "blockers": []
     }
   },
+  "plan-contract-validate": {
+    "provider": "scenario-mock",
+    "model": "gpt-6.1-sol",
+    "when": {
+      "contract_valid": true
+    },
+    "payload": {
+      "contract_valid": true,
+      "manifestPath": "impl-plans/active/mock-dispatch.json",
+      "report": {
+        "manifestPath": "impl-plans/active/mock-dispatch.json",
+        "valid": true,
+        "limits": {
+          "sourcePaths": 512,
+          "sourceEntries": 512,
+          "sourceFileBytes": 8000000,
+          "sourceTotalBytes": 64000000,
+          "artifactRoots": 64
+        },
+        "plans": [],
+        "errors": []
+      },
+      "findings": [],
+      "checkpoint_blocked": false,
+      "status": "ready",
+      "commitMessage": "docs: checkpoint shared-branch implementation plans",
+      "committedFiles": [
+        "impl-plans/active/mock-dispatch.json",
+        "impl-plans/active/a.md"
+      ],
+      "blockers": []
+    }
+  },
   "plan-git-commit": {
     "provider": "scenario-mock",
     "model": "gpt-6.1-sol",
@@ -489,6 +522,7 @@
             "a.txt",
             "shared.txt"
           ],
+          "artifactRoots": [],
           "manifestPath": "impl-plans/active/mock-dispatch.json",
           "checkpointCommit": "1111111111111111111111111111111111111111",
           "implementationBranch": "main",

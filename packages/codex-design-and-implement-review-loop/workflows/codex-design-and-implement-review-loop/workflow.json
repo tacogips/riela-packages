@@ -225,6 +225,10 @@
       "nodeFile": "nodes/node-plan-checkpoint.json"
     },
     {
+      "id": "plan-contract-validate",
+      "nodeFile": "nodes/node-plan-contract-validate.json"
+    },
+    {
       "id": "plan-git-commit",
       "addon": {
         "name": "riela/git-commit",
@@ -591,8 +595,24 @@
       "role": "worker",
       "transitions": [
         {
-          "toStepId": "plan-git-commit",
+          "toStepId": "plan-contract-validate",
           "label": "!(checkpoint_blocked)"
+        }
+      ]
+    },
+    {
+      "id": "plan-contract-validate",
+      "nodeId": "plan-contract-validate",
+      "description": "Deterministically validate the written dispatch manifest's write ownership, source snapshot paths and generated artifact roots against native fanout limits before the checkpoint commit; return to the plan author with findings on rejection.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "plan-git-commit",
+          "label": "contract_valid"
+        },
+        {
+          "toStepId": "step4-impl-plan-create",
+          "label": "!(contract_valid)"
         }
       ]
     },
@@ -640,7 +660,8 @@
               "completedBranchIdsFrom": "/acceptedPlanIds"
             },
             "changeTracking": {
-              "pathsFrom": "/trackedPaths"
+              "pathsFrom": "/trackedPaths",
+              "artifactRootsFrom": "/artifactRoots"
             },
             "writeOwnership": {
               "mode": "shared-workspace"

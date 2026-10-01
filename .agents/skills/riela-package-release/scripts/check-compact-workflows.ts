@@ -142,6 +142,7 @@ const dispatchProjectionOutput = JSON.parse(dispatchProjection.stdout);
 assert.deepEqual(dispatchProjectionOutput.payload.implementationItems.map((item: any) => item.planId), ['a', 'b']);
 assert.deepEqual(dispatchProjectionOutput.payload.implementationItems.map((item: any) => item.acceptedPlanIds), [['a'], ['a']]);
 assert.deepEqual(dispatchProjectionOutput.payload.implementationItems[1].trackedPaths, ['b.txt', 'shared.txt']);
+assert.deepEqual(dispatchProjectionOutput.payload.implementationItems.map((item: any) => item.artifactRoots), [[], []]);
 assert.equal(dispatchProjectionOutput.payload.implementationItems[0].reviewContext.issueReference, 'comm-1: Deterministic dispatch');
 assert.equal(dispatchProjectionOutput.payload.manifestPath, 'impl-plans/active/mock-dispatch.json');
 assert.equal(dispatchProjectionOutput.payload.checkpointCommit, dispatchCheckpoint);
@@ -322,7 +323,7 @@ for (const prompt of ['plan-checkpoint', 'branch-evidence', 'implementation-wave
     `${fableOpus}/${prompt}: prompt drifted from Codex base`,
   );
 }
-const expected = new Map([[codex, 26], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 32]]);
+const expected = new Map([[codex, 27], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 32]]);
 for (const [id, count] of expected) {
   const w = read(join(bundle(id), 'workflow.json'));
   assert.equal(w.steps.length, count);
@@ -376,7 +377,24 @@ assert.match(managerPrompt, /immediately return concise business JSON exactly sh
 assert.match(managerPrompt, /dispatch.*step1-issue-intake/i);
 assert.match(managerPrompt, /do not perform any repository work yourself/i);
 const checkpointTransitions = graph.steps.find((step: any) => step.id === 'plan-checkpoint').transitions;
-assert.deepEqual(checkpointTransitions, [{ toStepId: 'plan-git-commit', label: '!(checkpoint_blocked)' }]);
+assert.deepEqual(checkpointTransitions, [{ toStepId: 'plan-contract-validate', label: '!(checkpoint_blocked)' }]);
+// Issue #130: the written manifest's tracking contract is validated before the
+// checkpoint commit; a rejection returns to the plan author, never to commit.
+assert.deepEqual(graph.steps.find((step: any) => step.id === 'plan-contract-validate').transitions, [
+  { toStepId: 'plan-git-commit', label: 'contract_valid' },
+  { toStepId: 'step4-impl-plan-create', label: '!(contract_valid)' },
+]);
+const contractNode = read(join(bundle(codex), 'nodes/node-plan-contract-validate.json'));
+assert.equal(contractNode.nodeType, 'command');
+assert.deepEqual(contractNode.command, { scriptPath: 'scripts/validate-plan-contract.py' });
+assert.equal(contractNode.executionBackend, undefined);
+assert.equal(contractNode.model, undefined);
+for (const id of [codex, fableOpus, 'opus-luna-design-and-implement-review-loop']) {
+  const fanout = read(join(bundle(id), 'workflow.json')).steps.find((step: any) => step.id === 'dispatch-plans').transitions[0].fanout;
+  assert.deepEqual(fanout.changeTracking, { pathsFrom: '/trackedPaths', artifactRootsFrom: '/artifactRoots' }, `${id}: artifact roots tracking`);
+  const item = read(join(bundle(id), 'nodes/node-dispatch-plans.json')).output.jsonSchema.properties.implementationItems.items;
+  assert(item.required.includes('artifactRoots'), `${id}: dispatch items must carry artifactRoots`);
+}
 assert.deepEqual(graph.steps.find((step: any) => step.id === 'plan-git-commit').transitions, [
   { toStepId: 'plan-git-push' },
 ]);
@@ -597,6 +615,30 @@ run(codex, 'checkpoint-no-op-blocked', m => {
   assert(!steps.includes('plan-git-push'));
   assert(!steps.includes('dispatch-plans'));
 }, 'mock-scenario.json', 'plan-checkpoint');
+run(codex, 'plan-contract-amendment', m => {
+  const accepted = m['plan-contract-validate'];
+  const rejected = output({
+    contract_valid: false,
+    manifestPath: 'impl-plans/active/mock-dispatch.json',
+    report: { valid: false, plans: [], errors: ['bounded checkpoint amendment required: plan a source root \'tools\' currently has 513 entries'] },
+    findings: [{ severity: 'high', targetStep: 'step4-impl-plan-create', file: 'impl-plans/active/mock-dispatch.json', message: 'bounded checkpoint amendment required: plan a source root \'tools\' currently has 513 entries' }],
+    needs_revision: true,
+  }, { contract_valid: false } as any);
+  m['plan-contract-validate'] = [rejected, accepted];
+  for (const step of ['step4-impl-plan-create', 'step5-impl-plan-review']) {
+    const entries = Array.isArray(m[step]) ? m[step] : [m[step]];
+    m[step] = [...entries, entries[entries.length - 1]];
+  }
+  m['plan-checkpoint'] = [m['plan-checkpoint'], m['plan-checkpoint']];
+}, steps => {
+  const first = steps.indexOf('plan-contract-validate');
+  assert.deepEqual(steps.slice(first - 1, first + 6), [
+    'plan-checkpoint', 'plan-contract-validate', 'step4-impl-plan-create', 'step5-impl-plan-review',
+    'plan-checkpoint', 'plan-contract-validate', 'plan-git-commit',
+  ]);
+  assert.equal(steps.filter(step => step === 'plan-git-commit').length, 1);
+  assert(steps.indexOf('plan-git-commit') > steps.lastIndexOf('plan-contract-validate'));
+});
 run(codex, 'implementation-dependency-blocked', m => {
   m['step6-implement'] = { ...output({
     implementation_blocked: true,

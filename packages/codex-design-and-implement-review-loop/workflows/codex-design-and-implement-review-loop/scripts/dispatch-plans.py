@@ -4,11 +4,26 @@
 from __future__ import annotations
 
 import json
+import os
 import re
+import stat
 import subprocess
 import sys
 from pathlib import Path
 from typing import Any
+
+
+# Native fanout change-tracking limits. These mirror the Riela core contract
+# exactly; the preflight below never raises, lowers, or silently drops paths.
+SOURCE_PATH_LIMIT = 512
+SOURCE_ENTRY_LIMIT = 512
+SOURCE_FILE_BYTE_LIMIT = 8_000_000
+SOURCE_TOTAL_BYTE_LIMIT = 64_000_000
+ARTIFACT_ROOT_LIMIT = 64
+# Reporting bound for a single scanned root (the core artifact scan uses the
+# same bound). Exceeding it only truncates counts; it never hides a violation.
+SCAN_ENTRY_CAP = 200_000
+AMENDMENT = "bounded checkpoint amendment required"
 
 
 REVIEW_CONTEXT_KEYS = (
@@ -147,6 +162,280 @@ def concrete_repository_path(value: Any, field: str, root: Path) -> str:
             "(no objects, comma lists, braces, globs, or prose)"
         )
     return safe_relative_path(path_text, field, root)
+
+
+def tracking_limits() -> dict[str, int]:
+    return {
+        "sourcePaths": SOURCE_PATH_LIMIT,
+        "sourceEntries": SOURCE_ENTRY_LIMIT,
+        "sourceFileBytes": SOURCE_FILE_BYTE_LIMIT,
+        "sourceTotalBytes": SOURCE_TOTAL_BYTE_LIMIT,
+        "artifactRoots": ARTIFACT_ROOT_LIMIT,
+    }
+
+
+def concrete_path_list(plan: dict[str, Any], key: str, plan_id: str, root: Path, *, required: bool) -> list[str]:
+    value = plan.get(key) if required else plan.get(key, [])
+    if not isinstance(value, list):
+        raise ValueError(
+            f"{plan_id}.{key} value {value!r} must be an array of concrete repository-relative file or directory path strings"
+        )
+    return [concrete_repository_path(path, f"{plan_id}.{key}[]", root) for path in value]
+
+
+def plan_tracking_contract(plan: dict[str, Any], plan_id: str, root: Path) -> dict[str, list[str]]:
+    """Split write ownership, source snapshot paths, and generated artifact roots.
+
+    writePaths/sharedPaths keep ownership and conflict detection. artifactRoots
+    (default []) name generated tool installs, caches, and binaries that the
+    native fanout records as bounded manifests instead of content snapshots.
+    """
+    write_paths = concrete_path_list(plan, "writePaths", plan_id, root, required=True)
+    shared_paths = concrete_path_list(plan, "sharedPaths", plan_id, root, required=False)
+    artifact_roots = list(dict.fromkeys(
+        concrete_path_list(plan, "artifactRoots", plan_id, root, required=False)
+    ))
+    if len(artifact_roots) > ARTIFACT_ROOT_LIMIT:
+        raise ValueError(
+            f"{AMENDMENT}: {plan_id}.artifactRoots declares {len(artifact_roots)} roots "
+            f"(limit {ARTIFACT_ROOT_LIMIT})"
+        )
+    for artifact in artifact_roots:
+        if artifact not in write_paths:
+            raise ValueError(
+                f"{AMENDMENT}: {plan_id}.artifactRoots entry '{artifact}' must exactly equal one of the plan's "
+                "writePaths so write ownership is preserved"
+            )
+        if artifact in shared_paths:
+            raise ValueError(
+                f"{AMENDMENT}: {plan_id}.artifactRoots entry '{artifact}' must not appear in sharedPaths; "
+                "a generated artifact root is uniquely owned by one plan"
+            )
+    for artifact in artifact_roots:
+        for other in artifact_roots:
+            if other != artifact and artifact.startswith(f"{other}/"):
+                raise ValueError(
+                    f"{AMENDMENT}: {plan_id}.artifactRoots overlap: '{artifact}' lies inside '{other}'"
+                )
+    artifact_set = set(artifact_roots)
+    tracked_paths = [path for path in dict.fromkeys(write_paths + shared_paths) if path not in artifact_set]
+    if not tracked_paths:
+        if artifact_roots:
+            raise ValueError(
+                f"{AMENDMENT}: {plan_id} has no source snapshot paths after removing artifactRoots; "
+                "add the authored audit manifest (for example <tool-root>/toolchain.json) or the plan's "
+                "source files to writePaths"
+            )
+        raise ValueError(f"{plan_id} has no tracked write or shared paths")
+    if len(tracked_paths) > SOURCE_PATH_LIMIT:
+        raise ValueError(
+            f"{AMENDMENT}: {plan_id} declares {len(tracked_paths)} source snapshot paths "
+            f"(limit {SOURCE_PATH_LIMIT}); narrow writePaths/sharedPaths"
+        )
+    for artifact in artifact_roots:
+        for tracked in tracked_paths:
+            if artifact.startswith(f"{tracked}/"):
+                raise ValueError(
+                    f"{AMENDMENT}: {plan_id}.artifactRoots entry '{artifact}' lies inside source snapshot path "
+                    f"'{tracked}'; narrow the source path to authored files (a narrow source file inside an "
+                    "artifact root, such as an audit manifest, is allowed)"
+                )
+    return {
+        "writePaths": write_paths,
+        "sharedPaths": shared_paths,
+        "artifactRoots": artifact_roots,
+        "trackedPaths": tracked_paths,
+    }
+
+
+def symlink_ancestor(root: Path, relative: str) -> str | None:
+    current = root
+    parts: list[str] = []
+    for part in Path(relative).parts:
+        current = current / part
+        parts.append(part)
+        try:
+            if stat.S_ISLNK(os.lstat(current).st_mode):
+                return "/".join(parts)
+        except FileNotFoundError:
+            return None
+    return None
+
+
+def scan_root(root: Path, relative: str, selection: str, seen: set[str] | None = None) -> dict[str, Any]:
+    """Walk one root without following symlinks and count it like the core.
+
+    Directories and the root itself count as entries, and a missing declared
+    root counts as one entry. `seen` deduplicates overlapping source roots,
+    because the core expands every source path of an item into one shared map.
+    """
+    report: dict[str, Any] = {
+        "path": relative,
+        "selection": selection,
+        "exists": False,
+        "kind": "missing",
+        "entries": 0,
+        "bytes": 0,
+        "maxFileBytes": 0,
+        "maxFilePath": None,
+        "expectedToGrow": selection == "artifact",
+        "scanTruncated": False,
+        "problems": [],
+        "oversizedFiles": [],
+    }
+    seen = set() if seen is None else seen
+
+    def problem(path: str, message: str) -> None:
+        report["problems"].append({"path": path, "message": message})
+
+    ancestor = symlink_ancestor(root, relative)
+    if ancestor is not None:
+        problem(ancestor, "fanout change tracking refuses symlink ancestry")
+        report.update(exists=True, kind="symlink")
+        return report
+    try:
+        status = os.lstat(root / relative)
+    except FileNotFoundError:
+        if relative not in seen:
+            seen.add(relative)
+            report["entries"] = 1
+        return report
+    except PermissionError:
+        problem(relative, "fanout snapshot refuses unreadable entries")
+        return report
+    report["exists"] = True
+    stack = [(relative, status)]
+    while stack:
+        path, entry = stack.pop()
+        if report["entries"] >= SCAN_ENTRY_CAP:
+            report["scanTruncated"] = True
+            break
+        mode = entry.st_mode
+        if path == relative:
+            report["kind"] = (
+                "directory" if stat.S_ISDIR(mode) else "file" if stat.S_ISREG(mode) else "special"
+            )
+        if path in seen:
+            # Already expanded through an enclosing source root of this plan.
+            continue
+        seen.add(path)
+        report["entries"] += 1
+        if stat.S_ISREG(mode):
+            size = entry.st_size
+            report["bytes"] += size
+            if size > SOURCE_FILE_BYTE_LIMIT:
+                report["oversizedFiles"].append({"path": path, "bytes": size})
+            if size > report["maxFileBytes"]:
+                report["maxFileBytes"], report["maxFilePath"] = size, path
+            # The core opens source files and artifact-root files, but only
+            # lstat()s regular files inside an artifact directory.
+            if (selection == "source" or path == relative) and not os.access(root / path, os.R_OK):
+                problem(path, "fanout snapshot refuses unreadable entries")
+            continue
+        if stat.S_ISLNK(mode):
+            if selection == "source":
+                problem(path, "fanout snapshot refuses symlink entries inside a source root")
+            continue
+        if not stat.S_ISDIR(mode):
+            if selection == "source" or path == relative:
+                problem(path, "fanout snapshot refuses special entries")
+            continue
+        try:
+            children = sorted(os.listdir(root / path), reverse=True)
+        except PermissionError:
+            problem(path, "fanout snapshot refuses unreadable entries")
+            continue
+        for child in children:
+            child_path = f"{path}/{child}"
+            if child == ".git" and selection == "source":
+                problem(child_path, "unsafe fanout change tracking path")
+                continue
+            try:
+                stack.append((child_path, os.lstat(root / child_path)))
+            except FileNotFoundError:
+                problem(child_path, "entry disappeared during preflight scan")
+    return report
+
+
+def preflight_tracking(plan_id: str, contract: dict[str, list[str]], root: Path) -> tuple[list[dict[str, Any]], list[str]]:
+    """Report every selected root and reject source selections the core would refuse.
+
+    Entry and byte limits apply to the union of the plan's source snapshot
+    paths, exactly as the core expands them into one snapshot per capture.
+    """
+    roots: list[dict[str, Any]] = []
+    errors: list[str] = []
+    seen: set[str] = set()
+    entries = 0
+    total = 0
+    advice = (
+        "declare generated tool installs, caches, and binaries in artifactRoots (each must also be a writePaths "
+        "entry) and keep an authored audit manifest in writePaths, or narrow writePaths"
+    )
+    for path in sorted(set(contract["trackedPaths"])):
+        report = scan_root(root, path, "source", seen)
+        roots.append(report)
+        for item in report["problems"]:
+            errors.append(f"{AMENDMENT}: plan {plan_id} source root '{path}': {item['message']} at '{item['path']}'")
+        for oversized in report["oversizedFiles"]:
+            errors.append(
+                f"{AMENDMENT}: plan {plan_id} source root '{path}' contains '{oversized['path']}' with "
+                f"{oversized['bytes']} bytes (limit {SOURCE_FILE_BYTE_LIMIT} per file); {advice}"
+            )
+        entries_before, total_before = entries, total
+        entries += report["entries"]
+        total += report["bytes"]
+        if entries > SOURCE_ENTRY_LIMIT >= entries_before:
+            errors.append(
+                f"{AMENDMENT}: plan {plan_id} source root '{path}' currently has {report['entries']} entries "
+                f"(the plan's source snapshot paths expand to {entries}"
+                f"{'+' if report['scanTruncated'] else ''} entries; limit {SOURCE_ENTRY_LIMIT}); {advice}"
+            )
+        if total > SOURCE_TOTAL_BYTE_LIMIT >= total_before:
+            errors.append(
+                f"{AMENDMENT}: plan {plan_id} source root '{path}' brings the source snapshot total to {total} bytes "
+                f"(limit {SOURCE_TOTAL_BYTE_LIMIT}); {advice}"
+            )
+    for path in contract["artifactRoots"]:
+        report = scan_root(root, path, "artifact")
+        report["oversizedFiles"] = []
+        roots.append(report)
+        for item in report["problems"]:
+            errors.append(f"{AMENDMENT}: plan {plan_id} artifact root '{path}': {item['message']} at '{item['path']}'")
+    return roots, errors
+
+
+def validate_manifest_contract(
+    manifest: Any, root: Path, *, skip_plan_ids: set[str] | None = None
+) -> dict[str, Any]:
+    """Validate every manifest plan's tracking contract and report current root sizes."""
+    skip_plan_ids = skip_plan_ids or set()
+    report: dict[str, Any] = {"valid": False, "limits": tracking_limits(), "plans": [], "errors": []}
+    if not isinstance(manifest, dict) or not isinstance(manifest.get("plans"), list) or not manifest["plans"]:
+        report["errors"].append("dispatch manifest plans must be a non-empty array")
+        return report
+    seen_ids: set[str] = set()
+    for index, plan in enumerate(manifest["plans"]):
+        entry: dict[str, Any] = {"planId": None, "limits": tracking_limits(), "roots": [], "errors": []}
+        report["plans"].append(entry)
+        try:
+            if not isinstance(plan, dict):
+                raise ValueError(f"plans[{index}] must be an object")
+            plan_id = clean_string(plan.get("planId"), "plans[].planId")
+            entry["planId"] = plan_id
+            if plan_id in seen_ids:
+                raise ValueError(f"dispatch manifest plan IDs must be unique: {plan_id}")
+            seen_ids.add(plan_id)
+            contract = plan_tracking_contract(plan, plan_id, root)
+            entry.update(contract)
+            if plan_id not in skip_plan_ids:
+                entry["roots"], errors = preflight_tracking(plan_id, contract, root)
+                entry["errors"].extend(errors)
+        except ValueError as error:
+            entry["errors"].append(str(error))
+        report["errors"].extend(entry["errors"])
+    report["valid"] = not report["errors"]
+    return report
 
 
 def checkpoint_source(messages: list[dict[str, Any]], root: Path) -> tuple[str, str]:
@@ -365,23 +654,13 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
                     unmatched_material_paths.add(relative)
     for plan in plans:
         plan_id = clean_string(plan.get("planId"), "plans[].planId")
-        write_value = plan.get("writePaths")
-        if not isinstance(write_value, list):
-            raise ValueError(f"{plan_id}.writePaths value {write_value!r} must be an array of concrete repository-relative file or directory path strings")
-        write_paths = [
-            concrete_repository_path(path, f"{plan_id}.writePaths[]", root)
-            for path in write_value
-        ]
-        shared_value = plan.get("sharedPaths", [])
-        if not isinstance(shared_value, list):
-            raise ValueError(f"{plan_id}.sharedPaths value {shared_value!r} must be an array of concrete repository-relative file or directory path strings")
-        shared_paths = [
-            concrete_repository_path(path, f"{plan_id}.sharedPaths[]", root)
-            for path in shared_value
-        ]
-        tracked_paths = list(dict.fromkeys(write_paths + shared_paths))
-        if not tracked_paths:
-            raise ValueError(f"{plan_id} has no tracked write or shared paths")
+        contract = plan_tracking_contract(plan, plan_id, root)
+        write_paths = contract["writePaths"]
+        if plan_id not in accepted_manifest_plan_ids:
+            # Accepted plans are skipped by the runtime and never re-captured.
+            _, preflight_errors = preflight_tracking(plan_id, contract, root)
+            if preflight_errors:
+                raise ValueError("; ".join(preflight_errors))
         plan_findings: list[dict[str, Any]] = []
         if feedback is not None:
             for finding in feedback["findings"]:
@@ -405,8 +684,9 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
                 "dependsOn": [dependency for dependency in dependencies if dependency in set(plan_ids)],
                 "acceptedPlanIds": accepted_dispatch_ids,
                 "writePaths": write_paths,
-                "sharedPaths": shared_paths,
-                "trackedPaths": tracked_paths,
+                "sharedPaths": contract["sharedPaths"],
+                "trackedPaths": contract["trackedPaths"],
+                "artifactRoots": contract["artifactRoots"],
                 "acceptanceCriteria": clean_string_list(
                     plan.get("acceptanceCriteria"), f"{plan_id}.acceptanceCriteria", nonempty=True
                 ),
@@ -443,7 +723,29 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def validate_manifest_cli(manifest_argument: str) -> int:
+    root = Path.cwd().resolve()
+    try:
+        relative = safe_relative_path(manifest_argument, "--validate-manifest", root)
+        manifest_file = root / relative
+        if manifest_file.is_symlink() or not manifest_file.is_file():
+            raise ValueError("dispatch manifest must be a regular non-symlink file")
+        manifest = json.loads(manifest_file.read_text())
+        report = validate_manifest_contract(manifest, root)
+    except (OSError, json.JSONDecodeError, ValueError) as error:
+        relative = manifest_argument
+        report = {"valid": False, "limits": tracking_limits(), "plans": [], "errors": [str(error)]}
+    report = {"manifestPath": relative, **report}
+    print(json.dumps(report, indent=2, ensure_ascii=False))
+    return 0 if report["valid"] else 1
+
+
 def main() -> int:
+    if len(sys.argv) == 3 and sys.argv[1] == "--validate-manifest":
+        return validate_manifest_cli(sys.argv[2])
+    if len(sys.argv) > 1:
+        print(json.dumps({"error": "usage: dispatch-plans.py [--validate-manifest <manifest.json>]"}), file=sys.stderr)
+        return 2
     try:
         envelope = json.loads(sys.stdin.readline())
         if not isinstance(envelope, dict):
