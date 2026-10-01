@@ -537,7 +537,7 @@ function run(id: string, name: string, mutate: (m: any) => void, verify: (steps:
     writeFileSync(path, JSON.stringify(w));
     args[args.indexOf('--workflow-definition-dir') + 1] = local;
   }
-  const r = spawnSync(process.env.RIELA_BIN ?? 'riela', args, { encoding: 'utf8' });
+  const r = spawnSync(process.env.RIELA_BIN ?? 'riela', args, { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 });
   assert.equal(r.status, 0, `${name}: ${r.stdout}\n${r.stderr}`);
   const result = JSON.parse(r.stdout); assert.equal(result.status, 'completed');
   const steps = result.session.executions.map((e: any) => e.stepId);
@@ -549,7 +549,7 @@ function runExpectFailure(id: string, name: string, mutate: (m: any) => void, ex
   const dir = join(scratch, name); mkdirSync(dir);
   const mock = join(dir, 'mock.json'); writeFileSync(mock, JSON.stringify(m));
   const args = ['workflow', 'run', id, '--workflow-definition-dir', catalog, '--mock-scenario', mock, '--session-store', join(dir, 'sessions'), '--artifact-root', join(dir, 'artifacts'), '--variables', JSON.stringify({ memoryRoot: join(dir, 'memory'), noteRoot: join(dir, 'notes') }), '--output', 'json'];
-  const r = spawnSync(process.env.RIELA_BIN ?? 'riela', args, { encoding: 'utf8' });
+  const r = spawnSync(process.env.RIELA_BIN ?? 'riela', args, { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 });
   assert.notEqual(r.status, 0, `${name}: expected convergence failure`);
   assert.match(`${r.stdout}\n${r.stderr}`, expectedError, `${name}: expected convergence diagnostic`);
   total++; console.log(`${name}: passed (terminated with convergence diagnostic)`);
