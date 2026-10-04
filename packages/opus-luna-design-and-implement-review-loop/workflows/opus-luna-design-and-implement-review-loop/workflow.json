@@ -1,6 +1,6 @@
 {
   "workflowId": "opus-luna-design-and-implement-review-loop",
-  "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6 Luna (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviewers repair findings through Sonnet subagents and re-review.",
+  "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6 Luna (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6 Luna implementer for correction and independent re-review.",
   "defaults": {
     "maxLoopIterations": 30,
     "nodeTimeoutMs": 3600000
@@ -134,7 +134,7 @@
     }
   },
   "prompts": {
-    "rielaPromptTemplate": "Coordinate {{workflowId}} through its authored graph. Always use the single Opus 5.5 design author and single Opus 5.5 plan author, with bounded Opus 5.5 review gates; reviewers repair their own findings through Sonnet subagents and re-review before routing back. Reuse an existing relevant design draft as the baseline; create a new design only when none applies. Planning-only uses Step 9 and final git steps without implementation. Issue-resolution checkpoints accepted designs and all plans before dispatching dependency-ready implementation plans with unbounded Riela fanout of GPT-6 Luna implementation branches on the SAME branch and working directory. Each branch executes implementation, integrity review, and one adversarial material-issue review, then records immutable evidence. Wait for every branch to terminate before shared-change reconciliation and Opus 5.5 integration review. Repair overwritten or missing work and repeat integration review until accepted; dispatch later dependency waves only after acceptance. After every plan is integrated, run E2E evidence, docs, completion, one final commit, push and serialized merge to the recorded base branch. Never use worktrees or branch-local git mutations. Never finish with missing plan behavior, unexamined drift, incomplete plans or failed git operations.",
+    "rielaPromptTemplate": "Coordinate {{workflowId}} through its authored graph. Always use the single Opus 5.5 design author and single Opus 5.5 plan author, with bounded Opus 5.5 review gates; reviewers never edit or delegate repairs: return detailed findings to the owning author, and return implementation corrections immediately to GPT-6 Luna for independent re-review. Reuse an existing relevant design draft as the baseline; create a new design only when none applies. Planning-only uses Step 9 and final git steps without implementation. Issue-resolution checkpoints accepted designs and all plans before dispatching dependency-ready implementation plans with unbounded Riela fanout of GPT-6 Luna implementation branches on the SAME branch and working directory. Each branch executes implementation, integrity review, and one adversarial material-issue review, then records immutable evidence. Wait for every branch to terminate before shared-change reconciliation and Opus 5.5 integration review. Repair overwritten or missing work and repeat integration review until accepted; dispatch later dependency waves only after acceptance. After every plan is integrated, run E2E evidence, docs, completion, one final commit, push and serialized merge to the recorded base branch. Never use worktrees or branch-local git mutations. Never finish with missing plan behavior, unexamined drift, incomplete plans or failed git operations.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Keep workflow mode, issue references, codex-agent references, file paths, findings, review decisions, and verification commands explicit."
   },
   "managerStepId": "riela-manager",
@@ -714,12 +714,8 @@
       },
       "transitions": [
         {
-          "toStepId": "reconcile-implementations",
-          "label": "needs_revision && repair_in_place"
-        },
-        {
           "toStepId": "dispatch-plans",
-          "label": "needs_revision && !(repair_in_place)"
+          "label": "needs_revision"
         },
         {
           "toStepId": "dispatch-plans",
@@ -746,7 +742,7 @@
   "metadata": {
     "rielaPackage": {
       "title": "opus-luna-design-and-implement-review-loop",
-      "description": "Opus 5.5 planning and review with GPT-6 Luna unbounded shared-branch fanout implementation, Sonnet-subagent review repairs, overwrite reconciliation, and serialized commit, push and base-branch integration.",
+      "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6 Luna (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6 Luna implementer for correction and independent re-review.",
       "tags": [
         "workflow"
       ],

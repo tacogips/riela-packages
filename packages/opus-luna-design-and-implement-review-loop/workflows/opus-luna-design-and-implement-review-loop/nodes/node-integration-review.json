@@ -80,6 +80,11 @@
               "message": { "type": "string", "minLength": 1 },
               "intentReference": { "type": "string", "minLength": 1 },
               "materialImpact": { "type": "string", "minLength": 1 },
+              "repairInstructions": {
+                "type": "object",
+                "description": "Self-contained revision brief preserved by selective redispatch.",
+                "additionalProperties": true
+              },
               "fixCostBenefit": { "type": "string", "minLength": 1 }
             },
             "required": ["severity", "file", "message", "intentReference", "materialImpact", "fixCostBenefit"],

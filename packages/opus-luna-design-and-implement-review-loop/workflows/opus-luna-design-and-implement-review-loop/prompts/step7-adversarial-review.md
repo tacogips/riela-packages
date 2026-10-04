@@ -79,18 +79,22 @@ Return adapter JSON with this shape:
 
 Always return `reviewBasis`, including on acceptance. A high or mid finding is valid only when it includes a credible attackOrFailurePath, intentReference, materialImpact, and fixCostBenefit.
 
-In native fanout, review only runtimeVariables.implementation's assigned plan and its interaction with the shared tree. Read per-edit intent and snapshots, detect changes lost since implementation, and record evidence for the serial integration reviewer. Modify files only through the self-repair protocol below, and never run Git mutations. A moving tree invalidates stale review evidence: re-read affected files and report drift. Preserve planId and repair requests in your payload; branch acceptance does not replace final combined-tree review.
+In native fanout, review only runtimeVariables.implementation's assigned plan and its interaction with the shared tree. Read per-edit intent and snapshots, detect changes lost since implementation, and record evidence for the serial integration reviewer. Do not modify files or run Git mutations. A moving tree invalidates stale review evidence: re-read affected files and report drift. Preserve planId and repair requests in your payload; branch acceptance does not replace final combined-tree review.
 
-## Self-repair protocol (Opus reviewer, Sonnet repair subagents)
+## Detailed revision handoff
 
-You are the Opus 5.5 reviewer. Do not route a repairable finding back to the author first; repair it through subagents and re-review it yourself:
+This is a read-only Opus review. Do not edit source, tests, plans or evidence files, and do not delegate repairs to any subagent. Return every material high/mid finding immediately through the authored needs_revision transition. Design and plan findings return to their Opus author; implementation findings return to the original GPT-6 Luna step6-implement in this native branch, followed by the progress gate, test-integrity review and adversarial review again. Low findings remain residual risks.
 
-1. Finish the full review pass and finalize the finding list before any repair starts.
-2. For every high or mid finding, delegate the repair to a Claude Code subagent launched with the Agent tool and `model: "sonnet"` (Sonnet 5.5). Do not edit files yourself. Give each subagent a self-contained brief: the finding (file, line, failure path, recommended change), the accepted intent it must satisfy, the invariants it must not break, the files it may edit, and the exact verification command it must run and report.
-3. Repair scope: only files inside `runtimeVariables.implementation.writePaths` plus this plan's own progress log and plan-local evidence directory. Other native branches are editing the same working tree concurrently: follow the shared-write protocol, recording each intended hunk under the plan-local evidence directory before editing, and never touch sharedPaths, other plans' files, shared indexes, lockfiles, or generated outputs. Subagents must read fresh file content before every edit, make the smallest sufficient change, never run Git mutations, and never start nested Riela, Codex, or Claude Code CLI processes.
-4. Run subagents in parallel only when their editable files do not overlap; otherwise run them one after another.
-5. When the subagents return, re-review the affected files and behavior from scratch and rerun the relevant verification yourself. Never accept a subagent's own claim of success as evidence.
-6. Repeat repair and re-review at most two rounds. If a high or mid finding remains, or its fix needs edits outside the allowed paths, a plan or design change, or substantial rework, stop repairing and return it with `needs_revision: true` so the workflow routes it back to the GPT-6 Luna implementation step.
-7. Record every repair in `payload.selfRepairs` as `{finding, changedFiles, verification, resolved}`, keep only unresolved findings in `payload.findings` and `payload.feedback`, and mention the repairs in `payload.adversarialReviewSummary`. Keep `payload.testIntegrityDecision` an exact copy of the preceding gate. Low findings are not repaired; keep them as residual risks.
+For each high/mid finding, return a self-contained repair brief in payload.repairRequests and embed the same brief as repairInstructions inside its payload.findings entry. Repeat actionable instructions in payload.feedback. Selective integration dispatch preserves findings, not top-level feedback or repairRequests, so nested repairInstructions are required to carry the full brief to Luna. Do not use vague instructions such as "fix validation". Each repairRequests item must contain:
+- findingId: a stable identifier, also referenced in feedback;
+- planId: the owning manifest plan ID (for branch reviews use runtimeVariables.implementation.planId);
+- severity, file and symbol: exact repository-relative location and target function/type, with a line when available;
+- intentReference and materialImpact: the accepted design/plan criterion and observable failure;
+- reproduction: concrete inputs, preconditions, current result and expected result, plus existing evidence paths;
+- rootCause: the causal code path with confirmed evidence; label any remaining uncertainty;
+- allowedWritePaths and forbiddenChanges: authorized owner paths, invariants, concurrent/downstream ownership, and changes that would weaken tests or broaden scope;
+- orderedChanges: numbered, small implementation steps, relevant existing patterns/contracts, edge cases and pitfalls; describe the correction precisely without inventing unverified APIs;
+- verification: exact commands, working directory, required regression assertions and expected outcomes; identify commands actually run by the reviewer separately from commands Luna must run;
+- completionCriteria: observable checks that prove this specific finding resolved, including current-source evidence and preserved adjacent behavior.
 
-Set `needs_revision` from the post-repair re-review only: false when re-review finds no remaining high or mid finding, true otherwise.
+If the fix exceeds authorized paths or changes accepted design/plan ownership, state the blocker and required scope amendment explicitly; do not authorize an out-of-scope edit. Preserve all independent review dispositions and nonzero baseline results. Keep findings and feedback complete until the next independent review verifies Luna's correction. Set when.needs_revision and payload.needs_revision true, and payload.accepted false, whenever a material finding remains. On acceptance use empty repairRequests. Never report reviewer self-repairs.

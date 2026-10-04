@@ -1,8 +1,8 @@
 {
   "id": "step3-design-review",
-  "description": "Review the design-doc update and route back when any high or mid finding exists; repair high/mid findings through Sonnet subagents and re-review before routing back.",
+  "description": "Review the design-doc update and route back when any high or mid finding exists. Return detailed revision instructions to the owning author without editing or repair delegation.",
   "executionBackend": "claude-code-agent",
-  "agentSandbox": "workspace-write",
+  "agentSandbox": "read-only",
   "model": "claude-opus-5-5",
   "modelFreeze": false,
   "effort": "high",
@@ -20,33 +20,61 @@
         "needs_revision": {
           "type": "boolean"
         },
-        "selfRepairs": {
+        "repairRequests": {
           "type": "array",
           "items": {
             "type": "object",
             "properties": {
-              "finding": {
+              "findingId": {
                 "type": "string",
                 "minLength": 1
               },
-              "changedFiles": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "minLength": 1
-                }
+              "planId": {
+                "type": "string",
+                "minLength": 1
               },
-              "verification": {
-                "type": "string"
+              "severity": {
+                "type": "string",
+                "minLength": 1
               },
-              "resolved": {
-                "type": "boolean"
+              "file": {
+                "type": "string",
+                "minLength": 1
+              },
+              "symbol": {
+                "type": "string",
+                "minLength": 1
+              },
+              "intentReference": {
+                "type": "string",
+                "minLength": 1
+              },
+              "materialImpact": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reproduction": {
+                "type": "string",
+                "minLength": 1
+              },
+              "rootCause": {
+                "type": "string",
+                "minLength": 1
               }
             },
             "required": [
-              "finding",
-              "changedFiles",
-              "resolved"
+              "findingId",
+              "severity",
+              "file",
+              "intentReference",
+              "materialImpact",
+              "reproduction",
+              "rootCause",
+              "allowedWritePaths",
+              "forbiddenChanges",
+              "orderedChanges",
+              "verification",
+              "completionCriteria"
             ],
             "additionalProperties": true
           }

@@ -1,8 +1,8 @@
 {
   "id": "step7-adversarial-review",
-  "description": "Adversarially review a high-risk accepted implementation for failure modes, misuse paths, misleading success states, and verification loopholes; repair high/mid findings through Sonnet subagents and re-review before routing back.",
+  "description": "Adversarially review a high-risk accepted implementation for failure modes, misuse paths, misleading success states, and verification loopholes. Return detailed revision instructions to the owning author without editing or repair delegation.",
   "executionBackend": "claude-code-agent",
-  "agentSandbox": "danger-full-access",
+  "agentSandbox": "read-only",
   "model": "claude-opus-5-5",
   "modelFreeze": false,
   "effort": "high",
@@ -21,7 +21,62 @@
         },
         "repairRequests": {
           "type": "array",
-          "items": {}
+          "items": {
+            "type": "object",
+            "properties": {
+              "findingId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "planId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "severity": {
+                "type": "string",
+                "minLength": 1
+              },
+              "file": {
+                "type": "string",
+                "minLength": 1
+              },
+              "symbol": {
+                "type": "string",
+                "minLength": 1
+              },
+              "intentReference": {
+                "type": "string",
+                "minLength": 1
+              },
+              "materialImpact": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reproduction": {
+                "type": "string",
+                "minLength": 1
+              },
+              "rootCause": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "findingId",
+              "severity",
+              "file",
+              "intentReference",
+              "materialImpact",
+              "reproduction",
+              "rootCause",
+              "allowedWritePaths",
+              "forbiddenChanges",
+              "orderedChanges",
+              "verification",
+              "completionCriteria"
+            ],
+            "additionalProperties": true
+          }
         },
         "needs_revision": {
           "type": "boolean"
@@ -123,6 +178,11 @@
               "fixCostBenefit": {
                 "type": "string",
                 "minLength": 1
+              },
+              "repairInstructions": {
+                "type": "object",
+                "description": "Self-contained revision brief, preserved inside findings by deterministic selective redispatch.",
+                "additionalProperties": true
               }
             },
             "required": [
@@ -187,37 +247,6 @@
           "items": {
             "type": "string",
             "minLength": 1
-          }
-        },
-        "selfRepairs": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "finding": {
-                "type": "string",
-                "minLength": 1
-              },
-              "changedFiles": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "minLength": 1
-                }
-              },
-              "verification": {
-                "type": "string"
-              },
-              "resolved": {
-                "type": "boolean"
-              }
-            },
-            "required": [
-              "finding",
-              "changedFiles",
-              "resolved"
-            ],
-            "additionalProperties": true
           }
         }
       },

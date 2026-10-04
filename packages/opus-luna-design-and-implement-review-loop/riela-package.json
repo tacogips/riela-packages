@@ -2,7 +2,7 @@
   "name": "opus-luna-design-and-implement-review-loop",
   "version": "0.1.6",
   "title": "opus-luna-design-and-implement-review-loop",
-  "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6 Luna (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviewers repair findings through Sonnet subagents and re-review.",
+  "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6 Luna (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6 Luna implementer for correction and independent re-review.",
   "tags": [
     "workflow",
     "claude-code",
@@ -17,7 +17,7 @@
   "repository": "https://github.com/tacogips/riela-packages",
   "workflow": {
     "title": "opus-luna-design-and-implement-review-loop",
-    "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6 Luna (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviewers repair findings through Sonnet subagents and re-review.",
+    "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6 Luna (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6 Luna implementer for correction and independent re-review.",
     "tags": [
       "workflow",
       "claude-code",
@@ -38,9 +38,9 @@
     "command"
   ],
   "skillDirectory": "skills",
-  "checksum": "ca70b97b25971a3959b48a388c18e99e",
+  "checksum": "8ae18b6d294106ffb66aab41e01681f9",
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "e3de89ff92de0bfd711ab8d6db3bffbcd50685d72e8896a76733f7aac04efcaa"
+    "digest": "35c14e309601964394775b7e55703f557bd7ab72e08af21fa2fa497778005020"
   }
 }

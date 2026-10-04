@@ -21,3 +21,25 @@ Return a required `payload.loopGate` object for the runtime convergence tracker:
 Use native fanoutJoin.dispatchedBranchIds and branchId records to validate candidate completeness. Failed branches remain pending and can be retried; accept only fully reviewed successful candidates. Return the complete acceptedPlanIds set for the next native dependency dispatch. If every branch failed and no candidate can be accepted, return a revision with redispatch_required:true and a recovery diagnostic rather than accepting an empty wave or terminating before redispatch. On final acceptance every manifest plan must be accepted. Check the entire combined implementation against the design.
 
 For an `implementation-wave-outcome.partial_success:true` input, preserve every blocked plan as pending and accept only the successful candidates after their branch evidence, hashes, reconciliation result, and owned acceptance criteria pass this review. Return the expanded complete `acceptedPlanIds`, `pendingPlanIds` containing the blocked IDs, `plans_remaining:true`, and no invented acceptance for incomplete work. The next dispatch must therefore skip accepted candidates and retry only blocked pending IDs. Keep the existing no-progress fingerprint guard active for that retry.
+
+## Luna ownership of integration-review revisions
+
+For this Opus/Luna workflow, every implementation correction discovered by integration review returns to its owning Luna plan through dispatch-plans. On revision set redispatch_required:true and repair_in_place:false in both when and payload, keep affected owner plan IDs pending and remove them from acceptedPlanIds. Associate each finding with an authorized worker-owned source or evidence path so deterministic selective dispatch passes it in reviewFeedback. The general serial-repair discriminator described above remains part of the output contract, but do not select repair_in_place for this workflow. Reconciliation combines wave evidence; it must not apply new integration-review corrections. Scope/design ownership gaps must be explicit blockers rather than unauthorized edits.
+
+## Detailed revision handoff
+
+This is a read-only Opus review. Do not edit source, tests, plans or evidence files, and do not delegate repairs to any subagent. Return every material high/mid finding immediately through the authored integration redispatch transition. Design and plan findings return to their Opus author; implementation findings return to the owning GPT-6 Luna step6-implement through selective native redispatch, followed by the progress gate, test-integrity review and adversarial review again. Low findings remain residual risks.
+
+For each high/mid finding, return a self-contained repair brief in payload.repairRequests and embed the same brief as repairInstructions inside its payload.findings entry. Repeat actionable instructions in payload.feedback. Selective integration dispatch preserves findings, not top-level feedback or repairRequests, so nested repairInstructions are required to carry the full brief to Luna. Do not use vague instructions such as "fix validation". Each repairRequests item must contain:
+- findingId: a stable identifier, also referenced in feedback;
+- planId: the owning manifest plan ID (for branch reviews use runtimeVariables.implementation.planId);
+- severity, file and symbol: exact repository-relative location and target function/type, with a line when available;
+- intentReference and materialImpact: the accepted design/plan criterion and observable failure;
+- reproduction: concrete inputs, preconditions, current result and expected result, plus existing evidence paths;
+- rootCause: the causal code path with confirmed evidence; label any remaining uncertainty;
+- allowedWritePaths and forbiddenChanges: authorized owner paths, invariants, concurrent/downstream ownership, and changes that would weaken tests or broaden scope;
+- orderedChanges: numbered, small implementation steps, relevant existing patterns/contracts, edge cases and pitfalls; describe the correction precisely without inventing unverified APIs;
+- verification: exact commands, working directory, required regression assertions and expected outcomes; identify commands actually run by the reviewer separately from commands Luna must run;
+- completionCriteria: observable checks that prove this specific finding resolved, including current-source evidence and preserved adjacent behavior.
+
+If the fix exceeds authorized paths or changes accepted design/plan ownership, state the blocker and required scope amendment explicitly; do not authorize an out-of-scope edit. Preserve all independent review dispositions and nonzero baseline results. Keep findings and feedback complete until the next independent review verifies Luna's correction. Set when.needs_revision and payload.needs_revision true, and payload.accepted false, whenever a material finding remains. On acceptance use empty repairRequests. Never report reviewer self-repairs.

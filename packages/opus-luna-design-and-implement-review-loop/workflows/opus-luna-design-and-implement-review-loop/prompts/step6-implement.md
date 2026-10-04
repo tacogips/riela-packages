@@ -61,3 +61,9 @@ Return JSON with:
 - `authorSelfCheck`
 
 Report authorSelfCheck as {checks: [{criterion, evidence}], findings: [], verificationGaps: [], residualRisks: []}. Cite actual paths and command outcomes. Explicitly report unresolved high/mid findings and blocked checks; never claim completion when they remain.
+
+## Apply review revisions as the original Luna implementer
+
+Before starting new implementation, read the direct inbox payload's findings, feedback and repairRequests as well as runtimeVariables.implementation.reviewFeedback on redispatch. Read each finding's nested repairInstructions, especially on integration redispatch where top-level repairRequests and feedback are not forwarded. These are the current repair brief; do not assume reviewFeedback is populated on a local review-to-step6 loop. Map each findingId to the assigned plan, accepted intent and authorized writePaths. Read the cited files freshly, reproduce the failure, then follow orderedChanges one correction at a time, preserving invariants and concurrent edits. Run the specified regression assertions and exact verification commands on the final source; record actual exits, counts and log paths. Never declare resolution from code inspection alone when behavioral verification is required.
+
+Return addressedFeedback entries keyed by findingId with changed paths/symbols, the correction, current-source verification and each completion criterion's evidence. Report unresolved findings explicitly and set implementationIncomplete true; use implementation_blocked for an ownership, scope or dependency gap. If a brief is ambiguous or conflicts with accepted intent, state the exact contradiction and required clarification instead of guessing or silently dismissing it. Do not weaken tests, widen writePaths, change design ownership or delegate the correction to Sonnet. Independent Opus gates must re-review every correction before acceptance.

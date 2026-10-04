@@ -7,9 +7,9 @@ review. GPT-6 Luna implements the plans in parallel native fanout.
 | Role | Node(s) | Backend / model |
 | --- | --- | --- |
 | Intake, design, implementation plans | `step1-issue-intake`, `step2-design-doc-update`, `step4-impl-plan-create` | `claude-code-agent` / `claude-opus-5-5` |
-| Design and plan review | `step3-design-review`, `step5-impl-plan-review` | `claude-opus-5-5`, repairs via Sonnet 5.5 subagents |
+| Design and plan review | `step3-design-review`, `step5-impl-plan-review` | `claude-opus-5-5` (read-only) |
 | Implementation (fanout) | `step6-implement` | `codex-agent` / `gpt-6-luna`, high effort, fast tier |
-| Test-integrity and adversarial review | `step6-test-integrity-check`, `step7-adversarial-review` | `claude-opus-5-5`, repairs via Sonnet 5.5 subagents |
+| Test-integrity and adversarial review | `step6-test-integrity-check`, `step7-adversarial-review` | `claude-opus-5-5` (read-only) |
 | Integration review | `integration-review` | `claude-opus-5-5` (read-only) |
 | Reconciliation, docs, completion, Git handoff | remaining agent nodes | `claude-opus-5-5` |
 
@@ -18,16 +18,21 @@ review. GPT-6 Luna implements the plans in parallel native fanout.
 - Workflows: `opus-luna-design-and-implement-review-loop`
 - Skills: Claude Code (`opus-luna-design-and-implement-review-loop`)
 
-## Review self-repair
+## Review revision routing
 
-Each Opus review gate first completes its review, then delegates every high or
-mid finding to a Claude Code subagent (`model: "sonnet"`, Sonnet 5.5) with a
-self-contained brief, re-reviews the result from scratch, and reruns the
-verification itself. After at most two repair rounds, remaining findings (or
-findings that need out-of-scope changes) route back to the Opus author or the
-GPT-6 Luna implementation step as in the Codex base. Repairs are recorded in the
-optional `selfRepairs` payload field. Implementation-review repairs stay inside
-the branch's `writePaths` and follow the shared-write protocol.
+Opus review gates are read-only. Design and plan findings return immediately to
+their Opus author. Test-integrity and adversarial findings return immediately to
+the original GPT-6 Luna implementation step in the same native branch; the
+progress gate and both independent reviews run again after the correction.
+Integration findings selectively redispatch their owning Luna plans rather than
+requesting serial in-place repairs. Reviewers do not edit or delegate repairs.
+
+Each material finding carries a detailed `repairRequests` brief and actionable
+`feedback`: owner, file/symbol, accepted intent, reproduction, root cause,
+authorized paths, invariants, ordered changes, exact verification commands,
+regression assertions and observable completion criteria. Luna reads both the
+direct review inbox and redispatched `reviewFeedback`, and reports resolution
+and current-source evidence per finding. Scope gaps remain explicit blockers.
 
 ## GPT-6 Luna fanout
 

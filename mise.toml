@@ -102,7 +102,10 @@ run = "bun .agents/skills/riela-package-release/scripts/check-compact-workflows.
 
 [tasks."workflow:check-codex-dispatch"]
 description = "Check deterministic Codex dispatch manifest compatibility."
-run = "python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'"
+run = """
+python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'
+python3 -m unittest discover -s packages/opus-luna-design-and-implement-review-loop/tests -p 'test_*.py'
+"""
 
 [tasks."package:check-compat-harness"]
 description = "Test compatibility harness route and asset assertions."
