@@ -278,6 +278,10 @@
     {
       "id": "base-branch-integrate",
       "nodeFile": "nodes/node-base-branch-integrate.json"
+    },
+    {
+      "id": "runtime-tracking-contract-check",
+      "nodeFile": "nodes/node-runtime-tracking-contract-check.json"
     }
   ],
   "steps": [
@@ -436,7 +440,7 @@
           "label": "implementation_continue"
         },
         {
-          "toStepId": "implementation-wave-outcome",
+          "toStepId": "runtime-tracking-contract-check",
           "label": "implementation_blocked"
         },
         {
@@ -651,7 +655,7 @@
             "itemsFrom": "/implementationItems",
             "itemVariable": "implementation",
             "concurrency": 4,
-            "joinStepId": "implementation-wave-outcome",
+            "joinStepId": "runtime-tracking-contract-check",
             "failurePolicy": "collect-partial",
             "resultOrder": "input",
             "dependencies": {
@@ -677,7 +681,7 @@
       "role": "worker",
       "transitions": [
         {
-          "toStepId": "implementation-wave-outcome"
+          "toStepId": "runtime-tracking-contract-check"
         }
       ]
     },
@@ -760,6 +764,22 @@
       "transitions": [
         {
           "toStepId": "workflow-output"
+        }
+      ]
+    },
+    {
+      "id": "runtime-tracking-contract-check",
+      "nodeId": "runtime-tracking-contract-check",
+      "role": "worker",
+      "description": "Return tracking failures to author for reviewed checkpoint amendment and redispatch.",
+      "transitions": [
+        {
+          "toStepId": "step4-impl-plan-create",
+          "label": "tracking_contract_rejected"
+        },
+        {
+          "toStepId": "implementation-wave-outcome",
+          "label": "!(tracking_contract_rejected)"
         }
       ]
     }

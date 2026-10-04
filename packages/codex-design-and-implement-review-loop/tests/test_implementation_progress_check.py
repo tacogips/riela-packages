@@ -97,7 +97,7 @@ class ImplementationContinuationTests(unittest.TestCase):
             [(transition["label"], transition["toStepId"]) for transition in step["transitions"]],
             [
                 ("implementation_continue", "step6-implement"),
-                ("implementation_blocked", "implementation-wave-outcome"),
+                ("implementation_blocked", "runtime-tracking-contract-check"),
                 ("!(implementation_blocked || implementation_continue)", "step6-test-integrity-check"),
             ],
         )

@@ -323,7 +323,7 @@ for (const prompt of ['plan-checkpoint', 'branch-evidence', 'implementation-wave
     `${fableOpus}/${prompt}: prompt drifted from Codex base`,
   );
 }
-const expected = new Map([[codex, 27], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 32]]);
+const expected = new Map([[codex, 28], [refactor, 6], ['fable-and-improve-codex', 24], ['fable-and-improve-opus', 32]]);
 for (const [id, count] of expected) {
   const w = read(join(bundle(id), 'workflow.json'));
   assert.equal(w.steps.length, count);
@@ -497,11 +497,15 @@ assert.equal(invokeProgressGate([priorBehavioral, matchingEnvironmentBlock]).pay
 assert.equal(invokeProgressGate([priorBehavioral, { ...matchingEnvironmentBlock, verification: [{ command: 'swift test --filter CapabilityTests', exitStatus: 1, environmentBlocked: true, sourceHash: 'tree-other' }] }]).payload.blockerType, 'implementation-materially-unverified');
 const progressTransitions = graph.steps.find((step: any) => step.id === 'implementation-progress-check').transitions;
 assert.equal(progressTransitions.find((transition: any) => transition.label === 'implementation_continue')?.toStepId, 'step6-implement');
-assert.equal(progressTransitions.find((transition: any) => transition.label === 'implementation_blocked')?.toStepId, 'implementation-wave-outcome');
+assert.equal(progressTransitions.find((transition: any) => transition.label === 'implementation_blocked')?.toStepId, 'runtime-tracking-contract-check');
 assert.equal(progressTransitions.find((transition: any) => transition.label === '!(implementation_blocked || implementation_continue)')?.toStepId, 'step6-test-integrity-check');
 const implementationFanout = graph.steps.find((step: any) => step.id === 'dispatch-plans').transitions[0].fanout;
-assert.equal(implementationFanout.joinStepId, 'implementation-wave-outcome');
-assert.equal(graph.steps.find((step: any) => step.id === 'branch-evidence').transitions[0].toStepId, 'implementation-wave-outcome');
+assert.equal(implementationFanout.joinStepId, 'runtime-tracking-contract-check');
+assert.deepEqual(graph.steps.find((step: any) => step.id === 'runtime-tracking-contract-check').transitions, [
+  { toStepId: 'step4-impl-plan-create', label: 'tracking_contract_rejected' },
+  { toStepId: 'implementation-wave-outcome', label: '!(tracking_contract_rejected)' },
+]);
+assert.equal(graph.steps.find((step: any) => step.id === 'branch-evidence').transitions[0].toStepId, 'runtime-tracking-contract-check');
 const outcomeTransitions = graph.steps.find((step: any) => step.id === 'implementation-wave-outcome').transitions;
 assert.equal(outcomeTransitions.find((transition: any) => transition.label === 'implementation_blocked && !(partial_success)')?.toStepId, 'implementation-blocked-output');
 assert.equal(outcomeTransitions.find((transition: any) => transition.label === '!(implementation_blocked) || partial_success')?.toStepId, 'reconcile-implementations');
@@ -579,6 +583,21 @@ run(codex, 'completion-revision', m => {
   const first = steps.indexOf('step9-commit-message');
   assert.deepEqual(steps.slice(first, first + 4), ['step9-commit-message', 'step8-docs-refresh', 'step9-commit-message', 'step10-git-commit']);
   assert.equal(steps.filter(s => s === 'step10-git-commit').length, 1);
+});
+run(codex, 'runtime-tracking-contract-amendment', m => {
+  m['runtime-tracking-contract-check'] = [
+    output({ tracking_contract_rejected: true, findings: [{ severity: 'high', planId: 'review-findings', targetStep: 'step4-impl-plan-create', message: 'Generated tool cache exceeded source snapshot limits' }], affectedPlanIds: ['review-findings'], acceptedPlanIds: [] }, { tracking_contract_rejected: true } as any),
+    output({ tracking_contract_rejected: false, findings: [] }, { tracking_contract_rejected: false } as any),
+  ];
+}, steps => {
+  const gate = steps.indexOf('runtime-tracking-contract-check');
+  assert.equal(steps[gate + 1], 'step4-impl-plan-create');
+  const secondDispatch = steps.indexOf('dispatch-plans', gate + 1);
+  assert(secondDispatch > gate);
+  const amendment = steps.slice(gate + 1, secondDispatch);
+  for (const step of ['step5-impl-plan-review', 'plan-checkpoint', 'plan-contract-validate', 'plan-git-commit', 'plan-git-push']) assert(amendment.includes(step));
+  assert.equal(steps.filter(step => step === 'dispatch-plans').length, 2);
+  assert.equal(steps.filter(step => step === 'step10-git-commit').length, 1);
 });
 run(codex, 'planning-only', () => {}, steps => {
   assert(!steps.includes('step6-implement')); assert(!steps.includes('step8-docs-refresh'));
@@ -679,7 +698,7 @@ run(codex, 'implementation-dependency-blocked', m => {
     residualRisks: [],
   });
 }, steps => {
-  assert.deepEqual(steps, ['step6-implement', 'implementation-progress-check', 'implementation-wave-outcome', 'implementation-blocked-output']);
+  assert.deepEqual(steps, ['step6-implement', 'implementation-progress-check', 'runtime-tracking-contract-check', 'implementation-wave-outcome', 'implementation-blocked-output']);
   assert(!steps.includes('step6-test-integrity-check'));
   assert(!steps.includes('step7-adversarial-review'));
   assert(!steps.includes('reconcile-implementations'));
@@ -713,7 +732,7 @@ run(codex, 'implementation-failed-required-gate-terminal', m => {
     nextStep: 'Amend the exact write paths and rerun.', residualRisks: [],
   });
 }, steps => {
-  assert.deepEqual(steps, ['step6-implement', 'implementation-progress-check', 'implementation-wave-outcome', 'implementation-blocked-output']);
+  assert.deepEqual(steps, ['step6-implement', 'implementation-progress-check', 'runtime-tracking-contract-check', 'implementation-wave-outcome', 'implementation-blocked-output']);
 }, 'mock-scenario.json', 'step6-implement');
 run(codex, 'implementation-no-progress-terminal', m => {
   const unchanged = {
@@ -756,7 +775,7 @@ run(codex, 'implementation-no-progress-terminal', m => {
     residualRisks: [],
   });
 }, steps => {
-  assert.deepEqual(steps, ['step6-implement', 'implementation-progress-check', 'implementation-wave-outcome', 'implementation-blocked-output']);
+  assert.deepEqual(steps, ['step6-implement', 'implementation-progress-check', 'runtime-tracking-contract-check', 'implementation-wave-outcome', 'implementation-blocked-output']);
   assert.equal(steps.filter(step => step === 'step6-implement').length, 1);
   assert(!steps.includes('step6-test-integrity-check'));
   assert(!steps.includes('step7-adversarial-review'));
@@ -805,7 +824,7 @@ run(codex, 'implementation-materially-unverified-terminal', m => {
     residualRisks: [],
   });
 }, steps => {
-  assert.deepEqual(steps, ['step6-implement', 'implementation-progress-check', 'implementation-wave-outcome', 'implementation-blocked-output']);
+  assert.deepEqual(steps, ['step6-implement', 'implementation-progress-check', 'runtime-tracking-contract-check', 'implementation-wave-outcome', 'implementation-blocked-output']);
   assert(!steps.includes('step6-test-integrity-check'));
   assert(!steps.includes('step7-adversarial-review'));
   assert(!steps.includes('reconcile-implementations'));

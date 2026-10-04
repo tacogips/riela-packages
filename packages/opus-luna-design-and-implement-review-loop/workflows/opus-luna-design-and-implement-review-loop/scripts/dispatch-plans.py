@@ -442,9 +442,9 @@ def checkpoint_source(messages: list[dict[str, Any]], root: Path) -> tuple[str, 
     pushes = [message for message in messages if message.get("fromStepId") == "plan-git-push"]
     commits = [message for message in messages if message.get("fromStepId") == "plan-git-commit"]
     if pushes:
-        if len(pushes) != 1:
-            raise ValueError("dispatch requires exactly one plan-git-push message")
-        payload = pushes[0].get("payload")
+        # Inbox history retains earlier reviewed checkpoints. The newest push
+        # alone authorizes redispatch; never fall back to an older success.
+        payload = pushes[-1].get("payload")
         git_payload = payload.get("git") if isinstance(payload, dict) else None
         if not isinstance(git_payload, dict) or git_payload.get("operation") != "push" or git_payload.get("status") not in {"pushed", "already-pushed"}:
             raise ValueError("plan-git-push must attest a successful push")
@@ -456,9 +456,9 @@ def checkpoint_source(messages: list[dict[str, Any]], root: Path) -> tuple[str, 
             raise ValueError("cannot read checkpoint committed files")
         committed = changed.stdout.splitlines()
     else:
-        if len(commits) != 1:
+        if not commits:
             raise ValueError("dispatch requires exactly one checkpoint commit or push message")
-        payload = commits[0].get("payload")
+        payload = commits[-1].get("payload")
         git_payload = payload.get("git") if isinstance(payload, dict) else None
         if not isinstance(git_payload, dict) or git_payload.get("operation") != "commit":
             raise ValueError("plan-git-commit payload must contain commit metadata")
