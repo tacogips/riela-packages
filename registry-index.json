@@ -2994,11 +2994,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "1bebec5a5d5ef31e361501fc902a6783"
+        "value": "ca70b97b25971a3959b48a388c18e99e"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "22ca88e8eda5cce88d0cf20ddc0be7fe1500394b0c3128efae3a12700c7ea54e"
+        "digest": "e3de89ff92de0bfd711ab8d6db3bffbcd50685d72e8896a76733f7aac04efcaa"
       }
     },
     {
