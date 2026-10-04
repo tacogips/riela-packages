@@ -1,0 +1,33 @@
+{
+  "id": "runtime-tracking-contract-check",
+  "description": "Mechanically route runtime source/artifact tracking rejections to plan author after native join.",
+  "nodeType": "command",
+  "modelFreeze": false,
+  "variables": {},
+  "command": {
+    "scriptPath": "scripts/check-runtime-tracking-contract.py"
+  },
+  "output": {
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "tracking_contract_rejected": {
+          "type": "boolean"
+        },
+        "fanoutJoin": {
+          "type": "object"
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "required": [
+        "tracking_contract_rejected"
+      ],
+      "additionalProperties": true
+    }
+  }
+}
