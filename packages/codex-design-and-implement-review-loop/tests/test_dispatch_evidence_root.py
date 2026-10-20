@@ -94,6 +94,37 @@ class ManifestEvidenceRootTests(unittest.TestCase):
                 }
                 self.assertEqual(dependencies, {"base": [], "middle": ["base"], "final": ["base", "middle"]})
 
+    def test_reopened_predecessor_also_reopens_accepted_dependents(self) -> None:
+        plans = [
+            {
+                "planId": plan_id,
+                "planPath": f"impl-plans/active/{plan_id}.md",
+                "dependsOn": depends_on,
+                "writePaths": [f"src/{plan_id}.py"],
+                "sharedPaths": [],
+                "acceptanceCriteria": [f"{plan_id} is implemented"],
+                "verification": ["python -m unittest"],
+            }
+            for plan_id, depends_on in [
+                ("foundation", []),
+                ("data", ["prior-plan"]),
+                ("fixtures", ["foundation", "data"]),
+                ("loader", ["fixtures"]),
+                ("web", []),
+            ]
+        ]
+        for script in DISPATCH_SCRIPTS:
+            module = self._module_for(script)
+            with self.subTest(script=script):
+                # Integration review reopened "data" but kept its dependents accepted.
+                result = self._project_manifest(
+                    module, ["prior-plan", "foundation", "fixtures", "loader", "web"], plans=plans
+                )
+                payload = result["payload"]
+                self.assertEqual(payload["acceptedPlanIds"], ["foundation", "web"])
+                for item in payload["implementationItems"]:
+                    self.assertEqual(item["acceptedPlanIds"], ["foundation", "web"])
+
     def test_continuation_still_rejects_unknown_accepted_plan_ids(self) -> None:
         for script in DISPATCH_SCRIPTS:
             module = self._module_for(script)

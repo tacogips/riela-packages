@@ -1,6 +1,6 @@
 {
   "name": "opus-luna-design-and-implement-review-loop",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "title": "opus-luna-design-and-implement-review-loop",
   "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6 Luna (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6 Luna implementer for correction and independent re-review.",
   "tags": [
@@ -38,9 +38,9 @@
     "command"
   ],
   "skillDirectory": "skills",
-  "checksum": "b4f07bf96884fef76430f017e306da8e",
+  "checksum": "61133b4aa41e3797a81d2dd03a33c1af",
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "29cb8b2d4cc28369e3592fbebaed3f278f4f8253340dd5c5ce87cf7152d9a018"
+    "digest": "2ad11f0c9fafdc90822a6da6b37f1d207252c2a458d7f6f00b6087c774501402"
   }
 }

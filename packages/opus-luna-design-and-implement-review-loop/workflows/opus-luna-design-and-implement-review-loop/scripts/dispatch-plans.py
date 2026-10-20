@@ -572,6 +572,36 @@ def manifest_evidence_root(manifest: dict[str, Any], root: Path) -> str:
     return safe_relative_path(value, "evidenceRoot", root)
 
 
+def dependency_closed_accepted(
+    plans: list[Any], accepted: list[str], external_plan_ids: set[str]
+) -> list[str]:
+    """Drop accepted manifest plans whose manifest dependencies are no longer accepted.
+
+    Integration review may reopen a predecessor while an already accepted
+    dependent stays in acceptedPlanIds. Native fanout rejects a completed branch
+    with an incomplete dependency, so the dependent is redispatched with it.
+    Committed external dependencies always count as satisfied.
+    """
+    dependencies: dict[str, list[str]] = {}
+    for plan in plans:
+        if not isinstance(plan, dict):
+            continue
+        plan_id = clean_string(plan.get("planId"), "plans[].planId")
+        dependencies[plan_id] = clean_string_list(plan.get("dependsOn", []), f"{plan_id}.dependsOn")
+    kept = set(accepted)
+    changed = True
+    while changed:
+        changed = False
+        for plan_id, plan_dependencies in dependencies.items():
+            if plan_id in kept and any(
+                dependency in dependencies and dependency not in kept and dependency not in external_plan_ids
+                for dependency in plan_dependencies
+            ):
+                kept.discard(plan_id)
+                changed = True
+    return [plan_id for plan_id in accepted if plan_id in kept]
+
+
 def accepted_dependency_ids(manifest: dict[str, Any], root: Path) -> set[str]:
     value = manifest.get("acceptedDependencies", [])
     if not isinstance(value, list):
@@ -621,6 +651,7 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
     unknown_accepted = sorted(set(accepted) - known_plan_ids)
     if unknown_accepted:
         raise ValueError(f"acceptedPlanIds contain unknown plans: {', '.join(unknown_accepted)}")
+    accepted = dependency_closed_accepted(plans, accepted, external_plan_ids)
     accepted_manifest_plan_ids = set(accepted) & set(plan_ids)
     accepted_dispatch_ids = [plan_id for plan_id in accepted if plan_id in set(plan_ids)]
     if not set(plan_ids) - accepted_manifest_plan_ids:
