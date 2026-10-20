@@ -540,6 +540,36 @@
       }
     }
   },
+  "final-push-gate": {
+    "provider": "scenario-mock",
+    "model": "scripts/git-push-gate.py",
+    "when": {
+      "push": true,
+      "local_only": false
+    },
+    "payload": {
+      "git": {
+        "status": "committed",
+        "commitMessage": "feat: persist workflow review findings across reruns",
+        "commitHash": "abc123def4567890abc123def4567890abc123de",
+        "committedFiles": [
+          "design-docs/specs/design-workflow-review-findings.md",
+          "design-docs/user-qa/qa-review-finding-retention.md",
+          "impl-plans/active/workflow-review-findings.md",
+          "impl-plans/completed/workflow-review-findings.md",
+          "impl-plans/README.md",
+          "packages/riela/src/workflow/review-findings.ts",
+          "packages/riela/src/workflow/review-findings.test.ts",
+          "README.md",
+          ".agents/skills/riela-impl-workflow/SKILL.md"
+        ],
+        "operation": "commit"
+      },
+      "gitPush": true,
+      "push": true,
+      "local_only": false
+    }
+  },
   "step11-git-push": {
     "provider": "scenario-mock",
     "model": "riela/git-push@1",
@@ -657,6 +687,29 @@
         ],
         "operation": "commit"
       }
+    }
+  },
+  "plan-push-gate": {
+    "provider": "scenario-mock",
+    "model": "scripts/git-push-gate.py",
+    "when": {
+      "push": true,
+      "local_only": false
+    },
+    "payload": {
+      "git": {
+        "status": "committed",
+        "commitHash": "1111111111111111111111111111111111111111",
+        "commitMessage": "docs: checkpoint accepted plans",
+        "committedFiles": [
+          "impl-plans/active/mock-dispatch.json",
+          "impl-plans/active/a.md"
+        ],
+        "operation": "commit"
+      },
+      "gitPush": true,
+      "push": true,
+      "local_only": false
     }
   },
   "plan-git-push": {

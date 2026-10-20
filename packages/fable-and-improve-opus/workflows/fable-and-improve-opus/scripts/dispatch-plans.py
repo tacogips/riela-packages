@@ -440,7 +440,8 @@ def validate_manifest_contract(
 
 def checkpoint_source(messages: list[dict[str, Any]], root: Path) -> tuple[str, str]:
     pushes = [message for message in messages if message.get("fromStepId") == "plan-git-push"]
-    commits = [message for message in messages if message.get("fromStepId") == "plan-git-commit"]
+    # A local-only run (workflowInput.gitPush=false) forwards the commit through plan-push-gate.
+    commits = [message for message in messages if message.get("fromStepId") in {"plan-git-commit", "plan-push-gate"}]
     if pushes:
         # Inbox history retains earlier reviewed checkpoints. The newest push
         # alone authorizes redispatch; never fall back to an older success.
@@ -461,7 +462,7 @@ def checkpoint_source(messages: list[dict[str, Any]], root: Path) -> tuple[str, 
         payload = commits[-1].get("payload")
         git_payload = payload.get("git") if isinstance(payload, dict) else None
         if not isinstance(git_payload, dict) or git_payload.get("operation") != "commit":
-            raise ValueError("plan-git-commit payload must contain commit metadata")
+            raise ValueError("plan checkpoint payload must contain commit metadata")
         commit = clean_string(git_payload.get("commitHash"), "plan-git-commit.git.commitHash")
         committed = git_payload.get("committedFiles")
     if not isinstance(committed, list):

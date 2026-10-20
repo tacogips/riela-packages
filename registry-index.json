@@ -1299,7 +1299,7 @@
     {
       "name": "codex-design-and-implement-review-loop",
       "directory": "packages/codex-design-and-implement-review-loop",
-      "version": "0.3.54",
+      "version": "0.3.55",
       "kind": "workflow",
       "title": "codex-design-and-implement-review-loop",
       "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
@@ -1331,11 +1331,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "0a4aee6595421598b1b79adf3140725e"
+        "value": "bf4eaa90318e03f44c4e9ff08ff6c16a"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "ecdd6e8bc17034918c3b318f1f2dcd2067dc8b664e76f85e19ecb9f1bef04288"
+        "digest": "b7c179a8d438944e89d7e82aacb3f056bd0d225efcf126465dac713a4e7f61bd"
       }
     },
     {
@@ -2709,7 +2709,7 @@
     {
       "name": "fable-and-improve-opus",
       "directory": "packages/fable-and-improve-opus",
-      "version": "0.5.6",
+      "version": "0.5.7",
       "kind": "workflow",
       "title": "fable-and-improve-opus",
       "description": "Fable-authored design and planning with Opus 5.5 planning, test-integrity and adversarial reviews, dependency-aware shared-branch implementation, Fable integration and goal gates, and serialized Git finalization.",
@@ -2747,11 +2747,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "188ea4214381cdeb1413f0e5ad0c2f99"
+        "value": "92d299dbc7c7b19024f4ee30be6756a3"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "abf079f6b2181333c2a4861ab470b5efbf16666c12e040b3e39220793883ffb2"
+        "digest": "48b4f696a682bb199c95c40e4a0a4a33ab3e0da73195910f69290aa0a6f783a2"
       }
     },
     {
@@ -2950,7 +2950,7 @@
     {
       "name": "opus-luna-design-and-implement-review-loop",
       "directory": "packages/opus-luna-design-and-implement-review-loop",
-      "version": "0.1.6",
+      "version": "0.1.7",
       "kind": "workflow",
       "title": "opus-luna-design-and-implement-review-loop",
       "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6 Luna (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6 Luna implementer for correction and independent re-review.",
@@ -2994,11 +2994,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "8ae18b6d294106ffb66aab41e01681f9"
+        "value": "b4f07bf96884fef76430f017e306da8e"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "35c14e309601964394775b7e55703f557bd7ab72e08af21fa2fa497778005020"
+        "digest": "29cb8b2d4cc28369e3592fbebaed3f278f4f8253340dd5c5ce87cf7152d9a018"
       }
     },
     {

@@ -1,13 +1,13 @@
 {
   "name": "codex-design-and-implement-review-loop",
-  "version": "0.3.54",
+  "version": "0.3.55",
   "title": "codex-design-and-implement-review-loop",
   "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
   "tags": [
     "workflow"
   ],
   "registry": "default",
-  "checksum": "0a4aee6595421598b1b79adf3140725e",
+  "checksum": "bf4eaa90318e03f44c4e9ff08ff6c16a",
   "checksumAlgorithm": "md5",
   "workflowDirectory": "workflows/codex-design-and-implement-review-loop",
   "repository": "https://github.com/tacogips/riela-packages",
@@ -24,7 +24,7 @@
   },
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "ecdd6e8bc17034918c3b318f1f2dcd2067dc8b664e76f85e19ecb9f1bef04288"
+    "digest": "b7c179a8d438944e89d7e82aacb3f056bd0d225efcf126465dac713a4e7f61bd"
   },
   "backends": [
     "codex-agent",

@@ -134,7 +134,7 @@
     }
   },
   "prompts": {
-    "rielaPromptTemplate": "Coordinate {{workflowId}} through its authored graph. Always use the single Opus 5.5 design author and single Opus 5.5 plan author, with bounded Opus 5.5 review gates; reviewers never edit or delegate repairs: return detailed findings to the owning author, and return implementation corrections immediately to GPT-6 Luna for independent re-review. Reuse an existing relevant design draft as the baseline; create a new design only when none applies. Planning-only uses Step 9 and final git steps without implementation. Issue-resolution checkpoints accepted designs and all plans before dispatching dependency-ready implementation plans with unbounded Riela fanout of GPT-6 Luna implementation branches on the SAME branch and working directory. Each branch executes implementation, integrity review, and one adversarial material-issue review, then records immutable evidence. Wait for every branch to terminate before shared-change reconciliation and Opus 5.5 integration review. Repair overwritten or missing work and repeat integration review until accepted; dispatch later dependency waves only after acceptance. After every plan is integrated, run E2E evidence, docs, completion, one final commit, push and serialized merge to the recorded base branch. Never use worktrees or branch-local git mutations. Never finish with missing plan behavior, unexamined drift, incomplete plans or failed git operations.",
+    "rielaPromptTemplate": "Coordinate {{workflowId}} through its authored graph. Always use the single Opus 5.5 design author and single Opus 5.5 plan author, with bounded Opus 5.5 review gates; reviewers never edit or delegate repairs: return detailed findings to the owning author, and return implementation corrections immediately to GPT-6 Luna for independent re-review. Reuse an existing relevant design draft as the baseline; create a new design only when none applies. Planning-only uses Step 9 and final git steps without implementation. Issue-resolution checkpoints accepted designs and all plans before dispatching dependency-ready implementation plans with unbounded Riela fanout of GPT-6 Luna implementation branches on the SAME branch and working directory. Each branch executes implementation, integrity review, and one adversarial material-issue review, then records immutable evidence. Wait for every branch to terminate before shared-change reconciliation and Opus 5.5 integration review. Repair overwritten or missing work and repeat integration review until accepted; dispatch later dependency waves only after acceptance. After every plan is integrated, run E2E evidence, docs, completion, one final commit, then push and serialized merge to the recorded base branch. When workflowInput.gitPush is false the run is local-only: commit the plan checkpoint and the final change locally, never push, merge or integrate the base branch, and report the commits as unpublished. Never use worktrees or branch-local git mutations. Never finish with missing plan behavior, unexamined drift, incomplete plans or failed git operations.",
     "workerSystemPromptTemplate": "Return concise business JSON only. Keep workflow mode, issue references, codex-agent references, file paths, findings, review decisions, and verification commands explicit."
   },
   "managerStepId": "riela-manager",
@@ -205,6 +205,10 @@
       }
     },
     {
+      "id": "final-push-gate",
+      "nodeFile": "nodes/node-final-push-gate.json"
+    },
+    {
       "id": "step11-git-push",
       "addon": {
         "name": "riela/git-push",
@@ -235,6 +239,10 @@
           "allowCommit": true
         }
       }
+    },
+    {
+      "id": "plan-push-gate",
+      "nodeFile": "nodes/node-plan-push-gate.json"
     },
     {
       "id": "plan-git-push",
@@ -563,7 +571,23 @@
       "role": "worker",
       "transitions": [
         {
-          "toStepId": "step11-git-push"
+          "toStepId": "final-push-gate"
+        }
+      ]
+    },
+    {
+      "id": "final-push-gate",
+      "nodeId": "final-push-gate",
+      "description": "Push and integrate the final commit unless workflowInput.gitPush is false; a local-only run finishes after the local commit.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "step11-git-push",
+          "label": "push"
+        },
+        {
+          "toStepId": "workflow-output",
+          "label": "local_only"
         }
       ]
     },
@@ -603,7 +627,23 @@
       "role": "worker",
       "transitions": [
         {
-          "toStepId": "plan-git-push"
+          "toStepId": "plan-push-gate"
+        }
+      ]
+    },
+    {
+      "id": "plan-push-gate",
+      "nodeId": "plan-push-gate",
+      "description": "Push the plan checkpoint unless workflowInput.gitPush is false; a local-only run dispatches straight from the local checkpoint commit.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "plan-git-push",
+          "label": "push"
+        },
+        {
+          "toStepId": "dispatch-plans",
+          "label": "local_only"
         }
       ]
     },

@@ -32,6 +32,11 @@ riela workflow run opus-luna-design-and-implement-review-loop \
   --output jsonl
 ```
 
+To keep every commit local, add `"gitPush":false` to `workflowInput`. The run
+still commits the plan checkpoint and the final change, but skips `riela/git-push`
+and base-branch integration, accepts unpushed base-branch commits, and reports
+`mergeStatus: local-only`. Push or open a PR yourself afterwards.
+
 Use `--max-concurrency <n>` only when the host cannot sustain every ready Luna
 branch at once. Use `--scope user` for a user-scope install. Report the final
 artifacts, changed files, verification, review evidence and per-finding Luna correction evidence, residual risks, and the final Git or PR handoff status.

@@ -360,6 +360,7 @@
         "step5-impl-plan-review",
         "plan-checkpoint",
         "plan-git-commit",
+        "plan-push-gate",
         "plan-git-push",
         "dispatch-plans",
         "implementation-wave-outcome",
@@ -369,6 +370,7 @@
         "step8-docs-refresh",
         "step9-commit-message",
         "step10-git-commit",
+        "final-push-gate",
         "step11-git-push",
         "base-branch-integrate",
         "workflow-output"

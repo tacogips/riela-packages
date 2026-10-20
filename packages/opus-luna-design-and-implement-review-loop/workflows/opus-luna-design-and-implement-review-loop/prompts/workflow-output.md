@@ -62,4 +62,14 @@ When `mergeStatus` is `branch-only`, state that only the implementation branch w
 `pullRequestDraft`, and `pullRequestBaseBranch` exactly. State that the base branch has not been merged or
 pushed by this workflow; do not turn PR handoff into a base-integration claim.
 
+Local-only runs (`workflowInput.gitPush: false`): the accepted `final-push-gate`
+payload carries the Step 10 `git` commit with `gitPush: false`, and Step 11 and
+`base-branch-integrate` did not run. Copy `commitMessage`, `commitHash` and
+`committedFiles` from that payload, set `pushedRemote` and `pushedBranch` to
+`null`, `baseBranch` to the intake git context's base branch, `mergeStatus` to
+`local-only` and `basePushStatus` to `not-pushed`. State that the plan checkpoint
+and final commits exist only in the local repository and that nothing was pushed,
+merged or integrated by this workflow. Treat the skipped steps as intentional, not
+as failed git operations.
+
 For issue-resolution include checkpointCommit, all integrated plan IDs, wave/branch session evidence, overwrite detections and repairs, and combined verification. Do not claim completion if a branch failed or required behavior/evidence is missing. Planning-only has no implementation waves. Read final PR-handoff or git-integration evidence, not only the earlier implementation-branch push.

@@ -1,0 +1,48 @@
+{
+  "id": "final-push-gate",
+  "description": "Decide whether the final commit is pushed and integrated into the base branch (workflowInput.gitPush, default true).",
+  "nodeType": "command",
+  "command": {
+    "scriptPath": "scripts/git-push-gate.py"
+  },
+  "variables": {},
+  "output": {
+    "description": "Forward the accepted riela/git-commit payload with gitPush and the routing booleans push / local_only.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "git": {
+          "type": "object",
+          "properties": {
+            "operation": {
+              "const": "commit"
+            },
+            "commitHash": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "operation",
+            "commitHash"
+          ]
+        },
+        "gitPush": {
+          "type": "boolean"
+        },
+        "push": {
+          "type": "boolean"
+        },
+        "local_only": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "git",
+        "gitPush",
+        "push",
+        "local_only"
+      ]
+    }
+  }
+}
