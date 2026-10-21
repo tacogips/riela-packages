@@ -4,7 +4,7 @@
   "implementationBranch": "fix/opus-luna-wave-input-compaction",
   "baseBranch": "main",
   "remote": "origin",
-  "originalHead": "81a4fcb161063a8657dc80c1f674df9cca975f26",
+  "originalHead": "cfa5880845335b3217e70d10ff7da8fbb326d252",
   "designDocPaths": [
     "design-docs/specs/design-opus-luna-wave-input-compaction.md",
     "design-docs/user-qa/opus-luna-wave-input-compaction.md"
@@ -74,7 +74,9 @@
     ],
     "reviewDecisions": [
       "Step 5 impl-plan review (comm-008702, step5-impl-plan-review-attempt-1-exec-7290) accepted all four plans: accepted:true, needs_revision:false, needs_design_revision:false, no findings, no repair requests.",
-      "Path declarations, artifactRoots, DAG/waves, design coverage, repository facts and Luna executability all passed; reviewer machine-parsed the four plan headers with python3 -I (exit 0)."
+      "Path declarations, artifactRoots, DAG/waves, design coverage, repository facts and Luna executability all passed; reviewer machine-parsed the four plan headers with python3 -I (exit 0).",
+      "Session-476 step3 design-review finding 1 (high, design line 29: persistent run-level fanoutJoin request variable reaches every later agent step) is resolved at design level by D5's raw-join exposure audit and D7, with the operator scope decision Option A (upstream riela change) recorded in design-docs/user-qa/opus-luna-wave-input-compaction.md; the prompt-level bound stays reported as BLOCKED, not met.",
+      "Session-477 rerun (2026-10-22): the session-476 attempt-1 implementation was blocked only by workflow bookkeeping (the progress gate did not recognize python3 -m unittest as a behavioral test runner), which cfa5880 fixes. The plans carry operator amendments to reuse the attempt-1 working-tree implementation, re-run each plan's verification, and report every test command with integer exitCode, testsRun and failureCount. Plan ids, paths, write ownership and dependencies are unchanged."
     ],
     "residualRisks": [
       "low wave-outcome-script: test case 1 diagnostics must name branchId 'd' or no branch with complete not false; adversarial review must reject D2 rule changes made to fit the fixture.",

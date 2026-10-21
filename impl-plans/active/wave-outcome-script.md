@@ -1,6 +1,6 @@
 # wave-outcome-script
 
-Status: proposed for Step 5 review.
+Status: Step 6 implementation complete; pending independent review.
 
 ```json
 {
@@ -159,3 +159,22 @@ The prompt-level bound for later agent steps is NOT delivered by this plan. riel
 ## Completion criteria
 
 All acceptance criteria hold with recorded evidence, `progress.json` and `handoff.json` are complete, and no high or mid self-found issue is open. Independent test-integrity, adversarial and integration reviews are later gates.
+
+
+## Step 6 implementation progress (2026-10-22)
+
+Implemented this plan's four source paths: the join node is a command backed by `scripts/implementation-wave-outcome.py`, the old prompt is deleted, and `tests/test_wave_outcome.py` covers the deterministic classifier, bounded large-join summary, storage safety, fallback and node contract. The output JSON Schema compares equal to the committed schema.
+
+Verification from the repository root passed: focused wave tests (12 tests), package tests (28 tests), Codex package tests (91 tests), node JSON parsing, executable-bit check, empty package `__pycache__` search, and `git diff --check`. Complete logs and exit evidence are in `tmp/wave-compaction/wave-outcome-script/attempt-1/logs/`; structured results are in `tmp/wave-compaction/wave-outcome-script/progress.json`.
+
+Implementation-phase completion criteria are met. Independent test-integrity, adversarial and integration review remain downstream. The D7 Option A limitation (persistent `fanoutJoin` in later runtime prompts) remains an upstream Riela dependency already recorded in the accepted design; this plan does not own that change.
+
+## Operator amendment (2026-10-22, rerun after session-476)
+
+Attempt 1 was blocked by workflow bookkeeping, not by this plan's code: the
+installed progress gate did not recognize `python3 -m unittest` as a
+behavioral test runner. That gate is fixed in cfa5880 and the rerun uses the
+fixed gate. The attempt-1 implementation is still in the working tree; reuse
+it, re-run this plan's verification, and report each test command with an
+integer `exitCode`, `testsRun` and `failureCount`. The package suite currently
+passes (31 tests, including `tests/test_progress_check.py`).

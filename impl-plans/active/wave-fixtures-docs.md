@@ -95,3 +95,13 @@ Issue `workflowInput:opus-luna-wave-input-compaction`, mode `issue-resolution`. 
 ## Completion criteria
 
 All acceptance criteria are evidenced by saved run outputs and diffs. A blocked CLI check is reported as blocked, not passed. No open high or mid finding remains.
+
+## Operator amendment (2026-10-22, rerun after session-476)
+
+Attempt 1 was blocked by workflow bookkeeping, not by this plan's code: the
+installed progress gate did not recognize `python3 -m unittest` as a
+behavioral test runner. That gate is fixed in cfa5880 and the rerun uses the
+fixed gate. The attempt-1 implementation is still in the working tree; reuse
+it, re-run this plan's verification, and report each test command with an
+integer `exitCode`, `testsRun` and `failureCount`. The package suite currently
+passes (31 tests, including `tests/test_progress_check.py`).
