@@ -10,6 +10,8 @@ Verification fallback is part of the accepted implementation contract: if an exa
 
 If the progress gate forwards `baselineReviewPending`, independently inspect every failed aggregate log, the comparison JSON, the baseline/current source and toolchain identity, and the changed-test inventory. Confirm that every failed assertion and failed case is identical to the preimplementation baseline, no new failure is hidden, and focused current-source behavioral tests passed. A nonzero aggregate remains nonzero. Accept this gate only if the evidence honestly isolates an out-of-scope baseline failure and records the explicit pending disposition for adversarial and integration review; otherwise request the smallest material correction. Do not treat this handoff as a waiver or a green aggregate.
 
+If the progress gate forwards `verificationPolicy: "plan-declared-static"`, the committed plan's `verification` list contains no behavioral test runner (for example a documentation, packaging, or script-only plan). Do not require a positive test count for that plan. Instead confirm that every committed verification command was run on the current source with its expected exit status and a complete log, and that the plan's changes really are covered by those static checks. If the accepted plan should have required behavioral tests, report that as a plan-scope finding rather than an implementation verification gap.
+
 This gate focuses only on whether the implementation preserved honest test and
 verification coverage.
 

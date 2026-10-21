@@ -14,6 +14,40 @@ On acceptance return the immutable wave acceptance record in the node payload: i
 Mirror needs_revision, redispatch_required, repair_in_place, and plans_remaining in both when and payload. The discriminator is fail-closed: set repair_in_place:true only for a concrete combined-tree defect that the serial reconciler can repair directly from present evidence, and only with redispatch_required:false. Set redispatch_required:true and repair_in_place:false when one or more pending plans need a fresh native worker dispatch, including failed branches, missing worker-owned provenance, incomplete branch evidence that reconciliation cannot create, or a missing/ambiguous discriminator. Never request reconciliation for missing worker provenance. On acceptance set both flags false. Include payload.accepted:true only on acceptance; final acceptance requires both needs_revision and plans_remaining false. Keep accepted:false on revision. These fields are authoritative runtime finalization evidence; omission is invalid and the graph will conservatively redispatch rather than loop reconciliation.
 For evidence-only worker redispatch, associate a finding with a worker-owned evidence/progress file already in that plan's `writePaths`; do not target the committed manifest file unless its contents actually need editing. A missing checkpoint projection cannot be repaired by making the worker edit the manifest. If no authorized worker path can hold the needed repair, report a concrete blocker rather than requesting a redispatch that the owner gate must reject.
 
+## Output envelope
+
+Return exactly one adapter JSON object with exactly two top-level keys, `when` and `payload`. Put every review field (the four routing booleans, `accepted`, `loopGate`, `reviewBasis`, `findings`, `acceptedPlanIds`, `pendingPlanIds`, `repairRequests`, `feedback`, `verification`, and every other acceptance-record field) inside `payload`. The node output schema applies to `payload`, not to the envelope. Never place review fields next to `when` at the top level and never return `when` without an object `payload`; the runtime rejects that shape and the session fails.
+
+```json
+{
+  "when": {
+    "needs_revision": false,
+    "redispatch_required": false,
+    "repair_in_place": false,
+    "plans_remaining": true
+  },
+  "payload": {
+    "needs_revision": false,
+    "redispatch_required": false,
+    "repair_in_place": false,
+    "plans_remaining": true,
+    "accepted": true,
+    "acceptedPlanIds": ["PLAN-01"],
+    "pendingPlanIds": ["PLAN-02"],
+    "loopGate": {
+      "gateId": "integration-review",
+      "decision": "accepted",
+      "severityCounts": {"high": 0, "medium": 0, "low": 0, "informational": 0},
+      "blockingFindings": []
+    },
+    "reviewBasis": {"userOutcomes": ["..."], "acceptanceCriteria": ["..."], "nonGoals": [], "constraints": [], "designDecisions": [], "intentionalTradeoffs": [], "sourcePaths": ["..."]},
+    "findings": [],
+    "repairRequests": [],
+    "feedback": []
+  }
+}
+```
+
 The integration-review gate is convergence-tracked. Do not emit the same unresolved in-place finding again unless reconciliation produced materially new evidence or a changed combined tree. If the same state persists, diagnose the failed repair and request a bounded redispatch or report the unrecoverable blocker; do not cycle unchanged reconciliation and review evidence.
 
 Return a required `payload.loopGate` object for the runtime convergence tracker: `{gateId:"integration-review", decision:"accepted"|"needs-work"|"rejected", severityCounts:{high,medium,low,informational}, blockingFindings:[{id,severity,filePath?,line?,message}]}`. Use stable finding IDs for the same material issue. On any revision, `decision` must be `needs-work` or `rejected` and `blockingFindings` must represent every high/mid material finding; on acceptance it must be `accepted` with no blocking findings. Do not rely on the prose `findings` field alone: the typed loopGate contract is what makes unchanged review state terminate at the declared convergence bound.
