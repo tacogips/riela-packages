@@ -217,6 +217,30 @@ def has_behavioral_evidence(
     )
 
 
+def planned_verification_commands(envelope: dict[str, Any]) -> list[str] | None:
+    """Return the committed plan verification commands from the fanout item."""
+    variables = envelope.get("variables")
+    item = variables.get("implementation") if isinstance(variables, dict) else None
+    commands = item.get("verification") if isinstance(item, dict) else None
+    if not isinstance(commands, list):
+        return None
+    cleaned = [command for command in commands if isinstance(command, str) and command.strip()]
+    return cleaned or None
+
+
+def plan_requires_behavioral_tests(envelope: dict[str, Any]) -> bool:
+    """A committed plan whose verification contract has no test runner is static-only.
+
+    Documentation, packaging, and script-only plans legitimately verify with
+    lint, syntax, and content checks. Fail closed when the committed contract
+    is unavailable so code plans keep the positive-count behavioral gate.
+    """
+    planned = planned_verification_commands(envelope)
+    if planned is None:
+        return True
+    return any(behavioral_kind({"command": command}) for command in planned)
+
+
 def has_failed_behavioral_evidence(
     current: list[dict[str, Any]],
     previous: list[dict[str, Any]],
@@ -525,11 +549,21 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
             "Step 6 reported a failed, blocked, skipped, or zero-count behavioral test command.",
             fingerprint,
         )
-    if not has_behavioral_evidence(verification, prior_verification, current_identity, previous_identity):
+    requires_behavioral_tests = plan_requires_behavioral_tests(envelope)
+    if requires_behavioral_tests and not has_behavioral_evidence(
+        verification, prior_verification, current_identity, previous_identity
+    ):
         return blocked_result(
             current,
             "implementation-materially-unverified",
             "Step 6 reported no successful behavioral test evidence with a positive test count.",
+            fingerprint,
+        )
+    if not requires_behavioral_tests and not any(verification_succeeded(record) for record in verification):
+        return blocked_result(
+            current,
+            "implementation-materially-unverified",
+            "Step 6 reported no successful verification for a plan whose committed verification contract has no behavioral test command.",
             fingerprint,
         )
 
@@ -574,6 +608,7 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
         "implementation_blocked": False,
         "implementation_continue": False,
         "status": "ready-for-test-integrity",
+        "verificationPolicy": "behavioral-tests" if requires_behavioral_tests else "plan-declared-static",
         "blockerType": None,
         "evidenceFingerprint": fingerprint,
         "blockers": [],
