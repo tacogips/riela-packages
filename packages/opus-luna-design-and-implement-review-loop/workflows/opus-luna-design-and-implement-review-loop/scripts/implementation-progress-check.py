@@ -97,6 +97,8 @@ def behavioral_kind(record: dict[str, Any]) -> str | None:
     test_patterns = (
         r"\bswift\s+test\b", r"\bcargo\s+test\b",
         r"\bcargo\s+nextest\s+run\b", r"\bgo\s+test\b", r"\bpytest\b",
+        # Standard-library Python runner used by package tests.
+        r"\bpython(?:3(?:\.\d+)?)?\s+-m\s+unittest\b",
         r"\bctest\b", r"\bbun\s+test\b", r"\bvitest\s+run\b",
         # Some packages run a deterministic Bun regression runner directly.
         # Require a test-directory runner name; the positive count is checked
