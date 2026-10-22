@@ -9,6 +9,7 @@ review. GPT-6 Luna implements the plans in parallel native fanout.
 | Intake, design, implementation plans | `step1-issue-intake`, `step2-design-doc-update`, `step4-impl-plan-create` | `claude-code-agent` / `claude-opus-5-5` |
 | Design and plan review | `step3-design-review`, `step5-impl-plan-review` | `claude-opus-5-5` (read-only) |
 | Implementation (fanout) | `step6-implement` | `codex-agent` / `gpt-6-luna`, high effort, fast tier |
+| Wave aggregation (fanout join) | `implementation-wave-outcome` | `command` / `scripts/implementation-wave-outcome.py` |
 | Test-integrity and adversarial review | `step6-test-integrity-check`, `step7-adversarial-review` | `claude-opus-5-5` (read-only) |
 | Integration review | `integration-review` | `claude-opus-5-5` (read-only) |
 | Reconciliation, docs, completion, Git handoff | remaining agent nodes | `claude-opus-5-5` |
@@ -17,6 +18,10 @@ review. GPT-6 Luna implements the plans in parallel native fanout.
 - Backends: `claude-code-agent`, `codex-agent`, `command`
 - Workflows: `opus-luna-design-and-implement-review-loop`
 - Skills: Claude Code (`opus-luna-design-and-implement-review-loop`)
+
+## Compact wave summary
+
+The `implementation-wave-outcome` command stores `fanout-join.json` and a bounded `wave-summary.json` at `tmp/opus-luna-waves/<workflowExecutionId>/wave-NNN/`. The summary is at most 49152 bytes and the verdict is at most 16384 bytes, for a combined bound of 64 KiB. Reconciliation and integration review locate the highest wave and require verdict equality before using the summary. Mock scenarios do not execute the command. Riela 0.2.34 still renders the persistent `fanoutJoin` request variable into later agent prompts; this is the open Q1 limitation tracked in `design-docs/user-qa/opus-luna-wave-input-compaction.md`.
 
 ## Review revision routing
 

@@ -805,9 +805,10 @@
   },
   "implementation-wave-outcome": {
     "provider": "scenario-mock",
-    "model": "claude-opus-5-5",
+    "model": "scripts/implementation-wave-outcome.py",
     "when": {
-      "implementation_blocked": false
+      "implementation_blocked": false,
+      "partial_success": false
     },
     "payload": {
       "implementation_blocked": false,
