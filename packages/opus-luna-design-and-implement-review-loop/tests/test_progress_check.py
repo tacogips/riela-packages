@@ -32,5 +32,22 @@ class BehavioralEvidenceTests(unittest.TestCase):
             self.assertIsNone(progress.behavioral_kind({'command': command}), command)
 
 
+class MaterialFindingTests(unittest.TestCase):
+    def test_open_mid_finding_blocks(self):
+        payload = {'findings': [{'severity': 'mid', 'status': 'open', 'summary': 'x'}]}
+        self.assertEqual(len(progress.material_findings(payload)), 1)
+
+    def test_finding_without_status_still_blocks(self):
+        self.assertEqual(len(progress.material_findings({'risks': [{'severity': 'high'}]})), 1)
+
+    def test_resolved_or_downstream_owned_findings_do_not_block(self):
+        for status in ('resolved', 'Fixed', 'pending_downstream', 'pending-downstream', 'owned elsewhere'):
+            payload = {'findings': [{'severity': 'mid', 'status': status}]}
+            self.assertEqual(progress.material_findings(payload), [], status)
+
+    def test_severity_prefixed_strings_still_block(self):
+        self.assertEqual(len(progress.material_findings({'risks': ['high: data loss on retry']})), 1)
+
+
 if __name__ == '__main__':
     unittest.main()

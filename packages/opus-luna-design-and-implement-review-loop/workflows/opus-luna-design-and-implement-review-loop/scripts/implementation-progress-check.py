@@ -311,6 +311,21 @@ def matched_baseline_record(record: dict[str, Any], candidates: list[dict[str, A
     )
 
 
+# Finding statuses that do not leave work open in this plan: the finding is
+# already resolved, or it is explicitly handed to a later owning plan.
+NON_BLOCKING_FINDING_STATUSES = {
+    "resolved", "fixed", "closed", "addressed", "not_applicable", "superseded",
+    "pending_downstream", "owned_elsewhere",
+}
+
+
+def open_finding_status(finding: dict[str, Any]) -> bool:
+    status = finding.get("status")
+    if not isinstance(status, str):
+        return True
+    return re.sub(r"[\s-]+", "_", status.strip().lower()) not in NON_BLOCKING_FINDING_STATUSES
+
+
 def material_findings(payload: dict[str, Any]) -> list[Any]:
     self_check = payload.get("authorSelfCheck")
     self_check = self_check if isinstance(self_check, dict) else {}
@@ -327,6 +342,7 @@ def material_findings(payload: dict[str, Any]) -> list[Any]:
             isinstance(finding, dict)
             and isinstance(finding.get("severity"), str)
             and finding["severity"].lower() in {"critical", "high", "mid", "medium"}
+            and open_finding_status(finding)
         ) or (
             isinstance(finding, str)
             and re.match(r"^\s*(?:critical|high|mid|medium)\s*[:\-]\s*\S", finding, re.IGNORECASE)
