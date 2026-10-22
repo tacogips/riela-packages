@@ -8,8 +8,7 @@ Status: proposed for Step 5 review.
   "planPath": "impl-plans/active/wave-release.md",
   "dependsOn": [
     "wave-outcome-script",
-    "wave-summary-prompts",
-    "wave-fixtures-docs"
+    "wave-summary-prompts"
   ],
   "writePaths": [
     "packages/opus-luna-design-and-implement-review-loop/riela-package.json",
@@ -114,3 +113,10 @@ Issue `workflowInput:opus-luna-wave-input-compaction`, mode `issue-resolution`, 
 - The version and digests are consistent.
 - The handoff states the Q1 block.
 - No open high or mid finding remains.
+
+
+## Operator amendment (2026-10-22, rerun after session-477)
+
+`wave-fixtures-docs` was accepted by integration review in session-477 and is
+committed as 4ccab78. It is now a manifest `acceptedDependencies` entry, not a
+dependency of this plan; treat its files as an accepted baseline.

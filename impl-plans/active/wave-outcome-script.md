@@ -178,3 +178,15 @@ fixed gate. The attempt-1 implementation is still in the working tree; reuse
 it, re-run this plan's verification, and report each test command with an
 integer `exitCode`, `testsRun` and `failureCount`. The package suite currently
 passes (31 tests, including `tests/test_progress_check.py`).
+
+
+## Operator amendment 2 (2026-10-22, rerun after session-477)
+
+Design D4 is amended: kind severity is now deleted/removed/overwrite, then
+content, then added/new/membership, then mode/kind, then other. A removed path
+therefore outranks content drift regardless of observationCount, which is what
+the adversarial regression `test_runtime_reason_observations_rank_removed_first`
+asserts and what the current script does. The design/test conflict is resolved
+in favor of the current implementation and test; keep both, make sure the
+script's tie-break comments and any other ordering test match the amended D4,
+then rerun the full package suite and report it.

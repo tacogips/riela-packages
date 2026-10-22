@@ -110,3 +110,15 @@ fixed gate. The attempt-1 implementation is still in the working tree; reuse
 it, re-run this plan's verification, and report each test command with an
 integer `exitCode`, `testsRun` and `failureCount`. The package suite currently
 passes (31 tests, including `tests/test_progress_check.py`).
+
+
+## Operator amendment 2 (2026-10-22, rerun after session-477)
+
+The upstream riela change (D7 Option A: stop persisting the raw `fanoutJoin`
+as a run-level request variable) is out of scope for this package run and is
+tracked in the riela repository as an operator follow-up. It is NOT a blocker
+of this plan. This plan's contract is the prompt changes and their tests; when
+those pass, report the plan as complete with `implementation_blocked: false`
+and no `blockers`. Mention the upstream dependency only in prose (progress
+log / handoff notes), never in `blockers`, `findings` or `risks`, and never as
+a string starting with a severity word.

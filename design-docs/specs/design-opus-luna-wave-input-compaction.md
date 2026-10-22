@@ -174,8 +174,11 @@ the Codex tracking gate. Otherwise it exits 1 with a JSON error (fail closed).
     projection: depth, list-item and string caps. A cut string ends with
     `…[truncated N chars; see rawJoinPath#<pointer>]`.
 - Drift-first ordering of `paths` is deterministic:
-  1. Kind severity: deleted/removed/overwrite/content, then
-     added/new/membership, then mode/kind, then other.
+  1. Kind severity: deleted/removed/overwrite, then content, then
+     added/new/membership, then mode/kind, then other. (Operator amendment
+     2026-10-22 after session-477: a removed path outranks content drift
+     regardless of observation count, matching the adversarial regression
+     `test_runtime_reason_observations_rank_removed_first`.)
   2. Selection: `source`, then `artifact`, then other.
   3. `observationCount`, descending.
   4. Path, ascending.

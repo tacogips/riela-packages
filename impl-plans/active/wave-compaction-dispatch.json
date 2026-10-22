@@ -4,7 +4,7 @@
   "implementationBranch": "fix/opus-luna-wave-input-compaction",
   "baseBranch": "main",
   "remote": "origin",
-  "originalHead": "cfa5880845335b3217e70d10ff7da8fbb326d252",
+  "originalHead": "4ccab781c078bc8e91aa5390b68d6b03f1678abb",
   "designDocPaths": [
     "design-docs/specs/design-opus-luna-wave-input-compaction.md",
     "design-docs/user-qa/opus-luna-wave-input-compaction.md"
@@ -76,7 +76,8 @@
       "Step 5 impl-plan review (comm-008702, step5-impl-plan-review-attempt-1-exec-7290) accepted all four plans: accepted:true, needs_revision:false, needs_design_revision:false, no findings, no repair requests.",
       "Path declarations, artifactRoots, DAG/waves, design coverage, repository facts and Luna executability all passed; reviewer machine-parsed the four plan headers with python3 -I (exit 0).",
       "Session-476 step3 design-review finding 1 (high, design line 29: persistent run-level fanoutJoin request variable reaches every later agent step) is resolved at design level by D5's raw-join exposure audit and D7, with the operator scope decision Option A (upstream riela change) recorded in design-docs/user-qa/opus-luna-wave-input-compaction.md; the prompt-level bound stays reported as BLOCKED, not met.",
-      "Session-477 rerun (2026-10-22): the session-476 attempt-1 implementation was blocked only by workflow bookkeeping (the progress gate did not recognize python3 -m unittest as a behavioral test runner), which cfa5880 fixes. The plans carry operator amendments to reuse the attempt-1 working-tree implementation, re-run each plan's verification, and report every test command with integer exitCode, testsRun and failureCount. Plan ids, paths, write ownership and dependencies are unchanged."
+      "Session-477 rerun (2026-10-22): the session-476 attempt-1 implementation was blocked only by workflow bookkeeping (the progress gate did not recognize python3 -m unittest as a behavioral test runner), which cfa5880 fixes. The plans carry operator amendments to reuse the attempt-1 working-tree implementation, re-run each plan's verification, and report every test command with integer exitCode, testsRun and failureCount. Plan ids, paths, write ownership and dependencies are unchanged.",
+      "Session-480 rerun (2026-10-22): wave-fixtures-docs was accepted by session-477 integration review and committed as 4ccab78, so it moved from plans to acceptedDependencies and wave-release no longer depends on it. Operator amendments: design D4 kind severity is deleted/removed/overwrite, then content, then added/new/membership, then mode/kind, then other (matches test_runtime_reason_observations_rank_removed_first); wave-summary-prompts reports the upstream D7 Option A dependency only in prose, never in blockers. Design and plan reviews accepted the amended set (routing reached plan-checkpoint with no needs_revision/needs_design_revision)."
     ],
     "residualRisks": [
       "low wave-outcome-script: test case 1 diagnostics must name branchId 'd' or no branch with complete not false; adversarial review must reject D2 rule changes made to fit the fixture.",
@@ -147,45 +148,11 @@
       ]
     },
     {
-      "planId": "wave-fixtures-docs",
-      "planPath": "impl-plans/active/wave-fixtures-docs.md",
-      "dependsOn": [],
-      "writePaths": [
-        "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario.json",
-        "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario-fanout.json",
-        "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario-local.json",
-        "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/EXPECTED_RESULTS.md",
-        "packages/opus-luna-design-and-implement-review-loop/README.md",
-        "packages/opus-luna-design-and-implement-review-loop/skills/claude/opus-luna-design-and-implement-review-loop/SKILL.md"
-      ],
-      "sharedPaths": [],
-      "artifactRoots": [],
-      "progressFile": "tmp/wave-compaction/wave-fixtures-docs/progress.json",
-      "acceptanceCriteria": [
-        "In mock-scenario.json, mock-scenario-fanout.json and mock-scenario-local.json the implementation-wave-outcome response has model 'scripts/implementation-wave-outcome.py' and when {implementation_blocked:false, partial_success:false}. Payloads and all other entries are unchanged. mock-scenario-planning-only.json is unchanged.",
-        "All four mock scenarios complete (status completed, exit 0). mock-scenario.json's route equals the 26-step expected-routes entry, and mock-scenario-local.json still has 23 executions.",
-        "EXPECTED_RESULTS.md line 28 states implementation-wave-outcome is a deterministic command and line 42 excludes it and the reconcile/integration-review prompts from the shared-with-Codex statement. A new paragraph documents the wave summary path, bounds, verdict binding and the open Q1 persistent-request-variable limitation.",
-        "Package README.md has a node-table row for implementation-wave-outcome (command, scripts/implementation-wave-outcome.py) and a 'Compact wave summary' section naming tmp/opus-luna-waves/<workflowExecutionId>/wave-NNN/{fanout-join.json,wave-summary.json}, the 64 KiB bound and the Q1 limitation. SKILL.md's 'GPT-6 Luna fanout' section has a matching short paragraph."
-      ],
-      "verification": [
-        "python3 -m json.tool packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario.json",
-        "python3 -m json.tool packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario-fanout.json",
-        "python3 -m json.tool packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario-local.json",
-        "riela workflow run opus-luna-design-and-implement-review-loop --workflow-definition-dir packages/opus-luna-design-and-implement-review-loop/workflows --working-dir . --mock-scenario packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario.json --session-store tmp/wave-compaction/wave-fixtures-docs/attempt-N/sessions/default --artifact-root tmp/wave-compaction/wave-fixtures-docs/attempt-N/artifacts/default --output json",
-        "riela workflow run opus-luna-design-and-implement-review-loop --workflow-definition-dir packages/opus-luna-design-and-implement-review-loop/workflows --working-dir . --mock-scenario packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario-fanout.json --session-store tmp/wave-compaction/wave-fixtures-docs/attempt-N/sessions/fanout --artifact-root tmp/wave-compaction/wave-fixtures-docs/attempt-N/artifacts/fanout --output json",
-        "riela workflow run opus-luna-design-and-implement-review-loop --workflow-definition-dir packages/opus-luna-design-and-implement-review-loop/workflows --working-dir . --mock-scenario packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario-local.json --variables '{\"workflowInput\":{\"gitPush\":false}}' --session-store tmp/wave-compaction/wave-fixtures-docs/attempt-N/sessions/local --artifact-root tmp/wave-compaction/wave-fixtures-docs/attempt-N/artifacts/local --output json",
-        "riela workflow run opus-luna-design-and-implement-review-loop --workflow-definition-dir packages/opus-luna-design-and-implement-review-loop/workflows --working-dir . --mock-scenario packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario-planning-only.json --session-store tmp/wave-compaction/wave-fixtures-docs/attempt-N/sessions/planning-only --artifact-root tmp/wave-compaction/wave-fixtures-docs/attempt-N/artifacts/planning-only --output json",
-        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-luna-design-and-implement-review-loop/tests -p 'test_*.py' -v",
-        "git diff --check"
-      ]
-    },
-    {
       "planId": "wave-release",
       "planPath": "impl-plans/active/wave-release.md",
       "dependsOn": [
         "wave-outcome-script",
-        "wave-summary-prompts",
-        "wave-fixtures-docs"
+        "wave-summary-prompts"
       ],
       "writePaths": [
         "packages/opus-luna-design-and-implement-review-loop/riela-package.json",
@@ -237,6 +204,17 @@
         "find packages/opus-luna-design-and-implement-review-loop -name __pycache__",
         "git diff --check",
         "git status --porcelain=v1"
+      ]
+    }
+  ],
+  "acceptedDependencies": [
+    {
+      "planId": "wave-fixtures-docs",
+      "planPath": "impl-plans/active/wave-fixtures-docs.md",
+      "commit": "4ccab781c078bc8e91aa5390b68d6b03f1678abb",
+      "provides": [
+        "mock-scenario.json, mock-scenario-fanout.json and mock-scenario-local.json relabel implementation-wave-outcome to scripts/implementation-wave-outcome.py with when {implementation_blocked:false, partial_success:false}",
+        "EXPECTED_RESULTS.md, package README.md and SKILL.md document the compact wave summary at tmp/opus-luna-waves/<workflowExecutionId>/wave-NNN/{fanout-join.json,wave-summary.json}, the 64 KiB bound and the Q1 limitation"
       ]
     }
   ]
