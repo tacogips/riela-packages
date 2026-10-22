@@ -1,11 +1,11 @@
 # wave-outcome-script
 
-Status: Step 6 implementation complete; pending independent review.
+Status: completed. Implementation accepted by test-integrity, adversarial and integration review in session-480 (integration-review-attempt-1-exec-7361, comm-008771). Archived from `impl-plans/active/wave-outcome-script.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
   "planId": "wave-outcome-script",
-  "planPath": "impl-plans/active/wave-outcome-script.md",
+  "planPath": "impl-plans/completed/wave-outcome-script.md",
   "dependsOn": [],
   "writePaths": [
     "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/implementation-wave-outcome.py",

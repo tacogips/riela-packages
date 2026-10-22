@@ -1,11 +1,11 @@
 # wave-release
 
-Status: proposed for Step 5 review.
+Status: completed. Implementation accepted by test-integrity (exec-7356), adversarial (exec-7357) and integration review (exec-7361, comm-008771) in session-480. The prompt-level bound and the requested outcome remain BLOCKED pending Q1 Option A (upstream riela), as this plan requires. Archived from `impl-plans/active/wave-release.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
   "planId": "wave-release",
-  "planPath": "impl-plans/active/wave-release.md",
+  "planPath": "impl-plans/completed/wave-release.md",
   "dependsOn": [
     "wave-outcome-script",
     "wave-summary-prompts"

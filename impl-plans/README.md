@@ -21,3 +21,14 @@ The two D4 dispatch JSON files in `active/` are retained as historical checkpoin
 - [d4-reconcile-verify](completed/d4-reconcile-verify.md) — combined validation and package metadata; implementation and review accepted.
 
 The D4 exact-file commit, non-force push and PR handoff are subsequent workflow publication steps. Historical active paths in dispatch records and progress logs identify the paths used during implementation.
+
+### Opus-luna wave input compaction (package 0.1.9)
+
+[Design](../design-docs/specs/design-opus-luna-wave-input-compaction.md) · [Q1 decision](../design-docs/user-qa/opus-luna-wave-input-compaction.md). Accepted by integration review in session-480:
+
+- [wave-outcome-script](completed/wave-outcome-script.md) — deterministic `implementation-wave-outcome` command; stores `fanout-join.json` and a bounded `wave-summary.json` under `tmp/opus-luna-waves/<workflowExecutionId>/wave-NNN/`.
+- [wave-summary-prompts](completed/wave-summary-prompts.md) — reconciliation and integration-review prompts read the wave summary instead of the raw join.
+- [wave-fixtures-docs](completed/wave-fixtures-docs.md) — mock scenarios, EXPECTED_RESULTS.md, package README and SKILL.md.
+- [wave-release](completed/wave-release.md) — version 0.1.9, refreshed digests and registry index.
+
+The prompt-level bound and "run proceeds to reconciliation/integration" remain BLOCKED pending the upstream riela change (Q1 Option A); riela 0.2.34 still renders the persistent `fanoutJoin` request variable into later agent prompts. The [dispatch record](active/wave-compaction-dispatch.json) stays in `active/` as a historical checkpoint and keeps the original `active/` plan paths.

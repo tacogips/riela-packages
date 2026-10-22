@@ -1,11 +1,11 @@
 # wave-summary-prompts
 
-Status: proposed for Step 5 review.
+Status: completed. Implementation accepted by test-integrity, adversarial and integration review in session-480 (integration-review-attempt-1-exec-7361, comm-008771). Archived from `impl-plans/active/wave-summary-prompts.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
   "planId": "wave-summary-prompts",
-  "planPath": "impl-plans/active/wave-summary-prompts.md",
+  "planPath": "impl-plans/completed/wave-summary-prompts.md",
   "dependsOn": [],
   "writePaths": [
     "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/prompts/reconcile-implementations.md",
