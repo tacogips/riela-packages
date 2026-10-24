@@ -1,6 +1,6 @@
 # gate-routing-runtime-prompts
 
-Status: active. Wave 1. Issues tacogips/riela#125, #126, #129, #132 and #134 (implementation and finalization prompt rules).
+Status: completed. Wave 1. Issues tacogips/riela#125, #126, #129, #132 and #134 (implementation and finalization prompt rules). Implementation accepted by test-integrity, adversarial and integration review in opus-luna-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-runtime-prompts.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
@@ -95,8 +95,12 @@ These prompts tell the agents how to produce, and how to consume, the determinis
 
 ## Done criteria
 
-- All verification commands exit 0. Evidence is under `tmp/opus-luna-gate-routing/gate-routing-runtime-prompts/`.
+- Step 6 now specifies structured verification records, negative controls, sibling-owned fanout blockers, and plan-local gate scoping.
+- Integration review re-runs deferred sibling-owned gates on the reconciled tree and assigns remaining failures to the owning plan.
+- Step 8 emits archive requests with a copied non-empty issue reference; Step 9 validates archive results without moving files; blocked output forwards all three supported predecessor payloads.
+- `test_runtime_prompts.py` asserts the prompt contracts; the existing prompt/progress tests and full package suite pass. Evidence and complete logs are under `tmp/opus-luna-gate-routing/gate-routing-runtime-prompts/`.
 
 ## Progress log
 
-- (implementer appends dated entries)
+- 2026-10-24: Implemented the five prompt contracts and added `packages/opus-luna-design-and-implement-review-loop/tests/test_runtime_prompts.py`. Verification passed: focused prompt tests (5), existing wave-summary/progress tests (13), and all package tests (86). Logs: `runtime-prompts.log`, `existing-prompt-and-progress.log`, and `package-tests.log` under `tmp/opus-luna-gate-routing/gate-routing-runtime-prompts/`. Independent review and workflow finalization remain downstream.
+- 2026-10-24: Addressed integration finding F-IR6-01. Step 6 now directs logs to the dispatched `<evidenceRoot>/<planId>/`, and `test_runtime_prompts.py` asserts the generic path and rejects the task-specific path. Repair verification passed: focused prompt tests (5), existing prompt/progress tests (13), and full package tests (86). Logs: `runtime-prompts-repair.log`, `existing-prompt-progress-repair.log`, `package-tests-repair.log`, `task-path-grep-repair.log`, `pycache-repair.log`, and `diff-check-repair.log` under `tmp/opus-luna-gate-routing/gate-routing-runtime-prompts/`. The path search returned no matches (expected exit 1); `find` reported the pre-existing `workflows/opus-luna-design-and-implement-review-loop/scripts/__pycache__`, deferred to `gate-routing-release`; this repair created none. Independent review and workflow finalization remain downstream.

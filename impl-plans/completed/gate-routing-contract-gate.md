@@ -1,6 +1,6 @@
 # gate-routing-contract-gate
 
-Status: active. Wave 1. Issue tacogips/riela#128 (pre-commit half).
+Status: completed. Wave 1. Issue tacogips/riela#128 (pre-commit half). Implementation accepted by test-integrity, adversarial and integration review in opus-luna-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-contract-gate.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
@@ -69,8 +69,11 @@ Session 226 failed at dispatch of its last wave with `fanout snapshot exceeds 51
 
 ## Done criteria
 
-- All verification commands exit 0. Evidence is under `tmp/opus-luna-gate-routing/gate-routing-contract-gate/`.
+- Complete: the copied files are byte-identical, executable mode is 755, regression cases pass, `dispatch-plans.py` is unchanged, package discovery passes, and no package `__pycache__` remains. Stable-tree test evidence is in `tmp/opus-luna-gate-routing/gate-routing-contract-gate/final-focused-tests-rerun-02.log` and `final-package-tests-rerun-02.log`; command-level evidence is in the adjacent `final-*.log` files.
 
 ## Progress log
 
 - (implementer appends dated entries)
+- 2026-10-24 Step 6: added the Codex-identical executable contract validator and node plus the focused regression module. Focused gate tests passed 3/3 (`tmp/opus-luna-gate-routing/gate-routing-contract-gate/focused-tests.log`). Script/node identity, executable mode 755, unchanged dispatch-plans identity, no package `__pycache__`, and `git diff --check` passed (individual logs in the same evidence directory). Full package suite ran 52 tests: 51 passed, one failed in `test_planning_prompts.py::PlanningPromptContractTests::test_checkpoint_amendment_preserves_checkpoint_boundary`; concurrent prompt text says “amend the existing dispatch manifest in place” but its test expects “update the existing dispatch manifest in place” (`package-tests.log`). Both files are outside this plan's writePaths and were left untouched; full suite requires stable-tree rerun.
+- 2026-10-24 Step 6 rerun: package test discovery changed to 81 tests and failed with 3 failures/2 errors (`tmp/opus-luna-gate-routing/gate-routing-contract-gate/package-tests-rerun-01.log`): dispatch-amendment missing Codex reference path and round assertion, archive fourth-message assertion, and two negative-control assertions. These files are outside this plan's writePaths and were left untouched. Package-wide verification remains incomplete pending a stable combined tree; the assigned focused tests and copy/mode checks pass.
+- 2026-10-24 Step 6 stable-tree rerun: focused contract tests passed 3/3 (`tmp/opus-luna-gate-routing/gate-routing-contract-gate/final-focused-tests-rerun-02.log`); package discovery passed 86/86 (`final-package-tests-rerun-02.log`). Validator script and node byte-identity checks, executable mode, and unchanged `dispatch-plans.py` passed (`final-cmp-script-rerun-02.log`, `final-cmp-node-rerun-02.log`, `final-exec-mode-rerun-02.log`, `final-dispatch-unchanged-rerun-02.log`); final package `__pycache__` inventory was empty (`final-no-pycache-rerun-04.log`) and `git diff --check` passed (`final-diff-check-rerun-02.log`). Earlier failures remain in the prior log entries; this stable combined tree run resolves package verification.

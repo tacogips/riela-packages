@@ -1,6 +1,6 @@
 # gate-routing-planning-prompts
 
-Status: active. Wave 1. Issues tacogips/riela#126, #128 and #132 (planning-side prompt rules).
+Status: completed. Wave 1. Issues tacogips/riela#126, #128 and #132 (planning-side prompt rules). Implementation accepted by test-integrity, adversarial and integration review in opus-luna-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-planning-prompts.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
@@ -90,8 +90,10 @@ Keeping accepted plans as `acceptedDependencies` also stops the pre-commit gate 
 
 ## Done criteria
 
-- All verification commands exit 0. Evidence is under `tmp/opus-luna-gate-routing/gate-routing-planning-prompts/`.
+- The prompt and regression-test scope is implemented and all listed verification commands pass on the stable combined tree. Evidence is under `tmp/opus-luna-gate-routing/gate-routing-planning-prompts/`.
 
 ## Progress log
 
-- (implementer appends dated entries)
+- 2026-10-24: Added Step 4 contract-validation, bounded amendment, path-budget, and plan-scoped verification rules; added Step 5 mid-finding and amendment-scope rules; added amendment checkpoint handling; created `tests/test_planning_prompts.py` with 3 anchor/behavior tests. Focused tests passed (3/3, exit 0; `tmp/opus-luna-gate-routing/gate-routing-planning-prompts/focused.log`). Codex tests passed (91/91, exit 0; `.../codex_suite.log`). `git diff --check` passed and `find ... -name __pycache__` found none. The full Opus suite ran 58 tests but remains pending stable-tree rerun: 56 passed, with one error and one failure in dispatch-amendment coverage outside this plan's writePaths (`tests/test_dispatch_amendment.py`: Codex path lookup and amendment round expectation; `.../opus_suite.log`). No prompt-plan tests failed. Do not mark this plan complete until the required full Opus suite passes on the stable combined tree.
+
+- 2026-10-24: Stable combined-tree rerun passed: focused prompt tests 3/3 (exit 0, `tmp/opus-luna-gate-routing/gate-routing-planning-prompts/focused-final.log`); full Opus suite 86/86 (exit 0, `tmp/opus-luna-gate-routing/gate-routing-planning-prompts/opus-suite-final.log`); Codex suite 91/91 (exit 0, `tmp/opus-luna-gate-routing/gate-routing-planning-prompts/codex-suite-final.log`). Removed the generated `scripts/__pycache__` directory found after tests; final `find ... -name __pycache__` is empty (exit 0, `tmp/opus-luna-gate-routing/gate-routing-planning-prompts/pycache-clean-final.log`). Final `git diff --check` passed (exit 0, `tmp/opus-luna-gate-routing/gate-routing-planning-prompts/diff-check-final.log`).

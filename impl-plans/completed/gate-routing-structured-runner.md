@@ -1,6 +1,6 @@
 # gate-routing-structured-runner
 
-Status: active. Wave 2. Issue tacogips/riela#125.
+Status: completed. Wave 2. Issue tacogips/riela#125. Implementation accepted by test-integrity, adversarial and integration review in opus-luna-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-structured-runner.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
@@ -91,8 +91,14 @@ This plan runs after `gate-routing-negative-control` and uses its `record_exit_s
 
 ## Done criteria
 
-- All verification commands exit 0. Evidence logs, with integer exitStatus, testsRun and failureCount, go under `tmp/opus-luna-gate-routing/gate-routing-structured-runner/`.
+- [x] All assigned D1 behavior is implemented and the existing allowlist tuple is unchanged; strict kind-only status/count checks and the non-test command exclusion are covered by regression tests.
+- [x] Resume criteria name the accepted runner forms, structured behavioral record, and excluded build/lint/format/diff commands.
+- [x] Focused structured-runner, opus-luna package, and codex package suites pass; no package `__pycache__` remains and `git diff --check` passes.
+- Evidence logs are under `tmp/opus-luna-gate-routing/gate-routing-structured-runner/`.
 
 ## Progress log
 
-- (implementer appends dated entries)
+- 2026-10-24: Implemented D1 in `implementation-progress-check.py`: preserved the allowlist tuple and Swift discovery exclusion, added normalized `behavioral-test` declarations with the D1.3 non-test denylist, required exact integer structured success fields for kind-only records, and expanded the materially-unverified resume criterion. Added `test_progress_structured_runner.py` for session 222, unmarked custom runners, missing/invalid counts including absent `failureCount`/exit status, non-test commands, allowlist behavior and resume text. Also addressed the review feedback about malformed retained commands: `behavioral_kind()` safely handles null/non-string `command`, including through inherited prior-verification evaluation, while kind-only success fails closed.
+  - Current verification: focused suite 7 tests, exit 0 (`verify-focused-final2.log`); opus-luna suite 93 tests, exit 0 (`verify-opus-tests-final2.log`); codex suite 91 tests, exit 0 (`verify-codex-tests-final.log`); allowlist comparison exit 0 (`verify-allowlist.log`); no `__pycache__` found (exit 0, `verify-pycache-final.log`); `git diff --check` exit 0 (`verify-diff-check-final2.log`). Structured evidence is in `verification.json`.
+  - Superseded attempts retained: initial focused run exposed two fixture expectation errors, corrected in the final suite; first codex invocation yielded before a complete log, then the rerun completed with 91 passing tests.
+  - Formal test-integrity/adversarial review and downstream documentation/release work remain with their assigned workflow steps.

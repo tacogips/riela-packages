@@ -1,6 +1,6 @@
 # gate-routing-plan-archive
 
-Status: active. Wave 1. Issue tacogips/riela#129.
+Status: completed. Wave 1. Issue tacogips/riela#129. Implementation accepted by test-integrity, adversarial and integration review in opus-luna-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-plan-archive.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
@@ -119,3 +119,9 @@ Session 232 looped through step8 -> step9 -> step8 (executions 1338-1342). Step 
 ## Progress log
 
 - (implementer appends dated entries)
+
+### Step 6 implementation — 2026-10-24
+
+- Added executable `workflows/opus-luna-design-and-implement-review-loop/scripts/plan-archive.py`, command node `nodes/node-plan-archive.json`, and D6 regression tests in `tests/test_plan_archive.py`. The script validates archive paths and filesystem ancestors with `lstat`, moves regular plan files using `os.rename`, forwards the latest Step 8 payload, and blocks completion after the fourth Step 8 message while preserving its `issueReference`.
+- Focused verification passed: 14 tests. Final stable-tree package verification passed: 86 tests. The first package-wide run occurred while sibling files were changing and had one error in `test_progress_negative_control.py`; the later stable-tree run passed. The earlier complete log is retained at `tmp/opus-luna-gate-routing/gate-routing-plan-archive/verification-4.log`.
+- Executable check, node JSON parse, package test suite, no-`__pycache__` check and `git diff --check` all have exit status 0. Complete logs and structured verification are in `tmp/opus-luna-gate-routing/gate-routing-plan-archive/verification.json`; the final package source hash is recorded in `final-package-source.sha256`.

@@ -1,0 +1,26 @@
+{
+  "id": "plan-contract-validate",
+  "description": "Deterministically validate the written dispatch manifest's tracking contract (writePaths ownership, source snapshot paths, generated artifactRoots, native fanout limits) before the plan checkpoint commit.",
+  "nodeType": "command",
+  "modelFreeze": false,
+  "variables": {},
+  "command": {
+    "scriptPath": "scripts/validate-plan-contract.py"
+  },
+  "output": {
+    "description": "Return the code-owned contract_valid discriminator, the per-plan root report, high findings for the plan author on rejection, and the unchanged checkpoint commit request on acceptance.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "contract_valid": { "type": "boolean" },
+        "manifestPath": { "type": "string", "minLength": 1 },
+        "report": { "type": "object" },
+        "findings": { "type": "array", "items": { "type": "object" } },
+        "commitMessage": { "type": "string" },
+        "committedFiles": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["contract_valid", "report", "findings"],
+      "additionalProperties": true
+    }
+  }
+}

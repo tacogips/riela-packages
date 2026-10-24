@@ -9,6 +9,7 @@ review. GPT-6 Luna implements the plans in parallel native fanout.
 | Intake, design, implementation plans | `step1-issue-intake`, `step2-design-doc-update`, `step4-impl-plan-create` | `claude-code-agent` / `claude-opus-5-5` |
 | Design and plan review | `step3-design-review`, `step5-impl-plan-review` | `claude-opus-5-5` (read-only) |
 | Implementation (fanout) | `step6-implement` | `codex-agent` / `gpt-6-luna`, high effort, fast tier |
+| Deterministic gates | `plan-contract-validate`, `dispatch-plans`, `plan-archive` | `command` |
 | Wave aggregation (fanout join) | `implementation-wave-outcome` | `command` / `scripts/implementation-wave-outcome.py` |
 | Test-integrity and adversarial review | `step6-test-integrity-check`, `step7-adversarial-review` | `claude-opus-5-5` (read-only) |
 | Integration review | `integration-review` | `claude-opus-5-5` (read-only) |
@@ -31,6 +32,12 @@ the original GPT-6 Luna implementation step in the same native branch; the
 progress gate and both independent reviews run again after the correction.
 Integration findings selectively redispatch their owning Luna plans rather than
 requesting serial in-place repairs. Reviewers do not edit or delegate repairs.
+
+The pre-commit `plan-contract-validate` gate routes invalid tracking contracts
+back to Step 4. `dispatch-plans` routes bounded checkpoint amendments to Step 4
+and sends exhausted amendments to the blocked output after two attempts. Step 8
+returns archive requests for the deterministic `plan-archive` command, which
+performs moves without git and bounds the Step 8/Step 9 loop at three rounds.
 
 Each material finding carries a detailed `repairRequests` brief and actionable
 `feedback`: owner, file/symbol, accepted intent, reproduction, root cause,

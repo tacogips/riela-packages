@@ -1,6 +1,6 @@
 # gate-routing-dispatch-amendment
 
-Status: active. Wave 1. Issues tacogips/riela#132 and #128 (dispatch-time half).
+Status: completed. Wave 1. Issues tacogips/riela#132 and #128 (dispatch-time half). Implementation accepted by test-integrity, adversarial and integration review in opus-luna-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-dispatch-amendment.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
@@ -105,8 +105,11 @@ Session 271: integration review routed findings on `editor/src/code/pointer.ts`,
 
 ## Done criteria
 
-- All verification commands exit 0. Evidence is under `tmp/opus-luna-gate-routing/gate-routing-dispatch-amendment/`.
+- `dispatch-wave.py` is executable and routes normal projection plus bounded amendment results with exact payload keys; only `dispatch.AMENDMENT` errors are routed.
+- Regression tests cover the session-271 shape, amendment exhaustion, dispatch-time 512-entry over-cap, non-amendment errors and byte identity.
+- Focused tests, opus-luna package tests, codex package tests, no-`__pycache__` check, and `git diff --check` pass on the source snapshot used for final verification.
+- Complete command logs and exit statuses are under `tmp/opus-luna-gate-routing/gate-routing-dispatch-amendment/`.
 
 ## Progress log
 
-- (implementer appends dated entries)
+- 2026-10-24: Added executable `dispatch-wave.py` and six regression tests. Focused suite passed (6 tests); executable check, dispatch byte comparison and codex package suite passed. The first full opus-luna package run was on the moving shared tree and reported 2 failures plus 1 error in the concurrent `test_progress_negative_control.py`; the subsequent source-stable rerun passed all 86 tests with exit 0 (`opus-tests-rerun.log`). The earlier failure remains recorded as moving-tree evidence. Final verification after the OSError assertion passed focused tests (6), opus-luna tests (86) and codex tests (91), with executable, byte-identity, no-`__pycache__` and diff checks passing; complete logs use the `verified-` prefix in the plan-local evidence directory.

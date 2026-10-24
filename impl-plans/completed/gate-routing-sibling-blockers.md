@@ -1,6 +1,6 @@
 # gate-routing-sibling-blockers
 
-Status: active. Wave 3. Issue tacogips/riela#126.
+Status: completed. Wave 3. Issue tacogips/riela#126. Implementation accepted by test-integrity, adversarial and integration review in opus-luna-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-sibling-blockers.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
@@ -110,8 +110,10 @@ The integration-review prompt rule that re-runs deferred gates is owned by `gate
 
 ## Done criteria
 
-- All verification commands exit 0. Evidence is under `tmp/opus-luna-gate-routing/gate-routing-sibling-blockers/`.
+- [x] All verification commands exit 0. Evidence is under `tmp/opus-luna-gate-routing/gate-routing-sibling-blockers/`.
+- [x] Classifier defers only fully sibling-owned blockers from the committed manifest, preserves all fail-closed cases, keeps remaining gates active, and atomically records deferred blockers for integration review.
+- [x] Focused regression, full opus-luna, full codex, no-`__pycache__`, and diff checks pass. Formal reviews, integration validation, and release checks remain downstream workflow steps.
 
 ## Progress log
 
-- (implementer appends dated entries)
+- 2026-10-24: Implemented D3 in `implementation-progress-check.py`; added `test_progress_sibling_blockers.py` with seven tests for sibling deferral/evidence, malformed and mixed blockers, missing implementation item, checkpoint manifest failures including invalid UTF-8, unsafe evidence destinations, and retained behavioral-test requirements. Final focused suite passed 7 tests (`final6-focused.log`); opus-luna passed 108 tests (`final6-opus-suite.log`); codex passed 91 tests (`final6-codex-suite.log`). `final6-pycache.log` had no output and `final6-diff-check.log` was clean. The earlier `final5-focused.log` and `final5-opus-suite.log` failures exposed the decode-boundary issue and are superseded by final6. Ready for downstream test-integrity and adversarial review; integration and release checks remain pending.

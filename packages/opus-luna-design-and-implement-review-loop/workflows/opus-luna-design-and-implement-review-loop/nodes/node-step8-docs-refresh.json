@@ -34,11 +34,34 @@
         "archivedImplPlanPaths": {
           "type": "array",
           "items": {}
+        },
+        "archiveRequests": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string"
+              },
+              "destination": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "source",
+              "destination"
+            ]
+          }
+        },
+        "issueReference": {
+          "type": "string",
+          "minLength": 1
         }
       },
       "required": [
         "workflowMode",
-        "documentationFiles"
+        "documentationFiles",
+        "issueReference"
       ]
     },
     "maxValidationAttempts": 2

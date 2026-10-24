@@ -470,7 +470,14 @@
         ".agents/skills/riela-impl-workflow/SKILL.md"
       ],
       "documentationSummary": "Refreshed the README and the exposed workflow skill documentation so they match the accepted implementation behavior before commit generation.",
-      "residualRisks": []
+      "residualRisks": [],
+      "archiveRequests": [
+        {
+          "source": "impl-plans/active/wave-summary-prompts.md",
+          "destination": "impl-plans/completed/wave-summary-prompts.md"
+        }
+      ],
+      "issueReference": "tacogips/cursor-agent#123"
     }
   },
   "step9-commit-message": {
@@ -483,13 +490,13 @@
       "decision": "accepted",
       "workflowMode": "issue-resolution",
       "checkedImplPlanPaths": [
-        "impl-plans/active/workflow-review-findings.md"
+        "impl-plans/active/wave-summary-prompts.md"
       ],
       "activeImplPlanFindings": [
-        "impl-plans/active/workflow-review-findings.md was completed by the accepted implementation and should be archived before commit generation."
+        "impl-plans/active/wave-summary-prompts.md is already archived."
       ],
       "archivedImplPlanPaths": [
-        "impl-plans/completed/workflow-review-findings.md"
+        "impl-plans/completed/wave-summary-prompts.md"
       ],
       "updatedIndexFiles": [
         "impl-plans/README.md"
@@ -501,13 +508,14 @@
       "committedFiles": [
         "design-docs/specs/design-workflow-review-findings.md",
         "design-docs/user-qa/qa-review-finding-retention.md",
-        "impl-plans/active/workflow-review-findings.md",
+        "impl-plans/active/wave-summary-prompts.md",
         "impl-plans/completed/workflow-review-findings.md",
         "impl-plans/README.md",
         "packages/riela/src/workflow/review-findings.ts",
         "packages/riela/src/workflow/review-findings.test.ts",
         "README.md",
-        ".agents/skills/riela-impl-workflow/SKILL.md"
+        ".agents/skills/riela-impl-workflow/SKILL.md",
+        "impl-plans/completed/wave-summary-prompts.md"
       ],
       "changeSummary": "Accepted implementation, design, plan, and user-facing documentation updates for persisted workflow review findings across reruns.",
       "accepted": true,
@@ -730,9 +738,11 @@
   },
   "dispatch-plans": {
     "provider": "scenario-mock",
-    "model": "claude-opus-5-5",
+    "model": "scripts/dispatch-wave.py",
     "when": {
-      "always": true
+      "dispatch_ready": true,
+      "amendment_required": false,
+      "amendment_blocked": false
     },
     "payload": {
       "implementationItems": [
@@ -800,7 +810,10 @@
       ],
       "acceptedPlanIds": [],
       "manifestPath": "impl-plans/active/mock-dispatch.json",
-      "checkpointCommit": "1111111111111111111111111111111111111111"
+      "checkpointCommit": "1111111111111111111111111111111111111111",
+      "dispatch_ready": true,
+      "amendment_required": false,
+      "amendment_blocked": false
     }
   },
   "implementation-wave-outcome": {
@@ -935,6 +948,64 @@
       "implementationBranch": "main",
       "remote": "origin",
       "verification": {}
+    }
+  },
+  "plan-contract-validate": {
+    "provider": "scenario-mock",
+    "model": "scripts/validate-plan-contract.py",
+    "when": {
+      "contract_valid": true
+    },
+    "payload": {
+      "contract_valid": true,
+      "manifestPath": "impl-plans/active/mock-dispatch.json",
+      "report": {},
+      "findings": [],
+      "commitMessage": "docs: checkpoint shared-branch implementation plans",
+      "committedFiles": [
+        "impl-plans/active/mock-dispatch.json",
+        "impl-plans/active/a.md"
+      ]
+    }
+  },
+  "plan-archive": {
+    "provider": "scenario-mock",
+    "model": "scripts/plan-archive.py",
+    "when": {
+      "completion_blocked": false
+    },
+    "payload": {
+      "workflowMode": "issue-resolution",
+      "documentationFiles": [
+        "README.md",
+        ".agents/skills/riela-impl-workflow/SKILL.md"
+      ],
+      "userFacingSurfaces": [
+        "README.md",
+        ".agents/skills/riela-impl-workflow/SKILL.md"
+      ],
+      "documentationSummary": "Refreshed the README and the exposed workflow skill documentation so they match the accepted implementation behavior before commit generation.",
+      "residualRisks": [],
+      "archiveRequests": [
+        {
+          "source": "impl-plans/active/wave-summary-prompts.md",
+          "destination": "impl-plans/completed/wave-summary-prompts.md"
+        }
+      ],
+      "issueReference": "tacogips/cursor-agent#123",
+      "archiveResults": [
+        {
+          "source": "impl-plans/active/wave-summary-prompts.md",
+          "destination": "impl-plans/completed/wave-summary-prompts.md",
+          "status": "already-archived",
+          "message": ""
+        }
+      ],
+      "archivedImplPlanPaths": [
+        "impl-plans/completed/wave-summary-prompts.md"
+      ],
+      "docsRefreshRound": 1,
+      "completion_blocked": false
     }
   }
 }
