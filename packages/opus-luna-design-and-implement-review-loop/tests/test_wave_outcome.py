@@ -150,6 +150,14 @@ class WaveOutcomeTests(unittest.TestCase):
                 self.assertEqual(result['payload']['blockedPlanIds'],expected)
                 self.assertIn(wave.TRACKING_RESUME_CRITERION,result['payload']['resumeCriteria'])
 
+    def test_pending_undispatched_plan_has_no_raw_pointer(self):
+        join={'branches':[branch('a',evidencePaths=['e'],changedFiles=[])],'dispatchedBranchIds':['a'],'pendingBranchIds':['e'],'completedBranchIds':['a'],'changeEvidence':{'complete':True,'observations':[],'captureFailures':[],'reduceFailures':[]}}
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d); result=run(join,root)
+            summary=json.loads(next(root.glob('tmp/opus-luna-waves/session-test/wave-*/wave-summary.json')).read_text())
+        self.assertEqual(result['payload']['successfulPlanIds'],['a'])
+        self.assertEqual([(p['classification'],p['rawPointer']) for p in summary['plans'] if p['planId']=='e'],[('pending',None)])
+
     def test_blocked_only_is_not_partial_success(self):
         with tempfile.TemporaryDirectory() as d:
             result=run({'branches':[branch('a',implementation_blocked=True)]},Path(d))

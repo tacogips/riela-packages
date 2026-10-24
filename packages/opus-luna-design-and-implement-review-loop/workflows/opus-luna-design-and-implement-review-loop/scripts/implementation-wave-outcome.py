@@ -302,8 +302,10 @@ def _summary_for_level(join: dict[str, Any], verdict: dict[str, Any], plans: lis
                 trunc += 1
             else:
                 p[field] = original[:cap] if isinstance(original, list) else []
-        p["reviewDecisions"] = _bounded(p.get("reviewDecisions"), level, p["rawPointer"] + "/output/reviewDecisions", raw_path)
-        p["checkpointProvenance"] = _bounded(p.get("checkpointProvenance"), level, p["rawPointer"] + "/output/checkpointProvenance", raw_path)
+        # Pending (not yet dispatched) plans have no raw branch pointer.
+        pointer = p.get("rawPointer") or ""
+        p["reviewDecisions"] = _bounded(p.get("reviewDecisions"), level, pointer + "/output/reviewDecisions", raw_path)
+        p["checkpointProvenance"] = _bounded(p.get("checkpointProvenance"), level, pointer + "/output/checkpointProvenance", raw_path)
         bounded_plans.append(p)
     ce = dict(projection["changeEvidence"])
     for field, cap in (("captureFailures", level["diagnostics"]), ("reduceFailures", level["diagnostics"]), ("artifactPaths", level["artifactPaths"])):
