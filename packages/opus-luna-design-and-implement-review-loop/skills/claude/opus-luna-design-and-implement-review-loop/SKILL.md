@@ -22,6 +22,10 @@ include location, intent, reproduction, root cause, authorized scope, ordered
 changes, exact verification and completion criteria. Blocked-only waves terminate
 without accepted Git finalization.
 
+## GPT-6 Luna fanout
+
+The `implementation-wave-outcome` command stores `fanout-join.json` and `wave-summary.json` under `tmp/opus-luna-waves/<workflowExecutionId>/wave-NNN/`; the summary plus verdict is bounded to 64 KiB. Reconciliation and integration review locate the highest wave and require verdict equality before using the summary. Inspect `wave-summary.json` when reporting a wave; mock scenarios do not execute the command. Riela 0.2.34 still renders the persistent `fanoutJoin` request variable into later agent prompts; this is the open Q1 limitation.
+
 ## Run
 
 ```bash

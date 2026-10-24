@@ -40,10 +40,14 @@ Rules:
 - If an implementation plan is now completed or its checklist/progress log says
   the accepted implementation work is complete, it must not remain under
   `impl-plans/active`.
-- This node is read-only. Verify that Step 8 moved completed implementation
-  plans to `impl-plans/completed/<same-name>.md` and updated
-  `impl-plans/README.md` active/recently-completed listings when used. Never
-  attempt the move or index edit from this node.
+- This node is read-only. Verify from `archiveResults` in the direct
+  `plan-archive` payload that Step 8 moved completed implementation plans to
+  `impl-plans/completed/<same-name>.md` and updated `impl-plans/README.md`
+  active/recently-completed listings when used. Accept statuses `moved` and
+  `already-archived`. For `rejected`, `conflict` or `missing`, return
+  `needs_revision: true` with the exact affected paths and evidence. For each
+  `moved` or `already-archived` result, include both `source` and `destination`
+  in `committedFiles`. Never attempt the move or index edit from this node.
 - If a plan is intentionally still active, record the exact evidence and leave
   it in place.
 - If a required archive/index change is missing or affects user-facing

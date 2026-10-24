@@ -9,18 +9,55 @@ This node is intentionally read-only. Before declaring combined verification mis
 Before reviewing individual hunks, load the manifest reviewContext and verify it against the committed design and every plan. Build an intent map containing required user outcomes, non-goals, constraints, design rationale, dependencies between plans, intentional trade-offs, and acceptance evidence. Use that map to distinguish a real semantic conflict or lost requirement from an intentional variation that preserves the design. Return this map as `reviewBasis`, including on acceptance. Every high or mid finding and repair request must include intentReference, materialImpact, and fixCostBenefit; without those fields it must not trigger revision. Do not introduce unrelated improvements during reconciliation review.
 
 Use that same manifest DAG and accepted plan text as the authority for task ownership. A predecessor is eligible for wave acceptance when its own promised behavior, contract or seam is implemented and verified, even while final wiring, host injection, or other work explicitly assigned to a pending downstream dependent plan is absent. Do not turn downstream-owned work into a finding against the predecessor, request an in-place repair for it, or withhold predecessor acceptance; retain the downstream plan in `pendingPlanIds`, set `plans_remaining: true`, and return the expanded `acceptedPlanIds` so native dependency dispatch can unlock it. This does not weaken final acceptance: every plan and final combined behavior must still be accepted before completion. If ownership is missing or contradictory in the committed artifacts, report the invalid plan/DAG evidence instead of assuming ownership.
+
+For each candidate plan with `<evidenceRoot>/<planId>/sibling-owned-blockers.json`, inspect `siblingOwnedBlockers` and re-run every recorded command (or the equivalent workspace gate) on the reconciled combined tree. Any remaining failure is a material finding owned by the plan that owns the failing path, and the candidate cannot be accepted until that failure is resolved.
+
 On acceptance return the immutable wave acceptance record in the node payload: integrated plan IDs, current hashes, test results, artifact paths, reviewBasis, acceptedPlanIds, pendingPlanIds, manifestPath, evidencePaths, findings, verification, and matching when flags {needs_revision:false, redispatch_required:false, plans_remaining:<whether manifest plans remain>}. The runtime persists this read-only node output in the session communication record; do not write or modify repository or evidenceRoot files. Dependency completion is based on these persisted accepted outputs. If pending plans exist but cannot become ready, report the invalid dependency rather than declaring complete. Final acceptance requires every plan's intended behavior survives on the combined tree.
 
 Mirror needs_revision, redispatch_required, repair_in_place, and plans_remaining in both when and payload. The discriminator is fail-closed: set repair_in_place:true only for a concrete combined-tree defect that the serial reconciler can repair directly from present evidence, and only with redispatch_required:false. Set redispatch_required:true and repair_in_place:false when one or more pending plans need a fresh native worker dispatch, including failed branches, missing worker-owned provenance, incomplete branch evidence that reconciliation cannot create, or a missing/ambiguous discriminator. Never request reconciliation for missing worker provenance. On acceptance set both flags false. Include payload.accepted:true only on acceptance; final acceptance requires both needs_revision and plans_remaining false. Keep accepted:false on revision. These fields are authoritative runtime finalization evidence; omission is invalid and the graph will conservatively redispatch rather than loop reconciliation.
 For evidence-only worker redispatch, associate a finding with a worker-owned evidence/progress file already in that plan's `writePaths`; do not target the committed manifest file unless its contents actually need editing. A missing checkpoint projection cannot be repaired by making the worker edit the manifest. If no authorized worker path can hold the needed repair, report a concrete blocker rather than requesting a redispatch that the owner gate must reject.
 
+## Output envelope
+
+Return exactly one adapter JSON object with exactly two top-level keys, `when` and `payload`. Put every review field (the four routing booleans, `accepted`, `loopGate`, `reviewBasis`, `findings`, `acceptedPlanIds`, `pendingPlanIds`, `repairRequests`, `feedback`, `verification`, and every other acceptance-record field) inside `payload`. The node output schema applies to `payload`, not to the envelope. Never place review fields next to `when` at the top level and never return `when` without an object `payload`; the runtime rejects that shape and the session fails.
+
+```json
+{
+  "when": {
+    "needs_revision": false,
+    "redispatch_required": false,
+    "repair_in_place": false,
+    "plans_remaining": true
+  },
+  "payload": {
+    "needs_revision": false,
+    "redispatch_required": false,
+    "repair_in_place": false,
+    "plans_remaining": true,
+    "accepted": true,
+    "acceptedPlanIds": ["PLAN-01"],
+    "pendingPlanIds": ["PLAN-02"],
+    "loopGate": {
+      "gateId": "integration-review",
+      "decision": "accepted",
+      "severityCounts": {"high": 0, "medium": 0, "low": 0, "informational": 0},
+      "blockingFindings": []
+    },
+    "reviewBasis": {"userOutcomes": ["..."], "acceptanceCriteria": ["..."], "nonGoals": [], "constraints": [], "designDecisions": [], "intentionalTradeoffs": [], "sourcePaths": ["..."]},
+    "findings": [],
+    "repairRequests": [],
+    "feedback": []
+  }
+}
+```
+
 The integration-review gate is convergence-tracked. Do not emit the same unresolved in-place finding again unless reconciliation produced materially new evidence or a changed combined tree. If the same state persists, diagnose the failed repair and request a bounded redispatch or report the unrecoverable blocker; do not cycle unchanged reconciliation and review evidence.
 
 Return a required `payload.loopGate` object for the runtime convergence tracker: `{gateId:"integration-review", decision:"accepted"|"needs-work"|"rejected", severityCounts:{high,medium,low,informational}, blockingFindings:[{id,severity,filePath?,line?,message}]}`. Use stable finding IDs for the same material issue. On any revision, `decision` must be `needs-work` or `rejected` and `blockingFindings` must represent every high/mid material finding; on acceptance it must be `accepted` with no blocking findings. Do not rely on the prose `findings` field alone: the typed loopGate contract is what makes unchanged review state terminate at the declared convergence bound.
 
-Use native fanoutJoin.dispatchedBranchIds and branchId records to validate candidate completeness. Failed branches remain pending and can be retried; accept only fully reviewed successful candidates. Return the complete acceptedPlanIds set for the next native dependency dispatch. If every branch failed and no candidate can be accepted, return a revision with redispatch_required:true and a recovery diagnostic rather than accepting an empty wave or terminating before redispatch. On final acceptance every manifest plan must be accepted. Check the entire combined implementation against the design.
+Use the reconcile-supplied `waveSummaryPath` to read the wave summary. Require that path to equal the highest `tmp/opus-luna-waves/<_rielaInput.workflowExecutionId>/wave-NNN/wave-summary.json` locator result for your own `_rielaInput.workflowExecutionId`, and require the summary's `workflowExecutionId` to match. Use the summary's `dispatchedBranchIds` and `plans[]` to validate candidate completeness. Ignore any `fanoutJoin` key in `runtimeVariables`: never read, quote, or summarize it. Never read `fanout-join.json` whole; if a needed field is truncated or its total exceeds the listed items, extract only that record through its `rawPointer` with a targeted query, for example `jq '.branches[2].output.reviewDecisions' <rawJoinPath>`. Failed branches remain pending and can be retried; accept only fully reviewed successful candidates. Return the complete acceptedPlanIds set for the next native dependency dispatch. If every branch failed and no candidate can be accepted, return a revision with redispatch_required:true and a recovery diagnostic rather than accepting an empty wave or terminating before redispatch. On final acceptance every manifest plan must be accepted. Check the entire combined implementation against the design.
 
-For an `implementation-wave-outcome.partial_success:true` input, preserve every blocked plan as pending and accept only the successful candidates after their branch evidence, hashes, reconciliation result, and owned acceptance criteria pass this review. Return the expanded complete `acceptedPlanIds`, `pendingPlanIds` containing the blocked IDs, `plans_remaining:true`, and no invented acceptance for incomplete work. The next dispatch must therefore skip accepted candidates and retry only blocked pending IDs. Keep the existing no-progress fingerprint guard active for that retry.
+For an `implementation-wave-outcome.partial_success:true` input, preserve every blocked plan as pending and accept only the successful candidates after their summary-projected plan evidence, hashes, reconciliation result, and owned acceptance criteria pass this review. Treat `changeEvidence` in the summary as the source of aggregate and drift evidence. Return the expanded complete `acceptedPlanIds`, `pendingPlanIds` containing the blocked IDs, `plans_remaining:true`, and no invented acceptance for incomplete work. The next dispatch must therefore skip accepted candidates and retry only blocked pending IDs. Keep the existing no-progress fingerprint guard active for that retry.
 
 ## Luna ownership of integration-review revisions
 

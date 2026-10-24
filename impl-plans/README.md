@@ -21,3 +21,31 @@ The two D4 dispatch JSON files in `active/` are retained as historical checkpoin
 - [d4-reconcile-verify](completed/d4-reconcile-verify.md) — combined validation and package metadata; implementation and review accepted.
 
 The D4 exact-file commit, non-force push and PR handoff are subsequent workflow publication steps. Historical active paths in dispatch records and progress logs identify the paths used during implementation.
+
+### Opus-luna wave input compaction (package 0.1.9)
+
+[Design](../design-docs/specs/design-opus-luna-wave-input-compaction.md) · [Q1 decision](../design-docs/user-qa/opus-luna-wave-input-compaction.md). Accepted by integration review in session-480:
+
+- [wave-outcome-script](completed/wave-outcome-script.md) — deterministic `implementation-wave-outcome` command; stores `fanout-join.json` and a bounded `wave-summary.json` under `tmp/opus-luna-waves/<workflowExecutionId>/wave-NNN/`.
+- [wave-summary-prompts](completed/wave-summary-prompts.md) — reconciliation and integration-review prompts read the wave summary instead of the raw join.
+- [wave-fixtures-docs](completed/wave-fixtures-docs.md) — mock scenarios, EXPECTED_RESULTS.md, package README and SKILL.md.
+- [wave-release](completed/wave-release.md) — version 0.1.9, refreshed digests and registry index.
+
+The prompt-level bound and "run proceeds to reconciliation/integration" remain BLOCKED pending the upstream riela change (Q1 Option A); riela 0.2.34 still renders the persistent `fanoutJoin` request variable into later agent prompts. The [dispatch record](active/wave-compaction-dispatch.json) stays in `active/` as a historical checkpoint and keeps the original `active/` plan paths.
+
+### Opus-luna gate routing (package 0.1.10)
+
+[Design](../design-docs/specs/design-opus-luna-gate-routing-0110.md) · [user QA](../design-docs/user-qa/opus-luna-gate-routing-0110.md) · issues tacogips/riela #125, #126, #128, #129, #132, #134. Accepted by integration review in opus-luna-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93):
+
+- [gate-routing-negative-control](completed/gate-routing-negative-control.md) — #134 negative-control records and leading `exit=N` parsing.
+- [gate-routing-structured-runner](completed/gate-routing-structured-runner.md) — #125 structured `behavioral-test` records from any runner.
+- [gate-routing-sibling-blockers](completed/gate-routing-sibling-blockers.md) — #126 sibling-owned blockers deferred to integration review.
+- [gate-routing-contract-gate](completed/gate-routing-contract-gate.md) — #128 pre-commit `plan-contract-validate` gate.
+- [gate-routing-dispatch-amendment](completed/gate-routing-dispatch-amendment.md) — #132/#128 `dispatch-wave.py` amendment routing.
+- [gate-routing-plan-archive](completed/gate-routing-plan-archive.md) — #129 deterministic `plan-archive` node and Step 8/9 bound.
+- [gate-routing-planning-prompts](completed/gate-routing-planning-prompts.md) — planning-side prompt rules.
+- [gate-routing-runtime-prompts](completed/gate-routing-runtime-prompts.md) — implementation and finalization prompt rules.
+- [gate-routing-graph](completed/gate-routing-graph.md) — workflow graph, schemas, mock fixtures and docs.
+- [gate-routing-release](completed/gate-routing-release.md) — version 0.1.10, refreshed digests and registry index.
+
+The [dispatch record](active/opus-luna-gate-routing-dispatch.json) stays in `active/` as a historical checkpoint and keeps the original `active/` plan paths. Operator follow-up: `.agents/skills/riela-package-release/fixtures/expected-routes.json` still lacks the `plan-contract-validate` and `plan-archive` route steps.

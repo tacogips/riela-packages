@@ -1,9 +1,9 @@
 {
   "id": "dispatch-plans",
-  "description": "Deterministically project the committed plan manifest and accepted integration IDs for native Riela fanout.",
+  "description": "Deterministically project the committed plan manifest for native Riela fanout and route bounded checkpoint amendments.",
   "nodeType": "command",
   "command": {
-    "scriptPath": "scripts/dispatch-plans.py"
+    "scriptPath": "scripts/dispatch-wave.py"
   },
   "variables": {},
   "output": {
@@ -17,58 +17,290 @@
           "items": {
             "type": "object",
             "properties": {
-              "planId": { "type": "string", "minLength": 1 },
-              "planPath": { "type": "string", "minLength": 1 },
-              "dependsOn": { "type": "array", "items": { "type": "string" } },
-              "acceptedPlanIds": { "type": "array", "items": { "type": "string" } },
-              "writePaths": { "type": "array", "items": { "type": "string", "minLength": 1 } },
-              "sharedPaths": { "type": "array", "items": { "type": "string", "minLength": 1 } },
-              "trackedPaths": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
-              "artifactRoots": { "type": "array", "items": { "type": "string", "minLength": 1 } },
-              "acceptanceCriteria": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
-              "verification": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+              "planId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "planPath": {
+                "type": "string",
+                "minLength": 1
+              },
+              "dependsOn": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "acceptedPlanIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "writePaths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "sharedPaths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "trackedPaths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1
+              },
+              "artifactRoots": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "acceptanceCriteria": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1
+              },
+              "verification": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
               "reviewContext": {
                 "type": "object",
                 "properties": {
-                  "issueReference": { "type": "string", "minLength": 1 },
-                  "userProblem": { "type": "string", "minLength": 1 },
-                  "requiredOutcomes": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
-                  "nonGoals": { "type": "array", "items": { "type": "string", "minLength": 1 } },
-                  "constraints": { "type": "array", "items": { "type": "string", "minLength": 1 } },
-                  "designDecisionsAndRationale": { "type": "array", "items": { "type": "string", "minLength": 1 } },
-                  "intentionalTradeoffs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
-                  "supportedEdgeCases": { "type": "array", "items": { "type": "string", "minLength": 1 } },
-                  "outOfScopeEdgeCases": { "type": "array", "items": { "type": "string", "minLength": 1 } },
-                  "sourcePaths": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 }
+                  "issueReference": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "userProblem": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "requiredOutcomes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "nonGoals": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "constraints": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "designDecisionsAndRationale": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "intentionalTradeoffs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "supportedEdgeCases": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "outOfScopeEdgeCases": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "sourcePaths": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  }
                 },
-                "required": ["issueReference", "userProblem", "requiredOutcomes", "nonGoals", "constraints", "designDecisionsAndRationale", "intentionalTradeoffs", "supportedEdgeCases", "outOfScopeEdgeCases", "sourcePaths"],
+                "required": [
+                  "issueReference",
+                  "userProblem",
+                  "requiredOutcomes",
+                  "nonGoals",
+                  "constraints",
+                  "designDecisionsAndRationale",
+                  "intentionalTradeoffs",
+                  "supportedEdgeCases",
+                  "outOfScopeEdgeCases",
+                  "sourcePaths"
+                ],
                 "additionalProperties": false
               },
               "reviewFeedback": {
                 "type": "object",
                 "properties": {
-                  "findings": { "type": "array", "items": { "type": "object" } },
-                  "recoveryDiagnostic": { "type": "string" }
+                  "findings": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "recoveryDiagnostic": {
+                    "type": "string"
+                  }
                 },
-                "required": ["findings", "recoveryDiagnostic"],
+                "required": [
+                  "findings",
+                  "recoveryDiagnostic"
+                ],
                 "additionalProperties": false
               },
-              "manifestPath": { "type": "string", "minLength": 1 },
-              "checkpointCommit": { "type": "string", "minLength": 1 },
-              "implementationBranch": { "type": "string", "minLength": 1 },
-              "baseBranch": { "type": "string", "minLength": 1 },
-              "remote": { "type": "string", "minLength": 1 },
-              "evidenceRoot": { "type": "string", "minLength": 1 }
+              "manifestPath": {
+                "type": "string",
+                "minLength": 1
+              },
+              "checkpointCommit": {
+                "type": "string",
+                "minLength": 1
+              },
+              "implementationBranch": {
+                "type": "string",
+                "minLength": 1
+              },
+              "baseBranch": {
+                "type": "string",
+                "minLength": 1
+              },
+              "remote": {
+                "type": "string",
+                "minLength": 1
+              },
+              "evidenceRoot": {
+                "type": "string",
+                "minLength": 1
+              }
             },
-            "required": ["planId", "planPath", "dependsOn", "acceptedPlanIds", "writePaths", "sharedPaths", "trackedPaths", "artifactRoots", "acceptanceCriteria", "verification", "reviewContext", "reviewFeedback", "manifestPath", "checkpointCommit", "implementationBranch", "baseBranch", "remote", "evidenceRoot"],
+            "required": [
+              "planId",
+              "planPath",
+              "dependsOn",
+              "acceptedPlanIds",
+              "writePaths",
+              "sharedPaths",
+              "trackedPaths",
+              "artifactRoots",
+              "acceptanceCriteria",
+              "verification",
+              "reviewContext",
+              "reviewFeedback",
+              "manifestPath",
+              "checkpointCommit",
+              "implementationBranch",
+              "baseBranch",
+              "remote",
+              "evidenceRoot"
+            ],
             "additionalProperties": false
           }
         },
-        "acceptedPlanIds": { "type": "array", "items": { "type": "string" } },
-        "manifestPath": { "type": "string", "minLength": 1 },
-        "checkpointCommit": { "type": "string", "minLength": 1 }
+        "acceptedPlanIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "manifestPath": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checkpointCommit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dispatch_ready": {
+          "type": "boolean"
+        },
+        "amendment_required": {
+          "type": "boolean"
+        },
+        "amendment_blocked": {
+          "type": "boolean"
+        },
+        "checkpointAmendment": {
+          "type": "object"
+        },
+        "pendingPlanIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "blockedPlanIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "successfulPlanIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "issueReference": {
+          "type": "string"
+        },
+        "blockers": {
+          "type": "array",
+          "items": {}
+        },
+        "resumeCriteria": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "nextStep": {
+          "type": "string"
+        }
       },
-      "required": ["implementationItems", "acceptedPlanIds", "manifestPath", "checkpointCommit"],
+      "required": [
+        "acceptedPlanIds",
+        "manifestPath",
+        "checkpointCommit",
+        "dispatch_ready",
+        "amendment_required",
+        "amendment_blocked"
+      ],
       "additionalProperties": false
     }
   }

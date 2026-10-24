@@ -5,10 +5,162 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
+from pathlib import PurePosixPath
 from typing import Any
+
+
+NON_TEST_COMMAND_PATTERNS: tuple[str, ...] = (
+    r"\bcargo\s+(?:build|check|clippy|fmt|doc)\b",
+    r"\bgo\s+(?:build|vet|fmt)\b",
+    r"\bswift\s+build\b",
+    r"\b(?:npm|pnpm|yarn|bun)\s+run\s+(?:build|lint|format|fmt|typecheck|check)\b",
+    r"\bmake\s+(?:build|lint|fmt|format|check)\b",
+    r"\b(?:tsc|eslint|prettier|rustfmt|gofmt|swiftlint|swiftformat|ruff|black|mypy|shellcheck)\b",
+    r"\bgit\s+(?:diff|status|log|show)\b",
+    r"\bdiff\b",
+    r"\bwasm-pack\s+build\b",
+    r"\btree-sitter\s+generate\b",
+    r"\bpython(?:3(?:\.\d+)?)?\s+-m\s+(?:json\.tool|py_compile|compileall)\b",
+)
+
+
+def safe_repo_path(value: Any) -> str | None:
+    if not isinstance(value, str) or not value or "\\" in value:
+        return None
+    value = value[2:] if value.startswith("./") else value
+    path = PurePosixPath(value)
+    if path.is_absolute() or not path.parts or any(part in ("..", ".git") for part in path.parts):
+        return None
+    return path.as_posix()
+
+
+def path_owned(path: str, owned: list[str]) -> bool:
+    return any(path == entry or path.startswith(entry.rstrip("/") + "/") for entry in owned)
+
+
+def checkpoint_manifest(item: dict[str, Any]) -> dict[str, Any] | None:
+    commit = item.get("checkpointCommit")
+    manifest_path = safe_repo_path(item.get("manifestPath"))
+    if not isinstance(commit, str) or not re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", commit) or manifest_path is None:
+        return None
+    try:
+        result = subprocess.run(
+            ["git", "show", f"{commit}:{manifest_path}"],
+            cwd=Path.cwd(), capture_output=True, text=True, check=False,
+        )
+    except (OSError, UnicodeError):
+        return None
+    if result.returncode != 0:
+        return None
+    try:
+        manifest = json.loads(result.stdout)
+    except (json.JSONDecodeError, UnicodeError):
+        return None
+    return manifest if isinstance(manifest, dict) else None
+
+
+def sibling_owned_blockers(envelope: dict[str, Any], blockers: list[Any]) -> list[dict[str, Any]] | None:
+    variables = envelope.get("variables")
+    item = variables.get("implementation") if isinstance(variables, dict) else None
+    if not isinstance(item, dict):
+        return None
+    own_id = item.get("planId")
+    own_paths_raw = item.get("writePaths")
+    accepted_raw = item.get("acceptedPlanIds", [])
+    if not isinstance(own_id, str) or not isinstance(own_paths_raw, list) or not isinstance(accepted_raw, list):
+        return None
+    own_paths = [safe_repo_path(path) for path in own_paths_raw]
+    if any(path is None for path in own_paths):
+        return None
+    accepted = {plan_id for plan_id in accepted_raw if isinstance(plan_id, str)}
+    manifest = checkpoint_manifest(item)
+    if manifest is None or not isinstance(manifest.get("plans"), list):
+        return None
+    siblings: list[tuple[str, list[str]]] = []
+    for plan in manifest["plans"]:
+        if not isinstance(plan, dict):
+            continue
+        plan_id = plan.get("planId")
+        plan_paths = plan.get("writePaths")
+        if not isinstance(plan_id, str) or plan_id == own_id or plan_id in accepted or not isinstance(plan_paths, list):
+            continue
+        safe_paths = [safe_repo_path(path) for path in plan_paths]
+        if any(path is None for path in safe_paths):
+            continue
+        siblings.append((plan_id, safe_paths))
+
+    classified: list[dict[str, Any]] = []
+    if not blockers:
+        return None
+    for blocker in blockers:
+        if not isinstance(blocker, dict):
+            return None
+        raw_paths = blocker.get("paths")
+        if raw_paths is None:
+            raw_paths = [blocker.get("path")] if isinstance(blocker.get("path"), str) else None
+        if not isinstance(raw_paths, list) or not raw_paths or any(not isinstance(path, str) for path in raw_paths):
+            return None
+        paths = [safe_repo_path(path) for path in raw_paths]
+        if any(path is None or path_owned(path, own_paths) for path in paths):
+            return None
+        owners: set[str] = set()
+        for path in paths:
+            path_owners = {plan_id for plan_id, write_paths in siblings if path_owned(path, write_paths)}
+            if not path_owners:
+                return None
+            owners.update(path_owners)
+        entry: dict[str, Any] = {"paths": paths, "ownerPlanIds": sorted(owners)}
+        for key in ("command", "exitStatus", "message"):
+            if key in blocker:
+                entry[key] = blocker[key]
+        classified.append(entry)
+    return classified
+
+
+def write_sibling_blocker_evidence(item: dict[str, Any], deferred: list[dict[str, Any]]) -> str | None:
+    evidence_root = safe_repo_path(item.get("evidenceRoot"))
+    plan_id = item.get("planId")
+    if (evidence_root is None or PurePosixPath(evidence_root).parts[0] != "tmp"
+            or not isinstance(plan_id, str) or not re.fullmatch(r"[A-Za-z0-9._-]+", plan_id)):
+        return None
+    repository = Path.cwd().resolve()
+    tmp_root = (repository / "tmp").resolve()
+    target_dir = repository / evidence_root / plan_id
+    try:
+        resolved_dir = target_dir.resolve()
+        resolved_dir.relative_to(tmp_root)
+        target_dir.mkdir(parents=True, exist_ok=True)
+        resolved_dir = target_dir.resolve()
+        resolved_dir.relative_to(tmp_root)
+        document = {
+            "schemaVersion": 1,
+            "planId": plan_id,
+            "checkpointCommit": item["checkpointCommit"],
+            "manifestPath": safe_repo_path(item["manifestPath"]),
+            "siblingOwnedBlockers": deferred,
+        }
+        temporary_path = None
+        try:
+            with tempfile.NamedTemporaryFile(
+                mode="w", encoding="utf-8", dir=resolved_dir, delete=False,
+            ) as temporary:
+                temporary_path = Path(temporary.name)
+                json.dump(document, temporary, separators=(",", ":"), ensure_ascii=False)
+                temporary.write("\n")
+            destination = resolved_dir / "sibling-owned-blockers.json"
+            os.replace(temporary_path, destination)
+        finally:
+            if temporary_path is not None and temporary_path.exists():
+                temporary_path.unlink()
+        return (Path(evidence_root) / plan_id / "sibling-owned-blockers.json").as_posix()
+    except (OSError, ValueError, KeyError):
+        return None
 
 
 def normalized_list(value: Any) -> list[Any]:
@@ -31,10 +183,91 @@ def concrete_verification(value: Any) -> list[dict[str, Any]]:
         record
         for record in records
         if isinstance(record, dict)
-        and isinstance(record.get("command"), str)
-        and bool(record["command"].strip())
-        and any(record.get(key) not in (None, "") for key in ("outcome", "exitStatus", "exitCode", "status"))
+        and (
+            record.get("negativeControl") is True
+            or (
+                isinstance(record.get("command"), str)
+                and bool(record["command"].strip())
+                and any(record.get(key) not in (None, "") for key in ("outcome", "exitStatus", "exitCode", "status"))
+            )
+        )
     ]
+
+
+def _structured_exit_status(value: Any) -> int | None:
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str) and re.fullmatch(r"-?\d+", value):
+        return int(value)
+    return None
+
+
+def _outcome_exit_status(record: dict[str, Any]) -> int | None:
+    outcome = record.get("outcome")
+    if not isinstance(outcome, str):
+        return None
+    match = re.match(
+        r"^\s*exit(?:\s+(?:status|code))?\s*[=:]?\s*(-?\d+)\b",
+        outcome,
+        re.IGNORECASE,
+    )
+    return int(match.group(1)) if match else None
+
+
+def record_exit_status(record: dict[str, Any]) -> int | None:
+    """Read an integer status, preferring structured fields over outcome text."""
+    for key in ("exitStatus", "exitCode"):
+        if key in record and record.get(key) not in (None, ""):
+            parsed = _structured_exit_status(record.get(key))
+            if parsed is not None:
+                return parsed
+    return _outcome_exit_status(record)
+
+
+def exit_status_invalid(record: dict[str, Any]) -> bool:
+    structured: list[int] = []
+    for key in ("exitStatus", "exitCode"):
+        value = record.get(key)
+        if key not in record or value in (None, ""):
+            continue
+        parsed = _structured_exit_status(value)
+        if parsed is None:
+            return True
+        structured.append(parsed)
+    if len(structured) == 2 and structured[0] != structured[1]:
+        return True
+    outcome_status = _outcome_exit_status(record)
+    return bool(structured and outcome_status is not None and structured[0] != outcome_status)
+
+
+def normalize_command(text: str) -> str:
+    return " ".join(text.split())
+
+
+def negative_control_status(record: dict[str, Any], planned: list[str] | None) -> str | None:
+    if record.get("negativeControl") is not True:
+        return None
+    status = record_exit_status(record)
+    expected = record.get("expectedExitStatus")
+    if (
+        exit_status_invalid(record)
+        or isinstance(status, bool)
+        or not isinstance(status, int)
+        or status == 0
+        or ("expectedExitStatus" in record and (
+            isinstance(expected, bool) or not isinstance(expected, int) or expected != status
+        ))
+    ):
+        return "invalid"
+    command = record.get("command")
+    if not isinstance(command, str) or not command.strip():
+        return "invalid"
+    if planned is not None:
+        if normalize_command(command) in {normalize_command(item) for item in planned}:
+            return "invalid"
+    return "valid"
 
 
 def verification_succeeded(record: dict[str, Any]) -> bool:
@@ -71,14 +304,11 @@ def verification_succeeded(record: dict[str, Any]) -> bool:
             return False
         if re.search(r"\b[1-9]\d*\s+(?:(?:tests?|checks?)\s+)?(?:failed|failures?)\b", normalized):
             return False
-    saw_exit_status = False
-    for key in ("exitStatus", "exitCode"):
-        if key in record and record.get(key) not in (None, ""):
-            saw_exit_status = True
-            if record.get(key) != 0 and record.get(key) != "0":
-                return False
-    if saw_exit_status:
-        return True
+    if exit_status_invalid(record):
+        return False
+    status = record_exit_status(record)
+    if status is not None:
+        return status == 0
     for key in ("status", "outcome"):
         value = record.get(key)
         if isinstance(value, str) and value.strip().lower() in {"pass", "passed", "success", "succeeded", "ok"}:
@@ -86,17 +316,18 @@ def verification_succeeded(record: dict[str, Any]) -> bool:
     return False
 
 
-def behavioral_kind(record: dict[str, Any]) -> str | None:
-    command = record.get("command", "").lower()
-    # Discovery proves test registration, not behavioral execution. It may
-    # accompany a later positive-count test run without failing that run.
-    if re.search(r"\bswift\s+test\b", command) and re.search(
-        r"(?:\slist(?:\s|$)|--list-tests\b)", command
-    ):
-        return None
+def declared_behavioral(record: dict[str, Any]) -> bool:
+    kind = record.get("kind")
+    return isinstance(kind, str) and kind.strip().lower() == "behavioral-test"
+
+
+def allowlisted_test_command(command: str) -> bool:
+    command = command.lower()
     test_patterns = (
         r"\bswift\s+test\b", r"\bcargo\s+test\b",
         r"\bcargo\s+nextest\s+run\b", r"\bgo\s+test\b", r"\bpytest\b",
+        # Standard-library Python runner used by package tests.
+        r"\bpython(?:3(?:\.\d+)?)?\s+-m\s+unittest\b",
         r"\bctest\b", r"\bbun\s+test\b", r"\bvitest\s+run\b",
         # Some packages run a deterministic Bun regression runner directly.
         # Require a test-directory runner name; the positive count is checked
@@ -109,7 +340,23 @@ def behavioral_kind(record: dict[str, Any]) -> str | None:
         r"\btree-sitter\s+test\b", r"\bdeno\s+test\b", r"\bnode\s+--test\b",
         r"\b(?:task|mise\s+run|make|(?:npm|pnpm|yarn|bun)\s+run)\s+[\w:.-]*test[\w:.-]*",
     )
-    if any(re.search(pattern, command) for pattern in test_patterns):
+    return any(re.search(pattern, command) for pattern in test_patterns)
+
+
+def behavioral_kind(record: dict[str, Any]) -> str | None:
+    raw_command = record.get("command", "")
+    command = raw_command.lower() if isinstance(raw_command, str) else ""
+    # Discovery proves test registration, not behavioral execution. It may
+    # accompany a later positive-count test run without failing that run.
+    if re.search(r"\bswift\s+test\b", command) and re.search(
+        r"(?:\slist(?:\s|$)|--list-tests\b)", command
+    ):
+        return None
+    if allowlisted_test_command(command):
+        return "test"
+    if declared_behavioral(record) and not any(
+        re.search(pattern, command) for pattern in NON_TEST_COMMAND_PATTERNS
+    ):
         return "test"
     return None
 
@@ -150,7 +397,20 @@ def positive_test_count(record: dict[str, Any]) -> bool:
 
 
 def successful_behavioral_verification(record: dict[str, Any]) -> bool:
-    return bool(behavioral_kind(record) and verification_succeeded(record) and positive_test_count(record))
+    if not behavioral_kind(record) or not verification_succeeded(record) or not positive_test_count(record):
+        return False
+    command = record.get("command")
+    if declared_behavioral(record) and not (
+        isinstance(command, str) and allowlisted_test_command(command)
+    ):
+        return (
+            record_exit_status(record) == 0
+            and type(record.get("testsRun")) is int
+            and record["testsRun"] > 0
+            and type(record.get("failureCount")) is int
+            and record["failureCount"] == 0
+        )
+    return True
 
 
 def source_identity(record: dict[str, Any]) -> str | None:
@@ -213,6 +473,30 @@ def has_behavioral_evidence(
     return any(successful_behavioral_verification(record) for record in current) or inherited_behavioral_evidence(
         current, previous, current_identity, previous_identity
     )
+
+
+def planned_verification_commands(envelope: dict[str, Any]) -> list[str] | None:
+    """Return the committed plan verification commands from the fanout item."""
+    variables = envelope.get("variables")
+    item = variables.get("implementation") if isinstance(variables, dict) else None
+    commands = item.get("verification") if isinstance(item, dict) else None
+    if not isinstance(commands, list):
+        return None
+    cleaned = [command for command in commands if isinstance(command, str) and command.strip()]
+    return cleaned or None
+
+
+def plan_requires_behavioral_tests(envelope: dict[str, Any]) -> bool:
+    """A committed plan whose verification contract has no test runner is static-only.
+
+    Documentation, packaging, and script-only plans legitimately verify with
+    lint, syntax, and content checks. Fail closed when the committed contract
+    is unavailable so code plans keep the positive-count behavioral gate.
+    """
+    planned = planned_verification_commands(envelope)
+    if planned is None:
+        return True
+    return any(behavioral_kind({"command": command}) for command in planned)
 
 
 def has_failed_behavioral_evidence(
@@ -309,6 +593,21 @@ def matched_baseline_record(record: dict[str, Any], candidates: list[dict[str, A
     )
 
 
+# Finding statuses that do not leave work open in this plan: the finding is
+# already resolved, or it is explicitly handed to a later owning plan.
+NON_BLOCKING_FINDING_STATUSES = {
+    "resolved", "fixed", "closed", "addressed", "not_applicable", "superseded",
+    "pending_downstream", "owned_elsewhere",
+}
+
+
+def open_finding_status(finding: dict[str, Any]) -> bool:
+    status = finding.get("status")
+    if not isinstance(status, str):
+        return True
+    return re.sub(r"[\s-]+", "_", status.strip().lower()) not in NON_BLOCKING_FINDING_STATUSES
+
+
 def material_findings(payload: dict[str, Any]) -> list[Any]:
     self_check = payload.get("authorSelfCheck")
     self_check = self_check if isinstance(self_check, dict) else {}
@@ -325,6 +624,7 @@ def material_findings(payload: dict[str, Any]) -> list[Any]:
             isinstance(finding, dict)
             and isinstance(finding.get("severity"), str)
             and finding["severity"].lower() in {"critical", "high", "mid", "medium"}
+            and open_finding_status(finding)
         ) or (
             isinstance(finding, str)
             and re.match(r"^\s*(?:critical|high|mid|medium)\s*[:\-]\s*\S", finding, re.IGNORECASE)
@@ -363,7 +663,8 @@ def implementation_messages(envelope: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def blocked_result(
-    current: dict[str, Any], blocker_type: str, message: str, fingerprint: str
+    current: dict[str, Any], blocker_type: str, message: str, fingerprint: str,
+    failing_commands: list[str] | None = None,
 ) -> dict[str, Any]:
     plan_id = current.get("planId") or current.get("dispatchId") or current.get("branchId")
     if not plan_id:
@@ -382,12 +683,22 @@ def blocked_result(
         "message": message,
         "evidenceFingerprint": fingerprint,
     }
+    if failing_commands:
+        blocker["failingCommands"] = failing_commands[:5]
     resume = {
         "implementation-dependency": "Resolve the reported dependency and rerun the blocked plan.",
         "implementation-incomplete": "Complete the accepted implementation work and clear the explicit incomplete state before review.",
         "implementation-material-finding": "Resolve every high or medium implementation finding before review.",
         "implementation-no-progress": "Make a concrete source/test/plan change and report the changed paths plus new verification evidence.",
-        "implementation-materially-unverified": "Run and report verification that exercises the changed implementation before review.",
+        "implementation-materially-unverified": (
+            "Run and report verification that exercises the changed implementation before review. "
+            "Accepted runners include swift test, cargo test, cargo nextest run, go test, pytest, "
+            "python -m unittest, ctest, bun test, vitest run, npm/pnpm/yarn test, tree-sitter test, "
+            "deno test, node --test, and task/mise run/make/npm|pnpm|yarn|bun run commands whose "
+            "name contains test. Other runners must report "
+            '{"kind": "behavioral-test", "exitStatus": 0, "testsRun": >0, "failureCount": 0}. '
+            "Build, lint, format and diff commands never count."
+        ),
         "implementation-invalid-evidence": "Return the required Step 6 evidence arrays in the implementation output.",
     }[blocker_type]
     payload = {
@@ -446,13 +757,18 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
     plan_updates = current_evidence["implPlanUpdates"]
     previous_evidence = normalized_evidence(messages[-2]["payload"]) if len(messages) > 1 else None
 
-    if current.get("implementation_blocked") is True or normalized_list(current.get("blockers")):
-        return blocked_result(
-            current,
-            "implementation-dependency",
-            "Step 6 reported an unresolved implementation blocker.",
-            fingerprint,
-        )
+    raw_blockers = current.get("blockers") if isinstance(current.get("blockers"), list) else []
+    deferred: list[dict[str, Any]] = []
+    if current.get("implementation_blocked") is True or raw_blockers:
+        classified = sibling_owned_blockers(envelope, raw_blockers) if raw_blockers else None
+        if classified is None:
+            return blocked_result(
+                current,
+                "implementation-dependency",
+                "Step 6 reported an unresolved implementation blocker.",
+                fingerprint,
+            )
+        deferred = classified
     incomplete = current.get("implementationIncomplete") is True or current.get("implementation_incomplete") is True
     required = ("changedFiles", "verification", "implPlanUpdates")
     if not all(key in current and isinstance(current[key], list) for key in required):
@@ -484,17 +800,29 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
             "Step 6 reported unresolved high or medium implementation findings or risks.",
             fingerprint,
         )
+    planned = planned_verification_commands(envelope)
+    negative_valid = [record for record in verification if negative_control_status(record, planned) == "valid"]
+    negative_invalid = [record for record in verification if negative_control_status(record, planned) == "invalid"]
+    if negative_invalid:
+        return blocked_result(
+            current,
+            "implementation-materially-unverified",
+            "Step 6 reported a negative-control record that did not fail as declared or names a committed verification command.",
+            fingerprint,
+            [record["command"] for record in negative_invalid if isinstance(record.get("command"), str)],
+        )
+    gated = [record for record in verification if negative_control_status(record, planned) is None]
     prior_verification = previous_evidence["verification"] if previous_evidence else []
     previous_payload = messages[-2]["payload"] if len(messages) > 1 else {}
     current_identity = source_identity(current)
     previous_identity = source_identity(previous_payload)
     reviewable_records = (
-        [(record, candidate) for record in verification if (candidate := baseline_review_candidate(record))]
+        [(record, candidate) for record in gated if (candidate := baseline_review_candidate(record))]
         if not incomplete else []
     )
     baseline_candidates = [candidate for _, candidate in reviewable_records]
     unreviewable_verification = [
-        record for record in verification
+        record for record in gated
         if not any(record is item for item, _ in reviewable_records)
         and not matched_baseline_record(record, baseline_candidates)
     ]
@@ -506,13 +834,28 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
             "implementation-materially-unverified",
             "Step 6 reported a failed, blocked, skipped, or zero-count behavioral test command.",
             fingerprint,
+            [record["command"] for record in unreviewable_verification
+             if behavioral_kind(record) and not successful_behavioral_verification(record)
+             and isinstance(record.get("command"), str)],
         )
-    if not has_behavioral_evidence(verification, prior_verification, current_identity, previous_identity):
+    requires_behavioral_tests = plan_requires_behavioral_tests(envelope)
+    if requires_behavioral_tests and not has_behavioral_evidence(
+        gated, prior_verification, current_identity, previous_identity
+    ):
         return blocked_result(
             current,
             "implementation-materially-unverified",
             "Step 6 reported no successful behavioral test evidence with a positive test count.",
             fingerprint,
+            [record["command"] for record in gated if isinstance(record.get("command"), str)],
+        )
+    if not requires_behavioral_tests and not any(verification_succeeded(record) for record in gated):
+        return blocked_result(
+            current,
+            "implementation-materially-unverified",
+            "Step 6 reported no successful verification for a plan whose committed verification contract has no behavioral test command.",
+            fingerprint,
+            [record["command"] for record in gated if isinstance(record.get("command"), str)],
         )
 
     has_new_item = previous_evidence is None or any(
@@ -542,7 +885,7 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
     self_check = current.get("authorSelfCheck")
     verification_gaps = normalized_list(self_check.get("verificationGaps")) if isinstance(self_check, dict) else []
     if verification_gaps and not inherited_behavioral_evidence(
-        verification, prior_verification, current_identity, previous_identity
+        gated, prior_verification, current_identity, previous_identity
     ):
         return blocked_result(
             current,
@@ -556,12 +899,30 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
         "implementation_blocked": False,
         "implementation_continue": False,
         "status": "ready-for-test-integrity",
+        "verificationPolicy": "behavioral-tests" if requires_behavioral_tests else "plan-declared-static",
         "blockerType": None,
         "evidenceFingerprint": fingerprint,
         "blockers": [],
         "resumeCriteria": [],
         "baselineReviewPending": baseline_candidates,
     }
+    if deferred:
+        variables = envelope.get("variables", {})
+        item = variables.get("implementation", {}) if isinstance(variables, dict) else {}
+        evidence_path = write_sibling_blocker_evidence(item, deferred) if isinstance(item, dict) else None
+        if evidence_path is None:
+            return blocked_result(
+                current,
+                "implementation-dependency",
+                "Step 6 sibling-owned blockers could not be recorded for integration review.",
+                fingerprint,
+            )
+        payload["siblingOwnedBlockers"] = deferred
+        payload["siblingOwnedBlockersPath"] = evidence_path
+    if negative_valid:
+        payload["negativeControlEvidence"] = negative_valid
+    else:
+        payload.pop("negativeControlEvidence", None)
     return {"when": {"implementation_blocked": False}, "payload": payload}
 
 

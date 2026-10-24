@@ -22,6 +22,12 @@ Repository rules:
 - Plan only the smallest sufficient work to satisfy the accepted design and verification contract. Do not add speculative flexibility, future-proofing, generalized abstractions, optional hardening, broad cleanup, micro-optimization, or unrelated refactoring. Every task and deliverable must trace to an accepted requirement, present material risk, or required verification.
 - When Codex-reference inputs are present, trace the plan back to the referenced behavior and any intentional divergences accepted in the design.
 
+Plan and dispatch recovery rules:
+- If `plan-contract-validate` reports `contract_valid: false`, address every finding by narrowing `writePaths`/`sharedPaths` or declaring the appropriate `artifactRoots`; never raise snapshot limits. Report each correction in `addressedFeedback`.
+- If `dispatch-plans` returns `amendment_required` with `checkpointAmendment`, perform only the bounded checkpoint amendment. For `reason: integration-paths-outside-writePaths`, assign each `unmatchedPaths` entry to the `writePaths` of the pending plan that owns the related finding, or to a new small pending plan. For `reason: tracking-contract`, narrow or reclassify tracked paths. Keep plan IDs stable; record previously accepted plans from `successfulPlanIds` as `acceptedDependencies`, not as `plans`; do not redesign; carry `checkpointAmendment` verbatim in the output. After two amendments, dispatch blocks for the operator.
+- Never list `impl-plans/active` or `impl-plans/completed` in `writePaths` or `sharedPaths`; completed-plan archiving is performed by the workflow's `plan-archive` node. Prefer concrete files to broad directories in `sharedPaths`, and budget snapshot growth across waves.
+- Scope each plan's `verification` to its own `writePaths` (for example, formatting owned files or running a filtered test). When sibling plans share a wave, workspace-wide format, lint, or full-build gates belong to reconcile and integration review, not per-plan verification.
+
 If this is a rerun after Step 5 review, read the latest Step 5 feedback and address every high or mid finding before returning.
 
 Before returning, perform an author self-check in the same execution:

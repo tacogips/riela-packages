@@ -189,6 +189,10 @@
       "nodeFile": "nodes/node-step8-docs-refresh.json"
     },
     {
+      "id": "plan-archive",
+      "nodeFile": "nodes/node-plan-archive.json"
+    },
+    {
       "id": "step9-commit-message",
       "nodeFile": "nodes/node-step9-commit-message.json"
     },
@@ -227,6 +231,10 @@
     {
       "id": "plan-checkpoint",
       "nodeFile": "nodes/node-plan-checkpoint.json"
+    },
+    {
+      "id": "plan-contract-validate",
+      "nodeFile": "nodes/node-plan-contract-validate.json"
     },
     {
       "id": "plan-git-commit",
@@ -535,7 +543,23 @@
       },
       "transitions": [
         {
-          "toStepId": "step9-commit-message"
+          "toStepId": "plan-archive"
+        }
+      ]
+    },
+    {
+      "id": "plan-archive",
+      "nodeId": "plan-archive",
+      "description": "Deterministically archive completed plans requested by Step 8 before the read-only completion check; stop with a blocked handoff after three rejected completion rounds.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "step9-commit-message",
+          "label": "!(completion_blocked)"
+        },
+        {
+          "toStepId": "implementation-blocked-output",
+          "label": "completion_blocked"
         }
       ]
     },
@@ -615,8 +639,24 @@
       "role": "worker",
       "transitions": [
         {
-          "toStepId": "plan-git-commit",
+          "toStepId": "plan-contract-validate",
           "label": "!(checkpoint_blocked)"
+        }
+      ]
+    },
+    {
+      "id": "plan-contract-validate",
+      "nodeId": "plan-contract-validate",
+      "description": "Validate the committed plan manifest tracking contract before committing the checkpoint.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "plan-git-commit",
+          "label": "contract_valid"
+        },
+        {
+          "toStepId": "step4-impl-plan-create",
+          "label": "!(contract_valid)"
         }
       ]
     },
@@ -685,7 +725,16 @@
             "writeOwnership": {
               "mode": "shared-workspace"
             }
-          }
+          },
+          "label": "dispatch_ready"
+        },
+        {
+          "toStepId": "step4-impl-plan-create",
+          "label": "amendment_required"
+        },
+        {
+          "toStepId": "implementation-blocked-output",
+          "label": "amendment_blocked"
         }
       ]
     },
@@ -719,7 +768,7 @@
     {
       "id": "implementation-blocked-output",
       "nodeId": "implementation-blocked-output",
-      "description": "Publish an actionable terminal dependency-blocked handoff without entering accepted git finalization.",
+      "description": "Publish an actionable dependency, amendment-exhaustion, or completion-loop blocked handoff without entering accepted git finalization.",
       "role": "worker"
     },
     {

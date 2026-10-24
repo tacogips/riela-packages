@@ -1,0 +1,23 @@
+{
+  "id": "plan-archive",
+  "description": "Apply Step 8 implementation-plan archive requests and bound repeated completion review.",
+  "nodeType": "command",
+  "command": {
+    "scriptPath": "scripts/plan-archive.py"
+  },
+  "variables": {},
+  "output": {
+    "description": "Forward the latest Step 8 payload with archive results, archived paths, refresh round and completion-loop routing.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "completion_blocked": {"type": "boolean"},
+        "archiveResults": {"type": "array", "items": {"type": "object"}},
+        "archivedImplPlanPaths": {"type": "array", "items": {"type": "string"}},
+        "docsRefreshRound": {"type": "integer"}
+      },
+      "required": ["completion_blocked", "archiveResults", "docsRefreshRound"],
+      "additionalProperties": true
+    }
+  }
+}

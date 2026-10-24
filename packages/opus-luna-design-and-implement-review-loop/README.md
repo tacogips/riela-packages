@@ -9,6 +9,8 @@ review. GPT-6 Luna implements the plans in parallel native fanout.
 | Intake, design, implementation plans | `step1-issue-intake`, `step2-design-doc-update`, `step4-impl-plan-create` | `claude-code-agent` / `claude-opus-5-5` |
 | Design and plan review | `step3-design-review`, `step5-impl-plan-review` | `claude-opus-5-5` (read-only) |
 | Implementation (fanout) | `step6-implement` | `codex-agent` / `gpt-6-luna`, high effort, fast tier |
+| Deterministic gates | `plan-contract-validate`, `dispatch-plans`, `plan-archive` | `command` |
+| Wave aggregation (fanout join) | `implementation-wave-outcome` | `command` / `scripts/implementation-wave-outcome.py` |
 | Test-integrity and adversarial review | `step6-test-integrity-check`, `step7-adversarial-review` | `claude-opus-5-5` (read-only) |
 | Integration review | `integration-review` | `claude-opus-5-5` (read-only) |
 | Reconciliation, docs, completion, Git handoff | remaining agent nodes | `claude-opus-5-5` |
@@ -18,6 +20,10 @@ review. GPT-6 Luna implements the plans in parallel native fanout.
 - Workflows: `opus-luna-design-and-implement-review-loop`
 - Skills: Claude Code (`opus-luna-design-and-implement-review-loop`)
 
+## Compact wave summary
+
+The `implementation-wave-outcome` command stores `fanout-join.json` and a bounded `wave-summary.json` at `tmp/opus-luna-waves/<workflowExecutionId>/wave-NNN/`. The summary is at most 49152 bytes and the verdict is at most 16384 bytes, for a combined bound of 64 KiB. Reconciliation and integration review locate the highest wave and require verdict equality before using the summary. Mock scenarios do not execute the command. Riela 0.2.34 still renders the persistent `fanoutJoin` request variable into later agent prompts; this is the open Q1 limitation tracked in `design-docs/user-qa/opus-luna-wave-input-compaction.md`.
+
 ## Review revision routing
 
 Opus review gates are read-only. Design and plan findings return immediately to
@@ -26,6 +32,12 @@ the original GPT-6 Luna implementation step in the same native branch; the
 progress gate and both independent reviews run again after the correction.
 Integration findings selectively redispatch their owning Luna plans rather than
 requesting serial in-place repairs. Reviewers do not edit or delegate repairs.
+
+The pre-commit `plan-contract-validate` gate routes invalid tracking contracts
+back to Step 4. `dispatch-plans` routes bounded checkpoint amendments to Step 4
+and sends exhausted amendments to the blocked output after two attempts. Step 8
+returns archive requests for the deterministic `plan-archive` command, which
+performs moves without git and bounds the Step 8/Step 9 loop at three rounds.
 
 Each material finding carries a detailed `repairRequests` brief and actionable
 `feedback`: owner, file/symbol, accepted intent, reproduction, root cause,
