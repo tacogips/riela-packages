@@ -8,7 +8,7 @@ review. GPT-6.1 Terra implements the plans in parallel native fanout.
 | --- | --- | --- |
 | Intake, design, implementation plans | `step1-issue-intake`, `step2-design-doc-update`, `step4-impl-plan-create` | `claude-code-agent` / `claude-opus-5-5` |
 | Design and plan review | `step3-design-review`, `step5-impl-plan-review` | `claude-opus-5-5` (read-only) |
-| Implementation (fanout) | `step6-implement` | `codex-agent` / `gpt-6.1-terra`, high effort, fast tier |
+| Implementation (fanout) | `step6-implement` | `codex-agent` / `gpt-6.1-terra`, medium effort |
 | Deterministic gates | `plan-contract-validate`, `dispatch-plans`, `plan-archive` | `command` |
 | Wave aggregation (fanout join) | `implementation-wave-outcome` | `command` / `scripts/implementation-wave-outcome.py` |
 | Test-integrity and adversarial review | `step6-test-integrity-check`, `step7-adversarial-review` | `claude-opus-5-5` (read-only) |

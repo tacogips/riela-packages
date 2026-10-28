@@ -1,6 +1,6 @@
 {
   "workflowId": "opus-terra-design-and-implement-review-loop",
-  "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Terra (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
+  "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
   "defaults": {
     "maxLoopIterations": 30,
     "nodeTimeoutMs": 3600000
@@ -831,7 +831,7 @@
   "metadata": {
     "rielaPackage": {
       "title": "opus-terra-design-and-implement-review-loop",
-      "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Terra (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
+      "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
       "tags": [
         "workflow"
       ],

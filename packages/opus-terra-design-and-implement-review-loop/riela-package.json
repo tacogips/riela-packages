@@ -1,8 +1,8 @@
 {
   "name": "opus-terra-design-and-implement-review-loop",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "title": "opus-terra-design-and-implement-review-loop",
-  "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Terra (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
+  "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
   "tags": [
     "workflow",
     "claude-code",
@@ -17,7 +17,7 @@
   "repository": "https://github.com/tacogips/riela-packages",
   "workflow": {
     "title": "opus-terra-design-and-implement-review-loop",
-    "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Terra (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
+    "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
     "tags": [
       "workflow",
       "claude-code",
@@ -38,9 +38,9 @@
     "command"
   ],
   "skillDirectory": "skills",
-  "checksum": "919fe8081afef071ce782c39cdab8384",
+  "checksum": "663abf192f856e2c8910dcfca5ef03bc",
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "05432bc5a569caba12d410e8efd2ce3ce13dfc7f6101e50f888ef764b4811e3d"
+    "digest": "54fd490eadd0512fbbd7e48e6a7dd19b7448abd4c06b3cadcc699adc18715f2b"
   }
 }

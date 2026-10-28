@@ -57,7 +57,7 @@ Report authorSelfCheck as {checks: [{criterion, evidence}], findings: [], verifi
 
 ## GPT-6.1 Terra plan contract
 
-Every plan is implemented by GPT-6.1 Terra (Codex, high effort, fast tier), a fast but lower-precision model, in its own native fanout branch. All dependency-ready plans of a wave start at once with no concurrency limit, on the same branch and working directory.
+Every plan is implemented by GPT-6.1 Terra (Codex, medium effort) in its own native fanout branch. All dependency-ready plans of a wave start at once with no concurrency limit, on the same branch and working directory.
 
 Decompose for maximum parallelism:
 - Split the work into as many independently implementable and independently verifiable plans as the design allows. A good plan is one coherent slice (for example, one module or feature path plus its tests) that one worker can finish and verify alone.

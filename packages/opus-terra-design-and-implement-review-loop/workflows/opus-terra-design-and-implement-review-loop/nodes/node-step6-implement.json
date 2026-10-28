@@ -4,11 +4,8 @@
   "executionBackend": "codex-agent",
   "agentSandbox": "danger-full-access",
   "model": "gpt-6.1-terra",
-  "agentToolPolicy": {
-    "codexArguments": ["-c", "service_tier=\"fast\""]
-  },
   "modelFreeze": false,
-  "effort": "high",
+  "effort": "medium",
   "sessionPolicy": {
     "mode": "reuse"
   },
