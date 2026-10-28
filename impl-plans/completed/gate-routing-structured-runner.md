@@ -1,6 +1,6 @@
 # gate-routing-structured-runner
 
-Status: completed. Wave 2. Issue tacogips/riela#125. Implementation accepted by test-integrity, adversarial and integration review in opus-luna-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-structured-runner.md`; the dispatch record keeps the historical active path.
+Status: completed. Wave 2. Issue tacogips/riela#125. Implementation accepted by test-integrity, adversarial and integration review in opus-terra-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-structured-runner.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
@@ -9,16 +9,16 @@ Status: completed. Wave 2. Issue tacogips/riela#125. Implementation accepted by 
   "dependsOn": ["gate-routing-negative-control"],
   "writePaths": [
     "impl-plans/active/gate-routing-structured-runner.md",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/implementation-progress-check.py",
-    "packages/opus-luna-design-and-implement-review-loop/tests/test_progress_structured_runner.py"
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/implementation-progress-check.py",
+    "packages/opus-terra-design-and-implement-review-loop/tests/test_progress_structured_runner.py"
   ],
   "sharedPaths": [],
   "artifactRoots": [],
   "verification": [
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-luna-design-and-implement-review-loop/tests/test_progress_structured_runner.py -v",
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-luna-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_progress_structured_runner.py -v",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
     "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'",
-    "find packages/opus-luna-design-and-implement-review-loop -name __pycache__",
+    "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
     "git diff --check"
   ],
   "acceptanceCriteria": [
@@ -26,14 +26,14 @@ Status: completed. Wave 2. Issue tacogips/riela#125. Implementation accepted by 
     "A record that is behavioral only through kind succeeds only when record_exit_status() == 0, testsRun is an int (not bool) > 0, failureCount is an int (not bool) == 0, and the existing verification_succeeded/positive_test_count also hold. Otherwise it is failed behavioral evidence and blocks.",
     "Kind-declared build, lint, format, diff and similar commands (design D1.3 list) are not behavioral.",
     "The implementation-materially-unverified resume criterion names the allowlisted runner forms and the structured {kind:'behavioral-test', exitStatus:0, testsRun>0, failureCount:0} form, and states that build, lint, format and diff commands never count.",
-    "test_progress_structured_runner.py covers design Verification 1 and passes. All opus-luna and codex package tests pass and no __pycache__ remains."
+    "test_progress_structured_runner.py covers design Verification 1 and passes. All opus-terra and codex package tests pass and no __pycache__ remains."
   ]
 }
 ```
 
 ## Intent and context
 
-Mode `issue-resolution`. Design: `design-docs/specs/design-opus-luna-gate-routing-0110.md` D1 (#125). `W` and `T` as in `impl-plans/active/gate-routing-negative-control.md`.
+Mode `issue-resolution`. Design: `design-docs/specs/design-opus-terra-gate-routing-0110.md` D1 (#125). `W` and `T` as in `impl-plans/active/gate-routing-negative-control.md`.
 
 In session 222 (plan FST-22), Step 6 reported `{"command":"node tmp/fst/FST-22/wasm-smoke-rerun.mjs","exitStatus":0,"testsRun":2,"testsPassed":2,"failureCount":0}`. The gate rejected it because `behavioral_kind()` only matches command text against a regex allowlist. The implementer then retried the same form, because the resume text never said what is accepted.
 
@@ -93,12 +93,12 @@ This plan runs after `gate-routing-negative-control` and uses its `record_exit_s
 
 - [x] All assigned D1 behavior is implemented and the existing allowlist tuple is unchanged; strict kind-only status/count checks and the non-test command exclusion are covered by regression tests.
 - [x] Resume criteria name the accepted runner forms, structured behavioral record, and excluded build/lint/format/diff commands.
-- [x] Focused structured-runner, opus-luna package, and codex package suites pass; no package `__pycache__` remains and `git diff --check` passes.
-- Evidence logs are under `tmp/opus-luna-gate-routing/gate-routing-structured-runner/`.
+- [x] Focused structured-runner, opus-terra package, and codex package suites pass; no package `__pycache__` remains and `git diff --check` passes.
+- Evidence logs are under `tmp/opus-terra-gate-routing/gate-routing-structured-runner/`.
 
 ## Progress log
 
 - 2026-10-24: Implemented D1 in `implementation-progress-check.py`: preserved the allowlist tuple and Swift discovery exclusion, added normalized `behavioral-test` declarations with the D1.3 non-test denylist, required exact integer structured success fields for kind-only records, and expanded the materially-unverified resume criterion. Added `test_progress_structured_runner.py` for session 222, unmarked custom runners, missing/invalid counts including absent `failureCount`/exit status, non-test commands, allowlist behavior and resume text. Also addressed the review feedback about malformed retained commands: `behavioral_kind()` safely handles null/non-string `command`, including through inherited prior-verification evaluation, while kind-only success fails closed.
-  - Current verification: focused suite 7 tests, exit 0 (`verify-focused-final2.log`); opus-luna suite 93 tests, exit 0 (`verify-opus-tests-final2.log`); codex suite 91 tests, exit 0 (`verify-codex-tests-final.log`); allowlist comparison exit 0 (`verify-allowlist.log`); no `__pycache__` found (exit 0, `verify-pycache-final.log`); `git diff --check` exit 0 (`verify-diff-check-final2.log`). Structured evidence is in `verification.json`.
+  - Current verification: focused suite 7 tests, exit 0 (`verify-focused-final2.log`); opus-terra suite 93 tests, exit 0 (`verify-opus-tests-final2.log`); codex suite 91 tests, exit 0 (`verify-codex-tests-final.log`); allowlist comparison exit 0 (`verify-allowlist.log`); no `__pycache__` found (exit 0, `verify-pycache-final.log`); `git diff --check` exit 0 (`verify-diff-check-final2.log`). Structured evidence is in `verification.json`.
   - Superseded attempts retained: initial focused run exposed two fixture expectation errors, corrected in the final suite; first codex invocation yielded before a complete log, then the rerun completed with 91 passing tests.
   - Formal test-integrity/adversarial review and downstream documentation/release work remain with their assigned workflow steps.

@@ -16,7 +16,7 @@ class AuthoringModelPolicyTests(unittest.TestCase):
         package_nodes = {
             "codex-design-and-implement-review-loop": "node-step4-impl-plan-create.json",
             "fable-and-improve-opus": "node-fable-design.json",
-            "opus-luna-design-and-implement-review-loop": "node-step4-impl-plan-create.json",
+            "opus-terra-design-and-implement-review-loop": "node-step4-impl-plan-create.json",
         }
         for package_id, node_name in package_nodes.items():
             workflow = repository / "packages" / package_id / "workflows" / package_id

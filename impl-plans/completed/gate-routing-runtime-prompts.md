@@ -1,6 +1,6 @@
 # gate-routing-runtime-prompts
 
-Status: completed. Wave 1. Issues tacogips/riela#125, #126, #129, #132 and #134 (implementation and finalization prompt rules). Implementation accepted by test-integrity, adversarial and integration review in opus-luna-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-runtime-prompts.md`; the dispatch record keeps the historical active path.
+Status: completed. Wave 1. Issues tacogips/riela#125, #126, #129, #132 and #134 (implementation and finalization prompt rules). Implementation accepted by test-integrity, adversarial and integration review in opus-terra-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-runtime-prompts.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
@@ -9,20 +9,20 @@ Status: completed. Wave 1. Issues tacogips/riela#125, #126, #129, #132 and #134 
   "dependsOn": [],
   "writePaths": [
     "impl-plans/active/gate-routing-runtime-prompts.md",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/prompts/step6-implement.md",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/prompts/integration-review.md",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/prompts/step8-docs-refresh.md",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/prompts/step9-commit-message.md",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/prompts/implementation-blocked-output.md",
-    "packages/opus-luna-design-and-implement-review-loop/tests/test_runtime_prompts.py"
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/step6-implement.md",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/integration-review.md",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/step8-docs-refresh.md",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/step9-commit-message.md",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/implementation-blocked-output.md",
+    "packages/opus-terra-design-and-implement-review-loop/tests/test_runtime_prompts.py"
   ],
   "sharedPaths": [],
   "artifactRoots": [],
   "verification": [
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-luna-design-and-implement-review-loop/tests/test_runtime_prompts.py -v",
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-luna-design-and-implement-review-loop/tests/test_wave_summary_prompts.py packages/opus-luna-design-and-implement-review-loop/tests/test_progress_gate.py -v",
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-luna-design-and-implement-review-loop/tests -p 'test_*.py' -v",
-    "find packages/opus-luna-design-and-implement-review-loop -name __pycache__",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_runtime_prompts.py -v",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_wave_summary_prompts.py packages/opus-terra-design-and-implement-review-loop/tests/test_progress_gate.py -v",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+    "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
     "git diff --check"
   ],
   "acceptanceCriteria": [
@@ -31,14 +31,14 @@ Status: completed. Wave 1. Issues tacogips/riela#125, #126, #129, #132 and #134 
     "step8-docs-refresh.md no longer instructs moving files. It returns archiveRequests [{source, destination}] for completed plans, updates impl-plans/README.md and links to the destination paths, and never runs mv, git mv, rename helpers or scripts that move files. It also returns a non-empty issueReference copied verbatim from the committed dispatch manifest reviewContext.issueReference under impl-plans/active, or from the accepted upstream payload when that payload carries one. It never invents a placeholder.",
     "step9-commit-message.md reads archiveResults from the plan-archive payload. It returns needs_revision with exact paths for rejected, conflict or missing results, accepts moved and already-archived, lists both source and destination of each such result in committedFiles, and still never moves files.",
     "implementation-blocked-output.md copies the issue reference, blockedPlanIds, successfulPlanIds, blockers, resumeCriteria, nextStep and blockedStepId from whichever direct predecessor delivered the blocked payload (implementation-wave-outcome, dispatch-plans amendment_blocked, or plan-archive completion_blocked). blockedPlanIds is non-empty for wave and dispatch blocks and may be empty for the completion-loop block. For the plan-archive source, the issue reference is the plan-archive payload's forwarded issueReference.",
-    "test_runtime_prompts.py asserts the anchors below. The existing test_wave_summary_prompts.py and test_progress_gate.py prompt assertions still pass, and all opus-luna tests pass."
+    "test_runtime_prompts.py asserts the anchors below. The existing test_wave_summary_prompts.py and test_progress_gate.py prompt assertions still pass, and all opus-terra tests pass."
   ]
 }
 ```
 
 ## Intent and context
 
-Mode `issue-resolution`. Design: `design-docs/specs/design-opus-luna-gate-routing-0110.md`, D1.6, D2.6, D3.5-D3.6, D5.8 and D6.1/D6.5. `W`/`T` as in `impl-plans/active/gate-routing-negative-control.md`.
+Mode `issue-resolution`. Design: `design-docs/specs/design-opus-terra-gate-routing-0110.md`, D1.6, D2.6, D3.5-D3.6, D5.8 and D6.1/D6.5. `W`/`T` as in `impl-plans/active/gate-routing-negative-control.md`.
 
 These prompts tell the agents how to produce, and how to consume, the deterministic contracts implemented by the script plans:
 - structured records for #125;
@@ -98,9 +98,9 @@ These prompts tell the agents how to produce, and how to consume, the determinis
 - Step 6 now specifies structured verification records, negative controls, sibling-owned fanout blockers, and plan-local gate scoping.
 - Integration review re-runs deferred sibling-owned gates on the reconciled tree and assigns remaining failures to the owning plan.
 - Step 8 emits archive requests with a copied non-empty issue reference; Step 9 validates archive results without moving files; blocked output forwards all three supported predecessor payloads.
-- `test_runtime_prompts.py` asserts the prompt contracts; the existing prompt/progress tests and full package suite pass. Evidence and complete logs are under `tmp/opus-luna-gate-routing/gate-routing-runtime-prompts/`.
+- `test_runtime_prompts.py` asserts the prompt contracts; the existing prompt/progress tests and full package suite pass. Evidence and complete logs are under `tmp/opus-terra-gate-routing/gate-routing-runtime-prompts/`.
 
 ## Progress log
 
-- 2026-10-24: Implemented the five prompt contracts and added `packages/opus-luna-design-and-implement-review-loop/tests/test_runtime_prompts.py`. Verification passed: focused prompt tests (5), existing wave-summary/progress tests (13), and all package tests (86). Logs: `runtime-prompts.log`, `existing-prompt-and-progress.log`, and `package-tests.log` under `tmp/opus-luna-gate-routing/gate-routing-runtime-prompts/`. Independent review and workflow finalization remain downstream.
-- 2026-10-24: Addressed integration finding F-IR6-01. Step 6 now directs logs to the dispatched `<evidenceRoot>/<planId>/`, and `test_runtime_prompts.py` asserts the generic path and rejects the task-specific path. Repair verification passed: focused prompt tests (5), existing prompt/progress tests (13), and full package tests (86). Logs: `runtime-prompts-repair.log`, `existing-prompt-progress-repair.log`, `package-tests-repair.log`, `task-path-grep-repair.log`, `pycache-repair.log`, and `diff-check-repair.log` under `tmp/opus-luna-gate-routing/gate-routing-runtime-prompts/`. The path search returned no matches (expected exit 1); `find` reported the pre-existing `workflows/opus-luna-design-and-implement-review-loop/scripts/__pycache__`, deferred to `gate-routing-release`; this repair created none. Independent review and workflow finalization remain downstream.
+- 2026-10-24: Implemented the five prompt contracts and added `packages/opus-terra-design-and-implement-review-loop/tests/test_runtime_prompts.py`. Verification passed: focused prompt tests (5), existing wave-summary/progress tests (13), and all package tests (86). Logs: `runtime-prompts.log`, `existing-prompt-and-progress.log`, and `package-tests.log` under `tmp/opus-terra-gate-routing/gate-routing-runtime-prompts/`. Independent review and workflow finalization remain downstream.
+- 2026-10-24: Addressed integration finding F-IR6-01. Step 6 now directs logs to the dispatched `<evidenceRoot>/<planId>/`, and `test_runtime_prompts.py` asserts the generic path and rejects the task-specific path. Repair verification passed: focused prompt tests (5), existing prompt/progress tests (13), and full package tests (86). Logs: `runtime-prompts-repair.log`, `existing-prompt-progress-repair.log`, `package-tests-repair.log`, `task-path-grep-repair.log`, `pycache-repair.log`, and `diff-check-repair.log` under `tmp/opus-terra-gate-routing/gate-routing-runtime-prompts/`. The path search returned no matches (expected exit 1); `find` reported the pre-existing `workflows/opus-terra-design-and-implement-review-loop/scripts/__pycache__`, deferred to `gate-routing-release`; this repair created none. Independent review and workflow finalization remain downstream.

@@ -1,6 +1,6 @@
 # gate-routing-plan-archive
 
-Status: completed. Wave 1. Issue tacogips/riela#129. Implementation accepted by test-integrity, adversarial and integration review in opus-luna-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-plan-archive.md`; the dispatch record keeps the historical active path.
+Status: completed. Wave 1. Issue tacogips/riela#129. Implementation accepted by test-integrity, adversarial and integration review in opus-terra-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-plan-archive.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
@@ -9,18 +9,18 @@ Status: completed. Wave 1. Issue tacogips/riela#129. Implementation accepted by 
   "dependsOn": [],
   "writePaths": [
     "impl-plans/active/gate-routing-plan-archive.md",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/plan-archive.py",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/nodes/node-plan-archive.json",
-    "packages/opus-luna-design-and-implement-review-loop/tests/test_plan_archive.py"
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/plan-archive.py",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/nodes/node-plan-archive.json",
+    "packages/opus-terra-design-and-implement-review-loop/tests/test_plan_archive.py"
   ],
   "sharedPaths": [],
   "artifactRoots": [],
   "verification": [
-    "test -x packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/plan-archive.py",
-    "python3 -m json.tool packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/nodes/node-plan-archive.json",
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-luna-design-and-implement-review-loop/tests/test_plan_archive.py -v",
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-luna-design-and-implement-review-loop/tests -p 'test_*.py' -v",
-    "find packages/opus-luna-design-and-implement-review-loop -name __pycache__",
+    "test -x packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/plan-archive.py",
+    "python3 -m json.tool packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/nodes/node-plan-archive.json",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_plan_archive.py -v",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+    "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
     "git diff --check"
   ],
   "acceptanceCriteria": [
@@ -34,7 +34,7 @@ Status: completed. Wave 1. Issue tacogips/riela#129. Implementation accepted by 
 
 ## Intent and context
 
-Mode `issue-resolution`. Design: `design-docs/specs/design-opus-luna-gate-routing-0110.md` D6. `W`/`T` as in `impl-plans/active/gate-routing-negative-control.md`.
+Mode `issue-resolution`. Design: `design-docs/specs/design-opus-terra-gate-routing-0110.md` D6. `W`/`T` as in `impl-plans/active/gate-routing-negative-control.md`.
 
 Session 232 looped through step8 -> step9 -> step8 (executions 1338-1342). Step 8's sandbox denied `mv`/`git mv` for archiving `impl-plans/active/*` to `impl-plans/completed/`, and read-only Step 9 kept rejecting the result. This plan provides the deterministic mover and the round bound.
 
@@ -114,7 +114,7 @@ Session 232 looped through step8 -> step9 -> step8 (executions 1338-1342). Step 
 
 ## Done criteria
 
-- All verification commands exit 0. Evidence is under `tmp/opus-luna-gate-routing/gate-routing-plan-archive/`.
+- All verification commands exit 0. Evidence is under `tmp/opus-terra-gate-routing/gate-routing-plan-archive/`.
 
 ## Progress log
 
@@ -122,6 +122,6 @@ Session 232 looped through step8 -> step9 -> step8 (executions 1338-1342). Step 
 
 ### Step 6 implementation — 2026-10-24
 
-- Added executable `workflows/opus-luna-design-and-implement-review-loop/scripts/plan-archive.py`, command node `nodes/node-plan-archive.json`, and D6 regression tests in `tests/test_plan_archive.py`. The script validates archive paths and filesystem ancestors with `lstat`, moves regular plan files using `os.rename`, forwards the latest Step 8 payload, and blocks completion after the fourth Step 8 message while preserving its `issueReference`.
-- Focused verification passed: 14 tests. Final stable-tree package verification passed: 86 tests. The first package-wide run occurred while sibling files were changing and had one error in `test_progress_negative_control.py`; the later stable-tree run passed. The earlier complete log is retained at `tmp/opus-luna-gate-routing/gate-routing-plan-archive/verification-4.log`.
-- Executable check, node JSON parse, package test suite, no-`__pycache__` check and `git diff --check` all have exit status 0. Complete logs and structured verification are in `tmp/opus-luna-gate-routing/gate-routing-plan-archive/verification.json`; the final package source hash is recorded in `final-package-source.sha256`.
+- Added executable `workflows/opus-terra-design-and-implement-review-loop/scripts/plan-archive.py`, command node `nodes/node-plan-archive.json`, and D6 regression tests in `tests/test_plan_archive.py`. The script validates archive paths and filesystem ancestors with `lstat`, moves regular plan files using `os.rename`, forwards the latest Step 8 payload, and blocks completion after the fourth Step 8 message while preserving its `issueReference`.
+- Focused verification passed: 14 tests. Final stable-tree package verification passed: 86 tests. The first package-wide run occurred while sibling files were changing and had one error in `test_progress_negative_control.py`; the later stable-tree run passed. The earlier complete log is retained at `tmp/opus-terra-gate-routing/gate-routing-plan-archive/verification-4.log`.
+- Executable check, node JSON parse, package test suite, no-`__pycache__` check and `git diff --check` all have exit status 0. Complete logs and structured verification are in `tmp/opus-terra-gate-routing/gate-routing-plan-archive/verification.json`; the final package source hash is recorded in `final-package-source.sha256`.

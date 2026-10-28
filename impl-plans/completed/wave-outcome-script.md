@@ -8,27 +8,27 @@ Status: completed. Implementation accepted by test-integrity, adversarial and in
   "planPath": "impl-plans/completed/wave-outcome-script.md",
   "dependsOn": [],
   "writePaths": [
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/implementation-wave-outcome.py",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/nodes/node-implementation-wave-outcome.json",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/prompts/implementation-wave-outcome.md",
-    "packages/opus-luna-design-and-implement-review-loop/tests/test_wave_outcome.py"
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/implementation-wave-outcome.py",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/nodes/node-implementation-wave-outcome.json",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/implementation-wave-outcome.md",
+    "packages/opus-terra-design-and-implement-review-loop/tests/test_wave_outcome.py"
   ],
   "sharedPaths": [],
   "artifactRoots": [],
   "progressFile": "tmp/wave-compaction/wave-outcome-script/progress.json",
   "verification": [
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-luna-design-and-implement-review-loop/tests/test_wave_outcome.py -v",
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-luna-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_wave_outcome.py -v",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
     "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'",
-    "python3 -m json.tool packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/nodes/node-implementation-wave-outcome.json",
-    "test -x packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/implementation-wave-outcome.py",
-    "find packages/opus-luna-design-and-implement-review-loop -name __pycache__",
+    "python3 -m json.tool packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/nodes/node-implementation-wave-outcome.json",
+    "test -x packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/implementation-wave-outcome.py",
+    "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
     "git diff --check"
   ],
   "acceptanceCriteria": [
     "node-implementation-wave-outcome.json is nodeType command with command.scriptPath scripts/implementation-wave-outcome.py. Its output.jsonSchema is unchanged: the six fields, all required, additionalProperties false.",
     "prompts/implementation-wave-outcome.md is deleted.",
-    "The script classifies a fanout join deterministically per design D2. It writes fanout-join.json and wave-summary.json into a new immutable tmp/opus-luna-waves/<workflowExecutionId>/wave-NNN/ per design D3, and prints {when:{implementation_blocked,partial_success},payload:<six fields>}.",
+    "The script classifies a fanout join deterministically per design D2. It writes fanout-join.json and wave-summary.json into a new immutable tmp/opus-terra-waves/<workflowExecutionId>/wave-NNN/ per design D3, and prints {when:{implementation_blocked,partial_success},payload:<six fields>}.",
     "For a synthetic join of at least 8 MiB, wave-summary.json bytes plus payload bytes are at most 65536. Totals are exact and the per-plan status, blockers and resume criteria are preserved.",
     "Tracking-contract rejections and complete:false waves are blocked with the exact resume criterion 'amend checkpoint: declare artifactRoots / narrow writePaths'. Blocked-only waves report partial_success false.",
     "All ten design test cases pass under unittest with PYTHONDONTWRITEBYTECODE=1. No __pycache__ remains in the package."
@@ -38,9 +38,9 @@ Status: completed. Implementation accepted by test-integrity, adversarial and in
 
 ## Intent and context
 
-Issue `workflowInput:opus-luna-wave-input-compaction`, mode `issue-resolution`. Accepted design: `design-docs/specs/design-opus-luna-wave-input-compaction.md` (D1-D4, Verification cases 1-10). Session-471 overflowed the Opus context at the fanout join step `implementation-wave-outcome` because the prompt carried the raw ~8 MB `fanoutJoin`. This plan replaces that Opus step with a deterministic Python command. The command takes over the step's mechanical aggregation, stores the raw join on disk and emits a bounded summary. Below, `W` means `packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop`.
+Issue `workflowInput:opus-terra-wave-input-compaction`, mode `issue-resolution`. Accepted design: `design-docs/specs/design-opus-terra-wave-input-compaction.md` (D1-D4, Verification cases 1-10). Session-471 overflowed the Opus context at the fanout join step `implementation-wave-outcome` because the prompt carried the raw ~8 MB `fanoutJoin`. This plan replaces that Opus step with a deterministic Python command. The command takes over the step's mechanical aggregation, stores the raw join on disk and emits a bounded summary. Below, `W` means `packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop`.
 
-The prompt-level bound for later agent steps is NOT delivered by this plan. riela keeps `fanoutJoin` as a persistent request variable, and that is pending user decision Q1 in `design-docs/user-qa/opus-luna-wave-input-compaction.md`. Do not claim it.
+The prompt-level bound for later agent steps is NOT delivered by this plan. riela keeps `fanoutJoin` as a persistent request variable, and that is pending user decision Q1 in `design-docs/user-qa/opus-terra-wave-input-compaction.md`. Do not claim it.
 
 ## Non-goals
 
@@ -66,7 +66,7 @@ The prompt-level bound for later agent steps is NOT delivered by this plan. riel
    - `classify(envelope: dict, root: Path) -> dict` returns `{"when": {"implementation_blocked": bool, "partial_success": bool}, "payload": {six fields}}` and writes the wave files under `root`.
    - Module constants:
      - `SUMMARY_BYTE_LIMIT = 49152`, `VERDICT_BYTE_LIMIT = 16384`
-     - `WAVE_ROOT = "tmp/opus-luna-waves"`
+     - `WAVE_ROOT = "tmp/opus-terra-waves"`
      - `TRACKING_RESUME_CRITERION = "amend checkpoint: declare artifactRoots / narrow writePaths"`
      - `POLICY_PREFIXES`, `DIAGNOSTIC_KEYS = ("branchId","node","phase","selection","root","path","observed","limit")`
      - `LEVELS`: a tuple of the four cap levels from the design D4 table.
@@ -89,7 +89,7 @@ The prompt-level bound for later agent steps is NOT delivered by this plan. riel
      - Verdict caps: at most 3 blockers per plan plus one `additional-blockers-omitted` marker carrying `omittedCount` and `summaryPath`, at most 3 resume criteria per plan, and 300-character strings. If that exceeds `VERDICT_BYTE_LIMIT`, retry with 1/1/120. If it still exceeds, raise `ValueError`.
    - Storage (D3):
      - `workflowExecutionId` comes from `input._rielaInput.workflowExecutionId`. It must match `^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$` and contain no `..`; otherwise raise `ValueError`.
-     - `root/tmp`, `root/tmp/opus-luna-waves` and the session directory: if one exists as a symlink or non-directory, raise `ValueError`; if missing, create it.
+     - `root/tmp`, `root/tmp/opus-terra-waves` and the session directory: if one exists as a symlink or non-directory, raise `ValueError`; if missing, create it.
      - The ordinal is the max existing `wave-\d{3}` plus 1. Create it with `mkdir(exist_ok=False)` and retry on `FileExistsError`; beyond 999, raise `ValueError`.
      - Write `fanout-join.json` (compact UTF-8 JSON of the join, original key order) and then `wave-summary.json`, each through `<name>.tmp` plus `os.replace`.
      - Paths in the summary are repository-relative POSIX strings.
@@ -101,7 +101,7 @@ The prompt-level bound for later agent steps is NOT delivered by this plan. riel
      - Generic bounded projection for `reviewDecisions` and `checkpointProvenance`: depth, items and string caps per level. A cut string ends with `…[truncated N chars; see rawJoinPath#<RFC 6901 pointer>]`. Each plan carries `rawPointer: "/branches/<i>"`.
      - Try `LEVELS` in order and keep the first summary whose compact UTF-8 size is at most `SUMMARY_BYTE_LIMIT`. Record `truncation.level`. If none fits, raise `ValueError` naming the plan count. Never emit an oversized or silently cut summary.
      - No timestamps, randomness, or set iteration in output order.
-4. `packages/opus-luna-design-and-implement-review-loop/tests/test_wave_outcome.py`: new `unittest` module.
+4. `packages/opus-terra-design-and-implement-review-loop/tests/test_wave_outcome.py`: new `unittest` module.
    - Imitate `tests/test_git_push_gate.py:load`, which uses `importlib.util.spec_from_file_location` with a module name such as `luna_wave_outcome`.
    - Use `tempfile.TemporaryDirectory()` as `root`, and pass envelopes as `{"input": {"_rielaInput": {"workflowExecutionId": "session-test", "messages": [...]}}}`.
 
@@ -148,7 +148,7 @@ The prompt-level bound for later agent steps is NOT delivered by this plan. riel
 
 ## Verification and required evidence
 
-- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-luna-design-and-implement-review-loop/tests/test_wave_outcome.py -v`: exit 0 and ≥ 11 tests run, 0 failures.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_wave_outcome.py -v`: exit 0 and ≥ 11 tests run, 0 failures.
 - The package-wide discover: exit 0, including the existing `test_git_push_gate.py` and `test_review_handoff.py`.
 - The Codex package discover: exit 0. This proves the shared scripts are untouched.
 - `python3 -m json.tool` on the node: exit 0.

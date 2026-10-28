@@ -11,54 +11,54 @@ Status: completed. Implementation accepted by test-integrity (exec-7356), advers
     "wave-summary-prompts"
   ],
   "writePaths": [
-    "packages/opus-luna-design-and-implement-review-loop/riela-package.json",
+    "packages/opus-terra-design-and-implement-review-loop/riela-package.json",
     "registry-index.json",
     "README.md"
   ],
   "sharedPaths": [
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/implementation-wave-outcome.py",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/nodes/node-implementation-wave-outcome.json",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/prompts/reconcile-implementations.md",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/prompts/integration-review.md",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario.json",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario-fanout.json",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario-local.json",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/EXPECTED_RESULTS.md",
-    "packages/opus-luna-design-and-implement-review-loop/README.md",
-    "packages/opus-luna-design-and-implement-review-loop/skills/claude/opus-luna-design-and-implement-review-loop/SKILL.md",
-    "packages/opus-luna-design-and-implement-review-loop/tests/test_wave_outcome.py",
-    "packages/opus-luna-design-and-implement-review-loop/tests/test_wave_summary_prompts.py"
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/implementation-wave-outcome.py",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/nodes/node-implementation-wave-outcome.json",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/reconcile-implementations.md",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/integration-review.md",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario.json",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-fanout.json",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-local.json",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/EXPECTED_RESULTS.md",
+    "packages/opus-terra-design-and-implement-review-loop/README.md",
+    "packages/opus-terra-design-and-implement-review-loop/skills/claude/opus-terra-design-and-implement-review-loop/SKILL.md",
+    "packages/opus-terra-design-and-implement-review-loop/tests/test_wave_outcome.py",
+    "packages/opus-terra-design-and-implement-review-loop/tests/test_wave_summary_prompts.py"
   ],
   "sharedPathNotes": [
     {
-      "path": "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/implementation-wave-outcome.py",
+      "path": "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/implementation-wave-outcome.py",
       "intendedEdit": "Serial repair only, if combined verification shows a defect after all wave-1 plans joined; otherwise unchanged."
     },
     {
-      "path": "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/EXPECTED_RESULTS.md",
+      "path": "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/EXPECTED_RESULTS.md",
       "intendedEdit": "Serial repair only, for combined-tree inconsistencies (e.g. execution counts) found by the final mock runs."
     }
   ],
   "artifactRoots": [],
   "progressFile": "tmp/wave-compaction/wave-release/progress.json",
   "verification": [
-    "find packages/opus-luna-design-and-implement-review-loop -name __pycache__ -prune -exec rm -rf {} +",
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-luna-design-and-implement-review-loop/tests -p 'test_*.py' -v",
-    "riela workflow validate opus-luna-design-and-implement-review-loop --workflow-definition-dir packages/opus-luna-design-and-implement-review-loop/workflows --output json",
-    "riela workflow run opus-luna-design-and-implement-review-loop --workflow-definition-dir packages/opus-luna-design-and-implement-review-loop/workflows --working-dir . --mock-scenario <each of mock-scenario.json, mock-scenario-fanout.json, mock-scenario-local.json (with --variables '{\"workflowInput\":{\"gitPush\":false}}'), mock-scenario-planning-only.json> --session-store tmp/wave-compaction/wave-release/attempt-N/sessions/<case> --artifact-root tmp/wave-compaction/wave-release/attempt-N/artifacts/<case> --output json",
-    "bun .agents/skills/riela-package-release/scripts/update-package-digests.ts opus-luna-design-and-implement-review-loop",
+    "find packages/opus-terra-design-and-implement-review-loop -name __pycache__ -prune -exec rm -rf {} +",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+    "riela workflow validate opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows --output json",
+    "riela workflow run opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows --working-dir . --mock-scenario <each of mock-scenario.json, mock-scenario-fanout.json, mock-scenario-local.json (with --variables '{\"workflowInput\":{\"gitPush\":false}}'), mock-scenario-planning-only.json> --session-store tmp/wave-compaction/wave-release/attempt-N/sessions/<case> --artifact-root tmp/wave-compaction/wave-release/attempt-N/artifacts/<case> --output json",
+    "bun .agents/skills/riela-package-release/scripts/update-package-digests.ts opus-terra-design-and-implement-review-loop",
     "mise run package:generate-index",
-    "riela package validate packages/opus-luna-design-and-implement-review-loop --output json",
+    "riela package validate packages/opus-terra-design-and-implement-review-loop --output json",
     "mise run check",
-    "find packages/opus-luna-design-and-implement-review-loop -name __pycache__",
+    "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
     "git diff --check",
     "git status --porcelain=v1"
   ],
   "acceptanceCriteria": [
     "riela-package.json version is 0.1.9. Its checksum and integrity.digest are refreshed by update-package-digests.ts after every other package edit, and no __pycache__ exists.",
-    "registry-index.json shows version 0.1.9 for opus-luna-design-and-implement-review-loop, as generated by mise run package:generate-index. The root README.md listing is updated only if its displayed text changed (expected: unchanged, recorded as such).",
+    "registry-index.json shows version 0.1.9 for opus-terra-design-and-implement-review-loop, as generated by mise run package:generate-index. The root README.md listing is updated only if its displayed text changed (expected: unchanged, recorded as such).",
     "On the combined tree, these all exit 0: package unittest discover, riela workflow validate, all four mock-scenario runs (status completed, expected routes), riela package validate, and mise run check.",
-    "The final handoff reports prompt-level acceptance signal 1 and the requested outcome as BLOCKED pending Q1 (design-docs/user-qa/opus-luna-wave-input-compaction.md), not as met.",
+    "The final handoff reports prompt-level acceptance signal 1 and the requested outcome as BLOCKED pending Q1 (design-docs/user-qa/opus-terra-wave-input-compaction.md), not as met.",
     "The handoff includes the exact intended commit file list. No git staging, commit or push happens in this plan."
   ]
 }
@@ -66,7 +66,7 @@ Status: completed. Implementation accepted by test-integrity (exec-7356), advers
 
 ## Intent and context
 
-Issue `workflowInput:opus-luna-wave-input-compaction`, mode `issue-resolution`, `gitPush:false` (local-only). Accepted design: `design-docs/specs/design-opus-luna-wave-input-compaction.md` (D6 release, Verification commands, D7 rollout). This is the serial wave-2 plan. It runs after the three wave-1 plans are accepted by integration review. It:
+Issue `workflowInput:opus-terra-wave-input-compaction`, mode `issue-resolution`, `gitPush:false` (local-only). Accepted design: `design-docs/specs/design-opus-terra-wave-input-compaction.md` (D6 release, Verification commands, D7 rollout). This is the serial wave-2 plan. It runs after the three wave-1 plans are accepted by integration review. It:
 
 - bumps the package version 0.1.8 -> 0.1.9;
 - refreshes the digests;
@@ -86,7 +86,7 @@ Issue `workflowInput:opus-luna-wave-input-compaction`, mode `issue-resolution`, 
 1. Join check. Compare the current hashes of every sharedPath with the wave-1 handoff post-hashes. Record drift. Repair only proven losses, by serial fresh-read edits, and document each one.
 2. Remove any `__pycache__` under the package and record what was removed. Every Python run below uses `PYTHONDONTWRITEBYTECODE=1`.
 3. Run package unittest discover, `riela workflow validate` and the four mock runs on the combined tree. Save complete logs and routes. Any failure blocks the plan; repair it in the sharedPaths only when the defect is concrete, then rerun.
-4. Set `"version": "0.1.9"` in `packages/opus-luna-design-and-implement-review-loop/riela-package.json`. Run `bun .agents/skills/riela-package-release/scripts/update-package-digests.ts opus-luna-design-and-implement-review-loop` and record the before and after values of `checksum` and `integrity.digest`. Then run `mise run package:generate-index` and confirm that the only diff in `registry-index.json` is this package's version (plus any derived digest fields). An unexpected diff elsewhere must be investigated and recorded, not committed blindly.
+4. Set `"version": "0.1.9"` in `packages/opus-terra-design-and-implement-review-loop/riela-package.json`. Run `bun .agents/skills/riela-package-release/scripts/update-package-digests.ts opus-terra-design-and-implement-review-loop` and record the before and after values of `checksum` and `integrity.digest`. Then run `mise run package:generate-index` and confirm that the only diff in `registry-index.json` is this package's version (plus any derived digest fields). An unexpected diff elsewhere must be investigated and recorded, not committed blindly.
 5. Check the root `README.md` lines for this package (around lines 330 and 494). Edit them only if the description shown there changed; expected: no edit, recorded as "unchanged".
 6. Run `riela package validate`, then `mise run check` (it includes `package:check-digests`, `package:check-index`, `workflow:check-compact`, `workflow:check-codex-dispatch`, `workflow:check-scenarios` and `package:validate`). Save the complete log. Any edit after the digest refresh invalidates it: rerun task 4, then task 6.
 7. Write `handoff.json` with:
@@ -97,7 +97,7 @@ Issue `workflowInput:opus-luna-wave-input-compaction`, mode `issue-resolution`, 
 ## Key pitfalls
 
 - The digest refresh must be the last edit to any package file. A stray `__pycache__` causes `CHECKSUM_MISMATCH`.
-- `mise run check` runs the scenario checker. The opus-luna route comes from `expected-routes.json`, which must still match because no steps were added. If it fails on the route, the fix belongs in this package's fixtures, never in `.agents/`.
+- `mise run check` runs the scenario checker. The opus-terra route comes from `expected-routes.json`, which must still match because no steps were added. If it fails on the route, the fix belongs in this package's fixtures, never in `.agents/`.
 - If the riela CLI, bun or mise is missing, record a blocked check with the exact command, exit code and log. Never report it as passed.
 
 ## Execution, drift and progress contract

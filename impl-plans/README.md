@@ -24,9 +24,9 @@ The D4 exact-file commit, non-force push and PR handoff are subsequent workflow 
 
 ### Opus-luna wave input compaction (package 0.1.9)
 
-[Design](../design-docs/specs/design-opus-luna-wave-input-compaction.md) · [Q1 decision](../design-docs/user-qa/opus-luna-wave-input-compaction.md). Accepted by integration review in session-480:
+[Design](../design-docs/specs/design-opus-terra-wave-input-compaction.md) · [Q1 decision](../design-docs/user-qa/opus-terra-wave-input-compaction.md). Accepted by integration review in session-480:
 
-- [wave-outcome-script](completed/wave-outcome-script.md) — deterministic `implementation-wave-outcome` command; stores `fanout-join.json` and a bounded `wave-summary.json` under `tmp/opus-luna-waves/<workflowExecutionId>/wave-NNN/`.
+- [wave-outcome-script](completed/wave-outcome-script.md) — deterministic `implementation-wave-outcome` command; stores `fanout-join.json` and a bounded `wave-summary.json` under `tmp/opus-terra-waves/<workflowExecutionId>/wave-NNN/`.
 - [wave-summary-prompts](completed/wave-summary-prompts.md) — reconciliation and integration-review prompts read the wave summary instead of the raw join.
 - [wave-fixtures-docs](completed/wave-fixtures-docs.md) — mock scenarios, EXPECTED_RESULTS.md, package README and SKILL.md.
 - [wave-release](completed/wave-release.md) — version 0.1.9, refreshed digests and registry index.
@@ -35,7 +35,7 @@ The prompt-level bound and "run proceeds to reconciliation/integration" remain B
 
 ### Opus-luna gate routing (package 0.1.10)
 
-[Design](../design-docs/specs/design-opus-luna-gate-routing-0110.md) · [user QA](../design-docs/user-qa/opus-luna-gate-routing-0110.md) · issues tacogips/riela #125, #126, #128, #129, #132, #134. Accepted by integration review in opus-luna-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93):
+[Design](../design-docs/specs/design-opus-terra-gate-routing-0110.md) · [user QA](../design-docs/user-qa/opus-terra-gate-routing-0110.md) · issues tacogips/riela #125, #126, #128, #129, #132, #134. Accepted by integration review in opus-terra-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93):
 
 - [gate-routing-negative-control](completed/gate-routing-negative-control.md) — #134 negative-control records and leading `exit=N` parsing.
 - [gate-routing-structured-runner](completed/gate-routing-structured-runner.md) — #125 structured `behavioral-test` records from any runner.
@@ -48,4 +48,4 @@ The prompt-level bound and "run proceeds to reconciliation/integration" remain B
 - [gate-routing-graph](completed/gate-routing-graph.md) — workflow graph, schemas, mock fixtures and docs.
 - [gate-routing-release](completed/gate-routing-release.md) — version 0.1.10, refreshed digests and registry index.
 
-The [dispatch record](active/opus-luna-gate-routing-dispatch.json) stays in `active/` as a historical checkpoint and keeps the original `active/` plan paths. Operator follow-up: `.agents/skills/riela-package-release/fixtures/expected-routes.json` still lacks the `plan-contract-validate` and `plan-archive` route steps.
+The [dispatch record](active/opus-terra-gate-routing-dispatch.json) stays in `active/` as a historical checkpoint and keeps the original `active/` plan paths. Operator follow-up: `.agents/skills/riela-package-release/fixtures/expected-routes.json` still lacks the `plan-contract-validate` and `plan-archive` route steps.

@@ -1,6 +1,6 @@
 # gate-routing-graph
 
-Status: completed. Wave 2. Issues tacogips/riela#128, #129 and #132 (graph wiring, schemas, fixtures, docs). Implementation accepted by test-integrity, adversarial and integration review in opus-luna-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-graph.md`; the dispatch record keeps the historical active path.
+Status: completed. Wave 2. Issues tacogips/riela#128, #129 and #132 (graph wiring, schemas, fixtures, docs). Implementation accepted by test-integrity, adversarial and integration review in opus-terra-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-graph.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
@@ -9,30 +9,30 @@ Status: completed. Wave 2. Issues tacogips/riela#128, #129 and #132 (graph wirin
   "dependsOn": ["gate-routing-contract-gate", "gate-routing-dispatch-amendment", "gate-routing-plan-archive"],
   "writePaths": [
     "impl-plans/active/gate-routing-graph.md",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/workflow.json",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/nodes/node-dispatch-plans.json",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/nodes/node-step8-docs-refresh.json",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/nodes/node-implementation-blocked-output.json",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario.json",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario-fanout.json",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario-local.json",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/EXPECTED_RESULTS.md",
-    "packages/opus-luna-design-and-implement-review-loop/README.md",
-    "packages/opus-luna-design-and-implement-review-loop/tests/test_workflow_routing.py"
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/workflow.json",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/nodes/node-dispatch-plans.json",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/nodes/node-step8-docs-refresh.json",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/nodes/node-implementation-blocked-output.json",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario.json",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-fanout.json",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-local.json",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/EXPECTED_RESULTS.md",
+    "packages/opus-terra-design-and-implement-review-loop/README.md",
+    "packages/opus-terra-design-and-implement-review-loop/tests/test_workflow_routing.py"
   ],
   "sharedPaths": [],
   "artifactRoots": [],
   "verification": [
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-luna-design-and-implement-review-loop/tests/test_workflow_routing.py -v",
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-luna-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_workflow_routing.py -v",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
     "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'",
-    "riela workflow validate opus-luna-design-and-implement-review-loop --workflow-definition-dir packages/opus-luna-design-and-implement-review-loop/workflows",
-    "riela workflow run opus-luna-design-and-implement-review-loop --workflow-definition-dir packages/opus-luna-design-and-implement-review-loop/workflows --mock-scenario packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario.json --session-store tmp/opus-luna-gate-routing/gate-routing-graph/sessions-main --artifact-root tmp/opus-luna-gate-routing/gate-routing-graph/artifacts-main --output json",
-    "riela workflow run opus-luna-design-and-implement-review-loop --workflow-definition-dir packages/opus-luna-design-and-implement-review-loop/workflows --mock-scenario packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario-fanout.json --session-store tmp/opus-luna-gate-routing/gate-routing-graph/sessions-fanout --artifact-root tmp/opus-luna-gate-routing/gate-routing-graph/artifacts-fanout --output json",
-    "riela workflow run opus-luna-design-and-implement-review-loop --workflow-definition-dir packages/opus-luna-design-and-implement-review-loop/workflows --mock-scenario packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario-local.json --variables '{\"workflowInput\":{\"gitPush\":false}}' --session-store tmp/opus-luna-gate-routing/gate-routing-graph/sessions-local --artifact-root tmp/opus-luna-gate-routing/gate-routing-graph/artifacts-local --output json",
-    "riela workflow run opus-luna-design-and-implement-review-loop --workflow-definition-dir packages/opus-luna-design-and-implement-review-loop/workflows --mock-scenario packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario-planning-only.json --session-store tmp/opus-luna-gate-routing/gate-routing-graph/sessions-planning --artifact-root tmp/opus-luna-gate-routing/gate-routing-graph/artifacts-planning --output json",
+    "riela workflow validate opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows",
+    "riela workflow run opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows --mock-scenario packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario.json --session-store tmp/opus-terra-gate-routing/gate-routing-graph/sessions-main --artifact-root tmp/opus-terra-gate-routing/gate-routing-graph/artifacts-main --output json",
+    "riela workflow run opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows --mock-scenario packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-fanout.json --session-store tmp/opus-terra-gate-routing/gate-routing-graph/sessions-fanout --artifact-root tmp/opus-terra-gate-routing/gate-routing-graph/artifacts-fanout --output json",
+    "riela workflow run opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows --mock-scenario packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-local.json --variables '{\"workflowInput\":{\"gitPush\":false}}' --session-store tmp/opus-terra-gate-routing/gate-routing-graph/sessions-local --artifact-root tmp/opus-terra-gate-routing/gate-routing-graph/artifacts-local --output json",
+    "riela workflow run opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows --mock-scenario packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-planning-only.json --session-store tmp/opus-terra-gate-routing/gate-routing-graph/sessions-planning --artifact-root tmp/opus-terra-gate-routing/gate-routing-graph/artifacts-planning --output json",
     "mise run workflow:check-compact",
-    "find packages/opus-luna-design-and-implement-review-loop -name __pycache__",
+    "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
     "git diff --check"
   ],
   "acceptanceCriteria": [
@@ -41,14 +41,14 @@ Status: completed. Wave 2. Issues tacogips/riela#128, #129 and #132 (graph wirin
     "node-step8-docs-refresh.json adds an optional archiveRequests array of {source, destination} string objects, plus a required property issueReference {type:string, minLength:1}, appended to required. node-implementation-blocked-output.json drops blockedPlanIds minItems and adds an optional blockedStepId string.",
     "mock-scenario.json, mock-scenario-fanout.json and mock-scenario-local.json add plan-contract-validate (model scripts/validate-plan-contract.py, when {contract_valid:true}, payload passing the checkpoint commitMessage/committedFiles plus contract_valid, report and findings) and plan-archive (model scripts/plan-archive.py, when {completion_blocked:false}, payload with archiveResults, archivedImplPlanPaths, docsRefreshRound 1 and completion_blocked false). Each dispatch-plans response uses model scripts/dispatch-wave.py and when/payload {dispatch_ready:true, amendment_required:false, amendment_blocked:false}. step8 payloads add archiveRequests and issueReference, using the scenario's existing issue reference value, e.g. \"tacogips/cursor-agent#123\" in mock-scenario.json. mock-scenario-planning-only.json is unchanged.",
     "riela workflow validate is valid. All four mock runs complete with exit 0. EXPECTED_RESULTS.md and README.md describe the new nodes, routes and bounds, with execution counts re-measured from these runs.",
-    "test_workflow_routing.py asserts the edges, the node scriptPaths and the schema/payload-key consistency below. mise run workflow:check-compact passes. All opus-luna and codex tests pass and no __pycache__ remains."
+    "test_workflow_routing.py asserts the edges, the node scriptPaths and the schema/payload-key consistency below. mise run workflow:check-compact passes. All opus-terra and codex tests pass and no __pycache__ remains."
   ]
 }
 ```
 
 ## Intent and context
 
-Mode `issue-resolution`. Design: `design-docs/specs/design-opus-luna-gate-routing-0110.md`, D4.2, D5.5-D5.6, D5.8 (schema), D6.1-D6.2 and D7. `W`/`T` as in `impl-plans/active/gate-routing-negative-control.md`.
+Mode `issue-resolution`. Design: `design-docs/specs/design-opus-terra-gate-routing-0110.md`, D4.2, D5.5-D5.6, D5.8 (schema), D6.1-D6.2 and D7. `W`/`T` as in `impl-plans/active/gate-routing-negative-control.md`.
 
 This plan wires the scripts and nodes delivered in wave 1:
 - `gate-routing-contract-gate`: `W/scripts/validate-plan-contract.py`, `W/nodes/node-plan-contract-validate.json`;
@@ -59,7 +59,7 @@ It updates the fixtures and docs. `workflow.json` has a single owner here, becau
 
 ## Non-goals
 
-- Do not edit `.agents/skills/riela-package-release/fixtures/expected-routes.json`. It is outside scope. See `design-docs/user-qa/opus-luna-gate-routing-0110.md`, default option A.
+- Do not edit `.agents/skills/riela-package-release/fixtures/expected-routes.json`. It is outside scope. See `design-docs/user-qa/opus-terra-gate-routing-0110.md`, default option A.
 - Do not edit scripts, prompts, `mock-scenario-planning-only.json`, `riela-package.json` or `registry-index.json`.
 - Do not change `loop.convergence`, `defaults` or other steps' edges.
 - Do not add a new mock scenario file.
@@ -102,7 +102,7 @@ It updates the fixtures and docs. `workflow.json` has a single owner here, becau
    - New paragraph for amendment routing (`amendment_required` -> Step 4, max 2 amendments, then `amendment_blocked` -> blocked output).
    - Lines 34-40: one sentence each for sibling-owned blockers, negative controls, structured `kind: "behavioral-test"` and `exit=N` parsing.
    - Line 46: remove "This workflow has no pre-commit `plan-contract-validate` gate; the dispatch-time check is its only deterministic preflight." and keep "dispatch-plans is byte-identical to the Codex base".
-7. `packages/opus-luna-design-and-implement-review-loop/README.md`:
+7. `packages/opus-terra-design-and-implement-review-loop/README.md`:
    - In the role table, add a row "Deterministic gates | `plan-contract-validate`, `dispatch-plans`, `plan-archive` | `command`".
    - Under "Review revision routing", add three sentences: the pre-commit gate, the amendment route, and deterministic plan archiving with its bound.
 8. `T/test_workflow_routing.py`: a new module.
@@ -117,7 +117,7 @@ It updates the fixtures and docs. `workflow.json` has a single owner here, becau
   - `T/test_wave_outcome.py:173-184`: implementation-wave-outcome node and edges unchanged.
 - Mock dispatch payloads must satisfy the closed schema. Include the three booleans in the payload, not only in `when`.
 - Measure execution counts from the actual run outputs. Do not guess.
-- `mise run workflow:check-scenarios` is expected to report the opus-luna route as stale. Per user-qa option A and design D4/D6, this is an expected operator-owned out-of-scope dependency, not a gate for this plan: no accepted acceptance signal requires `workflow:check-scenarios`. Report the exact dependency object `{dependency: ".agents/skills/riela-package-release/fixtures/expected-routes.json", reason: "route gains plan-contract-validate and plan-archive", owner: "operator"}` in Step 6 `risks` and `authorSelfCheck.residualRisks`, not in `blockers`; keep it visible for the operator and release/final reporting.
+- `mise run workflow:check-scenarios` is expected to report the opus-terra route as stale. Per user-qa option A and design D4/D6, this is an expected operator-owned out-of-scope dependency, not a gate for this plan: no accepted acceptance signal requires `workflow:check-scenarios`. Report the exact dependency object `{dependency: ".agents/skills/riela-package-release/fixtures/expected-routes.json", reason: "route gains plan-contract-validate and plan-archive", owner: "operator"}` in Step 6 `risks` and `authorSelfCheck.residualRisks`, not in `blockers`; keep it visible for the operator and release/final reporting.
 
 ## Test cases (`test_workflow_routing.py`)
 
@@ -137,9 +137,9 @@ It updates the fixtures and docs. `workflow.json` has a single owner here, becau
 
 ## Done criteria
 
-- All verification commands exit 0. For each command, keep the full log under `tmp/opus-luna-gate-routing/gate-routing-graph/`, with exit status, and the mock run status/route/execution count.
+- All verification commands exit 0. For each command, keep the full log under `tmp/opus-terra-gate-routing/gate-routing-graph/`, with exit status, and the mock run status/route/execution count.
 
 ## Progress log
 
-- 2026-10-24: Implemented the owned graph wiring for #128/#129/#132. Added `plan-contract-validate` and `plan-archive` workflow nodes and routes; changed dispatch to the amendment wrapper with its closed output schema; added Step 8 archive request/issue reference schema and blocked handoff schema support. Updated the three full-run mock scenarios while leaving planning-only unchanged, documented the new routes and measured counts, and added eight routing regressions. Full Opus suite passed 108 tests; Codex compatibility suite passed 91 tests; compact workflow check passed all 30 regressions. Workflow validation and all four mocks completed with exit 0: main 27 transitions, fanout 27, local-only 24, planning-only 15. Local and planning-only required absolute scenario paths because the CLI resolved the plan's relative form from the package root; their initial relative-path invocations exited 1 before workflow execution. Logs are under `tmp/opus-luna-gate-routing/gate-routing-graph/`. Formal independent review, integration review, and release/digest refresh remain downstream.
-- 2026-10-24: IR8-F1 disposition: clarified that the stale `.agents/skills/riela-package-release/fixtures/expected-routes.json` route is an expected operator-owned dependency reported in Step 6 risks and `authorSelfCheck.residualRisks`, not a blocker, because no accepted acceptance signal requires `workflow:check-scenarios`. Kept the exact dependency object for operator reporting. Re-ran the assigned graph verification on the current combined tree; logs are under `tmp/opus-luna-gate-routing/gate-routing-graph/ir8-rerun/`.
+- 2026-10-24: Implemented the owned graph wiring for #128/#129/#132. Added `plan-contract-validate` and `plan-archive` workflow nodes and routes; changed dispatch to the amendment wrapper with its closed output schema; added Step 8 archive request/issue reference schema and blocked handoff schema support. Updated the three full-run mock scenarios while leaving planning-only unchanged, documented the new routes and measured counts, and added eight routing regressions. Full Opus suite passed 108 tests; Codex compatibility suite passed 91 tests; compact workflow check passed all 30 regressions. Workflow validation and all four mocks completed with exit 0: main 27 transitions, fanout 27, local-only 24, planning-only 15. Local and planning-only required absolute scenario paths because the CLI resolved the plan's relative form from the package root; their initial relative-path invocations exited 1 before workflow execution. Logs are under `tmp/opus-terra-gate-routing/gate-routing-graph/`. Formal independent review, integration review, and release/digest refresh remain downstream.
+- 2026-10-24: IR8-F1 disposition: clarified that the stale `.agents/skills/riela-package-release/fixtures/expected-routes.json` route is an expected operator-owned dependency reported in Step 6 risks and `authorSelfCheck.residualRisks`, not a blocker, because no accepted acceptance signal requires `workflow:check-scenarios`. Kept the exact dependency object for operator reporting. Re-ran the assigned graph verification on the current combined tree; logs are under `tmp/opus-terra-gate-routing/gate-routing-graph/ir8-rerun/`.

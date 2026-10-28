@@ -1,6 +1,6 @@
 # gate-routing-planning-prompts
 
-Status: completed. Wave 1. Issues tacogips/riela#126, #128 and #132 (planning-side prompt rules). Implementation accepted by test-integrity, adversarial and integration review in opus-luna-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-planning-prompts.md`; the dispatch record keeps the historical active path.
+Status: completed. Wave 1. Issues tacogips/riela#126, #128 and #132 (planning-side prompt rules). Implementation accepted by test-integrity, adversarial and integration review in opus-terra-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-planning-prompts.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
@@ -9,32 +9,32 @@ Status: completed. Wave 1. Issues tacogips/riela#126, #128 and #132 (planning-si
   "dependsOn": [],
   "writePaths": [
     "impl-plans/active/gate-routing-planning-prompts.md",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/prompts/step4-impl-plan-create.md",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/prompts/step5-impl-plan-review.md",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/prompts/plan-checkpoint.md",
-    "packages/opus-luna-design-and-implement-review-loop/tests/test_planning_prompts.py"
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/step4-impl-plan-create.md",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/step5-impl-plan-review.md",
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/plan-checkpoint.md",
+    "packages/opus-terra-design-and-implement-review-loop/tests/test_planning_prompts.py"
   ],
   "sharedPaths": [],
   "artifactRoots": [],
   "verification": [
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-luna-design-and-implement-review-loop/tests/test_planning_prompts.py -v",
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-luna-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_planning_prompts.py -v",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
     "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'",
-    "find packages/opus-luna-design-and-implement-review-loop -name __pycache__",
+    "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
     "git diff --check"
   ],
   "acceptanceCriteria": [
     "step4-impl-plan-create.md has four rules: (a) the ported Codex rule for plan-contract-validate output with `contract_valid: false`; (b) an `amendment_required` rule for dispatch-plans output (bounded checkpoint amendment, stable plan IDs, accepted plans kept as acceptedDependencies, checkpointAmendment carried verbatim); (c) never list `impl-plans/active` or `impl-plans/completed` in writePaths/sharedPaths, prefer concrete files, and budget snapshot growth across waves; (d) per-plan verification is scoped to the plan's own writePaths, with no workspace-wide format, lint or full-build gates when sibling plans share a wave.",
     "step5-impl-plan-review.md reports violations of (c) and (d) as mid findings, limits an amendment review to the amendment's scope, and carries checkpointAmendment forward.",
     "plan-checkpoint.md has an amendment-checkpoint rule: when checkpointAmendment is present, update the existing manifest in place, verify HEAD equals checkpointAmendment.previousCheckpointCommit instead of the intake originalHead, record previously accepted plans as acceptedDependencies, commit only changed manifest/plan/design files, and leave implementation changes unstaged.",
-    "test_planning_prompts.py asserts the anchors listed below. All opus-luna package tests and codex package tests (test_authoring_model_policy reads node-step4 JSON only) pass, and no __pycache__ remains."
+    "test_planning_prompts.py asserts the anchors listed below. All opus-terra package tests and codex package tests (test_authoring_model_policy reads node-step4 JSON only) pass, and no __pycache__ remains."
   ]
 }
 ```
 
 ## Intent and context
 
-Mode `issue-resolution`. Design: `design-docs/specs/design-opus-luna-gate-routing-0110.md`, D3.6 (#126), D4.3-D4.4 (#128) and D5.7 (#132). `W`/`T` as in `impl-plans/active/gate-routing-negative-control.md`.
+Mode `issue-resolution`. Design: `design-docs/specs/design-opus-terra-gate-routing-0110.md`, D3.6 (#126), D4.3-D4.4 (#128) and D5.7 (#132). `W`/`T` as in `impl-plans/active/gate-routing-negative-control.md`.
 
 - **#126.** In session 226, Step 4 wrote a workspace-wide `cargo clippy --all-targets` into FST-50's per-plan verification, and a sibling's half-written file blocked it.
 - **#128.** In session 226, CMP-40 listed `src`, `editor/src`, `editor/test`, `impl-plans/active` and `impl-plans/completed`, about 978 entries.
@@ -90,10 +90,10 @@ Keeping accepted plans as `acceptedDependencies` also stops the pre-commit gate 
 
 ## Done criteria
 
-- The prompt and regression-test scope is implemented and all listed verification commands pass on the stable combined tree. Evidence is under `tmp/opus-luna-gate-routing/gate-routing-planning-prompts/`.
+- The prompt and regression-test scope is implemented and all listed verification commands pass on the stable combined tree. Evidence is under `tmp/opus-terra-gate-routing/gate-routing-planning-prompts/`.
 
 ## Progress log
 
-- 2026-10-24: Added Step 4 contract-validation, bounded amendment, path-budget, and plan-scoped verification rules; added Step 5 mid-finding and amendment-scope rules; added amendment checkpoint handling; created `tests/test_planning_prompts.py` with 3 anchor/behavior tests. Focused tests passed (3/3, exit 0; `tmp/opus-luna-gate-routing/gate-routing-planning-prompts/focused.log`). Codex tests passed (91/91, exit 0; `.../codex_suite.log`). `git diff --check` passed and `find ... -name __pycache__` found none. The full Opus suite ran 58 tests but remains pending stable-tree rerun: 56 passed, with one error and one failure in dispatch-amendment coverage outside this plan's writePaths (`tests/test_dispatch_amendment.py`: Codex path lookup and amendment round expectation; `.../opus_suite.log`). No prompt-plan tests failed. Do not mark this plan complete until the required full Opus suite passes on the stable combined tree.
+- 2026-10-24: Added Step 4 contract-validation, bounded amendment, path-budget, and plan-scoped verification rules; added Step 5 mid-finding and amendment-scope rules; added amendment checkpoint handling; created `tests/test_planning_prompts.py` with 3 anchor/behavior tests. Focused tests passed (3/3, exit 0; `tmp/opus-terra-gate-routing/gate-routing-planning-prompts/focused.log`). Codex tests passed (91/91, exit 0; `.../codex_suite.log`). `git diff --check` passed and `find ... -name __pycache__` found none. The full Opus suite ran 58 tests but remains pending stable-tree rerun: 56 passed, with one error and one failure in dispatch-amendment coverage outside this plan's writePaths (`tests/test_dispatch_amendment.py`: Codex path lookup and amendment round expectation; `.../opus_suite.log`). No prompt-plan tests failed. Do not mark this plan complete until the required full Opus suite passes on the stable combined tree.
 
-- 2026-10-24: Stable combined-tree rerun passed: focused prompt tests 3/3 (exit 0, `tmp/opus-luna-gate-routing/gate-routing-planning-prompts/focused-final.log`); full Opus suite 86/86 (exit 0, `tmp/opus-luna-gate-routing/gate-routing-planning-prompts/opus-suite-final.log`); Codex suite 91/91 (exit 0, `tmp/opus-luna-gate-routing/gate-routing-planning-prompts/codex-suite-final.log`). Removed the generated `scripts/__pycache__` directory found after tests; final `find ... -name __pycache__` is empty (exit 0, `tmp/opus-luna-gate-routing/gate-routing-planning-prompts/pycache-clean-final.log`). Final `git diff --check` passed (exit 0, `tmp/opus-luna-gate-routing/gate-routing-planning-prompts/diff-check-final.log`).
+- 2026-10-24: Stable combined-tree rerun passed: focused prompt tests 3/3 (exit 0, `tmp/opus-terra-gate-routing/gate-routing-planning-prompts/focused-final.log`); full Opus suite 86/86 (exit 0, `tmp/opus-terra-gate-routing/gate-routing-planning-prompts/opus-suite-final.log`); Codex suite 91/91 (exit 0, `tmp/opus-terra-gate-routing/gate-routing-planning-prompts/codex-suite-final.log`). Removed the generated `scripts/__pycache__` directory found after tests; final `find ... -name __pycache__` is empty (exit 0, `tmp/opus-terra-gate-routing/gate-routing-planning-prompts/pycache-clean-final.log`). Final `git diff --check` passed (exit 0, `tmp/opus-terra-gate-routing/gate-routing-planning-prompts/diff-check-final.log`).

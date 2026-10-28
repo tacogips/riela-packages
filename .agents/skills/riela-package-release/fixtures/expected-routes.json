@@ -345,8 +345,8 @@
       ]
     },
     {
-      "workflowId": "opus-luna-design-and-implement-review-loop",
-      "fixture": "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario.json",
+      "workflowId": "opus-terra-design-and-implement-review-loop",
+      "fixture": "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario.json",
       "route": [
         "riela-manager",
         "step1-issue-intake",
@@ -378,9 +378,9 @@
         "workflow-output"
       ],
       "sources": [
-        "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/workflow.json",
-        "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/mock-scenario.json",
-        "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/EXPECTED_RESULTS.md"
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/workflow.json",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario.json",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/EXPECTED_RESULTS.md"
       ]
     },
     {

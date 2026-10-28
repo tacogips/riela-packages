@@ -104,7 +104,7 @@ run = "bun .agents/skills/riela-package-release/scripts/check-compact-workflows.
 description = "Check deterministic Codex dispatch manifest compatibility."
 run = """
 python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'
-python3 -m unittest discover -s packages/opus-luna-design-and-implement-review-loop/tests -p 'test_*.py'
+python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py'
 """
 
 [tasks."package:check-compat-harness"]

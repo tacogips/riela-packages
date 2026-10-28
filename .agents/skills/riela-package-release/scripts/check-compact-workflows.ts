@@ -389,7 +389,7 @@ assert.equal(contractNode.nodeType, 'command');
 assert.deepEqual(contractNode.command, { scriptPath: 'scripts/validate-plan-contract.py' });
 assert.equal(contractNode.executionBackend, undefined);
 assert.equal(contractNode.model, undefined);
-for (const id of [codex, fableOpus, 'opus-luna-design-and-implement-review-loop']) {
+for (const id of [codex, fableOpus, 'opus-terra-design-and-implement-review-loop']) {
   const fanout = read(join(bundle(id), 'workflow.json')).steps.find((step: any) => step.id === 'dispatch-plans').transitions[0].fanout;
   assert.deepEqual(fanout.changeTracking, { pathsFrom: '/trackedPaths', artifactRootsFrom: '/artifactRoots' }, `${id}: artifact roots tracking`);
   const item = read(join(bundle(id), 'nodes/node-dispatch-plans.json')).output.jsonSchema.properties.implementationItems.items;

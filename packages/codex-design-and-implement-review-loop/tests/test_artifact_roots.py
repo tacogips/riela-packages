@@ -18,7 +18,7 @@ CODEX_SCRIPTS = PACKAGES / "codex-design-and-implement-review-loop/workflows/cod
 DISPATCH_SCRIPTS = [
     CODEX_SCRIPTS / "dispatch-plans.py",
     PACKAGES / "fable-and-improve-opus/workflows/fable-and-improve-opus/scripts/dispatch-plans.py",
-    PACKAGES / "opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/dispatch-plans.py",
+    PACKAGES / "opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/dispatch-plans.py",
 ]
 GATE_SCRIPT = CODEX_SCRIPTS / "validate-plan-contract.py"
 SCRATCH = PACKAGES.parent / "tmp"

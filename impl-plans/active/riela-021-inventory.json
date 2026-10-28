@@ -1361,12 +1361,12 @@
       "workflows": []
     },
     {
-      "packagePath": "packages/opus-luna-design-and-implement-review-loop",
-      "manifestPath": "packages/opus-luna-design-and-implement-review-loop/riela-package.json",
+      "packagePath": "packages/opus-terra-design-and-implement-review-loop",
+      "manifestPath": "packages/opus-terra-design-and-implement-review-loop/riela-package.json",
       "workflows": [
         {
-          "path": "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/workflow.json",
-          "workflowId": "opus-luna-design-and-implement-review-loop",
+          "path": "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/workflow.json",
+          "workflowId": "opus-terra-design-and-implement-review-loop",
           "extends": null
         }
       ]

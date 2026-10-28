@@ -1,6 +1,6 @@
 # gate-routing-dispatch-amendment
 
-Status: completed. Wave 1. Issues tacogips/riela#132 and #128 (dispatch-time half). Implementation accepted by test-integrity, adversarial and integration review in opus-luna-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-dispatch-amendment.md`; the dispatch record keeps the historical active path.
+Status: completed. Wave 1. Issues tacogips/riela#132 and #128 (dispatch-time half). Implementation accepted by test-integrity, adversarial and integration review in opus-terra-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-dispatch-amendment.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
@@ -9,18 +9,18 @@ Status: completed. Wave 1. Issues tacogips/riela#132 and #128 (dispatch-time hal
   "dependsOn": [],
   "writePaths": [
     "impl-plans/active/gate-routing-dispatch-amendment.md",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/dispatch-wave.py",
-    "packages/opus-luna-design-and-implement-review-loop/tests/test_dispatch_amendment.py"
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/dispatch-wave.py",
+    "packages/opus-terra-design-and-implement-review-loop/tests/test_dispatch_amendment.py"
   ],
   "sharedPaths": [],
   "artifactRoots": [],
   "verification": [
-    "test -x packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/dispatch-wave.py",
-    "cmp packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/scripts/dispatch-plans.py packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/dispatch-plans.py",
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-luna-design-and-implement-review-loop/tests/test_dispatch_amendment.py -v",
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-luna-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+    "test -x packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/dispatch-wave.py",
+    "cmp packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/scripts/dispatch-plans.py packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/dispatch-plans.py",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_dispatch_amendment.py -v",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
     "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'",
-    "find packages/opus-luna-design-and-implement-review-loop -name __pycache__",
+    "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
     "git diff --check"
   ],
   "acceptanceCriteria": [
@@ -35,7 +35,7 @@ Status: completed. Wave 1. Issues tacogips/riela#132 and #128 (dispatch-time hal
 
 ## Intent and context
 
-Mode `issue-resolution`. Design: `design-docs/specs/design-opus-luna-gate-routing-0110.md` D5. `W`/`T` as in `impl-plans/active/gate-routing-negative-control.md`.
+Mode `issue-resolution`. Design: `design-docs/specs/design-opus-terra-gate-routing-0110.md` D5. `W`/`T` as in `impl-plans/active/gate-routing-negative-control.md`.
 
 Session 271: integration review routed findings on `editor/src/code/pointer.ts`, `editor/test/e2e/behavior.mjs`, `editor/test/e2e/ios-sim.mjs` and `editor/test/e2e/measure.mjs`. Those paths lie outside every pending plan's `writePaths`, so `dispatch-plans.py` raised `bounded checkpoint amendment required before redispatch: ...` at lines 740-745. The node exited 1 and the session failed as `provider_error`. Preflight snapshot violations (#128) raise the same `AMENDMENT` prefix (lines 199-239 and 379-404, raised at 695).
 
@@ -107,9 +107,9 @@ Session 271: integration review routed findings on `editor/src/code/pointer.ts`,
 
 - `dispatch-wave.py` is executable and routes normal projection plus bounded amendment results with exact payload keys; only `dispatch.AMENDMENT` errors are routed.
 - Regression tests cover the session-271 shape, amendment exhaustion, dispatch-time 512-entry over-cap, non-amendment errors and byte identity.
-- Focused tests, opus-luna package tests, codex package tests, no-`__pycache__` check, and `git diff --check` pass on the source snapshot used for final verification.
-- Complete command logs and exit statuses are under `tmp/opus-luna-gate-routing/gate-routing-dispatch-amendment/`.
+- Focused tests, opus-terra package tests, codex package tests, no-`__pycache__` check, and `git diff --check` pass on the source snapshot used for final verification.
+- Complete command logs and exit statuses are under `tmp/opus-terra-gate-routing/gate-routing-dispatch-amendment/`.
 
 ## Progress log
 
-- 2026-10-24: Added executable `dispatch-wave.py` and six regression tests. Focused suite passed (6 tests); executable check, dispatch byte comparison and codex package suite passed. The first full opus-luna package run was on the moving shared tree and reported 2 failures plus 1 error in the concurrent `test_progress_negative_control.py`; the subsequent source-stable rerun passed all 86 tests with exit 0 (`opus-tests-rerun.log`). The earlier failure remains recorded as moving-tree evidence. Final verification after the OSError assertion passed focused tests (6), opus-luna tests (86) and codex tests (91), with executable, byte-identity, no-`__pycache__` and diff checks passing; complete logs use the `verified-` prefix in the plan-local evidence directory.
+- 2026-10-24: Added executable `dispatch-wave.py` and six regression tests. Focused suite passed (6 tests); executable check, dispatch byte comparison and codex package suite passed. The first full opus-terra package run was on the moving shared tree and reported 2 failures plus 1 error in the concurrent `test_progress_negative_control.py`; the subsequent source-stable rerun passed all 86 tests with exit 0 (`opus-tests-rerun.log`). The earlier failure remains recorded as moving-tree evidence. Final verification after the OSError assertion passed focused tests (6), opus-terra tests (86) and codex tests (91), with executable, byte-identity, no-`__pycache__` and diff checks passing; complete logs use the `verified-` prefix in the plan-local evidence directory.

@@ -1,6 +1,6 @@
 # gate-routing-negative-control
 
-Status: completed. Wave 1. Issue tacogips/riela#134. Implementation accepted by test-integrity, adversarial and integration review in opus-luna-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-negative-control.md`; the dispatch record keeps the historical active path.
+Status: completed. Wave 1. Issue tacogips/riela#134. Implementation accepted by test-integrity, adversarial and integration review in opus-terra-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-negative-control.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
@@ -9,16 +9,16 @@ Status: completed. Wave 1. Issue tacogips/riela#134. Implementation accepted by 
   "dependsOn": [],
   "writePaths": [
     "impl-plans/active/gate-routing-negative-control.md",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/implementation-progress-check.py",
-    "packages/opus-luna-design-and-implement-review-loop/tests/test_progress_negative_control.py"
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/implementation-progress-check.py",
+    "packages/opus-terra-design-and-implement-review-loop/tests/test_progress_negative_control.py"
   ],
   "sharedPaths": [],
   "artifactRoots": [],
   "verification": [
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-luna-design-and-implement-review-loop/tests/test_progress_negative_control.py -v",
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-luna-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_progress_negative_control.py -v",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
     "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'",
-    "find packages/opus-luna-design-and-implement-review-loop -name __pycache__",
+    "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
     "git diff --check"
   ],
   "acceptanceCriteria": [
@@ -26,14 +26,14 @@ Status: completed. Wave 1. Issue tacogips/riela#134. Implementation accepted by 
     "A verification record with negativeControl true, an integer nonzero exit status, a matching expectedExitStatus when present, and a command that is not a committed implementation.verification command is excluded from failed and successful behavioral evidence and from the static-plan success check.",
     "A record flagged negativeControl true that fails any of those rules blocks with blockerType implementation-materially-unverified and the exact message from design D2.3.",
     "Ready payloads carry negativeControlEvidence only when at least one valid negative control exists. Blocked materially-unverified blockers carry failingCommands (at most 5 strings) when any offending command is known.",
-    "test_progress_negative_control.py covers every case in design Verification 2 and passes. All opus-luna and codex package tests pass with exit status 0 and failureCount 0, and no __pycache__ remains."
+    "test_progress_negative_control.py covers every case in design Verification 2 and passes. All opus-terra and codex package tests pass with exit status 0 and failureCount 0, and no __pycache__ remains."
   ]
 }
 ```
 
 ## Intent and context
 
-Mode `issue-resolution`. Design: `design-docs/specs/design-opus-luna-gate-routing-0110.md` D2 (#134). Below, `W` = `packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop` and `T` = `packages/opus-luna-design-and-implement-review-loop/tests`.
+Mode `issue-resolution`. Design: `design-docs/specs/design-opus-terra-gate-routing-0110.md` D2 (#134). Below, `W` = `packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop` and `T` = `packages/opus-terra-design-and-implement-review-loop/tests`.
 
 Sessions 265, 269 and 282 were blocked because intentional mutation runs (`negativeControl: true`, exit 100) in `verification[]` counted as failed behavioral tests. Session 283 was blocked because green records gave their exit status only in `outcome` text (`"exit 0 in 1010.466 seconds; 3 skipped"`), and `verification_succeeded()` fell through to `return False`.
 
@@ -43,7 +43,7 @@ This plan is the first link of the same-file chain: negative-control (this) -> s
 
 - Do not change `behavioral_kind()`, `positive_test_count()`, the runner allowlist, `plan_requires_behavioral_tests()` or `concrete_verification()`. Those belong to the next plan or must stay unchanged.
 - Do not add "latest record per command" deduplication. Do not read `priorVerification[]`.
-- Do not touch `W/scripts/dispatch-plans.py`, prompts, `workflow.json`, nodes, mocks, docs, other packages, or `tmp/opus-luna-bundle`.
+- Do not touch `W/scripts/dispatch-plans.py`, prompts, `workflow.json`, nodes, mocks, docs, other packages, or `tmp/opus-terra-bundle`.
 - Do not change the ready-outcome `when` object. `T/test_progress_gate.py` asserts it equals exactly `{'implementation_blocked': False}`.
 
 ## File-level changes
@@ -111,12 +111,12 @@ This plan is the first link of the same-file chain: negative-control (this) -> s
 
 ## Done criteria
 
-- All verification commands exit 0. Record each command, exit status, testsRun and failureCount (integers), and the log path under `tmp/opus-luna-gate-routing/gate-routing-negative-control/`.
+- All verification commands exit 0. Record each command, exit status, testsRun and failureCount (integers), and the log path under `tmp/opus-terra-gate-routing/gate-routing-negative-control/`.
 - `find ... -name __pycache__` prints nothing.
 
 ## Progress log
 
 - 2026-10-24: Implemented D2 in `implementation-progress-check.py`: structured and leading-outcome exit parsing, conflict/non-numeric rejection, strict negative-control validation, exclusion from behavioral/static success gates, optional `negativeControlEvidence`, and bounded `failingCommands`. Added `test_progress_negative_control.py` for parser forms, conflicts, valid/invalid controls (including missing command/status), planned-command collisions, positive-evidence behavior, and unchanged failed-test blocking. Script SHA-256 before edits: `a0eaea5c63613f936897ffb206e16c7b4dd2e9dcbebc26a4f5b2fbda817ae8c6`; final before this plan-log edit: `ce3d8cd30ced1d0b7f4900a8e5cbac7aec6b7f774fae6990a5ccf7c276ca9846`.
-- Initial focused run exposed two test issues (9 tests, 1 failure, 1 error, exit 1); complete log: `tmp/opus-luna-gate-routing/gate-routing-negative-control/test-negative-control.log`. The failure led to retaining flagged records without exit fields for validation; the expectation was corrected so valid controls do not appear as failing commands. Final source-matched checks: `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-luna-design-and-implement-review-loop/tests/test_progress_negative_control.py -v` (9 tests, 0 failures, exit 0; `tmp/opus-luna-gate-routing/gate-routing-negative-control/test-negative-control-final.log`); `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-luna-design-and-implement-review-loop/tests -p 'test_*.py' -v` (86 tests, 0 failures, exit 0; `tmp/opus-luna-gate-routing/gate-routing-negative-control/opus-tests-final.log`); `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'` (91 tests, 0 failures, exit 0; `tmp/opus-luna-gate-routing/gate-routing-negative-control/codex-tests-final.log`); `find packages/opus-luna-design-and-implement-review-loop -name __pycache__` (exit 0, no paths; `tmp/opus-luna-gate-routing/gate-routing-negative-control/no-pycache.log`); `git diff --check` (exit 0; `tmp/opus-luna-gate-routing/gate-routing-negative-control/diff-check.log`).
+- Initial focused run exposed two test issues (9 tests, 1 failure, 1 error, exit 1); complete log: `tmp/opus-terra-gate-routing/gate-routing-negative-control/test-negative-control.log`. The failure led to retaining flagged records without exit fields for validation; the expectation was corrected so valid controls do not appear as failing commands. Final source-matched checks: `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_progress_negative_control.py -v` (9 tests, 0 failures, exit 0; `tmp/opus-terra-gate-routing/gate-routing-negative-control/test-negative-control-final.log`); `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v` (86 tests, 0 failures, exit 0; `tmp/opus-terra-gate-routing/gate-routing-negative-control/opus-tests-final.log`); `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'` (91 tests, 0 failures, exit 0; `tmp/opus-terra-gate-routing/gate-routing-negative-control/codex-tests-final.log`); `find packages/opus-terra-design-and-implement-review-loop -name __pycache__` (exit 0, no paths; `tmp/opus-terra-gate-routing/gate-routing-negative-control/no-pycache.log`); `git diff --check` (exit 0; `tmp/opus-terra-gate-routing/gate-routing-negative-control/diff-check.log`).
 - Completion criteria met for this plan: regression and both package test suites pass on the final implementation, no package `__pycache__` remains, and diff check is clean. Test-integrity/adversarial review and later workflow integration/release work remain downstream.
-- Final verification rerun after ready-payload normalization (empty/stale `negativeControlEvidence` is removed unless current validated controls exist): script SHA-256 `2b069e6b8f24076d5e14ef609aef235912fa2d86da15caa91a9d09fa9c45d0b4`. Regression suite: 9 run, 0 failures, exit 0 (`tmp/opus-luna-gate-routing/gate-routing-negative-control/test-negative-control-final2.log`); Opus suite: 86 run, 0 failures, exit 0 (`tmp/opus-luna-gate-routing/gate-routing-negative-control/opus-tests-final2.log`); Codex suite: 91 run, 0 failures, exit 0 (`tmp/opus-luna-gate-routing/gate-routing-negative-control/codex-tests-final2.log`); no `__pycache__` paths, exit 0 (`tmp/opus-luna-gate-routing/gate-routing-negative-control/no-pycache-final.log`); `git diff --check`, exit 0 (`tmp/opus-luna-gate-routing/gate-routing-negative-control/diff-check-final2.log`).
+- Final verification rerun after ready-payload normalization (empty/stale `negativeControlEvidence` is removed unless current validated controls exist): script SHA-256 `2b069e6b8f24076d5e14ef609aef235912fa2d86da15caa91a9d09fa9c45d0b4`. Regression suite: 9 run, 0 failures, exit 0 (`tmp/opus-terra-gate-routing/gate-routing-negative-control/test-negative-control-final2.log`); Opus suite: 86 run, 0 failures, exit 0 (`tmp/opus-terra-gate-routing/gate-routing-negative-control/opus-tests-final2.log`); Codex suite: 91 run, 0 failures, exit 0 (`tmp/opus-terra-gate-routing/gate-routing-negative-control/codex-tests-final2.log`); no `__pycache__` paths, exit 0 (`tmp/opus-terra-gate-routing/gate-routing-negative-control/no-pycache-final.log`); `git diff --check`, exit 0 (`tmp/opus-terra-gate-routing/gate-routing-negative-control/diff-check-final2.log`).

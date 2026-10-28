@@ -24,7 +24,7 @@ PROGRESS_SCRIPTS = [
     Path(__file__).resolve().parents[2]
     / "fable-and-improve-opus/workflows/fable-and-improve-opus/scripts/implementation-progress-check.py",
     Path(__file__).resolve().parents[2]
-    / "opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/implementation-progress-check.py",
+    / "opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/implementation-progress-check.py",
 ]
 
 

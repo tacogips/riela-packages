@@ -1331,11 +1331,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "3c8815badf0f6a8107940d4c96f84232"
+        "value": "ef30bfb9034df2607fb19bfadd196ba4"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "32aed14872b14d7a602cff3b55010c98eddd920f9c2c2881882d1098eb518138"
+        "digest": "609d7953dd6632a1670b0dcec0cdc5a1b4bed1a12912368d9f8f0cba051aab7a"
       }
     },
     {
@@ -2948,32 +2948,32 @@
       }
     },
     {
-      "name": "opus-luna-design-and-implement-review-loop",
-      "directory": "packages/opus-luna-design-and-implement-review-loop",
-      "version": "0.1.10",
+      "name": "opus-terra-design-and-implement-review-loop",
+      "directory": "packages/opus-terra-design-and-implement-review-loop",
+      "version": "0.1.11",
       "kind": "workflow",
-      "title": "opus-luna-design-and-implement-review-loop",
-      "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6 Luna (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6 Luna implementer for correction and independent re-review.",
+      "title": "opus-terra-design-and-implement-review-loop",
+      "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Terra (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
       "tags": [
         "claude-code",
         "codex",
-        "luna",
         "opus",
         "review",
+        "terra",
         "workflow"
       ],
       "registry": "default",
       "repository": "https://github.com/tacogips/riela-packages",
       "workflow": {
-        "directory": "workflows/opus-luna-design-and-implement-review-loop",
-        "title": "opus-luna-design-and-implement-review-loop",
-        "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6 Luna (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6 Luna implementer for correction and independent re-review.",
+        "directory": "workflows/opus-terra-design-and-implement-review-loop",
+        "title": "opus-terra-design-and-implement-review-loop",
+        "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Terra (high, fast) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
         "tags": [
           "workflow",
           "claude-code",
           "codex",
           "opus",
-          "luna",
+          "terra",
           "review"
         ],
         "backends": [
@@ -2994,11 +2994,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "d98700127d7850b02a2f4c1dc75703e2"
+        "value": "919fe8081afef071ce782c39cdab8384"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "a33ccd883b3b8bb97361e2c608ee189ad35aa1857cc77f0680b2a8c6ef969c60"
+        "digest": "05432bc5a569caba12d410e8efd2ce3ce13dfc7f6101e50f888ef764b4811e3d"
       }
     },
     {

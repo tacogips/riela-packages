@@ -1,6 +1,6 @@
 # gate-routing-sibling-blockers
 
-Status: completed. Wave 3. Issue tacogips/riela#126. Implementation accepted by test-integrity, adversarial and integration review in opus-luna-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-sibling-blockers.md`; the dispatch record keeps the historical active path.
+Status: completed. Wave 3. Issue tacogips/riela#126. Implementation accepted by test-integrity, adversarial and integration review in opus-terra-design-and-implement-review-loop-session-1 (integration-review-attempt-1-exec-93). Archived from `impl-plans/active/gate-routing-sibling-blockers.md`; the dispatch record keeps the historical active path.
 
 ```json
 {
@@ -9,16 +9,16 @@ Status: completed. Wave 3. Issue tacogips/riela#126. Implementation accepted by 
   "dependsOn": ["gate-routing-structured-runner"],
   "writePaths": [
     "impl-plans/active/gate-routing-sibling-blockers.md",
-    "packages/opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/implementation-progress-check.py",
-    "packages/opus-luna-design-and-implement-review-loop/tests/test_progress_sibling_blockers.py"
+    "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/implementation-progress-check.py",
+    "packages/opus-terra-design-and-implement-review-loop/tests/test_progress_sibling_blockers.py"
   ],
   "sharedPaths": [],
   "artifactRoots": [],
   "verification": [
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-luna-design-and-implement-review-loop/tests/test_progress_sibling_blockers.py -v",
-    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-luna-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_progress_sibling_blockers.py -v",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
     "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'",
-    "find packages/opus-luna-design-and-implement-review-loop -name __pycache__",
+    "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
     "git diff --check"
   ],
   "acceptanceCriteria": [
@@ -26,14 +26,14 @@ Status: completed. Wave 3. Issue tacogips/riela#126. Implementation accepted by 
     "Every fail-closed case in design D3.3 still returns implementation-dependency: no implementation item, git show failure, non-JSON manifest, string blocker, blocker without path(s), own-path blocker, unowned path, owner in acceptedPlanIds, implementation_blocked true with no blockers, and a mix of sibling and non-sibling blockers.",
     "On the ready outcome with deferred blockers, the payload has blockers [] plus siblingOwnedBlockers and siblingOwnedBlockersPath. The file <evidenceRoot>/<planId>/sibling-owned-blockers.json is written atomically. A write failure, or an unsafe evidenceRoot or planId, blocks as implementation-dependency.",
     "A sibling-only blocker on a branch without positive-count behavioral evidence still blocks as implementation-materially-unverified.",
-    "test_progress_sibling_blockers.py covers design Verification 3 and passes. All opus-luna and codex package tests pass and no __pycache__ remains."
+    "test_progress_sibling_blockers.py covers design Verification 3 and passes. All opus-terra and codex package tests pass and no __pycache__ remains."
   ]
 }
 ```
 
 ## Intent and context
 
-Mode `issue-resolution`. Design: `design-docs/specs/design-opus-luna-gate-routing-0110.md` D3 (#126). `W`/`T` as in `impl-plans/active/gate-routing-negative-control.md`.
+Mode `issue-resolution`. Design: `design-docs/specs/design-opus-terra-gate-routing-0110.md` D3 (#126). `W`/`T` as in `impl-plans/active/gate-routing-negative-control.md`.
 
 In session 222 (FST-22), every gate the plan owns passed. A workspace-wide `cargo fmt --check` exited 1 only because of `src/cli/tests/fmt.rs`, a file owned by the concurrently running FST-20. Step 6 reported `blockers: [{owner:"FST-20", path:"src/cli/tests/fmt.rs"}]` and the gate ended the branch as `implementation-dependency`.
 
@@ -110,10 +110,10 @@ The integration-review prompt rule that re-runs deferred gates is owned by `gate
 
 ## Done criteria
 
-- [x] All verification commands exit 0. Evidence is under `tmp/opus-luna-gate-routing/gate-routing-sibling-blockers/`.
+- [x] All verification commands exit 0. Evidence is under `tmp/opus-terra-gate-routing/gate-routing-sibling-blockers/`.
 - [x] Classifier defers only fully sibling-owned blockers from the committed manifest, preserves all fail-closed cases, keeps remaining gates active, and atomically records deferred blockers for integration review.
-- [x] Focused regression, full opus-luna, full codex, no-`__pycache__`, and diff checks pass. Formal reviews, integration validation, and release checks remain downstream workflow steps.
+- [x] Focused regression, full opus-terra, full codex, no-`__pycache__`, and diff checks pass. Formal reviews, integration validation, and release checks remain downstream workflow steps.
 
 ## Progress log
 
-- 2026-10-24: Implemented D3 in `implementation-progress-check.py`; added `test_progress_sibling_blockers.py` with seven tests for sibling deferral/evidence, malformed and mixed blockers, missing implementation item, checkpoint manifest failures including invalid UTF-8, unsafe evidence destinations, and retained behavioral-test requirements. Final focused suite passed 7 tests (`final6-focused.log`); opus-luna passed 108 tests (`final6-opus-suite.log`); codex passed 91 tests (`final6-codex-suite.log`). `final6-pycache.log` had no output and `final6-diff-check.log` was clean. The earlier `final5-focused.log` and `final5-opus-suite.log` failures exposed the decode-boundary issue and are superseded by final6. Ready for downstream test-integrity and adversarial review; integration and release checks remain pending.
+- 2026-10-24: Implemented D3 in `implementation-progress-check.py`; added `test_progress_sibling_blockers.py` with seven tests for sibling deferral/evidence, malformed and mixed blockers, missing implementation item, checkpoint manifest failures including invalid UTF-8, unsafe evidence destinations, and retained behavioral-test requirements. Final focused suite passed 7 tests (`final6-focused.log`); opus-terra passed 108 tests (`final6-opus-suite.log`); codex passed 91 tests (`final6-codex-suite.log`). `final6-pycache.log` had no output and `final6-diff-check.log` was clean. The earlier `final5-focused.log` and `final5-opus-suite.log` failures exposed the decode-boundary issue and are superseded by final6. Ready for downstream test-integrity and adversarial review; integration and release checks remain pending.

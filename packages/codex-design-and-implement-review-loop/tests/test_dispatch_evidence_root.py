@@ -25,7 +25,7 @@ DISPATCH_SCRIPTS = [
     Path(__file__).resolve().parents[2]
     / "fable-and-improve-opus/workflows/fable-and-improve-opus/scripts/dispatch-plans.py",
     Path(__file__).resolve().parents[2]
-    / "opus-luna-design-and-implement-review-loop/workflows/opus-luna-design-and-implement-review-loop/scripts/dispatch-plans.py",
+    / "opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/dispatch-plans.py",
 ]
 
 
