@@ -482,9 +482,11 @@ def checkpoint_source(messages: list[dict[str, Any]], root: Path) -> tuple[str, 
     if len(manifests) == 1:
         return manifests[0], commit
     if len(manifests) > 1:
+        # Rename detection keeps a manifest archived to impl-plans/completed
+        # from counting as a newly added dispatch manifest.
         added = git(
             root, "diff-tree", "--root", "--no-commit-id", "--name-only", "-r",
-            "--diff-filter=A", commit,
+            "-M", "--diff-filter=A", commit,
         )
         if added.returncode != 0:
             raise ValueError("cannot read newly added checkpoint files")

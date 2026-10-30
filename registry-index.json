@@ -1299,7 +1299,7 @@
     {
       "name": "codex-design-and-implement-review-loop",
       "directory": "packages/codex-design-and-implement-review-loop",
-      "version": "0.3.56",
+      "version": "0.3.57",
       "kind": "workflow",
       "title": "codex-design-and-implement-review-loop",
       "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
@@ -1331,11 +1331,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "ef30bfb9034df2607fb19bfadd196ba4"
+        "value": "35555e48a220736d8e3df8ab1eaeea3f"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "609d7953dd6632a1670b0dcec0cdc5a1b4bed1a12912368d9f8f0cba051aab7a"
+        "digest": "29bd589fedab980761b410f0d43ea4ed027ee10293d2b9a3462026a39cc37b41"
       }
     },
     {
@@ -2709,7 +2709,7 @@
     {
       "name": "fable-and-improve-opus",
       "directory": "packages/fable-and-improve-opus",
-      "version": "0.5.8",
+      "version": "0.5.9",
       "kind": "workflow",
       "title": "fable-and-improve-opus",
       "description": "Fable-authored design and planning with Opus 5.5 planning, test-integrity and adversarial reviews, dependency-aware shared-branch implementation, Fable integration and goal gates, and serialized Git finalization.",
@@ -2747,11 +2747,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "16d0322dfa2968a330fbab4021863c4b"
+        "value": "bc2cd633b1e817c6bb5dd4a727312dbf"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "319f2bb39209c5939b2435c9cb8cb54c3bb3e47e42c12dccab5482efa245dc2d"
+        "digest": "5b594ea7aa390299baf8e81a42f2ab34ae75eafdf6aa73a5e16b311181d3415a"
       }
     },
     {
@@ -2950,7 +2950,7 @@
     {
       "name": "opus-terra-design-and-implement-review-loop",
       "directory": "packages/opus-terra-design-and-implement-review-loop",
-      "version": "0.1.12",
+      "version": "0.1.13",
       "kind": "workflow",
       "title": "opus-terra-design-and-implement-review-loop",
       "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
@@ -2994,11 +2994,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "663abf192f856e2c8910dcfca5ef03bc"
+        "value": "79af8808702810187dbc36ec405b4f3f"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "54fd490eadd0512fbbd7e48e6a7dd19b7448abd4c06b3cadcc699adc18715f2b"
+        "digest": "943b8abc284bc01dd8d4688ff45758558731a2739331c9a3e2a77b3b216d9952"
       }
     },
     {
