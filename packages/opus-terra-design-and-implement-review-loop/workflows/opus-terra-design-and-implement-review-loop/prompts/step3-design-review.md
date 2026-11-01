@@ -50,7 +50,7 @@ Independently check authorSelfCheck against the artifacts. Missing evidence or a
 
 ## Detailed revision handoff
 
-This is a read-only Opus review. Do not edit source, tests, plans or evidence files, and do not delegate repairs to any subagent. Return every material high/mid finding immediately through the authored needs_revision transition. Design and plan findings return to their Opus author; implementation findings return to the original GPT-6.1 Terra step6-implement in this native branch, followed by the progress gate, test-integrity review and adversarial review again. Low findings remain residual risks.
+This is a read-only GPT-6.1 Sol design review. Do not edit source, tests, plans or evidence files, and do not delegate repairs to any subagent. Return every material high/mid finding immediately through the authored needs_revision transition. Design and plan findings return to their Opus author; implementation findings return to the original GPT-6.1 Terra step6-implement in this native branch, followed by the progress gate, test-integrity review and adversarial review again. Low findings remain residual risks.
 
 For each high/mid finding, return a self-contained repair brief in payload.repairRequests and embed the same brief as repairInstructions inside its payload.findings entry. Repeat actionable instructions in payload.feedback. Selective integration dispatch preserves findings, not top-level feedback or repairRequests, so nested repairInstructions are required to carry the full brief to Terra. Do not use vague instructions such as "fix validation". Each repairRequests item must contain:
 - findingId: a stable identifier, also referenced in feedback;

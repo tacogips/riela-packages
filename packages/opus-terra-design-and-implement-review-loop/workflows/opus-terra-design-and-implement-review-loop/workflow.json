@@ -780,7 +780,8 @@
         {
           "toStepId": "integration-review"
         }
-      ]
+      ],
+      "timeoutMs": 14400000
     },
     {
       "id": "integration-review",
@@ -814,7 +815,8 @@
           "toStepId": "step7b-e2e-evidence",
           "label": "!(needs_revision || plans_remaining)"
         }
-      ]
+      ],
+      "timeoutMs": 14400000
     },
     {
       "id": "base-branch-integrate",

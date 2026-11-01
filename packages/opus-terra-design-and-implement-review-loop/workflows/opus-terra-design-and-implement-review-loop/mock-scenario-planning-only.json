@@ -121,7 +121,7 @@
   "step3-design-review": [
     {
       "provider": "scenario-mock",
-      "model": "claude-opus-5-5",
+      "model": "gpt-6.1-sol",
       "when": {
         "needs_revision": true
       },
@@ -143,7 +143,7 @@
     },
     {
       "provider": "scenario-mock",
-      "model": "claude-opus-5-5",
+      "model": "gpt-6.1-sol",
       "when": {
         "needs_revision": false
       },

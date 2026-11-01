@@ -9,9 +9,9 @@ Run the installed workflow instead of manually emulating its orchestration.
 
 ## Responsibility split
 
-- Opus `claude-opus-5-5`: intake, design, implementation plans, design and
-  plan review, test-integrity and adversarial review, reconciliation,
+- Opus `claude-opus-5-5`: intake, design, implementation plans, plan review, test-integrity and adversarial review, reconciliation,
   integration review, documentation, completion and Git handoff
+- Codex `gpt-6.1-sol`: read-only design review
 - Codex `gpt-6.1-terra` (medium effort): implementation of each plan in
   its own native fanout branch; all dependency-ready plans run at once
 Reviewers do not edit or delegate repairs. Design/plan findings return to the

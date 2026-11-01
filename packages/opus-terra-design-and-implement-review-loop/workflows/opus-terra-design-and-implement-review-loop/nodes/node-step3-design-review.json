@@ -1,9 +1,9 @@
 {
   "id": "step3-design-review",
   "description": "Review the design-doc update and route back when any high or mid finding exists. Return detailed revision instructions to the owning author without editing or repair delegation.",
-  "executionBackend": "claude-code-agent",
+  "executionBackend": "codex-agent",
   "agentSandbox": "read-only",
-  "model": "claude-opus-5-5",
+  "model": "gpt-6.1-sol",
   "modelFreeze": false,
   "effort": "high",
   "sessionPolicy": {

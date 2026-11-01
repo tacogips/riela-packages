@@ -2950,10 +2950,10 @@
     {
       "name": "opus-terra-design-and-implement-review-loop",
       "directory": "packages/opus-terra-design-and-implement-review-loop",
-      "version": "0.1.13",
+      "version": "0.1.15",
       "kind": "workflow",
       "title": "opus-terra-design-and-implement-review-loop",
-      "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
+      "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Sol design review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
       "tags": [
         "claude-code",
         "codex",
@@ -2967,7 +2967,7 @@
       "workflow": {
         "directory": "workflows/opus-terra-design-and-implement-review-loop",
         "title": "opus-terra-design-and-implement-review-loop",
-        "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
+        "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Sol design review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
         "tags": [
           "workflow",
           "claude-code",
@@ -2994,11 +2994,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "79af8808702810187dbc36ec405b4f3f"
+        "value": "61f646cac699741d1602785c342a94b9"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "943b8abc284bc01dd8d4688ff45758558731a2739331c9a3e2a77b3b216d9952"
+        "digest": "2d86493db69973fe9c8cfbd3628f8b44898aca5c5480a7c822544f2ece7c0f32"
       }
     },
     {
