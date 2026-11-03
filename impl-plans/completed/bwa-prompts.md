@@ -1,6 +1,6 @@
 # bwa-prompts
 
-Status: active. Wave 1. Issue: `local:tacogips/riela-packages#opus-terra-blocked-wave-amendment`.
+Status: completed (2026-11-03; accepted in session-669 wave 1 and released in 0.1.16). Wave 1. Issue: `local:tacogips/riela-packages#opus-terra-blocked-wave-amendment`.
 Design: `design-docs/specs/design-opus-terra-blocked-wave-amendment.md`, section D6.
 
 ```json

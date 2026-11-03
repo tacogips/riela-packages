@@ -1,6 +1,6 @@
 # bwa-release
 
-Status: active. Wave 3, after `bwa-wave-outcome`, `bwa-prompts` and `bwa-scenario-docs`. Issue `local:tacogips/riela-packages#opus-terra-blocked-wave-amendment`.
+Status: completed (2026-11-03; accepted in session-673; Step 8 refreshed docs and digests afterwards). Wave 3, after `bwa-wave-outcome`, `bwa-prompts` and `bwa-scenario-docs`. Issue `local:tacogips/riela-packages#opus-terra-blocked-wave-amendment`.
 Design: `design-docs/specs/design-opus-terra-blocked-wave-amendment.md` D7 (release) and the Verification section.
 
 ```json
@@ -60,3 +60,16 @@ Follow the release precedent in `impl-plans/completed/wave-release.md` and `impl
 
 - Every verification command exits 0. `package validate` JSON reports `valid: true`.
 - Add a dated `## Progress` section to this file with each command's exit status.
+
+## Progress 2026-11-03
+
+- Implementation complete: version 0.1.16, script-refreshed package digests and regenerated registry index. Formal reviews and finalization remain downstream.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -v`: exit 0, 117 tests passed.
+- `riela workflow validate opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows`: exit 0, valid true.
+- `bun .agents/skills/riela-package-release/scripts/update-package-digests.ts opus-terra-design-and-implement-review-loop`: exit 0.
+- `mise run package:generate-index`: exit 0; index contains version 0.1.16.
+- `find packages -name __pycache__ -type d -prune -exec rm -rf {} +`: exit 0; subsequent scan empty.
+- `riela package validate packages/opus-terra-design-and-implement-review-loop --output json`: exit 0, valid true.
+- `mise run package:check-digests` and `mise run package:check-index`: both exit 0.
+- `git diff --stat -- packages ':!packages/opus-terra-design-and-implement-review-loop'`: exit 0, empty.
+- Complete logs: `tmp/blocked-wave-amendment/bwa-release/attempt-1/`. Scenario verification was accepted from `bwa-scenario-docs` (60 workflows, zero failures).

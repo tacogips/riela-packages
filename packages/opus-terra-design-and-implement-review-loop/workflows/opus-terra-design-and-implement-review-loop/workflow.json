@@ -752,12 +752,16 @@
     {
       "id": "implementation-wave-outcome",
       "nodeId": "implementation-wave-outcome",
-      "description": "Aggregate preclassified native implementation branch outcomes; blocked-only waves terminate, while evidence-complete successful candidates continue to independent acceptance.",
+      "description": "Aggregate preclassified native implementation branch outcomes; blocked-only waves amend within the shared checkpoint-amendment budget or terminate, while evidence-complete successful candidates continue to independent acceptance.",
       "role": "worker",
       "transitions": [
         {
+          "toStepId": "step4-impl-plan-create",
+          "label": "implementation_blocked && !(partial_success) && amendment_required"
+        },
+        {
           "toStepId": "implementation-blocked-output",
-          "label": "implementation_blocked && !(partial_success)"
+          "label": "implementation_blocked && !(partial_success || amendment_required)"
         },
         {
           "toStepId": "reconcile-implementations",

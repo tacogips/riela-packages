@@ -37,7 +37,7 @@ requesting serial in-place repairs. Reviewers do not edit or delegate repairs.
 
 The pre-commit `plan-contract-validate` gate routes invalid tracking contracts
 back to Step 4. `dispatch-plans` routes bounded checkpoint amendments to Step 4
-and sends exhausted amendments to the blocked output after two attempts. Step 8
+and shares a limit of two total checkpoint amendments per run with blocked-wave amendments. A fully blocked wave can amend when its implementation-dependency blockers are scope or contract gaps. Environment/runtime, external-service, review-rejection, test-integrity and other gate types, as well as exhausted budgets, still end blocked. Partial-success waves continue to reconciliation. Step 8
 returns archive requests for the deterministic `plan-archive` command, which
 performs moves without git and bounds the Step 8/Step 9 loop at three rounds.
 

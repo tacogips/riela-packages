@@ -1,6 +1,6 @@
 # bwa-scenario-docs
 
-Status: active. Wave 2, after `bwa-wave-outcome`. Issue `local:tacogips/riela-packages#opus-terra-blocked-wave-amendment`.
+Status: completed (2026-11-03; accepted in session-673 and released in 0.1.16). Wave 2, after `bwa-wave-outcome`. Issue `local:tacogips/riela-packages#opus-terra-blocked-wave-amendment`.
 Design: `design-docs/specs/design-opus-terra-blocked-wave-amendment.md` D7 (mock scenario, README, EXPECTED_RESULTS), user-QA Q1/Q2.
 
 ```json
@@ -99,3 +99,9 @@ All verification commands exit 0, with `exit=0` echoed and the jq status `comple
 - Workflow validation exited 0 (`tmp/blocked-wave-amendment/bwa-scenario-docs/attempt-1/validate.log`). The new, local, fanout and default scenarios exited 0 and completed with 33, 25, 28 and 28 executions respectively; complete JSON is under `tmp/scenario-{bwa,local,fanout,default}/run.json`. Fixture and route assertions exited 0 (`tmp/blocked-wave-amendment/bwa-scenario-docs/attempt-1/assertions.log`).
 - `mise run workflow:check-scenarios` exited 1 before running scenarios because its default evidence parent `tmp/registry-contract-migration/verification/compat-verification` does not exist (`tmp/blocked-wave-amendment/bwa-scenario-docs/attempt-1/check-scenarios.log`). The task writes outside the authorized plan evidence root; a checkpoint amendment or authorized lifecycle for that output is required before retrying the exact gate.
 - Formal review, downstream release metadata and final integration remain pending.
+
+## Progress 2026-11-03 (retry)
+
+- The previously missing compatibility evidence directory is available. `mise run workflow:check-scenarios` exited 0 with 60 workflows and zero failures (`tmp/blocked-wave-amendment/bwa-scenario-docs/attempt-2/check-scenarios-final.log`).
+- Workflow validation and the blocked-wave, local, fanout and default mock runs exited 0. Complete scenario outputs are `tmp/scenario-{bwa,local,fanout,default}/run.json`; the blocked-wave route is recorded in `tmp/blocked-wave-amendment/bwa-scenario-docs/attempt-2/route.log`.
+- Formal reviews, release metadata, final integration and Git finalization remain downstream.

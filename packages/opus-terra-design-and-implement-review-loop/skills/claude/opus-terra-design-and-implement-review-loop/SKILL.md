@@ -19,8 +19,12 @@ Opus author; implementation findings return immediately to the original Terra
 step, then pass both independent reviews again. Integration findings selectively
 redispatch the owning Terra plans. Detailed repairRequests and feedback must
 include location, intent, reproduction, root cause, authorized scope, ordered
-changes, exact verification and completion criteria. Blocked-only waves terminate
-without accepted Git finalization.
+changes, exact verification and completion criteria. A fully blocked wave whose
+blockers are all scope/contract gaps returns to Step 4 as a
+`blocked-wave-scope-or-contract` checkpoint amendment, sharing the limit of two
+checkpoint amendments per run with dispatch amendments. Other blocked-only waves,
+and waves with an exhausted budget, terminate without accepted Git finalization;
+`wave-summary.json` records the `amendmentDecision`.
 
 ## GPT-6.1 Terra fanout
 

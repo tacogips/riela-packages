@@ -49,3 +49,14 @@ The prompt-level bound and "run proceeds to reconciliation/integration" remain B
 - [gate-routing-release](completed/gate-routing-release.md) — version 0.1.10, refreshed digests and registry index.
 
 The [dispatch record](active/opus-terra-gate-routing-dispatch.json) stays in `active/` as a historical checkpoint and keeps the original `active/` plan paths. Operator follow-up: `.agents/skills/riela-package-release/fixtures/expected-routes.json` still lacks the `plan-contract-validate` and `plan-archive` route steps.
+
+### Opus-terra blocked-wave amendment (package 0.1.16)
+
+[Design](../design-docs/specs/design-opus-terra-blocked-wave-amendment.md) · [user QA](../design-docs/user-qa/opus-terra-blocked-wave-amendment.md) · issue `local:tacogips/riela-packages#opus-terra-blocked-wave-amendment`. Accepted in opus-terra-design-and-implement-review-loop session-669 (wave 1) and session-673 (waves 2-3):
+
+- [bwa-wave-outcome](completed/bwa-wave-outcome.md) — rule-based eligibility in `implementation-wave-outcome.py`; a fully blocked scope/contract wave routes to Step 4 with a `blocked-wave-scope-or-contract` checkpoint amendment, sharing `MAX_CHECKPOINT_AMENDMENTS = 2` with dispatch amendments.
+- [bwa-prompts](completed/bwa-prompts.md) — Step 4, Step 5 and plan-checkpoint rules for the new amendment reason.
+- [bwa-scenario-docs](completed/bwa-scenario-docs.md) — `mock-scenario-blocked-wave-amendment.json`, EXPECTED_RESULTS.md and package README.
+- [bwa-release](completed/bwa-release.md) — version 0.1.16, refreshed digests and registry index.
+
+The [dispatch record](active/blocked-wave-amendment-dispatch.json) stays in `active/` as a historical checkpoint and keeps the original `active/` plan paths. `mock-scenario-blocked-wave-amendment.json` has no entry in `expected-routes.json` (editing that file was a non-goal), so `workflow:check-scenarios` does not run it.

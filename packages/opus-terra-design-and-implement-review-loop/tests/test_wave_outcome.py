@@ -161,7 +161,7 @@ class WaveOutcomeTests(unittest.TestCase):
     def test_blocked_only_is_not_partial_success(self):
         with tempfile.TemporaryDirectory() as d:
             result=run({'branches':[branch('a',implementation_blocked=True)]},Path(d))
-            self.assertEqual(result['when'],{'implementation_blocked':True,'partial_success':False})
+            self.assertEqual(result['when'],{'implementation_blocked':True,'partial_success':False,'amendment_required':False})
 
     def test_failed_and_cancelled_are_not_blocked_or_successful(self):
         with tempfile.TemporaryDirectory() as d:
@@ -183,13 +183,13 @@ class WaveOutcomeTests(unittest.TestCase):
         self.assertEqual(node['nodeType'],'command')
         self.assertEqual(node['command']['scriptPath'],'scripts/implementation-wave-outcome.py')
         self.assertNotIn('model',node)
-        self.assertEqual(set(node['output']['jsonSchema']['properties']),set(wave.SCHEMA_KEYS))
+        self.assertEqual(set(node['output']['jsonSchema']['properties']),set(wave.SCHEMA_KEYS + wave.OPTIONAL_KEYS))
         self.assertEqual(set(node['output']['jsonSchema']['required']),set(wave.SCHEMA_KEYS))
         self.assertFalse(node['output']['jsonSchema']['additionalProperties'])
         self.assertFalse((WORKFLOW/'prompts/implementation-wave-outcome.md').exists())
         workflow=json.loads((WORKFLOW/'workflow.json').read_text())
         step=next(s for s in workflow['steps'] if s['id']=='implementation-wave-outcome')
-        self.assertEqual(step['transitions'],[{'toStepId':'implementation-blocked-output','label':'implementation_blocked && !(partial_success)'},{'toStepId':'reconcile-implementations','label':'!(implementation_blocked) || partial_success'}])
+        self.assertEqual(step['transitions'],[{'toStepId':'step4-impl-plan-create','label':'implementation_blocked && !(partial_success) && amendment_required'},{'toStepId':'implementation-blocked-output','label':'implementation_blocked && !(partial_success || amendment_required)'},{'toStepId':'reconcile-implementations','label':'!(implementation_blocked) || partial_success'}])
 
     def test_repeated_join_preserves_previous_and_allocates_next(self):
         with tempfile.TemporaryDirectory() as d:

@@ -38,6 +38,12 @@
             "type": "string",
             "minLength": 1
           }
+        },
+        "amendment_required": {
+          "type": "boolean"
+        },
+        "checkpointAmendment": {
+          "type": "object"
         }
       },
       "required": [
@@ -46,7 +52,8 @@
         "blockedPlanIds",
         "successfulPlanIds",
         "blockers",
-        "resumeCriteria"
+        "resumeCriteria",
+        "amendment_required"
       ],
       "additionalProperties": false
     },

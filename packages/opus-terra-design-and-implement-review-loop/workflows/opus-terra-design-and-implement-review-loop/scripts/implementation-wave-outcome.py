@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
 import os
 import re
@@ -27,7 +28,23 @@ LEVELS = (
     {"paths": 5, "kinds": 1, "branchIds": 2, "changedFiles": 5, "evidencePaths": 5, "blockers": 3, "resumeCriteria": 3, "diagnostics": 5, "artifactPaths": 5, "byKind": 5, "items": 3, "depth": 2, "string": 80},
     {"paths": 0, "kinds": 0, "branchIds": 0, "changedFiles": 0, "evidencePaths": 0, "blockers": 1, "resumeCriteria": 1, "diagnostics": 0, "artifactPaths": 0, "byKind": 0, "items": 0, "depth": 0, "string": 80},
 )
-SCHEMA_KEYS = ("implementation_blocked", "partial_success", "blockedPlanIds", "successfulPlanIds", "blockers", "resumeCriteria")
+_spec = importlib.util.spec_from_file_location("dispatch_wave", Path(__file__).with_name("dispatch-wave.py"))
+_dispatch_wave = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_dispatch_wave)
+MAX_CHECKPOINT_AMENDMENTS = _dispatch_wave.MAX_CHECKPOINT_AMENDMENTS
+dispatch = _dispatch_wave.dispatch
+AMENDMENT_REASON = "blocked-wave-scope-or-contract"
+AMENDMENT_BYTE_LIMIT = 16384
+SCOPE_SIGNALS = ("authoriz", "amend", "writepaths", "ownership", "owner", "contract", "scope")
+EXCLUSION_MARKERS = {
+    "environment": ("environment", "sandbox", "network", "dns", "credential", "permission denied", "toolchain", "timeout", "timed out", "out of memory", "disk"),
+    "external": ("external service", "external-service", "third-party", "rate limit", "service unavailable", "api key"),
+    "review": ("review rejection", "review-rejection", "rejected by review", "needs_revision"),
+    "test-integrity": ("test-integrity", "test integrity", "weakened assertion", "skipped test", "flaky"),
+}
+BLOCKER_COPY_KEYS = ("paths", "path", "dependency", "evidence", "resumeCriterion", "resumeCriteria", "message")
+SCHEMA_KEYS = ("implementation_blocked", "partial_success", "blockedPlanIds", "successfulPlanIds", "blockers", "resumeCriteria", "amendment_required")
+OPTIONAL_KEYS = ("checkpointAmendment",)
 
 
 def compact(value: Any) -> bytes:
@@ -321,6 +338,106 @@ def _summary_for_level(join: dict[str, Any], verdict: dict[str, Any], plans: lis
     return result
 
 
+def _checkpoint_lineage(root: Path) -> tuple[str, str, int]:
+    def git(*args: str) -> str:
+        result = dispatch.git(root, *args)
+        if result.returncode:
+            raise ValueError(result.stderr.strip() or "git command failed")
+        return result.stdout.strip()
+    head = git("rev-parse", "HEAD")
+    files = git("diff-tree", "--root", "--no-commit-id", "--name-only", "-r", "HEAD").splitlines()
+    manifest, _ = dispatch.checkpoint_source([{"fromStepId": "plan-git-commit", "createdOrder": 1, "payload": {"git": {"operation": "commit", "commitHash": head, "committedFiles": files}}}], root)
+    original = json.loads((root / manifest).read_text()).get("originalHead")
+    if not isinstance(original, str) or not original.strip():
+        raise ValueError("manifest originalHead is missing")
+    git("cat-file", "-e", original + "^{commit}")
+    git("merge-base", "--is-ancestor", original, "HEAD")
+    count = int(git("rev-list", "--count", "--first-parent", original + "..HEAD"))
+    if count < 1:
+        raise ValueError("checkpoint lineage has no checkpoint")
+    return manifest, head, count - 1
+
+
+def _amendment_decision(join: dict[str, Any], plans: list[dict[str, Any]], verdict: dict[str, Any], root: Path, summary_path: str, raw_path: str) -> dict[str, Any]:
+    decision = {"eligible": False, "amendmentRequired": False, "amendmentRound": None, "maxAmendmentRounds": MAX_CHECKPOINT_AMENDMENTS, "ineligibleReasons": [], "checkpointAmendment": None}
+    reasons = decision["ineligibleReasons"]
+    def fail(reason: str) -> None:
+        if len(reasons) < 10:
+            reasons.append(reason[:160])
+    if not verdict["implementation_blocked"] or verdict["partial_success"]:
+        fail("not-fully-blocked")
+        return decision
+    copied = []
+    for plan in plans:
+        classification = plan["classification"]
+        if classification not in {"blocked", "pending"}:
+            fail("wave-shape: " + classification)
+        if classification != "blocked":
+            continue
+        pid, gate = plan["planId"], plan["blockerType"]
+        if gate != "implementation-dependency":
+            fail("blocker-type: " + str(gate))
+        pointer = plan["rawPointer"]
+        output = join["branches"][int(pointer.rsplit("/", 1)[1])].get("output", {})
+        status = output.get("status")
+        if output.get("environmentBlocked") is True or output.get("environment_blocked") is True or (isinstance(gate, str) and gate.lower() in {"environment", "environmental"}) or (isinstance(status, str) and status.lower() in {"environment-blocked", "blocked-environment"}):
+            fail("environment-blocked: " + pid)
+        def scan(value: Any) -> None:
+            text = (value if isinstance(value, str) else json.dumps(value, ensure_ascii=False)).lower()
+            for family, markers in EXCLUSION_MARKERS.items():
+                if any(marker in text for marker in markers):
+                    fail("excluded-" + family + ": " + pid)
+        def scan_resume(value: Any) -> None:
+            if not isinstance(value, list):
+                fail("invalid-resumeCriteria: " + pid)
+                return
+            for entry in value:
+                if not isinstance(entry, str):
+                    fail("invalid-resumeCriteria: " + pid)
+                else:
+                    scan(entry)
+        if "resumeCriteria" in output:
+            scan_resume(output["resumeCriteria"])
+        substantive = [b for b in plan["blockers"] if not (isinstance(b, dict) and "evidenceFingerprint" in b and b.get("type") == gate)]
+        if not substantive:
+            fail("missing-substantive-blocker: " + pid)
+        for blocker in substantive:
+            if not isinstance(blocker, dict):
+                fail("unstructured-blocker: " + pid)
+                continue
+            paths = blocker.get("paths")
+            path_signal = isinstance(paths, list) and bool(paths) and all(isinstance(x, str) and bool(x.strip()) for x in paths)
+            path_signal |= isinstance(blocker.get("path"), str) and bool(blocker["path"].strip())
+            dependency = blocker.get("dependency")
+            criteria = blocker.get("resumeCriteria", [])
+            singular = blocker.get("resumeCriterion")
+            texts = ([singular] if isinstance(singular, str) else []) + ([x for x in criteria if isinstance(x, str)] if isinstance(criteria, list) else [])
+            if not (path_signal or (isinstance(dependency, str) and dependency.strip()) or any(signal in text.lower() for text in texts for signal in SCOPE_SIGNALS)):
+                fail("missing-scope-signal: " + pid)
+            for key in ("type", "blockerType", "category", "kind", "dependency", "message", "evidence", "resumeCriterion", "path", "paths"):
+                if key in blocker:
+                    scan(blocker[key])
+            if "resumeCriteria" in blocker:
+                scan_resume(criteria)
+            copied.append({"planId": pid, **{key: blocker[key] for key in BLOCKER_COPY_KEYS if key in blocker}})
+    try:
+        manifest, head, round_number = _checkpoint_lineage(root)
+        decision["amendmentRound"] = round_number
+        amendment = {"reason": AMENDMENT_REASON, "blockedPlanIds": verdict["blockedPlanIds"], "blockers": copied, "manifestPath": manifest, "previousCheckpointCommit": head, "amendmentRound": round_number, "maxAmendmentRounds": MAX_CHECKPOINT_AMENDMENTS, "summaryPath": summary_path, "rawJoinPath": raw_path}
+        if len(compact(amendment)) > AMENDMENT_BYTE_LIMIT:
+            fail("amendment-oversize")
+        if not reasons:
+            decision["eligible"] = True
+            if round_number < MAX_CHECKPOINT_AMENDMENTS:
+                decision["amendmentRequired"] = True
+                decision["checkpointAmendment"] = amendment
+            else:
+                fail(f"amendment-budget-exhausted: round {round_number} of {MAX_CHECKPOINT_AMENDMENTS}")
+    except (ValueError, OSError, TypeError, KeyError) as exc:
+        fail("checkpoint-unresolved: " + str(exc))
+    return decision
+
+
 def classify(envelope: dict[str, Any], root: Path) -> dict[str, Any]:
     join = _join(envelope)
     runtime = envelope.get("input", {}).get("_rielaInput", {})
@@ -335,22 +452,32 @@ def classify(envelope: dict[str, Any], root: Path) -> dict[str, Any]:
     for blocker in verdict["blockers"]:
         if blocker.get("source") == "progress-gate" and not blocker.get("message"):
             blocker["message"] = f"Resolve blockers recorded in {summary_path} and redispatch."
+    decision = _amendment_decision(join, plans, verdict, root, summary_path, raw_path)
     result = None
-    for blocker_cap, resume_cap, string_cap in ((3,3,300),(1,1,120)):
-        payload = _cap_verdict(verdict, plans, summary_path, blocker_cap, resume_cap, string_cap)
-        if len(compact(payload)) > VERDICT_BYTE_LIMIT:
-            continue
-        for level in LEVELS:
-            summary = _summary_for_level(join, payload, plans, projection, execution_id, ordinal, summary_path, raw_path, raw, level)
-            if len(compact(summary)) <= SUMMARY_BYTE_LIMIT and len(compact(summary)) + len(compact(payload)) <= 65536:
-                result = summary
+    for attempt in range(2):
+        for blocker_cap, resume_cap, string_cap in ((3,3,300),(1,1,120)):
+            capped = _cap_verdict(verdict, plans, summary_path, blocker_cap, resume_cap, string_cap)
+            if len(compact(capped)) > VERDICT_BYTE_LIMIT:
+                continue
+            payload = {**capped, "amendment_required": decision["amendmentRequired"]}
+            if decision["amendmentRequired"]:
+                payload["checkpointAmendment"] = decision["checkpointAmendment"]
+            for level in LEVELS:
+                summary = _summary_for_level(join, payload, plans, projection, execution_id, ordinal, summary_path, raw_path, raw, level)
+                summary["amendmentDecision"] = {k: v for k, v in decision.items() if k != "checkpointAmendment"}
+                if len(compact(summary)) <= SUMMARY_BYTE_LIMIT and len(compact(summary)) + len(compact(payload)) <= 65536:
+                    result = summary
+                    break
+            if result is not None:
                 break
-        if result is not None:
+        if result is not None or not decision["amendmentRequired"]:
             break
+        decision.update(eligible=False, amendmentRequired=False, checkpointAmendment=None)
+        decision["ineligibleReasons"] = (decision["ineligibleReasons"] + ["amendment-oversize"])[:10]
     if result is None:
         raise ValueError(f"bounded wave summary cannot fit for {len(plans)} plans")
     _atomic(wave_dir / "wave-summary.json", compact(result))
-    return {"when":{"implementation_blocked":payload["implementation_blocked"],"partial_success":payload["partial_success"]},"payload":payload}
+    return {"when":{key: payload[key] for key in ("implementation_blocked", "partial_success", "amendment_required")},"payload":payload}
 
 
 def main() -> int:

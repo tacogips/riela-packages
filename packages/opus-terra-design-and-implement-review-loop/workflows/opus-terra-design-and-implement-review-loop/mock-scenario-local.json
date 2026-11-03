@@ -789,11 +789,13 @@
     "model": "scripts/implementation-wave-outcome.py",
     "when": {
       "implementation_blocked": false,
-      "partial_success": false
+      "partial_success": false,
+      "amendment_required": false
     },
     "payload": {
       "implementation_blocked": false,
       "partial_success": false,
+      "amendment_required": false,
       "blockedPlanIds": [],
       "successfulPlanIds": [
         "a"
