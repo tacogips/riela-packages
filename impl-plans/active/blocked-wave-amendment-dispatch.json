@@ -1,0 +1,194 @@
+{
+  "taskId": "blocked-wave-amendment",
+  "workflowMode": "issue-resolution",
+  "implementationBranch": "feat/opus-terra-blocked-wave-amendment",
+  "baseBranch": "main",
+  "remote": "origin",
+  "originalHead": "99764248117eb315910963c8f572ce88cfc73e15",
+  "designDocPaths": [
+    "design-docs/specs/design-opus-terra-blocked-wave-amendment.md",
+    "design-docs/user-qa/opus-terra-blocked-wave-amendment.md",
+    "design-docs/specs/design-opus-terra-wave-input-compaction.md"
+  ],
+  "evidenceRoot": "tmp/blocked-wave-amendment",
+  "reviewContext": {
+    "issueReference": "local:tacogips/riela-packages#opus-terra-blocked-wave-amendment",
+    "userProblem": "implementation-wave-outcome routes every fully blocked wave (implementation_blocked && !partial_success) to the terminal implementation-blocked-output step. In monja security batch 1 (sessions 630-651), almost all such blockers were scope or contract gaps the plan owner could decide: a file outside writePaths, a missing additive port/projection field, an unspecified authority/readback rule, or an unowned fixture/composition file. Each gap forced an operator to hand-write a plan amendment, patch the dispatch manifest and restart from plan-checkpoint (6 consecutive restarts for one unit).",
+    "requiredOutcomes": [
+      "A fully blocked wave whose blockers are all scope/contract gaps routes to step4-impl-plan-create with a bounded checkpointAmendment (reason blocked-wave-scope-or-contract). Ineligible or budget-exhausted waves still end in implementation-blocked-output. Partial-success routing to reconcile-implementations is unchanged.",
+      "The amendment budget is bounded and shared across dispatch and blocked-wave amendments (MAX_CHECKPOINT_AMENDMENTS = 2, imported from dispatch-wave.py) and documented.",
+      "step4-impl-plan-create, step5-impl-plan-review and plan-checkpoint prompts handle the new reason without redesign, preserve stable plan IDs and acceptedDependencies, keep manifest originalHead/taskId/evidenceRoot unchanged and append a dated designDecisionsAndRationale entry.",
+      "Unit tests (tests/test_blocked_wave_amendment.py, updated tests/test_wave_outcome.py, prompt tests) and mock-scenario-blocked-wave-amendment.json cover the new path; all package tests, workflow validation, mock scenarios, digest and index checks pass; package version 0.1.16."
+    ],
+    "nonGoals": [
+      "No change to dispatch-plans.py (byte-identical to the Codex base) or dispatch-wave.py counting/messages.",
+      "No change to partial-success/reconcile routing, the progress gate, Step 6 or implementation-blocked-output.md.",
+      "No model-based classification; tracking-contract and evidence-incomplete waves are not auto-amended.",
+      "No new workflow step or node; no edits to .agents/** or expected-routes.json.",
+      "No changes to other packages, no package install into ~/.riela, no changes to the monja repository, no git push or merge."
+    ],
+    "constraints": [
+      "Work only in worktree /Users/taco/gits/tacogips/riela-packages-worktrees/wf-blocked-wave-amendment on branch feat/opus-terra-blocked-wave-amendment; gitPush=false.",
+      "Change only packages/opus-terra-design-and-implement-review-loop plus registry-index.json; other packages stay byte-identical.",
+      "Commit messages are structured and concise, with no tool attribution or Co-Authored-By trailers.",
+      "Python runs use PYTHONDONTWRITEBYTECODE=1; every __pycache__ under packages/ is deleted before riela package validate and check-digests (CHECKSUM_MISMATCH trap).",
+      "Classification is rule-based in the script (no model call); every existing test must still pass.",
+      "Finding status values are exactly one of resolved, fixed, closed, addressed, not_applicable, superseded, pending_downstream, owned_elsewhere.",
+      "Evidence and scratch only under tmp/blocked-wave-amendment/<planId>/attempt-N/ (scenario logs under tmp/scenario-*/run.json as the plans specify); workers never mutate git.",
+      "Operator note (2026-11-03): bwa-wave-outcome and bwa-prompts were accepted in session-669 wave 1; their code is uncommitted in the working tree, do not redo it. The bwa-scenario-docs blocker (mise run workflow:check-scenarios ENOENT on tmp/registry-contract-migration/verification/compat-verification) was an environment gap: the directory now exists in this worktree, and riela-packages main 76e16b1 makes check-package-compat.ts create it. Rerun the exact gate; it is not a blocker."
+    ],
+    "designDecisionsAndRationale": [
+      {
+        "decision": "D1: rule-based eligibility in implementation-wave-outcome.py (wave shape blocked/pending only, blockerType implementation-dependency only, no environment flag, every substantive blocker carries a path/dependency/scope resume signal, fail-closed denylist over all scanned fields including resumeCriteria lists, resolvable checkpoint, amendment <= 16384 bytes).",
+        "rationale": "Deterministic and conservative; a false negative only falls back to today's blocked output, which is safe."
+      },
+      {
+        "decision": "D2: amendmentRound = first-parent checkpoint commits from manifest originalHead to HEAD minus 1; MAX_CHECKPOINT_AMENDMENTS stays 2 and is imported from dispatch-wave.py.",
+        "rationale": "The join inbox has no checkpoint messages, so Git is the only shared evidence; every amendment from either source creates exactly one checkpoint commit, so one count bounds both. Existing tests and docs pin 2 (user-qa Q1)."
+      },
+      {
+        "decision": "D3/D4: payload and when gain amendment_required (required) and optional checkpointAmendment; workflow transitions become step4-impl-plan-create, implementation-blocked-output, reconcile-implementations with mutually exclusive labels.",
+        "rationale": "Reuses the existing checkpointAmendment shape and Step 4 -> Step 5 -> plan-checkpoint -> redispatch path without adding steps."
+      },
+      {
+        "decision": "D5: wave-summary.json records amendmentDecision with up to 10 ineligibleReasons; implementation-blocked-output.md is unchanged.",
+        "rationale": "Gives operators a deterministic reason a blocked wave was not auto-amended."
+      },
+      {
+        "decision": "D6: step4/step5/plan-checkpoint prompt rules for blocked-wave-scope-or-contract (exact writePaths, additive contracts, single owner per file, dated amendment section, no redesign, originalHead preserved, dated designDecisionsAndRationale manifest entry, blocked implementation changes unstaged).",
+        "rationale": "Keeps the shared bound working (originalHead never rewritten) and guarantees the amendment checkpoint contains exactly one changed manifest."
+      },
+      {
+        "decision": "D7: mock-scenario-blocked-wave-amendment.json uses per-node response arrays (blocked wave -> amendment -> redispatch -> success); escalation instead of substitution if riela rejects arrays.",
+        "rationale": "Array sequencing with last-entry repeat is confirmed by check-package-compat.ts:241-255 and existing fixtures (user-qa Q2)."
+      }
+    ],
+    "intentionalTradeoffs": [
+      "The bound stays 2 total per run instead of being raised; a blocked-wave amendment resolves every blocker of the wave at once.",
+      "A resumed run whose manifest originalHead predates the run counts earlier checkpoints too, which is stricter than dispatch's per-session inbox count.",
+      "Conservative eligibility markers may exclude some real scope gaps; those waves fall back to today's blocked output.",
+      "Mock scenarios do not execute command scripts, so the eligibility logic is covered by unit tests against temp git repos."
+    ],
+    "supportedEdgeCases": [
+      "Eligible fully blocked wave at round 0 and round 1 (shared counter after one dispatch amendment).",
+      "Budget exhaustion at round 2 -> implementation-blocked-output with an amendment-budget-exhausted reason.",
+      "Ineligible gate types, environment flags, each denylist family (including markers only in blocker or plan-level resumeCriteria), non-string resumeCriteria entries, string-only blockers, marker-only plans.",
+      "Tracking-rejected, evidence-incomplete (complete:false) and failed branches.",
+      "Non-git or unresolvable checkpoint lineage (ineligible, never an exception).",
+      "Oversize amendment (> 16384 bytes) -> ineligible with amendment-oversize, no raise.",
+      "Partial-success waves with eligible-looking blockers keep the reconcile route."
+    ],
+    "outOfScopeEdgeCases": [
+      "Auto-amending tracking-contract or evidence-incomplete waves.",
+      "Model-based classification of free-form blockers.",
+      "Raising MAX_CHECKPOINT_AMENDMENTS above 2.",
+      "TMPDIR located inside a git repository (non-git temp-root ineligibility check assumes it is not)."
+    ],
+    "sourcePaths": [
+      "design-docs/specs/design-opus-terra-blocked-wave-amendment.md",
+      "design-docs/user-qa/opus-terra-blocked-wave-amendment.md",
+      "design-docs/specs/design-opus-terra-wave-input-compaction.md",
+      "impl-plans/active/bwa-wave-outcome.md",
+      "impl-plans/active/bwa-prompts.md",
+      "impl-plans/active/bwa-scenario-docs.md",
+      "impl-plans/active/bwa-release.md",
+      "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/workflow.json",
+      "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/implementation-wave-outcome.py",
+      "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/dispatch-wave.py",
+      "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/dispatch-plans.py"
+    ],
+    "reviewDecisions": [
+      "Step 5 impl-plan review (comm-013582, step5-impl-plan-review-attempt-1-exec-10753) accepted all four plans: accepted:true, needs_revision:false, needs_design_revision:false, planning_only:false, no repair requests.",
+      "IPR-001 (mid, bwa-prompts): resolved; plan-checkpoint rules (a) originalHead/taskId/evidenceRoot preservation, (b) dated designDecisionsAndRationale entry, (c) blocked implementation changes unstaged were added.",
+      "step5-low-progress-check-mock (low, bwa-scenario-docs): resolved; implementation-progress-check stays unmocked.",
+      "step5-low-step4-step5-arrays (low, bwa-scenario-docs): resolved; existing 2-element step4/step5 arrays are reused via last-repeat.",
+      "Global checks passed: unique plan ids, acyclic DAG, disjoint writePaths, concrete path strings, empty artifactRoots, waves [[bwa-wave-outcome, bwa-prompts], [bwa-scenario-docs], [bwa-release]]."
+    ],
+    "residualRisks": [
+      "low IPR-002 (bwa-prompts, targetStep step6-implement): the planned originalHead assertion matches the existing 'supersedes the intake `originalHead` check' text; tighten it to a phrase unique to rule (a), for example 'Never rewrite `originalHead`'.",
+      "Runtime handling of array mocks stays unverified until bwa-scenario-docs runs the scenario; the D7 escalation rule applies.",
+      "plan-checkpoint originalHead and manifest-change rules are prompt-enforced, not script-enforced."
+    ],
+    "codexAgentReferences": []
+  },
+  "plans": [
+    {
+      "planId": "bwa-scenario-docs",
+      "planPath": "impl-plans/active/bwa-scenario-docs.md",
+      "dependsOn": [],
+      "writePaths": [
+        "impl-plans/active/bwa-scenario-docs.md",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-blocked-wave-amendment.json",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario.json",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-local.json",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-fanout.json",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/EXPECTED_RESULTS.md",
+        "packages/opus-terra-design-and-implement-review-loop/README.md"
+      ],
+      "sharedPaths": [],
+      "artifactRoots": [],
+      "progressFile": "impl-plans/active/bwa-scenario-docs.md",
+      "acceptanceCriteria": [
+        "Existing mocks (mock-scenario.json, -local, -fanout) give implementation-wave-outcome amendment_required:false in both when and payload. Their routes and step counts are unchanged.",
+        "The new mock-scenario-blocked-wave-amendment.json run exits 0 with status completed. The executions stepId sequence contains, in order: dispatch-plans, implementation-wave-outcome, step4-impl-plan-create, step5-impl-plan-review, plan-checkpoint, plan-git-commit, dispatch-plans, implementation-wave-outcome, reconcile-implementations, integration-review, workflow-output. implementation-blocked-output is absent.",
+        "EXPECTED_RESULTS.md documents the new route, the exact command and the observed execution count. README.md documents eligibility in summary, the shared bound (2 total checkpoint amendments per run across dispatch and blocked-wave sources) and the unchanged partial-success route.",
+        "mise run workflow:check-scenarios exits 0. Complete logs are kept under tmp/scenario-*/run.json."
+      ],
+      "verification": [
+        "riela workflow validate opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows",
+        "mkdir -p tmp/scenario-bwa && riela workflow run opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows --mock-scenario packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-blocked-wave-amendment.json --variables '{\"workflowInput\":{\"gitPush\":false}}' --session-store tmp/scenario-bwa/sessions --artifact-root tmp/scenario-bwa/artifacts --output json > tmp/scenario-bwa/run.json; echo exit=$?",
+        "jq -r '.status, ([.session.executions[].stepId]|join(\" \"))' tmp/scenario-bwa/run.json",
+        "mkdir -p tmp/scenario-local && riela workflow run opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows --mock-scenario packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-local.json --variables '{\"workflowInput\":{\"gitPush\":false}}' --session-store tmp/scenario-local/sessions --artifact-root tmp/scenario-local/artifacts --output json > tmp/scenario-local/run.json; echo exit=$?",
+        "mkdir -p tmp/scenario-fanout && riela workflow run opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows --mock-scenario packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-fanout.json --session-store tmp/scenario-fanout/sessions --artifact-root tmp/scenario-fanout/artifacts --output json > tmp/scenario-fanout/run.json; echo exit=$?",
+        "mise run workflow:check-scenarios",
+        "git diff --check"
+      ]
+    },
+    {
+      "planId": "bwa-release",
+      "planPath": "impl-plans/active/bwa-release.md",
+      "dependsOn": [
+        "bwa-scenario-docs"
+      ],
+      "writePaths": [
+        "impl-plans/active/bwa-release.md",
+        "packages/opus-terra-design-and-implement-review-loop/riela-package.json",
+        "registry-index.json"
+      ],
+      "sharedPaths": [],
+      "artifactRoots": [],
+      "progressFile": "impl-plans/active/bwa-release.md",
+      "acceptanceCriteria": [
+        "riela-package.json version is 0.1.16 and its digests are refreshed by the update script.",
+        "registry-index.json is regenerated by mise run package:generate-index and reflects 0.1.16.",
+        "The full package test suite passes, workflow validate passes, package validate reports valid:true, and check-digests and check-index exit 0.",
+        "No __pycache__ remains under packages/. Other packages are byte-identical, so the git diff --stat restricted to them is empty."
+      ],
+      "verification": [
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -v",
+        "riela workflow validate opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows",
+        "bun .agents/skills/riela-package-release/scripts/update-package-digests.ts opus-terra-design-and-implement-review-loop",
+        "mise run package:generate-index",
+        "find packages -name __pycache__ -type d -prune -exec rm -rf {} +",
+        "riela package validate packages/opus-terra-design-and-implement-review-loop --output json",
+        "mise run package:check-digests",
+        "mise run package:check-index",
+        "git diff --stat -- packages ':!packages/opus-terra-design-and-implement-review-loop'"
+      ]
+    }
+  ],
+  "acceptedDependencies": [
+    {
+      "planId": "bwa-wave-outcome",
+      "planPath": "impl-plans/active/bwa-wave-outcome.md",
+      "commit": "uncommitted-working-tree",
+      "provides": "accepted in session-669 wave 1"
+    },
+    {
+      "planId": "bwa-prompts",
+      "planPath": "impl-plans/active/bwa-prompts.md",
+      "commit": "uncommitted-working-tree",
+      "provides": "accepted in session-669 wave 1"
+    }
+  ]
+}
