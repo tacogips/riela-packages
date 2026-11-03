@@ -36,6 +36,8 @@ class RuntimePromptTests(unittest.TestCase):
         self.assertIn("<evidenceRoot>/<planId>/", self.step6)
         self.assertIn("always authorizes writing evidence there in addition to `writePaths` and `artifactRoots`", self.step6)
         self.assertIn("never report it as a write-scope or ownership blocker", self.step6)
+        self.assertIn("Your write scope is the plan's `writePaths` plus its `sharedPaths`", self.step6)
+        self.assertIn("Never report a `sharedPaths` file as outside your write scope", self.step6)
         self.assertNotIn("opus-terra-gate-routing", self.step6)
 
     def test_integration_rechecks_sibling_owned_blockers_and_preserves_envelope(self):
