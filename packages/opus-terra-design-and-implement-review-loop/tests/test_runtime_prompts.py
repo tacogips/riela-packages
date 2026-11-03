@@ -34,6 +34,8 @@ class RuntimePromptTests(unittest.TestCase):
                 self.assertIn(runner, self.step6)
         self.assertIn("Never use this kind for build, lint, format or diff commands", self.step6)
         self.assertIn("<evidenceRoot>/<planId>/", self.step6)
+        self.assertIn("always authorizes writing evidence there in addition to `writePaths` and `artifactRoots`", self.step6)
+        self.assertIn("never report it as a write-scope or ownership blocker", self.step6)
         self.assertNotIn("opus-terra-gate-routing", self.step6)
 
     def test_integration_rechecks_sibling_owned_blockers_and_preserves_envelope(self):

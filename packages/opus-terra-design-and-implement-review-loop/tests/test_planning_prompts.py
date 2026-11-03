@@ -28,6 +28,9 @@ class PlanningPromptContractTests(unittest.TestCase):
                 self.assertIn(anchor, self.step4)
         self.assertIn("never raise snapshot limits", self.step4)
         self.assertIn("After two amendments", self.step4)
+
+    def test_checkpoint_keeps_helper_scripts_out_of_the_repository(self):
+        self.assertIn("run any helper script you author from a temporary directory outside the repository", self.checkpoint)
         self.assertIn("own `writePaths`", self.step4)
 
     def test_blocked_wave_amendment_contract(self):
