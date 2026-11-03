@@ -793,7 +793,12 @@ def classify(envelope: dict[str, Any]) -> dict[str, Any]:
             fingerprint,
         )
     findings = material_findings(current)
-    if findings:
+    # A self-declared incomplete attempt is expected to list its unfinished work
+    # as high/medium findings. Those findings must not end the run while the
+    # bounded continuation below can still make progress; the incomplete branch
+    # continues (streak < 3, new changed files and plan progress) or blocks as
+    # implementation-incomplete. Completed attempts keep the material-finding gate.
+    if findings and not incomplete:
         return blocked_result(
             current,
             "implementation-material-finding",
