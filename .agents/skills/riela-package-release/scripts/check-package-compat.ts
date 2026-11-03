@@ -18,6 +18,7 @@ const mode = option('--mode') as Mode;
 if (!['manifests', 'workflows', 'scenarios', 'assets'].includes(mode)) throw Error('--mode must be manifests|workflows|scenarios|assets');
 const source = resolve(option('--source-root') ?? repo);
 const evidenceBase = resolve(repo, 'tmp/registry-contract-migration/verification/compat-verification');
+if (option('--evidence-root') === undefined) mkdirSync(evidenceBase, { recursive: true });
 const evidence = resolve(option('--evidence-root') ?? mkdtempSync(join(evidenceBase, `${mode}-`)));
 if (relative(resolve(repo, 'tmp'), evidence).startsWith('..') || evidence === resolve(repo, 'tmp')) throw Error('evidence must be under repository tmp/');
 mkdirSync(evidence, { recursive: true });
