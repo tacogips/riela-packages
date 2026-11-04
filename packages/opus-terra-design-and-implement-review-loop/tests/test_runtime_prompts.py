@@ -38,6 +38,8 @@ class RuntimePromptTests(unittest.TestCase):
         self.assertIn("never report it as a write-scope or ownership blocker", self.step6)
         self.assertIn("Your write scope is the plan's `writePaths` plus its `sharedPaths`", self.step6)
         self.assertIn("Never report a `sharedPaths` file as outside your write scope", self.step6)
+        self.assertIn("A scratch location outside the repository that the plan explicitly names", self.step6)
+        self.assertIn("must land elsewhere inside the repository, outside the declared artifact roots", self.step6)
         self.assertNotIn("opus-terra-gate-routing", self.step6)
 
     def test_integration_rechecks_sibling_owned_blockers_and_preserves_envelope(self):
