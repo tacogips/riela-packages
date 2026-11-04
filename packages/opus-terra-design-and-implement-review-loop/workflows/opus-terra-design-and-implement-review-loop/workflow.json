@@ -332,7 +332,8 @@
         {
           "toStepId": "step3-design-review"
         }
-      ]
+      ],
+      "timeoutMs": 14400000
     },
     {
       "id": "step3-design-review",
@@ -380,7 +381,8 @@
         {
           "toStepId": "step5-impl-plan-review"
         }
-      ]
+      ],
+      "timeoutMs": 14400000
     },
     {
       "id": "step5-impl-plan-review",
@@ -413,7 +415,8 @@
           "toStepId": "plan-checkpoint",
           "label": "!(planning_only || needs_design_revision || needs_revision)"
         }
-      ]
+      ],
+      "timeoutMs": 14400000
     },
     {
       "id": "step6-implement",
