@@ -10,7 +10,7 @@
     "required": false,
     "description": "Opus 5.5 design, implementation-plan, review and integration review with GPT-6.1 Terra fanout implementation, documentation, and commit workflow loop metadata.",
     "convergence": {
-      "maxGateVisits": 4,
+      "maxGateVisits": 12,
       "maxRepeatedFindingRounds": 2,
       "onStall": "fail"
     },
