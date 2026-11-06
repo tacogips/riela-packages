@@ -128,6 +128,46 @@ class DispatchAmendmentTests(unittest.TestCase):
         self.assertEqual(result["payload"]["blockedPlanIds"], ["P2"])
         self.assertTrue(result["payload"]["blockers"] and result["payload"]["resumeCriteria"] and result["payload"]["nextStep"])
 
+    def _reset_lineage(self):
+        abandoned = self.commit
+        (self.root / "notes.txt").write_text("abandoned amendment")
+        subprocess.run(["git", "add", "notes.txt"], cwd=self.root, check=True)
+        subprocess.run(["git", "commit", "-qm", "abandoned amendment"], cwd=self.root, check=True)
+        stale = subprocess.run(["git", "rev-parse", "HEAD"], cwd=self.root, check=True, capture_output=True, text=True).stdout.strip()
+        subprocess.run(["git", "checkout", "-q", "--orphan", "fresh"], cwd=self.root, check=True)
+        self.write_manifest()
+        subprocess.run(["git", "add", self.manifest_path], cwd=self.root, check=True)
+        subprocess.run(["git", "commit", "-qm", "fresh full-mode checkpoint"], cwd=self.root, check=True)
+        fresh = subprocess.run(["git", "rev-parse", "HEAD"], cwd=self.root, check=True, capture_output=True, text=True).stdout.strip()
+        return abandoned, stale, fresh
+
+    def test_operator_reset_drops_feedback_from_abandoned_lineage(self):
+        abandoned, stale, fresh = self._reset_lineage()
+        messages = [
+            {"fromStepId": "plan-push-gate", "createdOrder": 1, "payload": {"git": {"operation": "commit", "commitHash": abandoned, "committedFiles": [self.manifest_path]}}},
+            {"fromStepId": "plan-push-gate", "createdOrder": 2, "payload": {"git": {"operation": "commit", "commitHash": stale, "committedFiles": [self.manifest_path]}}},
+            {"fromStepId": "integration-review", "createdOrder": 3, "payload": {
+                "needs_revision": True, "acceptedPlanIds": [],
+                "findings": [{"severity": "high", "file": "unowned/resolved.ts"}]}},
+            {"fromStepId": "plan-push-gate", "createdOrder": 4, "payload": {"git": {"operation": "commit", "commitHash": fresh, "committedFiles": [self.manifest_path]}}},
+        ]
+        result = wave.route(self.envelope(messages))
+        self.assertEqual(result["when"]["dispatch_ready"], True)
+        self.assertEqual(result["payload"]["checkpointCommit"], fresh)
+
+    def test_operator_reset_does_not_count_abandoned_checkpoints_as_rounds(self):
+        abandoned, stale, fresh = self._reset_lineage()
+        messages = [
+            {"fromStepId": "plan-git-commit", "createdOrder": 1, "payload": {"git": {"operation": "commit", "commitHash": abandoned, "committedFiles": [self.manifest_path]}}},
+            {"fromStepId": "plan-git-commit", "createdOrder": 2, "payload": {"git": {"operation": "commit", "commitHash": stale, "committedFiles": [self.manifest_path]}}},
+            {"fromStepId": "plan-git-commit", "createdOrder": 3, "payload": {"git": {"operation": "commit", "commitHash": fresh, "committedFiles": [self.manifest_path]}}},
+        ]
+        with mock.patch.object(wave.dispatch, "project", side_effect=ValueError(
+            f"{wave.dispatch.AMENDMENT}: material integration-review paths outside manifest writePaths: editor/file.py")):
+            result = wave.route(self.envelope(messages))
+        self.assertEqual(result["payload"]["checkpointAmendment"]["amendmentRound"], 0)
+        self.assertEqual(result["when"]["amendment_required"], True)
+
     def test_dispatch_time_over_cap_is_routed_as_amendment(self):
         self.manifest["plans"][1]["sharedPaths"] = ["src/big"]
         self.write_manifest()

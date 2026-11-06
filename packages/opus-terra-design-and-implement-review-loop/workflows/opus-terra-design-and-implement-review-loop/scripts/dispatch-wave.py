@@ -64,7 +64,7 @@ def amendment_result(envelope: dict[str, Any], error: ValueError) -> dict[str, A
                 owners.append({"planId": plan["planId"], "accepted": plan["planId"] in accepted})
         owner_candidates.append({"path": path, "plans": owners})
 
-    feedback = dispatch.latest_integration_feedback(messages)
+    feedback = dispatch.latest_integration_feedback(dispatch.current_lineage_messages(messages, root, commit))
     findings = []
     if feedback is not None:
         path_set = set(unmatched_paths)
@@ -80,6 +80,7 @@ def amendment_result(envelope: dict[str, Any], error: ValueError) -> dict[str, A
         and isinstance((payload := message.get("payload")), dict)
         and isinstance(payload.get("git"), dict)
         and isinstance(payload["git"].get("commitHash"), str)
+        and not dispatch.is_abandoned_checkpoint(root, payload["git"]["commitHash"], commit)
     }
     amendment_round = max(0, len(checkpoint_hashes) - 1)
     required = amendment_round < MAX_CHECKPOINT_AMENDMENTS

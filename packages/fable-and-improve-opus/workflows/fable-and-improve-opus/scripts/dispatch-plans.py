@@ -94,6 +94,53 @@ def latest_integration_feedback(messages: list[dict[str, Any]]) -> dict[str, Any
     return None
 
 
+CHECKPOINT_MESSAGE_STEPS = frozenset({"plan-git-push", "plan-git-commit", "plan-push-gate"})
+
+
+def checkpoint_message_hash(message: dict[str, Any]) -> str | None:
+    if message.get("fromStepId") not in CHECKPOINT_MESSAGE_STEPS:
+        return None
+    payload = message.get("payload")
+    git_payload = payload.get("git") if isinstance(payload, dict) else None
+    commit = git_payload.get("commitHash") if isinstance(git_payload, dict) else None
+    return commit if isinstance(commit, str) and commit else None
+
+
+def is_abandoned_checkpoint(root: Path, commit: str, checkpoint: str) -> bool:
+    """True only when Git proves an earlier checkpoint is not an ancestor of the current one.
+
+    An operator reset to the manifest originalHead followed by a fresh full-mode
+    checkpoint abandons the earlier checkpoint lineage. Unknown commits are not
+    treated as abandoned.
+    """
+    if commit == checkpoint:
+        return False
+    return git(root, "merge-base", "--is-ancestor", commit, checkpoint).returncode == 1
+
+
+def current_lineage_messages(messages: list[dict[str, Any]], root: Path, checkpoint: str) -> list[dict[str, Any]]:
+    """Drop inbox history that precedes the current checkpoint after an operator reset.
+
+    Integration feedback recorded against an abandoned checkpoint lineage is
+    superseded by the operator's fresh checkpoint and must not block redispatch.
+    """
+    abandoned = any(
+        commit is not None and is_abandoned_checkpoint(root, commit, checkpoint)
+        for commit in (checkpoint_message_hash(message) for message in messages)
+    )
+    if not abandoned:
+        return messages
+    orders = [
+        message.get("createdOrder", 0)
+        for message in messages
+        if checkpoint_message_hash(message) == checkpoint
+    ]
+    if not orders:
+        return messages
+    cutoff = min(orders)
+    return [message for message in messages if message.get("createdOrder", 0) >= cutoff]
+
+
 def path_is_owned(path: str, owned_paths: list[str]) -> bool:
     return any(path == owned or path.startswith(f"{owned}/") for owned in owned_paths)
 
@@ -665,7 +712,7 @@ def project(envelope: dict[str, Any]) -> dict[str, Any]:
     base_branch = clean_string(manifest.get("baseBranch"), "baseBranch")
     remote = clean_string(manifest.get("remote"), "remote")
     evidence_root = manifest_evidence_root(manifest, root)
-    feedback = latest_integration_feedback(messages)
+    feedback = latest_integration_feedback(current_lineage_messages(messages, root, checkpoint))
 
     items: list[dict[str, Any]] = []
     unmatched_material_paths: set[str] = set()
