@@ -13,6 +13,18 @@ class PlanningPromptContractTests(unittest.TestCase):
         cls.step5 = (PROMPTS / "step5-impl-plan-review.md").read_text()
         cls.checkpoint = (PROMPTS / "plan-checkpoint.md").read_text()
 
+    def test_checkpoint_operator_full_mode_override(self):
+        for anchor in (
+            "Operator full-mode override",
+            "Operator directive",
+            "originalHead",
+            "do not re-record the stale amendment",
+            "do not redispatch plans already in `acceptedDependencies`",
+            "Without such a directive, a `HEAD` mismatch still blocks",
+        ):
+            with self.subTest(anchor=anchor):
+                self.assertIn(anchor, self.checkpoint)
+
     def test_step4_contract_and_amendment_rules(self):
         for anchor in (
             "plan-contract-validate",

@@ -1,6 +1,6 @@
 {
   "name": "opus-terra-design-and-implement-review-loop",
-  "version": "0.1.21",
+  "version": "0.1.22",
   "title": "opus-terra-design-and-implement-review-loop",
   "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Sol design review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
   "tags": [
@@ -38,9 +38,9 @@
     "command"
   ],
   "skillDirectory": "skills",
-  "checksum": "1499086e96f34817552b7d33286ef4df",
+  "checksum": "dcd40d67b502d1ffb4a3d3d024064a8e",
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "f6cef2cf7b8c20b5ef5088bf5fb855394f2eb34e626b05b653986dda151033e5"
+    "digest": "622e1c8a4d758a6a97e8d62fde877a362f9666d5e0aed946c2108f06b07033c1"
   }
 }
