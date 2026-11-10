@@ -123,7 +123,7 @@ class ProjectionTests(ArtifactRootsTestCase):
             with self.subTest(module=module.__file__):
                 item = self.items(module, [plan(writePaths=["src/app.py"], sharedPaths=["src/shared.py"])])["tools"]
                 self.assertEqual(item["artifactRoots"], [])
-                self.assertEqual(item["trackedPaths"], ["src/app.py", "src/shared.py"])
+                self.assertEqual(item["trackedPaths"], ["src/app.py", "impl-plans/active/tools.md", "src/shared.py"])
 
     def test_artifact_roots_are_removed_from_tracked_paths_but_keep_ownership(self) -> None:
         fill(self.root / "native-tools/cache", 600)
@@ -135,9 +135,9 @@ class ProjectionTests(ArtifactRootsTestCase):
                     writePaths=["src/app.py", "native-tools", "native-tools/toolchain.json"],
                     artifactRoots=["native-tools"],
                 )])["tools"]
-                self.assertEqual(item["writePaths"], ["src/app.py", "native-tools", "native-tools/toolchain.json"])
+                self.assertEqual(item["writePaths"], ["src/app.py", "native-tools", "native-tools/toolchain.json", "impl-plans/active/tools.md"])
                 self.assertEqual(item["artifactRoots"], ["native-tools"])
-                self.assertEqual(item["trackedPaths"], ["src/app.py", "native-tools/toolchain.json"])
+                self.assertEqual(item["trackedPaths"], ["src/app.py", "native-tools/toolchain.json", "impl-plans/active/tools.md"])
 
     def test_artifact_root_must_exactly_equal_a_write_path(self) -> None:
         for module in self.modules:
@@ -157,7 +157,7 @@ class ProjectionTests(ArtifactRootsTestCase):
         for module in self.modules:
             with self.subTest(module=module.__file__):
                 with self.assertRaisesRegex(ValueError, "no source snapshot paths.*audit manifest.*writePaths"):
-                    self.items(module, [plan(writePaths=["tools"], artifactRoots=["tools"])])
+                    self.items(module, [plan(writePaths=["tools"], artifactRoots=["tools"], planPath="tools/plan.md")])
 
     def test_artifact_root_inside_a_source_path_is_rejected(self) -> None:
         for module in self.modules:
@@ -171,7 +171,7 @@ class ProjectionTests(ArtifactRootsTestCase):
         for module in self.modules:
             with self.subTest(module=module.__file__):
                 item = self.items(module, [plan(writePaths=["tools/toolchain.json", "tools"], artifactRoots=["tools"])])["tools"]
-                self.assertEqual(item["trackedPaths"], ["tools/toolchain.json"])
+                self.assertEqual(item["trackedPaths"], ["tools/toolchain.json", "impl-plans/active/tools.md"])
 
     def test_nested_artifact_roots_are_rejected(self) -> None:
         for module in self.modules:
@@ -197,9 +197,9 @@ class ProjectionTests(ArtifactRootsTestCase):
 
 class PreflightTests(ArtifactRootsTestCase):
     def test_source_root_at_entry_limit_is_accepted(self) -> None:
-        fill(self.root / "tools", 511)  # the directory itself plus 511 files = 512 entries
+        fill(self.root / "tools", 510)  # the directory itself plus 510 files plus the missing plan document = 512 entries
         item = self.items(self.modules[0], [plan(writePaths=["tools"])])["tools"]
-        self.assertEqual(item["trackedPaths"], ["tools"])
+        self.assertEqual(item["trackedPaths"], ["tools", "impl-plans/active/tools.md"])
 
     def test_source_root_above_entry_limit_requires_amendment(self) -> None:
         fill(self.root / "tools", 512)
@@ -218,16 +218,16 @@ class PreflightTests(ArtifactRootsTestCase):
             self.items(self.modules[0], [plan(writePaths=["a", "b"])])
 
     def test_missing_source_root_counts_one_entry(self) -> None:
-        fill(self.root / "a", 510)  # 511 entries plus one missing declared path = 512
+        fill(self.root / "a", 509)  # 510 entries plus one missing declared path plus the missing plan document = 512
         item = self.items(self.modules[0], [plan(writePaths=["a", "missing.txt"])])["tools"]
-        self.assertEqual(item["trackedPaths"], ["a", "missing.txt"])
+        self.assertEqual(item["trackedPaths"], ["a", "missing.txt", "impl-plans/active/tools.md"])
         with self.assertRaisesRegex(ValueError, "expand to 513 entries"):
             self.items(self.modules[0], [plan(writePaths=["a", "missing.txt", "missing-too.txt"])])
 
     def test_overlapping_source_roots_are_counted_once(self) -> None:
         fill(self.root / "a", 400)
         item = self.items(self.modules[0], [plan(writePaths=["a", "a/f0001"])])["tools"]
-        self.assertEqual(item["trackedPaths"], ["a", "a/f0001"])
+        self.assertEqual(item["trackedPaths"], ["a", "a/f0001", "impl-plans/active/tools.md"])
 
     def test_source_file_above_byte_limit_requires_amendment(self) -> None:
         sparse(self.root / "tools/bin/tool", 8_000_001)
@@ -250,7 +250,7 @@ class PreflightTests(ArtifactRootsTestCase):
         item = self.items(self.modules[0], [plan(
             writePaths=["tools", "tools/toolchain.json"], artifactRoots=["tools"],
         )])["tools"]
-        self.assertEqual(item["trackedPaths"], ["tools/toolchain.json"])
+        self.assertEqual(item["trackedPaths"], ["tools/toolchain.json", "impl-plans/active/tools.md"])
 
     def test_symlink_inside_source_root_is_rejected(self) -> None:
         (self.root / "src").mkdir()
@@ -299,7 +299,7 @@ class ValidateManifestCliTests(ArtifactRootsTestCase):
         })
         entry = report["plans"][0]
         self.assertEqual(entry["planId"], "tools")
-        self.assertEqual(entry["trackedPaths"], ["tools/toolchain.json", "src/app.py"])
+        self.assertEqual(entry["trackedPaths"], ["tools/toolchain.json", "src/app.py", "impl-plans/active/tools.md"])
         self.assertEqual(entry["artifactRoots"], ["tools"])
         roots = {root["path"]: root for root in entry["roots"]}
         self.assertEqual(roots["tools"]["selection"], "artifact")
@@ -319,7 +319,7 @@ class ValidateManifestCliTests(ArtifactRootsTestCase):
         self.assertFalse(report["valid"])
         by_plan = {entry["planId"]: entry for entry in report["plans"]}
         self.assertRegex(by_plan["grows"]["errors"][0], "currently has 601 entries")
-        self.assertEqual(by_plan["grows"]["roots"][0]["entries"], 601)
+        self.assertEqual({root["path"]: root for root in by_plan["grows"]["roots"]}["tools"]["entries"], 601)
         self.assertEqual(by_plan["ok"]["errors"], [])
         self.assertRegex(by_plan["unowned"]["errors"][0], "must exactly equal one of the plan's writePaths")
         self.assertEqual(len(report["errors"]), 2)

@@ -238,6 +238,14 @@ def plan_tracking_contract(plan: dict[str, Any], plan_id: str, root: Path) -> di
     native fanout records as bounded manifests instead of content snapshots.
     """
     write_paths = concrete_path_list(plan, "writePaths", plan_id, root, required=True)
+    # Every implementer must record completion criteria and its progress log in
+    # its own plan document, so the plan path is always owned by its unit even
+    # when the manifest author omitted it.
+    plan_path = plan.get("planPath")
+    if isinstance(plan_path, str) and plan_path.strip():
+        own_plan = concrete_repository_path(plan_path, f"{plan_id}.planPath", root)
+        if not path_is_owned(own_plan, write_paths):
+            write_paths.append(own_plan)
     shared_paths = concrete_path_list(plan, "sharedPaths", plan_id, root, required=False)
     artifact_roots = list(dict.fromkeys(
         concrete_path_list(plan, "artifactRoots", plan_id, root, required=False)
