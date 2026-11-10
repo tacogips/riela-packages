@@ -91,8 +91,8 @@
             "additionalProperties": false
           }
         },
-        "acceptedPlanIds": { "type": "array", "items": { "type": "string" } },
-        "pendingPlanIds": { "type": "array", "items": { "type": "string" } },
+        "acceptedPlanIds": { "type": "array", "items": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$", "description": "A manifest planId (no whitespace or prose)." } },
+        "pendingPlanIds": { "type": "array", "items": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$", "description": "A manifest planId (no whitespace or prose)." } },
         "manifestPath": { "type": "string" },
         "evidencePaths": { "type": "array", "items": { "type": "string" } }
       },
