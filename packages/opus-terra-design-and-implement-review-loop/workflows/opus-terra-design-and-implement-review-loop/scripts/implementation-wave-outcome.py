@@ -43,6 +43,11 @@ EXCLUSION_MARKERS = {
     "test-integrity": ("test-integrity", "test integrity", "weakened assertion", "skipped test", "flaky"),
 }
 BLOCKER_COPY_KEYS = ("paths", "path", "dependency", "evidence", "resumeCriterion", "resumeCriteria", "message")
+# A plan blocked only because its own verification failed or reported no
+# positive test count needs a retry, not a checkpoint amendment. It must not make
+# a wave whose other plans carry amendable scope or contract blockers ineligible;
+# the amendment covers those plans and the retry-only plan is redispatched.
+RETRY_ONLY_GATES = frozenset({"implementation-materially-unverified"})
 SCHEMA_KEYS = ("implementation_blocked", "partial_success", "blockedPlanIds", "successfulPlanIds", "blockers", "resumeCriteria", "amendment_required")
 OPTIONAL_KEYS = ("checkpointAmendment",)
 
@@ -359,7 +364,7 @@ def _checkpoint_lineage(root: Path) -> tuple[str, str, int]:
 
 
 def _amendment_decision(join: dict[str, Any], plans: list[dict[str, Any]], verdict: dict[str, Any], root: Path, summary_path: str, raw_path: str) -> dict[str, Any]:
-    decision = {"eligible": False, "amendmentRequired": False, "amendmentRound": None, "maxAmendmentRounds": MAX_CHECKPOINT_AMENDMENTS, "ineligibleReasons": [], "checkpointAmendment": None}
+    decision = {"eligible": False, "amendmentRequired": False, "amendmentRound": None, "maxAmendmentRounds": MAX_CHECKPOINT_AMENDMENTS, "ineligibleReasons": [], "checkpointAmendment": None, "retryOnlyPlanIds": []}
     reasons = decision["ineligibleReasons"]
     def fail(reason: str) -> None:
         if len(reasons) < 10:
@@ -375,6 +380,9 @@ def _amendment_decision(join: dict[str, Any], plans: list[dict[str, Any]], verdi
         if classification != "blocked":
             continue
         pid, gate = plan["planId"], plan["blockerType"]
+        if gate in RETRY_ONLY_GATES:
+            decision["retryOnlyPlanIds"].append(pid)
+            continue
         if gate != "implementation-dependency":
             fail("blocker-type: " + str(gate))
         pointer = plan["rawPointer"]
@@ -420,6 +428,8 @@ def _amendment_decision(join: dict[str, Any], plans: list[dict[str, Any]], verdi
             if "resumeCriteria" in blocker:
                 scan_resume(criteria)
             copied.append({"planId": pid, **{key: blocker[key] for key in BLOCKER_COPY_KEYS if key in blocker}})
+    if not copied and not reasons:
+        fail("no-amendable-blocker: only retry-only plans are blocked")
     try:
         manifest, head, round_number = _checkpoint_lineage(root)
         decision["amendmentRound"] = round_number

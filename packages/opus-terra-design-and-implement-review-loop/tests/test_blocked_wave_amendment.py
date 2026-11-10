@@ -85,6 +85,22 @@ class BlockedWaveAmendmentTests(unittest.TestCase):
         for flags in ({'environmentBlocked':True}, {'status':'blocked-environment'}):
             self.assertFalse(self.evaluate(**flags)[0]['when']['amendment_required'])
 
+    def test_retry_only_plan_does_not_block_amendment_of_siblings(self):
+        amendable = {'paths':['src/b.py'], 'dependency':'b.py outside writePaths', 'evidence':'e', 'resumeCriterion':'authorize src/b.py in writePaths'}
+        marker = {'type':'implementation-dependency','evidenceFingerprint':'fingerprint'}
+        dependency = {'branchId':'a','status':'completed','output':{'implementation_blocked':True,'blockerType':'implementation-dependency','blockers':[amendable, marker]}}
+        unverified = {'branchId':'c','status':'completed','output':{'implementation_blocked':True,'blockerType':'implementation-materially-unverified','blockers':[{'type':'implementation-materially-unverified','evidenceFingerprint':'f2','failingCommands':['vitest run x']}]}}
+        result = run({'branches':[dependency, unverified]}, self.root)
+        summary = json.loads(sorted(self.root.glob('tmp/opus-terra-waves/session-test/wave-*/wave-summary.json'))[-1].read_text())
+        self.assertTrue(result['when']['amendment_required'])
+        self.assertEqual(summary['amendmentDecision']['retryOnlyPlanIds'], ['c'])
+        self.assertEqual([b['planId'] for b in result['payload']['checkpointAmendment']['blockers']], ['a'])
+
+    def test_only_retry_only_plans_do_not_amend(self):
+        result, decision = self.evaluate(blockerType='implementation-materially-unverified', blockers=[{'type':'implementation-materially-unverified','evidenceFingerprint':'f'}])
+        self.assertFalse(result['when']['amendment_required'])
+        self.assertTrue(any(r.startswith('no-amendable-blocker') for r in decision['ineligibleReasons']))
+
     def test_oversize_and_non_git(self):
         result, decision = self.evaluate({'paths':['src/x'],'evidence':'x'*17000})
         self.assertFalse(result['when']['amendment_required'])
