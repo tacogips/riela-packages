@@ -1,0 +1,26 @@
+{
+  "id": "plan-checkpoint",
+  "description": "Prepare a checkpoint ONLY after the single design and plan authors and independent reviewers accept all plans. Do not implement here.",
+  "executionBackend": "claude-code-agent",
+  "agentSandbox": "workspace-write",
+  "model": "claude-opus-5-5",
+  "promptTemplateFile": "prompts/plan-checkpoint.md",
+  "variables": {},
+  "effort": "medium",
+  "output": {
+    "description": "Return the exact changed-file checkpoint commit set or an explicit blocked no-op outcome, while the manifest retains every accepted design and plan reference.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "checkpoint_blocked": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["ready", "blocked"] },
+        "commitMessage": { "type": "string" },
+        "committedFiles": { "type": "array", "items": { "type": "string" } },
+        "blockers": { "type": "array", "items": {} }
+      },
+      "required": ["checkpoint_blocked", "status", "commitMessage", "committedFiles", "blockers"],
+      "additionalProperties": true
+    },
+    "maxValidationAttempts": 2
+  }
+}

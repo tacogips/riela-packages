@@ -1,0 +1,37 @@
+{
+  "name": "cursor-cli-refactoring-divide-and-conquer",
+  "version": "0.1.1",
+  "title": "cursor-cli-refactoring-divide-and-conquer",
+  "description": "Review codebase slices concurrently, build a dependency-aware refactoring DAG, implement disjoint ready tasks in shared-workspace waves, and reconcile each wave.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "0de074e3e8a1e234ced718ce43815762",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-refactoring-divide-and-conquer",
+  "dependencies": [
+    "codex-refactoring-divide-and-conquer",
+    "cursor-cli-refactoring-slice-review"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-refactoring-divide-and-conquer",
+    "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "596c6483fa76acf424c321a677456d85007a5157cbc1b8d7560c1811d4077a82"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ],
+  "skillDirectory": "skills",
+  "minimumRielaVersion": "0.1.37"
+}

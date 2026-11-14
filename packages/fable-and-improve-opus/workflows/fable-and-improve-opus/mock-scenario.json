@@ -1,0 +1,788 @@
+{
+  "fable-analysis": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "analysisMarkdown": "## Analysis\nA documentation note is missing from docs/example.md.",
+      "requestedOutcome": "Add and verify the requested documentation note.",
+      "acceptanceCriteria": [
+        "The note exists.",
+        "Verification passes."
+      ],
+      "targetScope": [
+        "docs/example.md"
+      ],
+      "repositoryEvidence": [
+        "docs/example.md exists."
+      ],
+      "constraints": [
+        "Do not modify unrelated files."
+      ],
+      "assumptions": [],
+      "risks": [],
+      "openQuestions": [],
+      "addressedReplanFeedback": [],
+      "knowledgeQuery": "documentation"
+    }
+  },
+  "kb-recall-prior": {
+    "payload": {
+      "query": "documentation",
+      "results": [],
+      "resultCount": 0,
+      "noteIds": [],
+      "recallText": ""
+    }
+  },
+  "kb-recall-related": {
+    "payload": {
+      "query": "documentation",
+      "results": [],
+      "resultCount": 0,
+      "noteIds": [],
+      "recallText": "",
+      "knowledgeQuery": "documentation",
+      "candidateContent": "Exact-text verification is a reliable low-cost acceptance check for small documentation changes; skipping it lets duplicate or misplaced notes slip through.",
+      "candidateTags": [
+        "kb",
+        "documentation"
+      ]
+    }
+  },
+  "kb-create": {
+    "payload": {
+      "noteIds": [
+        "mock-knowledge-note"
+      ],
+      "notes": [],
+      "entriesWritten": 1,
+      "idempotentReplay": false,
+      "associations": []
+    }
+  },
+  "kb-merge": {
+    "payload": {
+      "noteId": "mock-knowledge-note"
+    }
+  },
+  "kb-archive": {
+    "payload": {
+      "noteId": "mock-knowledge-note"
+    }
+  },
+  "fable-design": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "designMarkdown": "## Design\nAdd one narrowly scoped note to the existing documentation section.",
+      "designDocPaths": [
+        "design-docs/specs/fable-smoke-note.md"
+      ],
+      "decisions": [
+        "Preserve the surrounding documentation structure."
+      ],
+      "alternatives": [],
+      "interfaces": [],
+      "dataFlow": [],
+      "edgeCases": [
+        "Avoid duplicate notes."
+      ],
+      "testStrategy": [
+        "Search for the exact note."
+      ],
+      "risks": [],
+      "addressedReplanFeedback": [],
+      "planMarkdown": "## Plan\n1. Update docs/example.md.\n2. Verify the exact note.",
+      "implPlanPaths": [
+        "impl-plans/active/fable-smoke-note.md"
+      ],
+      "orderedTasks": [
+        "Add the note.",
+        "Run exact-text verification."
+      ],
+      "dependencies": [],
+      "parallelizableTasks": [],
+      "verificationPlan": [
+        "rg -n \"Fable smoke note\" docs/example.md"
+      ],
+      "completionCriteria": [
+        "The exact-text check passes."
+      ],
+      "opusImplementationBrief": {
+        "requestedBehavior": "Add the Fable smoke note.",
+        "targetFeatureArea": "documentation",
+        "riskLevel": "low"
+      }
+    }
+  },
+  "fable-goal-review": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": {
+      "needs_replan": false,
+      "needs_todo": false
+    },
+    "payload": {
+      "goalAchieved": true,
+      "completionDecision": "accepted",
+      "evidence": [
+        "Implementation and independent review satisfy the Fable artifacts."
+      ],
+      "remainingTodos": [],
+      "replanReason": null,
+      "followUpImplementationHint": null,
+      "changedFiles": [
+        "docs/example.md",
+        "impl-plans/completed/fable-smoke-note.md"
+      ],
+      "verificationEvidence": [
+        "Exact-text verification passed."
+      ],
+      "reviewEvidence": [
+        "independent Opus review accepted the result."
+      ],
+      "residualRisks": [],
+      "operatorNotes": []
+    }
+  },
+  "kb-self-review": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "knowledgeQuery": "documentation",
+      "candidateContent": "Exact-text verification is a reliable low-cost acceptance check for small documentation changes; skipping it lets duplicate or misplaced notes slip through.",
+      "candidateTags": [
+        "kb",
+        "documentation"
+      ]
+    }
+  },
+  "kb-merge-judge": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "decision": "create",
+      "create_knowledge": true,
+      "merge_knowledge": false,
+      "reason": "No existing note covers documentation acceptance checks.",
+      "entries": [
+        {
+          "content": "Exact-text verification is a reliable low-cost acceptance check for small documentation changes; skipping it lets duplicate or misplaced notes slip through.",
+          "topicTags": [
+            "kb",
+            "documentation"
+          ]
+        }
+      ],
+      "mergeNoteId": "",
+      "mergedBody": "",
+      "archive_note": false,
+      "archiveNoteId": "",
+      "archivedPointerBody": ""
+    }
+  },
+  "final-output": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "accepted",
+      "goalAchieved": true,
+      "analysisMarkdown": "## Analysis\nA documentation note is missing from docs/example.md.",
+      "designMarkdown": "## Design\nAdd one narrowly scoped note to the existing documentation section.",
+      "planMarkdown": "## Plan\n1. Update docs/example.md.\n2. Verify the exact note.",
+      "designDocPaths": [
+        "design-docs/specs/fable-smoke-note.md"
+      ],
+      "implPlanPaths": [
+        "impl-plans/completed/fable-smoke-note.md"
+      ],
+      "changedFiles": [
+        "docs/example.md",
+        "impl-plans/completed/fable-smoke-note.md"
+      ],
+      "implementationEvidence": [
+        "Opus implementation completed."
+      ],
+      "reviewEvidence": [
+        "independent Opus review accepted."
+      ],
+      "verificationEvidence": [
+        "Exact-text verification passed."
+      ],
+      "commitStatus": "not-requested",
+      "pushStatus": "not-requested",
+      "residualRisks": [],
+      "operatorNotes": [],
+      "baseBranch": "main",
+      "mergeStatus": "already-on-base",
+      "basePushStatus": "pushed",
+      "workflowMode": "issue-resolution",
+      "designReviewSummary": "Accepted with no blocking findings.",
+      "implPlanReviewSummary": "Accepted with no blocking findings.",
+      "testIntegritySummary": "Accepted with honest behavioral evidence.",
+      "adversarialReviewSummary": "Accepted with no material findings.",
+      "integrationReviewSummary": "Accepted combined tree.",
+      "fableGoalReviewSummary": "Fable accepted the requested outcome.",
+      "documentationFiles": [
+        "docs/example.md"
+      ],
+      "documentationSummary": "Documentation matches the accepted behavior.",
+      "archivedImplPlanPaths": [
+        "impl-plans/completed/fable-smoke-note.md"
+      ],
+      "implPlanCompletionSummary": "All accepted plan criteria completed.",
+      "checkpointCommit": "1111111111111111111111111111111111111111",
+      "integratedPlanIds": [
+        "a"
+      ],
+      "evidencePaths": [
+        "tmp/mock/accepted.json"
+      ],
+      "overwriteRepairs": [],
+      "commitMessage": "feat: complete shared implementation",
+      "commitHash": "2222222222222222222222222222222222222222",
+      "committedFiles": [
+        "shared.txt"
+      ],
+      "pushedRemote": "origin",
+      "pushedBranch": "main",
+      "knowledgeBaseDecision": "create"
+    }
+  },
+  "plan-checkpoint": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "checkpoint_blocked": false
+    },
+    "payload": {
+      "commitMessage": "docs: checkpoint shared-branch implementation plans",
+      "committedFiles": [
+        "impl-plans/active/a.md",
+        "impl-plans/active/b.md"
+      ],
+      "manifestPath": "impl-plans/active/mock-dispatch.json",
+      "checkpoint_blocked": false,
+      "status": "ready",
+      "evidenceRoot": "tmp/mock",
+      "blockers": []
+    }
+  },
+  "plan-git-commit": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "git": {
+        "status": "committed",
+        "commitHash": "1111111111111111111111111111111111111111",
+        "operation": "commit"
+      }
+    }
+  },
+  "dispatch-plans": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "implementationItems": [
+        {
+          "planId": "a",
+          "planPath": "impl-plans/active/a.md",
+          "dependsOn": [],
+          "writePaths": [
+            "a.txt"
+          ],
+          "sharedPaths": [
+            "shared.txt"
+          ],
+          "acceptanceCriteria": [
+            "a behavior retained"
+          ],
+          "verification": [
+            "mock combined check"
+          ],
+          "reviewContext": {
+            "issueReference": "mock-fable-opus",
+            "userProblem": "The requested behavior must be implemented and independently reviewed.",
+            "requiredOutcomes": [
+              "Retain the accepted plan behavior."
+            ],
+            "nonGoals": [
+              "Unrelated refactoring."
+            ],
+            "constraints": [
+              "Preserve existing repository behavior."
+            ],
+            "designDecisionsAndRationale": [
+              "Use the Fable-authored design and plan as the contract."
+            ],
+            "intentionalTradeoffs": [
+              "Prefer a focused implementation."
+            ],
+            "supportedEdgeCases": [
+              "Shared-file reconciliation."
+            ],
+            "outOfScopeEdgeCases": [
+              "Cross-repository execution."
+            ],
+            "sourcePaths": [
+              "impl-plans/active/a.md"
+            ]
+          },
+          "trackedPaths": [
+            "a.txt",
+            "shared.txt"
+          ],
+          "manifestPath": "impl-plans/active/mock-dispatch.json",
+          "checkpointCommit": "1111111111111111111111111111111111111111",
+          "implementationBranch": "main",
+          "baseBranch": "main",
+          "remote": "origin",
+          "evidenceRoot": "tmp/mock",
+          "acceptedPlanIds": [],
+          "reviewFeedback": {
+            "findings": [],
+            "recoveryDiagnostic": ""
+          }
+        }
+      ],
+      "acceptedPlanIds": [],
+      "manifestPath": "impl-plans/active/mock-dispatch.json",
+      "checkpointCommit": "1111111111111111111111111111111111111111"
+    }
+  },
+  "branch-evidence": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "evidencePaths": [
+        "tmp/mock/accepted.json"
+      ],
+      "changedFiles": [
+        "shared.txt"
+      ],
+      "reviewDecisions": {
+        "accepted": true
+      }
+    }
+  },
+  "reconcile-implementations": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "reviewBasis": {
+        "requiredOutcomes": [
+          "Retain the accepted plan behavior."
+        ],
+        "nonGoals": [
+          "Unrelated refactoring."
+        ],
+        "constraints": [
+          "Preserve existing repository behavior."
+        ],
+        "sourcePaths": [
+          "impl-plans/active/a.md"
+        ]
+      },
+      "repairs": [],
+      "addressedFeedback": [],
+      "deferredFeedback": [],
+      "unresolvedFindings": [],
+      "verification": [
+        "mock combined check"
+      ]
+    }
+  },
+  "integration-review": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": {
+      "needs_revision": false,
+      "redispatch_required": false,
+      "plans_remaining": false,
+      "repair_in_place": false
+    },
+    "payload": {
+      "accepted": true,
+      "reviewBasis": {
+        "userOutcomes": [
+          "Persist and replay review findings."
+        ],
+        "acceptanceCriteria": [
+          "All dispatched behavior survives on the combined tree."
+        ],
+        "nonGoals": [
+          "Unrelated workflow refactoring."
+        ],
+        "constraints": [
+          "Preserve existing workflow behavior."
+        ],
+        "designDecisions": [
+          "Store findings with execution metadata."
+        ],
+        "intentionalTradeoffs": [
+          "Reuse the existing persistence boundary."
+        ],
+        "sourcePaths": [
+          "impl-plans/active/a.md"
+        ]
+      },
+      "findings": [],
+      "needs_revision": false,
+      "redispatch_required": false,
+      "plans_remaining": false,
+      "repair_in_place": false,
+      "loopGate": {
+        "gateId": "integration-review",
+        "decision": "accepted",
+        "severityCounts": {
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "informational": 0
+        },
+        "blockingFindings": []
+      }
+    }
+  },
+  "base-branch-integrate": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "mergeStatus": "already-on-base",
+      "baseBranch": "main",
+      "basePushStatus": "pushed",
+      "implementationCommit": "abc123def4567890abc123def4567890abc123de",
+      "implementationBranch": "main",
+      "remote": "origin",
+      "verification": {}
+    }
+  },
+  "step9-commit-message": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "needs_revision": false
+    },
+    "payload": {
+      "accepted": true,
+      "commitMessage": "feat: complete shared implementation",
+      "committedFiles": [
+        "shared.txt"
+      ],
+      "workflowMode": "issue-resolution",
+      "decision": "accepted",
+      "needs_revision": false,
+      "findings": [],
+      "checkedImplPlanPaths": [
+        "impl-plans/active/a.md"
+      ],
+      "activeImplPlanFindings": [],
+      "archivedImplPlanPaths": [
+        "impl-plans/completed/a.md"
+      ],
+      "updatedIndexFiles": [
+        "impl-plans/README.md"
+      ],
+      "completionSummary": "Accepted completion and archived the plan.",
+      "residualRisks": [],
+      "changeSummary": "Completed shared implementation."
+    }
+  },
+  "step10-git-commit": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "git": {
+        "status": "committed",
+        "operation": "commit",
+        "commitHash": "2222222222222222222222222222222222222222"
+      }
+    }
+  },
+  "step11-git-push": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "git": {
+        "status": "pushed",
+        "operation": "push",
+        "pushedBranch": "main"
+      }
+    }
+  },
+  "step3-design-review": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "needs_revision": false
+    },
+    "payload": {
+      "needs_revision": false,
+      "findings": [],
+      "feedback": [],
+      "accepted": true
+    }
+  },
+  "step5-impl-plan-review": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "needs_design_revision": false,
+      "needs_revision": false,
+      "planning_only": false
+    },
+    "payload": {
+      "needs_design_revision": false,
+      "needs_revision": false,
+      "planning_only": false,
+      "findings": [],
+      "feedback": [],
+      "accepted": true
+    }
+  },
+  "step6-implement": [
+    {
+      "provider": "scenario-mock",
+      "model": "claude-opus-5-5",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "implementation_blocked": false,
+        "implementationIncomplete": false,
+        "blockers": [],
+        "issueReference": "tacogips/cursor-agent#123",
+        "changedFiles": [
+          "packages/riela/src/workflow/review-findings.ts",
+          "packages/riela/src/workflow/review-findings.test.ts",
+          "impl-plans/active/workflow-review-findings.md"
+        ],
+        "implementationSummary": "Implemented persisted review-finding records and rerun replay, but did not update the implementation-plan progress log yet.",
+        "implPlanPaths": [
+          "impl-plans/active/workflow-review-findings.md"
+        ],
+        "implPlanUpdates": [
+          "Marked persistence and replay tasks complete."
+        ],
+        "verification": [
+          {
+            "command": "task test",
+            "exitCode": 0,
+            "testCount": 24
+          }
+        ],
+        "addressedFeedback": [],
+        "risks": [
+          "Progress log update is still missing."
+        ]
+      }
+    },
+    {
+      "provider": "scenario-mock",
+      "model": "claude-opus-5-5",
+      "when": {
+        "always": true
+      },
+      "payload": {
+        "implementation_blocked": false,
+        "implementationIncomplete": false,
+        "blockers": [],
+        "issueReference": "tacogips/cursor-agent#123",
+        "changedFiles": [
+          "packages/riela/src/workflow/review-findings.ts",
+          "packages/riela/src/workflow/review-findings.test.ts",
+          "impl-plans/active/workflow-review-findings.md"
+        ],
+        "implementationSummary": "Step 6 implemented the approved plan, addressed Step 7 feedback, and updated implementation-plan progress.",
+        "implPlanPaths": [
+          "impl-plans/active/workflow-review-findings.md"
+        ],
+        "implPlanUpdates": [
+          "Marked persistence, replay, migration, and regression-test tasks complete.",
+          "Updated progress log and completion criteria."
+        ],
+        "verification": [
+          {
+            "command": "task test",
+            "exitCode": 0,
+            "testCount": 24
+          },
+          {
+            "command": "task typecheck",
+            "exitCode": 0
+          }
+        ],
+        "addressedFeedback": [
+          "Updated the implementation-plan progress log and reran typecheck."
+        ],
+        "risks": []
+      }
+    }
+  ],
+  "step6-test-integrity-check": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "needs_revision": false
+    },
+    "payload": {
+      "needs_revision": false,
+      "accepted": true,
+      "reviewBasis": {
+        "requiredBehaviors": [
+          "Persist and replay review findings across reruns."
+        ],
+        "supportedEdgeCases": [
+          "Rerun after a prior review finding."
+        ],
+        "nonGoals": [
+          "Unrelated workflow refactoring."
+        ],
+        "sourcePaths": [
+          "impl-plans/active/workflow-review-findings.md"
+        ]
+      },
+      "findings": [],
+      "reviewedFiles": [
+        "packages/riela/src/workflow/review-findings.ts",
+        "packages/riela/src/workflow/review-findings.test.ts",
+        "impl-plans/active/workflow-review-findings.md"
+      ],
+      "testFilesChanged": [
+        "packages/riela/src/workflow/review-findings.test.ts"
+      ],
+      "removedOrWeakenedTests": [],
+      "suspectedTestOnlyHacks": [],
+      "verificationGaps": [],
+      "feedback": [],
+      "residualRisks": [],
+      "testIntegritySummary": "No inappropriate test deletion, weakened assertions, skipped coverage, or test-only hacks found."
+    }
+  },
+  "step7-adversarial-review": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "needs_revision": false
+    },
+    "payload": {
+      "needs_revision": false,
+      "reviewBasis": {
+        "protectedOutcomes": [
+          "Rerun findings are retained without corrupting workflow state."
+        ],
+        "trustBoundaries": [
+          "Persisted workflow execution metadata."
+        ],
+        "nonGoals": [
+          "General storage hardening outside this workflow."
+        ],
+        "intentionalTradeoffs": [
+          "Reuse the existing persistence layer."
+        ],
+        "sourcePaths": [
+          "impl-plans/active/workflow-review-findings.md"
+        ]
+      },
+      "findings": [],
+      "feedback": [],
+      "accepted": true,
+      "adversarialReviewSummary": "Adversarial review accepted the rerun persistence behavior with no high or mid findings.",
+      "residualLowRisks": [],
+      "testIntegrityDecision": {
+        "accepted": true,
+        "summary": "Test integrity accepted the source-matched behavior.",
+        "feedback": [],
+        "residualRisks": []
+      }
+    }
+  },
+  "step7b-e2e-evidence": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "e2eAttempted": false,
+      "command": null,
+      "outcome": "skipped",
+      "reason": "The accepted change did not touch a browser-facing surface and the repository declares no browser E2E script, so headless browser verification was not applicable.",
+      "evidence": "No web package with a test:e2e script was detected in the repository diff.",
+      "residualRisks": []
+    }
+  },
+  "step8-docs-refresh": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "workflowMode": "issue-resolution",
+      "documentationFiles": [
+        "README.md",
+        ".agents/skills/riela-impl-workflow/SKILL.md"
+      ],
+      "userFacingSurfaces": [
+        "README.md",
+        ".agents/skills/riela-impl-workflow/SKILL.md"
+      ],
+      "documentationSummary": "Refreshed the README and the exposed workflow skill documentation so they match the accepted implementation behavior before commit generation.",
+      "residualRisks": []
+    }
+  },
+  "implementation-wave-outcome": {
+    "provider": "scenario-mock",
+    "model": "claude-opus-5-5",
+    "when": {
+      "implementation_blocked": false
+    },
+    "payload": {
+      "implementation_blocked": false,
+      "partial_success": false,
+      "blockedPlanIds": [],
+      "successfulPlanIds": [
+        "a"
+      ],
+      "blockers": [],
+      "resumeCriteria": []
+    }
+  }
+}

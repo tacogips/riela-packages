@@ -1,0 +1,35 @@
+{
+  "name": "cursor-cli-design-and-implement-review-loop",
+  "version": "0.2.0",
+  "title": "cursor-cli-design-and-implement-review-loop",
+  "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "678b4f6227ab951309ffe68383cdf7d8",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-design-and-implement-review-loop",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-design-and-implement-review-loop",
+    "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "409864b8e3858c311cccd9c8588264c9e8ccc45d02bd7da18f63f11e262ac517"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ],
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-design-and-implement-review-loop"
+  ]
+}

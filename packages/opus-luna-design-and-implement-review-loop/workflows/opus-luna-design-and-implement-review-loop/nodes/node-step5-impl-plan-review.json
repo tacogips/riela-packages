@@ -1,0 +1,70 @@
+{
+  "id": "step5-impl-plan-review",
+  "description": "Review the implementation plan against the design, including final design-plan consistency, and route back to the right authoring step when blocking findings exist; repair high/mid findings through Sonnet subagents and re-review before routing back.",
+  "executionBackend": "claude-code-agent",
+  "agentSandbox": "workspace-write",
+  "model": "claude-opus-5-5",
+  "modelFreeze": false,
+  "effort": "high",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "systemPromptTemplateFile": "prompts/runtime-provenance-system.md",
+  "promptTemplateFile": "prompts/step5-impl-plan-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON with when.needs_design_revision or when.needs_revision for blocking findings, plus when.planning_only to signal planning-only completion.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "needs_design_revision": {
+          "type": "boolean"
+        },
+        "needs_revision": {
+          "type": "boolean"
+        },
+        "planning_only": {
+          "type": "boolean"
+        },
+        "selfRepairs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "finding": {
+                "type": "string",
+                "minLength": 1
+              },
+              "changedFiles": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "verification": {
+                "type": "string"
+              },
+              "resolved": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "finding",
+              "changedFiles",
+              "resolved"
+            ],
+            "additionalProperties": true
+          }
+        }
+      },
+      "required": [
+        "needs_design_revision",
+        "needs_revision",
+        "planning_only"
+      ],
+      "additionalProperties": true
+    },
+    "maxValidationAttempts": 2
+  }
+}

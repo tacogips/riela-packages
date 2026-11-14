@@ -1,0 +1,4 @@
+interface:
+  display_name: "Riela Project Workflow"
+  short_description: "Turn work into a project-scope Riela workflow and run it"
+  default_prompt: "Use $riela-project-workflow to create, validate, and run a project-scope Riela workflow for this task."

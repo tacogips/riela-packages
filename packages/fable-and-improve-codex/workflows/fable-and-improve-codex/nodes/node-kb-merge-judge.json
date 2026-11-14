@@ -1,0 +1,98 @@
+{
+  "id": "kb-merge-judge",
+  "description": "Claude Fable decides whether the candidate knowledge is created, merged into an existing note, or skipped.",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-fable-5",
+  "modelFreeze": true,
+  "effort": "medium",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "promptTemplateFile": "prompts/kb-merge-judge.md",
+  "output": {
+    "description": "Return the knowledge-base update decision with routing flags.",
+    "jsonSchema": {
+      "type": "object",
+      "required": [
+        "decision",
+        "create_knowledge",
+        "merge_knowledge"
+      ],
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": [
+            "create",
+            "merge",
+            "skip"
+          ]
+        },
+        "create_knowledge": {
+          "type": "boolean"
+        },
+        "merge_knowledge": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "entries": {
+          "type": "array"
+        },
+        "mergeNoteId": {
+          "type": "string"
+        },
+        "mergedBody": {
+          "type": "string"
+        },
+        "archive_note": {
+          "type": "boolean"
+        },
+        "archiveNoteId": {
+          "type": "string"
+        },
+        "archivedPointerBody": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true,
+      "anyOf": [
+        {
+          "properties": {
+            "decision": {
+              "const": "merge"
+            },
+            "mergeNoteId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "mergedBody": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "decision",
+            "mergeNoteId",
+            "mergedBody"
+          ]
+        },
+        {
+          "properties": {
+            "decision": {
+              "enum": [
+                "create",
+                "skip"
+              ]
+            }
+          },
+          "required": [
+            "decision"
+          ]
+        }
+      ]
+    },
+    "maxValidationAttempts": 2
+  },
+  "agentSandbox": "read-only"
+}

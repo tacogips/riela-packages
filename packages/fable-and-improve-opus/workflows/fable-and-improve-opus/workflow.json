@@ -1,0 +1,937 @@
+{
+  "workflowId": "fable-and-improve-opus",
+  "description": "Claude Fable analyzes the request, recalls prior knowledge, and authors the design and implementation plans. Claude Opus 5.5 independently reviews planning, implements dependency-ready plans, runs test-integrity and adversarial review gates, and repairs the shared tree. Fable performs integration and goal acceptance before E2E evidence, documentation, serialized Git finalization, and knowledge-base self-review.",
+  "defaults": {
+    "maxLoopIterations": 30,
+    "nodeTimeoutMs": 3600000,
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    },
+    "fanoutConcurrency": 4
+  },
+  "loop": {
+    "kind": "design-implement-review",
+    "required": false,
+    "description": "Fable-authored design and planning with Opus planning review, bounded implementation, test-integrity and adversarial review, Fable integration and goal acceptance, documentation, Git finalization, and knowledge self-review.",
+    "convergence": {
+      "maxGateVisits": 4,
+      "maxRepeatedFindingRounds": 2,
+      "onStall": "fail"
+    },
+    "evidence": {
+      "required": true,
+      "artifactRootPolicy": "runtime-owned",
+      "requiredSections": [
+        "changed-files",
+        "verification",
+        "implementation-plan",
+        "review"
+      ]
+    },
+    "policies": {
+      "mutation": {
+        "allowedWriteRoots": [
+          "Sources",
+          "Tests",
+          "design-docs",
+          "impl-plans",
+          "examples",
+          ".riela/workflows",
+          "tmp",
+          "src",
+          "tests",
+          "lib",
+          "crates"
+        ],
+        "scratchRoot": "tmp",
+        "commit": "prompt",
+        "push": "prompt"
+      },
+      "process": {
+        "nestedRiela": "deny",
+        "nestedCodex": "deny",
+        "allowedBackends": [
+          "claude-code-agent",
+          "command"
+        ]
+      },
+      "network": {
+        "mode": "inherit-command"
+      },
+      "redaction": {
+        "secretPolicy": "summary-only",
+        "storeRawStdout": false,
+        "storeRawStderr": false
+      }
+    },
+    "implementationPlan": {
+      "required": true,
+      "pathPattern": "impl-plans/active/*.md"
+    },
+    "gates": [
+      {
+        "id": "design-review",
+        "stepId": "step3-design-review",
+        "required": false,
+        "acceptWhen": {
+          "decision": "accepted",
+          "maxHighFindings": 0,
+          "maxMediumFindings": 0
+        }
+      },
+      {
+        "id": "implementation-plan-review",
+        "stepId": "step5-impl-plan-review",
+        "required": false,
+        "acceptWhen": {
+          "decision": "accepted",
+          "maxHighFindings": 0,
+          "maxMediumFindings": 0
+        }
+      },
+      {
+        "id": "test-integrity-review",
+        "stepId": "step6-test-integrity-check",
+        "required": false,
+        "acceptWhen": {
+          "decision": "accepted",
+          "maxHighFindings": 0,
+          "maxMediumFindings": 0
+        }
+      },
+      {
+        "id": "adversarial-implementation-review",
+        "stepId": "step7-adversarial-review",
+        "required": false,
+        "acceptWhen": {
+          "decision": "accepted",
+          "maxHighFindings": 0,
+          "maxMediumFindings": 0
+        }
+      },
+      {
+        "id": "integration-review",
+        "stepId": "integration-review",
+        "required": false,
+        "acceptWhen": {
+          "decision": "accepted",
+          "maxHighFindings": 0,
+          "maxMediumFindings": 0
+        }
+      },
+      {
+        "id": "fable-goal-review",
+        "stepId": "fable-goal-review",
+        "required": false,
+        "acceptWhen": {
+          "decision": "accepted",
+          "maxHighFindings": 0,
+          "maxMediumFindings": 0
+        }
+      },
+      {
+        "id": "implementation-plan-completion-check",
+        "stepId": "step9-commit-message",
+        "required": false,
+        "acceptWhen": {
+          "decision": "accepted",
+          "maxHighFindings": 0,
+          "maxMediumFindings": 0
+        }
+      }
+    ],
+    "recovery": {
+      "resume": "preserve-session",
+      "rerun": "new-child-session",
+      "retry": "same-communication-or-step-attempt"
+    }
+  },
+  "prompts": {
+    "rielaPromptTemplate": "Fable authors the design and all plans after analysis and knowledge recall. Opus independently reviews both artifacts before checkpoint. Commit accepted plans before dependency-ready same-branch Riela implementation fanout. Each branch runs bounded implementation, mechanical progress classification, test-integrity review, adversarial material-issue review, and immutable evidence. Join all workers, classify blocked and partial-success waves, reconcile retained work, and run Fable integration review with repair-in-place versus redispatch routing. After all waves, Fable confirms the goal, then run E2E evidence, documentation, completion, one final commit, push, base integration, and knowledge self-review. Never use worktrees or parallel Git operations.",
+    "workerSystemPromptTemplate": "Return concise business JSON only. Preserve analysis, design and implementation-plan artifacts, changed files, structured verification evidence, review findings and dispositions, dependency acceptance, remaining TODOs, Git evidence, and residual risks."
+  },
+  "managerStepId": "fable-analysis",
+  "entryStepId": "fable-analysis",
+  "nodes": [
+    {
+      "id": "fable-analysis",
+      "nodeFile": "nodes/node-fable-analysis.json"
+    },
+    {
+      "id": "kb-recall-prior",
+      "addon": {
+        "name": "kaiba/memory-recall",
+        "version": "1",
+        "config": {
+          "query": "{{knowledgeQuery}}",
+          "limit": 5,
+          "includeAssociations": true,
+          "associationDepth": 2
+        }
+      }
+    },
+    {
+      "id": "fable-design",
+      "nodeFile": "nodes/node-fable-design.json"
+    },
+    {
+      "id": "step3-design-review",
+      "nodeFile": "nodes/node-step3-design-review.json"
+    },
+    {
+      "id": "step5-impl-plan-review",
+      "nodeFile": "nodes/node-step5-impl-plan-review.json"
+    },
+    {
+      "id": "step6-implement",
+      "nodeFile": "nodes/node-step6-implement.json"
+    },
+    {
+      "id": "implementation-progress-check",
+      "nodeFile": "nodes/node-implementation-progress-check.json"
+    },
+    {
+      "id": "step6-test-integrity-check",
+      "nodeFile": "nodes/node-step6-test-integrity-check.json"
+    },
+    {
+      "id": "step7-adversarial-review",
+      "nodeFile": "nodes/node-step7-adversarial-review.json"
+    },
+    {
+      "id": "step7b-e2e-evidence",
+      "nodeFile": "nodes/node-step7b-e2e-evidence.json"
+    },
+    {
+      "id": "step8-docs-refresh",
+      "nodeFile": "nodes/node-step8-docs-refresh.json"
+    },
+    {
+      "id": "fable-goal-review",
+      "nodeFile": "nodes/node-fable-goal-review.json"
+    },
+    {
+      "id": "kb-self-review",
+      "nodeFile": "nodes/node-kb-self-review.json"
+    },
+    {
+      "id": "kb-recall-related",
+      "addon": {
+        "name": "kaiba/memory-recall",
+        "version": "1",
+        "config": {
+          "query": "{{knowledgeQuery}}",
+          "limit": 5,
+          "includeAssociations": true,
+          "associationDepth": 2,
+          "passthrough": "{\"candidateContent\":\"{{candidateContent}}\",\"candidateTags\":\"{{candidateTags}}\",\"knowledgeQuery\":\"{{knowledgeQuery}}\"}"
+        }
+      }
+    },
+    {
+      "id": "kb-merge-judge",
+      "nodeFile": "nodes/node-kb-merge-judge.json"
+    },
+    {
+      "id": "kb-create",
+      "addon": {
+        "name": "kaiba/memory-consolidate",
+        "version": "1",
+        "config": {
+          "autoAssociate": true,
+          "associationLimit": 8
+        }
+      }
+    },
+    {
+      "id": "kb-merge",
+      "addon": {
+        "name": "kaiba/note-update",
+        "version": "1",
+        "config": {
+          "noteId": "{{mergeNoteId}}",
+          "bodyMarkdown": "{{mergedBody}}"
+        }
+      }
+    },
+    {
+      "id": "kb-archive-brief",
+      "nodeFile": "nodes/node-kb-archive-brief.json"
+    },
+    {
+      "id": "kb-archive",
+      "addon": {
+        "name": "kaiba/note-update",
+        "version": "1",
+        "config": {
+          "noteId": "{{archiveNoteId}}",
+          "bodyMarkdown": "{{archivedPointerBody}}"
+        }
+      }
+    },
+    {
+      "id": "final-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-final-output.json"
+    },
+    {
+      "id": "plan-checkpoint",
+      "nodeFile": "nodes/node-plan-checkpoint.json"
+    },
+    {
+      "id": "plan-git-commit",
+      "addon": {
+        "name": "riela/git-commit",
+        "version": "1",
+        "config": {
+          "commitMessageTemplate": "{{inbox.latest.output.payload.commitMessage}}",
+          "committedFilesTemplate": "{{inbox.latest.output.payload.committedFiles}}",
+          "allowCommit": true
+        }
+      }
+    },
+    {
+      "id": "dispatch-plans",
+      "nodeFile": "nodes/node-dispatch-plans.json"
+    },
+    {
+      "id": "branch-evidence",
+      "nodeFile": "nodes/node-branch-evidence.json"
+    },
+    {
+      "id": "implementation-wave-outcome",
+      "nodeFile": "nodes/node-implementation-wave-outcome.json"
+    },
+    {
+      "id": "implementation-blocked-output",
+      "nodeFile": "nodes/node-implementation-blocked-output.json"
+    },
+    {
+      "id": "reconcile-implementations",
+      "nodeFile": "nodes/node-reconcile-implementations.json"
+    },
+    {
+      "id": "integration-review",
+      "nodeFile": "nodes/node-integration-review.json"
+    },
+    {
+      "id": "step9-commit-message",
+      "nodeFile": "nodes/node-step9-commit-message.json"
+    },
+    {
+      "id": "step10-git-commit",
+      "addon": {
+        "name": "riela/git-commit",
+        "version": "1",
+        "config": {
+          "commitMessageTemplate": "{{inbox.latest.output.payload.commitMessage}}",
+          "committedFilesTemplate": "{{inbox.latest.output.payload.committedFiles}}",
+          "allowCommit": true
+        }
+      }
+    },
+    {
+      "id": "step11-git-push",
+      "addon": {
+        "name": "riela/git-push",
+        "version": "1",
+        "config": {
+          "allowPush": true,
+          "expectedCommitHashTemplate": "{{inbox.latest.output.payload.git.commitHash}}"
+        }
+      }
+    },
+    {
+      "id": "base-branch-integrate",
+      "nodeFile": "nodes/node-base-branch-integrate.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "fable-analysis",
+      "nodeId": "fable-analysis",
+      "description": "Use Fable to analyze the operator request, repository state, constraints, risks, and testable acceptance criteria, and to name a knowledge-base search keyword.",
+      "role": "manager",
+      "transitions": [
+        {
+          "toStepId": "kb-recall-prior"
+        }
+      ]
+    },
+    {
+      "id": "kb-recall-prior",
+      "nodeId": "kb-recall-prior",
+      "description": "Recall durable prior knowledge from the kaiba knowledge base for the analysis topic before design starts.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "fable-design"
+        }
+      ]
+    },
+    {
+      "id": "fable-design",
+      "nodeId": "fable-design",
+      "description": "Author design, implementation plan, and their consistency self-check in one Fable execution.",
+      "role": "worker",
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "fable-analysis"
+      },
+      "loop": {
+        "role": "gate",
+        "gateId": "fable-goal-review",
+        "evidenceTags": [
+          "goal-review",
+          "blocking-findings"
+        ],
+        "recordsVerification": true
+      },
+      "loop": {
+        "role": "worker",
+        "evidenceTags": [
+          "design",
+          "implementation-plan",
+          "changed-files"
+        ],
+        "recordsChangedFiles": true
+      },
+      "transitions": [
+        {
+          "toStepId": "step3-design-review"
+        }
+      ]
+    },
+    {
+      "id": "step3-design-review",
+      "nodeId": "step3-design-review",
+      "description": "Use an independent Opus session to review the Fable-authored design and return blocking findings to the author.",
+      "role": "worker",
+      "loop": {
+        "role": "gate",
+        "gateId": "design-review",
+        "evidenceTags": [
+          "design-review",
+          "blocking-findings"
+        ],
+        "recordsVerification": true
+      },
+      "transitions": [
+        {
+          "toStepId": "fable-design",
+          "label": "needs_revision"
+        },
+        {
+          "toStepId": "step5-impl-plan-review",
+          "label": "!(needs_revision)"
+        }
+      ]
+    },
+    {
+      "id": "step5-impl-plan-review",
+      "nodeId": "step5-impl-plan-review",
+      "description": "Use an independent Opus session to review every Fable-authored plan and final design-plan consistency.",
+      "role": "worker",
+      "loop": {
+        "role": "gate",
+        "gateId": "implementation-plan-review",
+        "evidenceTags": [
+          "implementation-plan-review",
+          "blocking-findings"
+        ],
+        "recordsVerification": true
+      },
+      "transitions": [
+        {
+          "toStepId": "fable-design",
+          "label": "needs_design_revision || needs_revision"
+        },
+        {
+          "toStepId": "plan-checkpoint",
+          "label": "!(needs_design_revision || needs_revision)"
+        }
+      ]
+    },
+    {
+      "id": "step6-implement",
+      "nodeId": "step6-implement",
+      "description": "Use Claude Opus 5.5 to implement or continue the assigned accepted plan, verify it, and update plan progress.",
+      "role": "worker",
+      "timeoutMs": 14400000,
+      "loop": {
+        "role": "worker",
+        "evidenceTags": [
+          "implementation",
+          "changed-files",
+          "verification"
+        ],
+        "recordsChangedFiles": true,
+        "recordsVerification": true
+      },
+      "transitions": [
+        {
+          "toStepId": "implementation-progress-check"
+        }
+      ]
+    },
+    {
+      "id": "implementation-progress-check",
+      "nodeId": "implementation-progress-check",
+      "description": "Mechanically classify Opus implementation evidence, allowing bounded productive continuation before review.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "step6-implement",
+          "label": "implementation_continue"
+        },
+        {
+          "toStepId": "implementation-wave-outcome",
+          "label": "implementation_blocked"
+        },
+        {
+          "toStepId": "step6-test-integrity-check",
+          "label": "!(implementation_blocked || implementation_continue)"
+        }
+      ]
+    },
+    {
+      "id": "step6-test-integrity-check",
+      "nodeId": "step6-test-integrity-check",
+      "description": "Independently check the Opus implementation for weakened tests, test-only hacks, skipped coverage, and verification integrity regressions.",
+      "role": "worker",
+      "loop": {
+        "role": "gate",
+        "gateId": "test-integrity-review",
+        "evidenceTags": [
+          "test-integrity",
+          "verification"
+        ],
+        "recordsVerification": true
+      },
+      "transitions": [
+        {
+          "toStepId": "step6-implement",
+          "label": "needs_revision"
+        },
+        {
+          "toStepId": "step7-adversarial-review",
+          "label": "!(needs_revision)"
+        }
+      ]
+    },
+    {
+      "id": "step7-adversarial-review",
+      "nodeId": "step7-adversarial-review",
+      "description": "Perform one independent material-issue adversarial review for failure modes, misuse paths, misleading success states, and verification loopholes.",
+      "role": "worker",
+      "loop": {
+        "role": "gate",
+        "gateId": "adversarial-implementation-review",
+        "evidenceTags": [
+          "adversarial-review",
+          "blocking-findings"
+        ],
+        "recordsVerification": true
+      },
+      "transitions": [
+        {
+          "toStepId": "step6-implement",
+          "label": "needs_revision"
+        },
+        {
+          "toStepId": "branch-evidence",
+          "label": "!(needs_revision)"
+        }
+      ]
+    },
+    {
+      "id": "step7b-e2e-evidence",
+      "nodeId": "step7b-e2e-evidence",
+      "description": "Run headless browser E2E as advisory evidence after Fable goal acceptance and before documentation refresh.",
+      "role": "worker",
+      "timeoutMs": 1800000,
+      "failurePolicy": "advisory",
+      "loop": {
+        "role": "worker",
+        "evidenceTags": [
+          "e2e",
+          "verification"
+        ],
+        "recordsVerification": true
+      },
+      "transitions": [
+        {
+          "toStepId": "step8-docs-refresh"
+        }
+      ]
+    },
+    {
+      "id": "step8-docs-refresh",
+      "nodeId": "step8-docs-refresh",
+      "description": "Refresh user-facing repository documentation after all implementation and goal review gates accept.",
+      "role": "worker",
+      "loop": {
+        "role": "worker",
+        "evidenceTags": [
+          "documentation",
+          "changed-files"
+        ],
+        "recordsChangedFiles": true
+      },
+      "transitions": [
+        {
+          "toStepId": "step9-commit-message"
+        }
+      ]
+    },
+    {
+      "id": "fable-goal-review",
+      "nodeId": "fable-goal-review",
+      "description": "Use Fable to compare the accepted Opus result with the analysis, design, plan, and goal.",
+      "role": "worker",
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "fable-analysis"
+      },
+      "transitions": [
+        {
+          "toStepId": "fable-analysis",
+          "label": "needs_replan"
+        },
+        {
+          "toStepId": "reconcile-implementations",
+          "label": "needs_todo"
+        },
+        {
+          "toStepId": "step7b-e2e-evidence",
+          "label": "!(needs_replan || needs_todo)"
+        }
+      ]
+    },
+    {
+      "id": "kb-self-review",
+      "nodeId": "kb-self-review",
+      "description": "Use Fable to self-review the accepted run and extract at most one durable knowledge candidate for the knowledge base.",
+      "role": "worker",
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "fable-goal-review"
+      },
+      "transitions": [
+        {
+          "toStepId": "kb-recall-related"
+        }
+      ]
+    },
+    {
+      "id": "kb-recall-related",
+      "nodeId": "kb-recall-related",
+      "description": "Recall existing knowledge-base notes related to the self-review candidate.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "kb-merge-judge"
+        }
+      ]
+    },
+    {
+      "id": "kb-merge-judge",
+      "nodeId": "kb-merge-judge",
+      "description": "Use Fable to decide whether the candidate knowledge is created, merged into an existing note, or skipped.",
+      "role": "worker",
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "kb-self-review"
+      },
+      "transitions": [
+        {
+          "toStepId": "kb-create",
+          "label": "create_knowledge"
+        },
+        {
+          "toStepId": "kb-merge",
+          "label": "merge_knowledge"
+        },
+        {
+          "toStepId": "final-output",
+          "label": "!(create_knowledge || merge_knowledge)"
+        }
+      ]
+    },
+    {
+      "id": "kb-create",
+      "nodeId": "kb-create",
+      "description": "Write the accepted candidate as a new kaiba knowledge-base note with graph auto-association.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "final-output"
+        }
+      ]
+    },
+    {
+      "id": "kb-merge",
+      "nodeId": "kb-merge",
+      "description": "Rewrite the existing kaiba note with the generalized merged body so the knowledge base absorbs the lesson without growing.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "kb-archive-brief"
+        }
+      ]
+    },
+    {
+      "id": "kb-archive-brief",
+      "nodeId": "kb-archive-brief",
+      "description": "Use the merge judge's session to re-emit the archive instruction after the merge write.",
+      "role": "worker",
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "kb-merge-judge"
+      },
+      "transitions": [
+        {
+          "toStepId": "kb-archive",
+          "label": "archive_note"
+        },
+        {
+          "toStepId": "final-output",
+          "label": "!(archive_note)"
+        }
+      ]
+    },
+    {
+      "id": "kb-archive",
+      "nodeId": "kb-archive",
+      "description": "Collapse the superseded kaiba note to a one-line pointer so stale copies stop matching searches.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "final-output"
+        }
+      ]
+    },
+    {
+      "id": "final-output",
+      "nodeId": "final-output",
+      "description": "Publish the accepted Fable analysis, design, implementation plan, Opus evidence, knowledge-base update, and final status.",
+      "role": "worker",
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "kb-merge-judge"
+      }
+    },
+    {
+      "id": "plan-checkpoint",
+      "nodeId": "plan-checkpoint",
+      "description": "Prepare the accepted design and plan checkpoint without staging unrelated changes.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "plan-git-commit",
+          "label": "!(checkpoint_blocked)"
+        }
+      ]
+    },
+    {
+      "id": "plan-git-commit",
+      "nodeId": "plan-git-commit",
+      "description": "Commit accepted designs, plans and dispatch manifest before any implementation.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "dispatch-plans"
+        }
+      ]
+    },
+    {
+      "id": "dispatch-plans",
+      "nodeId": "dispatch-plans",
+      "description": "Select a dependency-ready wave from the committed plan manifest.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "step6-implement",
+          "fanout": {
+            "groupId": "shared-branch-implementation",
+            "itemsFrom": "/implementationItems",
+            "itemVariable": "implementation",
+            "concurrency": 4,
+            "joinStepId": "implementation-wave-outcome",
+            "failurePolicy": "collect-partial",
+            "resultOrder": "input",
+            "dependencies": {
+              "branchIdFrom": "/planId",
+              "dependsOnFrom": "/dependsOn",
+              "completedBranchIdsFrom": "/acceptedPlanIds"
+            },
+            "changeTracking": {
+              "pathsFrom": "/trackedPaths"
+            },
+            "writeOwnership": {
+              "mode": "shared-workspace"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "branch-evidence",
+      "nodeId": "branch-evidence",
+      "description": "Record branch evidence after accepted reviews; never finalize git in a parallel branch.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "implementation-wave-outcome"
+        }
+      ]
+    },
+    {
+      "id": "implementation-wave-outcome",
+      "nodeId": "implementation-wave-outcome",
+      "description": "Aggregate preclassified native implementation branch outcomes; blocked-only waves terminate while evidence-complete successful candidates continue to Fable integration acceptance.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "implementation-blocked-output",
+          "label": "implementation_blocked && !(partial_success)"
+        },
+        {
+          "toStepId": "reconcile-implementations",
+          "label": "!(implementation_blocked) || partial_success"
+        }
+      ]
+    },
+    {
+      "id": "implementation-blocked-output",
+      "nodeId": "implementation-blocked-output",
+      "description": "Publish an actionable terminal dependency-blocked handoff without entering accepted Git finalization.",
+      "role": "worker"
+    },
+    {
+      "id": "reconcile-implementations",
+      "nodeId": "reconcile-implementations",
+      "description": "After all workers stop, detect and repair overwritten or missing changes and run combined verification.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "integration-review"
+        }
+      ]
+    },
+    {
+      "id": "integration-review",
+      "nodeId": "integration-review",
+      "description": "Independently verify retained plan behavior and repairs before another wave or finalization.",
+      "role": "worker",
+      "sessionPolicy": {
+        "mode": "reuse",
+        "inheritFromStepId": "fable-design"
+      },
+      "loop": {
+        "role": "gate",
+        "gateId": "integration-review",
+        "evidenceTags": [
+          "integration-review",
+          "blocking-findings",
+          "verification"
+        ],
+        "recordsVerification": true
+      },
+      "transitions": [
+        {
+          "toStepId": "reconcile-implementations",
+          "label": "needs_revision && repair_in_place"
+        },
+        {
+          "toStepId": "dispatch-plans",
+          "label": "needs_revision && !(repair_in_place)"
+        },
+        {
+          "toStepId": "dispatch-plans",
+          "label": "!(needs_revision) && plans_remaining"
+        },
+        {
+          "toStepId": "fable-goal-review",
+          "label": "!(needs_revision || plans_remaining)"
+        }
+      ]
+    },
+    {
+      "id": "step9-commit-message",
+      "nodeId": "step9-commit-message",
+      "description": "Check completion for issue-resolution and prepare commit evidence; planning-only preserves active plans.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "step8-docs-refresh",
+          "label": "needs_revision"
+        },
+        {
+          "toStepId": "step10-git-commit",
+          "label": "!(needs_revision)"
+        }
+      ],
+      "loop": {
+        "role": "gate",
+        "gateId": "implementation-plan-completion-check",
+        "evidenceTags": [
+          "implementation-plan",
+          "completion-check"
+        ],
+        "recordsVerification": true
+      }
+    },
+    {
+      "id": "step10-git-commit",
+      "nodeId": "step10-git-commit",
+      "description": "Use the shared built-in git commit node to stage and commit the accepted workflow changes from Step 9.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "step11-git-push"
+        }
+      ]
+    },
+    {
+      "id": "step11-git-push",
+      "nodeId": "step11-git-push",
+      "description": "Use the built-in git push node to push the commit created by Step 10 to the current branch.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "base-branch-integrate"
+        }
+      ]
+    },
+    {
+      "id": "base-branch-integrate",
+      "nodeId": "base-branch-integrate",
+      "description": "Serially integrate the verified pushed branch into the recorded base branch and push the base.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "kb-self-review"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "rielaPackage": {
+      "title": "fable-and-improve-opus",
+      "description": "Fable-authored design and planning with Opus 5.5 planning, test-integrity and adversarial reviews, dependency-aware shared-branch implementation, Fable integration and goal gates, and serialized Git finalization.",
+      "tags": [
+        "workflow",
+        "claude-code",
+        "fable",
+        "opus",
+        "review",
+        "knowledge-base"
+      ],
+      "backends": [
+        "claude-code-agent"
+      ]
+    }
+  }
+}

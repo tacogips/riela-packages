@@ -1,0 +1,138 @@
+{
+  "id": "step9-commit-message",
+  "description": "Verify plan completion and archive for issue-resolution, then prepare commit evidence; preserve active plans for planning-only.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.6-sol",
+  "modelFreeze": false,
+  "promptTemplateFile": "prompts/step9-commit-message.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON with when.needs_revision, payload.needs_revision, completion evidence and, only on acceptance, commitMessage, committedFiles, changeSummary.",
+    "maxValidationAttempts": 2,
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "workflowMode": {
+          "type": "string"
+        },
+        "checkedImplPlanPaths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "activeImplPlanFindings": {
+          "type": "array"
+        },
+        "archivedImplPlanPaths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "updatedIndexFiles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "needs_revision": {
+          "type": "boolean"
+        },
+        "completionSummary": {
+          "type": "string"
+        },
+        "residualRisks": {
+          "type": "array"
+        },
+        "decision": {
+          "type": "string"
+        },
+        "accepted": {
+          "type": "boolean"
+        },
+        "findings": {
+          "type": "array"
+        },
+        "commitMessage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "committedFiles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "changeSummary": {
+          "type": "string"
+        },
+        "git": {
+          "type": "object",
+          "properties": {
+            "commitHash": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "workflowMode",
+        "checkedImplPlanPaths",
+        "activeImplPlanFindings",
+        "archivedImplPlanPaths",
+        "updatedIndexFiles",
+        "needs_revision",
+        "completionSummary",
+        "residualRisks",
+        "decision"
+      ],
+      "anyOf": [
+        {
+          "properties": {
+            "decision": {
+              "const": "needs-revision"
+            },
+            "needs_revision": {
+              "const": true
+            }
+          },
+          "required": [
+            "decision",
+            "needs_revision"
+          ]
+        },
+        {
+          "properties": {
+            "decision": {
+              "const": "accepted"
+            },
+            "needs_revision": {
+              "const": false
+            },
+            "accepted": {
+              "const": true
+            },
+            "findings": {
+              "type": "array",
+              "maxItems": 0
+            }
+          },
+          "required": [
+            "decision",
+            "needs_revision",
+            "accepted",
+            "findings",
+            "commitMessage",
+            "committedFiles",
+            "changeSummary"
+          ]
+        }
+      ],
+      "additionalProperties": true
+    }
+  },
+  "agentSandbox": "workspace-write"
+}
