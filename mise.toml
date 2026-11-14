@@ -1,0 +1,181 @@
+min_version = "2026.8.3"
+
+[[hooks.enter]]
+shell = "bash"
+script = '''
+if command -v kinko >/dev/null 2>&1 && kinko hook --help >/dev/null 2>&1; then
+  eval "$(kinko --path "$MISE_PROJECT_ROOT" hook enter bash)"
+fi
+'''
+
+[[hooks.leave]]
+shell = "bash"
+script = '''
+if command -v kinko >/dev/null 2>&1 && kinko hook --help >/dev/null 2>&1; then
+  eval "$(kinko hook leave bash)"
+fi
+'''
+
+[tools]
+bun = "1.4.4"
+gitleaks = "latest"
+pre-commit = "latest"
+swift = "6.3.3"
+
+[tasks."package:check-digests"]
+description = "Check every package manifest checksum and integrity digest."
+run = '''
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts --all --dry-run
+'''
+
+[tasks."package:check-addon-digests"]
+description = "Check every add-on contentDigest and dependency lock against add-on sources."
+run = '''
+bun .agents/skills/riela-package-release/scripts/update-addon-content-digests.ts --all --check
+'''
+
+[tasks."package:update-addon-digests"]
+description = "Recompute add-on contentDigest values and sync dependency locks."
+run = '''
+bun .agents/skills/riela-package-release/scripts/update-addon-content-digests.ts --all
+'''
+
+[tasks."package:generate-index"]
+description = "Generate registry-index.json from package manifests."
+run = '''
+bun .agents/skills/riela-package-release/scripts/generate-registry-index.ts
+'''
+
+[tasks."package:check-index"]
+description = "Check generated registry-index.json is current."
+run = '''
+bun .agents/skills/riela-package-release/scripts/generate-registry-index.ts --check
+'''
+
+[tasks."package:check-container-images"]
+description = "Check container add-on image metadata and build contexts."
+run = '''
+bun .agents/skills/riela-package-release/scripts/container-image-matrix.ts --check
+'''
+
+[tasks."package:update-container-image-digests"]
+description = "Update container add-on execution.imageDigest pins from pushed GHCR image tags."
+run = '''
+bun .agents/skills/riela-package-release/scripts/update-container-image-digests.ts --all
+'''
+
+[tasks."package:pack-release-archives"]
+description = "Pack every package as a .rielapkg release archive and write archive SHA256 metadata."
+run = '''
+bun .agents/skills/riela-package-release/scripts/pack-release-archives.ts --all --archive-base-url https://github.com/tacogips/riela-packages/releases/download/registry-packages
+'''
+
+[tasks."package:generate-release-index"]
+description = "Generate a release registry index with .rielapkg archive URLs and SHA256 pins."
+run = '''
+mise run package:pack-release-archives
+bun .agents/skills/riela-package-release/scripts/generate-registry-index.ts --output dist/registry-index.json --archive-manifest dist/package-archives.json
+'''
+
+[tasks."package:check-release-publication"]
+description = "Check that the registry-packages GitHub Release contains generated .rielapkg assets."
+run = '''
+mise run package:generate-release-index
+bun .agents/skills/riela-package-release/scripts/check-release-publication.ts
+'''
+
+[tasks."package:validate"]
+description = "Validate every package manifest with installed Riela."
+run = '''
+bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode manifests
+'''
+
+[tasks."workflow:validate"]
+description = "Validate concrete and inherited packaged workflows with isolated dependencies."
+run = '''
+bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode workflows
+'''
+
+[tasks."workflow:check-compact"]
+description = "Verify compact workflow revision gates and inherited node references with isolated mock runs."
+run = "bun .agents/skills/riela-package-release/scripts/check-compact-workflows.ts"
+
+[tasks."workflow:check-codex-dispatch"]
+description = "Check deterministic Codex dispatch manifest compatibility."
+run = """
+python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'
+python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py'
+"""
+
+[tasks."package:check-compat-harness"]
+description = "Test compatibility harness route and asset assertions."
+run = "bun test ./.agents/skills/riela-package-release/scripts/check-package-compat.test.ts"
+
+[tasks."package:check-assets"]
+description = "Validate installed CLI usage and package documentation assets."
+run = "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode assets"
+
+[tasks."workflow:check-scenarios"]
+description = "Run deterministic packaged workflow scenarios and route assertions."
+run = "bun .agents/skills/riela-package-release/scripts/check-package-compat.ts --mode scenarios --include-inherited"
+
+[tasks."package:check-local-contracts"]
+description = "Run package-local compatibility and output contract tests."
+run = '''
+set -e
+contract_root=$(mktemp -d "$PWD/tmp/package-local-contracts.XXXXXX")
+catalog="$contract_root/catalog"
+mkdir -p "$catalog" "$contract_root/isolated-project" "$contract_root/evidence"
+for workflow in packages/*/workflows/*/workflow.json; do
+  [ -f "$workflow" ] || continue
+  workflow_id=${workflow%/workflow.json}
+  workflow_id=${workflow_id##*/}
+  cp -R "${workflow%/workflow.json}" "$catalog/$workflow_id"
+done
+export RIELA_COMPAT_CATALOG="$catalog"
+export RIELA_COMPAT_EVIDENCE_ROOT="$contract_root/evidence"
+export RIELA_COMPAT_CLI="${RIELA_COMPAT_CLI:-riela}"
+export RIELA_BIN="${RIELA_BIN:-$RIELA_COMPAT_CLI}"
+for script in packages/*/tests/check-compat.ts packages/*/tests/check-output-contract.ts; do
+  [ -f "$script" ] || continue
+  package_id=${script#packages/}
+  package_id=${package_id%%/*}
+  bun "$script" --evidence-root "$contract_root/$package_id"
+done
+'''
+
+[tasks."check"]
+description = "Run package digest, registry index, package manifest, and workflow validation checks."
+run = '''
+mise run package:check-digests
+mise run package:check-addon-digests
+mise run package:check-index
+mise run package:check-container-images
+mise run workflow:check-compact
+mise run workflow:check-codex-dispatch
+mise run package:check-compat-harness
+mise run package:check-assets
+mise run workflow:check-scenarios
+mise run package:check-local-contracts
+mise run package:validate
+mise run workflow:validate
+'''
+
+[tasks.install-git-hooks]
+description = "Install mise tools and the repository pre-commit hook"
+run = '''
+mise install
+
+hooks_path=$(git config --local --get core.hooksPath || true)
+if [ "$hooks_path" = ".git/hooks" ]; then
+  git config --local --unset-all core.hooksPath
+  hooks_path=""
+fi
+
+if [ -z "$hooks_path" ]; then
+  mise exec -- pre-commit install
+else
+  mise exec -- pre-commit validate-config .pre-commit-config.yaml
+  echo "Using existing custom Git hooks path: $hooks_path"
+fi
+'''

@@ -1,0 +1,41 @@
+{
+  "name": "codex-deep-creation",
+  "version": "0.1.1",
+  "title": "codex-deep-creation",
+  "description": "Run deep design, adversarial implementation-plan completion, and source security checks as one Codex creation workflow.",
+  "tags": [
+    "workflow",
+    "codex",
+    "creation"
+  ],
+  "registry": "default",
+  "checksum": "55f1338b2a805a1e9a892a535a7ac650",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/codex-deep-creation",
+  "dependencies": [
+    "codex-deepdesign",
+    "codex-impl-plan-completion-loop",
+    "codex-source-security-check-loop"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "codex-deep-creation",
+    "description": "Run deep design, adversarial implementation-plan completion, and source security checks as one Codex creation workflow.",
+    "tags": [
+      "workflow",
+      "codex",
+      "creation"
+    ],
+    "backends": [
+      "codex-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "1ce99009ed15f40394cd7b0e3661f7756a1249a63a6707c766e275aa61314ef1"
+  },
+  "backends": [
+    "codex-agent"
+  ],
+  "skillDirectory": "skills"
+}

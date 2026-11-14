@@ -1,0 +1,34 @@
+{
+  "name": "cursor-cli-refactoring-slice-review",
+  "version": "0.1.0",
+  "title": "cursor-cli-refactoring-slice-review",
+  "description": "Read-only review workflow for one codebase slice produced by cursor-cli-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "b87ed4f797ef969486e3f633ad44f154",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-refactoring-slice-review",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-refactoring-slice-review",
+    "description": "Read-only review workflow for one codebase slice produced by cursor-cli-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "1089d37a8c3463742f09ba7ed8eb7e1502c2b327de85a02280f01cb793b249a7"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ],
+  "dependencies": [
+    "codex-refactoring-slice-review"
+  ]
+}

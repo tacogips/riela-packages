@@ -1,0 +1,32 @@
+{
+  "name": "claude-code-worker-only-single-step",
+  "version": "0.1.1",
+  "title": "claude-code-worker-only-single-step",
+  "description": "Minimal manager-less reference workflow that starts directly at one worker step through explicit entryStepId authoring.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "f0edf3b0b61a23ab4d633473f77635c8",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/claude-code-worker-only-single-step",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "claude-code-worker-only-single-step",
+    "description": "Minimal manager-less reference workflow that starts directly at one worker step through explicit entryStepId authoring.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "claude-code-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "507947ffca8c1a0885a8d84d753ffb22ee93fd19aa3e0c5248c94a518a913d2e"
+  },
+  "backends": [
+    "claude-code-agent"
+  ],
+  "skillDirectory": "skills"
+}
