@@ -1,0 +1,40 @@
+{
+  "name": "cursor-cli-impl-plan-completion-review-loop",
+  "version": "0.1.0",
+  "title": "cursor-cli-impl-plan-completion-review-loop",
+  "description": "Run the Cursor CLI implementation-plan completion loop, then run the recent-change quality review-and-improve loop against the resulting work.",
+  "tags": [
+    "workflow",
+    "cursor-cli",
+    "review"
+  ],
+  "registry": "default",
+  "checksum": "87adbeed622230bcef13c53376fb19db",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-impl-plan-completion-review-loop",
+  "dependencies": [
+    "codex-impl-plan-completion-review-loop",
+    "cursor-cli-impl-plan-completion-loop",
+    "cursor-cli-recent-change-quality-loop"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-impl-plan-completion-review-loop",
+    "description": "Run the Cursor CLI implementation-plan completion loop, then run the recent-change quality review-and-improve loop against the resulting work.",
+    "tags": [
+      "workflow",
+      "cursor-cli",
+      "review"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "8b253f55edc113151fd6963bedca0ee07e07709122c53039c316d777b17edc84"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ]
+}

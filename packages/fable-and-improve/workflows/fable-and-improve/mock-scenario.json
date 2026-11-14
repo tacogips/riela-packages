@@ -1,0 +1,463 @@
+{
+  "fable-goal-plan": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "goalMarkdown": "## Goal\nAdd a small documentation note requested by the operator and verify it is present.",
+      "planMarkdown": "## Plan\n1. Let Codex inspect the target documentation.\n2. Let Codex make the requested narrow edit.\n3. Let Codex run a lightweight verification command.\n4. Have Fable verify the result against the goal.",
+      "acceptanceCriteria": [
+        "The requested documentation note exists.",
+        "A lightweight verification command passes."
+      ],
+      "targetScope": [
+        "docs/example.md"
+      ],
+      "constraints": [
+        "Do not modify unrelated files."
+      ],
+      "assumptions": [],
+      "risks": [],
+      "verificationPlan": [
+        "rg -n \"Fable smoke note\" docs/example.md"
+      ],
+      "codexDelegation": {
+        "workflowId": "codex-design-and-implement-review-loop",
+        "executionMode": "issue-resolution",
+        "issueTitle": "Add Fable smoke note",
+        "requestedBehavior": "Add the Fable smoke note and verify it.",
+        "targetFeatureArea": "documentation",
+        "reviewMode": "standard",
+        "riskLevel": "low"
+      },
+      "planningNotes": [
+        "Mock scenario uses delegated child outputs."
+      ],
+      "previousTodoResolution": []
+    }
+  },
+  "codex-implementation-handoff": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "workflowInput": {
+        "executionMode": "issue-resolution",
+        "issueTitle": "Add Fable smoke note",
+        "requestedBehavior": "Implement the Fable plan by adding a narrow documentation note and verifying it.\n\n## Goal\nAdd a small documentation note requested by the operator and verify it is present.\n\n## Plan\n1. Let Codex inspect the target documentation.\n2. Let Codex make the requested narrow edit.\n3. Let Codex run a lightweight verification command.\n4. Have Fable verify the result against the goal.",
+        "targetFeatureArea": "documentation",
+        "constraints": [
+          "Do not modify unrelated files."
+        ],
+        "acceptanceCriteria": [
+          "The requested documentation note exists.",
+          "A lightweight verification command passes."
+        ],
+        "verificationHint": "rg -n \"Fable smoke note\" docs/example.md",
+        "reviewMode": "standard",
+        "riskLevel": "low",
+        "fableGoalMarkdown": "## Goal\nAdd a small documentation note requested by the operator and verify it is present.",
+        "fablePlanMarkdown": "## Plan\n1. Let Codex inspect the target documentation.\n2. Let Codex make the requested narrow edit.\n3. Let Codex run a lightweight verification command.\n4. Have Fable verify the result against the goal.",
+        "fableFollowUpTodos": []
+      },
+      "fableContext": {
+        "sourceWorkflowId": "fable-and-improve",
+        "nextStep": "codex-implementation-result"
+      },
+      "handoffSummary": "Delegating the Fable plan to Codex for implementation and review."
+    }
+  },
+  "riela-manager": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "continue",
+      "nextStep": "step1-issue-intake",
+      "reason": "Start intake before design, planning, or implementation."
+    }
+  },
+  "step1-issue-intake": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "workflowMode": "issue-resolution",
+      "issueReference": "mock-fable-smoke",
+      "issueTitle": "Add Fable smoke note",
+      "problemSummary": "A small documentation note is missing.",
+      "acceptanceSignals": [
+        "The requested documentation note exists.",
+        "Verification command passed."
+      ],
+      "impactedAreas": [
+        "docs/example.md"
+      ],
+      "constraints": [
+        "Do not modify unrelated files."
+      ],
+      "unknowns": [],
+      "risks": [],
+      "reviewMode": "standard",
+      "riskLevel": "low",
+      "requiresAdversarialReview": false,
+      "codexAgentReferences": [],
+      "referenceRepositoryRoot": null,
+      "referenceRepositoryUrl": null,
+      "featureFanoutItems": [],
+      "has_feature_fanout": false
+    }
+  },
+  "step2-design-doc-update": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "designDocPath": "design-docs/specs/mock-fable-smoke.md",
+      "changeSummary": "Documented the narrow documentation note behavior.",
+      "verification": [
+        "mock design verification"
+      ],
+      "needs_revision": false
+    }
+  },
+  "step2-design-self-review": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "accepted",
+      "findings": [],
+      "needs_revision": false
+    }
+  },
+  "step3-design-review": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "accepted",
+      "findings": [],
+      "needs_revision": false
+    }
+  },
+  "step4-impl-plan-create": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "implementationPlanPath": "impl-plans/active/mock-fable-smoke.md",
+      "plannedTasks": [
+        "Add note",
+        "Verify note"
+      ],
+      "planning_only": false,
+      "needs_revision": false,
+      "needs_design_revision": false
+    }
+  },
+  "step4-impl-plan-self-review": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "accepted",
+      "findings": [],
+      "planning_only": false,
+      "needs_revision": false,
+      "needs_design_revision": false
+    }
+  },
+  "step5-impl-plan-review": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "accepted",
+      "findings": [],
+      "planning_only": false,
+      "needs_revision": false,
+      "needs_design_revision": false
+    }
+  },
+  "step6-implement": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "changedFiles": [
+        "docs/example.md",
+        "impl-plans/completed/mock-fable-smoke.md"
+      ],
+      "implementationSummary": "Added the Fable smoke note.",
+      "verification": [
+        {
+          "command": "rg -n \"Fable smoke note\" docs/example.md",
+          "result": "passed"
+        }
+      ],
+      "needs_revision": false
+    }
+  },
+  "step6-implement-self-review": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "accepted",
+      "findings": [],
+      "needs_revision": false,
+      "verification": [
+        "mock implementation self-review accepted"
+      ]
+    }
+  },
+  "step6-test-integrity-check": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "accepted",
+      "needs_revision": false,
+      "verification": [
+        "mock test integrity accepted"
+      ]
+    }
+  },
+  "step7-review": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "accepted",
+      "findings": [],
+      "needs_revision": false,
+      "requires_adversarial_review": false
+    }
+  },
+  "step8-docs-refresh": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "completed",
+      "changedFiles": [
+        "docs/example.md",
+        "impl-plans/completed/mock-fable-smoke.md"
+      ],
+      "documentationUpdated": true
+    }
+  },
+  "step8-impl-plan-completion-check": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "accepted",
+      "needs_revision": false,
+      "completedPlanPaths": [
+        "impl-plans/completed/mock-fable-smoke.md"
+      ],
+      "activePlanPaths": []
+    }
+  },
+  "step9-commit-message": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "commitMessage": "docs: add fable smoke note",
+      "committedFiles": [
+        "docs/example.md",
+        "impl-plans/completed/mock-fable-smoke.md"
+      ]
+    }
+  },
+  "step10-git-commit": {
+    "provider": "scenario-mock",
+    "model": "scenario-command",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "committed",
+      "commit": "mock-commit"
+    }
+  },
+  "step11-git-push": {
+    "provider": "scenario-mock",
+    "model": "scenario-command",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "pushed",
+      "remote": "origin",
+      "branch": "mock"
+    }
+  },
+  "workflow-output": {
+    "provider": "scenario-mock",
+    "model": "gpt-5.5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "completed",
+      "workflowMode": "issue-resolution",
+      "issueTitle": "Add Fable smoke note",
+      "changedFiles": [
+        "docs/example.md",
+        "impl-plans/completed/mock-fable-smoke.md"
+      ],
+      "verificationEvidence": [
+        {
+          "command": "rg -n \"Fable smoke note\" docs/example.md",
+          "result": "passed"
+        }
+      ],
+      "reviewEvidence": [
+        "mock implementation review accepted"
+      ],
+      "commitStatus": "committed",
+      "pushStatus": "pushed",
+      "residualRisks": []
+    }
+  },
+  "codex-implementation-result": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "codexWorkflowId": "codex-design-and-implement-review-loop",
+      "codexStatus": "completed",
+      "codexSummary": "Codex implemented and reviewed the Fable smoke note.",
+      "designArtifacts": [
+        "design-docs/specs/mock-fable-smoke.md"
+      ],
+      "implementationPlanArtifacts": [
+        "impl-plans/completed/mock-fable-smoke.md"
+      ],
+      "changedFiles": [
+        "docs/example.md",
+        "impl-plans/completed/mock-fable-smoke.md"
+      ],
+      "verificationEvidence": [
+        {
+          "command": "rg -n \"Fable smoke note\" docs/example.md",
+          "result": "passed"
+        }
+      ],
+      "reviewEvidence": [
+        "mock implementation review accepted"
+      ],
+      "commitStatus": "committed",
+      "pushStatus": "pushed",
+      "residualRisks": [],
+      "operatorNotes": [],
+      "fableGoalMarkdown": "## Goal\nAdd a small documentation note requested by the operator and verify it is present.",
+      "fablePlanMarkdown": "## Plan\n1. Let Codex inspect the target documentation.\n2. Let Codex make the requested narrow edit.\n3. Let Codex run a lightweight verification command.\n4. Have Fable verify the result against the goal."
+    }
+  },
+  "fable-goal-review": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "goalAchieved": true,
+      "completionDecision": "accepted",
+      "evidence": [
+        "Codex returned completed status.",
+        "Verification command passed."
+      ],
+      "remainingTodos": [],
+      "replanReason": null,
+      "followUpDelegationHint": null,
+      "changedFiles": [
+        "docs/example.md",
+        "impl-plans/completed/mock-fable-smoke.md"
+      ],
+      "verificationEvidence": [
+        {
+          "command": "rg -n \"Fable smoke note\" docs/example.md",
+          "result": "passed"
+        }
+      ],
+      "residualRisks": [],
+      "operatorNotes": [],
+      "needs_replan": false,
+      "needs_todo": false
+    }
+  },
+  "final-output": {
+    "provider": "scenario-mock",
+    "model": "claude-fable-5",
+    "when": {
+      "always": true
+    },
+    "payload": {
+      "status": "completed",
+      "goalAchieved": true,
+      "goalMarkdown": "## Goal\nAdd a small documentation note requested by the operator and verify it is present.",
+      "planMarkdown": "## Plan\n1. Let Codex inspect the target documentation.\n2. Let Codex make the requested narrow edit.\n3. Let Codex run a lightweight verification command.\n4. Have Fable verify the result against the goal.",
+      "delegatedWorkflowRuns": [
+        "codex-design-and-implement-review-loop"
+      ],
+      "changedFiles": [
+        "docs/example.md",
+        "impl-plans/completed/mock-fable-smoke.md"
+      ],
+      "verificationEvidence": [
+        {
+          "command": "rg -n \"Fable smoke note\" docs/example.md",
+          "result": "passed"
+        }
+      ],
+      "reviewEvidence": [
+        "mock implementation review accepted"
+      ],
+      "commitStatus": "committed",
+      "pushStatus": "pushed",
+      "residualRisks": [],
+      "operatorNotes": []
+    }
+  }
+}

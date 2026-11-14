@@ -1,0 +1,65 @@
+{
+  "workflowId": "cursor-cli-hydra-claude-design-and-implement-review-loop",
+  "description": "Explicit hydra workflow variant that uses Claude Code Fable 5 for design and review agent steps, Cursor Composer 2.5 for implementation, and Claude Code Opus 4.8 for all other agent steps.",
+  "extends": {
+    "workflowId": "codex-design-and-implement-review-loop",
+    "stringReplacements": {
+      "codexAgentReferences": "claudeCodeAgentReferences",
+      "codexAgent": "claudeCodeAgent",
+      "codex-design-and-implement-review-loop": "cursor-cli-hydra-claude-design-and-implement-review-loop",
+      "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+      "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+      "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+      "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+      "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+      "codex-simple-work-package": "claude-code-simple-work-package",
+      "codex-website-builder": "claude-code-website-builder",
+      "codex-task-watchdog": "claude-code-task-watchdog",
+      "codex-deepdesign": "claude-code-deepdesign",
+      "codex-agent": "claude-code-agent",
+      "codex-": "claude-code-",
+      "Codex": "Claude Code",
+      "codex": "claude-code"
+    },
+    "agentNodePatch": {
+      "executionBackend": "claude-code-agent",
+      "model": "claude-opus-4-8"
+    },
+    "nodePatch": {
+      "step2-design-doc-update": {
+        "model": "claude-fable-5"
+      },
+      "step3-design-review": {
+        "model": "claude-fable-5"
+      },
+      "step4-impl-plan-create": {
+        "model": "claude-fable-5"
+      },
+      "step5-impl-plan-review": {
+        "model": "claude-fable-5"
+      },
+      "feature-local-plan": {
+        "model": "claude-fable-5"
+      },
+      "step5-feature-plan-join": {
+        "model": "claude-fable-5"
+      },
+      "step6-implement": {
+        "executionBackend": "cursor-cli-agent",
+        "model": "composer-2.5"
+      },
+      "step7-review": {
+        "model": "claude-fable-5"
+      },
+      "step6-test-integrity-check": {
+        "model": "claude-fable-5"
+      },
+      "step7-adversarial-review": {
+        "model": "claude-fable-5"
+      },
+      "step8-impl-plan-completion-check": {
+        "model": "claude-fable-5"
+      }
+    }
+  }
+}

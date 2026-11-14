@@ -1,0 +1,6 @@
+{
+  "id": "webhook-website-feedback",
+  "enabled": false,
+  "kind": "webhook",
+  "path": "/events/codex-website-builder"
+}

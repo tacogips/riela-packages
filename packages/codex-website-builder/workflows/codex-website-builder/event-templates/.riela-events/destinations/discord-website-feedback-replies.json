@@ -1,0 +1,6 @@
+{
+  "id": "discord-website-feedback-replies",
+  "enabled": false,
+  "kind": "chat",
+  "sourceId": "discord-website-feedback"
+}

@@ -1,0 +1,60 @@
+{
+  "name": "@tacogips/pdf-to-images-addon",
+  "version": "0.1.0",
+  "kind": "node-addon",
+  "description": "Render PDF pages to PNG or JPEG image artifacts inside a Python PyMuPDF container for visual analysis workflows.",
+  "tags": [
+    "pdf",
+    "image",
+    "container",
+    "pymupdf",
+    "vision"
+  ],
+  "registry": "https://github.com/tacogips/riela-packages",
+  "checksumAlgorithm": "md5",
+  "checksum": "1a6b5274da4302ec7ce54c0a17fb4057",
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "f7c529dd065246d37f5d4f5f0d2ff91ca04279e8a1bf9e19d8b1d749a6c813c0",
+    "signatures": []
+  },
+  "addons": [
+    {
+      "name": "tacogips/pdf-to-images",
+      "version": "1",
+      "sourcePath": "addons/tacogips/pdf-to-images/1",
+      "execution": {
+        "kind": "container",
+        "entrypoint": "pdf-to-images",
+        "containerfilePath": "Containerfile",
+        "image": "ghcr.io/tacogips/riela-packages/pdf-to-images-addon:0.1.0",
+        "runtimeHints": []
+      },
+      "capabilities": [
+        {
+          "name": "container.build",
+          "required": true,
+          "reason": "builds the packaged Python PyMuPDF image from Containerfile"
+        },
+        {
+          "name": "container.run",
+          "required": true,
+          "reason": "runs Python and PyMuPDF inside the container to render PDF pages"
+        },
+        {
+          "name": "filesystem.read",
+          "required": true,
+          "scope": "addon.input",
+          "reason": "reads the provided PDF file"
+        },
+        {
+          "name": "filesystem.write",
+          "required": true,
+          "scope": "runtime.output",
+          "reason": "writes rendered page image artifacts and output JSON"
+        }
+      ],
+      "contentDigest": "sha256:242d9e70080e92460c6849eb17e6a9c2d059824794d0256117d800d3e6bd075d"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "kind": "node-addon",
+  "name": "greeting-node-addon",
+  "version": "0.1.0",
+  "title": "Greeting Node Add-on",
+  "description": "Executable node add-on package that installs a reusable Bash greeting worker node.",
+  "tags": [
+    "node-addon",
+    "greeting",
+    "native-command",
+    "bash"
+  ],
+  "registry": "default",
+  "checksum": "2bafb58682f563bff2e9923117ff5e8d",
+  "checksumAlgorithm": "md5",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "addons": [
+    {
+      "name": "examples/greeting-shell",
+      "version": "1",
+      "sourcePath": "addons/examples/greeting-shell/1",
+      "execution": {
+        "kind": "local-command",
+        "entrypoint": "greeting.bash",
+        "runtimeHints": [
+          "bash",
+          "jq"
+        ]
+      },
+      "capabilities": [
+        {
+          "name": "process.spawn",
+          "required": true,
+          "reason": "runs the packaged greeting Bash script"
+        }
+      ],
+      "contentDigest": "sha256:9f12f3980389b468f0880daf8a18b809851053d61a7b39a576e97f0ed800cc89"
+    }
+  ],
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "35b8c61e12a9fdbd60ae8c7d328c23ec0af2b821d668a4fcf1ba352cc0189f65"
+  }
+}

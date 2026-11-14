@@ -1,0 +1,16 @@
+{
+  "id": "fable-goal-review",
+  "description": "Claude Code Fable verifies whether the delegated Codex result satisfies the markdown goal and decides whether more TODOs remain.",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-fable-5",
+  "modelFreeze": false,
+  "effort": "high",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "promptTemplateFile": "prompts/fable-goal-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return JSON with when.needs_replan, when.needs_todo, goalAchieved, follow-up TODOs, verification evidence, changed files, and residual risks."
+  }
+}

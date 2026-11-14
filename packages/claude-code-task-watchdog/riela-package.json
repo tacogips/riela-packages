@@ -1,0 +1,44 @@
+{
+  "name": "claude-code-task-watchdog",
+  "version": "0.1.0",
+  "title": "claude-code-task-watchdog",
+  "description": "Long-running Claude Code task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Claude Code execution, post-task skill mining, skill review, and commit.",
+  "tags": [
+    "workflow",
+    "codex",
+    "automation",
+    "cron"
+  ],
+  "registry": "default",
+  "checksum": "a6e2ffcb34464a003b9317415de585c5",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/claude-code-task-watchdog",
+  "dependencies": [
+    "codex-task-watchdog",
+    "claude-code-design-and-implement-review-loop",
+    "claude-code-deepdesign",
+    "claude-code-recent-change-quality-loop"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "claude-code-task-watchdog",
+    "description": "Long-running Claude Code task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Claude Code execution, post-task skill mining, skill review, and commit.",
+    "tags": [
+      "workflow",
+      "codex",
+      "automation",
+      "cron"
+    ],
+    "backends": [
+      "claude-code-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "a1a282332b358b4821ebd8fa9645d4f025df2f73d2c1e8cad90886cbcdd73d6b"
+  },
+  "backends": [
+    "claude-code-agent"
+  ],
+  "skillDirectory": "skills"
+}

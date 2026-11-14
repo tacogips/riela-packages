@@ -1,0 +1,34 @@
+{
+  "workflowId": "cursor-cli-design-and-implement-review-loop",
+  "description": "Shared Cursor CLI workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+  "extends": {
+    "workflowId": "codex-design-and-implement-review-loop",
+    "stringReplacements": {
+      "codexAgentReferences": "cursorCliAgentReferences",
+      "codexAgent": "cursorCliAgent",
+      "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+      "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+      "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+      "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+      "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+      "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+      "codex-simple-work-package": "cursor-cli-simple-work-package",
+      "codex-website-builder": "cursor-cli-website-builder",
+      "codex-task-watchdog": "cursor-cli-task-watchdog",
+      "codex-deepdesign": "cursor-cli-deepdesign",
+      "codex-agent": "cursor-cli-agent",
+      "codex-": "cursor-cli-",
+      "Codex": "Cursor CLI",
+      "codex": "cursor-cli"
+    },
+    "agentNodePatch": {
+      "executionBackend": "cursor-cli-agent",
+      "model": "gpt-5.5"
+    },
+    "nodePatch": {
+      "step6-implement": {
+        "model": "composer-2.5"
+      }
+    }
+  }
+}

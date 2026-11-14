@@ -1,0 +1,45 @@
+{
+  "name": "claude-code-website-builder",
+  "version": "0.1.0",
+  "title": "claude-code-website-builder",
+  "description": "Event-ready Claude Code workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+  "tags": [
+    "workflow",
+    "codex",
+    "website",
+    "solidjs",
+    "event",
+    "container"
+  ],
+  "registry": "default",
+  "checksum": "1cd0409ec689ef2a136be16d5e52f98c",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/claude-code-website-builder",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "claude-code-website-builder",
+    "description": "Event-ready Claude Code workflow that designs, assets, implements, runs Bun inside Docker, reviews, iterates, and snapshots SolidJS websites.",
+    "tags": [
+      "workflow",
+      "codex",
+      "website",
+      "solidjs",
+      "event",
+      "container"
+    ],
+    "backends": [
+      "claude-code-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "538e707ac871dd0335af94c253c94f5115ef2b3b39f06b7532c69fc5144694e9"
+  },
+  "backends": [
+    "claude-code-agent"
+  ],
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-website-builder"
+  ]
+}
