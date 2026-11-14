@@ -1,0 +1,87 @@
+{
+  "name": "@tacogips/google-speech-to-text-addon",
+  "version": "0.1.0",
+  "kind": "node-addon",
+  "description": "Transcribe local audio with Google Cloud Speech-to-Text v1 long-running recognition.",
+  "tags": [
+    "google-cloud",
+    "speech-to-text",
+    "audio",
+    "transcription"
+  ],
+  "registry": "https://github.com/tacogips/riela-packages",
+  "checksumAlgorithm": "md5",
+  "checksum": "b515c9189cc1305dc307366e5392abe0",
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "e8f907bdbcd18a88770dc19faed9712aef896c89c90c1feb0fccf370d9eaca3c",
+    "signatures": []
+  },
+  "environmentVariables": [
+    {
+      "name": "GOOGLE_ACCESS_TOKEN",
+      "description": "OAuth access token for Google Cloud Speech-to-Text and Cloud Storage. Provide one of GOOGLE_ACCESS_TOKEN, GOOGLE_APPLICATION_CREDENTIALS, or GOOGLE_APPLICATION_CREDENTIALS_JSON; gcloud is used as a fallback token source when none is set.",
+      "required": false,
+      "secret": true
+    },
+    {
+      "name": "GOOGLE_APPLICATION_CREDENTIALS",
+      "description": "Path to a Google service account credential JSON file able to upload to the target Cloud Storage bucket and run Speech-to-Text recognition. Alternative to GOOGLE_ACCESS_TOKEN and GOOGLE_APPLICATION_CREDENTIALS_JSON.",
+      "required": false,
+      "secret": false
+    },
+    {
+      "name": "GOOGLE_APPLICATION_CREDENTIALS_JSON",
+      "description": "Inline Google service account credential JSON. Alternative to GOOGLE_ACCESS_TOKEN and GOOGLE_APPLICATION_CREDENTIALS.",
+      "required": false,
+      "secret": true
+    }
+  ],
+  "skillDirectory": "skills",
+  "addons": [
+    {
+      "name": "tacogips/google-speech-to-text",
+      "version": "1",
+      "sourcePath": "addons/tacogips/google-speech-to-text/1",
+      "execution": {
+        "kind": "local-command",
+        "entrypoint": "google-speech-to-text.bash",
+        "runtimeHints": [
+          "bash",
+          "node",
+          "curl"
+        ]
+      },
+      "capabilities": [
+        {
+          "name": "process.spawn",
+          "required": true,
+          "reason": "runs curl and node to upload audio, start long-running recognition, and poll the operation"
+        },
+        {
+          "name": "network.egress",
+          "required": true,
+          "reason": "uploads audio to Cloud Storage and calls speech.googleapis.com"
+        },
+        {
+          "name": "filesystem.read",
+          "required": true,
+          "reason": "reads the audio file submitted to Google Speech-to-Text"
+        },
+        {
+          "name": "filesystem.write",
+          "required": true,
+          "scope": "runtime.output",
+          "reason": "writes transcripts, captions, raw response, and output JSON"
+        },
+        {
+          "name": "env.read",
+          "required": false,
+          "scope": "addon.env",
+          "reason": "reads explicit Google authentication environment bindings"
+        }
+      ],
+      "contentDigest": "sha256:798a436764088df87e1d28af2be3781101f20c3ffe6b820f5b5f74ed141748e3"
+    }
+  ]
+}

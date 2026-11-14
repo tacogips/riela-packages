@@ -1,0 +1,197 @@
+{
+  "workflowId": "codex-adversarial-implementation-review-loop",
+  "description": "Run a scoped implementation request, review independent correctness, integration, and adversarial lenses concurrently, reduce findings, delegate blocking fixes, and repeat until accepted.",
+  "defaults": {
+    "maxLoopIterations": 12,
+    "nodeTimeoutMs": 3600000,
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    },
+    "fanoutConcurrency": 3
+  },
+  "prompts": {
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Normalize the implementation and explicit review subject. Unless skipInitialImplementation is true, dispatch codex-design-and-implement-review-loop. Prepare complete correctness, integration, and adversarial review items, fan them out concurrently in read-only mode, then reduce all results. Delegate only merged high or medium findings and repeat the parallel review after fixes. Finish only when every lens is present and accepted.",
+    "workerSystemPromptTemplate": "Return concise business JSON only. Keep review subject, target paths, delegated workflow inputs, findings, severity, fix scope, verification evidence, changed files, routing decisions, and residual risks explicit."
+  },
+  "managerStepId": "riela-manager",
+  "entryStepId": "riela-manager",
+  "nodes": [
+    {
+      "id": "riela-manager",
+      "nodeFile": "nodes/node-riela-manager.json"
+    },
+    {
+      "id": "implementation-handoff",
+      "nodeFile": "nodes/node-implementation-handoff.json"
+    },
+    {
+      "id": "implementation-result",
+      "nodeFile": "nodes/node-implementation-result.json"
+    },
+    {
+      "id": "adversarial-review",
+      "nodeFile": "nodes/node-adversarial-review.json"
+    },
+    {
+      "id": "review-dispatch",
+      "nodeFile": "nodes/node-review-dispatch.json"
+    },
+    {
+      "id": "review-reducer",
+      "nodeFile": "nodes/node-review-reducer.json"
+    },
+    {
+      "id": "fix-handoff",
+      "nodeFile": "nodes/node-fix-handoff.json"
+    },
+    {
+      "id": "post-fix-result",
+      "nodeFile": "nodes/node-post-fix-result.json"
+    },
+    {
+      "id": "workflow-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-workflow-output.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "riela-manager",
+      "nodeId": "riela-manager",
+      "description": "Normalize the implementation request and explicit adversarial review subject.",
+      "role": "manager",
+      "transitions": [
+        {
+          "toStepId": "review-dispatch",
+          "label": "skip_initial_implementation"
+        },
+        {
+          "toStepId": "implementation-handoff",
+          "label": "!(skip_initial_implementation)"
+        }
+      ]
+    },
+    {
+      "id": "implementation-handoff",
+      "nodeId": "implementation-handoff",
+      "description": "Package the initial scoped implementation request for codex-design-and-implement-review-loop.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-design-and-implement-review-loop",
+          "toStepId": "riela-manager",
+          "resumeStepId": "implementation-result"
+        }
+      ]
+    },
+    {
+      "id": "implementation-result",
+      "nodeId": "implementation-result",
+      "description": "Summarize the accepted implementation result before adversarial review.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "review-dispatch"
+        }
+      ]
+    },
+    {
+      "id": "review-dispatch",
+      "nodeId": "review-dispatch",
+      "description": "Build complete stable correctness, integration, and adversarial review assignments.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "adversarial-review",
+          "fanout": {
+            "groupId": "implementation-review-lenses",
+            "itemsFrom": "/reviewItems",
+            "itemVariable": "reviewLens",
+            "concurrency": 3,
+            "joinStepId": "review-reducer",
+            "failurePolicy": "collect-partial",
+            "resultOrder": "input",
+            "writeOwnership": {
+              "mode": "read-only"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "adversarial-review",
+      "nodeId": "adversarial-review",
+      "description": "Review one assigned implementation lens in read-only mode.",
+      "role": "worker",
+      "stallTimeoutMs": 900000,
+      "transitions": [
+        {
+          "toStepId": "review-reducer"
+        }
+      ]
+    },
+    {
+      "id": "review-reducer",
+      "nodeId": "review-reducer",
+      "description": "Merge all review lenses and fail closed on missing or blocking results.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "fix-handoff",
+          "label": "needs_fix"
+        },
+        {
+          "toStepId": "workflow-output",
+          "label": "!(needs_fix)"
+        }
+      ]
+    },
+    {
+      "id": "fix-handoff",
+      "nodeId": "fix-handoff",
+      "description": "Package blocking adversarial findings into a narrow delegated fix request.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-design-and-implement-review-loop",
+          "toStepId": "riela-manager",
+          "resumeStepId": "post-fix-result"
+        }
+      ]
+    },
+    {
+      "id": "post-fix-result",
+      "nodeId": "post-fix-result",
+      "description": "Consume the delegated fix result and prepare the next adversarial review pass.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "review-dispatch"
+        }
+      ]
+    },
+    {
+      "id": "workflow-output",
+      "nodeId": "workflow-output",
+      "description": "Publish the accepted adversarial implementation review result.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielaPackage": {
+      "title": "codex-adversarial-implementation-review-loop",
+      "description": "Run scoped implementation and bounded parallel correctness, integration, and adversarial review with deterministic fix routing.",
+      "tags": [
+        "workflow",
+        "codex",
+        "review",
+        "fanout",
+        "concurrency"
+      ],
+      "backends": [
+        "codex-agent"
+      ]
+    }
+  }
+}

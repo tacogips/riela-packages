@@ -1,0 +1,22 @@
+{
+  "workflowId": "greeting-shell",
+  "description": "Single-node workflow that runs a local Bash script and emits a greeting with the current datetime.",
+  "defaults": {
+    "maxLoopIterations": 3,
+    "nodeTimeoutMs": 120000
+  },
+  "entryStepId": "greeting-shell",
+  "nodes": [
+    {
+      "id": "greeting-shell",
+      "nodeFile": "nodes/node-greeting-shell.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "greeting-shell",
+      "nodeId": "greeting-shell",
+      "role": "worker"
+    }
+  ]
+}

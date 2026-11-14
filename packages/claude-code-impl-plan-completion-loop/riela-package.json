@@ -1,0 +1,35 @@
+{
+  "name": "claude-code-impl-plan-completion-loop",
+  "version": "0.1.0",
+  "title": "claude-code-impl-plan-completion-loop",
+  "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to claude-code-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "bebb6a0eb87927acbe0cf42b90e9f844",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/claude-code-impl-plan-completion-loop",
+  "dependencies": [
+    "codex-impl-plan-completion-loop",
+    "claude-code-adversarial-implementation-review-loop"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "claude-code-impl-plan-completion-loop",
+    "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to claude-code-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "claude-code-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "d557d26e24bb8c568a96a6621d6fd870280c62b85c3f198bd7a5ac5308f7e652"
+  },
+  "backends": [
+    "claude-code-agent"
+  ]
+}

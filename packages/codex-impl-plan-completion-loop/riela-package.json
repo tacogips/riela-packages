@@ -1,0 +1,34 @@
+{
+  "name": "codex-impl-plan-completion-loop",
+  "version": "0.2.1",
+  "title": "codex-impl-plan-completion-loop",
+  "description": "Assess active plans as a batch, delegate dependency-aware shared-branch implementation/review, and archive completed plans using Python.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "91c8c65fb0c461c9332a0bd7c8bdaf8f",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/codex-impl-plan-completion-loop",
+  "dependencies": [
+    "codex-adversarial-implementation-review-loop"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "codex-impl-plan-completion-loop",
+    "description": "Assess active plans as a batch, delegate dependency-aware shared-branch implementation/review, and archive completed plans using Python.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "codex-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "13143a1d182e152395cfe98bd7714d7f9665f91e162a6450c5c19815fbf89efd"
+  },
+  "backends": [
+    "codex-agent"
+  ]
+}

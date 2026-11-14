@@ -1,0 +1,34 @@
+{
+  "name": "riela-package-installer-skill",
+  "version": "0.1.0",
+  "title": "riela-package-installer-skill",
+  "description": "Skill-only bootstrap package for installing the riela-package package-management skill from tacogips/riela-packages.",
+  "tags": [
+    "skill",
+    "package",
+    "installer",
+    "riela"
+  ],
+  "registry": "default",
+  "checksum": "7c35fa187ad179b10bee730eea5b43ce",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/riela-package-installer-skill",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "riela-package-installer-skill",
+    "description": "Skill-only bootstrap package for installing the riela-package package-management skill from tacogips/riela-packages.",
+    "tags": [
+      "skill",
+      "package",
+      "installer",
+      "riela"
+    ],
+    "backends": []
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "910a600affe57217af16c322665502a75b134d2cc4a2ad7cf9a5c37c1c756606"
+  },
+  "backends": [],
+  "skillDirectory": "skills"
+}
