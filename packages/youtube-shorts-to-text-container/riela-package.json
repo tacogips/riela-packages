@@ -1,0 +1,57 @@
+{
+  "name": "@tacogips/youtube-shorts-to-text-container",
+  "version": "0.1.0",
+  "kind": "workflow",
+  "description": "Download a YouTube Shorts URL and transcribe its audio through a Docker-contained worker.",
+  "tags": [
+    "youtube",
+    "shorts",
+    "docker",
+    "ffmpeg",
+    "speech-to-text"
+  ],
+  "registry": "https://github.com/tacogips/riela-packages",
+  "workflowDirectory": "workflows/youtube-shorts-to-text-container",
+  "checksumAlgorithm": "md5",
+  "checksum": "3a5f537d2efb2e49f399c865dee9c8e0",
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "c5f1b76de90e18c8d32818170d858146ba6d1c110f0db09c28f516a6e703b7b7",
+    "signatures": []
+  },
+  "environmentVariables": [
+    {
+      "name": "GOOGLE_ACCESS_TOKEN",
+      "description": "OAuth access token for Google Cloud Speech-to-Text and Cloud Storage. Provide one of GOOGLE_ACCESS_TOKEN, GOOGLE_APPLICATION_CREDENTIALS, or GOOGLE_APPLICATION_CREDENTIALS_JSON; gcloud is used as a fallback token source when none is set.",
+      "required": false,
+      "secret": true
+    },
+    {
+      "name": "GOOGLE_APPLICATION_CREDENTIALS",
+      "description": "Path to a Google service account credential JSON file able to upload to the target Cloud Storage bucket and run Speech-to-Text recognition. Alternative to GOOGLE_ACCESS_TOKEN and GOOGLE_APPLICATION_CREDENTIALS_JSON.",
+      "required": false,
+      "secret": false
+    },
+    {
+      "name": "GOOGLE_APPLICATION_CREDENTIALS_JSON",
+      "description": "Inline Google service account credential JSON. Alternative to GOOGLE_ACCESS_TOKEN and GOOGLE_APPLICATION_CREDENTIALS.",
+      "required": false,
+      "secret": true
+    }
+  ],
+  "workflow": {
+    "description": "Download a YouTube Shorts URL to MP4, extract FLAC audio, upload it to Google Cloud Storage, and transcribe it with Google Speech-to-Text.",
+    "tags": [
+      "youtube",
+      "shorts",
+      "docker",
+      "speech-to-text"
+    ],
+    "backends": [
+      "native-command"
+    ]
+  },
+  "backends": [
+    "native-command"
+  ]
+}

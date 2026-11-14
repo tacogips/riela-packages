@@ -1,0 +1,34 @@
+{
+  "id": "branch-evidence",
+  "description": "This is the final node of one native Riela implementation/review branch. The complete assigned contract is runtimeVariables.implementation (or runtimeVariables.fanoutItem).",
+  "executionBackend": "claude-code-agent",
+  "agentSandbox": "read-only",
+  "model": "claude-opus-5-5",
+  "promptTemplateFile": "prompts/branch-evidence.md",
+  "variables": {},
+  "effort": "medium",
+  "output": {
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "evidencePaths": {
+          "type": "array",
+          "items": {}
+        },
+        "changedFiles": {
+          "type": "array",
+          "items": {}
+        },
+        "reviewDecisions": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "evidencePaths",
+        "changedFiles"
+      ]
+    },
+    "maxValidationAttempts": 2
+  }
+}

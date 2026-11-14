@@ -1,0 +1,209 @@
+{
+  "workflowId": "codex-source-security-check-loop",
+  "description": "Run deterministic security checks, partition the attack surface, review independent focus areas concurrently, reduce and adversarially verify findings, then delegate blocking fixes until resolved.",
+  "defaults": {
+    "maxLoopIterations": 8,
+    "nodeTimeoutMs": 3600000,
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    },
+    "fanoutConcurrency": 8
+  },
+  "prompts": {
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Run deterministic scanning, derive complete independent securityReviewItems, fan them out as bounded read-only source reviews, reduce every result, then run adversarial verification before routing. If verified high or medium findings remain, delegate a narrow fix request to codex-design-and-implement-review-loop. After the fix, repeat the complete scan, recon, fanout, reduction, and verification cycle.",
+    "workerSystemPromptTemplate": "Return concise business JSON only. Keep commands, scanner availability, findings, severity, affected files, fix scope, verification, routing decisions, and residual risks explicit."
+  },
+  "managerStepId": "riela-manager",
+  "entryStepId": "riela-manager",
+  "nodes": [
+    {
+      "id": "riela-manager",
+      "nodeFile": "nodes/node-riela-manager.json"
+    },
+    {
+      "id": "deterministic-scan",
+      "nodeFile": "nodes/node-deterministic-scan.json"
+    },
+    {
+      "id": "harness-recon",
+      "nodeFile": "nodes/node-harness-recon.json"
+    },
+    {
+      "id": "security-triage",
+      "nodeFile": "nodes/node-security-triage.json"
+    },
+    {
+      "id": "parallel-security-review",
+      "nodeFile": "nodes/node-parallel-security-review.json"
+    },
+    {
+      "id": "adversarial-verification",
+      "nodeFile": "nodes/node-adversarial-verification.json"
+    },
+    {
+      "id": "exit-gate",
+      "nodeFile": "nodes/node-exit-gate.json"
+    },
+    {
+      "id": "fix-handoff",
+      "nodeFile": "nodes/node-fix-handoff.json"
+    },
+    {
+      "id": "post-fix-review",
+      "nodeFile": "nodes/node-post-fix-review.json"
+    },
+    {
+      "id": "workflow-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-workflow-output.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "riela-manager",
+      "nodeId": "riela-manager",
+      "description": "Start the source security check loop and normalize scan inputs.",
+      "role": "manager",
+      "transitions": [
+        {
+          "toStepId": "step1-deterministic-scan"
+        }
+      ]
+    },
+    {
+      "id": "step1-deterministic-scan",
+      "nodeId": "deterministic-scan",
+      "description": "Run deterministic scanners and repository heuristics and write machine-readable evidence.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "step2-harness-recon"
+        }
+      ]
+    },
+    {
+      "id": "step2-harness-recon",
+      "nodeId": "harness-recon",
+      "description": "Derive the threat model, verifier rubric, and complete independent security-review fanout items.",
+      "role": "worker",
+      "stallTimeoutMs": 900000,
+      "transitions": [
+        {
+          "toStepId": "parallel-security-review",
+          "fanout": {
+            "groupId": "security-focus-area-review",
+            "itemsFrom": "/securityReviewItems",
+            "itemVariable": "securityReview",
+            "concurrency": 8,
+            "joinStepId": "step3-security-triage",
+            "failurePolicy": "collect-partial",
+            "resultOrder": "input",
+            "writeOwnership": {
+              "mode": "read-only"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "parallel-security-review",
+      "nodeId": "parallel-security-review",
+      "description": "Review one source-grounded security focus area without modifying or executing the target.",
+      "role": "worker",
+      "stallTimeoutMs": 900000,
+      "transitions": [
+        {
+          "toStepId": "step3-security-triage"
+        }
+      ]
+    },
+    {
+      "id": "step3-security-triage",
+      "nodeId": "security-triage",
+      "description": "Reduce all focus-area fanout results into one evidence-backed triage set.",
+      "role": "worker",
+      "stallTimeoutMs": 900000,
+      "transitions": [
+        {
+          "toStepId": "step4-adversarial-verification"
+        }
+      ]
+    },
+    {
+      "id": "step4-adversarial-verification",
+      "nodeId": "adversarial-verification",
+      "description": "Adversarially verify, deduplicate, and rank triaged findings before any fix routing.",
+      "role": "worker",
+      "stallTimeoutMs": 900000,
+      "transitions": [
+        {
+          "toStepId": "step5-exit-gate"
+        }
+      ]
+    },
+    {
+      "id": "step5-exit-gate",
+      "nodeId": "exit-gate",
+      "description": "Route to fix handoff when high or medium findings remain; otherwise finish.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "step6-fix-handoff",
+          "label": "needs_fix"
+        },
+        {
+          "toStepId": "workflow-output",
+          "label": "!(needs_fix)"
+        }
+      ]
+    },
+    {
+      "id": "step6-fix-handoff",
+      "nodeId": "fix-handoff",
+      "description": "Package blocking security findings into a delegated issue-resolution request.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-design-and-implement-review-loop",
+          "toStepId": "riela-manager",
+          "resumeStepId": "step7-post-fix-review"
+        }
+      ]
+    },
+    {
+      "id": "step7-post-fix-review",
+      "nodeId": "post-fix-review",
+      "description": "Consume the delegated workflow result and prepare the next deterministic scan pass.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "step1-deterministic-scan"
+        }
+      ]
+    },
+    {
+      "id": "workflow-output",
+      "nodeId": "workflow-output",
+      "description": "Publish the accepted security-check result.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielaPackage": {
+      "title": "codex-source-security-check-loop",
+      "description": "Run deterministic checks and bounded parallel attack-surface review before reduction, adversarial verification, and delegated fixes.",
+      "tags": [
+        "workflow",
+        "security",
+        "sast",
+        "fanout",
+        "concurrency"
+      ],
+      "backends": [
+        "native-command",
+        "codex-agent"
+      ]
+    }
+  }
+}

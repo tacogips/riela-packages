@@ -1,0 +1,40 @@
+{
+  "name": "claude-code-deepdesign",
+  "version": "0.1.1",
+  "title": "claude-code-deepdesign",
+  "description": "Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings, and revise until accepted.",
+  "tags": [
+    "workflow",
+    "design-doc",
+    "review"
+  ],
+  "registry": "default",
+  "checksum": "3bff83445d7fd2b4f9bf3b1052108898",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/claude-code-deepdesign",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "claude-code-deepdesign",
+    "description": "Create and iteratively review design-doc specifications with one Claude Code author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+    "tags": [
+      "workflow",
+      "design-doc",
+      "review"
+    ],
+    "backends": [
+      "claude-code-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "d9690a0291f2e7db0460b08f956baa7dbba3d8cb588748d0ae8e4aafb22c4ae4"
+  },
+  "backends": [
+    "claude-code-agent"
+  ],
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-deepdesign"
+  ],
+  "minimumRielaVersion": "0.1.37"
+}

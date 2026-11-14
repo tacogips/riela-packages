@@ -1,0 +1,54 @@
+---
+name: codex-design-and-implement-review-loop
+description: Run the all-Codex Riela workflow for analysis, design, implementation planning, implementation, independent review, verification, documentation, and completion checks. Use for issue resolution or planning-only handoff when Codex should own every agent role; do not use when Claude or Fable should participate.
+---
+
+# Codex Design And Implement Review Loop
+
+Run the installed `codex-design-and-implement-review-loop` workflow instead of
+manually emulating its orchestration.
+
+## Responsibility split
+
+- Codex `gpt-6.1-sol` medium effort: all authoring, implementation, revisions, overwrite repair, test-integrity, review, and coordination roles. No Astra node remains.
+- Repeated implementation, reconciliation, and review attempts reuse their role-local backend session. Implementation-plan authoring and integration review inherit the Sol design session so accepted intent stays available without merging implementation and adversarial-review contexts.
+- The adversarial gate accepts only material spec violations, correctness/data-loss/security risks, likely regressions, or missing material verification; it rejects style nits, naming-only feedback, speculative refactors, and overengineering.
+
+Every agent node uses low or medium effort. Do not raise any node to high, xhigh, or extra-high effort.
+
+Design and planning each use one author node. The design author reads relevant existing drafts first, revises only what the accepted scope needs, and creates a new design only when none applies. Plans must state intent/context, non-goals, exact file-level changes, invariants, acceptance criteria, and evidence-producing verification commands so even a lower-capability implementation model could execute without inventing scope. Commit and non-force push accepted plans before native same-branch implementation/review fanout; a blocked checkpoint push stops dispatch. This leaves only the final implementation commit unpublished for the built-in push gate. Sol implementation and test-integrity maximize safely independent delegated investigation and verification while retaining a single integration owner and avoiding overlapping edits. The join aggregates runtime-owned change evidence; serial repair and independent combined review are mandatory before final commit, push and authorized PR handoff or base integration. Do not create extra worktrees. Failed branches remain pending; accepted IDs feed native dependency scheduling. Requires the matching Riela fanout.dependencies/changeTracking support.
+
+Plans separate write ownership (`writePaths`/`sharedPaths`), full-content source snapshot paths (`trackedPaths`, which are write and shared paths minus artifact roots), and generated artifact roots (`artifactRoots`) for tool installs, caches and binaries. Each artifact root must exactly equal one of the plan's `writePaths`. Keep an authored audit manifest such as `<tool-root>/toolchain.json` in `writePaths`; it remains a tracked source file inside the artifact root. Tool-install plans must declare an artifact strategy even when the directory is empty at planning time. The deterministic `plan-contract-validate` gate checks the written manifest against the native limits before the checkpoint commit and returns to plan authoring with findings on rejection. Use `python3 <workflow-dir>/scripts/dispatch-plans.py --validate-manifest <manifest.json>` for the same JSON report outside a run. A runtime `policy_blocked: fanout snapshot` failure or incomplete join change evidence is a blocked outcome that needs a checkpoint amendment, never acceptance.
+
+An incomplete Step 6 attempt with concrete new change, plan-progress, and passing behavioral-test evidence may continue in the same branch at most twice without repeating design and planning. External blockers, repeated evidence, missing material verification, and a third consecutive incomplete attempt terminate with an actionable handoff; incomplete work never enters review or Git finalization.
+Step 6 completeness covers its assigned implementation and behavioral verification, not formal downstream reviews, review-dependent documentation, commit, or push. A plan task expressly ordered after formal review remains pending for those later steps and must not make Step 6 self-block; the workflow must still report and perform it before final completion.
+
+## Run
+
+```bash
+riela workflow validate codex-design-and-implement-review-loop
+riela workflow inspect codex-design-and-implement-review-loop --output json
+riela workflow run codex-design-and-implement-review-loop \
+  --variables '{"workflowInput":{"requestedOutcome":"Implement and verify the requested change.","targetScope":"Describe the target scope.","constraints":["Do not modify unrelated files."],"acceptanceCriteria":["The requested behavior works."],"verificationHint":"Run the smallest relevant verification."}}' \
+  --output jsonl
+```
+
+Use `--scope user` for a user-scope install. Preserve the operator's requested
+mode, constraints, authorization boundaries, and acceptance criteria. The
+workflow may prepare a commit and push near completion, so do not run it unless
+those repository mutations are authorized; otherwise use inspection or
+validation without starting the workflow.
+
+Report the resulting artifacts, changed files, verification evidence, review
+decisions, residual risks, and final workflow status.
+
+## Maintainer verification
+
+After changing this packaged workflow or skill in the registry checkout, run:
+
+```bash
+riela workflow validate codex-design-and-implement-review-loop \
+  --workflow-definition-dir ./packages/codex-design-and-implement-review-loop/workflows
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts \
+  codex-design-and-implement-review-loop
+```

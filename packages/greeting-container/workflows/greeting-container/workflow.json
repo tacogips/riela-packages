@@ -1,0 +1,25 @@
+{
+  "workflowId": "greeting-container",
+  "description": "Single-node workflow that builds a Node.js container and emits a greeting with the current datetime.",
+  "defaults": {
+    "maxLoopIterations": 3,
+    "nodeTimeoutMs": 300000,
+    "containerRuntime": {
+      "runnerKind": "docker"
+    }
+  },
+  "entryStepId": "greeting-container",
+  "nodes": [
+    {
+      "id": "greeting-container",
+      "nodeFile": "nodes/node-greeting-container.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "greeting-container",
+      "nodeId": "greeting-container",
+      "role": "worker"
+    }
+  ]
+}

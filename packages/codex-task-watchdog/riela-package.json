@@ -1,0 +1,43 @@
+{
+  "name": "codex-task-watchdog",
+  "version": "0.1.1",
+  "title": "codex-task-watchdog",
+  "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Codex execution, post-task skill mining, skill review, and commit.",
+  "tags": [
+    "workflow",
+    "codex",
+    "automation",
+    "cron"
+  ],
+  "registry": "default",
+  "checksum": "11c46f04b49774243c9175ec6439ac34",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/codex-task-watchdog",
+  "dependencies": [
+    "codex-design-and-implement-review-loop",
+    "codex-deepdesign",
+    "codex-recent-change-quality-loop"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "codex-task-watchdog",
+    "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Codex execution, post-task skill mining, skill review, and commit.",
+    "tags": [
+      "workflow",
+      "codex",
+      "automation",
+      "cron"
+    ],
+    "backends": [
+      "codex-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "a92c9a4d912ce9f1183a0993c4ac0677f26448b51e49e547fbcfe0e519fbce07"
+  },
+  "backends": [
+    "codex-agent"
+  ],
+  "skillDirectory": "skills"
+}

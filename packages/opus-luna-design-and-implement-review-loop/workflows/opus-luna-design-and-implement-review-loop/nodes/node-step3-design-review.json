@@ -1,0 +1,90 @@
+{
+  "id": "step3-design-review",
+  "description": "Review the design-doc update and route back when any high or mid finding exists. Return detailed revision instructions to the owning author without editing or repair delegation.",
+  "executionBackend": "claude-code-agent",
+  "agentSandbox": "read-only",
+  "model": "claude-opus-5-5",
+  "modelFreeze": false,
+  "effort": "high",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "systemPromptTemplateFile": "prompts/runtime-provenance-system.md",
+  "promptTemplateFile": "prompts/step3-design-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON with when.needs_revision true only when high or mid findings exist, plus findings and actionable feedback.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "needs_revision": {
+          "type": "boolean"
+        },
+        "repairRequests": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "findingId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "planId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "severity": {
+                "type": "string",
+                "minLength": 1
+              },
+              "file": {
+                "type": "string",
+                "minLength": 1
+              },
+              "symbol": {
+                "type": "string",
+                "minLength": 1
+              },
+              "intentReference": {
+                "type": "string",
+                "minLength": 1
+              },
+              "materialImpact": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reproduction": {
+                "type": "string",
+                "minLength": 1
+              },
+              "rootCause": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "findingId",
+              "severity",
+              "file",
+              "intentReference",
+              "materialImpact",
+              "reproduction",
+              "rootCause",
+              "allowedWritePaths",
+              "forbiddenChanges",
+              "orderedChanges",
+              "verification",
+              "completionCriteria"
+            ],
+            "additionalProperties": true
+          }
+        }
+      },
+      "required": [
+        "needs_revision"
+      ],
+      "additionalProperties": true
+    },
+    "maxValidationAttempts": 2
+  }
+}
