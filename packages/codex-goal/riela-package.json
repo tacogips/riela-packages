@@ -1,0 +1,36 @@
+{
+  "name": "codex-goal",
+  "version": "0.1.0",
+  "title": "codex-goal",
+  "description": "Generic Codex workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+  "tags": [
+    "workflow",
+    "codex",
+    "generic"
+  ],
+  "registry": "default",
+  "checksum": "4375dc1ad141dc1db2ad742d9acaf7cf",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/codex-goal",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "codex-goal",
+    "description": "Generic Codex workflow that actively investigates available Riela workflows at each step, defines and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the work, may delegate to a more specific workflow when appropriate, and reviews goal completion before looping back to work or planning.",
+    "tags": [
+      "workflow",
+      "codex",
+      "generic"
+    ],
+    "backends": [
+      "codex-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "985221caeaeefe374fa19a767b272105ed1dc50f01e6a0cb5eb7475e5afbe2b0"
+  },
+  "backends": [
+    "codex-agent"
+  ],
+  "skillDirectory": "skills"
+}

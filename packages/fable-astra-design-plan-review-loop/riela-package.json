@@ -1,0 +1,44 @@
+{
+  "name": "fable-astra-design-plan-review-loop",
+  "version": "0.1.0",
+  "title": "fable-astra-design-plan-review-loop",
+  "description": "Fable 5 authors design and implementation plans; GPT-6 Astra adversarially reviews both and drives bounded revision rounds.",
+  "tags": [
+    "workflow",
+    "design",
+    "impl-plan",
+    "fable",
+    "astra",
+    "adversarial-review"
+  ],
+  "backends": [
+    "claude-code-agent",
+    "codex-agent"
+  ],
+  "registry": "default",
+  "workflowDirectory": "workflows/fable-astra-design-plan-review-loop",
+  "skillDirectory": "skills",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "fable-astra-design-plan-review-loop",
+    "description": "Fable 5 authors design and implementation plans; GPT-6 Astra adversarially reviews both and drives bounded revision rounds.",
+    "tags": [
+      "workflow",
+      "design",
+      "impl-plan",
+      "fable",
+      "astra",
+      "adversarial-review"
+    ],
+    "backends": [
+      "claude-code-agent",
+      "codex-agent"
+    ]
+  },
+  "checksum": "872213ba60bcb16bc81909d8ef7e9cf0",
+  "checksumAlgorithm": "md5",
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "d64b10b24f6e3af44e15e83465689521a802f9e6ea54cdcb080bd3d0e32249eb"
+  }
+}

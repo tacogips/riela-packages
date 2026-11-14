@@ -1,0 +1,50 @@
+{
+  "name": "@tacogips/mp4-audio-extract-addon",
+  "version": "0.1.0",
+  "kind": "node-addon",
+  "description": "Extract FLAC audio from an MP4 file using ffmpeg.",
+  "tags": [
+    "mp4",
+    "audio",
+    "ffmpeg",
+    "flac"
+  ],
+  "registry": "https://github.com/tacogips/riela-packages",
+  "checksumAlgorithm": "md5",
+  "checksum": "c5f6b893aec99d6417bdb05165ab830a",
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "7f568d249490ec8259f06647c1f15769c251bd2689f8b680cda0108378920c95",
+    "signatures": []
+  },
+  "addons": [
+    {
+      "name": "tacogips/mp4-audio-extract",
+      "version": "1",
+      "sourcePath": "addons/tacogips/mp4-audio-extract/1",
+      "execution": {
+        "kind": "local-command",
+        "entrypoint": "mp4-audio-extract.bash",
+        "runtimeHints": [
+          "bash",
+          "node",
+          "ffmpeg"
+        ]
+      },
+      "capabilities": [
+        {
+          "name": "process.spawn",
+          "required": true,
+          "reason": "runs ffmpeg to extract audio from MP4"
+        },
+        {
+          "name": "filesystem.write",
+          "required": true,
+          "scope": "runtime.output",
+          "reason": "writes the extracted audio artifact and output JSON"
+        }
+      ],
+      "contentDigest": "sha256:8771ab696ac95a80b0322f629883bda874316bc5c322741f44c2205d74aa7894"
+    }
+  ]
+}

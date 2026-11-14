@@ -1,0 +1,46 @@
+---
+name: fable-and-improve-codex
+description: Run the fable-and-improve-codex Riela workflow when Claude Fable should analyze, design, and author the implementation plan, Codex SOL should implement and independently review, and Fable should verify completion.
+---
+
+# Fable And Improve Codex
+
+Run the installed workflow instead of manually emulating its orchestration.
+
+## Responsibility split
+
+- Fable `claude-fable-5`: analysis, design, implementation plan, replanning, final acceptance, knowledge-base self-review
+- Codex `gpt-5.6-sol` low effort: implementation, tests, verification, and improvements
+- Codex `gpt-5.6-sol` medium effort: independent read-only implementation and combined-tree review, limited to material risks rather than speculative improvements
+
+## Knowledge base
+
+The workflow reads and maintains a durable knowledge base on kaiba long-term
+memory. Before design, it recalls prior knowledge for the analysis topic and
+carries the applicable items into the design and plan artifacts. After Fable
+accepts the goal, it self-reviews the run and creates, merges (rewrites an
+existing note instead of appending), or skips at most one durable lesson.
+When several existing notes overlap a merged topic, it also tidies the base
+by collapsing the redundant note to a one-line superseded pointer.
+The base is shared across every workflow using the same kaiba note root; pass
+a `noteRoot` runtime variable (top-level, next to `workflowInput`) to target a
+different knowledge base, and keep it stable across runs so knowledge
+accumulates.
+
+## Run
+
+```bash
+riela workflow validate fable-and-improve-codex
+riela workflow inspect fable-and-improve-codex --output json
+riela workflow run fable-and-improve-codex \
+  --variables '{"workflowInput":{"requestedOutcome":"Implement and verify the requested change.","targetScope":"Describe the target scope.","constraints":["Do not modify unrelated files."],"acceptanceCriteria":["The requested behavior works."],"verificationHint":"Run the smallest relevant verification."}}' \
+  --output jsonl
+```
+
+Use `--scope user` for a user-scope install. Report the final artifacts,
+changed files, verification, review evidence, residual risks, and
+`goalAchieved` status.
+
+Design and implementation planning run together in fable-design. Require both artifacts and their consistency evidence; the independent implementation review and Fable goal review still gate acceptance.
+
+Implementation/review uses native same-branch Riela fanout with change evidence and serial overwrite reconciliation. Codex SOL independently checks the combined tree; existing Claude Fable design and goal-review roles are unchanged. Plans are committed first; final commit, push and base integration run serially. No worktrees.

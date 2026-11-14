@@ -1,0 +1,833 @@
+{
+  "routes": [
+    {
+      "workflowId": "claude-code-adversarial-implementation-review-loop",
+      "fixture": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "review-dispatch",
+        "review-reducer",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/claude-code-adversarial-implementation-review-loop/workflows/claude-code-adversarial-implementation-review-loop/workflow.json",
+        "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/workflow.json",
+        "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/mock-scenario.json",
+        "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "claude-code-deepdesign",
+      "fixture": "packages/codex-deepdesign/workflows/codex-deepdesign/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "node1-design-author",
+        "review-reducer",
+        "node1-design-author",
+        "review-reducer",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/claude-code-deepdesign/workflows/claude-code-deepdesign/workflow.json",
+        "packages/codex-deepdesign/workflows/codex-deepdesign/workflow.json",
+        "packages/codex-deepdesign/workflows/codex-deepdesign/mock-scenario.json",
+        "packages/codex-deepdesign/workflows/codex-deepdesign/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "claude-code-design-and-implement-review-loop",
+      "fixture": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "step1-issue-intake",
+        "step2-design-doc-update",
+        "step3-design-review",
+        "step2-design-doc-update",
+        "step3-design-review",
+        "step4-impl-plan-create",
+        "step5-impl-plan-review",
+        "step4-impl-plan-create",
+        "step5-impl-plan-review",
+        "plan-checkpoint",
+        "plan-git-commit",
+        "plan-git-push",
+        "dispatch-plans",
+        "implementation-wave-outcome",
+        "reconcile-implementations",
+        "integration-review",
+        "step7b-e2e-evidence",
+        "step8-docs-refresh",
+        "step9-commit-message",
+        "step10-git-commit",
+        "step11-git-push",
+        "base-branch-integrate",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/claude-code-design-and-implement-review-loop/workflows/claude-code-design-and-implement-review-loop/workflow.json",
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/workflow.json",
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/mock-scenario.json",
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "claude-code-goal",
+      "fixture": "packages/codex-goal/workflows/codex-goal/mock-scenario.json",
+      "route": [
+        "goal",
+        "goal-quality-review",
+        "plan",
+        "plan-quality-review",
+        "work",
+        "goal-review",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/claude-code-goal/workflows/claude-code-goal/workflow.json",
+        "packages/codex-goal/workflows/codex-goal/workflow.json",
+        "packages/codex-goal/workflows/codex-goal/mock-scenario.json",
+        "packages/codex-goal/workflows/codex-goal/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "claude-code-impl-plan-completion-loop",
+      "fixture": "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "step1-plan-assess",
+        "step4-archive-completed-plans",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/claude-code-impl-plan-completion-loop/workflows/claude-code-impl-plan-completion-loop/workflow.json",
+        "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/workflow.json",
+        "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/mock-scenario.json",
+        "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "claude-code-impl-plan-completion-review-loop",
+      "fixture": "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/mock-scenario.json",
+      "route": [
+        "wrapper-manager",
+        "impl-loop-handoff",
+        "impl-loop-result",
+        "review-loop-handoff",
+        "review-loop-result",
+        "final-output"
+      ],
+      "sources": [
+        "packages/claude-code-impl-plan-completion-review-loop/workflows/claude-code-impl-plan-completion-review-loop/workflow.json",
+        "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/workflow.json",
+        "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/mock-scenario.json",
+        "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "claude-code-recent-change-quality-loop",
+      "fixture": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "step1-review",
+        "step2-exit-gate",
+        "step3-handoff",
+        "step4-post-handoff",
+        "step1-review",
+        "step2-exit-gate",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/claude-code-recent-change-quality-loop/workflows/claude-code-recent-change-quality-loop/workflow.json",
+        "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/workflow.json",
+        "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/mock-scenario.json",
+        "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "claude-code-refactoring-divide-and-conquer",
+      "fixture": "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "step1-slice-codebase",
+        "step3-merge-review-plan",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/claude-code-refactoring-divide-and-conquer/workflows/claude-code-refactoring-divide-and-conquer/workflow.json",
+        "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/workflow.json",
+        "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/mock-scenario.json",
+        "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "claude-code-refactoring-slice-review",
+      "fixture": "packages/codex-refactoring-slice-review/workflows/codex-refactoring-slice-review/mock-scenario.json",
+      "route": [
+        "slice-review"
+      ],
+      "sources": [
+        "packages/claude-code-refactoring-slice-review/workflows/claude-code-refactoring-slice-review/workflow.json",
+        "packages/codex-refactoring-slice-review/workflows/codex-refactoring-slice-review/workflow.json",
+        "packages/codex-refactoring-slice-review/workflows/codex-refactoring-slice-review/mock-scenario.json",
+        "packages/codex-refactoring-slice-review/workflows/codex-refactoring-slice-review/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "claude-code-simple-work-package",
+      "fixture": "packages/codex-simple-work-package/workflows/codex-simple-work-package/mock-scenario.json",
+      "route": [
+        "implement",
+        "review",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/claude-code-simple-work-package/workflows/claude-code-simple-work-package/workflow.json",
+        "packages/codex-simple-work-package/workflows/codex-simple-work-package/workflow.json",
+        "packages/codex-simple-work-package/workflows/codex-simple-work-package/mock-scenario.json",
+        "packages/codex-simple-work-package/workflows/codex-simple-work-package/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "claude-code-worker-only-single-step",
+      "fixture": "packages/claude-code-worker-only-single-step/workflows/claude-code-worker-only-single-step/mock-scenario.json",
+      "route": [
+        "main-worker"
+      ],
+      "sources": [
+        "packages/claude-code-worker-only-single-step/workflows/claude-code-worker-only-single-step/workflow.json",
+        "packages/claude-code-worker-only-single-step/workflows/claude-code-worker-only-single-step/mock-scenario.json",
+        "packages/claude-code-worker-only-single-step/workflows/claude-code-worker-only-single-step/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "codex-adversarial-implementation-review-loop",
+      "fixture": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "review-dispatch",
+        "review-reducer",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/workflow.json",
+        "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/mock-scenario.json",
+        "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "codex-deep-creation",
+      "fixture": "packages/codex-deep-creation/workflows/codex-deep-creation/mock-scenario.json",
+      "route": [
+        "creation-manager",
+        "deepdesign-handoff",
+        "deepdesign-result",
+        "impl-completion-handoff",
+        "impl-completion-result",
+        "security-handoff",
+        "security-result",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/codex-deep-creation/workflows/codex-deep-creation/workflow.json",
+        "packages/codex-deep-creation/workflows/codex-deep-creation/mock-scenario.json",
+        "packages/codex-deep-creation/workflows/codex-deep-creation/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "codex-deepdesign",
+      "fixture": "packages/codex-deepdesign/workflows/codex-deepdesign/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "node1-design-author",
+        "review-reducer",
+        "node1-design-author",
+        "review-reducer",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/codex-deepdesign/workflows/codex-deepdesign/workflow.json",
+        "packages/codex-deepdesign/workflows/codex-deepdesign/mock-scenario.json",
+        "packages/codex-deepdesign/workflows/codex-deepdesign/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "fixture": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "step1-issue-intake",
+        "step2-design-doc-update",
+        "step3-design-review",
+        "step2-design-doc-update",
+        "step3-design-review",
+        "step4-impl-plan-create",
+        "step5-impl-plan-review",
+        "step4-impl-plan-create",
+        "step5-impl-plan-review",
+        "plan-checkpoint",
+        "plan-git-commit",
+        "plan-git-push",
+        "dispatch-plans",
+        "implementation-wave-outcome",
+        "reconcile-implementations",
+        "integration-review",
+        "step7b-e2e-evidence",
+        "step8-docs-refresh",
+        "step9-commit-message",
+        "step10-git-commit",
+        "step11-git-push",
+        "base-branch-integrate",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/workflow.json",
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/mock-scenario.json",
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "codex-goal",
+      "fixture": "packages/codex-goal/workflows/codex-goal/mock-scenario.json",
+      "route": [
+        "goal",
+        "goal-quality-review",
+        "plan",
+        "plan-quality-review",
+        "work",
+        "goal-review",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/codex-goal/workflows/codex-goal/workflow.json",
+        "packages/codex-goal/workflows/codex-goal/mock-scenario.json",
+        "packages/codex-goal/workflows/codex-goal/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "codex-impl-plan-completion-loop",
+      "fixture": "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "step1-plan-assess",
+        "step4-archive-completed-plans",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/workflow.json",
+        "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/mock-scenario.json",
+        "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "codex-impl-plan-completion-review-loop",
+      "fixture": "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/mock-scenario.json",
+      "route": [
+        "wrapper-manager",
+        "impl-loop-handoff",
+        "impl-loop-result",
+        "review-loop-handoff",
+        "review-loop-result",
+        "final-output"
+      ],
+      "sources": [
+        "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/workflow.json",
+        "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/mock-scenario.json",
+        "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "codex-recent-change-quality-loop",
+      "fixture": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "step1-review",
+        "step2-exit-gate",
+        "step3-handoff",
+        "step4-post-handoff",
+        "step1-review",
+        "step2-exit-gate",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/workflow.json",
+        "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/mock-scenario.json",
+        "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "codex-refactoring-divide-and-conquer",
+      "fixture": "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "step1-slice-codebase",
+        "step3-merge-review-plan",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/workflow.json",
+        "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/mock-scenario.json",
+        "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "codex-refactoring-slice-review",
+      "fixture": "packages/codex-refactoring-slice-review/workflows/codex-refactoring-slice-review/mock-scenario.json",
+      "route": [
+        "slice-review"
+      ],
+      "sources": [
+        "packages/codex-refactoring-slice-review/workflows/codex-refactoring-slice-review/workflow.json",
+        "packages/codex-refactoring-slice-review/workflows/codex-refactoring-slice-review/mock-scenario.json",
+        "packages/codex-refactoring-slice-review/workflows/codex-refactoring-slice-review/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "codex-simple-work-package",
+      "fixture": "packages/codex-simple-work-package/workflows/codex-simple-work-package/mock-scenario.json",
+      "route": [
+        "implement",
+        "review",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/codex-simple-work-package/workflows/codex-simple-work-package/workflow.json",
+        "packages/codex-simple-work-package/workflows/codex-simple-work-package/mock-scenario.json",
+        "packages/codex-simple-work-package/workflows/codex-simple-work-package/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "cursor-cli-adversarial-implementation-review-loop",
+      "fixture": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "review-dispatch",
+        "review-reducer",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/cursor-cli-adversarial-implementation-review-loop/workflows/cursor-cli-adversarial-implementation-review-loop/workflow.json",
+        "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/workflow.json",
+        "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/mock-scenario.json",
+        "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "cursor-cli-deepdesign",
+      "fixture": "packages/codex-deepdesign/workflows/codex-deepdesign/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "node1-design-author",
+        "review-reducer",
+        "node1-design-author",
+        "review-reducer",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/cursor-cli-deepdesign/workflows/cursor-cli-deepdesign/workflow.json",
+        "packages/codex-deepdesign/workflows/codex-deepdesign/workflow.json",
+        "packages/codex-deepdesign/workflows/codex-deepdesign/mock-scenario.json",
+        "packages/codex-deepdesign/workflows/codex-deepdesign/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "cursor-cli-design-and-implement-review-loop",
+      "fixture": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "step1-issue-intake",
+        "step2-design-doc-update",
+        "step3-design-review",
+        "step2-design-doc-update",
+        "step3-design-review",
+        "step4-impl-plan-create",
+        "step5-impl-plan-review",
+        "step4-impl-plan-create",
+        "step5-impl-plan-review",
+        "plan-checkpoint",
+        "plan-git-commit",
+        "plan-git-push",
+        "dispatch-plans",
+        "implementation-wave-outcome",
+        "reconcile-implementations",
+        "integration-review",
+        "step7b-e2e-evidence",
+        "step8-docs-refresh",
+        "step9-commit-message",
+        "step10-git-commit",
+        "step11-git-push",
+        "base-branch-integrate",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/cursor-cli-design-and-implement-review-loop/workflows/cursor-cli-design-and-implement-review-loop/workflow.json",
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/workflow.json",
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/mock-scenario.json",
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "cursor-cli-fable-design-and-implement-review-loop",
+      "fixture": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "step1-issue-intake",
+        "step2-design-doc-update",
+        "step3-design-review",
+        "step2-design-doc-update",
+        "step3-design-review",
+        "step4-impl-plan-create",
+        "step5-impl-plan-review",
+        "step4-impl-plan-create",
+        "step5-impl-plan-review",
+        "plan-checkpoint",
+        "plan-git-commit",
+        "plan-git-push",
+        "dispatch-plans",
+        "implementation-wave-outcome",
+        "reconcile-implementations",
+        "integration-review",
+        "step7b-e2e-evidence",
+        "step8-docs-refresh",
+        "step9-commit-message",
+        "step10-git-commit",
+        "step11-git-push",
+        "base-branch-integrate",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/cursor-cli-fable-design-and-implement-review-loop/workflows/cursor-cli-fable-design-and-implement-review-loop/workflow.json",
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/workflow.json",
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/mock-scenario.json",
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "cursor-cli-goal",
+      "fixture": "packages/codex-goal/workflows/codex-goal/mock-scenario.json",
+      "route": [
+        "goal",
+        "goal-quality-review",
+        "plan",
+        "plan-quality-review",
+        "work",
+        "goal-review",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/cursor-cli-goal/workflows/cursor-cli-goal/workflow.json",
+        "packages/codex-goal/workflows/codex-goal/workflow.json",
+        "packages/codex-goal/workflows/codex-goal/mock-scenario.json",
+        "packages/codex-goal/workflows/codex-goal/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "cursor-cli-hydra-claude-design-and-implement-review-loop",
+      "fixture": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "step1-issue-intake",
+        "step2-design-doc-update",
+        "step3-design-review",
+        "step2-design-doc-update",
+        "step3-design-review",
+        "step4-impl-plan-create",
+        "step5-impl-plan-review",
+        "step4-impl-plan-create",
+        "step5-impl-plan-review",
+        "plan-checkpoint",
+        "plan-git-commit",
+        "plan-git-push",
+        "dispatch-plans",
+        "implementation-wave-outcome",
+        "reconcile-implementations",
+        "integration-review",
+        "step7b-e2e-evidence",
+        "step8-docs-refresh",
+        "step9-commit-message",
+        "step10-git-commit",
+        "step11-git-push",
+        "base-branch-integrate",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/cursor-cli-hydra-claude-design-and-implement-review-loop/workflows/cursor-cli-hydra-claude-design-and-implement-review-loop/workflow.json",
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/workflow.json",
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/mock-scenario.json",
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "cursor-cli-hydra-codex-design-and-implement-review-loop",
+      "fixture": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "step1-issue-intake",
+        "step2-design-doc-update",
+        "step3-design-review",
+        "step2-design-doc-update",
+        "step3-design-review",
+        "step4-impl-plan-create",
+        "step5-impl-plan-review",
+        "step4-impl-plan-create",
+        "step5-impl-plan-review",
+        "plan-checkpoint",
+        "plan-git-commit",
+        "plan-git-push",
+        "dispatch-plans",
+        "implementation-wave-outcome",
+        "reconcile-implementations",
+        "integration-review",
+        "step7b-e2e-evidence",
+        "step8-docs-refresh",
+        "step9-commit-message",
+        "step10-git-commit",
+        "step11-git-push",
+        "base-branch-integrate",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/cursor-cli-hydra-codex-design-and-implement-review-loop/workflows/cursor-cli-hydra-codex-design-and-implement-review-loop/workflow.json",
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/workflow.json",
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/mock-scenario.json",
+        "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "cursor-cli-impl-plan-completion-loop",
+      "fixture": "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "step1-plan-assess",
+        "step4-archive-completed-plans",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/cursor-cli-impl-plan-completion-loop/workflows/cursor-cli-impl-plan-completion-loop/workflow.json",
+        "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/workflow.json",
+        "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/mock-scenario.json",
+        "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "cursor-cli-impl-plan-completion-review-loop",
+      "fixture": "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/mock-scenario.json",
+      "route": [
+        "wrapper-manager",
+        "impl-loop-handoff",
+        "impl-loop-result",
+        "review-loop-handoff",
+        "review-loop-result",
+        "final-output"
+      ],
+      "sources": [
+        "packages/cursor-cli-impl-plan-completion-review-loop/workflows/cursor-cli-impl-plan-completion-review-loop/workflow.json",
+        "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/workflow.json",
+        "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/mock-scenario.json",
+        "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "cursor-cli-recent-change-quality-loop",
+      "fixture": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "step1-review",
+        "step2-exit-gate",
+        "step3-handoff",
+        "step4-post-handoff",
+        "step1-review",
+        "step2-exit-gate",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/cursor-cli-recent-change-quality-loop/workflows/cursor-cli-recent-change-quality-loop/workflow.json",
+        "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/workflow.json",
+        "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/mock-scenario.json",
+        "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "cursor-cli-refactoring-divide-and-conquer",
+      "fixture": "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "step1-slice-codebase",
+        "step3-merge-review-plan",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/cursor-cli-refactoring-divide-and-conquer/workflows/cursor-cli-refactoring-divide-and-conquer/workflow.json",
+        "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/workflow.json",
+        "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/mock-scenario.json",
+        "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "cursor-cli-refactoring-slice-review",
+      "fixture": "packages/codex-refactoring-slice-review/workflows/codex-refactoring-slice-review/mock-scenario.json",
+      "route": [
+        "slice-review"
+      ],
+      "sources": [
+        "packages/cursor-cli-refactoring-slice-review/workflows/cursor-cli-refactoring-slice-review/workflow.json",
+        "packages/codex-refactoring-slice-review/workflows/codex-refactoring-slice-review/workflow.json",
+        "packages/codex-refactoring-slice-review/workflows/codex-refactoring-slice-review/mock-scenario.json",
+        "packages/codex-refactoring-slice-review/workflows/codex-refactoring-slice-review/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "cursor-cli-simple-work-package",
+      "fixture": "packages/codex-simple-work-package/workflows/codex-simple-work-package/mock-scenario.json",
+      "route": [
+        "implement",
+        "review",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/cursor-cli-simple-work-package/workflows/cursor-cli-simple-work-package/workflow.json",
+        "packages/codex-simple-work-package/workflows/codex-simple-work-package/workflow.json",
+        "packages/codex-simple-work-package/workflows/codex-simple-work-package/mock-scenario.json",
+        "packages/codex-simple-work-package/workflows/codex-simple-work-package/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "fable-and-improve-codex",
+      "fixture": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/mock-scenario.json",
+      "route": [
+        "fable-analysis",
+        "kb-recall-prior",
+        "fable-design",
+        "plan-checkpoint",
+        "plan-git-commit",
+        "dispatch-plans",
+        "reconcile-implementations",
+        "integration-review",
+        "fable-goal-review",
+        "step9-commit-message",
+        "step10-git-commit",
+        "step11-git-push",
+        "base-branch-integrate",
+        "kb-self-review",
+        "kb-recall-related",
+        "kb-merge-judge",
+        "kb-create",
+        "final-output"
+      ],
+      "sources": [
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/workflow.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/mock-scenario.json",
+        "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "fable-and-improve-opus",
+      "fixture": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/mock-scenario.json",
+      "route": [
+        "fable-analysis",
+        "kb-recall-prior",
+        "fable-design",
+        "plan-checkpoint",
+        "plan-git-commit",
+        "dispatch-plans",
+        "reconcile-implementations",
+        "integration-review",
+        "fable-goal-review",
+        "step9-commit-message",
+        "step10-git-commit",
+        "step11-git-push",
+        "base-branch-integrate",
+        "kb-self-review",
+        "kb-recall-related",
+        "kb-merge-judge",
+        "kb-create",
+        "final-output"
+      ],
+      "sources": [
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/workflow.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/mock-scenario.json",
+        "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "fable-astra-design-plan-review-loop",
+      "fixture": "packages/fable-astra-design-plan-review-loop/workflows/fable-astra-design-plan-review-loop/mock-scenario.json",
+      "route": [
+        "fable-author",
+        "astra-review",
+        "fable-author",
+        "astra-review",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/fable-astra-design-plan-review-loop/workflows/fable-astra-design-plan-review-loop/workflow.json",
+        "packages/fable-astra-design-plan-review-loop/workflows/fable-astra-design-plan-review-loop/mock-scenario.json",
+        "packages/fable-astra-design-plan-review-loop/workflows/fable-astra-design-plan-review-loop/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "codex-website-builder",
+      "fixture": "packages/codex-website-builder/workflows/codex-website-builder/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "site-design",
+        "asset-generate",
+        "server-node",
+        "bun-container-server",
+        "source-commit-message",
+        "git-commit",
+        "review-dispatch",
+        "review-reducer",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/codex-website-builder/workflows/codex-website-builder/workflow.json",
+        "packages/codex-website-builder/workflows/codex-website-builder/mock-scenario.json",
+        "packages/codex-website-builder/workflows/codex-website-builder/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "claude-code-website-builder",
+      "fixture": "packages/codex-website-builder/workflows/codex-website-builder/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "site-design",
+        "asset-generate",
+        "server-node",
+        "bun-container-server",
+        "source-commit-message",
+        "git-commit",
+        "review-dispatch",
+        "review-reducer",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/claude-code-website-builder/workflows/claude-code-website-builder/workflow.json",
+        "packages/codex-website-builder/workflows/codex-website-builder/workflow.json",
+        "packages/codex-website-builder/workflows/codex-website-builder/mock-scenario.json",
+        "packages/codex-website-builder/workflows/codex-website-builder/EXPECTED_RESULTS.md"
+      ]
+    },
+    {
+      "workflowId": "cursor-cli-website-builder",
+      "fixture": "packages/codex-website-builder/workflows/codex-website-builder/mock-scenario.json",
+      "route": [
+        "riela-manager",
+        "site-design",
+        "asset-generate",
+        "server-node",
+        "bun-container-server",
+        "source-commit-message",
+        "git-commit",
+        "review-dispatch",
+        "review-reducer",
+        "workflow-output"
+      ],
+      "sources": [
+        "packages/cursor-cli-website-builder/workflows/cursor-cli-website-builder/workflow.json",
+        "packages/codex-website-builder/workflows/codex-website-builder/workflow.json",
+        "packages/codex-website-builder/workflows/codex-website-builder/mock-scenario.json",
+        "packages/codex-website-builder/workflows/codex-website-builder/EXPECTED_RESULTS.md"
+      ]
+    }
+  ]
+}

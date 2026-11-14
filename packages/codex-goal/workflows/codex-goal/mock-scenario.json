@@ -1,0 +1,164 @@
+{
+  "workflowInput": {
+    "requestedOutcome": "Make a small, generic documentation clarification.",
+    "targetScope": "docs",
+    "constraints": [
+      "Create the plan only inside workflow outputs; do not write a plan file.",
+      "Loop back to planning only when the plan itself needs revision."
+    ],
+    "acceptanceCriteria": [
+      "The final goal review confirms the requested clarification is complete.",
+      "Verification evidence is recorded."
+    ]
+  },
+  "steps": {
+    "goal": {
+      "output": {
+        "goalStatement": "Clarify the requested documentation text under docs.",
+        "targetScope": "docs",
+        "acceptanceCriteria": [
+          "Documentation reflects the requested clarification.",
+          "No plan file is created."
+        ],
+        "constraints": [
+          "Keep edits focused."
+        ],
+        "assumptions": [],
+        "verificationApproach": [
+          "Manual documentation review"
+        ],
+        "workflowDiscovery": {
+          "checked": [
+            "Available workflow/package metadata"
+          ],
+          "decision": "No specialized workflow needed for the small documentation clarification."
+        },
+        "recommendedWorkflow": null,
+        "recommendedWorkflowReason": null,
+        "recommendedWorkflowInput": null,
+        "outOfScope": []
+      }
+    },
+    "goal-quality-review": {
+      "output": {
+        "when": {
+          "needs_goal_revision": false
+        },
+        "payload": {
+          "accepted": true,
+          "goalQualityAccepted": true,
+          "decision": "accepted",
+          "findings": [],
+          "goalFeedback": [],
+          "workflowDiscoveryAccepted": true,
+          "recommendedWorkflow": null,
+          "recommendedWorkflowReason": null,
+          "recommendedWorkflowInput": null
+        }
+      }
+    },
+    "plan": {
+      "output": {
+        "plan": [
+          "Inspect the relevant docs.",
+          "Apply the smallest clear clarification.",
+          "Review the diff."
+        ],
+        "workflowDispatch": null,
+        "workflowDiscovery": {
+          "checked": [
+            "Accepted goal workflow recommendation",
+            "Available workflow/package metadata"
+          ],
+          "decision": "Use generic wrapper work."
+        },
+        "verificationPlan": [
+          "Manual documentation review"
+        ],
+        "riskNotes": [],
+        "reviewFeedbackAddressed": [],
+        "planChanges": [],
+        "planQualityFeedbackAddressed": [],
+        "readyForWork": true
+      }
+    },
+    "plan-quality-review": {
+      "output": {
+        "when": {
+          "needs_plan_revision": false
+        },
+        "payload": {
+          "accepted": true,
+          "planQualityAccepted": true,
+          "decision": "accepted",
+          "findings": [],
+          "planFeedback": [],
+          "workflowDiscoveryAccepted": true,
+          "workflowRoutingFeedback": [],
+          "verificationFeedback": []
+        }
+      }
+    },
+    "work": {
+      "output": {
+        "changedFiles": [
+          "docs/example.md"
+        ],
+        "actionsTaken": [
+          "Clarified the requested documentation text."
+        ],
+        "workflowDiscovery": {
+          "checked": [
+            "Reviewed plan workflow dispatch"
+          ],
+          "decision": "No delegated workflow was required."
+        },
+        "delegatedWorkflows": [],
+        "verification": [
+          "Manual documentation review"
+        ],
+        "addressedFeedback": [],
+        "incompleteItems": [],
+        "residualRisks": [],
+        "blocked": false
+      }
+    },
+    "goal-review": {
+      "output": {
+        "when": {
+          "needs_replan": false,
+          "needs_work": false
+        },
+        "payload": {
+          "accepted": true,
+          "goalAchieved": true,
+          "decision": "accepted",
+          "findings": [],
+          "replanFeedback": [],
+          "workFeedback": [],
+          "verificationGaps": [],
+          "residualRisks": []
+        }
+      }
+    },
+    "workflow-output": {
+      "output": {
+        "status": "accepted",
+        "goal": "Clarify the requested documentation text under docs.",
+        "planSummary": "Inspected the docs, applied the clarification, and reviewed the diff.",
+        "workflowDiscoverySummary": "Available workflow metadata was checked at goal and plan time; no specialized workflow was needed.",
+        "delegatedWorkflows": [],
+        "changedFiles": [
+          "docs/example.md"
+        ],
+        "workSummary": "Clarified the requested documentation text.",
+        "verification": [
+          "Manual documentation review"
+        ],
+        "reviewSummary": "Goal achieved.",
+        "residualRisks": [],
+        "nextStep": "Done."
+      }
+    }
+  }
+}
