@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fable–Astra Design and Plan Review"
+  short_description: "Fable planning with Astra adversarial review"
+  default_prompt: "Use $fable-astra-design-plan-review-loop to create and adversarially review the design and implementation plan for this request."

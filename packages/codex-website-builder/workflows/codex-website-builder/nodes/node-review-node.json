@@ -1,0 +1,13 @@
+{
+  "id": "review-node",
+  "description": "Operate the running website with Playwright for one assigned read-only review lens.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.6-sol",
+  "modelFreeze": false,
+  "effort": "high",
+  "promptTemplateFile": "prompts/review-node.md",
+  "variables": {},
+  "output": {
+    "description": "Return reviewId, Playwright evidence, findings, accepted status, recommended route, and feedback."
+  }
+}

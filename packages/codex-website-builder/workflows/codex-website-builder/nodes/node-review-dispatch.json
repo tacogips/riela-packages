@@ -1,0 +1,13 @@
+{
+  "id": "review-dispatch",
+  "description": "Prepare complete stable website-review assignments for bounded fanout.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.6-sol",
+  "modelFreeze": false,
+  "effort": "medium",
+  "promptTemplateFile": "prompts/review-dispatch.md",
+  "variables": {},
+  "output": {
+    "description": "Return exactly three complete reviewItems for UX/design, assets/media, and implementation/runtime."
+  }
+}

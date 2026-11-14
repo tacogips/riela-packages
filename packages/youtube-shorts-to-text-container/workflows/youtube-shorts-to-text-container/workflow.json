@@ -1,0 +1,22 @@
+{
+  "workflowId": "youtube-shorts-to-text-container",
+  "description": "Download a YouTube Shorts URL with yt-dlp in Docker, extract FLAC audio, then transcribe it with Google Speech-to-Text.",
+  "defaults": {
+    "maxLoopIterations": 3,
+    "nodeTimeoutMs": 14400000
+  },
+  "entryStepId": "youtube-shorts-to-text-container",
+  "nodes": [
+    {
+      "id": "youtube-shorts-to-text-container",
+      "nodeFile": "nodes/node-youtube-shorts-to-text-container.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "youtube-shorts-to-text-container",
+      "nodeId": "youtube-shorts-to-text-container",
+      "role": "worker"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Riela Package Release"
+  short_description: "Update and release riela packages"
+  default_prompt: "Use $riela-package-release to update package manifests, validate packages, and prepare a riela package registry release."
