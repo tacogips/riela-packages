@@ -1,0 +1,20 @@
+{
+  "id": "webhook-website-feedback-to-workflow",
+  "enabled": false,
+  "sourceId": "webhook-website-feedback",
+  "outputDestinations": [
+    "webhook-website-feedback-replies"
+  ],
+  "workflowName": "codex-website-builder",
+  "match": {
+    "eventType": "chat.message"
+  },
+  "inputMapping": {
+    "mode": "event-input",
+    "mirrorToHumanInput": true
+  },
+  "execution": {
+    "async": true,
+    "dedupeWindowMs": 86400000
+  }
+}

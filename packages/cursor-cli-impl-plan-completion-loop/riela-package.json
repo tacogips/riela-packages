@@ -1,0 +1,35 @@
+{
+  "name": "cursor-cli-impl-plan-completion-loop",
+  "version": "0.1.0",
+  "title": "cursor-cli-impl-plan-completion-loop",
+  "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to cursor-cli-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "971edd2a576fd0900ea041a0b8393f02",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-impl-plan-completion-loop",
+  "dependencies": [
+    "codex-impl-plan-completion-loop",
+    "cursor-cli-adversarial-implementation-review-loop"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-impl-plan-completion-loop",
+    "description": "Find incomplete implementation plans under impl-plans/active, delegate each selected plan to cursor-cli-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "429b863d526495a92c4c2a51d36cc3e6bf7894a484410984ef83a608ba417566"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ]
+}

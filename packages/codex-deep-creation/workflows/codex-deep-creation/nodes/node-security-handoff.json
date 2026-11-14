@@ -1,0 +1,12 @@
+{
+  "id": "security-handoff",
+  "description": "Build the codex-source-security-check-loop workflow input.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/security-handoff.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON whose payload contains workflowInput for codex-source-security-check-loop."
+  },
+  "effort": "high"
+}

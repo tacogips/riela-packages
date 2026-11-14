@@ -1,0 +1,44 @@
+{
+  "name": "cursor-cli-task-watchdog",
+  "version": "0.1.0",
+  "title": "cursor-cli-task-watchdog",
+  "description": "Long-running Cursor CLI task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Cursor CLI execution, post-task skill mining, skill review, and commit.",
+  "tags": [
+    "workflow",
+    "codex",
+    "automation",
+    "cron"
+  ],
+  "registry": "default",
+  "checksum": "6cc8a0099b9e2088f1346877592a710e",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-task-watchdog",
+  "dependencies": [
+    "codex-task-watchdog",
+    "cursor-cli-design-and-implement-review-loop",
+    "cursor-cli-deepdesign",
+    "cursor-cli-recent-change-quality-loop"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-task-watchdog",
+    "description": "Long-running Cursor CLI task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Cursor CLI execution, post-task skill mining, skill review, and commit.",
+    "tags": [
+      "workflow",
+      "codex",
+      "automation",
+      "cron"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "8c3aa82a23b0d1d0b58cce871ee15b61e0f15a3ac8e444ce3b6d266c0a81bd47"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ],
+  "skillDirectory": "skills"
+}

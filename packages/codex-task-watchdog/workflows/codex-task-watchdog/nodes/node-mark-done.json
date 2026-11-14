@@ -1,0 +1,16 @@
+{
+  "id": "mark-done",
+  "description": "Mark the currently running task as done in the JSONL queue.",
+  "nodeType": "command",
+  "variables": {},
+  "command": {
+    "scriptPath": "scripts/mark-done.sh",
+    "envTemplate": {
+      "TASK_LIST_PATH": "{{workflowInput.taskListPath}}",
+      "TASK_EVENT_SCHEDULED_AT": "{{workflowInput.scheduledAt}}"
+    }
+  },
+  "output": {
+    "description": "Return JSON describing the task status update."
+  }
+}

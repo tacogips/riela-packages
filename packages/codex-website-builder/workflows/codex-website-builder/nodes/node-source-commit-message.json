@@ -1,0 +1,12 @@
+{
+  "id": "source-commit-message",
+  "description": "Prepare a git snapshot commit message and exact generated source file list after a server-node pass.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "promptTemplateFile": "prompts/source-commit-message.md",
+  "variables": {},
+  "output": {
+    "description": "Return has_source_changes, commitMessage, committedFiles, and snapshot summary for the built-in git commit add-on."
+  }
+}

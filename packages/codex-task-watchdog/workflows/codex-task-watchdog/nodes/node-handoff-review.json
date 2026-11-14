@@ -1,0 +1,11 @@
+{
+  "id": "handoff-review",
+  "description": "Prepare a codex-recent-change-quality-loop call for the claimed task.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/handoff-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return workflowInput, task, and handoffSummary for codex-recent-change-quality-loop."
+  }
+}

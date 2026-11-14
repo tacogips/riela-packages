@@ -1,0 +1,11 @@
+{
+  "id": "riela-manager",
+  "description": "Coordinate the source security check loop.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/riela-manager.md",
+  "variables": {},
+  "output": {
+    "description": "Confirm scan scope, constraints, and routing context for the workflow."
+  }
+}

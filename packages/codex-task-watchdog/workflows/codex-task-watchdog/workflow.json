@@ -1,0 +1,247 @@
+{
+  "workflowId": "codex-task-watchdog",
+  "description": "Background Codex task watcher. It runs under riela events serve, polls ./tasks/list.jsonl on cron/event ticks, claims one newly added active task at a time, dispatches dependency workflows by task kind, or runs an ad hoc Codex worker, marks the task done, mines the completed Codex log for reusable project-scope skills under .agents, reviews the skill changes, and commits the accepted result.",
+  "defaults": {
+    "maxLoopIterations": 8,
+    "nodeTimeoutMs": 3600000,
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    }
+  },
+  "prompts": {
+    "rielaPromptTemplate": "Coordinate {{workflowId}} as one polling pass of a long-running task watcher. Start by claiming at most one active task from ./tasks/list.jsonl. If a running task exists, if all tasks are done, or if no active task exists, finish with skip output and let the background event server keep watching. Otherwise dispatch by task kind: design-and-impl to codex-design-and-implement-review-loop, design-deepthin/design-deepthink/deepdesign to codex-deepdesign, review to codex-recent-change-quality-loop, and adhoc to a local Codex worker. After a dependency workflow or adhoc worker completes, mark the running task done, review the completed task's Codex log, riela session status/export output, or SQLite workflow_messages evidence for reusable lessons, create or update project-scope skills under .agents/skills when warranted, run an independent skill review step, generate a commit message, commit the accepted queue and skill changes, and then publish the result.",
+    "workerSystemPromptTemplate": "Return concise business JSON only. Keep selected task id, status transitions, dependency workflow input, execution result, Codex log references, skill files, review decisions, commit evidence, and skip reason explicit."
+  },
+  "managerStepId": "riela-manager",
+  "entryStepId": "riela-manager",
+  "nodes": [
+    {
+      "id": "riela-manager",
+      "nodeFile": "nodes/node-riela-manager.json"
+    },
+    {
+      "id": "claim-next-task",
+      "nodeFile": "nodes/node-claim-next-task.json"
+    },
+    {
+      "id": "handoff-design-impl",
+      "nodeFile": "nodes/node-handoff-design-impl.json"
+    },
+    {
+      "id": "handoff-deepdesign",
+      "nodeFile": "nodes/node-handoff-deepdesign.json"
+    },
+    {
+      "id": "handoff-review",
+      "nodeFile": "nodes/node-handoff-review.json"
+    },
+    {
+      "id": "adhoc-codex",
+      "nodeFile": "nodes/node-adhoc-codex.json"
+    },
+    {
+      "id": "mark-done",
+      "nodeFile": "nodes/node-mark-done.json"
+    },
+    {
+      "id": "skill-opportunity-mining",
+      "nodeFile": "nodes/node-skill-opportunity-mining.json"
+    },
+    {
+      "id": "skill-review",
+      "nodeFile": "nodes/node-skill-review.json"
+    },
+    {
+      "id": "task-commit-message",
+      "nodeFile": "nodes/node-task-commit-message.json"
+    },
+    {
+      "id": "git-commit",
+      "addon": {
+        "name": "riela/git-commit",
+        "version": "1",
+        "config": {
+          "commitMessageTemplate": "{{inbox.latest.output.payload.commitMessage}}",
+          "committedFilesTemplate": "{{inbox.latest.output.payload.committedFiles}}"
+        }
+      }
+    },
+    {
+      "id": "workflow-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-workflow-output.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "riela-manager",
+      "nodeId": "riela-manager",
+      "description": "Start one watchdog polling pass and hand execution to the claim step.",
+      "role": "manager",
+      "transitions": [
+        {
+          "toStepId": "claim-next-task"
+        }
+      ]
+    },
+    {
+      "id": "claim-next-task",
+      "nodeId": "claim-next-task",
+      "description": "Read ./tasks/list.jsonl, skip if running/done/no-active, or atomically mark the first active task running.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "workflow-output",
+          "label": "skip"
+        },
+        {
+          "toStepId": "handoff-design-impl",
+          "label": "design_and_impl"
+        },
+        {
+          "toStepId": "handoff-deepdesign",
+          "label": "deepdesign"
+        },
+        {
+          "toStepId": "handoff-review",
+          "label": "review"
+        },
+        {
+          "toStepId": "adhoc-codex",
+          "label": "adhoc"
+        },
+        {
+          "toStepId": "workflow-output",
+          "label": "unsupported"
+        }
+      ]
+    },
+    {
+      "id": "handoff-design-impl",
+      "nodeId": "handoff-design-impl",
+      "description": "Build the codex-design-and-implement-review-loop workflow input for the claimed task.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-design-and-implement-review-loop",
+          "toStepId": "riela-manager",
+          "resumeStepId": "mark-done"
+        }
+      ]
+    },
+    {
+      "id": "handoff-deepdesign",
+      "nodeId": "handoff-deepdesign",
+      "description": "Build the codex-deepdesign workflow input for the claimed task.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-deepdesign",
+          "toStepId": "riela-manager",
+          "resumeStepId": "mark-done"
+        }
+      ]
+    },
+    {
+      "id": "handoff-review",
+      "nodeId": "handoff-review",
+      "description": "Build the codex-recent-change-quality-loop workflow input for the claimed task.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-recent-change-quality-loop",
+          "toStepId": "riela-manager",
+          "resumeStepId": "mark-done"
+        }
+      ]
+    },
+    {
+      "id": "adhoc-codex",
+      "nodeId": "adhoc-codex",
+      "description": "Execute the claimed task directly in a Codex worker for adhoc tasks.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "mark-done"
+        }
+      ]
+    },
+    {
+      "id": "mark-done",
+      "nodeId": "mark-done",
+      "description": "Mark the currently running task done in ./tasks/list.jsonl after delegated or adhoc completion.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "skill-opportunity-mining"
+        }
+      ]
+    },
+    {
+      "id": "skill-opportunity-mining",
+      "nodeId": "skill-opportunity-mining",
+      "description": "Review the completed task Codex log and create or update warranted project-scope skills under .agents/skills.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "skill-review"
+        }
+      ]
+    },
+    {
+      "id": "skill-review",
+      "nodeId": "skill-review",
+      "description": "Review the project-scope skill changes for trigger quality, concision, correctness, and repository fit.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "task-commit-message"
+        }
+      ]
+    },
+    {
+      "id": "task-commit-message",
+      "nodeId": "task-commit-message",
+      "description": "Emit the final commit message and exact file list for the completed task and reviewed skill changes.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "git-commit"
+        }
+      ]
+    },
+    {
+      "id": "git-commit",
+      "nodeId": "git-commit",
+      "description": "Use the shared built-in git commit node to stage and commit the completed task queue update and accepted project-scope skill changes.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "workflow-output"
+        }
+      ]
+    },
+    {
+      "id": "workflow-output",
+      "nodeId": "workflow-output",
+      "description": "Publish whether this watchdog polling pass skipped, dispatched, completed a task, created or reviewed project-scope skills, and committed the accepted result.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielaPackage": {
+      "title": "codex-task-watchdog",
+      "description": "Long-running Codex task watcher backed by ./tasks/list.jsonl with post-task skill mining and commit.",
+      "tags": [
+        "workflow",
+        "codex",
+        "automation",
+        "cron"
+      ],
+      "backends": [
+        "codex-agent"
+      ]
+    }
+  }
+}

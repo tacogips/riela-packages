@@ -1,0 +1,30 @@
+{
+  "workflowId": "cursor-cli-adversarial-implementation-review-loop",
+  "description": "Run a scoped Cursor CLI implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+  "extends": {
+    "workflowId": "codex-adversarial-implementation-review-loop",
+    "stringReplacements": {
+      "codexAgentReferences": "cursorCliAgentReferences",
+      "codexAgent": "cursorCliAgent",
+      "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+      "codex-adversarial-implementation-review-loop": "cursor-cli-adversarial-implementation-review-loop",
+      "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+      "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+      "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+      "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+      "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+      "codex-simple-work-package": "cursor-cli-simple-work-package",
+      "codex-website-builder": "cursor-cli-website-builder",
+      "codex-task-watchdog": "cursor-cli-task-watchdog",
+      "codex-deepdesign": "cursor-cli-deepdesign",
+      "codex-agent": "cursor-cli-agent",
+      "codex-": "cursor-cli-",
+      "Codex": "Cursor CLI",
+      "codex": "cursor-cli"
+    },
+    "agentNodePatch": {
+      "executionBackend": "cursor-cli-agent",
+      "model": "gpt-5.5"
+    }
+  }
+}

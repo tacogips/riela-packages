@@ -1,0 +1,12 @@
+{
+  "id": "node3-broad-review",
+  "description": "Review the design broadly for feature interactions, existing similar functionality, combined use cases, and cross-feature gaps.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "promptTemplateFile": "prompts/node3-broad-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON with when.needs_revision true only when high or middle findings exist, plus broad review findings and feedback."
+  }
+}

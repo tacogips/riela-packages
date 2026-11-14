@@ -1,0 +1,11 @@
+{
+  "id": "handoff-design-impl",
+  "description": "Prepare a codex-design-and-implement-review-loop call for the claimed task.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/handoff-design-impl.md",
+  "variables": {},
+  "output": {
+    "description": "Return workflowInput, task, and handoffSummary for codex-design-and-implement-review-loop."
+  }
+}

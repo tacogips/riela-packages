@@ -1,0 +1,15 @@
+{
+  "id": "plan",
+  "description": "Create or revise an in-session plan without writing plan files, using Codex GPT-5.5 high effort.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "promptTemplateFile": "prompts/plan.md",
+  "variables": {},
+  "output": {
+    "description": "Return JSON with the in-session plan, risk notes, verification plan, and changes from prior review feedback."
+  }
+}

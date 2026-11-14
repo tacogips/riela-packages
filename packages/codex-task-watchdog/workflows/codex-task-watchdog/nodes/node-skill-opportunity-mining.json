@@ -1,0 +1,12 @@
+{
+  "id": "skill-opportunity-mining",
+  "description": "Review the completed task Codex log and create or update warranted project-scope skills.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/skill-opportunity-mining.md",
+  "variables": {},
+  "output": {
+    "description": "Return JSON with log sources reviewed, extracted skill opportunities, created or updated .agents/skills files, skipped opportunities, and residual risks."
+  },
+  "effort": "high"
+}

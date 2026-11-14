@@ -1,0 +1,39 @@
+{
+  "name": "claude-code-deepdesign",
+  "version": "0.1.0",
+  "title": "claude-code-deepdesign",
+  "description": "Create and iteratively review design-doc specifications with one Claude Code author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+  "tags": [
+    "workflow",
+    "design-doc",
+    "review"
+  ],
+  "registry": "default",
+  "checksum": "d2252578bf9d309adab34f5c1d6432dd",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/claude-code-deepdesign",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "claude-code-deepdesign",
+    "description": "Create and iteratively review design-doc specifications with one Claude Code author, one deep edge-case reviewer, and one broad integration reviewer until no high or middle findings remain.",
+    "tags": [
+      "workflow",
+      "design-doc",
+      "review"
+    ],
+    "backends": [
+      "claude-code-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "588c72ae0e76b8e4e6613b27bbae5583f097619d3d6edb9a47498d30f72d7b56"
+  },
+  "backends": [
+    "claude-code-agent"
+  ],
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-deepdesign"
+  ]
+}

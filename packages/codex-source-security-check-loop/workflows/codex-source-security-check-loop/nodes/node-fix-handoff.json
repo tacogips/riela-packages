@@ -1,0 +1,11 @@
+{
+  "id": "fix-handoff",
+  "description": "Prepare a delegated security-fix request for codex-design-and-implement-review-loop.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/fix-handoff.md",
+  "variables": {},
+  "output": {
+    "description": "Return workflowInput and reviewContext for the delegated fix workflow."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "security-result",
+  "description": "Summarize the accepted source security check result.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/security-result.md",
+  "variables": {},
+  "output": {
+    "description": "Return security status, findings, fixed issues, verification, and residual risks."
+  },
+  "effort": "medium"
+}

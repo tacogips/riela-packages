@@ -1,0 +1,21 @@
+{
+  "id": "deterministic-scan",
+  "description": "Run deterministic local source security scanners and heuristics.",
+  "nodeType": "command",
+  "variables": {},
+  "command": {
+    "scriptPath": "scripts/source-security-scan.bash",
+    "argvTemplate": [
+      "{{workflowInput.targetPath}}"
+    ],
+    "envTemplate": {
+      "SECURITY_INCLUDE_PATHS": "{{workflowInput.includePaths}}",
+      "SECURITY_EXCLUDE_PATHS": "{{workflowInput.excludePaths}}",
+      "SECURITY_MAX_FINDINGS": "{{workflowInput.maxFindings}}",
+      "SECURITY_RUN_NETWORK_AUDITS": "{{workflowInput.runNetworkAudits}}"
+    }
+  },
+  "output": {
+    "description": "Return deterministic scanner results, tool availability, commands, and high-confidence local findings."
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "cursor-cli-recent-change-quality-loop",
+  "version": "0.1.0",
+  "title": "cursor-cli-recent-change-quality-loop",
+  "description": "Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "b5050cea3618f47202f23f2ff718a1ed",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-recent-change-quality-loop",
+  "dependencies": [
+    "codex-recent-change-quality-loop",
+    "cursor-cli-design-and-implement-review-loop"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-recent-change-quality-loop",
+    "description": "Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "5f9640fcb4732df5186172939cf355aba685ca798f955a630653b9194d42e8d4"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ]
+}

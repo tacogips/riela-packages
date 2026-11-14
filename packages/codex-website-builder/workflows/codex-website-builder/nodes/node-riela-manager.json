@@ -1,0 +1,41 @@
+{
+  "id": "riela-manager",
+  "description": "Normalize direct workflow input or chat event feedback for website creation or iteration.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "promptTemplateFile": "prompts/riela-manager.md",
+  "variables": {},
+  "input": {
+    "description": "Website request or feedback from direct workflow input or normalized chat event input.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "projectName": {
+          "type": "string",
+          "description": "Human-readable site or app name."
+        },
+        "targetDirectory": {
+          "type": "string",
+          "description": "Repository-relative directory for the SolidJS/Bun website."
+        },
+        "siteRequest": {
+          "type": "string",
+          "description": "Initial website creation request."
+        },
+        "feedback": {
+          "type": "string",
+          "description": "User feedback for an existing generated site."
+        },
+        "reviewUrl": {
+          "type": "string",
+          "description": "Optional URL that review should inspect."
+        }
+      }
+    }
+  },
+  "output": {
+    "description": "Return normalized website request context, event provenance, target directory, and review URL hints."
+  }
+}

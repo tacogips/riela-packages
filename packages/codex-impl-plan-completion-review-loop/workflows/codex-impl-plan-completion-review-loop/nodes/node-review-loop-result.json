@@ -1,0 +1,11 @@
+{
+  "id": "review-loop-result",
+  "description": "Summarize the codex-recent-change-quality-loop result.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/review-loop-result.md",
+  "variables": {},
+  "output": {
+    "description": "Return accepted review status, review window, fix iterations, delegated runs, verification, changed files, and residual low risks."
+  }
+}

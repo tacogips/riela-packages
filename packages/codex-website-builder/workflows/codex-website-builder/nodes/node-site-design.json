@@ -1,0 +1,15 @@
+{
+  "id": "site-design",
+  "description": "Create or revise the site design brief and pinned dependency allowlist with Codex GPT-5.5 high effort.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "promptTemplateFile": "prompts/site-design.md",
+  "variables": {},
+  "output": {
+    "description": "Return design brief paths, page inventory, pinned CSS framework/library allowlist, interaction requirements, asset requirements, and implementation guidance."
+  }
+}

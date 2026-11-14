@@ -1,0 +1,12 @@
+{
+  "id": "impl-completion-result",
+  "description": "Summarize the accepted implementation-plan completion result.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/impl-completion-result.md",
+  "variables": {},
+  "output": {
+    "description": "Return completed plans, changed files, verification evidence, and residual risks."
+  },
+  "effort": "medium"
+}

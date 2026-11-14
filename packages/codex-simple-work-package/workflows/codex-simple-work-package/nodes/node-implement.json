@@ -1,0 +1,18 @@
+{
+  "id": "implement",
+  "description": "Implement a small code or documentation change with Codex GPT-5.5 high effort, or revise the change using high and middle review feedback.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "promptTemplateFile": "prompts/implement.md",
+  "variables": {},
+  "input": {
+    "description": "Provide the small code or documentation change request. Preferred fields are targetDirectory, requestedChange, constraints, acceptanceCriteria, and verificationHint."
+  },
+  "output": {
+    "description": "Return JSON with changed files, implementation summary, verification commands, and addressed review feedback."
+  }
+}

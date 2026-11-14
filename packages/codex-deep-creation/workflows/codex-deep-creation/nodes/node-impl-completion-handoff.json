@@ -1,0 +1,12 @@
+{
+  "id": "impl-completion-handoff",
+  "description": "Build the codex-impl-plan-completion-loop workflow input.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/impl-completion-handoff.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON whose payload contains workflowInput for codex-impl-plan-completion-loop."
+  },
+  "effort": "high"
+}

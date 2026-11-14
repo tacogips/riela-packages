@@ -1,0 +1,35 @@
+{
+  "name": "cursor-cli-design-and-implement-review-loop",
+  "version": "0.1.0",
+  "title": "cursor-cli-design-and-implement-review-loop",
+  "description": "Shared Cursor CLI workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "1a48fc01cbed763deb461d4084c6dac0",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-design-and-implement-review-loop",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-design-and-implement-review-loop",
+    "description": "Shared Cursor CLI workflow for issue resolution or planning-only design and implementation-plan handoff. The workflow owns both the sequential path and the bounded feature-local fanout path, then joins accepted plans before implementation or planning-only completion.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "79f3ab228a6a516f40541eeca35fb1ced3c47e08c4056a4fd123d8de9345a943"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ],
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-design-and-implement-review-loop"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "name": "cursor-cli-simple-work-package",
+  "version": "0.1.0",
+  "title": "cursor-cli-simple-work-package",
+  "description": "Lightweight Cursor CLI workflow for small code or documentation changes when no dedicated workflow applies. It implements with Cursor CLI Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "6871e36092b033260d12f38e6123541b",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-simple-work-package",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-simple-work-package",
+    "description": "Lightweight Cursor CLI workflow for small code or documentation changes when no dedicated workflow applies. It implements with Cursor CLI Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "1a7bad7001f2cc8a40549f6d5cb82c513ec182b2dcce238aaa18feb3f5e39417"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ],
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-simple-work-package"
+  ]
+}

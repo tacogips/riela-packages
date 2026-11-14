@@ -1,0 +1,12 @@
+{
+  "id": "skill-installed",
+  "description": "Explain that the useful artifacts in this package are the installed AGENTS.md and Claude maintainer guidance.",
+  "nodeType": "command",
+  "variables": {},
+  "command": {
+    "scriptPath": "scripts/skill-installed.sh"
+  },
+  "output": {
+    "description": "Return JSON describing the installed package-release maintainer skill."
+  }
+}

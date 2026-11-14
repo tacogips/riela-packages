@@ -1,0 +1,11 @@
+{
+  "id": "impl-loop-handoff",
+  "description": "Prepare a delegated request for codex-impl-plan-completion-loop.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/impl-loop-handoff.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON whose payload contains workflowInput for codex-impl-plan-completion-loop plus preserved wrapper context."
+  }
+}

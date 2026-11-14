@@ -1,0 +1,15 @@
+{
+  "id": "server-node",
+  "description": "Implement or revise the SolidJS/Bun website source without running Bun on the host; containerized Bun execution happens in bun-container-server.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "promptTemplateFile": "prompts/server-node.md",
+  "variables": {},
+  "output": {
+    "description": "Return changed source files, pinned dependency evidence, intended Bun commands for the container node, review port, and hasSourceChanges."
+  }
+}

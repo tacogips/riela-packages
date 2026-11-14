@@ -1,0 +1,15 @@
+{
+  "id": "work",
+  "description": "Execute the current in-session plan or address review feedback using Codex GPT-5.5 high effort.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "promptTemplateFile": "prompts/work.md",
+  "variables": {},
+  "output": {
+    "description": "Return JSON with changed files, actions taken, verification evidence, addressed feedback, incomplete items, and residual risks."
+  }
+}

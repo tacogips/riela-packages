@@ -1,0 +1,12 @@
+{
+  "id": "adversarial-verification",
+  "description": "Adversarially verify, deduplicate, and rank triaged security findings before fix routing.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "promptTemplateFile": "prompts/adversarial-verification.md",
+  "variables": {},
+  "output": {
+    "description": "Return verified blocking findings, dismissed findings, dedupe decisions, severity/risk ranking, and residual low risks."
+  }
+}

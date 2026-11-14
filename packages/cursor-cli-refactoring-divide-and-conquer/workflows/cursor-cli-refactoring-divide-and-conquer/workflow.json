@@ -1,0 +1,31 @@
+{
+  "workflowId": "cursor-cli-refactoring-divide-and-conquer",
+  "description": "Divide the codebase into package or related processing-group slices, review slices concurrently, merge findings into a refactoring plan, implement one bounded task at a time, self-review, independently post-review, and loop until the plan is complete or only accepted residual risks remain. Duplicate-scavenge is an additive mode of this same workflow; detailed phase behavior lives in the step prompts.",
+  "extends": {
+    "workflowId": "codex-refactoring-divide-and-conquer",
+    "stringReplacements": {
+      "codexAgentReferences": "cursorCliAgentReferences",
+      "codexAgent": "cursorCliAgent",
+      "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+      "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+      "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+      "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+      "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+      "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+      "codex-simple-work-package": "cursor-cli-simple-work-package",
+      "codex-website-builder": "cursor-cli-website-builder",
+      "codex-task-watchdog": "cursor-cli-task-watchdog",
+      "codex-deepdesign": "cursor-cli-deepdesign",
+      "codex-agent": "cursor-cli-agent",
+      "codex-": "cursor-cli-",
+      "Codex": "Cursor CLI",
+      "codex": "cursor-cli",
+      "GPT-5.5": "Sonnet 4.5",
+      "gpt-5.5": "claude-sonnet-4-5"
+    },
+    "agentNodePatch": {
+      "executionBackend": "cursor-cli-agent",
+      "model": "claude-sonnet-4-5"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "cursor-cli-adversarial-implementation-review-loop",
+  "version": "0.1.0",
+  "title": "cursor-cli-adversarial-implementation-review-loop",
+  "description": "Run a scoped Cursor CLI implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+  "tags": [
+    "workflow",
+    "cursor",
+    "review"
+  ],
+  "registry": "default",
+  "checksum": "6f1a7cf5f3863b466502a24d7cd4b127",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-adversarial-implementation-review-loop",
+  "dependencies": [
+    "codex-adversarial-implementation-review-loop",
+    "cursor-cli-design-and-implement-review-loop"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-adversarial-implementation-review-loop",
+    "description": "Run a scoped Cursor CLI implementation request, adversarially review the implemented result, delegate blocking fixes, and repeat until no high or medium findings remain.",
+    "tags": [
+      "workflow",
+      "cursor",
+      "review"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "cb6914d8cb8c032c8387be0cb21b6316391dede6887e1cd9902e9ef9e5ecc32a"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ]
+}

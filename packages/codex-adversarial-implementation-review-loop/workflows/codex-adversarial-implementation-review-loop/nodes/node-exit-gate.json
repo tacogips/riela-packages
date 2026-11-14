@@ -1,0 +1,12 @@
+{
+  "id": "exit-gate",
+  "description": "Route based on the latest adversarial review result.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/exit-gate.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON with when.needs_fix true only when high or medium findings remain."
+  },
+  "effort": "medium"
+}

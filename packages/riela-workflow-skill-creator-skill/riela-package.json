@@ -1,0 +1,34 @@
+{
+  "name": "riela-workflow-skill-creator-skill",
+  "version": "0.1.0",
+  "title": "riela-workflow-skill-creator-skill",
+  "description": "Skill package that teaches maintainers how to author packaged usage skills for Riela workflows, including agent-specific skill placement.",
+  "tags": [
+    "skill",
+    "workflow",
+    "creator",
+    "riela"
+  ],
+  "registry": "default",
+  "checksum": "1d1198a1b6631dd736cae9d7375c0b27",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/riela-workflow-skill-creator-skill",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "riela-workflow-skill-creator-skill",
+    "description": "Skill package that teaches maintainers how to author packaged usage skills for Riela workflows, including agent-specific skill placement.",
+    "tags": [
+      "skill",
+      "workflow",
+      "creator",
+      "riela"
+    ],
+    "backends": []
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "312ff3e776225bbebcd2d5803e4171100b0dfe7a8184e7ec50beba79e3715db8"
+  },
+  "backends": [],
+  "skillDirectory": "skills"
+}

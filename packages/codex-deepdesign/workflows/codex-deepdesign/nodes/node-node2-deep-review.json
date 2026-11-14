@@ -1,0 +1,12 @@
+{
+  "id": "node2-deep-review",
+  "description": "Review the design deeply for unstated assumptions, edge cases, prerequisites, irregular states, and error handling gaps.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "promptTemplateFile": "prompts/node2-deep-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON with when.needs_revision true only when high or middle findings exist, plus deep review findings and feedback."
+  }
+}

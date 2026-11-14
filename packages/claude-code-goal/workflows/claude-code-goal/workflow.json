@@ -1,0 +1,32 @@
+{
+  "workflowId": "claude-code-goal",
+  "description": "Generic Claude Code Opus 4.8 workflow that creates and reviews a goal, creates and reviews an in-session plan without writing plan files, performs the requested work, and reviews whether the goal is achieved before looping back to work or planning.",
+  "extends": {
+    "workflowId": "codex-goal",
+    "stringReplacements": {
+      "codexAgentReferences": "claudeCodeAgentReferences",
+      "codexAgent": "claudeCodeAgent",
+      "codex-goal": "claude-code-goal",
+      "codex-design-and-implement-review-loop": "claude-code-design-and-implement-review-loop",
+      "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+      "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+      "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+      "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+      "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+      "codex-simple-work-package": "claude-code-simple-work-package",
+      "codex-website-builder": "claude-code-website-builder",
+      "codex-task-watchdog": "claude-code-task-watchdog",
+      "codex-deepdesign": "claude-code-deepdesign",
+      "codex-agent": "claude-code-agent",
+      "codex-": "claude-code-",
+      "Codex": "Claude Code",
+      "codex": "claude-code",
+      "GPT-5.5": "Opus 4.8",
+      "gpt-5.5": "claude-opus-4-8"
+    },
+    "agentNodePatch": {
+      "executionBackend": "claude-code-agent",
+      "model": "claude-opus-4-8"
+    }
+  }
+}

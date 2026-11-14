@@ -1,0 +1,12 @@
+{
+  "id": "node4-adversarial-review",
+  "description": "Adversarially review the design for failure modes, misuse paths, misleading success cases, and overconfident assumptions.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "promptTemplateFile": "prompts/node4-adversarial-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON with when.needs_revision true only when high or middle findings exist, plus adversarial review findings and feedback."
+  }
+}

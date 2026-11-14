@@ -1,0 +1,11 @@
+{
+  "id": "riela-manager",
+  "description": "Coordinate one codex-task-watchdog polling pass.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/riela-manager.md",
+  "variables": {},
+  "output": {
+    "description": "Return the initial tick context and task list path."
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "post-fix-review",
+  "description": "Capture the delegated security-fix workflow result before rescanning.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "promptTemplateFile": "prompts/post-fix-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return delegated workflow result details and the plan for the next deterministic scan."
+  }
+}

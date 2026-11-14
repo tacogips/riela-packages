@@ -1,0 +1,15 @@
+{
+  "id": "node1-design-author",
+  "description": "Create or revise the design-doc specification from the request and latest review feedback.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "promptTemplateFile": "prompts/node1-design-author.md",
+  "variables": {},
+  "output": {
+    "description": "Return design-doc paths, design summary, assumptions, addressed feedback, decisions, open questions, validation notes, and residual risks."
+  }
+}

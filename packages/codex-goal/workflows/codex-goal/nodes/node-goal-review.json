@@ -1,0 +1,12 @@
+{
+  "id": "goal-review",
+  "description": "Review whether the latest work achieves the goal and route back to planning, work, or final output.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "promptTemplateFile": "prompts/goal-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON with when.needs_replan or when.needs_work set only when the goal is not achieved."
+  }
+}

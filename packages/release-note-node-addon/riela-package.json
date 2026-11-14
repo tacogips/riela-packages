@@ -1,0 +1,28 @@
+{
+  "kind": "node-addon",
+  "name": "release-note-node-addon",
+  "version": "0.1.0",
+  "title": "Release Note Node Add-on",
+  "description": "Declarative node add-on package that installs a reusable release-note worker node template.",
+  "tags": [
+    "node-addon",
+    "release-note",
+    "template",
+    "codex-agent"
+  ],
+  "registry": "default",
+  "checksum": "2bc7adf197dfae5b41d4aec299e0e367",
+  "checksumAlgorithm": "md5",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "addons": [
+    {
+      "name": "examples/release-note",
+      "version": "1",
+      "sourcePath": "addons/examples/release-note/1"
+    }
+  ],
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "2e26dc452a80d08bdb379f2c62b4d8d5ec90934d30419ed5e789bcf80adebe17"
+  }
+}
