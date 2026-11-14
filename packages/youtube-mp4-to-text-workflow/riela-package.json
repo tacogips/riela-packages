@@ -1,0 +1,123 @@
+{
+  "name": "@tacogips/youtube-mp4-to-text-workflow",
+  "version": "0.1.0",
+  "kind": "workflow",
+  "description": "Example workflow that downloads YouTube MP4, extracts audio, and transcribes it with Google Speech-to-Text.",
+  "tags": [
+    "youtube",
+    "mp4",
+    "ffmpeg",
+    "speech-to-text",
+    "example"
+  ],
+  "registry": "https://github.com/tacogips/riela-packages",
+  "workflowDirectory": "workflows/youtube-mp4-to-text",
+  "checksumAlgorithm": "md5",
+  "checksum": "01dea2dce35c043c8760d39b2a10b06b",
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "7a9f0496a19e149010d1029544772f4cfc79e9817479e3f13af8b95566da0f28",
+    "signatures": []
+  },
+  "environmentVariables": [
+    {
+      "name": "GOOGLE_ACCESS_TOKEN",
+      "description": "OAuth access token for Google Cloud Speech-to-Text and Cloud Storage. Provide one of GOOGLE_ACCESS_TOKEN, GOOGLE_APPLICATION_CREDENTIALS, or GOOGLE_APPLICATION_CREDENTIALS_JSON; gcloud is used as a fallback token source when none is set.",
+      "required": false,
+      "secret": true
+    },
+    {
+      "name": "GOOGLE_APPLICATION_CREDENTIALS",
+      "description": "Path to a Google service account credential JSON file able to upload to the target Cloud Storage bucket and run Speech-to-Text recognition. Alternative to GOOGLE_ACCESS_TOKEN and GOOGLE_APPLICATION_CREDENTIALS_JSON.",
+      "required": false,
+      "secret": false
+    },
+    {
+      "name": "GOOGLE_APPLICATION_CREDENTIALS_JSON",
+      "description": "Inline Google service account credential JSON. Alternative to GOOGLE_ACCESS_TOKEN and GOOGLE_APPLICATION_CREDENTIALS.",
+      "required": false,
+      "secret": true
+    }
+  ],
+  "dependencies": [
+    {
+      "packageId": "@tacogips/youtube-mp4-download-addon",
+      "registry": "https://github.com/tacogips/riela-packages",
+      "kind": "node-addon",
+      "addons": [
+        {
+          "name": "tacogips/youtube-mp4-download",
+          "version": "1",
+          "contentDigest": "sha256:607c3324a1418be4fce1996815ae09ce52efa20e7821d3afecc95370e3f15698",
+          "capabilityGrant": {
+            "process.spawn": {
+              "allowed": true
+            },
+            "network.egress": {
+              "allowed": true
+            },
+            "filesystem.write": {
+              "allowed": true,
+              "scope": "runtime.output"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packageId": "@tacogips/mp4-audio-extract-addon",
+      "registry": "https://github.com/tacogips/riela-packages",
+      "kind": "node-addon",
+      "addons": [
+        {
+          "name": "tacogips/mp4-audio-extract",
+          "version": "1",
+          "contentDigest": "sha256:8771ab696ac95a80b0322f629883bda874316bc5c322741f44c2205d74aa7894",
+          "capabilityGrant": {
+            "process.spawn": {
+              "allowed": true
+            },
+            "filesystem.write": {
+              "allowed": true,
+              "scope": "runtime.output"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packageId": "@tacogips/google-speech-to-text-addon",
+      "registry": "https://github.com/tacogips/riela-packages",
+      "kind": "node-addon",
+      "addons": [
+        {
+          "name": "tacogips/google-speech-to-text",
+          "version": "1",
+          "contentDigest": "sha256:798a436764088df87e1d28af2be3781101f20c3ffe6b820f5b5f74ed141748e3",
+          "capabilityGrant": {
+            "process.spawn": {
+              "allowed": true
+            },
+            "network.egress": {
+              "allowed": true
+            },
+            "filesystem.read": {
+              "allowed": true
+            },
+            "filesystem.write": {
+              "allowed": true,
+              "scope": "runtime.output"
+            },
+            "env.read": {
+              "allowed": true,
+              "scope": "addon.env"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "backends": [
+    "native-command"
+  ]
+}

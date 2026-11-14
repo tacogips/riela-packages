@@ -1,0 +1,13 @@
+{
+  "id": "parallel-review",
+  "description": "Review one recent-change slice in a bounded read-only fanout branch.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.6-sol",
+  "modelFreeze": false,
+  "effort": "high",
+  "promptTemplateFile": "prompts/parallel-review.md",
+  "variables": {},
+  "output": {
+    "description": "Return reviewId, reviewed paths and commands, severity-ranked findings, verification gaps, and residual risks."
+  }
+}

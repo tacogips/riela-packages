@@ -1,0 +1,127 @@
+{
+  "workflowId": "codex-deepdesign",
+  "description": "Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings deterministically, and revise until no high or middle findings remain.",
+  "defaults": {
+    "maxLoopIterations": 8,
+    "nodeTimeoutMs": 3600000,
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    },
+    "fanoutConcurrency": 3
+  },
+  "prompts": {
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Start with design authoring. The author emits the complete stable reviewItems array for deep, broad, and adversarial lenses. Riela dispatches those read-only reviews concurrently and joins results in input order. The reducer must inspect every branch result and route all high or middle findings back to the author in one revision round. Finish only after the reducer accepts the latest design across all three lenses.",
+    "workerSystemPromptTemplate": "Return concise business JSON only. Keep design-doc paths, review severity, assumptions, cross-feature impacts, addressed feedback, routing booleans, verification, and residual risks explicit."
+  },
+  "managerStepId": "riela-manager",
+  "entryStepId": "riela-manager",
+  "nodes": [
+    {
+      "id": "riela-manager",
+      "nodeFile": "nodes/node-riela-manager.json"
+    },
+    {
+      "id": "node1-design-author",
+      "nodeFile": "nodes/node-node1-design-author.json"
+    },
+    {
+      "id": "parallel-design-review",
+      "nodeFile": "nodes/node-parallel-design-review.json"
+    },
+    {
+      "id": "review-reducer",
+      "nodeFile": "nodes/node-review-reducer.json"
+    },
+    {
+      "id": "workflow-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-workflow-output.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "riela-manager",
+      "nodeId": "riela-manager",
+      "description": "Start the deep design workflow and preserve request inputs for the design author and reviewers.",
+      "role": "manager",
+      "transitions": [
+        {
+          "toStepId": "node1-design-author"
+        }
+      ]
+    },
+    {
+      "id": "node1-design-author",
+      "nodeId": "node1-design-author",
+      "description": "Create or revise the requested design-doc specification.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "parallel-design-review",
+          "fanout": {
+            "groupId": "design-review-lenses",
+            "itemsFrom": "/reviewItems",
+            "itemVariable": "designReview",
+            "concurrency": 3,
+            "joinStepId": "review-reducer",
+            "failurePolicy": "collect-partial",
+            "resultOrder": "input",
+            "writeOwnership": {
+              "mode": "read-only"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "parallel-design-review",
+      "nodeId": "parallel-design-review",
+      "description": "Review one fanout-assigned deep, broad, or adversarial design lens without modifying the workspace.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "review-reducer"
+        }
+      ]
+    },
+    {
+      "id": "review-reducer",
+      "nodeId": "review-reducer",
+      "description": "Deterministically merge all review branches and choose revision or acceptance.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "node1-design-author",
+          "label": "needs_revision"
+        },
+        {
+          "toStepId": "workflow-output",
+          "label": "!(needs_revision)"
+        }
+      ]
+    },
+    {
+      "id": "workflow-output",
+      "nodeId": "workflow-output",
+      "description": "Publish the accepted design-doc summary after all review gates pass.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielaPackage": {
+      "title": "codex-deepdesign",
+      "description": "Create design-doc specifications and review deep, broad, and adversarial lenses concurrently before deterministic reduction and revision.",
+      "tags": [
+        "workflow",
+        "design-doc",
+        "review",
+        "fanout",
+        "concurrency"
+      ],
+      "backends": [
+        "codex-agent"
+      ]
+    }
+  }
+}
