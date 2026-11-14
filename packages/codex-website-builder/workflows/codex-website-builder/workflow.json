@@ -1,0 +1,242 @@
+{
+  "workflowId": "codex-website-builder",
+  "description": "Event-ready Codex workflow that designs, assets, implements, runs Bun in Docker, then reviews UX, assets, and implementation concurrently before deterministic iteration.",
+  "defaults": {
+    "maxLoopIterations": 10,
+    "nodeTimeoutMs": 3600000,
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    },
+    "fanoutConcurrency": 3
+  },
+  "prompts": {
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Normalize the request, then run design, assets, implementation, Docker-backed Bun verification, and a source snapshot. Prepare complete UX/design, asset/media, and implementation/runtime review assignments; fan them out concurrently against the running site; then reduce all evidence into exactly one upstream revision route or acceptance. Finish only when every review lens is present and has no high or middle findings.",
+    "workerSystemPromptTemplate": "Return concise business JSON only. Keep event provenance, target directory, pinned design stack, dependency allowlist, asset paths, Docker/Bun server URL, git snapshot intent, Playwright checks, findings, route booleans, and residual risks explicit."
+  },
+  "managerStepId": "riela-manager",
+  "entryStepId": "riela-manager",
+  "nodes": [
+    {
+      "id": "riela-manager",
+      "nodeFile": "nodes/node-riela-manager.json"
+    },
+    {
+      "id": "site-design",
+      "nodeFile": "nodes/node-site-design.json"
+    },
+    {
+      "id": "asset-generate",
+      "nodeFile": "nodes/node-asset-generate.json"
+    },
+    {
+      "id": "server-node",
+      "nodeFile": "nodes/node-server-node.json"
+    },
+    {
+      "id": "bun-container-server",
+      "nodeFile": "nodes/node-bun-container-server.json"
+    },
+    {
+      "id": "source-commit-message",
+      "nodeFile": "nodes/node-source-commit-message.json"
+    },
+    {
+      "id": "git-commit",
+      "addon": {
+        "name": "riela/git-commit",
+        "version": "1",
+        "config": {
+          "commitMessageTemplate": "{{inbox.latest.output.payload.commitMessage}}",
+          "committedFilesTemplate": "{{inbox.latest.output.payload.committedFiles}}"
+        }
+      }
+    },
+    {
+      "id": "review-node",
+      "nodeFile": "nodes/node-review-node.json"
+    },
+    {
+      "id": "review-dispatch",
+      "nodeFile": "nodes/node-review-dispatch.json"
+    },
+    {
+      "id": "review-reducer",
+      "nodeFile": "nodes/node-review-reducer.json"
+    },
+    {
+      "id": "workflow-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-workflow-output.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "riela-manager",
+      "nodeId": "riela-manager",
+      "description": "Normalize direct workflow input or chat event feedback for website creation or iteration.",
+      "role": "manager",
+      "transitions": [
+        {
+          "toStepId": "site-design"
+        }
+      ]
+    },
+    {
+      "id": "site-design",
+      "nodeId": "site-design",
+      "description": "Create or revise the site design brief and pinned CSS/library allowlist from the request, feedback, and latest review findings.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "asset-generate"
+        }
+      ]
+    },
+    {
+      "id": "asset-generate",
+      "nodeId": "asset-generate",
+      "description": "Create or revise website image and media assets required by the current design.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "server-node"
+        }
+      ]
+    },
+    {
+      "id": "server-node",
+      "nodeId": "server-node",
+      "description": "Implement or revise the SolidJS/Bun website source without running Bun on the host.",
+      "role": "worker",
+      "stallTimeoutMs": 900000,
+      "transitions": [
+        {
+          "toStepId": "bun-container-server"
+        }
+      ]
+    },
+    {
+      "id": "bun-container-server",
+      "nodeId": "bun-container-server",
+      "description": "Run Bun install/build/server inside the packaged Docker image with the repository mounted at /workspace.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "source-commit-message"
+        }
+      ]
+    },
+    {
+      "id": "source-commit-message",
+      "nodeId": "source-commit-message",
+      "description": "Prepare a git snapshot commit message and exact generated source file list after the server-node pass.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "git-commit",
+          "label": "has_source_changes"
+        },
+        {
+          "toStepId": "review-dispatch",
+          "label": "!(has_source_changes)"
+        }
+      ]
+    },
+    {
+      "id": "git-commit",
+      "nodeId": "git-commit",
+      "description": "Commit the generated website snapshot so the site can be restored through git history.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "review-dispatch"
+        }
+      ]
+    },
+    {
+      "id": "review-dispatch",
+      "nodeId": "review-dispatch",
+      "description": "Prepare complete stable UX, asset, and implementation review assignments.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "review-node",
+          "fanout": {
+            "groupId": "website-review-lenses",
+            "itemsFrom": "/reviewItems",
+            "itemVariable": "websiteReview",
+            "concurrency": 3,
+            "joinStepId": "review-reducer",
+            "failurePolicy": "collect-partial",
+            "resultOrder": "input",
+            "writeOwnership": {
+              "mode": "read-only"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "review-node",
+      "nodeId": "review-node",
+      "description": "Use Playwright to inspect one assigned website review lens without modifying source.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "review-reducer"
+        }
+      ]
+    },
+    {
+      "id": "review-reducer",
+      "nodeId": "review-reducer",
+      "description": "Merge all website review lenses and choose one deterministic revision route.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "site-design",
+          "label": "needs_design_revision"
+        },
+        {
+          "toStepId": "asset-generate",
+          "label": "needs_asset_revision"
+        },
+        {
+          "toStepId": "server-node",
+          "label": "needs_implementation_revision"
+        },
+        {
+          "toStepId": "workflow-output",
+          "label": "!(needs_design_revision || needs_asset_revision || needs_implementation_revision)"
+        }
+      ]
+    },
+    {
+      "id": "workflow-output",
+      "nodeId": "workflow-output",
+      "description": "Publish the accepted website build result after Playwright review passes.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielaPackage": {
+      "title": "codex-website-builder",
+      "description": "Build SolidJS sites and review UX, assets, and implementation concurrently against a Docker-hosted server.",
+      "tags": [
+        "workflow",
+        "codex",
+        "website",
+        "solidjs",
+        "event",
+        "container",
+        "fanout",
+        "concurrency"
+      ],
+      "backends": [
+        "codex-agent",
+        "native-command"
+      ]
+    }
+  }
+}

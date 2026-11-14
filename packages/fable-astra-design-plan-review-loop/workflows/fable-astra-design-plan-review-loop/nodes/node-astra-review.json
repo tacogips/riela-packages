@@ -1,0 +1,14 @@
+{
+  "id": "astra-review",
+  "description": "Independently challenge both artifacts and adjudicate Fable responses.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-6-astra",
+  "modelFreeze": true,
+  "effort": "medium",
+  "agentSandbox": "read-only",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "variables": {},
+  "promptTemplateFile": "prompts/astra-review.md"
+}

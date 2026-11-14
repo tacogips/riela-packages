@@ -1,0 +1,52 @@
+{
+  "name": "cursor-cli-developer-workflows",
+  "version": "0.1.0",
+  "title": "cursor-cli-developer-workflows",
+  "description": "Meta package that pins the standard Cursor CLI developer workflow set in its dependencies and ships one Cursor dispatcher rule for choosing among them. Install the listed dependency packages together with this package.",
+  "tags": [
+    "workflow",
+    "cursor",
+    "developer",
+    "meta"
+  ],
+  "registry": "default",
+  "checksum": "34343b394b2257b5d2125789eb7e81e3",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-developer-workflows",
+  "dependencies": [
+    "cursor-cli-adversarial-implementation-review-loop",
+    "cursor-cli-deepdesign",
+    "cursor-cli-design-and-implement-review-loop",
+    "cursor-cli-fable-design-and-implement-review-loop",
+    "cursor-cli-impl-plan-completion-loop",
+    "cursor-cli-recent-change-quality-loop",
+    "cursor-cli-refactoring-divide-and-conquer",
+    "cursor-cli-refactoring-slice-review",
+    "cursor-cli-simple-work-package",
+    "cursor-cli-source-security-check-loop",
+    "cursor-cli-task-watchdog",
+    "cursor-cli-website-builder"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-developer-workflows",
+    "description": "Meta package that pins the standard Cursor CLI developer workflow set in its dependencies and ships one Cursor dispatcher rule for choosing among them. Install the listed dependency packages together with this package.",
+    "tags": [
+      "workflow",
+      "cursor",
+      "developer",
+      "meta"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "5d42bc26277b445bb280f9f7da46c6d7c8d24743a9f7674f98069ea62a345499"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ],
+  "skillDirectory": "skills"
+}

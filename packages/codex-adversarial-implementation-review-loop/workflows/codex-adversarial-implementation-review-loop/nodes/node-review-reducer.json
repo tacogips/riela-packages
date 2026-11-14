@@ -1,0 +1,13 @@
+{
+  "id": "review-reducer",
+  "description": "Reduce parallel implementation-review findings and route blocking fixes.",
+  "executionBackend": "codex-agent",
+  "model": "gpt-5.6-sol",
+  "modelFreeze": false,
+  "effort": "high",
+  "promptTemplateFile": "prompts/review-reducer.md",
+  "variables": {},
+  "output": {
+    "description": "Return adapter JSON with merged findings, complete lens coverage, needs_fix, acceptance, and residual risks."
+  }
+}

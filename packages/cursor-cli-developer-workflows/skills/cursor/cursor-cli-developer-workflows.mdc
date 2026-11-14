@@ -1,0 +1,128 @@
+---
+name: cursor-cli-developer-workflows
+description: Use when choosing or running Cursor CLI Riela developer workflows after installing the cursor-cli-developer-workflows meta package. Dispatches among design, implementation, simple work, implementation-plan completion, recent-change review, refactoring, security, task watchdog, and website workflows.
+user-invocable: true
+---
+
+# cursor-cli-developer-workflows
+
+Use this rule as the canonical Cursor CLI developer-workflow dispatcher.
+
+## Package
+
+- Package id: `cursor-cli-developer-workflows`
+- Workflow id: `cursor-cli-developer-workflows`
+- Backend family: `cursor-cli-agent`
+- Purpose: pin the standard Cursor CLI developer workflow set in
+  `dependencies` and carry this single dispatcher rule.
+
+The riela CLI does not install package dependencies automatically. Install the
+meta package and its dependency packages from a local registry checkout:
+
+```bash
+riela package install cursor-cli-developer-workflows --local-path /path/to/riela-packages
+jq -r '.dependencies[]? | if type == "object" then .packageId else . end' \
+  /path/to/riela-packages/packages/cursor-cli-developer-workflows/riela-package.json |
+  while read -r dep; do
+    riela package install "$dep" --local-path /path/to/riela-packages
+  done
+```
+
+For user-wide access, append `--scope user` to each install command.
+
+## Dispatch
+
+Before invoking a workflow, choose the narrowest matching workflow:
+
+- Design-document authoring or refinement:
+  `cursor-cli-deepdesign`
+- Default non-trivial implementation work:
+  `cursor-cli-design-and-implement-review-loop`
+- Explicit Claude Fable 5 implementation-review variant:
+  `cursor-cli-fable-design-and-implement-review-loop`
+- Small code or documentation changes under a clear path:
+  `cursor-cli-simple-work-package`
+- Complete active implementation plans:
+  `cursor-cli-impl-plan-completion-loop`
+- Review and improve recent changes:
+  `cursor-cli-recent-change-quality-loop`
+- Broad or duplicate-scavenge refactoring:
+  `cursor-cli-refactoring-divide-and-conquer`
+- One read-only refactoring slice review:
+  `cursor-cli-refactoring-slice-review`
+- Source-code security review, deterministic scans, or security fixes:
+  `cursor-cli-source-security-check-loop`
+- Background task queue/watchdog work:
+  `cursor-cli-task-watchdog`
+- SolidJS website build/review/snapshot work:
+  `cursor-cli-website-builder`
+- Scoped adversarial implementation review loop:
+  `cursor-cli-adversarial-implementation-review-loop`
+
+Do not select hydra variants from this rule unless the user explicitly asks for
+a hydra workflow and that hydra package is installed separately.
+
+## Standard Runs
+
+Design:
+
+```bash
+riela workflow run cursor-cli-deepdesign \
+  --variables '{"workflowInput":{"feature":"Describe the feature to design.","targetDesignDoc":"design-docs/specs/design-example.md","constraints":["Design documentation only."],"acceptanceCriteria":["Deep review has no high or middle findings.","Broad review has no high or middle findings."]}}' \
+  --output jsonl --no-auto-improve
+```
+
+Default implementation:
+
+```bash
+riela workflow run cursor-cli-design-and-implement-review-loop \
+  --variables '{"workflowInput":{"requestedBehavior":"Describe the requested behavior.","targetFeatureArea":"Describe the affected area."}}' \
+  --output jsonl
+```
+
+Small work package:
+
+```bash
+riela workflow run cursor-cli-simple-work-package \
+  --variables '{"workflowInput":{"targetDirectory":"path/to/dir","requestedChange":"Describe the small change.","acceptanceCriteria":["Review has no high or middle findings."]}}' \
+  --output jsonl --no-auto-improve
+```
+
+Security check:
+
+```bash
+riela workflow run cursor-cli-source-security-check-loop \
+  --variables '{"workflowInput":{"targetPath":".","runNetworkAudits":"false","maxFindings":50,"constraints":["Do not stage, commit, or push unless the user explicitly asks.","Do not revert unrelated dirty worktree changes.","Keep fixes narrowly scoped to verified security findings."]}}' \
+  --output jsonl --verbose --no-auto-improve
+```
+
+## Scope Rules
+
+- Respect user instructions that forbid workflow use, commits, pushes, network
+  audits, or broad refactors.
+- Preserve dirty worktree changes that are unrelated to the chosen workflow.
+- Install the meta package dependencies listed above so this rule does not
+  reference uninstalled standard Cursor CLI developer workflows.
+- If a listed workflow is unexpectedly unavailable, run
+  `riela package status cursor-cli-developer-workflows --output json`, then
+  install the missing dependency package before falling back.
+
+## Verification
+
+After changing this package or dispatcher rule, validate from the
+`riela-packages` repository root:
+
+```bash
+bun .agents/skills/riela-package-release/scripts/update-package-digests.ts cursor-cli-developer-workflows
+task check
+```
+
+For installed user-scope packages, verify visibility with:
+
+```bash
+riela package status cursor-cli-developer-workflows --scope user --output json
+riela workflow validate cursor-cli-developer-workflows --scope user
+```
+
+Expected output from the meta workflow is a JSON payload listing this dispatcher
+rule and the standard Cursor CLI developer workflow package ids.

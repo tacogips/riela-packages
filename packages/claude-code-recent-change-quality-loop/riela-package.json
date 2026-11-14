@@ -1,0 +1,36 @@
+{
+  "name": "claude-code-recent-change-quality-loop",
+  "version": "0.1.1",
+  "title": "claude-code-recent-change-quality-loop",
+  "description": "Inventory recent changes, review independent slices concurrently with bounded read-only fanout, reduce findings, and delegate blocking fixes until accepted.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "0a0a501ba66d7a6f0ca3bca2a37b9101",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/claude-code-recent-change-quality-loop",
+  "dependencies": [
+    "codex-recent-change-quality-loop",
+    "claude-code-design-and-implement-review-loop"
+  ],
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "claude-code-recent-change-quality-loop",
+    "description": "Review code changes introduced within a configurable recent time window, including uncommitted changes, and delegate any blocking findings into the design-and-implement workflow before re-reviewing until no high or mid findings remain.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "claude-code-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "f727ed4f219882ad22298fbecafdee0fcfcd3255303a7c0c74c8d2a88a7136a7"
+  },
+  "backends": [
+    "claude-code-agent"
+  ],
+  "minimumRielaVersion": "0.1.37"
+}

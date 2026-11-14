@@ -1,0 +1,16 @@
+{
+  "workflowId": "cursor-cli-hydra-codex-design-and-implement-review-loop",
+  "description": "Single-node design and planning, committed conflict-aware plans, same-branch parallel implementation and review, overwrite reconciliation, and serialized commit, push and base-branch integration.",
+  "extends": {
+    "workflowId": "codex-design-and-implement-review-loop",
+    "stringReplacements": {
+      "codex-design-and-implement-review-loop": "cursor-cli-hydra-codex-design-and-implement-review-loop"
+    },
+    "nodePatch": {
+      "step6-implement": {
+        "executionBackend": "cursor-cli-agent",
+        "model": "composer-2.5"
+      }
+    }
+  }
+}

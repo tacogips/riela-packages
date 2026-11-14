@@ -1,0 +1,35 @@
+{
+  "name": "cursor-cli-fable-design-and-implement-review-loop",
+  "version": "0.2.0",
+  "title": "cursor-cli-fable-design-and-implement-review-loop",
+  "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "aebaf1ac2f2557d01519290a4116eb4e",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-fable-design-and-implement-review-loop",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-fable-design-and-implement-review-loop",
+    "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "61b5495bfe010344626b766f4a8e5f5dfe1d86075b92c6b2247562c0a119b48c"
+  },
+  "backends": [
+    "cursor-cli-agent"
+  ],
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-design-and-implement-review-loop"
+  ]
+}

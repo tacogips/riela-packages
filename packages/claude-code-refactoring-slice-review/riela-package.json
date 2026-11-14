@@ -1,0 +1,34 @@
+{
+  "name": "claude-code-refactoring-slice-review",
+  "version": "0.1.0",
+  "title": "claude-code-refactoring-slice-review",
+  "description": "Read-only review workflow for one codebase slice produced by claude-code-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
+  "tags": [
+    "workflow"
+  ],
+  "registry": "default",
+  "checksum": "3bcea736101c1adb81e9e0b2dbd9d35a",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/claude-code-refactoring-slice-review",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "claude-code-refactoring-slice-review",
+    "description": "Read-only review workflow for one codebase slice produced by claude-code-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept.",
+    "tags": [
+      "workflow"
+    ],
+    "backends": [
+      "claude-code-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "30f611d607b37664f21b32d678cf95845f35bacec655de3f095f6a6b9e8e0e3f"
+  },
+  "backends": [
+    "claude-code-agent"
+  ],
+  "dependencies": [
+    "codex-refactoring-slice-review"
+  ]
+}

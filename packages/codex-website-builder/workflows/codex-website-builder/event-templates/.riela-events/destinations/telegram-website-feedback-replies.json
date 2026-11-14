@@ -1,0 +1,6 @@
+{
+  "id": "telegram-website-feedback-replies",
+  "enabled": false,
+  "kind": "chat",
+  "sourceId": "telegram-website-feedback"
+}
