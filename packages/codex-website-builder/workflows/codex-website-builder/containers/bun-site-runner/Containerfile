@@ -1,0 +1,15 @@
+FROM oven/bun:1.3.3-alpine
+
+LABEL org.opencontainers.image.title="codex-website-builder bun-site-runner"
+LABEL org.opencontainers.image.description="Lightweight Bun runtime for SolidJS website install/build/dev server operations"
+
+RUN apk add --no-cache ca-certificates tini
+
+ENV BUN_INSTALL_CACHE_DIR=/tmp/bun-cache
+ENV CI=true
+ENV NO_COLOR=1
+
+WORKDIR /workspace
+
+ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["bun", "--version"]

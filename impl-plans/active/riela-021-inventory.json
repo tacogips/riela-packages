@@ -1,0 +1,3928 @@
+{
+  "sourceHead": "b3bbf8c15760a56423b0d58120fc11f72280381a",
+  "packages": [
+    {
+      "packagePath": "packages/claude-code-adversarial-implementation-review-loop",
+      "manifestPath": "packages/claude-code-adversarial-implementation-review-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/claude-code-adversarial-implementation-review-loop/workflows/claude-code-adversarial-implementation-review-loop/workflow.json",
+          "workflowId": "claude-code-adversarial-implementation-review-loop",
+          "extends": {
+            "workflowId": "codex-adversarial-implementation-review-loop",
+            "stringReplacements": {
+              "codexAgentReferences": "claudeCodeAgentReferences",
+              "codexAgent": "claudeCodeAgent",
+              "codex-design-and-implement-review-loop": "claude-code-design-and-implement-review-loop",
+              "codex-adversarial-implementation-review-loop": "claude-code-adversarial-implementation-review-loop",
+              "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+              "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+              "codex-simple-work-package": "claude-code-simple-work-package",
+              "codex-website-builder": "claude-code-website-builder",
+              "codex-task-watchdog": "claude-code-task-watchdog",
+              "codex-deepdesign": "claude-code-deepdesign",
+              "codex-agent": "claude-code-agent",
+              "codex-": "claude-code-",
+              "Codex": "Claude Code",
+              "codex": "claude-code",
+              "GPT-5.6 SOL": "Opus 5.5",
+              "gpt-5.6-sol": "claude-opus-5-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "claude-code-agent",
+              "model": "claude-opus-5-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/claude-code-deepdesign",
+      "manifestPath": "packages/claude-code-deepdesign/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/claude-code-deepdesign/workflows/claude-code-deepdesign/workflow.json",
+          "workflowId": "claude-code-deepdesign",
+          "extends": {
+            "workflowId": "codex-deepdesign",
+            "stringReplacements": {
+              "codexAgentReferences": "claudeCodeAgentReferences",
+              "codexAgent": "claudeCodeAgent",
+              "codex-design-and-implement-review-loop": "claude-code-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+              "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+              "codex-simple-work-package": "claude-code-simple-work-package",
+              "codex-website-builder": "claude-code-website-builder",
+              "codex-task-watchdog": "claude-code-task-watchdog",
+              "codex-deepdesign": "claude-code-deepdesign",
+              "codex-agent": "claude-code-agent",
+              "codex-": "claude-code-",
+              "Codex": "Claude Code",
+              "codex": "claude-code",
+              "GPT-5.6 SOL": "Opus 5.5",
+              "gpt-5.6-sol": "claude-opus-5-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "claude-code-agent",
+              "model": "claude-opus-5-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/claude-code-design-and-implement-review-loop",
+      "manifestPath": "packages/claude-code-design-and-implement-review-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/claude-code-design-and-implement-review-loop/workflows/claude-code-design-and-implement-review-loop/workflow.json",
+          "workflowId": "claude-code-design-and-implement-review-loop",
+          "extends": {
+            "workflowId": "codex-design-and-implement-review-loop",
+            "stringReplacements": {
+              "codexAgentReferences": "claudeCodeAgentReferences",
+              "codexAgent": "claudeCodeAgent",
+              "codex-design-and-implement-review-loop": "claude-code-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+              "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+              "codex-simple-work-package": "claude-code-simple-work-package",
+              "codex-website-builder": "claude-code-website-builder",
+              "codex-task-watchdog": "claude-code-task-watchdog",
+              "codex-deepdesign": "claude-code-deepdesign",
+              "codex-agent": "claude-code-agent",
+              "codex-": "claude-code-",
+              "Codex": "Claude Code",
+              "codex": "claude-code",
+              "GPT-5.6 SOL": "Opus 5.5",
+              "gpt-5.6-sol": "claude-opus-5-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "claude-code-agent",
+              "model": "claude-opus-5-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/claude-code-goal",
+      "manifestPath": "packages/claude-code-goal/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/claude-code-goal/workflows/claude-code-goal/workflow.json",
+          "workflowId": "claude-code-goal",
+          "extends": {
+            "workflowId": "codex-goal",
+            "stringReplacements": {
+              "codexAgentReferences": "claudeCodeAgentReferences",
+              "codexAgent": "claudeCodeAgent",
+              "codex-goal": "claude-code-goal",
+              "codex-design-and-implement-review-loop": "claude-code-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+              "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+              "codex-simple-work-package": "claude-code-simple-work-package",
+              "codex-website-builder": "claude-code-website-builder",
+              "codex-task-watchdog": "claude-code-task-watchdog",
+              "codex-deepdesign": "claude-code-deepdesign",
+              "codex-agent": "claude-code-agent",
+              "codex-": "claude-code-",
+              "Codex": "Claude Code",
+              "codex": "claude-code",
+              "GPT-5.6 SOL": "Opus 5.5",
+              "gpt-5.6-sol": "claude-opus-5-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "claude-code-agent",
+              "model": "claude-opus-5-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/claude-code-impl-plan-completion-loop",
+      "manifestPath": "packages/claude-code-impl-plan-completion-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/claude-code-impl-plan-completion-loop/workflows/claude-code-impl-plan-completion-loop/workflow.json",
+          "workflowId": "claude-code-impl-plan-completion-loop",
+          "extends": {
+            "workflowId": "codex-impl-plan-completion-loop",
+            "stringReplacements": {
+              "codexAgentReferences": "claudeCodeAgentReferences",
+              "codexAgent": "claudeCodeAgent",
+              "codex-design-and-implement-review-loop": "claude-code-design-and-implement-review-loop",
+              "codex-adversarial-implementation-review-loop": "claude-code-adversarial-implementation-review-loop",
+              "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+              "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+              "codex-simple-work-package": "claude-code-simple-work-package",
+              "codex-website-builder": "claude-code-website-builder",
+              "codex-task-watchdog": "claude-code-task-watchdog",
+              "codex-deepdesign": "claude-code-deepdesign",
+              "codex-agent": "claude-code-agent",
+              "codex-": "claude-code-",
+              "Codex": "Claude Code",
+              "codex": "claude-code",
+              "GPT-5.6 SOL": "Opus 5.5",
+              "gpt-5.6-sol": "claude-opus-5-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "claude-code-agent",
+              "model": "claude-opus-5-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/claude-code-impl-plan-completion-review-loop",
+      "manifestPath": "packages/claude-code-impl-plan-completion-review-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/claude-code-impl-plan-completion-review-loop/workflows/claude-code-impl-plan-completion-review-loop/workflow.json",
+          "workflowId": "claude-code-impl-plan-completion-review-loop",
+          "extends": {
+            "workflowId": "codex-impl-plan-completion-review-loop",
+            "stringReplacements": {
+              "codexAgentReferences": "claudeCodeAgentReferences",
+              "codexAgent": "claudeCodeAgent",
+              "codex-design-and-implement-review-loop": "claude-code-design-and-implement-review-loop",
+              "codex-adversarial-implementation-review-loop": "claude-code-adversarial-implementation-review-loop",
+              "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+              "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+              "codex-impl-plan-completion-review-loop": "claude-code-impl-plan-completion-review-loop",
+              "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+              "codex-simple-work-package": "claude-code-simple-work-package",
+              "codex-website-builder": "claude-code-website-builder",
+              "codex-task-watchdog": "claude-code-task-watchdog",
+              "codex-deepdesign": "claude-code-deepdesign",
+              "codex-agent": "claude-code-agent",
+              "codex-": "claude-code-",
+              "Codex": "Claude Code",
+              "codex": "claude-code",
+              "GPT-5.6 SOL": "Opus 5.5",
+              "gpt-5.6-sol": "claude-opus-5-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "claude-code-agent",
+              "model": "claude-opus-5-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/claude-code-recent-change-quality-loop",
+      "manifestPath": "packages/claude-code-recent-change-quality-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/claude-code-recent-change-quality-loop/workflows/claude-code-recent-change-quality-loop/workflow.json",
+          "workflowId": "claude-code-recent-change-quality-loop",
+          "extends": {
+            "workflowId": "codex-recent-change-quality-loop",
+            "stringReplacements": {
+              "codexAgentReferences": "claudeCodeAgentReferences",
+              "codexAgent": "claudeCodeAgent",
+              "codex-design-and-implement-review-loop": "claude-code-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+              "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+              "codex-simple-work-package": "claude-code-simple-work-package",
+              "codex-website-builder": "claude-code-website-builder",
+              "codex-task-watchdog": "claude-code-task-watchdog",
+              "codex-deepdesign": "claude-code-deepdesign",
+              "codex-agent": "claude-code-agent",
+              "codex-": "claude-code-",
+              "Codex": "Claude Code",
+              "codex": "claude-code",
+              "GPT-5.6 SOL": "Opus 5.5",
+              "gpt-5.6-sol": "claude-opus-5-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "claude-code-agent",
+              "model": "claude-opus-5-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/claude-code-refactoring-divide-and-conquer",
+      "manifestPath": "packages/claude-code-refactoring-divide-and-conquer/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/claude-code-refactoring-divide-and-conquer/workflows/claude-code-refactoring-divide-and-conquer/workflow.json",
+          "workflowId": "claude-code-refactoring-divide-and-conquer",
+          "extends": {
+            "workflowId": "codex-refactoring-divide-and-conquer",
+            "stringReplacements": {
+              "codexAgentReferences": "claudeCodeAgentReferences",
+              "codexAgent": "claudeCodeAgent",
+              "codex-design-and-implement-review-loop": "claude-code-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+              "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+              "codex-simple-work-package": "claude-code-simple-work-package",
+              "codex-website-builder": "claude-code-website-builder",
+              "codex-task-watchdog": "claude-code-task-watchdog",
+              "codex-deepdesign": "claude-code-deepdesign",
+              "codex-agent": "claude-code-agent",
+              "codex-": "claude-code-",
+              "Codex": "Claude Code",
+              "codex": "claude-code",
+              "GPT-5.6 SOL": "Sonnet 4.5",
+              "gpt-5.6-sol": "claude-sonnet-4-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "claude-code-agent",
+              "model": "claude-sonnet-4-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/claude-code-refactoring-slice-review",
+      "manifestPath": "packages/claude-code-refactoring-slice-review/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/claude-code-refactoring-slice-review/workflows/claude-code-refactoring-slice-review/workflow.json",
+          "workflowId": "claude-code-refactoring-slice-review",
+          "extends": {
+            "workflowId": "codex-refactoring-slice-review",
+            "stringReplacements": {
+              "codexAgentReferences": "claudeCodeAgentReferences",
+              "codexAgent": "claudeCodeAgent",
+              "codex-design-and-implement-review-loop": "claude-code-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+              "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+              "codex-simple-work-package": "claude-code-simple-work-package",
+              "codex-website-builder": "claude-code-website-builder",
+              "codex-task-watchdog": "claude-code-task-watchdog",
+              "codex-deepdesign": "claude-code-deepdesign",
+              "codex-agent": "claude-code-agent",
+              "codex-": "claude-code-",
+              "Codex": "Claude Code",
+              "codex": "claude-code",
+              "GPT-5.6 SOL": "Sonnet 4.5",
+              "gpt-5.6-sol": "claude-sonnet-4-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "claude-code-agent",
+              "model": "claude-sonnet-4-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/claude-code-simple-work-package",
+      "manifestPath": "packages/claude-code-simple-work-package/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/claude-code-simple-work-package/workflows/claude-code-simple-work-package/workflow.json",
+          "workflowId": "claude-code-simple-work-package",
+          "extends": {
+            "workflowId": "codex-simple-work-package",
+            "stringReplacements": {
+              "codexAgentReferences": "claudeCodeAgentReferences",
+              "codexAgent": "claudeCodeAgent",
+              "codex-design-and-implement-review-loop": "claude-code-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+              "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+              "codex-simple-work-package": "claude-code-simple-work-package",
+              "codex-website-builder": "claude-code-website-builder",
+              "codex-task-watchdog": "claude-code-task-watchdog",
+              "codex-deepdesign": "claude-code-deepdesign",
+              "codex-agent": "claude-code-agent",
+              "codex-": "claude-code-",
+              "Codex": "Claude Code",
+              "codex": "claude-code",
+              "GPT-5.6 SOL": "Sonnet 4.5",
+              "gpt-5.6-sol": "claude-sonnet-4-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "claude-code-agent",
+              "model": "claude-sonnet-4-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/claude-code-source-security-check-loop",
+      "manifestPath": "packages/claude-code-source-security-check-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/claude-code-source-security-check-loop/workflows/claude-code-source-security-check-loop/workflow.json",
+          "workflowId": "claude-code-source-security-check-loop",
+          "extends": {
+            "workflowId": "codex-source-security-check-loop",
+            "stringReplacements": {
+              "codexAgentReferences": "claudeCodeAgentReferences",
+              "codexAgent": "claudeCodeAgent",
+              "codex-design-and-implement-review-loop": "claude-code-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+              "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+              "codex-simple-work-package": "claude-code-simple-work-package",
+              "codex-website-builder": "claude-code-website-builder",
+              "codex-task-watchdog": "claude-code-task-watchdog",
+              "codex-deepdesign": "claude-code-deepdesign",
+              "codex-agent": "claude-code-agent",
+              "codex-": "claude-code-",
+              "Codex": "Claude Code",
+              "codex": "claude-code",
+              "GPT-5.6 SOL": "Sonnet 4.5",
+              "gpt-5.6-sol": "claude-sonnet-4-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "claude-code-agent",
+              "model": "claude-sonnet-4-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/claude-code-task-watchdog",
+      "manifestPath": "packages/claude-code-task-watchdog/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/claude-code-task-watchdog/workflows/claude-code-task-watchdog/workflow.json",
+          "workflowId": "claude-code-task-watchdog",
+          "extends": {
+            "workflowId": "codex-task-watchdog",
+            "stringReplacements": {
+              "codexAgentReferences": "claudeCodeAgentReferences",
+              "codexAgent": "claudeCodeAgent",
+              "codex-design-and-implement-review-loop": "claude-code-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+              "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+              "codex-simple-work-package": "claude-code-simple-work-package",
+              "codex-website-builder": "claude-code-website-builder",
+              "codex-task-watchdog": "claude-code-task-watchdog",
+              "codex-deepdesign": "claude-code-deepdesign",
+              "codex-agent": "claude-code-agent",
+              "codex-": "claude-code-",
+              "Codex": "Claude Code",
+              "codex": "claude-code",
+              "GPT-5.6 SOL": "Opus 5.5",
+              "gpt-5.6-sol": "claude-opus-5-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "claude-code-agent",
+              "model": "claude-opus-5-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/claude-code-website-builder",
+      "manifestPath": "packages/claude-code-website-builder/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/claude-code-website-builder/workflows/claude-code-website-builder/workflow.json",
+          "workflowId": "claude-code-website-builder",
+          "extends": {
+            "workflowId": "codex-website-builder",
+            "stringReplacements": {
+              "codexAgentReferences": "claudeCodeAgentReferences",
+              "codexAgent": "claudeCodeAgent",
+              "codex-design-and-implement-review-loop": "claude-code-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+              "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+              "codex-simple-work-package": "claude-code-simple-work-package",
+              "codex-website-builder": "claude-code-website-builder",
+              "codex-task-watchdog": "claude-code-task-watchdog",
+              "codex-deepdesign": "claude-code-deepdesign",
+              "codex-agent": "claude-code-agent",
+              "codex-": "claude-code-",
+              "Codex": "Claude Code",
+              "codex": "claude-code",
+              "GPT-5.6 SOL": "Sonnet 4.5",
+              "gpt-5.6-sol": "claude-sonnet-4-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "claude-code-agent",
+              "model": "claude-sonnet-4-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/claude-code-worker-only-single-step",
+      "manifestPath": "packages/claude-code-worker-only-single-step/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/claude-code-worker-only-single-step/workflows/claude-code-worker-only-single-step/workflow.json",
+          "workflowId": "claude-code-worker-only-single-step",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/codex-adversarial-implementation-review-loop",
+      "manifestPath": "packages/codex-adversarial-implementation-review-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/workflow.json",
+          "workflowId": "codex-adversarial-implementation-review-loop",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/codex-deep-creation",
+      "manifestPath": "packages/codex-deep-creation/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/codex-deep-creation/workflows/codex-deep-creation/workflow.json",
+          "workflowId": "codex-deep-creation",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/codex-deepdesign",
+      "manifestPath": "packages/codex-deepdesign/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/codex-deepdesign/workflows/codex-deepdesign/workflow.json",
+          "workflowId": "codex-deepdesign",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/codex-design-and-implement-review-loop",
+      "manifestPath": "packages/codex-design-and-implement-review-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/workflow.json",
+          "workflowId": "codex-design-and-implement-review-loop",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/codex-goal",
+      "manifestPath": "packages/codex-goal/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/codex-goal/workflows/codex-goal/workflow.json",
+          "workflowId": "codex-goal",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/codex-impl-plan-completion-loop",
+      "manifestPath": "packages/codex-impl-plan-completion-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/workflow.json",
+          "workflowId": "codex-impl-plan-completion-loop",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/codex-impl-plan-completion-review-loop",
+      "manifestPath": "packages/codex-impl-plan-completion-review-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/workflow.json",
+          "workflowId": "codex-impl-plan-completion-review-loop",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/codex-recent-change-quality-loop",
+      "manifestPath": "packages/codex-recent-change-quality-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/workflow.json",
+          "workflowId": "codex-recent-change-quality-loop",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/codex-refactoring-divide-and-conquer",
+      "manifestPath": "packages/codex-refactoring-divide-and-conquer/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/workflow.json",
+          "workflowId": "codex-refactoring-divide-and-conquer",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/codex-refactoring-slice-review",
+      "manifestPath": "packages/codex-refactoring-slice-review/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/codex-refactoring-slice-review/workflows/codex-refactoring-slice-review/workflow.json",
+          "workflowId": "codex-refactoring-slice-review",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/codex-simple-work-package",
+      "manifestPath": "packages/codex-simple-work-package/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/codex-simple-work-package/workflows/codex-simple-work-package/workflow.json",
+          "workflowId": "codex-simple-work-package",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/codex-source-security-check-loop",
+      "manifestPath": "packages/codex-source-security-check-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/workflow.json",
+          "workflowId": "codex-source-security-check-loop",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/codex-task-watchdog",
+      "manifestPath": "packages/codex-task-watchdog/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/codex-task-watchdog/workflows/codex-task-watchdog/workflow.json",
+          "workflowId": "codex-task-watchdog",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/codex-website-builder",
+      "manifestPath": "packages/codex-website-builder/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/codex-website-builder/workflows/codex-website-builder/workflow.json",
+          "workflowId": "codex-website-builder",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/cursor-cli-adversarial-implementation-review-loop",
+      "manifestPath": "packages/cursor-cli-adversarial-implementation-review-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/cursor-cli-adversarial-implementation-review-loop/workflows/cursor-cli-adversarial-implementation-review-loop/workflow.json",
+          "workflowId": "cursor-cli-adversarial-implementation-review-loop",
+          "extends": {
+            "workflowId": "codex-adversarial-implementation-review-loop",
+            "stringReplacements": {
+              "codexAgentReferences": "cursorCliAgentReferences",
+              "codexAgent": "cursorCliAgent",
+              "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+              "codex-adversarial-implementation-review-loop": "cursor-cli-adversarial-implementation-review-loop",
+              "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+              "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+              "codex-simple-work-package": "cursor-cli-simple-work-package",
+              "codex-website-builder": "cursor-cli-website-builder",
+              "codex-task-watchdog": "cursor-cli-task-watchdog",
+              "codex-deepdesign": "cursor-cli-deepdesign",
+              "codex-agent": "cursor-cli-agent",
+              "codex-": "cursor-cli-",
+              "Codex": "Cursor CLI",
+              "codex": "cursor-cli"
+            },
+            "agentNodePatch": {
+              "executionBackend": "cursor-cli-agent",
+              "model": "gpt-5.6-sol"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/cursor-cli-deepdesign",
+      "manifestPath": "packages/cursor-cli-deepdesign/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/cursor-cli-deepdesign/workflows/cursor-cli-deepdesign/workflow.json",
+          "workflowId": "cursor-cli-deepdesign",
+          "extends": {
+            "workflowId": "codex-deepdesign",
+            "stringReplacements": {
+              "codexAgentReferences": "cursorCliAgentReferences",
+              "codexAgent": "cursorCliAgent",
+              "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+              "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+              "codex-simple-work-package": "cursor-cli-simple-work-package",
+              "codex-website-builder": "cursor-cli-website-builder",
+              "codex-task-watchdog": "cursor-cli-task-watchdog",
+              "codex-deepdesign": "cursor-cli-deepdesign",
+              "codex-agent": "cursor-cli-agent",
+              "codex-": "cursor-cli-",
+              "Codex": "Cursor CLI",
+              "codex": "cursor-cli"
+            },
+            "agentNodePatch": {
+              "executionBackend": "cursor-cli-agent",
+              "model": "gpt-5.6-sol"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/cursor-cli-design-and-implement-review-loop",
+      "manifestPath": "packages/cursor-cli-design-and-implement-review-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/cursor-cli-design-and-implement-review-loop/workflows/cursor-cli-design-and-implement-review-loop/workflow.json",
+          "workflowId": "cursor-cli-design-and-implement-review-loop",
+          "extends": {
+            "workflowId": "codex-design-and-implement-review-loop",
+            "stringReplacements": {
+              "codexAgentReferences": "cursorCliAgentReferences",
+              "codexAgent": "cursorCliAgent",
+              "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+              "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+              "codex-simple-work-package": "cursor-cli-simple-work-package",
+              "codex-website-builder": "cursor-cli-website-builder",
+              "codex-task-watchdog": "cursor-cli-task-watchdog",
+              "codex-deepdesign": "cursor-cli-deepdesign",
+              "codex-agent": "cursor-cli-agent",
+              "codex-": "cursor-cli-",
+              "Codex": "Cursor CLI",
+              "codex": "cursor-cli"
+            },
+            "agentNodePatch": {
+              "executionBackend": "cursor-cli-agent",
+              "model": "gpt-5.6-sol"
+            },
+            "nodePatch": {
+              "step6-implement": {
+                "model": "composer-2.5"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/cursor-cli-developer-workflows",
+      "manifestPath": "packages/cursor-cli-developer-workflows/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/cursor-cli-developer-workflows/workflows/cursor-cli-developer-workflows/workflow.json",
+          "workflowId": "cursor-cli-developer-workflows",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/cursor-cli-fable-design-and-implement-review-loop",
+      "manifestPath": "packages/cursor-cli-fable-design-and-implement-review-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/cursor-cli-fable-design-and-implement-review-loop/workflows/cursor-cli-fable-design-and-implement-review-loop/workflow.json",
+          "workflowId": "cursor-cli-fable-design-and-implement-review-loop",
+          "extends": {
+            "workflowId": "codex-design-and-implement-review-loop",
+            "stringReplacements": {
+              "codexAgentReferences": "cursorCliAgentReferences",
+              "codexAgent": "cursorCliAgent",
+              "codex-design-and-implement-review-loop": "cursor-cli-fable-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+              "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+              "codex-simple-work-package": "cursor-cli-simple-work-package",
+              "codex-website-builder": "cursor-cli-website-builder",
+              "codex-task-watchdog": "cursor-cli-task-watchdog",
+              "codex-deepdesign": "cursor-cli-deepdesign",
+              "codex-agent": "cursor-cli-agent",
+              "codex-": "cursor-cli-",
+              "Codex": "Cursor CLI",
+              "codex": "cursor-cli"
+            },
+            "agentNodePatch": {
+              "executionBackend": "cursor-cli-agent",
+              "model": "claude-opus-5-5"
+            },
+            "nodePatch": {
+              "step3-design-review": {
+                "model": "claude-fable-5"
+              },
+              "step5-impl-plan-review": {
+                "model": "claude-fable-5"
+              },
+              "step6-implement": {
+                "model": "composer-2.5"
+              },
+              "step6-test-integrity-check": {
+                "model": "claude-fable-5"
+              },
+              "step7-adversarial-review": {
+                "model": "claude-fable-5"
+              },
+              "step9-commit-message": {
+                "model": "claude-fable-5"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/cursor-cli-goal",
+      "manifestPath": "packages/cursor-cli-goal/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/cursor-cli-goal/workflows/cursor-cli-goal/workflow.json",
+          "workflowId": "cursor-cli-goal",
+          "extends": {
+            "workflowId": "codex-goal",
+            "stringReplacements": {
+              "codexAgentReferences": "cursorCliAgentReferences",
+              "codexAgent": "cursorCliAgent",
+              "codex-goal": "cursor-cli-goal",
+              "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+              "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+              "codex-simple-work-package": "cursor-cli-simple-work-package",
+              "codex-website-builder": "cursor-cli-website-builder",
+              "codex-task-watchdog": "cursor-cli-task-watchdog",
+              "codex-deepdesign": "cursor-cli-deepdesign",
+              "codex-agent": "cursor-cli-agent",
+              "codex-": "cursor-cli-",
+              "Codex": "Cursor CLI",
+              "codex": "cursor-cli"
+            },
+            "agentNodePatch": {
+              "executionBackend": "cursor-cli-agent",
+              "model": "gpt-5.6-sol"
+            },
+            "nodePatch": {
+              "work": {
+                "model": "composer-2.5"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/cursor-cli-hydra-claude-design-and-implement-review-loop",
+      "manifestPath": "packages/cursor-cli-hydra-claude-design-and-implement-review-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/cursor-cli-hydra-claude-design-and-implement-review-loop/workflows/cursor-cli-hydra-claude-design-and-implement-review-loop/workflow.json",
+          "workflowId": "cursor-cli-hydra-claude-design-and-implement-review-loop",
+          "extends": {
+            "workflowId": "codex-design-and-implement-review-loop",
+            "stringReplacements": {
+              "codexAgentReferences": "claudeCodeAgentReferences",
+              "codexAgent": "claudeCodeAgent",
+              "codex-design-and-implement-review-loop": "cursor-cli-hydra-claude-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+              "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+              "codex-simple-work-package": "claude-code-simple-work-package",
+              "codex-website-builder": "claude-code-website-builder",
+              "codex-task-watchdog": "claude-code-task-watchdog",
+              "codex-deepdesign": "claude-code-deepdesign",
+              "codex-agent": "claude-code-agent",
+              "codex-": "claude-code-",
+              "Codex": "Claude Code",
+              "codex": "claude-code"
+            },
+            "agentNodePatch": {
+              "executionBackend": "claude-code-agent",
+              "model": "claude-opus-5-5"
+            },
+            "nodePatch": {
+              "step2-design-doc-update": {
+                "model": "claude-fable-5"
+              },
+              "step3-design-review": {
+                "model": "claude-fable-5"
+              },
+              "step4-impl-plan-create": {
+                "model": "claude-fable-5"
+              },
+              "step5-impl-plan-review": {
+                "model": "claude-fable-5"
+              },
+              "step6-implement": {
+                "executionBackend": "cursor-cli-agent",
+                "model": "composer-2.5"
+              },
+              "step6-test-integrity-check": {
+                "model": "claude-fable-5"
+              },
+              "step7-adversarial-review": {
+                "model": "claude-fable-5"
+              },
+              "step9-commit-message": {
+                "model": "claude-fable-5"
+              },
+              "integration-review": {
+                "model": "claude-fable-5"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/cursor-cli-hydra-codex-design-and-implement-review-loop",
+      "manifestPath": "packages/cursor-cli-hydra-codex-design-and-implement-review-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/cursor-cli-hydra-codex-design-and-implement-review-loop/workflows/cursor-cli-hydra-codex-design-and-implement-review-loop/workflow.json",
+          "workflowId": "cursor-cli-hydra-codex-design-and-implement-review-loop",
+          "extends": {
+            "workflowId": "codex-design-and-implement-review-loop",
+            "stringReplacements": {
+              "codex-design-and-implement-review-loop": "cursor-cli-hydra-codex-design-and-implement-review-loop"
+            },
+            "nodePatch": {
+              "step6-implement": {
+                "executionBackend": "cursor-cli-agent",
+                "model": "composer-2.5"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/cursor-cli-impl-plan-completion-loop",
+      "manifestPath": "packages/cursor-cli-impl-plan-completion-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/cursor-cli-impl-plan-completion-loop/workflows/cursor-cli-impl-plan-completion-loop/workflow.json",
+          "workflowId": "cursor-cli-impl-plan-completion-loop",
+          "extends": {
+            "workflowId": "codex-impl-plan-completion-loop",
+            "stringReplacements": {
+              "codexAgentReferences": "cursorCliAgentReferences",
+              "codexAgent": "cursorCliAgent",
+              "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+              "codex-adversarial-implementation-review-loop": "cursor-cli-adversarial-implementation-review-loop",
+              "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+              "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+              "codex-simple-work-package": "cursor-cli-simple-work-package",
+              "codex-website-builder": "cursor-cli-website-builder",
+              "codex-task-watchdog": "cursor-cli-task-watchdog",
+              "codex-deepdesign": "cursor-cli-deepdesign",
+              "codex-agent": "cursor-cli-agent",
+              "codex-": "cursor-cli-",
+              "Codex": "Cursor CLI",
+              "codex": "cursor-cli"
+            },
+            "agentNodePatch": {
+              "executionBackend": "cursor-cli-agent",
+              "model": "gpt-5.6-sol"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/cursor-cli-impl-plan-completion-review-loop",
+      "manifestPath": "packages/cursor-cli-impl-plan-completion-review-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/cursor-cli-impl-plan-completion-review-loop/workflows/cursor-cli-impl-plan-completion-review-loop/workflow.json",
+          "workflowId": "cursor-cli-impl-plan-completion-review-loop",
+          "extends": {
+            "workflowId": "codex-impl-plan-completion-review-loop",
+            "stringReplacements": {
+              "codexAgentReferences": "cursorCliAgentReferences",
+              "codexAgent": "cursorCliAgent",
+              "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+              "codex-adversarial-implementation-review-loop": "cursor-cli-adversarial-implementation-review-loop",
+              "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+              "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+              "codex-impl-plan-completion-review-loop": "cursor-cli-impl-plan-completion-review-loop",
+              "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+              "codex-simple-work-package": "cursor-cli-simple-work-package",
+              "codex-website-builder": "cursor-cli-website-builder",
+              "codex-task-watchdog": "cursor-cli-task-watchdog",
+              "codex-deepdesign": "cursor-cli-deepdesign",
+              "codex-agent": "cursor-cli-agent",
+              "codex-": "cursor-cli-",
+              "Codex": "Cursor CLI",
+              "codex": "cursor-cli"
+            },
+            "agentNodePatch": {
+              "executionBackend": "cursor-cli-agent",
+              "model": "gpt-5.6-sol"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/cursor-cli-recent-change-quality-loop",
+      "manifestPath": "packages/cursor-cli-recent-change-quality-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/cursor-cli-recent-change-quality-loop/workflows/cursor-cli-recent-change-quality-loop/workflow.json",
+          "workflowId": "cursor-cli-recent-change-quality-loop",
+          "extends": {
+            "workflowId": "codex-recent-change-quality-loop",
+            "stringReplacements": {
+              "codexAgentReferences": "cursorCliAgentReferences",
+              "codexAgent": "cursorCliAgent",
+              "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+              "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+              "codex-simple-work-package": "cursor-cli-simple-work-package",
+              "codex-website-builder": "cursor-cli-website-builder",
+              "codex-task-watchdog": "cursor-cli-task-watchdog",
+              "codex-deepdesign": "cursor-cli-deepdesign",
+              "codex-agent": "cursor-cli-agent",
+              "codex-": "cursor-cli-",
+              "Codex": "Cursor CLI",
+              "codex": "cursor-cli"
+            },
+            "agentNodePatch": {
+              "executionBackend": "cursor-cli-agent",
+              "model": "gpt-5.6-sol"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/cursor-cli-refactoring-divide-and-conquer",
+      "manifestPath": "packages/cursor-cli-refactoring-divide-and-conquer/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/cursor-cli-refactoring-divide-and-conquer/workflows/cursor-cli-refactoring-divide-and-conquer/workflow.json",
+          "workflowId": "cursor-cli-refactoring-divide-and-conquer",
+          "extends": {
+            "workflowId": "codex-refactoring-divide-and-conquer",
+            "stringReplacements": {
+              "codexAgentReferences": "cursorCliAgentReferences",
+              "codexAgent": "cursorCliAgent",
+              "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+              "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+              "codex-simple-work-package": "cursor-cli-simple-work-package",
+              "codex-website-builder": "cursor-cli-website-builder",
+              "codex-task-watchdog": "cursor-cli-task-watchdog",
+              "codex-deepdesign": "cursor-cli-deepdesign",
+              "codex-agent": "cursor-cli-agent",
+              "codex-": "cursor-cli-",
+              "Codex": "Cursor CLI",
+              "codex": "cursor-cli",
+              "GPT-5.6 SOL": "Sonnet 4.5",
+              "gpt-5.6-sol": "claude-sonnet-4-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "cursor-cli-agent",
+              "model": "claude-sonnet-4-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/cursor-cli-refactoring-slice-review",
+      "manifestPath": "packages/cursor-cli-refactoring-slice-review/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/cursor-cli-refactoring-slice-review/workflows/cursor-cli-refactoring-slice-review/workflow.json",
+          "workflowId": "cursor-cli-refactoring-slice-review",
+          "extends": {
+            "workflowId": "codex-refactoring-slice-review",
+            "stringReplacements": {
+              "codexAgentReferences": "cursorCliAgentReferences",
+              "codexAgent": "cursorCliAgent",
+              "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+              "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+              "codex-simple-work-package": "cursor-cli-simple-work-package",
+              "codex-website-builder": "cursor-cli-website-builder",
+              "codex-task-watchdog": "cursor-cli-task-watchdog",
+              "codex-deepdesign": "cursor-cli-deepdesign",
+              "codex-agent": "cursor-cli-agent",
+              "codex-": "cursor-cli-",
+              "Codex": "Cursor CLI",
+              "codex": "cursor-cli",
+              "GPT-5.6 SOL": "Sonnet 4.5",
+              "gpt-5.6-sol": "claude-sonnet-4-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "cursor-cli-agent",
+              "model": "claude-sonnet-4-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/cursor-cli-simple-work-package",
+      "manifestPath": "packages/cursor-cli-simple-work-package/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/cursor-cli-simple-work-package/workflows/cursor-cli-simple-work-package/workflow.json",
+          "workflowId": "cursor-cli-simple-work-package",
+          "extends": {
+            "workflowId": "codex-simple-work-package",
+            "stringReplacements": {
+              "codexAgentReferences": "cursorCliAgentReferences",
+              "codexAgent": "cursorCliAgent",
+              "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+              "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+              "codex-simple-work-package": "cursor-cli-simple-work-package",
+              "codex-website-builder": "cursor-cli-website-builder",
+              "codex-task-watchdog": "cursor-cli-task-watchdog",
+              "codex-deepdesign": "cursor-cli-deepdesign",
+              "codex-agent": "cursor-cli-agent",
+              "codex-": "cursor-cli-",
+              "Codex": "Cursor CLI",
+              "codex": "cursor-cli",
+              "GPT-5.6 SOL": "Sonnet 4.5",
+              "gpt-5.6-sol": "claude-sonnet-4-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "cursor-cli-agent",
+              "model": "claude-sonnet-4-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/cursor-cli-source-security-check-loop",
+      "manifestPath": "packages/cursor-cli-source-security-check-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/cursor-cli-source-security-check-loop/workflows/cursor-cli-source-security-check-loop/workflow.json",
+          "workflowId": "cursor-cli-source-security-check-loop",
+          "extends": {
+            "workflowId": "codex-source-security-check-loop",
+            "stringReplacements": {
+              "codexAgentReferences": "cursorCliAgentReferences",
+              "codexAgent": "cursorCliAgent",
+              "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+              "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+              "codex-simple-work-package": "cursor-cli-simple-work-package",
+              "codex-website-builder": "cursor-cli-website-builder",
+              "codex-task-watchdog": "cursor-cli-task-watchdog",
+              "codex-deepdesign": "cursor-cli-deepdesign",
+              "codex-agent": "cursor-cli-agent",
+              "codex-": "cursor-cli-",
+              "Codex": "Cursor CLI",
+              "codex": "cursor-cli",
+              "GPT-5.6 SOL": "Sonnet 4.5",
+              "gpt-5.6-sol": "claude-sonnet-4-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "cursor-cli-agent",
+              "model": "claude-sonnet-4-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/cursor-cli-task-watchdog",
+      "manifestPath": "packages/cursor-cli-task-watchdog/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/cursor-cli-task-watchdog/workflows/cursor-cli-task-watchdog/workflow.json",
+          "workflowId": "cursor-cli-task-watchdog",
+          "extends": {
+            "workflowId": "codex-task-watchdog",
+            "stringReplacements": {
+              "codexAgentReferences": "cursorCliAgentReferences",
+              "codexAgent": "cursorCliAgent",
+              "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+              "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+              "codex-simple-work-package": "cursor-cli-simple-work-package",
+              "codex-website-builder": "cursor-cli-website-builder",
+              "codex-task-watchdog": "cursor-cli-task-watchdog",
+              "codex-deepdesign": "cursor-cli-deepdesign",
+              "codex-agent": "cursor-cli-agent",
+              "codex-": "cursor-cli-",
+              "Codex": "Cursor CLI",
+              "codex": "cursor-cli"
+            },
+            "agentNodePatch": {
+              "executionBackend": "cursor-cli-agent",
+              "model": "gpt-5.6-sol"
+            },
+            "nodePatch": {
+              "adhoc-cursor-cli": {
+                "model": "composer-2.5"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/cursor-cli-website-builder",
+      "manifestPath": "packages/cursor-cli-website-builder/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/cursor-cli-website-builder/workflows/cursor-cli-website-builder/workflow.json",
+          "workflowId": "cursor-cli-website-builder",
+          "extends": {
+            "workflowId": "codex-website-builder",
+            "stringReplacements": {
+              "codexAgentReferences": "cursorCliAgentReferences",
+              "codexAgent": "cursorCliAgent",
+              "codex-design-and-implement-review-loop": "cursor-cli-design-and-implement-review-loop",
+              "codex-refactoring-divide-and-conquer": "cursor-cli-refactoring-divide-and-conquer",
+              "codex-recent-change-quality-loop": "cursor-cli-recent-change-quality-loop",
+              "codex-source-security-check-loop": "cursor-cli-source-security-check-loop",
+              "codex-impl-plan-completion-loop": "cursor-cli-impl-plan-completion-loop",
+              "codex-refactoring-slice-review": "cursor-cli-refactoring-slice-review",
+              "codex-simple-work-package": "cursor-cli-simple-work-package",
+              "codex-website-builder": "cursor-cli-website-builder",
+              "codex-task-watchdog": "cursor-cli-task-watchdog",
+              "codex-deepdesign": "cursor-cli-deepdesign",
+              "codex-agent": "cursor-cli-agent",
+              "codex-": "cursor-cli-",
+              "Codex": "Cursor CLI",
+              "codex": "cursor-cli",
+              "GPT-5.6 SOL": "Sonnet 4.5",
+              "gpt-5.6-sol": "claude-sonnet-4-5"
+            },
+            "agentNodePatch": {
+              "executionBackend": "cursor-cli-agent",
+              "model": "claude-sonnet-4-5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/fable-and-improve-codex",
+      "manifestPath": "packages/fable-and-improve-codex/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/workflow.json",
+          "workflowId": "fable-and-improve-codex",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/fable-and-improve-opus",
+      "manifestPath": "packages/fable-and-improve-opus/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/workflow.json",
+          "workflowId": "fable-and-improve-opus",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/fable-astra-design-plan-review-loop",
+      "manifestPath": "packages/fable-astra-design-plan-review-loop/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/fable-astra-design-plan-review-loop/workflows/fable-astra-design-plan-review-loop/workflow.json",
+          "workflowId": "fable-astra-design-plan-review-loop",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/google-speech-to-text-addon",
+      "manifestPath": "packages/google-speech-to-text-addon/riela-package.json",
+      "workflows": []
+    },
+    {
+      "packagePath": "packages/greeting-container",
+      "manifestPath": "packages/greeting-container/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/greeting-container/workflows/greeting-container/workflow.json",
+          "workflowId": "greeting-container",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/greeting-node-addon",
+      "manifestPath": "packages/greeting-node-addon/riela-package.json",
+      "workflows": []
+    },
+    {
+      "packagePath": "packages/greeting-shell",
+      "manifestPath": "packages/greeting-shell/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/greeting-shell/workflows/greeting-shell/workflow.json",
+          "workflowId": "greeting-shell",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/mp4-audio-extract-addon",
+      "manifestPath": "packages/mp4-audio-extract-addon/riela-package.json",
+      "workflows": []
+    },
+    {
+      "packagePath": "packages/pdf-to-images-addon",
+      "manifestPath": "packages/pdf-to-images-addon/riela-package.json",
+      "workflows": []
+    },
+    {
+      "packagePath": "packages/release-note-node-addon",
+      "manifestPath": "packages/release-note-node-addon/riela-package.json",
+      "workflows": []
+    },
+    {
+      "packagePath": "packages/riela-package-installer-skill",
+      "manifestPath": "packages/riela-package-installer-skill/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/riela-package-installer-skill/workflows/riela-package-installer-skill/workflow.json",
+          "workflowId": "riela-package-installer-skill",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/riela-package-manager-skill",
+      "manifestPath": "packages/riela-package-manager-skill/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/riela-package-manager-skill/workflows/riela-package-manager-skill/workflow.json",
+          "workflowId": "riela-package-manager-skill",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/riela-package-release-skill",
+      "manifestPath": "packages/riela-package-release-skill/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/riela-package-release-skill/workflows/riela-package-release-skill/workflow.json",
+          "workflowId": "riela-package-release-skill",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/riela-project-workflow-skill",
+      "manifestPath": "packages/riela-project-workflow-skill/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/riela-project-workflow-skill/workflows/riela-project-workflow-skill/workflow.json",
+          "workflowId": "riela-project-workflow-skill",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/riela-temporary-workflow-skill",
+      "manifestPath": "packages/riela-temporary-workflow-skill/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/riela-temporary-workflow-skill/workflows/riela-temporary-workflow-skill/workflow.json",
+          "workflowId": "riela-temporary-workflow-skill",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/riela-workflow-creator-skill",
+      "manifestPath": "packages/riela-workflow-creator-skill/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/riela-workflow-creator-skill/workflows/riela-workflow-creator-skill/workflow.json",
+          "workflowId": "riela-workflow-creator-skill",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/riela-workflow-skill-creator-skill",
+      "manifestPath": "packages/riela-workflow-skill-creator-skill/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/riela-workflow-skill-creator-skill/workflows/riela-workflow-skill-creator-skill/workflow.json",
+          "workflowId": "riela-workflow-skill-creator-skill",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/youtube-mp4-download-addon",
+      "manifestPath": "packages/youtube-mp4-download-addon/riela-package.json",
+      "workflows": []
+    },
+    {
+      "packagePath": "packages/youtube-mp4-to-text-workflow",
+      "manifestPath": "packages/youtube-mp4-to-text-workflow/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/youtube-mp4-to-text-workflow/workflows/youtube-mp4-to-text/workflow.json",
+          "workflowId": "youtube-mp4-to-text",
+          "extends": null
+        }
+      ]
+    },
+    {
+      "packagePath": "packages/youtube-shorts-to-text-container",
+      "manifestPath": "packages/youtube-shorts-to-text-container/riela-package.json",
+      "workflows": [
+        {
+          "path": "packages/youtube-shorts-to-text-container/workflows/youtube-shorts-to-text-container/workflow.json",
+          "workflowId": "youtube-shorts-to-text-container",
+          "extends": null
+        }
+      ]
+    }
+  ],
+  "agentNodes": [
+    {
+      "workflowId": "claude-code-worker-only-single-step",
+      "nodePath": "packages/claude-code-worker-only-single-step/workflows/claude-code-worker-only-single-step/nodes/node-main-worker.json",
+      "promptPath": "packages/claude-code-worker-only-single-step/workflows/claude-code-worker-only-single-step/prompts/main-worker.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "main-worker"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-adversarial-implementation-review-loop",
+      "nodePath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/nodes/node-riela-manager.json",
+      "promptPath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/prompts/riela-manager.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "riela-manager"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "riela-manager",
+          "nodeId": "riela-manager",
+          "description": "Normalize the implementation request and explicit adversarial review subject.",
+          "role": "manager",
+          "transitions": [
+            {
+              "toStepId": "review-dispatch",
+              "label": "skip_initial_implementation"
+            },
+            {
+              "toStepId": "implementation-handoff",
+              "label": "!(skip_initial_implementation)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-adversarial-implementation-review-loop",
+      "nodePath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/nodes/node-implementation-handoff.json",
+      "promptPath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/prompts/implementation-handoff.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "implementation-handoff"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-adversarial-implementation-review-loop",
+      "nodePath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/nodes/node-implementation-result.json",
+      "promptPath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/prompts/implementation-result.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "implementation-result"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-adversarial-implementation-review-loop",
+      "nodePath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/nodes/node-adversarial-review.json",
+      "promptPath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/prompts/adversarial-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "adversarial-review"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-adversarial-implementation-review-loop",
+      "nodePath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/nodes/node-review-dispatch.json",
+      "promptPath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/prompts/review-dispatch.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "review-dispatch"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-adversarial-implementation-review-loop",
+      "nodePath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/nodes/node-review-reducer.json",
+      "promptPath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/prompts/review-reducer.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "review-reducer"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "review-reducer",
+          "nodeId": "review-reducer",
+          "description": "Merge all review lenses and fail closed on missing or blocking results.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "fix-handoff",
+              "label": "needs_fix"
+            },
+            {
+              "toStepId": "workflow-output",
+              "label": "!(needs_fix)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-adversarial-implementation-review-loop",
+      "nodePath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/nodes/node-fix-handoff.json",
+      "promptPath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/prompts/fix-handoff.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "fix-handoff"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-adversarial-implementation-review-loop",
+      "nodePath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/nodes/node-post-fix-result.json",
+      "promptPath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/prompts/post-fix-result.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "post-fix-result"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-adversarial-implementation-review-loop",
+      "nodePath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/nodes/node-workflow-output.json",
+      "promptPath": "packages/codex-adversarial-implementation-review-loop/workflows/codex-adversarial-implementation-review-loop/prompts/workflow-output.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": true,
+      "steps": [
+        "workflow-output"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-deep-creation",
+      "nodePath": "packages/codex-deep-creation/workflows/codex-deep-creation/nodes/node-creation-manager.json",
+      "promptPath": "packages/codex-deep-creation/workflows/codex-deep-creation/prompts/creation-manager.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "creation-manager"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-deep-creation",
+      "nodePath": "packages/codex-deep-creation/workflows/codex-deep-creation/nodes/node-deepdesign-handoff.json",
+      "promptPath": "packages/codex-deep-creation/workflows/codex-deep-creation/prompts/deepdesign-handoff.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "deepdesign-handoff"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-deep-creation",
+      "nodePath": "packages/codex-deep-creation/workflows/codex-deep-creation/nodes/node-deepdesign-result.json",
+      "promptPath": "packages/codex-deep-creation/workflows/codex-deep-creation/prompts/deepdesign-result.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "deepdesign-result"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-deep-creation",
+      "nodePath": "packages/codex-deep-creation/workflows/codex-deep-creation/nodes/node-impl-completion-handoff.json",
+      "promptPath": "packages/codex-deep-creation/workflows/codex-deep-creation/prompts/impl-completion-handoff.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "impl-completion-handoff"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-deep-creation",
+      "nodePath": "packages/codex-deep-creation/workflows/codex-deep-creation/nodes/node-impl-completion-result.json",
+      "promptPath": "packages/codex-deep-creation/workflows/codex-deep-creation/prompts/impl-completion-result.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "impl-completion-result"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-deep-creation",
+      "nodePath": "packages/codex-deep-creation/workflows/codex-deep-creation/nodes/node-security-handoff.json",
+      "promptPath": "packages/codex-deep-creation/workflows/codex-deep-creation/prompts/security-handoff.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "security-handoff"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-deep-creation",
+      "nodePath": "packages/codex-deep-creation/workflows/codex-deep-creation/nodes/node-security-result.json",
+      "promptPath": "packages/codex-deep-creation/workflows/codex-deep-creation/prompts/security-result.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "security-result"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-deep-creation",
+      "nodePath": "packages/codex-deep-creation/workflows/codex-deep-creation/nodes/node-workflow-output.json",
+      "promptPath": "packages/codex-deep-creation/workflows/codex-deep-creation/prompts/workflow-output.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "workflow-output"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-deepdesign",
+      "nodePath": "packages/codex-deepdesign/workflows/codex-deepdesign/nodes/node-riela-manager.json",
+      "promptPath": "packages/codex-deepdesign/workflows/codex-deepdesign/prompts/riela-manager.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "riela-manager"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-deepdesign",
+      "nodePath": "packages/codex-deepdesign/workflows/codex-deepdesign/nodes/node-node1-design-author.json",
+      "promptPath": "packages/codex-deepdesign/workflows/codex-deepdesign/prompts/node1-design-author.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "node1-design-author"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-deepdesign",
+      "nodePath": "packages/codex-deepdesign/workflows/codex-deepdesign/nodes/node-parallel-design-review.json",
+      "promptPath": "packages/codex-deepdesign/workflows/codex-deepdesign/prompts/parallel-design-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "parallel-design-review"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-deepdesign",
+      "nodePath": "packages/codex-deepdesign/workflows/codex-deepdesign/nodes/node-review-reducer.json",
+      "promptPath": "packages/codex-deepdesign/workflows/codex-deepdesign/prompts/review-reducer.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "review-reducer"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "review-reducer",
+          "nodeId": "review-reducer",
+          "description": "Deterministically merge all review branches and choose revision or acceptance.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "node1-design-author",
+              "label": "needs_revision"
+            },
+            {
+              "toStepId": "workflow-output",
+              "label": "!(needs_revision)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-deepdesign",
+      "nodePath": "packages/codex-deepdesign/workflows/codex-deepdesign/nodes/node-workflow-output.json",
+      "promptPath": "packages/codex-deepdesign/workflows/codex-deepdesign/prompts/workflow-output.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "workflow-output"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-riela-manager.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/riela-manager.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": false,
+      "steps": [
+        "riela-manager"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-step1-issue-intake.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/step1-issue-intake.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": false,
+      "steps": [
+        "step1-issue-intake"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-step2-design-doc-update.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/step2-design-doc-update.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "workspace-write",
+      "hasSchema": false,
+      "steps": [
+        "step2-design-doc-update"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-step3-design-review.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/step3-design-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "step3-design-review"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "step3-design-review",
+          "nodeId": "step3-design-review",
+          "description": "Review the design update and return to Step 2 when any high or mid finding exists.",
+          "role": "worker",
+          "loop": {
+            "role": "gate",
+            "gateId": "design-review",
+            "evidenceTags": [
+              "design-review",
+              "blocking-findings"
+            ],
+            "recordsVerification": true
+          },
+          "transitions": [
+            {
+              "toStepId": "step2-design-doc-update",
+              "label": "needs_revision"
+            },
+            {
+              "toStepId": "step4-impl-plan-create",
+              "label": "!(needs_revision)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-step4-impl-plan-create.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/step4-impl-plan-create.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "workspace-write",
+      "hasSchema": false,
+      "steps": [
+        "step4-impl-plan-create"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-step5-impl-plan-review.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/step5-impl-plan-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "step5-impl-plan-review"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "step5-impl-plan-review",
+          "nodeId": "step5-impl-plan-review",
+          "description": "Review the implementation plan and final design-plan consistency, then return to the correct authoring step when blocking findings exist.",
+          "role": "worker",
+          "loop": {
+            "role": "gate",
+            "gateId": "implementation-plan-review",
+            "evidenceTags": [
+              "implementation-plan-review",
+              "blocking-findings"
+            ],
+            "recordsVerification": true
+          },
+          "transitions": [
+            {
+              "toStepId": "step2-design-doc-update",
+              "label": "needs_design_revision"
+            },
+            {
+              "toStepId": "step4-impl-plan-create",
+              "label": "needs_revision && !(needs_design_revision)"
+            },
+            {
+              "toStepId": "step9-commit-message",
+              "label": "planning_only && !(needs_design_revision || needs_revision)"
+            },
+            {
+              "toStepId": "plan-checkpoint",
+              "label": "!(planning_only || needs_design_revision || needs_revision)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-step6-implement.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/step6-implement.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "danger-full-access",
+      "hasSchema": true,
+      "steps": [
+        "step6-implement"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-step6-test-integrity-check.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/step6-test-integrity-check.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "step6-test-integrity-check"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "step6-test-integrity-check",
+          "nodeId": "step6-test-integrity-check",
+          "description": "Check the implementation for inappropriate test deletion, weakened assertions, test-only hacks, skipped coverage, and other verification integrity regressions.",
+          "role": "worker",
+          "loop": {
+            "role": "gate",
+            "gateId": "test-integrity-review",
+            "evidenceTags": [
+              "test-integrity",
+              "verification"
+            ],
+            "recordsVerification": true
+          },
+          "transitions": [
+            {
+              "toStepId": "step6-implement",
+              "label": "needs_revision"
+            },
+            {
+              "toStepId": "step7-adversarial-review",
+              "label": "!(needs_revision)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-step7-adversarial-review.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/step7-adversarial-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "step7-adversarial-review"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "step7-adversarial-review",
+          "nodeId": "step7-adversarial-review",
+          "description": "Perform the single material-issue adversarial review of implementation changes for failure modes, misuse paths, misleading success states, and verification loopholes.",
+          "role": "worker",
+          "loop": {
+            "role": "gate",
+            "gateId": "adversarial-implementation-review",
+            "evidenceTags": [
+              "adversarial-review",
+              "blocking-findings"
+            ],
+            "recordsVerification": true
+          },
+          "transitions": [
+            {
+              "toStepId": "step6-implement",
+              "label": "needs_revision"
+            },
+            {
+              "toStepId": "branch-evidence",
+              "label": "!(needs_revision)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-step7b-e2e-evidence.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/step7b-e2e-evidence.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": false,
+      "steps": [
+        "step7b-e2e-evidence"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-step8-docs-refresh.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/step8-docs-refresh.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "workspace-write",
+      "hasSchema": false,
+      "steps": [
+        "step8-docs-refresh"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-step9-commit-message.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/step9-commit-message.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "step9-commit-message"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "step9-commit-message",
+          "nodeId": "step9-commit-message",
+          "description": "Check completion for issue-resolution and prepare commit evidence; planning-only preserves active plans.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "step8-docs-refresh",
+              "label": "needs_revision"
+            },
+            {
+              "toStepId": "step10-git-commit",
+              "label": "!(needs_revision)"
+            }
+          ],
+          "loop": {
+            "role": "gate",
+            "gateId": "implementation-plan-completion-check",
+            "evidenceTags": [
+              "implementation-plan",
+              "completion-check"
+            ],
+            "recordsVerification": true
+          }
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-workflow-output.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/workflow-output.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": false,
+      "steps": [
+        "workflow-output"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-plan-checkpoint.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/plan-checkpoint.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "workspace-write",
+      "hasSchema": true,
+      "steps": [
+        "plan-checkpoint"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "plan-checkpoint",
+          "nodeId": "plan-checkpoint",
+          "description": "Prepare the accepted design and plan checkpoint without staging unrelated changes.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "plan-git-commit",
+              "label": "!(checkpoint_blocked)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-branch-evidence.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/branch-evidence.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": false,
+      "steps": [
+        "branch-evidence"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-implementation-wave-outcome.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/implementation-wave-outcome.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "implementation-wave-outcome"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "implementation-wave-outcome",
+          "nodeId": "implementation-wave-outcome",
+          "description": "Aggregate preclassified native implementation branch outcomes; blocked-only waves terminate, while evidence-complete successful candidates continue to independent acceptance.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "implementation-blocked-output",
+              "label": "implementation_blocked && !(partial_success)"
+            },
+            {
+              "toStepId": "reconcile-implementations",
+              "label": "!(implementation_blocked) || partial_success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-implementation-blocked-output.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/implementation-blocked-output.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "implementation-blocked-output"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-reconcile-implementations.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/reconcile-implementations.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "danger-full-access",
+      "hasSchema": true,
+      "steps": [
+        "reconcile-implementations"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-integration-review.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/integration-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "integration-review"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "integration-review",
+          "nodeId": "integration-review",
+          "description": "Independently verify retained plan behavior and repairs before another wave or finalization.",
+          "role": "worker",
+          "sessionPolicy": {
+            "mode": "reuse",
+            "inheritFromStepId": "step2-design-doc-update"
+          },
+          "loop": {
+            "role": "gate",
+            "gateId": "integration-review",
+            "evidenceTags": [
+              "integration-review",
+              "blocking-findings",
+              "verification"
+            ],
+            "recordsVerification": true
+          },
+          "transitions": [
+            {
+              "toStepId": "reconcile-implementations",
+              "label": "needs_revision && repair_in_place"
+            },
+            {
+              "toStepId": "dispatch-plans",
+              "label": "needs_revision && !(repair_in_place)"
+            },
+            {
+              "toStepId": "dispatch-plans",
+              "label": "!(needs_revision) && plans_remaining"
+            },
+            {
+              "toStepId": "step7b-e2e-evidence",
+              "label": "!(needs_revision || plans_remaining)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-design-and-implement-review-loop",
+      "nodePath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-base-branch-integrate.json",
+      "promptPath": "packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/prompts/base-branch-integrate.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "danger-full-access",
+      "hasSchema": true,
+      "steps": [
+        "base-branch-integrate"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-goal",
+      "nodePath": "packages/codex-goal/workflows/codex-goal/nodes/node-goal.json",
+      "promptPath": "packages/codex-goal/workflows/codex-goal/prompts/goal.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "goal"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-goal",
+      "nodePath": "packages/codex-goal/workflows/codex-goal/nodes/node-goal-quality-review.json",
+      "promptPath": "packages/codex-goal/workflows/codex-goal/prompts/goal-quality-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "goal-quality-review"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "goal-quality-review",
+          "nodeId": "goal-quality-review",
+          "description": "Review the goal before planning and route back for goal improvement when needed.",
+          "role": "worker",
+          "sessionPolicy": {
+            "mode": "reuse",
+            "inheritFromStepId": "goal"
+          },
+          "transitions": [
+            {
+              "toStepId": "goal",
+              "label": "needs_goal_revision"
+            },
+            {
+              "toStepId": "plan",
+              "label": "!(needs_goal_revision)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-goal",
+      "nodePath": "packages/codex-goal/workflows/codex-goal/nodes/node-plan.json",
+      "promptPath": "packages/codex-goal/workflows/codex-goal/prompts/plan.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "plan"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-goal",
+      "nodePath": "packages/codex-goal/workflows/codex-goal/nodes/node-plan-quality-review.json",
+      "promptPath": "packages/codex-goal/workflows/codex-goal/prompts/plan-quality-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "plan-quality-review"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "plan-quality-review",
+          "nodeId": "plan-quality-review",
+          "description": "Review the in-session plan before work and route back for plan improvement when needed.",
+          "role": "worker",
+          "sessionPolicy": {
+            "mode": "reuse",
+            "inheritFromStepId": "plan"
+          },
+          "transitions": [
+            {
+              "toStepId": "plan",
+              "label": "needs_plan_revision"
+            },
+            {
+              "toStepId": "work",
+              "label": "!(needs_plan_revision)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-goal",
+      "nodePath": "packages/codex-goal/workflows/codex-goal/nodes/node-work.json",
+      "promptPath": "packages/codex-goal/workflows/codex-goal/prompts/work.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "work"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-goal",
+      "nodePath": "packages/codex-goal/workflows/codex-goal/nodes/node-goal-review.json",
+      "promptPath": "packages/codex-goal/workflows/codex-goal/prompts/goal-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "goal-review"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "goal-review",
+          "nodeId": "goal-review",
+          "description": "Review whether the latest work achieves the goal, optionally delegate to a more specific Riela workflow, and route to planning, work, or final output.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "plan",
+              "label": "needs_replan"
+            },
+            {
+              "toStepId": "work",
+              "label": "needs_work"
+            },
+            {
+              "toStepId": "workflow-output",
+              "label": "!(needs_replan || needs_work)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-goal",
+      "nodePath": "packages/codex-goal/workflows/codex-goal/nodes/node-workflow-output.json",
+      "promptPath": "packages/codex-goal/workflows/codex-goal/prompts/workflow-output.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "workflow-output"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-impl-plan-completion-loop",
+      "nodePath": "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/nodes/node-riela-manager.json",
+      "promptPath": "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/prompts/riela-manager.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "riela-manager"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-impl-plan-completion-loop",
+      "nodePath": "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/nodes/node-step2-handoff.json",
+      "promptPath": "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/prompts/step2-handoff.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "step2-handoff"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-impl-plan-completion-loop",
+      "nodePath": "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/nodes/node-step3-post-handoff.json",
+      "promptPath": "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/prompts/step3-post-handoff.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "step3-post-handoff"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-impl-plan-completion-loop",
+      "nodePath": "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/nodes/node-workflow-output.json",
+      "promptPath": "packages/codex-impl-plan-completion-loop/workflows/codex-impl-plan-completion-loop/prompts/workflow-output.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "workflow-output"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-impl-plan-completion-review-loop",
+      "nodePath": "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/nodes/node-wrapper-manager.json",
+      "promptPath": "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/prompts/wrapper-manager.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "wrapper-manager"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-impl-plan-completion-review-loop",
+      "nodePath": "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/nodes/node-impl-loop-handoff.json",
+      "promptPath": "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/prompts/impl-loop-handoff.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "impl-loop-handoff"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-impl-plan-completion-review-loop",
+      "nodePath": "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/nodes/node-impl-loop-result.json",
+      "promptPath": "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/prompts/impl-loop-result.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "impl-loop-result"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-impl-plan-completion-review-loop",
+      "nodePath": "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/nodes/node-review-loop-handoff.json",
+      "promptPath": "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/prompts/review-loop-handoff.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "review-loop-handoff"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-impl-plan-completion-review-loop",
+      "nodePath": "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/nodes/node-review-loop-result.json",
+      "promptPath": "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/prompts/review-loop-result.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "review-loop-result"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-impl-plan-completion-review-loop",
+      "nodePath": "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/nodes/node-final-output.json",
+      "promptPath": "packages/codex-impl-plan-completion-review-loop/workflows/codex-impl-plan-completion-review-loop/prompts/final-output.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "final-output"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-recent-change-quality-loop",
+      "nodePath": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/nodes/node-riela-manager.json",
+      "promptPath": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/prompts/riela-manager.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "riela-manager"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-recent-change-quality-loop",
+      "nodePath": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/nodes/node-step1-review.json",
+      "promptPath": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/prompts/step1-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "step1-review"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-recent-change-quality-loop",
+      "nodePath": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/nodes/node-step2-exit-gate.json",
+      "promptPath": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/prompts/step2-exit-gate.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "step2-exit-gate"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "step2-exit-gate",
+          "nodeId": "step2-exit-gate",
+          "description": "Reduce all fanout branch results and exit only when none contains a high or mid finding.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "step3-handoff",
+              "label": "needs_fix"
+            },
+            {
+              "toStepId": "workflow-output",
+              "label": "!(needs_fix)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-recent-change-quality-loop",
+      "nodePath": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/nodes/node-parallel-review.json",
+      "promptPath": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/prompts/parallel-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "parallel-review"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-recent-change-quality-loop",
+      "nodePath": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/nodes/node-step3-handoff.json",
+      "promptPath": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/prompts/step3-handoff.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "step3-handoff"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-recent-change-quality-loop",
+      "nodePath": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/nodes/node-step4-post-handoff.json",
+      "promptPath": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/prompts/step4-post-handoff.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "step4-post-handoff"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-recent-change-quality-loop",
+      "nodePath": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/nodes/node-workflow-output.json",
+      "promptPath": "packages/codex-recent-change-quality-loop/workflows/codex-recent-change-quality-loop/prompts/workflow-output.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "workflow-output"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-refactoring-divide-and-conquer",
+      "nodePath": "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/nodes/node-riela-manager.json",
+      "promptPath": "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/prompts/riela-manager.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "riela-manager"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-refactoring-divide-and-conquer",
+      "nodePath": "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/nodes/node-step1-slice-codebase.json",
+      "promptPath": "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/prompts/step1-slice-codebase.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "step1-slice-codebase"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "step1-slice-codebase",
+          "nodeId": "step1-slice-codebase",
+          "description": "Divide the codebase into bounded package or processing-group review slices.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "slice-review",
+              "toWorkflowId": "codex-refactoring-slice-review",
+              "resumeStepId": "step3-merge-review-plan",
+              "label": "has_review_slices",
+              "fanout": {
+                "groupId": "codex-refactoring-slice-review",
+                "itemsFrom": "/reviewSlices",
+                "itemVariable": "refactorSlice",
+                "concurrency": 8,
+                "joinStepId": "step3-merge-review-plan",
+                "failurePolicy": "fail-fast",
+                "resultOrder": "input",
+                "writeOwnership": {
+                  "mode": "read-only"
+                }
+              }
+            },
+            {
+              "toStepId": "workflow-output",
+              "label": "no_review_slices"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-refactoring-divide-and-conquer",
+      "nodePath": "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/nodes/node-step3-merge-review-plan.json",
+      "promptPath": "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/prompts/step3-merge-review-plan.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "step3-merge-review-plan"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "step3-merge-review-plan",
+          "nodeId": "step3-merge-review-plan",
+          "description": "Merge concurrent slice-review results into a deduplicated, dependency-aware refactoring plan.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "workflow-output",
+              "label": "plan_only"
+            },
+            {
+              "toStepId": "workflow-output",
+              "label": "no_plan_tasks"
+            },
+            {
+              "toStepId": "step4-implement-next-task",
+              "label": "implementation_ready",
+              "fanout": {
+                "groupId": "refactoring-implementation-wave",
+                "itemsFrom": "/implementationItems",
+                "itemVariable": "refactorTask",
+                "concurrency": 4,
+                "joinStepId": "step6-post-refactor-review",
+                "failurePolicy": "collect-partial",
+                "resultOrder": "input",
+                "dependencies": {
+                  "branchIdFrom": "/dispatchId",
+                  "dependsOnFrom": "/dependsOnDispatchIds",
+                  "completedBranchIdsFrom": "/acceptedDispatchIds"
+                },
+                "changeTracking": {
+                  "pathsFrom": "/trackedPaths"
+                },
+                "writeOwnership": {
+                  "mode": "shared-workspace"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-refactoring-divide-and-conquer",
+      "nodePath": "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/nodes/node-step4-implement-next-task.json",
+      "promptPath": "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/prompts/step4-implement-next-task.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "step4-implement-next-task"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-refactoring-divide-and-conquer",
+      "nodePath": "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/nodes/node-step6-post-refactor-review.json",
+      "promptPath": "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/prompts/step6-post-refactor-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "step6-post-refactor-review"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "step6-post-refactor-review",
+          "nodeId": "step6-post-refactor-review",
+          "description": "Independently review the latest refactoring task and decide whether to revise, continue, or finish.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "step3-merge-review-plan",
+              "label": "needs_revision"
+            },
+            {
+              "toStepId": "step3-merge-review-plan",
+              "label": "plan_remaining"
+            },
+            {
+              "toStepId": "workflow-output",
+              "label": "workflow_complete"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-refactoring-divide-and-conquer",
+      "nodePath": "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/nodes/node-workflow-output.json",
+      "promptPath": "packages/codex-refactoring-divide-and-conquer/workflows/codex-refactoring-divide-and-conquer/prompts/workflow-output.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "workflow-output"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-refactoring-slice-review",
+      "nodePath": "packages/codex-refactoring-slice-review/workflows/codex-refactoring-slice-review/nodes/node-slice-review.json",
+      "promptPath": "packages/codex-refactoring-slice-review/workflows/codex-refactoring-slice-review/prompts/slice-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "slice-review"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-simple-work-package",
+      "nodePath": "packages/codex-simple-work-package/workflows/codex-simple-work-package/nodes/node-implement.json",
+      "promptPath": "packages/codex-simple-work-package/workflows/codex-simple-work-package/prompts/implement.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "implement"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-simple-work-package",
+      "nodePath": "packages/codex-simple-work-package/workflows/codex-simple-work-package/nodes/node-review.json",
+      "promptPath": "packages/codex-simple-work-package/workflows/codex-simple-work-package/prompts/review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "review"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "review",
+          "nodeId": "review",
+          "description": "Review the implementation and route back only when high or middle findings remain.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "implement",
+              "label": "needs_revision"
+            },
+            {
+              "toStepId": "workflow-output",
+              "label": "!(needs_revision)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-simple-work-package",
+      "nodePath": "packages/codex-simple-work-package/workflows/codex-simple-work-package/nodes/node-workflow-output.json",
+      "promptPath": "packages/codex-simple-work-package/workflows/codex-simple-work-package/prompts/workflow-output.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "workflow-output"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-source-security-check-loop",
+      "nodePath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/nodes/node-riela-manager.json",
+      "promptPath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/prompts/riela-manager.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "riela-manager"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-source-security-check-loop",
+      "nodePath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/nodes/node-harness-recon.json",
+      "promptPath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/prompts/harness-recon.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "step2-harness-recon"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-source-security-check-loop",
+      "nodePath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/nodes/node-security-triage.json",
+      "promptPath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/prompts/security-triage.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "step3-security-triage"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-source-security-check-loop",
+      "nodePath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/nodes/node-parallel-security-review.json",
+      "promptPath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/prompts/parallel-security-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "parallel-security-review"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-source-security-check-loop",
+      "nodePath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/nodes/node-adversarial-verification.json",
+      "promptPath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/prompts/adversarial-verification.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "step4-adversarial-verification"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-source-security-check-loop",
+      "nodePath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/nodes/node-exit-gate.json",
+      "promptPath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/prompts/exit-gate.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "step5-exit-gate"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "step5-exit-gate",
+          "nodeId": "exit-gate",
+          "description": "Route to fix handoff when high or medium findings remain; otherwise finish.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "step6-fix-handoff",
+              "label": "needs_fix"
+            },
+            {
+              "toStepId": "workflow-output",
+              "label": "!(needs_fix)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-source-security-check-loop",
+      "nodePath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/nodes/node-fix-handoff.json",
+      "promptPath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/prompts/fix-handoff.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "step6-fix-handoff"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-source-security-check-loop",
+      "nodePath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/nodes/node-post-fix-review.json",
+      "promptPath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/prompts/post-fix-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "step7-post-fix-review"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-source-security-check-loop",
+      "nodePath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/nodes/node-workflow-output.json",
+      "promptPath": "packages/codex-source-security-check-loop/workflows/codex-source-security-check-loop/prompts/workflow-output.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "workflow-output"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-task-watchdog",
+      "nodePath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/nodes/node-riela-manager.json",
+      "promptPath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/prompts/riela-manager.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "riela-manager"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-task-watchdog",
+      "nodePath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/nodes/node-handoff-design-impl.json",
+      "promptPath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/prompts/handoff-design-impl.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "handoff-design-impl"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-task-watchdog",
+      "nodePath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/nodes/node-handoff-deepdesign.json",
+      "promptPath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/prompts/handoff-deepdesign.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "handoff-deepdesign"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-task-watchdog",
+      "nodePath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/nodes/node-handoff-review.json",
+      "promptPath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/prompts/handoff-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "handoff-review"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-task-watchdog",
+      "nodePath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/nodes/node-adhoc-codex.json",
+      "promptPath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/prompts/adhoc-codex.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "adhoc-codex"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-task-watchdog",
+      "nodePath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/nodes/node-skill-opportunity-mining.json",
+      "promptPath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/prompts/skill-opportunity-mining.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "skill-opportunity-mining"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-task-watchdog",
+      "nodePath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/nodes/node-skill-review.json",
+      "promptPath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/prompts/skill-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "skill-review"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-task-watchdog",
+      "nodePath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/nodes/node-task-commit-message.json",
+      "promptPath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/prompts/task-commit-message.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "task-commit-message"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-task-watchdog",
+      "nodePath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/nodes/node-workflow-output.json",
+      "promptPath": "packages/codex-task-watchdog/workflows/codex-task-watchdog/prompts/workflow-output.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "workflow-output"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-website-builder",
+      "nodePath": "packages/codex-website-builder/workflows/codex-website-builder/nodes/node-riela-manager.json",
+      "promptPath": "packages/codex-website-builder/workflows/codex-website-builder/prompts/riela-manager.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "riela-manager"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-website-builder",
+      "nodePath": "packages/codex-website-builder/workflows/codex-website-builder/nodes/node-site-design.json",
+      "promptPath": "packages/codex-website-builder/workflows/codex-website-builder/prompts/site-design.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "site-design"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-website-builder",
+      "nodePath": "packages/codex-website-builder/workflows/codex-website-builder/nodes/node-asset-generate.json",
+      "promptPath": "packages/codex-website-builder/workflows/codex-website-builder/prompts/asset-generate.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "asset-generate"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-website-builder",
+      "nodePath": "packages/codex-website-builder/workflows/codex-website-builder/nodes/node-server-node.json",
+      "promptPath": "packages/codex-website-builder/workflows/codex-website-builder/prompts/server-node.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "server-node"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-website-builder",
+      "nodePath": "packages/codex-website-builder/workflows/codex-website-builder/nodes/node-source-commit-message.json",
+      "promptPath": "packages/codex-website-builder/workflows/codex-website-builder/prompts/source-commit-message.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "source-commit-message"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "source-commit-message",
+          "nodeId": "source-commit-message",
+          "description": "Prepare a git snapshot commit message and exact generated source file list after the server-node pass.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "git-commit",
+              "label": "has_source_changes"
+            },
+            {
+              "toStepId": "review-dispatch",
+              "label": "!(has_source_changes)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-website-builder",
+      "nodePath": "packages/codex-website-builder/workflows/codex-website-builder/nodes/node-review-node.json",
+      "promptPath": "packages/codex-website-builder/workflows/codex-website-builder/prompts/review-node.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "review-node"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-website-builder",
+      "nodePath": "packages/codex-website-builder/workflows/codex-website-builder/nodes/node-review-dispatch.json",
+      "promptPath": "packages/codex-website-builder/workflows/codex-website-builder/prompts/review-dispatch.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "review-dispatch"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "codex-website-builder",
+      "nodePath": "packages/codex-website-builder/workflows/codex-website-builder/nodes/node-review-reducer.json",
+      "promptPath": "packages/codex-website-builder/workflows/codex-website-builder/prompts/review-reducer.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "review-reducer"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "review-reducer",
+          "nodeId": "review-reducer",
+          "description": "Merge all website review lenses and choose one deterministic revision route.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "site-design",
+              "label": "needs_design_revision"
+            },
+            {
+              "toStepId": "asset-generate",
+              "label": "needs_asset_revision"
+            },
+            {
+              "toStepId": "server-node",
+              "label": "needs_implementation_revision"
+            },
+            {
+              "toStepId": "workflow-output",
+              "label": "!(needs_design_revision || needs_asset_revision || needs_implementation_revision)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "codex-website-builder",
+      "nodePath": "packages/codex-website-builder/workflows/codex-website-builder/nodes/node-workflow-output.json",
+      "promptPath": "packages/codex-website-builder/workflows/codex-website-builder/prompts/workflow-output.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": null,
+      "hasSchema": false,
+      "steps": [
+        "workflow-output"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-codex",
+      "nodePath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-fable-analysis.json",
+      "promptPath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/fable-analysis.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "danger-full-access",
+      "hasSchema": true,
+      "steps": [
+        "fable-analysis"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-codex",
+      "nodePath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-fable-design.json",
+      "promptPath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/fable-design.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "danger-full-access",
+      "hasSchema": false,
+      "steps": [
+        "fable-design"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-codex",
+      "nodePath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-codex-implementation.json",
+      "promptPath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/codex-implementation.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "workspace-write",
+      "hasSchema": false,
+      "steps": [
+        "codex-implementation"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-codex",
+      "nodePath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-codex-review.json",
+      "promptPath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/codex-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "codex-review"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "codex-review",
+          "nodeId": "codex-review",
+          "description": "Use an independent Codex GPT-5.6 SOL medium-effort session to review the implementation and request only material fixes.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "codex-implementation",
+              "label": "needs_revision"
+            },
+            {
+              "toStepId": "branch-evidence",
+              "label": "!(needs_revision)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "fable-and-improve-codex",
+      "nodePath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-fable-goal-review.json",
+      "promptPath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/fable-goal-review.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "danger-full-access",
+      "hasSchema": true,
+      "steps": [
+        "fable-goal-review"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "fable-goal-review",
+          "nodeId": "fable-goal-review",
+          "description": "Use Fable to compare the accepted Codex result with the analysis, design, plan, and goal.",
+          "role": "worker",
+          "sessionPolicy": {
+            "mode": "reuse",
+            "inheritFromStepId": "fable-analysis"
+          },
+          "transitions": [
+            {
+              "toStepId": "fable-analysis",
+              "label": "needs_replan"
+            },
+            {
+              "toStepId": "reconcile-implementations",
+              "label": "needs_todo"
+            },
+            {
+              "toStepId": "step9-commit-message",
+              "label": "!(needs_replan || needs_todo)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "fable-and-improve-codex",
+      "nodePath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-kb-self-review.json",
+      "promptPath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/kb-self-review.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "kb-self-review"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-codex",
+      "nodePath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-kb-merge-judge.json",
+      "promptPath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/kb-merge-judge.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "kb-merge-judge"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "kb-merge-judge",
+          "nodeId": "kb-merge-judge",
+          "description": "Use Fable to decide whether the candidate knowledge is created, merged into an existing note, or skipped.",
+          "role": "worker",
+          "sessionPolicy": {
+            "mode": "reuse",
+            "inheritFromStepId": "kb-self-review"
+          },
+          "transitions": [
+            {
+              "toStepId": "kb-create",
+              "label": "create_knowledge"
+            },
+            {
+              "toStepId": "kb-merge",
+              "label": "merge_knowledge"
+            },
+            {
+              "toStepId": "final-output",
+              "label": "!(create_knowledge || merge_knowledge)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "fable-and-improve-codex",
+      "nodePath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-kb-archive-brief.json",
+      "promptPath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/kb-archive-brief.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "kb-archive-brief"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "kb-archive-brief",
+          "nodeId": "kb-archive-brief",
+          "description": "Use the merge judge's session to re-emit the archive instruction after the merge write.",
+          "role": "worker",
+          "sessionPolicy": {
+            "mode": "reuse",
+            "inheritFromStepId": "kb-merge-judge"
+          },
+          "transitions": [
+            {
+              "toStepId": "kb-archive",
+              "label": "archive_note"
+            },
+            {
+              "toStepId": "final-output",
+              "label": "!(archive_note)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "fable-and-improve-codex",
+      "nodePath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-final-output.json",
+      "promptPath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/final-output.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": false,
+      "steps": [
+        "final-output"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-codex",
+      "nodePath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-plan-checkpoint.json",
+      "promptPath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/plan-checkpoint.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "workspace-write",
+      "hasSchema": true,
+      "steps": [
+        "plan-checkpoint"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-codex",
+      "nodePath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-dispatch-plans.json",
+      "promptPath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/dispatch-plans.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "dispatch-plans"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-codex",
+      "nodePath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-branch-evidence.json",
+      "promptPath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/branch-evidence.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "workspace-write",
+      "hasSchema": false,
+      "steps": [
+        "branch-evidence"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-codex",
+      "nodePath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-reconcile-implementations.json",
+      "promptPath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/reconcile-implementations.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "workspace-write",
+      "hasSchema": true,
+      "steps": [
+        "reconcile-implementations"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-codex",
+      "nodePath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-integration-review.json",
+      "promptPath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/integration-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "integration-review"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "integration-review",
+          "nodeId": "integration-review",
+          "description": "Independently verify retained plan behavior and repairs before another wave or finalization.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "reconcile-implementations",
+              "label": "needs_revision"
+            },
+            {
+              "toStepId": "dispatch-plans",
+              "label": "!(needs_revision) && plans_remaining"
+            },
+            {
+              "toStepId": "fable-goal-review",
+              "label": "!(needs_revision || plans_remaining)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "fable-and-improve-codex",
+      "nodePath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-step9-commit-message.json",
+      "promptPath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/step9-commit-message.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "workspace-write",
+      "hasSchema": true,
+      "steps": [
+        "step9-commit-message"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "step9-commit-message",
+          "nodeId": "step9-commit-message",
+          "description": "Check completion for issue-resolution and prepare commit evidence; planning-only preserves active plans.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "fable-goal-review",
+              "label": "needs_revision"
+            },
+            {
+              "toStepId": "step10-git-commit",
+              "label": "!(needs_revision)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "fable-and-improve-codex",
+      "nodePath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/nodes/node-base-branch-integrate.json",
+      "promptPath": "packages/fable-and-improve-codex/workflows/fable-and-improve-codex/prompts/base-branch-integrate.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "workspace-write",
+      "hasSchema": false,
+      "steps": [
+        "base-branch-integrate"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-opus",
+      "nodePath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-fable-analysis.json",
+      "promptPath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/fable-analysis.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "danger-full-access",
+      "hasSchema": true,
+      "steps": [
+        "fable-analysis"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-opus",
+      "nodePath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-fable-design.json",
+      "promptPath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/fable-design.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "danger-full-access",
+      "hasSchema": false,
+      "steps": [
+        "fable-design"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-opus",
+      "nodePath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-opus-implementation.json",
+      "promptPath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/opus-implementation.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "danger-full-access",
+      "hasSchema": false,
+      "steps": [
+        "opus-implementation"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-opus",
+      "nodePath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-opus-review.json",
+      "promptPath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/opus-review.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "danger-full-access",
+      "hasSchema": true,
+      "steps": [
+        "opus-review"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "opus-review",
+          "nodeId": "opus-review",
+          "description": "Use an independent Claude Opus 5.5 session to review the implementation and request concrete fixes.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "opus-implementation",
+              "label": "needs_revision"
+            },
+            {
+              "toStepId": "branch-evidence",
+              "label": "!(needs_revision)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "fable-and-improve-opus",
+      "nodePath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-fable-goal-review.json",
+      "promptPath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/fable-goal-review.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "danger-full-access",
+      "hasSchema": true,
+      "steps": [
+        "fable-goal-review"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "fable-goal-review",
+          "nodeId": "fable-goal-review",
+          "description": "Use Fable to compare the accepted Opus result with the analysis, design, plan, and goal.",
+          "role": "worker",
+          "sessionPolicy": {
+            "mode": "reuse",
+            "inheritFromStepId": "fable-analysis"
+          },
+          "transitions": [
+            {
+              "toStepId": "fable-analysis",
+              "label": "needs_replan"
+            },
+            {
+              "toStepId": "reconcile-implementations",
+              "label": "needs_todo"
+            },
+            {
+              "toStepId": "step9-commit-message",
+              "label": "!(needs_replan || needs_todo)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "fable-and-improve-opus",
+      "nodePath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-kb-self-review.json",
+      "promptPath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/kb-self-review.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "kb-self-review"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-opus",
+      "nodePath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-kb-merge-judge.json",
+      "promptPath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/kb-merge-judge.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "kb-merge-judge"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "kb-merge-judge",
+          "nodeId": "kb-merge-judge",
+          "description": "Use Fable to decide whether the candidate knowledge is created, merged into an existing note, or skipped.",
+          "role": "worker",
+          "sessionPolicy": {
+            "mode": "reuse",
+            "inheritFromStepId": "kb-self-review"
+          },
+          "transitions": [
+            {
+              "toStepId": "kb-create",
+              "label": "create_knowledge"
+            },
+            {
+              "toStepId": "kb-merge",
+              "label": "merge_knowledge"
+            },
+            {
+              "toStepId": "final-output",
+              "label": "!(create_knowledge || merge_knowledge)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "fable-and-improve-opus",
+      "nodePath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-kb-archive-brief.json",
+      "promptPath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/kb-archive-brief.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "kb-archive-brief"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "kb-archive-brief",
+          "nodeId": "kb-archive-brief",
+          "description": "Use the merge judge's session to re-emit the archive instruction after the merge write.",
+          "role": "worker",
+          "sessionPolicy": {
+            "mode": "reuse",
+            "inheritFromStepId": "kb-merge-judge"
+          },
+          "transitions": [
+            {
+              "toStepId": "kb-archive",
+              "label": "archive_note"
+            },
+            {
+              "toStepId": "final-output",
+              "label": "!(archive_note)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "fable-and-improve-opus",
+      "nodePath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-final-output.json",
+      "promptPath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/final-output.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": false,
+      "steps": [
+        "final-output"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-opus",
+      "nodePath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-plan-checkpoint.json",
+      "promptPath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/plan-checkpoint.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "workspace-write",
+      "hasSchema": true,
+      "steps": [
+        "plan-checkpoint"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-opus",
+      "nodePath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-dispatch-plans.json",
+      "promptPath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/dispatch-plans.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "dispatch-plans"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-opus",
+      "nodePath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-branch-evidence.json",
+      "promptPath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/branch-evidence.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "workspace-write",
+      "hasSchema": false,
+      "steps": [
+        "branch-evidence"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-opus",
+      "nodePath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-reconcile-implementations.json",
+      "promptPath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/reconcile-implementations.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "workspace-write",
+      "hasSchema": true,
+      "steps": [
+        "reconcile-implementations"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-and-improve-opus",
+      "nodePath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-integration-review.json",
+      "promptPath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/integration-review.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": true,
+      "steps": [
+        "integration-review"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "integration-review",
+          "nodeId": "integration-review",
+          "description": "Independently verify retained plan behavior and repairs before another wave or finalization.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "reconcile-implementations",
+              "label": "needs_revision"
+            },
+            {
+              "toStepId": "dispatch-plans",
+              "label": "!(needs_revision) && plans_remaining"
+            },
+            {
+              "toStepId": "fable-goal-review",
+              "label": "!(needs_revision || plans_remaining)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "fable-and-improve-opus",
+      "nodePath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-step9-commit-message.json",
+      "promptPath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/step9-commit-message.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "workspace-write",
+      "hasSchema": true,
+      "steps": [
+        "step9-commit-message"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "step9-commit-message",
+          "nodeId": "step9-commit-message",
+          "description": "Check completion for issue-resolution and prepare commit evidence; planning-only preserves active plans.",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "fable-goal-review",
+              "label": "needs_revision"
+            },
+            {
+              "toStepId": "step10-git-commit",
+              "label": "!(needs_revision)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "fable-and-improve-opus",
+      "nodePath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/nodes/node-base-branch-integrate.json",
+      "promptPath": "packages/fable-and-improve-opus/workflows/fable-and-improve-opus/prompts/base-branch-integrate.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "workspace-write",
+      "hasSchema": false,
+      "steps": [
+        "base-branch-integrate"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-astra-design-plan-review-loop",
+      "nodePath": "packages/fable-astra-design-plan-review-loop/workflows/fable-astra-design-plan-review-loop/nodes/node-fable-author.json",
+      "promptPath": "packages/fable-astra-design-plan-review-loop/workflows/fable-astra-design-plan-review-loop/prompts/fable-author.md",
+      "executionBackend": "claude-code-agent",
+      "agentSandbox": "workspace-write",
+      "hasSchema": false,
+      "steps": [
+        "fable-author"
+      ],
+      "conditionalConsumers": []
+    },
+    {
+      "workflowId": "fable-astra-design-plan-review-loop",
+      "nodePath": "packages/fable-astra-design-plan-review-loop/workflows/fable-astra-design-plan-review-loop/nodes/node-astra-review.json",
+      "promptPath": "packages/fable-astra-design-plan-review-loop/workflows/fable-astra-design-plan-review-loop/prompts/astra-review.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": false,
+      "steps": [
+        "astra-review"
+      ],
+      "conditionalConsumers": [
+        {
+          "id": "astra-review",
+          "nodeId": "astra-review",
+          "role": "worker",
+          "transitions": [
+            {
+              "toStepId": "workflow-output",
+              "label": "accepted"
+            },
+            {
+              "toStepId": "fable-author",
+              "label": "!(accepted)"
+            }
+          ],
+          "loop": {
+            "role": "gate",
+            "gateId": "planning-review"
+          }
+        }
+      ]
+    },
+    {
+      "workflowId": "fable-astra-design-plan-review-loop",
+      "nodePath": "packages/fable-astra-design-plan-review-loop/workflows/fable-astra-design-plan-review-loop/nodes/node-workflow-output.json",
+      "promptPath": "packages/fable-astra-design-plan-review-loop/workflows/fable-astra-design-plan-review-loop/prompts/workflow-output.md",
+      "executionBackend": "codex-agent",
+      "agentSandbox": "read-only",
+      "hasSchema": false,
+      "steps": [
+        "workflow-output"
+      ],
+      "conditionalConsumers": []
+    }
+  ],
+  "note": "Static source inventory, not validation results. Re-read prompts and consumers before edits; reconcile current inventory against this checkpoint."
+}

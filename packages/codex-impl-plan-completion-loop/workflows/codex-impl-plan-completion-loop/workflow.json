@@ -1,0 +1,123 @@
+{
+  "workflowId": "codex-impl-plan-completion-loop",
+  "description": "Assess incomplete active plans as one batch, delegate conflict-aware dependency planning and native shared-branch implementation/review, then reassess and archive completed plans.",
+  "defaults": {
+    "maxLoopIterations": 50,
+    "nodeTimeoutMs": 3600000
+  },
+  "prompts": {
+    "rielaPromptTemplate": "Assess all incomplete active plans (or the explicitly requested single plan), pass their paths in one delegated request to codex-adversarial-implementation-review-loop, and let its design/implementation callee plan dependencies once and execute native fanout waves. Reassess only after the whole batch completes. Archive completed plans and finish when none remain.",
+    "workerSystemPromptTemplate": "Return concise business JSON only. Keep selected plan path, delegated workflow input, delegated result, archived paths, active plans remaining, and residual risks explicit."
+  },
+  "managerStepId": "riela-manager",
+  "entryStepId": "riela-manager",
+  "nodes": [
+    {
+      "id": "riela-manager",
+      "nodeFile": "nodes/node-riela-manager.json"
+    },
+    {
+      "id": "step1-plan-assess",
+      "nodeFile": "nodes/node-step1-plan-assess.json"
+    },
+    {
+      "id": "step2-handoff",
+      "nodeFile": "nodes/node-step2-handoff.json"
+    },
+    {
+      "id": "step3-post-handoff",
+      "nodeFile": "nodes/node-step3-post-handoff.json"
+    },
+    {
+      "id": "step4-archive-completed-plans",
+      "nodeFile": "nodes/node-step4-archive-completed-plans.json"
+    },
+    {
+      "id": "workflow-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-workflow-output.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "riela-manager",
+      "nodeId": "riela-manager",
+      "description": "Start the plan completion loop.",
+      "role": "manager",
+      "transitions": [
+        {
+          "toStepId": "step1-plan-assess"
+        }
+      ]
+    },
+    {
+      "id": "step1-plan-assess",
+      "nodeId": "step1-plan-assess",
+      "description": "Find the next incomplete active implementation plan, or report that active plans have no remaining incomplete work.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "step4-archive-completed-plans",
+          "label": "plan_complete"
+        },
+        {
+          "toStepId": "step2-handoff",
+          "label": "!(plan_complete)"
+        }
+      ]
+    },
+    {
+      "id": "step2-handoff",
+      "nodeId": "step2-handoff",
+      "description": "Package the selected active implementation plan as a request for codex-adversarial-implementation-review-loop.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-adversarial-implementation-review-loop",
+          "toStepId": "riela-manager",
+          "resumeStepId": "step3-post-handoff"
+        }
+      ]
+    },
+    {
+      "id": "step3-post-handoff",
+      "nodeId": "step3-post-handoff",
+      "description": "Record the delegated codex-adversarial-implementation-review-loop result before reassessing active plans.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "step1-plan-assess"
+        }
+      ]
+    },
+    {
+      "id": "step4-archive-completed-plans",
+      "nodeId": "step4-archive-completed-plans",
+      "description": "Move completed plans out of impl-plans/active and refresh plan indexes before final output.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "workflow-output"
+        }
+      ]
+    },
+    {
+      "id": "workflow-output",
+      "nodeId": "workflow-output",
+      "description": "Publish final evidence that no incomplete active implementation plans remain.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielaPackage": {
+      "title": "codex-impl-plan-completion-loop",
+      "description": "Assess incomplete active plans as one batch, delegate conflict-aware dependency planning and native shared-branch implementation/review, then reassess and archive completed plans.",
+      "tags": [
+        "workflow"
+      ],
+      "backends": [
+        "codex-agent"
+      ]
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "workflowId": "cursor-cli-hydra-claude-design-and-implement-review-loop",
+  "description": "Single-node design and planning, committed conflict-aware plans, same-branch parallel implementation and review, overwrite reconciliation, and serialized commit, push and base-branch integration.",
+  "extends": {
+    "workflowId": "codex-design-and-implement-review-loop",
+    "stringReplacements": {
+      "codexAgentReferences": "claudeCodeAgentReferences",
+      "codexAgent": "claudeCodeAgent",
+      "codex-design-and-implement-review-loop": "cursor-cli-hydra-claude-design-and-implement-review-loop",
+      "codex-refactoring-divide-and-conquer": "claude-code-refactoring-divide-and-conquer",
+      "codex-recent-change-quality-loop": "claude-code-recent-change-quality-loop",
+      "codex-source-security-check-loop": "claude-code-source-security-check-loop",
+      "codex-impl-plan-completion-loop": "claude-code-impl-plan-completion-loop",
+      "codex-refactoring-slice-review": "claude-code-refactoring-slice-review",
+      "codex-simple-work-package": "claude-code-simple-work-package",
+      "codex-website-builder": "claude-code-website-builder",
+      "codex-task-watchdog": "claude-code-task-watchdog",
+      "codex-deepdesign": "claude-code-deepdesign",
+      "codex-agent": "claude-code-agent",
+      "codex-": "claude-code-",
+      "Codex": "Claude Code",
+      "codex": "claude-code"
+    },
+    "agentNodePatch": {
+      "executionBackend": "claude-code-agent",
+      "model": "claude-opus-5-5"
+    },
+    "nodePatch": {
+      "step2-design-doc-update": {
+        "model": "claude-fable-5"
+      },
+      "step3-design-review": {
+        "model": "claude-fable-5"
+      },
+      "step4-impl-plan-create": {
+        "model": "claude-fable-5"
+      },
+      "step5-impl-plan-review": {
+        "model": "claude-fable-5"
+      },
+      "step6-implement": {
+        "executionBackend": "cursor-cli-agent",
+        "model": "composer-2.5"
+      },
+      "step6-test-integrity-check": {
+        "model": "claude-fable-5"
+      },
+      "step7-adversarial-review": {
+        "model": "claude-fable-5"
+      },
+      "step9-commit-message": {
+        "model": "claude-fable-5"
+      },
+      "integration-review": {
+        "model": "claude-fable-5"
+      }
+    }
+  }
+}

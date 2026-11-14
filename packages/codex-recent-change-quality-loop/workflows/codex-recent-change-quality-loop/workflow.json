@@ -1,0 +1,159 @@
+{
+  "workflowId": "codex-recent-change-quality-loop",
+  "description": "Inventory recent committed and uncommitted changes, review independent slices concurrently with bounded read-only fanout, reduce findings, and delegate blocking fixes until no high or mid findings remain.",
+  "defaults": {
+    "maxLoopIterations": 6,
+    "nodeTimeoutMs": 3600000,
+    "supervision": {
+      "monitorIntervalMs": 15000,
+      "stallTimeoutMs": 300000
+    },
+    "fanoutConcurrency": 6
+  },
+  "prompts": {
+    "rielaPromptTemplate": "Coordinate {{workflowId}}. Step 1 inventories the exact recent committed and uncommitted change set and emits complete stable reviewSlices. Riela reviews those slices concurrently as read-only fanout branches. Step 2 reduces every branch result and routes to Step 3 when any high or mid finding remains; otherwise finish. Step 3 delegates the merged blocking findings to codex-design-and-implement-review-loop. After completion, Step 4 routes back to a fresh inventory and fanout pass.",
+    "workerSystemPromptTemplate": "Return concise business JSON only. Keep severity, reviewed commands, delegated-workflow inputs, changed files, verification, and routing decisions explicit."
+  },
+  "managerStepId": "riela-manager",
+  "entryStepId": "riela-manager",
+  "nodes": [
+    {
+      "id": "riela-manager",
+      "nodeFile": "nodes/node-riela-manager.json"
+    },
+    {
+      "id": "step1-review",
+      "nodeFile": "nodes/node-step1-review.json"
+    },
+    {
+      "id": "step2-exit-gate",
+      "nodeFile": "nodes/node-step2-exit-gate.json"
+    },
+    {
+      "id": "parallel-review",
+      "nodeFile": "nodes/node-parallel-review.json"
+    },
+    {
+      "id": "step3-handoff",
+      "nodeFile": "nodes/node-step3-handoff.json"
+    },
+    {
+      "id": "step4-post-handoff",
+      "nodeFile": "nodes/node-step4-post-handoff.json"
+    },
+    {
+      "id": "workflow-output",
+      "kind": "output",
+      "nodeFile": "nodes/node-workflow-output.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "riela-manager",
+      "nodeId": "riela-manager",
+      "description": "Start the recent-change quality loop.",
+      "role": "manager",
+      "transitions": [
+        {
+          "toStepId": "step1-review"
+        }
+      ]
+    },
+    {
+      "id": "step1-review",
+      "nodeId": "step1-review",
+      "description": "Inventory recent changes and partition the exact review scope into independent read-only slices.",
+      "role": "worker",
+      "stallTimeoutMs": 900000,
+      "transitions": [
+        {
+          "toStepId": "parallel-review",
+          "fanout": {
+            "groupId": "recent-change-review",
+            "itemsFrom": "/reviewSlices",
+            "itemVariable": "reviewSlice",
+            "concurrency": 6,
+            "joinStepId": "step2-exit-gate",
+            "failurePolicy": "collect-partial",
+            "resultOrder": "input",
+            "writeOwnership": {
+              "mode": "read-only"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "parallel-review",
+      "nodeId": "parallel-review",
+      "description": "Review one complete change slice independently without modifying the workspace.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "step2-exit-gate"
+        }
+      ]
+    },
+    {
+      "id": "step2-exit-gate",
+      "nodeId": "step2-exit-gate",
+      "description": "Reduce all fanout branch results and exit only when none contains a high or mid finding.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "step3-handoff",
+          "label": "needs_fix"
+        },
+        {
+          "toStepId": "workflow-output",
+          "label": "!(needs_fix)"
+        }
+      ]
+    },
+    {
+      "id": "step3-handoff",
+      "nodeId": "step3-handoff",
+      "description": "Package blocking findings into a delegated issue-resolution request for codex-design-and-implement-review-loop.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toWorkflowId": "codex-design-and-implement-review-loop",
+          "toStepId": "riela-manager",
+          "resumeStepId": "step4-post-handoff"
+        }
+      ]
+    },
+    {
+      "id": "step4-post-handoff",
+      "nodeId": "step4-post-handoff",
+      "description": "Consume the delegated workflow result and prepare the next recent-change review pass.",
+      "role": "worker",
+      "transitions": [
+        {
+          "toStepId": "step1-review"
+        }
+      ]
+    },
+    {
+      "id": "workflow-output",
+      "nodeId": "workflow-output",
+      "description": "Publish the accepted review summary once no high or mid findings remain.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielaPackage": {
+      "title": "codex-recent-change-quality-loop",
+      "description": "Review recent changes through bounded read-only slice fanout, deterministic reduction, and delegated blocking fixes.",
+      "tags": [
+        "workflow",
+        "review",
+        "fanout",
+        "concurrency"
+      ],
+      "backends": [
+        "codex-agent"
+      ]
+    }
+  }
+}

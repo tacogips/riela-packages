@@ -1,0 +1,83 @@
+{
+  "id": "branch-evidence",
+  "description": "This is the final node of one native Riela implementation/review branch. The complete assigned contract is runtimeVariables.implementation (or runtimeVariables.fanoutItem).",
+  "executionBackend": "claude-code-agent",
+  "model": "claude-opus-5-5",
+  "promptTemplateFile": "prompts/branch-evidence.md",
+  "variables": {},
+  "effort": "high",
+  "agentSandbox": "workspace-write",
+  "output": {
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "planId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "planPath": {
+          "type": "string",
+          "minLength": 1
+        },
+        "changedFiles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "intendedChanges": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "acceptanceCriteria": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "verification": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "overwriteObservations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "repairRequests": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "reviewDecisions": {
+          "type": "object"
+        },
+        "evidencePaths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "changedFiles",
+        "evidencePaths"
+      ],
+      "additionalProperties": true
+    },
+    "maxValidationAttempts": 2,
+    "description": "Return branch change evidence and exact plan handoff paths."
+  }
+}
