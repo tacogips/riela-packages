@@ -1,0 +1,36 @@
+{
+  "workflowId": "riela-package-installer-skill",
+  "description": "Minimal marker workflow for the riela-package-installer skill package.",
+  "defaults": {
+    "maxLoopIterations": 3,
+    "nodeTimeoutMs": 120000
+  },
+  "entryStepId": "skill-installed",
+  "nodes": [
+    {
+      "id": "skill-installed",
+      "nodeFile": "nodes/node-skill-installed.json"
+    }
+  ],
+  "steps": [
+    {
+      "id": "skill-installed",
+      "nodeId": "skill-installed",
+      "description": "Report that this package exists to install .codex and .claude bootstrap skills.",
+      "role": "worker"
+    }
+  ],
+  "metadata": {
+    "rielaPackage": {
+      "title": "riela-package-installer-skill",
+      "description": "Skill-only bootstrap package for installing the riela-package package-management skill from tacogips/riela-packages.",
+      "tags": [
+        "skill",
+        "package",
+        "installer",
+        "riela"
+      ],
+      "backends": []
+    }
+  }
+}

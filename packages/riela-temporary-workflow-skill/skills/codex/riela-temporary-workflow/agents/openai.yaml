@@ -1,0 +1,4 @@
+interface:
+  display_name: "Riela Temporary Workflow"
+  short_description: "Create and run temporary riela workflow JSON"
+  default_prompt: "Use $riela-temporary-workflow to create and run a temporary riela workflow from embedded JSON."

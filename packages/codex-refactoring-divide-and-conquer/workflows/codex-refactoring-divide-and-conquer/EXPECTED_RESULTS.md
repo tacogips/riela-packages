@@ -1,0 +1,47 @@
+# Expected Results
+
+Slice review remains bounded read-only fanout. In implementation mode, Step 3
+emits a dependency DAG with stable semantic task ids, unique per-attempt
+dispatch ids, and disjoint tracked paths. Riela runs the ready shared-workspace
+wave at concurrency 4 and Step 6 serially reconciles the combined tree. Repair
+attempts retain `taskId` but receive a fresh identifier-safe `dispatchId`.
+
+The deterministic mock scenario exercises the package-first duplicate-scavenge
+plan-only path:
+
+- The manager input covers `src`, `packages`, `package.json`, `Taskfile.yml`,
+  and `scripts`.
+- `step1-slice-codebase` emits package-root and root-`src` compatibility review
+  slices with duplicate-oriented review questions, counterpart paths, and search
+  hints.
+- The parent workflow dispatches `codex-refactoring-slice-review` through bounded fanout.
+- `step3-merge-review-plan` joins minimal child payloads, groups duplicate
+  findings, and emits a plan-only refactoring plan with one ready task.
+- The merged plan rejects provisioning package creation because no concrete
+  provisioning source surface exists.
+- The workflow exits through `workflow-output` without implementation, staging, committing, or pushing.
+
+Expected final output highlights:
+
+```json
+{
+  "mode": "plan-only",
+  "refactoringMode": "duplicate-scavenge",
+  "planPath": "impl-plans/active/refactoring-package-source-ownership.md",
+  "completedTasks": [],
+  "remainingTasks": ["REF-001", "REF-002"],
+  "duplicateScavengeSummary": {
+    "groupedDuplicates": ["DUP-001 package/root export normalization"],
+    "knownDifferencesPreserved": [
+      "Root src remains the compatibility API until package entrypoints pass build and API checks."
+    ]
+  },
+  "blockedTasks": [{"taskId": "REF-002", "blockedBy": ["REF-001"]}],
+  "verificationEvidence": [{"command": "mock fanout package-first plan-only run", "result": "passed"}],
+  "residualRisks": [
+    "No provisioning package is created because no concrete provisioning source surface was found."
+  ]
+}
+```
+
+Implementation mode routes step4-implement-next-task directly to step6-post-refactor-review, with the former Step 5 checklist integrated into implementation. Independent high/mid findings must return to Step 4.

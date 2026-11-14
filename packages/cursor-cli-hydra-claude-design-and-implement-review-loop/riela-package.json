@@ -1,0 +1,39 @@
+{
+  "name": "cursor-cli-hydra-claude-design-and-implement-review-loop",
+  "version": "0.2.0",
+  "title": "cursor-cli-hydra-claude-design-and-implement-review-loop",
+  "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
+  "tags": [
+    "workflow",
+    "hydra"
+  ],
+  "registry": "default",
+  "checksum": "f0d45c05db1db863d5148d598d18ace2",
+  "checksumAlgorithm": "md5",
+  "workflowDirectory": "workflows/cursor-cli-hydra-claude-design-and-implement-review-loop",
+  "repository": "https://github.com/tacogips/riela-packages",
+  "workflow": {
+    "title": "cursor-cli-hydra-claude-design-and-implement-review-loop",
+    "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
+    "tags": [
+      "workflow",
+      "hydra"
+    ],
+    "backends": [
+      "claude-code-agent",
+      "cursor-cli-agent"
+    ]
+  },
+  "integrity": {
+    "digestAlgorithm": "sha256",
+    "digest": "03a81b0b99362085593a0c95540f8eb77d8c81a2103ffc8286eba22a52aa350c"
+  },
+  "backends": [
+    "claude-code-agent",
+    "cursor-cli-agent"
+  ],
+  "skillDirectory": "skills",
+  "dependencies": [
+    "codex-design-and-implement-review-loop"
+  ]
+}

@@ -1,0 +1,550 @@
+# Awesome Riela Packages
+
+A curated package index for reusable Riela workflows and agent skills.
+
+This repository is the default source checkout for Riela packages:
+
+```text
+https://github.com/tacogips/riela-packages
+```
+
+## Install
+
+Recent riela source builds include managed registry sync and dependency-aware
+installs. Sync the default registry once:
+
+```bash
+riela package registry sync
+```
+
+Then search and install packages from any project:
+
+```bash
+riela package search "<keyword>"
+riela package install <package-id>
+```
+
+Use `--scope user` to install user-wide:
+
+```bash
+riela package install <package-id> --scope user
+```
+
+For older riela releases, including 0.1.17, get a local checkout first:
+
+```bash
+git clone https://github.com/tacogips/riela-packages
+```
+
+Then search packages from your project directory with an explicit local path:
+
+```bash
+riela package search "<keyword>" --local-path /path/to/riela-packages
+```
+
+Older releases match package names and tags only, not descriptions. Without
+`--local-path`, those releases expect the default registry checkout at
+`<working-directory>-packages`, a sibling directory of your project.
+
+Install a package from that checkout into the current project:
+
+```bash
+riela package install <package-id> --local-path /path/to/riela-packages
+```
+
+Or install it for the current user:
+
+```bash
+riela package install <package-id> --local-path /path/to/riela-packages --scope user
+```
+
+From inside a registry checkout you can install by directory path instead:
+
+```bash
+riela package install <package-id> --source packages/<package-directory>
+```
+
+Most package ids match their directory name under `packages/`. The media
+packages use scoped ids, for example `@tacogips/youtube-mp4-download-addon`
+lives in `packages/youtube-mp4-download-addon`. Id-based installs resolve
+scoped ids from the registry checkout; `--source` always takes the directory
+path.
+
+Recent riela source builds install `dependencies` automatically by default.
+Older releases treat the `dependencies` field in `riela-package.json` as
+metadata for validation and documentation, so install each dependency
+explicitly. List a package's dependencies with:
+
+```bash
+jq -r '.dependencies[]? | if type == "object" then .packageId else . end' \
+  packages/<package-directory>/riela-package.json
+```
+
+then run `riela package install` for each listed id.
+
+Inspect installed packages:
+
+```bash
+riela package list
+riela package status <package-id>
+```
+
+## Registry Index
+
+This repository publishes a generated `registry-index.json` at the repository
+root. It summarizes every package's name, version, kind, tags, description,
+backends, workflow metadata, dependencies, add-ons, required environment, and
+sha256 integrity digest so future riela releases can search and resolve the
+default registry without scanning every manifest from a full clone.
+
+Maintainers regenerate and verify the index with:
+
+```bash
+mise run package:generate-index
+mise run package:check-index
+```
+
+## Release Archives
+
+The `Package Archives` workflow publishes `.rielapkg` archives to the fixed
+`registry-packages` GitHub Release. It also uploads `package-archives.json` and
+a release-scoped `registry-index.json` whose entries include `archiveURL` and
+`archiveSHA256`, giving newer riela builds a clone-free install path with
+sha256 verification.
+
+Maintainers can produce the same release assets locally with:
+
+```bash
+mise run package:generate-release-index
+```
+
+This writes `dist/rielapkg/*.rielapkg`, `dist/package-archives.json`, and
+`dist/registry-index.json`.
+
+After the `Package Archives` workflow publishes the fixed `registry-packages`
+release, verify that every generated archive and release index asset is
+present:
+
+```bash
+mise run package:check-release-publication
+```
+
+## Container Images
+
+Container node add-ons publish prebuilt multi-arch images to GHCR from
+`.github/workflows/container-images.yml`. The workflow discovers add-ons with
+`execution.kind: "container"` and `containerfilePath`, then builds the package
+image declared in `riela-package.json`. Each build job uploads a
+`container-image-digest-<package-id>` artifact containing JSON records in the
+form `[{ "packageId": "...", "image": "...", "digest": "sha256:..." }]`.
+
+Maintainers can inspect and verify the image matrix locally with:
+
+```bash
+bun .agents/skills/riela-package-release/scripts/container-image-matrix.ts --format matrix
+mise run package:check-container-images
+```
+
+After the GHCR images have been pushed, bake the pushed manifest digest back
+into each add-on manifest with:
+
+```bash
+mise run package:update-container-image-digests
+mise run package:generate-index
+```
+
+For CI or release scripts that already captured image digests, pass a digest
+file instead of querying GHCR:
+
+```bash
+bun .agents/skills/riela-package-release/scripts/update-container-image-digests.ts --all --digest-file image-digests.json
+```
+
+If you downloaded the per-package workflow artifacts, merge them first:
+
+```bash
+jq -s 'add' container-image-digest-*/*.json > image-digests.json
+bun .agents/skills/riela-package-release/scripts/update-container-image-digests.ts --all --digest-file image-digests.json
+mise run package:generate-index
+```
+
+## Which Package Should I Install?
+
+Riela installs workflows and skills at package granularity. A package declares
+the workflows it calls in `dependencies`. Recent riela source builds install
+those dependencies automatically; older releases require installing each
+dependency id alongside the package (see the `jq` one-liner in the Install
+section).
+
+Use the package structure this way:
+
+- Install a meta package when you want a standard toolset for an agent surface.
+  A meta package carries the dispatcher skill and pins the standard workflow
+  set in its `dependencies`; on recent riela builds, those dependency packages
+  are installed with it. It does not replace the individual workflow packages.
+- Install an individual workflow package when you want only one workflow, want a
+  workflow as a dependency of another package, or are maintaining that workflow.
+- Install a skill package when you only need agent guidance for package
+  management or workflow authoring, not a developer workflow bundle.
+
+Current developer workflow install pattern:
+
+- Cursor CLI standard developer setup:
+  install `cursor-cli-developer-workflows`; on older riela releases, also
+  install the standard `cursor-cli-*` developer workflow packages listed in its
+  `dependencies`.
+- Codex setup:
+  install the needed `codex-*` workflow packages directly, such as
+  `codex-design-and-implement-review-loop`, `codex-simple-work-package`, or
+  `codex-source-security-check-loop`. There is intentionally no Codex developer
+  meta package yet.
+- Claude Code setup:
+  install the needed `claude-code-*` workflow packages directly, such as
+  `claude-code-design-and-implement-review-loop`,
+  `claude-code-simple-work-package`, or
+  `claude-code-source-security-check-loop`. There is intentionally no Claude
+  Code developer meta package yet.
+
+This means a Cursor install can use one top-level package id to pin the
+standard developer workflow set, while Codex and Claude Code installs remain
+explicit per-workflow installs for now. The individual Cursor packages remain
+available for single-workflow use and for package dependencies.
+
+## Packages
+
+### Node Add-on Packages
+
+- [release-note-node-addon](packages/release-note-node-addon) -
+  Declarative node add-on package that installs `examples/release-note@1`, a
+  reusable Codex worker template for drafting concise release notes.
+- [greeting-node-addon](packages/greeting-node-addon) -
+  Executable node add-on package that installs `examples/greeting-shell@1`, a
+  reusable Bash command node template for jq-encoded JSON greetings.
+- [youtube-mp4-download-addon](packages/youtube-mp4-download-addon) -
+  Node add-on package that downloads a YouTube URL to an MP4 file using
+  `yt-dlp`.
+- [mp4-audio-extract-addon](packages/mp4-audio-extract-addon) -
+  Node add-on package that extracts speech-ready FLAC audio from an MP4 file
+  using `ffmpeg`.
+- [pdf-to-images-addon](packages/pdf-to-images-addon) -
+  Container node add-on package that renders PDF pages to PNG or JPEG images
+  using Python and PyMuPDF for visual analysis workflows.
+- [google-speech-to-text-addon](packages/google-speech-to-text-addon) -
+  Node add-on package that transcribes local audio with Google Cloud
+  Speech-to-Text v1 long-running recognition; includes a Codex setup skill.
+
+### Native Runtime Example Workflows
+
+- [greeting-container](packages/greeting-container) -
+  Example workflow package with a native container node that builds a small
+  Node.js image and outputs a greeting with the current datetime.
+- [greeting-shell](packages/greeting-shell) -
+  Example workflow package with a native Bash command node that outputs a
+  greeting with the current datetime without using a container.
+- [youtube-mp4-to-text-workflow](packages/youtube-mp4-to-text-workflow) -
+  Example workflow package that downloads a YouTube MP4, extracts speech-ready
+  audio, and transcribes it with Google Speech-to-Text through node add-ons.
+- [youtube-shorts-to-text-container](packages/youtube-shorts-to-text-container) -
+  Workflow package that downloads a YouTube Shorts URL and transcribes it with
+  Google Speech-to-Text through a Docker-contained worker.
+
+### Codex Agent Workflows
+
+- [codex-deepdesign](packages/codex-deepdesign) -
+  Creates or revises `design-docs/` specifications with one design author, a
+  deep edge-case reviewer, a broad integration reviewer, and an adversarial
+  failure-mode reviewer. It loops back to the author until all reviewers report
+  no high or middle findings, and it records provisional decisions when user
+  confirmation would normally be required. `backend: codex-agent`.
+- [codex-adversarial-implementation-review-loop](packages/codex-adversarial-implementation-review-loop) -
+  Runs a scoped implementation request, adversarially reviews the implemented
+  result against explicit target paths and evidence, delegates blocking fixes,
+  and repeats until no high or medium findings remain. `backend: codex-agent`.
+- [codex-deep-creation](packages/codex-deep-creation) -
+  Runs deep design, adversarial implementation-plan completion, and source
+  security checks as one full creation workflow. `backend: codex-agent`.
+- [codex-design-and-implement-review-loop](packages/codex-design-and-implement-review-loop) -
+  Single-author design/planning, native shared-branch implementation/review fanout, overwrite reconciliation and serialized commit/push/base integration.
+- [codex-goal](packages/codex-goal) -
+  Generic Codex GPT-5.6 SOL workflow that actively investigates available Riela
+  workflows at each step, creates and reviews a testable goal, creates and
+  reviews an in-session plan without writing plan files, performs the work, may
+  delegate to a more specific workflow when appropriate, and reviews whether the
+  goal is achieved before looping back to work or planning. `backend:
+  codex-agent`.
+- [codex-impl-plan-completion-loop](packages/codex-impl-plan-completion-loop) -
+  Batch active plans into one dependency-aware implementation/review call; Python handles assessment and archival.
+- [codex-impl-plan-completion-review-loop](packages/codex-impl-plan-completion-review-loop) -
+  Runs `codex-impl-plan-completion-loop` first, then runs
+  `codex-recent-change-quality-loop` so completed implementation work is
+  reviewed and improved before final output. `backend: codex-agent`.
+- [codex-recent-change-quality-loop](packages/codex-recent-change-quality-loop) -
+  Reviews recent code changes, including uncommitted changes, delegates
+  blocking findings to `codex-design-and-implement-review-loop`, and re-reviews
+  until no high or medium findings remain. `backend: codex-agent`.
+- [codex-source-security-check-loop](packages/codex-source-security-check-loop) -
+  Runs deterministic source-code security checks, including secrets, optional
+  `gitleaks`, static heuristics, dependency manifests, and supply-chain config,
+  then derives harness-style focus areas, triages and adversarially verifies
+  findings with Codex, and delegates verified high or medium fixes to
+  `codex-design-and-implement-review-loop`. `backend: native-command,
+  codex-agent`; includes Codex skills.
+- [codex-simple-work-package](packages/codex-simple-work-package) -
+  Lightweight workflow for small code or documentation changes when no
+  dedicated workflow applies. It implements with Codex GPT-5.6 SOL low effort,
+  reviews with SOL medium effort, and loops back only for material high or
+  middle findings.
+  `backend: codex-agent`.
+- [codex-task-watchdog](packages/codex-task-watchdog) -
+  Runs a background task watcher for `./tasks/list.jsonl`, repeatedly polling
+  for newly added active tasks, skipping while another task is running,
+  dispatching dependency workflows by task kind, executing ad hoc Codex work,
+  mining completed task logs for project-scope skills, reviewing those skills,
+  and committing accepted queue and skill changes.
+  `backend: codex-agent`; includes Codex skills.
+- [codex-website-builder](packages/codex-website-builder) -
+  Builds and iterates SolidJS websites with Bun through separate Codex nodes for
+  site design, pinned CSS/library selection, asset generation, implementation,
+  Docker-contained Bun server operation, Playwright review, chat feedback
+  routing, and git snapshot commits. `backend: codex-agent, native-command`.
+- [codex-refactoring-divide-and-conquer](packages/codex-refactoring-divide-and-conquer) -
+  Splits a codebase into package or processing-group slices, reviews slices
+  concurrently, merges findings into a refactoring plan, implements bounded
+  tasks, self-reviews, independently post-reviews, and loops until completion or
+  accepted residual risk. `backend: codex-agent`.
+- [codex-refactoring-slice-review](packages/codex-refactoring-slice-review) -
+  Read-only review workflow for one codebase slice produced by
+  `codex-refactoring-divide-and-conquer`, including duplicate-scavenge review
+  when requested by the parent workflow. `backend: codex-agent`.
+
+### Claude Code Agent Workflows
+
+These packages use `claude-code-agent`. The Codex-derived variants inherit the matching Codex workflow with `workflow.json` `extends`, then patch agent nodes to Claude Code Opus 5.5 and rewrite same-family workflow calls.
+
+- [fable-astra-design-plan-review-loop](packages/fable-astra-design-plan-review-loop) -
+  Fable 5 design and implementation planning with GPT-6 Astra adversarial review and revision.
+- [fable-and-improve-codex](packages/fable-and-improve-codex) -
+  Fable authors design/plans; Codex Terra implements, Terra reviews, and Astra checks combined consistency. Native shared-branch fanout, overwrite reconciliation, validated agent output contracts and serialized Git finalization.
+- [fable-and-improve-opus](packages/fable-and-improve-opus) -
+  Fable authors design/plans and performs integration/goal acceptance; Opus 5.5 independently reviews planning, implementation integrity and adversarial risks through dependency-aware shared-branch fanout, blocked/partial-success classification, overwrite reconciliation, validated agent output contracts and serialized Git finalization.
+- [opus-terra-design-and-implement-review-loop](packages/opus-terra-design-and-implement-review-loop) -
+  Claude Code version of the Codex design/implement loop: Opus 5.5 designs, writes Terra-ready implementation plans, reviews in read-only mode with detailed corrections returned to the owning Terra implementer and runs the final integration review; Codex GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout.
+- [claude-code-deepdesign](packages/claude-code-deepdesign) -
+  Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings, and revise until accepted. `backend: claude-code-agent`.
+- [claude-code-adversarial-implementation-review-loop](packages/claude-code-adversarial-implementation-review-loop) -
+  Run a scoped implementation request, review correctness, integration, and adversarial lenses concurrently, reduce findings, and delegate blocking fixes until accepted. `backend: claude-code-agent`.
+- [claude-code-design-and-implement-review-loop](packages/claude-code-design-and-implement-review-loop) -
+  Single-author design/planning, native shared-branch implementation/review fanout, overwrite reconciliation and serialized commit/push/base integration.
+- [claude-code-goal](packages/claude-code-goal) -
+  Generic Claude Code Opus 5.5 workflow that actively investigates available
+  Riela workflows at each step, creates and reviews a testable goal, creates
+  and reviews an in-session plan without writing plan files, performs the work,
+  may delegate to a more specific workflow when appropriate, and reviews whether
+  the goal is achieved before looping back to work or planning. `backend:
+  claude-code-agent`.
+- [claude-code-impl-plan-completion-loop](packages/claude-code-impl-plan-completion-loop) -
+  Find incomplete implementation plans under impl-plans/active, delegate each selected plan to claude-code-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain. `backend: claude-code-agent`.
+- [claude-code-impl-plan-completion-review-loop](packages/claude-code-impl-plan-completion-review-loop) -
+  Runs `claude-code-impl-plan-completion-loop` first, then runs
+  `claude-code-recent-change-quality-loop` so completed implementation work is
+  reviewed and improved before final output. Uses Claude Code Opus 5.5.
+  `backend: claude-code-agent`.
+- [claude-code-recent-change-quality-loop](packages/claude-code-recent-change-quality-loop) -
+  Inventory recent committed and uncommitted changes, review independent slices concurrently with bounded read-only fanout, reduce findings, and delegate blocking fixes until no high or mid findings remain. `backend: claude-code-agent`.
+- [claude-code-refactoring-divide-and-conquer](packages/claude-code-refactoring-divide-and-conquer) -
+  Divide the codebase into slices, review concurrently, build a dependency-aware refactoring task DAG, implement ready disjoint tasks in shared-workspace waves, reconcile and review each wave, and repeat until complete. `backend: claude-code-agent`.
+- [claude-code-refactoring-slice-review](packages/claude-code-refactoring-slice-review) -
+  Read-only review workflow for one codebase slice produced by claude-code-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept. `backend: claude-code-agent`.
+- [claude-code-simple-work-package](packages/claude-code-simple-work-package) -
+  Lightweight Claude Code workflow for small code or documentation changes when no dedicated workflow applies. It implements with Claude Code Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings. `backend: claude-code-agent`.
+- [claude-code-source-security-check-loop](packages/claude-code-source-security-check-loop) -
+  Run deterministic security checks, partition the attack surface, review focus areas concurrently, reduce and adversarially verify findings, then delegate blocking fixes. `backend: claude-code-agent`; includes Claude skills.
+- [claude-code-task-watchdog](packages/claude-code-task-watchdog) -
+  Long-running Claude Code task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Claude Code execution, post-task skill mining, skill review, and commit. `backend: claude-code-agent`; includes Claude skills.
+- [claude-code-website-builder](packages/claude-code-website-builder) -
+  Design, build, and run a SolidJS site, then review UX, assets, and implementation concurrently before deterministic iteration. `backend: claude-code-agent`.
+- [claude-code-worker-only-single-step](packages/claude-code-worker-only-single-step) -
+  Minimal manager-less reference workflow that starts directly at one worker step through explicit entryStepId authoring. `backend: claude-code-agent`.
+
+### Cursor CLI Agent Workflows
+
+These packages use `cursor-cli-agent`. Each one inherits the matching Codex workflow with `workflow.json` `extends`, then patches implementation steps to Composer 2.5, non-implementation agent steps to GPT-5.6 SOL, and rewrites same-family workflow calls.
+
+- [cursor-cli-developer-workflows](packages/cursor-cli-developer-workflows) -
+  Meta package that pins the standard Cursor CLI developer workflow set in its
+  `dependencies` and ships one Cursor rule for choosing among design,
+  implementation, simple work, implementation-plan completion, recent-change
+  review, refactoring, security, task watchdog, and website workflows. Install
+  this package plus its listed dependency packages to give a Cursor environment
+  the full standard developer workflow set. `backend: cursor-cli-agent`;
+  includes Cursor skills.
+- [cursor-cli-deepdesign](packages/cursor-cli-deepdesign) -
+  Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings, and revise until accepted. `backend: cursor-cli-agent`.
+- [cursor-cli-adversarial-implementation-review-loop](packages/cursor-cli-adversarial-implementation-review-loop) -
+  Run a scoped implementation request, review correctness, integration, and adversarial lenses concurrently, reduce findings, and delegate blocking fixes until accepted. `backend: cursor-cli-agent`.
+- [cursor-cli-design-and-implement-review-loop](packages/cursor-cli-design-and-implement-review-loop) -
+  Single-author design/planning, native shared-branch implementation/review fanout, overwrite reconciliation and serialized commit/push/base integration.
+- [cursor-cli-fable-design-and-implement-review-loop](packages/cursor-cli-fable-design-and-implement-review-loop) -
+  Single-author design/planning, native shared-branch implementation/review fanout, overwrite reconciliation and serialized commit/push/base integration.
+- [cursor-cli-goal](packages/cursor-cli-goal) -
+  Generic Cursor CLI workflow that actively investigates available Riela
+  workflows at each step, creates and reviews a testable goal, creates and
+  reviews an in-session plan without writing plan files, performs the work with
+  Composer 2.5, uses GPT-5.6 SOL for other agent steps, may delegate to a more
+  specific workflow when appropriate, and reviews whether the goal is achieved
+  before looping back to work or planning. `backend: cursor-cli-agent`.
+- [cursor-cli-hydra-codex-design-and-implement-review-loop](packages/cursor-cli-hydra-codex-design-and-implement-review-loop) -
+  Single-author design/planning, native shared-branch implementation/review fanout, overwrite reconciliation and serialized commit/push/base integration.
+- [cursor-cli-hydra-claude-design-and-implement-review-loop](packages/cursor-cli-hydra-claude-design-and-implement-review-loop) -
+  Single-author design/planning, native shared-branch implementation/review fanout, overwrite reconciliation and serialized commit/push/base integration.
+- [cursor-cli-impl-plan-completion-loop](packages/cursor-cli-impl-plan-completion-loop) -
+  Find incomplete implementation plans under impl-plans/active, delegate each selected plan to cursor-cli-adversarial-implementation-review-loop, and repeat sequentially until no incomplete active plans remain. `backend: cursor-cli-agent`.
+- [cursor-cli-impl-plan-completion-review-loop](packages/cursor-cli-impl-plan-completion-review-loop) -
+  Runs `cursor-cli-impl-plan-completion-loop` first, then runs
+  `cursor-cli-recent-change-quality-loop` so completed implementation work is
+  reviewed and improved before final output. Uses GPT-5.6 SOL for wrapper and
+  review steps, while delegated implementation steps use Composer 2.5.
+  `backend: cursor-cli-agent`.
+- [cursor-cli-recent-change-quality-loop](packages/cursor-cli-recent-change-quality-loop) -
+  Inventory recent committed and uncommitted changes, review independent slices concurrently with bounded read-only fanout, reduce findings, and delegate blocking fixes until no high or mid findings remain. `backend: cursor-cli-agent`.
+- [cursor-cli-refactoring-divide-and-conquer](packages/cursor-cli-refactoring-divide-and-conquer) -
+  Divide the codebase into slices, review concurrently, build a dependency-aware refactoring task DAG, implement ready disjoint tasks in shared-workspace waves, reconcile and review each wave, and repeat until complete. `backend: cursor-cli-agent`.
+- [cursor-cli-refactoring-slice-review](packages/cursor-cli-refactoring-slice-review) -
+  Read-only review workflow for one codebase slice produced by cursor-cli-refactoring-divide-and-conquer fanout, including duplicate-scavenge review when the parent workflow requests duplicate implementations or parallel custom implementations of the same concept. `backend: cursor-cli-agent`.
+- [cursor-cli-simple-work-package](packages/cursor-cli-simple-work-package) -
+  Lightweight Cursor CLI workflow for small code or documentation changes when no dedicated workflow applies. It implements with Cursor CLI Sonnet 4.5 high effort, reviews the diff, and loops back only for high or middle findings. `backend: cursor-cli-agent`.
+- [cursor-cli-source-security-check-loop](packages/cursor-cli-source-security-check-loop) -
+  Run deterministic security checks, partition the attack surface, review focus areas concurrently, reduce and adversarially verify findings, then delegate blocking fixes. `backend: cursor-cli-agent`; includes Cursor skills.
+- [cursor-cli-task-watchdog](packages/cursor-cli-task-watchdog) -
+  Long-running Cursor CLI task watcher backed by ./tasks/list.jsonl, with cron/event polling, dependency workflow dispatch, ad hoc Cursor CLI execution, post-task skill mining, skill review, and commit. `backend: cursor-cli-agent`; includes Cursor skills.
+- [cursor-cli-website-builder](packages/cursor-cli-website-builder) -
+  Design, build, and run a SolidJS site, then review UX, assets, and implementation concurrently before deterministic iteration. `backend: cursor-cli-agent`.
+
+### Skill Packages
+
+- [riela-package-manager-skill](packages/riela-package-manager-skill) -
+  Installs Codex and Claude skills for searching, installing, inspecting,
+  validating, packing, and using Riela packages, including `.rielapkg`
+  archives, RielaApp enable/disable flows, and required environment metadata.
+- [riela-package-release-skill](packages/riela-package-release-skill) -
+  Installs agent-generic, Codex, and Claude maintainer guidance for refreshing
+  package digests, validating packaged workflows, and preparing registry
+  releases.
+- [riela-package-installer-skill](packages/riela-package-installer-skill) -
+  Installs Codex and Claude bootstrap skills for installing
+  `riela-package-manager-skill` from `tacogips/riela-packages`.
+- [riela-temporary-workflow-skill](packages/riela-temporary-workflow-skill) -
+  Installs Codex and Claude skills for creating and running temporary
+  workflows from inline JSON or JSON files without project/user-scope
+  installation.
+- [riela-project-workflow-skill](packages/riela-project-workflow-skill) -
+  Installs Codex, Claude, and Cursor guidance for turning requested work into a
+  project-scope Riela workflow and then executing that workflow.
+- [riela-workflow-creator-skill](packages/riela-workflow-creator-skill) -
+  Installs Codex and Claude skills for creating, modifying, validating, and
+  running portable Riela workflow bundles.
+- [riela-workflow-skill-creator-skill](packages/riela-workflow-skill-creator-skill) -
+  Installs agent-generic, Codex, and Claude guidance for creating packaged
+  skills that teach agents how to use Riela workflow packages.
+
+## Package Summary
+
+| Package | Type | Backend | Skills |
+| --- | --- | --- | --- |
+| [release-note-node-addon](packages/release-note-node-addon) | node-addon | - | - |
+| [greeting-node-addon](packages/greeting-node-addon) | node-addon | - | - |
+| [google-speech-to-text-addon](packages/google-speech-to-text-addon) | node-addon | - | Codex |
+| [mp4-audio-extract-addon](packages/mp4-audio-extract-addon) | node-addon | - | - |
+| [youtube-mp4-download-addon](packages/youtube-mp4-download-addon) | node-addon | - | - |
+| [greeting-container](packages/greeting-container) | workflow | `native-container` | - |
+| [greeting-shell](packages/greeting-shell) | workflow | `native-command` | - |
+| [youtube-mp4-to-text-workflow](packages/youtube-mp4-to-text-workflow) | workflow | `native-command` | - |
+| [youtube-shorts-to-text-container](packages/youtube-shorts-to-text-container) | workflow | `native-command` | - |
+| [codex-adversarial-implementation-review-loop](packages/codex-adversarial-implementation-review-loop) | workflow | `codex-agent` | - |
+| [codex-deep-creation](packages/codex-deep-creation) | workflow | `codex-agent` | - |
+| [codex-deepdesign](packages/codex-deepdesign) | workflow | `codex-agent` | - |
+| [codex-design-and-implement-review-loop](packages/codex-design-and-implement-review-loop) | workflow | `codex-agent` | Codex |
+| [codex-goal](packages/codex-goal) | workflow | `codex-agent` | - |
+| [codex-impl-plan-completion-loop](packages/codex-impl-plan-completion-loop) | workflow | `codex-agent` | - |
+| [codex-impl-plan-completion-review-loop](packages/codex-impl-plan-completion-review-loop) | workflow | `codex-agent` | - |
+| [codex-recent-change-quality-loop](packages/codex-recent-change-quality-loop) | workflow | `codex-agent` | - |
+| [codex-refactoring-divide-and-conquer](packages/codex-refactoring-divide-and-conquer) | workflow | `codex-agent` | - |
+| [codex-refactoring-slice-review](packages/codex-refactoring-slice-review) | workflow | `codex-agent` | - |
+| [codex-simple-work-package](packages/codex-simple-work-package) | workflow | `codex-agent` | - |
+| [codex-source-security-check-loop](packages/codex-source-security-check-loop) | workflow | `native-command`, `codex-agent` | Codex |
+| [codex-task-watchdog](packages/codex-task-watchdog) | workflow | `codex-agent` | Codex |
+| [codex-website-builder](packages/codex-website-builder) | workflow | `codex-agent`, `native-command` | - |
+| [claude-code-adversarial-implementation-review-loop](packages/claude-code-adversarial-implementation-review-loop) | workflow | `claude-code-agent` | - |
+| [claude-code-deepdesign](packages/claude-code-deepdesign) | workflow | `claude-code-agent` | - |
+| [claude-code-design-and-implement-review-loop](packages/claude-code-design-and-implement-review-loop) | workflow | `claude-code-agent` | Claude |
+| [claude-code-goal](packages/claude-code-goal) | workflow | `claude-code-agent` | - |
+| [claude-code-impl-plan-completion-loop](packages/claude-code-impl-plan-completion-loop) | workflow | `claude-code-agent` | - |
+| [claude-code-impl-plan-completion-review-loop](packages/claude-code-impl-plan-completion-review-loop) | workflow | `claude-code-agent` | - |
+| [claude-code-recent-change-quality-loop](packages/claude-code-recent-change-quality-loop) | workflow | `claude-code-agent` | - |
+| [claude-code-refactoring-divide-and-conquer](packages/claude-code-refactoring-divide-and-conquer) | workflow | `claude-code-agent` | - |
+| [claude-code-refactoring-slice-review](packages/claude-code-refactoring-slice-review) | workflow | `claude-code-agent` | - |
+| [claude-code-simple-work-package](packages/claude-code-simple-work-package) | workflow | `claude-code-agent` | - |
+| [claude-code-source-security-check-loop](packages/claude-code-source-security-check-loop) | workflow | `claude-code-agent` | Claude |
+| [claude-code-task-watchdog](packages/claude-code-task-watchdog) | workflow | `claude-code-agent` | Claude |
+| [claude-code-website-builder](packages/claude-code-website-builder) | workflow | `claude-code-agent` | - |
+| [claude-code-worker-only-single-step](packages/claude-code-worker-only-single-step) | workflow | `claude-code-agent` | - |
+| [fable-astra-design-plan-review-loop](packages/fable-astra-design-plan-review-loop) | workflow | `claude-code-agent`, `codex-agent` | Claude, Codex |
+| [fable-and-improve-codex](packages/fable-and-improve-codex) | workflow | `claude-code-agent`, `codex-agent` | Claude, Codex |
+| [fable-and-improve-opus](packages/fable-and-improve-opus) | workflow | `claude-code-agent` | Claude |
+| [opus-terra-design-and-implement-review-loop](packages/opus-terra-design-and-implement-review-loop) | workflow | `claude-code-agent`, `codex-agent`, `command` | Claude |
+| [cursor-cli-adversarial-implementation-review-loop](packages/cursor-cli-adversarial-implementation-review-loop) | workflow | `cursor-cli-agent` | - |
+| [cursor-cli-deepdesign](packages/cursor-cli-deepdesign) | workflow | `cursor-cli-agent` | - |
+| [cursor-cli-design-and-implement-review-loop](packages/cursor-cli-design-and-implement-review-loop) | workflow | `cursor-cli-agent` | Cursor |
+| [cursor-cli-developer-workflows](packages/cursor-cli-developer-workflows) | workflow | `cursor-cli-agent` | Cursor |
+| [cursor-cli-fable-design-and-implement-review-loop](packages/cursor-cli-fable-design-and-implement-review-loop) | workflow | `cursor-cli-agent` | - |
+| [cursor-cli-goal](packages/cursor-cli-goal) | workflow | `cursor-cli-agent` | - |
+| [cursor-cli-hydra-claude-design-and-implement-review-loop](packages/cursor-cli-hydra-claude-design-and-implement-review-loop) | workflow | `claude-code-agent`, `cursor-cli-agent` | - |
+| [cursor-cli-hydra-codex-design-and-implement-review-loop](packages/cursor-cli-hydra-codex-design-and-implement-review-loop) | workflow | `codex-agent`, `cursor-cli-agent` | - |
+| [cursor-cli-impl-plan-completion-loop](packages/cursor-cli-impl-plan-completion-loop) | workflow | `cursor-cli-agent` | - |
+| [cursor-cli-impl-plan-completion-review-loop](packages/cursor-cli-impl-plan-completion-review-loop) | workflow | `cursor-cli-agent` | - |
+| [cursor-cli-recent-change-quality-loop](packages/cursor-cli-recent-change-quality-loop) | workflow | `cursor-cli-agent` | - |
+| [cursor-cli-refactoring-divide-and-conquer](packages/cursor-cli-refactoring-divide-and-conquer) | workflow | `cursor-cli-agent` | - |
+| [cursor-cli-refactoring-slice-review](packages/cursor-cli-refactoring-slice-review) | workflow | `cursor-cli-agent` | - |
+| [cursor-cli-simple-work-package](packages/cursor-cli-simple-work-package) | workflow | `cursor-cli-agent` | - |
+| [cursor-cli-source-security-check-loop](packages/cursor-cli-source-security-check-loop) | workflow | `cursor-cli-agent` | Cursor |
+| [cursor-cli-task-watchdog](packages/cursor-cli-task-watchdog) | workflow | `cursor-cli-agent` | Cursor |
+| [cursor-cli-website-builder](packages/cursor-cli-website-builder) | workflow | `cursor-cli-agent` | - |
+| [riela-package-installer-skill](packages/riela-package-installer-skill) | skill | - | Codex, Claude |
+| [riela-package-manager-skill](packages/riela-package-manager-skill) | skill | - | Codex, Claude |
+| [riela-package-release-skill](packages/riela-package-release-skill) | skill | - | Agents, Codex, Claude |
+| [riela-project-workflow-skill](packages/riela-project-workflow-skill) | skill | - | Codex, Claude, Cursor |
+| [riela-temporary-workflow-skill](packages/riela-temporary-workflow-skill) | skill | - | Codex, Claude |
+| [riela-workflow-creator-skill](packages/riela-workflow-creator-skill) | skill | - | Codex, Claude |
+| [riela-workflow-skill-creator-skill](packages/riela-workflow-skill-creator-skill) | skill | - | Agents, Codex, Claude |
+
+## Package Layout
+
+Each package directory can include:
+
+- `riela-package.json` - package manifest consumed by the package manager.
+- `workflows/<workflow-id>/workflow.json` - Riela workflow bundle.
+- `skills/agents/AGENTS.md` - agent-generic project guidance projected to
+  `AGENTS.md` for project-scope installs.
+- `skills/codex/**/SKILL.md` - Codex skills projected by the package.
+- `skills/claude/**/SKILL.md` - Claude skills projected by the package.
+- `skills/cursor/*.mdc` - Cursor rules projected to `.cursor/rules/*.mdc`
+  for project-scope installs.
+
+Package directories should use filesystem-safe names under `packages/`.
+Registry-visible package ids live in `riela-package.json.name` and may be
+unscoped, such as `greeting-node-addon`, or scoped, such as
+`@tacogips/youtube-mp4-download-addon`. Prefer scoped package ids for
+third-party or personal registries. Node add-on package entries use a separate
+add-on namespace in `addons[].name`, such as `tacogips/youtube-mp4-download`;
+the `riela/` add-on namespace is reserved for built-ins.
+
+Use backend-specific skill directories for workflow-specific usage skills:
+Codex-only workflows use `skills/codex`, Claude Code-only workflows use
+`skills/claude`, and Cursor-only workflows use `skills/cursor`. Invocable
+agent-independent maintainer or package-management skills should include named
+Codex and Claude skills; add `skills/agents/AGENTS.md` only when broad project
+guidance should also be projected to root `AGENTS.md`.
+
+Packages that call another workflow declare it in `dependencies` inside
+`riela-package.json`; the package manager checks those out before validating
+the caller workflow.
