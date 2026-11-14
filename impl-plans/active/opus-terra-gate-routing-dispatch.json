@@ -1,0 +1,377 @@
+{
+  "taskId": "opus-terra-gate-routing",
+  "workflowMode": "issue-resolution",
+  "implementationBranch": "fix/opus-terra-issue-sweep-20261024",
+  "baseBranch": "fix/opus-terra-issue-sweep-20261024",
+  "remote": "origin",
+  "originalHead": "acd2de438507d309ed25779d1e1e18428a03b8f2",
+  "designDocPaths": [
+    "design-docs/specs/design-opus-terra-gate-routing-0110.md",
+    "design-docs/user-qa/opus-terra-gate-routing-0110.md"
+  ],
+  "evidenceRoot": "tmp/opus-terra-gate-routing",
+  "reviewContext": {
+    "issueReference": "tacogips/riela#125, #126, #128, #129, #132, #134 (tmp/run/issue-125.md, tmp/run/issue-126.md, tmp/run/issue-128.md, tmp/run/issue-129.md, tmp/run/issue-132.md, tmp/run/issue-134.md)",
+    "userProblem": "Long opus-terra-design-and-implement-review-loop runs end failed/blocked or loop although the work is correct: #125 structured passing records from runners outside the regex allowlist are not behavioral evidence; #126 workspace-wide gates failing only on a concurrently running sibling plan's file block a finished plan as implementation-dependency; #128 the 512-entry snapshot cap is checked only at dispatch, after the manifest is committed, failing the session; #129 Step 8 cannot mv/git mv in the sandbox so step8<->step9 loops forever; #132 integration-review findings outside manifest writePaths make dispatch-plans exit 1 (provider_error); #134 intentional negative controls count as failed tests and 'exit 0 ...' outcome text is not parsed as an exit status.",
+    "requiredOutcomes": [
+      "Each of #125, #126, #128, #129, #132, #134 has a regression unittest in packages/opus-terra-design-and-implement-review-loop/tests reproducing the failure and passing after the fix.",
+      "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests passes, and codex-design-and-implement-review-loop tests (which load this package's dispatch-plans.py and implementation-progress-check.py) stay green.",
+      "riela workflow validate is valid and all four mock scenarios run with exit 0; EXPECTED_RESULTS.md and README.md describe the new nodes, routes and bounds.",
+      "Package version 0.1.10 with refreshed checksum/integrity in riela-package.json and registry-index.json; mise run package:check-digests and package:check-index clean."
+    ],
+    "nonGoals": [
+      "Editing dispatch-plans.py (must stay byte-identical to the Codex base) or the copied validate-plan-contract.py/node-plan-contract-validate.json.",
+      "Editing other packages, codex tests, .agents/** (including .agents/skills/riela-package-release/fixtures/expected-routes.json), riela runtime sources, or tmp/opus-terra-bundle.",
+      "verificationDeferredTo, latest-record-per-command deduplication, closeout-wave exemption, digest-tracked directories, and session continue after runtime policyBlocked.",
+      "Git push, merge or tag (gitPush=false)."
+    ],
+    "constraints": [
+      "Edit only packages/opus-terra-design-and-implement-review-loop/** and registry-index.json.",
+      "Gates stay fail-closed for failed, zero-count, missing-count and non-test evidence, invalid negative controls, unclassifiable blockers and non-amendment dispatch errors.",
+      "Every verification record includes integer exitStatus, testsRun and failureCount plus the complete log path under tmp/opus-terra-gate-routing/<planId>/.",
+      "Run Python with PYTHONDONTWRITEBYTECODE=1; no __pycache__ may remain in the package; digest refresh is the last package edit.",
+      "Plans editing implementation-progress-check.py are serialized by dependsOn: negative-control -> structured-runner -> sibling-blockers; workflow.json has the single owner gate-routing-graph.",
+      "Residual-risk text never starts with a severity word; blockers are dependency objects naming the out-of-scope path."
+    ],
+    "designDecisionsAndRationale": [
+      "D1 (#125): behavioral_kind accepts kind 'behavioral-test' records outside the allowlist only with exitStatus 0, int testsRun > 0 and failureCount 0, and never for build/lint/format/diff commands (NON_TEST_COMMAND_PATTERNS); the resume text names accepted forms.",
+      "D2 (#134): record_exit_status parses a leading exit=N from outcome with conflict fail-closed; valid negativeControl records (nonzero exit, matching expectedExitStatus, not a committed command) are excluded from behavioral evidence; invalid ones block.",
+      "D3 (#126): blockers whose every path is owned by a non-accepted sibling plan in the committed manifest (git show checkpointCommit:manifestPath) are deferred to integration review via <evidenceRoot>/<planId>/sibling-owned-blockers.json; all other blockers still block.",
+      "D4 (#128): port the Codex plan-contract-validate gate byte-identically between plan-checkpoint and plan-git-commit, plus Step 4/5 rules against broad sharedPaths and impl-plans dirs.",
+      "D5 (#132, #128 at dispatch): new dispatch-wave.py wrapper routes dispatch.AMENDMENT ValueErrors to amendment_required (step4) or amendment_blocked (blocked output) with MAX_CHECKPOINT_AMENDMENTS 2, keeping dispatch-plans.py byte-identical.",
+      "D6 (#129): Step 8 returns archiveRequests; new deterministic plan-archive command node performs os.rename moves without git and bounds the step8/step9 loop at MAX_DOCS_REFRESH_ROUNDS 3 via completion_blocked.",
+      "D7: mock fixtures, EXPECTED_RESULTS.md, README.md and release 0.1.10 last."
+    ],
+    "intentionalTradeoffs": [
+      "Compound kind-declared commands containing a non-test pattern are rejected (fail-closed); implementers must split them.",
+      "Prompt-driven steps (plan-checkpoint amendment, integration-review re-check of sibling-owned-blockers.json, step8 issueReference) rely on agent compliance; the deterministic gates and schemas fail closed.",
+      "The opus-terra route in .agents/skills/riela-package-release/fixtures/expected-routes.json goes stale; user-qa default option A reports it as an out-of-scope dependency blocker.",
+      "Wave-1 package-wide test runs execute on a moving shared tree; only final stable-tree runs are reported, and gate-routing-release reruns everything on the combined tree."
+    ],
+    "supportedEdgeCases": [
+      "Session-222 node smoke record with kind behavioral-test; session-282 negative controls with exit 100; session-283 'exit 0 in 1010.466 seconds' outcome without exitStatus.",
+      "Sibling-owned cargo fmt --check blocker (session 222 FST-20 path); mixed sibling/unowned blockers; accepted-owner paths; git show failure; unsafe evidenceRoot.",
+      "Over-cap sharedPaths directory (>512 entries) at checkpoint and at dispatch; session-271 integration findings outside writePaths; amendment round exhaustion after 3 distinct checkpoint commits.",
+      "Archive request statuses moved, already-archived, conflict, missing and rejected; 4th step8 message gives completion_blocked with forwarded issueReference."
+    ],
+    "outOfScopeEdgeCases": [
+      "Runtime-level closeout-wave exemption, digest-tracked directories and session continue after runtime policyBlocked.",
+      "Interaction between step5 loop.convergence maxGateVisits=4 (onStall fail) and the amendment loop, unverified against the riela runtime.",
+      "Failed behavioral tests or compile failures caused by sibling files (still decided by the remaining gates)."
+    ],
+    "sourcePaths": [
+      "design-docs/specs/design-opus-terra-gate-routing-0110.md",
+      "design-docs/user-qa/opus-terra-gate-routing-0110.md",
+      "impl-plans/active/gate-routing-negative-control.md",
+      "impl-plans/active/gate-routing-structured-runner.md",
+      "impl-plans/active/gate-routing-sibling-blockers.md",
+      "impl-plans/active/gate-routing-contract-gate.md",
+      "impl-plans/active/gate-routing-dispatch-amendment.md",
+      "impl-plans/active/gate-routing-plan-archive.md",
+      "impl-plans/active/gate-routing-planning-prompts.md",
+      "impl-plans/active/gate-routing-runtime-prompts.md",
+      "impl-plans/active/gate-routing-graph.md",
+      "impl-plans/active/gate-routing-release.md",
+      "tmp/run/issue-125.md",
+      "tmp/run/issue-126.md",
+      "tmp/run/issue-128.md",
+      "tmp/run/issue-129.md",
+      "tmp/run/issue-132.md",
+      "tmp/run/issue-134.md"
+    ],
+    "reviewDecisions": [
+      "Step 5 impl-plan review (comm-000008, step5-impl-plan-review-attempt-1-exec-8) accepted all 10 plans: accepted true, needs_revision false, needs_design_revision false, no repair requests.",
+      "S5-F1 (mid, completion_blocked issueReference) resolved in gate-routing-runtime-prompts, gate-routing-graph and gate-routing-plan-archive.",
+      "Residual low findings for implementers: S5-L1 use a non-empty blocker without a path (e.g. {\"type\":\"missing-dependency\"}) instead of {} in gate-routing-sibling-blockers tests and do not change normalized_list; S5-L2 run mise run package:generate-index if package:check-index reports a stale index; S5-L3 maxGateVisits=4 vs amendment loop unverified; S5-L4 report only final stable-tree package-wide runs in wave 1."
+    ]
+  },
+  "acceptedDependencies": [],
+  "plans": [
+    {
+      "planId": "gate-routing-negative-control",
+      "planPath": "impl-plans/active/gate-routing-negative-control.md",
+      "dependsOn": [],
+      "writePaths": [
+        "impl-plans/active/gate-routing-negative-control.md",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/implementation-progress-check.py",
+        "packages/opus-terra-design-and-implement-review-loop/tests/test_progress_negative_control.py"
+      ],
+      "sharedPaths": [],
+      "artifactRoots": [],
+      "acceptanceCriteria": [
+        "implementation-progress-check.py defines record_exit_status(record) and exit_status_invalid(record); verification_succeeded() parses a leading exit=N / exit N / exit: N / exit code N / exit status N from outcome when no structured exitStatus/exitCode exists, and conflicting or non-numeric structured values make the record unsuccessful.",
+        "A valid negative control (negativeControl true, integer nonzero exit, matching expectedExitStatus when present, not a committed verification command) is excluded from failed and successful behavioral evidence and from the static-plan success check.",
+        "An invalid negativeControl record blocks with implementation-materially-unverified and the exact design D2.3 message.",
+        "Ready payloads carry negativeControlEvidence only when non-empty; materially-unverified blockers carry failingCommands (at most 5) when known.",
+        "test_progress_negative_control.py covers design Verification 2 and passes; all opus-terra and codex package tests pass with exit status 0 and failureCount 0; no __pycache__ remains."
+      ],
+      "verification": [
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_progress_negative_control.py -v",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'",
+        "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
+        "git diff --check"
+      ]
+    },
+    {
+      "planId": "gate-routing-contract-gate",
+      "planPath": "impl-plans/active/gate-routing-contract-gate.md",
+      "dependsOn": [],
+      "writePaths": [
+        "impl-plans/active/gate-routing-contract-gate.md",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/validate-plan-contract.py",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/nodes/node-plan-contract-validate.json",
+        "packages/opus-terra-design-and-implement-review-loop/tests/test_plan_contract_gate.py"
+      ],
+      "sharedPaths": [],
+      "artifactRoots": [],
+      "acceptanceCriteria": [
+        "W/scripts/validate-plan-contract.py and W/nodes/node-plan-contract-validate.json are byte-identical copies of the Codex base files (cmp exit 0), and the script is executable (mode 755).",
+        "test_plan_contract_gate.py covers byte identity; a pending plan whose sharedPaths directory expands past 512 entries -> when {contract_valid:false}, payload.needs_revision true, findings naming the plan ID and directory with targetStep step4-impl-plan-create; a valid manifest -> when {contract_valid:true} with commitMessage/committedFiles passed through.",
+        "dispatch-plans.py is not modified. All opus-terra package tests pass and no __pycache__ remains."
+      ],
+      "verification": [
+        "cmp packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/scripts/validate-plan-contract.py packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/validate-plan-contract.py",
+        "cmp packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/nodes/node-plan-contract-validate.json packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/nodes/node-plan-contract-validate.json",
+        "test -x packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/validate-plan-contract.py",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_plan_contract_gate.py -v",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+        "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
+        "git diff --check"
+      ]
+    },
+    {
+      "planId": "gate-routing-dispatch-amendment",
+      "planPath": "impl-plans/active/gate-routing-dispatch-amendment.md",
+      "dependsOn": [],
+      "writePaths": [
+        "impl-plans/active/gate-routing-dispatch-amendment.md",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/dispatch-wave.py",
+        "packages/opus-terra-design-and-implement-review-loop/tests/test_dispatch_amendment.py"
+      ],
+      "sharedPaths": [],
+      "artifactRoots": [],
+      "acceptanceCriteria": [
+        "New executable W/scripts/dispatch-wave.py wraps the unchanged dispatch-plans.py project(); a normal projection returns project()'s payload plus dispatch_ready true, amendment_required false and amendment_blocked false, mirrored in when.",
+        "A ValueError starting with dispatch.AMENDMENT exits 0 with when.amendment_required (amendmentRound < 2) or when.amendment_blocked (>= 2); payload keys equal AMENDMENT_PAYLOAD_KEYS including top-level acceptedPlanIds, manifestPath, checkpointCommit and checkpointAmendment.",
+        "Every other ValueError, JSON error or OSError prints {error} to stderr and exits 1.",
+        "dispatch-plans.py stays byte-identical to the Codex base (cmp exit 0).",
+        "test_dispatch_amendment.py covers design Verification 5 and the dispatch-time over-cap case from Verification 4 and passes; opus-terra and codex package tests pass and no __pycache__ remains."
+      ],
+      "verification": [
+        "test -x packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/dispatch-wave.py",
+        "cmp packages/codex-design-and-implement-review-loop/workflows/codex-design-and-implement-review-loop/scripts/dispatch-plans.py packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/dispatch-plans.py",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_dispatch_amendment.py -v",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'",
+        "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
+        "git diff --check"
+      ]
+    },
+    {
+      "planId": "gate-routing-plan-archive",
+      "planPath": "impl-plans/active/gate-routing-plan-archive.md",
+      "dependsOn": [],
+      "writePaths": [
+        "impl-plans/active/gate-routing-plan-archive.md",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/plan-archive.py",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/nodes/node-plan-archive.json",
+        "packages/opus-terra-design-and-implement-review-loop/tests/test_plan_archive.py"
+      ],
+      "sharedPaths": [],
+      "artifactRoots": [],
+      "acceptanceCriteria": [
+        "New executable W/scripts/plan-archive.py reads the latest step8-docs-refresh archiveRequests, applies each with os.rename, assigns statuses moved, already-archived, conflict, missing or rejected per design D6.3, never invokes git, and forwards every Step 8 key plus archiveResults, archivedImplPlanPaths, docsRefreshRound and completion_blocked (mirrored in when).",
+        "When step8-docs-refresh messages exceed MAX_DOCS_REFRESH_ROUNDS (3), it still applies requests and returns completion_blocked true with implementation_blocked true, status blocked, blockedStepId step9-commit-message, blockedPlanIds, successfulPlanIds [], a completion-archive-loop blocker, resumeCriteria, nextStep and the forwarded Step 8 issueReference (never fabricated).",
+        "New W/nodes/node-plan-archive.json is a command node with scriptPath scripts/plan-archive.py and an output jsonSchema requiring completion_blocked, archiveResults and docsRefreshRound, additionalProperties true.",
+        "test_plan_archive.py covers design Verification 6 and passes; opus-terra package tests pass and no __pycache__ remains."
+      ],
+      "verification": [
+        "test -x packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/plan-archive.py",
+        "python3 -m json.tool packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/nodes/node-plan-archive.json",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_plan_archive.py -v",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+        "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
+        "git diff --check"
+      ]
+    },
+    {
+      "planId": "gate-routing-planning-prompts",
+      "planPath": "impl-plans/active/gate-routing-planning-prompts.md",
+      "dependsOn": [],
+      "writePaths": [
+        "impl-plans/active/gate-routing-planning-prompts.md",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/step4-impl-plan-create.md",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/step5-impl-plan-review.md",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/plan-checkpoint.md",
+        "packages/opus-terra-design-and-implement-review-loop/tests/test_planning_prompts.py"
+      ],
+      "sharedPaths": [],
+      "artifactRoots": [],
+      "acceptanceCriteria": [
+        "step4-impl-plan-create.md has four rules: (a) ported Codex contract_valid: false rule; (b) amendment_required bounded checkpoint amendment rule (stable plan IDs, accepted plans kept as acceptedDependencies, checkpointAmendment carried verbatim); (c) never list impl-plans/active or impl-plans/completed in writePaths/sharedPaths, prefer concrete files, budget snapshot growth; (d) per-plan verification scoped to own writePaths with no workspace-wide format, lint or full-build gates when siblings share a wave.",
+        "step5-impl-plan-review.md reports violations of (c) and (d) as mid findings, limits amendment review to the amendment's scope, and carries checkpointAmendment forward.",
+        "plan-checkpoint.md has an amendment-checkpoint rule: update the existing manifest in place, verify HEAD equals checkpointAmendment.previousCheckpointCommit, record previously accepted plans as acceptedDependencies, commit only changed manifest/plan/design files, and leave implementation changes unstaged.",
+        "test_planning_prompts.py asserts the plan's anchors; all opus-terra and codex package tests pass and no __pycache__ remains."
+      ],
+      "verification": [
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_planning_prompts.py -v",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'",
+        "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
+        "git diff --check"
+      ]
+    },
+    {
+      "planId": "gate-routing-runtime-prompts",
+      "planPath": "impl-plans/active/gate-routing-runtime-prompts.md",
+      "dependsOn": [],
+      "writePaths": [
+        "impl-plans/active/gate-routing-runtime-prompts.md",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/step6-implement.md",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/integration-review.md",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/step8-docs-refresh.md",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/step9-commit-message.md",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/prompts/implementation-blocked-output.md",
+        "packages/opus-terra-design-and-implement-review-loop/tests/test_runtime_prompts.py"
+      ],
+      "sharedPaths": [],
+      "artifactRoots": [],
+      "acceptanceCriteria": [
+        "step6-implement.md requires integer exitStatus, testsRun and failureCount on every verification record, kind behavioral-test for non-allowlisted test runners (never build/lint/format/diff), negativeControl true with expectedExitStatus for mutation/expected-failure runs that never reuse a committed command, superseded attempts kept out of verification[], own-writePaths gate scoping during fanout, and sibling-caused failures reported as blocker objects {paths, command, exitStatus, message} without editing that file.",
+        "integration-review.md re-runs each recorded command (or equivalent workspace gate) from <evidenceRoot>/<planId>/sibling-owned-blockers.json on the reconciled tree; a remaining failure is a material finding owned by the path's owning plan and blocks acceptance.",
+        "step8-docs-refresh.md returns archiveRequests [{source, destination}] instead of moving files, updates impl-plans/README.md and links, never runs mv/git mv/move scripts, and returns a non-empty issueReference copied from the committed dispatch manifest reviewContext.issueReference or the accepted upstream payload, never a placeholder.",
+        "step9-commit-message.md reads archiveResults, returns needs_revision with exact paths for rejected/conflict/missing, accepts moved/already-archived, lists source and destination in committedFiles, and never moves files.",
+        "implementation-blocked-output.md copies issue reference, blockedPlanIds, successfulPlanIds, blockers, resumeCriteria, nextStep and blockedStepId from the direct predecessor (implementation-wave-outcome, dispatch-plans amendment_blocked, or plan-archive completion_blocked); blockedPlanIds non-empty for wave and dispatch blocks.",
+        "test_runtime_prompts.py asserts the anchors; existing test_wave_summary_prompts.py and test_progress_gate.py still pass; all opus-terra tests pass."
+      ],
+      "verification": [
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_runtime_prompts.py -v",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_wave_summary_prompts.py packages/opus-terra-design-and-implement-review-loop/tests/test_progress_gate.py -v",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+        "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
+        "git diff --check"
+      ]
+    },
+    {
+      "planId": "gate-routing-structured-runner",
+      "planPath": "impl-plans/active/gate-routing-structured-runner.md",
+      "dependsOn": ["gate-routing-negative-control"],
+      "writePaths": [
+        "impl-plans/active/gate-routing-structured-runner.md",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/implementation-progress-check.py",
+        "packages/opus-terra-design-and-implement-review-loop/tests/test_progress_structured_runner.py"
+      ],
+      "sharedPaths": [],
+      "artifactRoots": [],
+      "acceptanceCriteria": [
+        "behavioral_kind() returns 'test' for kind 'behavioral-test' (strip, lower) unless the command matches NON_TEST_COMMAND_PATTERNS; the existing allowlist and swift-discovery exclusion are unchanged.",
+        "A kind-only behavioral record succeeds only when record_exit_status() == 0, testsRun is an int (not bool) > 0, failureCount is an int (not bool) == 0, and existing verification_succeeded/positive_test_count hold; otherwise it is failed behavioral evidence and blocks.",
+        "Kind-declared build, lint, format, diff and similar commands (design D1.3) are not behavioral.",
+        "The implementation-materially-unverified resume criterion names the allowlisted runner forms and the structured {kind:'behavioral-test', exitStatus:0, testsRun>0, failureCount:0} form and states build, lint, format and diff commands never count.",
+        "test_progress_structured_runner.py covers design Verification 1 and passes; all opus-terra and codex package tests pass and no __pycache__ remains."
+      ],
+      "verification": [
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_progress_structured_runner.py -v",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'",
+        "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
+        "git diff --check"
+      ]
+    },
+    {
+      "planId": "gate-routing-graph",
+      "planPath": "impl-plans/active/gate-routing-graph.md",
+      "dependsOn": ["gate-routing-contract-gate", "gate-routing-dispatch-amendment", "gate-routing-plan-archive"],
+      "writePaths": [
+        "impl-plans/active/gate-routing-graph.md",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/workflow.json",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/nodes/node-dispatch-plans.json",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/nodes/node-step8-docs-refresh.json",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/nodes/node-implementation-blocked-output.json",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario.json",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-fanout.json",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-local.json",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/EXPECTED_RESULTS.md",
+        "packages/opus-terra-design-and-implement-review-loop/README.md",
+        "packages/opus-terra-design-and-implement-review-loop/tests/test_workflow_routing.py"
+      ],
+      "sharedPaths": [],
+      "artifactRoots": [],
+      "acceptanceCriteria": [
+        "workflow.json adds nodes plan-contract-validate and plan-archive and the D4.2, D5.5 and D6.2 edges: plan-checkpoint !(checkpoint_blocked) -> plan-contract-validate; contract_valid -> plan-git-commit, !(contract_valid) -> step4-impl-plan-create; dispatch-plans transitions[0] unchanged fanout plus label dispatch_ready, transitions[1] amendment_required -> step4-impl-plan-create, transitions[2] amendment_blocked -> implementation-blocked-output; step8-docs-refresh -> plan-archive; plan-archive !(completion_blocked) -> step9-commit-message, completion_blocked -> implementation-blocked-output. Every other edge unchanged.",
+        "node-dispatch-plans.json uses scriptPath scripts/dispatch-wave.py; schema keeps properties.implementationItems (minItems 1, item schema unchanged incl. required artifactRoots), drops implementationItems from top-level required, adds remaining AMENDMENT_PAYLOAD_KEYS properties, keeps additionalProperties false, requires acceptedPlanIds, manifestPath, checkpointCommit and the three route booleans.",
+        "node-step8-docs-refresh.json adds optional archiveRequests and required issueReference {type:string,minLength:1}; node-implementation-blocked-output.json drops blockedPlanIds minItems and adds optional blockedStepId.",
+        "mock-scenario.json, mock-scenario-fanout.json and mock-scenario-local.json add plan-contract-validate and plan-archive responses, dispatch-wave.py dispatch-plans responses with the three booleans, and step8 archiveRequests and issueReference; mock-scenario-planning-only.json unchanged.",
+        "riela workflow validate is valid; all four mock runs exit 0; EXPECTED_RESULTS.md and README.md describe the new nodes, routes and bounds with re-measured execution counts.",
+        "test_workflow_routing.py asserts edges, node scriptPaths and schema/payload-key consistency; mise run workflow:check-compact passes; all opus-terra and codex tests pass and no __pycache__ remains."
+      ],
+      "verification": [
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_workflow_routing.py -v",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'",
+        "riela workflow validate opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows",
+        "riela workflow run opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows --mock-scenario packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario.json --session-store tmp/opus-terra-gate-routing/gate-routing-graph/sessions-main --artifact-root tmp/opus-terra-gate-routing/gate-routing-graph/artifacts-main --output json",
+        "riela workflow run opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows --mock-scenario packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-fanout.json --session-store tmp/opus-terra-gate-routing/gate-routing-graph/sessions-fanout --artifact-root tmp/opus-terra-gate-routing/gate-routing-graph/artifacts-fanout --output json",
+        "riela workflow run opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows --mock-scenario packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-local.json --variables '{\"workflowInput\":{\"gitPush\":false}}' --session-store tmp/opus-terra-gate-routing/gate-routing-graph/sessions-local --artifact-root tmp/opus-terra-gate-routing/gate-routing-graph/artifacts-local --output json",
+        "riela workflow run opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows --mock-scenario packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/mock-scenario-planning-only.json --session-store tmp/opus-terra-gate-routing/gate-routing-graph/sessions-planning --artifact-root tmp/opus-terra-gate-routing/gate-routing-graph/artifacts-planning --output json",
+        "mise run workflow:check-compact",
+        "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
+        "git diff --check"
+      ]
+    },
+    {
+      "planId": "gate-routing-sibling-blockers",
+      "planPath": "impl-plans/active/gate-routing-sibling-blockers.md",
+      "dependsOn": ["gate-routing-structured-runner"],
+      "writePaths": [
+        "impl-plans/active/gate-routing-sibling-blockers.md",
+        "packages/opus-terra-design-and-implement-review-loop/workflows/opus-terra-design-and-implement-review-loop/scripts/implementation-progress-check.py",
+        "packages/opus-terra-design-and-implement-review-loop/tests/test_progress_sibling_blockers.py"
+      ],
+      "sharedPaths": [],
+      "artifactRoots": [],
+      "acceptanceCriteria": [
+        "When every Step 6 blocker is sibling-owned per design D3.2, classify() does not return implementation-dependency and evaluates the remaining gates unchanged; blockers are classified against the manifest read with git show <checkpointCommit>:<manifestPath> from variables.implementation.",
+        "Every fail-closed case in design D3.3 still returns implementation-dependency: no implementation item, git show failure, non-JSON manifest, string blocker, blocker without path(s), own-path blocker, unowned path, owner in acceptedPlanIds, implementation_blocked true with no blockers, and mixed sibling/non-sibling blockers.",
+        "On the ready outcome with deferred blockers, payload has blockers [] plus siblingOwnedBlockers and siblingOwnedBlockersPath; <evidenceRoot>/<planId>/sibling-owned-blockers.json is written atomically; a write failure or unsafe evidenceRoot/planId blocks as implementation-dependency.",
+        "A sibling-only blocker on a branch without positive-count behavioral evidence still blocks as implementation-materially-unverified.",
+        "test_progress_sibling_blockers.py covers design Verification 3 and passes; all opus-terra and codex package tests pass and no __pycache__ remains."
+      ],
+      "verification": [
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest packages/opus-terra-design-and-implement-review-loop/tests/test_progress_sibling_blockers.py -v",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'",
+        "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
+        "git diff --check"
+      ]
+    },
+    {
+      "planId": "gate-routing-release",
+      "planPath": "impl-plans/active/gate-routing-release.md",
+      "dependsOn": ["gate-routing-sibling-blockers", "gate-routing-graph", "gate-routing-planning-prompts", "gate-routing-runtime-prompts"],
+      "writePaths": [
+        "impl-plans/active/gate-routing-release.md",
+        "packages/opus-terra-design-and-implement-review-loop/riela-package.json",
+        "registry-index.json"
+      ],
+      "sharedPaths": [],
+      "artifactRoots": [],
+      "acceptanceCriteria": [
+        "riela-package.json version is 0.1.10 with checksum and integrity refreshed by update-package-digests.ts after every other package edit; registry-index.json carries the matching version and digests.",
+        "mise run package:check-digests exits 0; mise run package:check-index exits 0, running mise run package:generate-index once if it reports a stale index.",
+        "Final opus-terra and codex unit test runs exit 0 with failureCount 0, riela workflow validate is valid, and no __pycache__ exists in the package before or after the digest refresh."
+      ],
+      "verification": [
+        "find packages/opus-terra-design-and-implement-review-loop -name __pycache__",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/opus-terra-design-and-implement-review-loop/tests -p 'test_*.py' -v",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s packages/codex-design-and-implement-review-loop/tests -p 'test_*.py'",
+        "riela workflow validate opus-terra-design-and-implement-review-loop --workflow-definition-dir packages/opus-terra-design-and-implement-review-loop/workflows",
+        "bun .agents/skills/riela-package-release/scripts/update-package-digests.ts opus-terra-design-and-implement-review-loop",
+        "mise run package:check-digests",
+        "mise run package:check-index",
+        "git diff --check"
+      ]
+    }
+  ]
+}

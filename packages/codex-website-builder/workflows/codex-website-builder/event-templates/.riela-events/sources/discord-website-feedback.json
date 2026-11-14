@@ -1,0 +1,36 @@
+{
+  "id": "discord-website-feedback",
+  "enabled": false,
+  "kind": "discord-gateway",
+  "provider": "discord",
+  "tokenEnv": "RIEL_DISCORD_BOT_TOKEN",
+  "applicationIdEnv": "RIEL_DISCORD_APPLICATION_ID",
+  "guildIds": [
+    "123456789012345678"
+  ],
+  "channels": [
+    {
+      "id": "123456789012345679",
+      "includeThreads": true
+    }
+  ],
+  "history": {
+    "maxMessages": 20,
+    "maxBytes": 32768,
+    "maxAgeMs": 86400000,
+    "scope": "thread-or-channel",
+    "includeBotMessages": false,
+    "fetchOnStart": false,
+    "fetchOnMessage": "when-cache-empty"
+  },
+  "filters": {
+    "ignoreBots": true,
+    "ignoreSelf": true,
+    "requireMention": false
+  },
+  "attachments": {
+    "includeImages": true,
+    "resolveFilePaths": true,
+    "maxBytes": 10485760
+  }
+}
