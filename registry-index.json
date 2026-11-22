@@ -1299,7 +1299,7 @@
     {
       "name": "codex-design-and-implement-review-loop",
       "directory": "packages/codex-design-and-implement-review-loop",
-      "version": "0.3.59",
+      "version": "0.3.60",
       "kind": "workflow",
       "title": "codex-design-and-implement-review-loop",
       "description": "Single-author planning, shared-branch parallel implementation/review, native change evidence and serialized Git finalization.",
@@ -1331,11 +1331,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "4cb8a6b7562625d948bb40e8a5a10936"
+        "value": "9d0babd5e16e384634b5882d16a84037"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "11a5a182bba4dd369add1ac432a4a896dd99662854a794999b6056deb9aa5b99"
+        "digest": "2d8633e87d3e12763b7508e8ac39d8ab722964b1c0950ae846515dd167141924"
       }
     },
     {
@@ -2950,10 +2950,10 @@
     {
       "name": "opus-terra-design-and-implement-review-loop",
       "directory": "packages/opus-terra-design-and-implement-review-loop",
-      "version": "0.1.27",
+      "version": "0.1.28",
       "kind": "workflow",
       "title": "opus-terra-design-and-implement-review-loop",
-      "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Sol design review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
+      "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.2 Sol design review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
       "tags": [
         "claude-code",
         "codex",
@@ -2967,7 +2967,7 @@
       "workflow": {
         "directory": "workflows/opus-terra-design-and-implement-review-loop",
         "title": "opus-terra-design-and-implement-review-loop",
-        "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Sol design review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
+        "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.2 Sol design review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
         "tags": [
           "workflow",
           "claude-code",
@@ -2994,11 +2994,11 @@
       "skillDirectory": "skills",
       "checksum": {
         "algorithm": "md5",
-        "value": "317563211eb092032424a4eee3f98a02"
+        "value": "a6721403d482698e5461213ef5ddb3a5"
       },
       "integrity": {
         "digestAlgorithm": "sha256",
-        "digest": "9da99ba0d9ca248d38ed32837a186cf355045398e3982bb976d861580e44af13"
+        "digest": "cfc883cbfb18dc911c8b1823a031ad3d91e23e2f3de03d914a7e1aee6d67c43f"
       }
     },
     {

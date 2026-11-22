@@ -2,13 +2,13 @@
 
 Claude Code version of `codex-design-and-implement-review-loop`. Opus 5.5 owns
 design, implementation planning, every review gate except design review and the
-final integration review. GPT-6.1 Sol reviews the design. GPT-6.1 Terra
+final integration review. GPT-6.2 Sol reviews the design. GPT-6.1 Terra
 implements the plans in parallel native fanout.
 
 | Role | Node(s) | Backend / model |
 | --- | --- | --- |
 | Intake, design, implementation plans | `step1-issue-intake`, `step2-design-doc-update`, `step4-impl-plan-create` | `claude-code-agent` / `claude-opus-5-5` |
-| Design review | `step3-design-review` | `codex-agent` / `gpt-6.1-sol` (read-only) |
+| Design review | `step3-design-review` | `codex-agent` / `gpt-6.2-sol` (read-only) |
 | Plan review | `step5-impl-plan-review` | `claude-opus-5-5` (read-only) |
 | Implementation (fanout) | `step6-implement` | `codex-agent` / `gpt-6.1-terra`, medium effort |
 | Deterministic gates | `plan-contract-validate`, `dispatch-plans`, `plan-archive` | `command` |

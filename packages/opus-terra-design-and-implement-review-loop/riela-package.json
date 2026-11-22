@@ -1,8 +1,8 @@
 {
   "name": "opus-terra-design-and-implement-review-loop",
-  "version": "0.1.27",
+  "version": "0.1.28",
   "title": "opus-terra-design-and-implement-review-loop",
-  "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Sol design review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
+  "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.2 Sol design review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
   "tags": [
     "workflow",
     "claude-code",
@@ -17,7 +17,7 @@
   "repository": "https://github.com/tacogips/riela-packages",
   "workflow": {
     "title": "opus-terra-design-and-implement-review-loop",
-    "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.1 Sol design review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
+    "description": "Opus 5.5 design, implementation plans, reviews and integration review; GPT-6.2 Sol design review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Opus reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
     "tags": [
       "workflow",
       "claude-code",
@@ -38,9 +38,9 @@
     "command"
   ],
   "skillDirectory": "skills",
-  "checksum": "317563211eb092032424a4eee3f98a02",
+  "checksum": "a6721403d482698e5461213ef5ddb3a5",
   "integrity": {
     "digestAlgorithm": "sha256",
-    "digest": "9da99ba0d9ca248d38ed32837a186cf355045398e3982bb976d861580e44af13"
+    "digest": "cfc883cbfb18dc911c8b1823a031ad3d91e23e2f3de03d914a7e1aee6d67c43f"
   }
 }

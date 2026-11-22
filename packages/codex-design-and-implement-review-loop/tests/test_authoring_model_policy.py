@@ -43,7 +43,7 @@ class AuthoringModelPolicyTests(unittest.TestCase):
             if node.get("executionBackend") != "codex-agent":
                 continue
             with self.subTest(node=path.name):
-                self.assertEqual(node["model"], "gpt-6.1-sol")
+                self.assertEqual(node["model"], "gpt-6.2-sol")
                 self.assertIn(node.get("effort"), ("low", "medium"))
 
     def test_scenarios_match_authored_agent_models(self) -> None:
@@ -53,7 +53,7 @@ class AuthoringModelPolicyTests(unittest.TestCase):
                 for item in response if isinstance(response, list) else [response]:
                     if isinstance(item, dict) and item.get("model", "").startswith("gpt-"):
                         with self.subTest(scenario=path.name):
-                            self.assertEqual(item["model"], "gpt-6.1-sol")
+                            self.assertEqual(item["model"], "gpt-6.2-sol")
 
     def test_existing_design_is_the_first_implementation_baseline(self) -> None:
         design = (WORKFLOW / "prompts/step2-design-doc-update.md").read_text()

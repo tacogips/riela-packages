@@ -264,7 +264,7 @@ available for single-workflow use and for package dependencies.
   Runs deep design, adversarial implementation-plan completion, and source
   security checks as one full creation workflow. `backend: codex-agent`.
 - [codex-design-and-implement-review-loop](packages/codex-design-and-implement-review-loop) -
-  Single-author design/planning, native shared-branch implementation/review fanout, overwrite reconciliation and serialized commit/push/base integration.
+  GPT-6.2 Sol handles single-author design/planning, native shared-branch implementation/review fanout, overwrite reconciliation and serialized commit/push/base integration.
 - [codex-goal](packages/codex-goal) -
   Generic Codex GPT-5.6 SOL workflow that actively investigates available Riela
   workflows at each step, creates and reviews a testable goal, creates and
@@ -328,7 +328,7 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
 - [fable-and-improve-opus](packages/fable-and-improve-opus) -
   Fable authors design/plans and performs integration/goal acceptance; Opus 5.5 independently reviews planning, implementation integrity and adversarial risks through dependency-aware shared-branch fanout, blocked/partial-success classification, overwrite reconciliation, validated agent output contracts and serialized Git finalization.
 - [opus-terra-design-and-implement-review-loop](packages/opus-terra-design-and-implement-review-loop) -
-  Claude Code version of the Codex design/implement loop: Opus 5.5 designs, writes Terra-ready implementation plans, reviews in read-only mode with detailed corrections returned to the owning Terra implementer and runs the final integration review; Codex GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout.
+  Opus 5.5 writes designs and Terra-ready implementation plans and runs the plan, implementation and integration reviews. Codex GPT-6.2 Sol runs the read-only design review. Codex GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout and applies corrections returned by reviewers.
 - [claude-code-deepdesign](packages/claude-code-deepdesign) -
   Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings, and revise until accepted. `backend: claude-code-agent`.
 - [claude-code-adversarial-implementation-review-loop](packages/claude-code-adversarial-implementation-review-loop) -
