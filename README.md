@@ -329,6 +329,8 @@ These packages use `claude-code-agent`. The Codex-derived variants inherit the m
   Fable authors design/plans and performs integration/goal acceptance; Opus 5.5 independently reviews planning, implementation integrity and adversarial risks through dependency-aware shared-branch fanout, blocked/partial-success classification, overwrite reconciliation, validated agent output contracts and serialized Git finalization.
 - [opus-terra-design-and-implement-review-loop](packages/opus-terra-design-and-implement-review-loop) -
   Opus 5.5 writes designs and Terra-ready implementation plans and runs the plan, implementation and integration reviews. Codex GPT-6.2 Sol runs the read-only design review. Codex GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout and applies corrections returned by reviewers.
+- [gemini-neon-terra-design-and-implement-review-loop](packages/gemini-neon-terra-design-and-implement-review-loop) -
+  Gemini 4 Neon (via Antigravity `agy`) writes designs and Terra-ready implementation plans and runs the plan, implementation and integration reviews. Codex GPT-6.2 Sol runs the read-only design review. Codex GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout and applies corrections returned by reviewers.
 - [claude-code-deepdesign](packages/claude-code-deepdesign) -
   Create design-doc specifications, review deep, broad, and adversarial lenses concurrently with bounded read-only fanout, reduce findings, and revise until accepted. `backend: claude-code-agent`.
 - [claude-code-adversarial-implementation-review-loop](packages/claude-code-adversarial-implementation-review-loop) -
@@ -492,6 +494,7 @@ These packages use `cursor-cli-agent`. Each one inherits the matching Codex work
 | [fable-and-improve-codex](packages/fable-and-improve-codex) | workflow | `claude-code-agent`, `codex-agent` | Claude, Codex |
 | [fable-and-improve-opus](packages/fable-and-improve-opus) | workflow | `claude-code-agent` | Claude |
 | [opus-terra-design-and-implement-review-loop](packages/opus-terra-design-and-implement-review-loop) | workflow | `claude-code-agent`, `codex-agent`, `command` | Claude |
+| [gemini-neon-terra-design-and-implement-review-loop](packages/gemini-neon-terra-design-and-implement-review-loop) | workflow | `antigravity-agent`, `codex-agent`, `command` | Claude |
 | [cursor-cli-adversarial-implementation-review-loop](packages/cursor-cli-adversarial-implementation-review-loop) | workflow | `cursor-cli-agent` | - |
 | [cursor-cli-deepdesign](packages/cursor-cli-deepdesign) | workflow | `cursor-cli-agent` | - |
 | [cursor-cli-design-and-implement-review-loop](packages/cursor-cli-design-and-implement-review-loop) | workflow | `cursor-cli-agent` | Cursor |

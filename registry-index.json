@@ -2807,6 +2807,60 @@
       }
     },
     {
+      "name": "gemini-neon-terra-design-and-implement-review-loop",
+      "directory": "packages/gemini-neon-terra-design-and-implement-review-loop",
+      "version": "0.1.0",
+      "kind": "workflow",
+      "title": "gemini-neon-terra-design-and-implement-review-loop",
+      "description": "Gemini 4 Neon design, implementation plans, reviews and integration review; GPT-6.2 Sol design review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Gemini 4 Neon reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
+      "tags": [
+        "antigravity",
+        "codex",
+        "gemini-neon",
+        "review",
+        "terra",
+        "workflow"
+      ],
+      "registry": "default",
+      "repository": "https://github.com/tacogips/riela-packages",
+      "workflow": {
+        "directory": "workflows/gemini-neon-terra-design-and-implement-review-loop",
+        "title": "gemini-neon-terra-design-and-implement-review-loop",
+        "description": "Gemini 4 Neon design, implementation plans, reviews and integration review; GPT-6.2 Sol design review; GPT-6.1 Terra (medium) implements every dependency-ready plan in unbounded shared-branch fanout; Gemini 4 Neon reviews are read-only; detailed implementation revision briefs return immediately to the owning GPT-6.1 Terra implementer for correction and independent re-review.",
+        "tags": [
+          "workflow",
+          "antigravity",
+          "codex",
+          "gemini-neon",
+          "terra",
+          "review"
+        ],
+        "backends": [
+          "antigravity-agent",
+          "codex-agent",
+          "command"
+        ]
+      },
+      "backends": [
+        "antigravity-agent",
+        "codex-agent",
+        "command"
+      ],
+      "dependencies": [],
+      "requiredEnvironment": [],
+      "addons": [],
+      "skills": [],
+      "skillDirectory": "skills",
+      "checksum": {
+        "algorithm": "md5",
+        "value": "3909dd9d94fa7153a97d4a9dbc85c950"
+      },
+      "integrity": {
+        "digestAlgorithm": "sha256",
+        "digest": "8c4cba528ee38a161915e439eeac06e5f1aebf60f297fc27ee354bbd41d255a0"
+      }
+    },
+    {
       "name": "greeting-container",
       "directory": "packages/greeting-container",
       "version": "0.1.0",

@@ -1,0 +1,135 @@
+{
+  "id": "step4-impl-plan-create",
+  "description": "Create or revise the implementation plan that executes the accepted design, including Codex-reference traceability when relevant.",
+  "executionBackend": "antigravity-agent",
+  "agentSandbox": "workspace-write",
+  "model": "gemini-4-neon",
+  "modelFreeze": false,
+  "effort": "high",
+  "sessionPolicy": {
+    "mode": "reuse"
+  },
+  "systemPromptTemplateFile": "prompts/runtime-provenance-system.md",
+  "promptTemplateFile": "prompts/step4-impl-plan-create.md",
+  "variables": {},
+  "output": {
+    "description": "Return JSON with implementation-plan paths, design and Codex references, task breakdown, verification plan, and addressed feedback.",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "workflowMode": {
+          "type": "string"
+        },
+        "implPlanPaths": {
+          "type": "array",
+          "items": {}
+        },
+        "issueReference": {
+          "type": "string"
+        },
+        "designReferences": {
+          "type": "array",
+          "items": {}
+        },
+        "codexAgentReferences": {
+          "type": "array",
+          "items": {}
+        },
+        "taskBreakdown": {
+          "type": "array",
+          "items": {}
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {}
+        },
+        "parallelizableTasks": {
+          "type": "array",
+          "items": {}
+        },
+        "verification": {
+          "type": "array",
+          "items": {}
+        },
+        "completionCriteria": {
+          "type": "array",
+          "items": {}
+        },
+        "addressedFeedback": {
+          "type": "array",
+          "items": {}
+        },
+        "risks": {
+          "type": "array",
+          "items": {}
+        },
+        "authorSelfCheck": {
+          "type": "object"
+        },
+        "plans": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "writePaths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^(?!/)(?!.*(?:\\.\\.|[{},*?\\[\\],\\s])).+$"
+                }
+              },
+              "sharedPaths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^(?!/)(?!.*(?:\\.\\.|[{},*?\\[\\],\\s])).+$"
+                }
+              },
+              "artifactRoots": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^(?!/)(?!.*(?:\\.\\.|[{},*?\\[\\],\\s])).+$"
+                }
+              },
+              "sharedPathNotes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "^(?!/)(?!.*(?:\\.\\.|[{},*?\\[\\],\\s])).+$"
+                    },
+                    "intendedEdit": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "path",
+                    "intendedEdit"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "writePaths",
+              "sharedPaths"
+            ]
+          }
+        }
+      },
+      "required": [
+        "workflowMode",
+        "implPlanPaths"
+      ]
+    },
+    "maxValidationAttempts": 2
+  }
+}

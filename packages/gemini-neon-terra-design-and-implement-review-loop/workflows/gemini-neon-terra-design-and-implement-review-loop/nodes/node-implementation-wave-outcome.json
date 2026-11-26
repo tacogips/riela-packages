@@ -1,0 +1,66 @@
+{
+  "id": "implementation-wave-outcome",
+  "description": "Deterministically aggregate branch outcomes and write the bounded wave summary before reconciliation.",
+  "modelFreeze": false,
+  "variables": {},
+  "output": {
+    "description": "Return whether any preclassified implementation branch is blocked, the affected plans, concrete blockers and resume criteria.",
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "implementation_blocked": {
+          "type": "boolean"
+        },
+        "partial_success": {
+          "type": "boolean"
+        },
+        "blockedPlanIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "successfulPlanIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "blockers": {
+          "type": "array",
+          "items": {}
+        },
+        "resumeCriteria": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "amendment_required": {
+          "type": "boolean"
+        },
+        "checkpointAmendment": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "implementation_blocked",
+        "partial_success",
+        "blockedPlanIds",
+        "successfulPlanIds",
+        "blockers",
+        "resumeCriteria",
+        "amendment_required"
+      ],
+      "additionalProperties": false
+    },
+    "maxValidationAttempts": 2
+  },
+  "nodeType": "command",
+  "command": {
+    "scriptPath": "scripts/implementation-wave-outcome.py"
+  }
+}
